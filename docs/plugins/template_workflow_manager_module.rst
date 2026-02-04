@@ -1,0 +1,10409 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.template_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.template_workflow_manager module -- Resource module for Template functions
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.template_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.template_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.33.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manages operations for creating, updating, and deleting configuration templates.
+- Creates templates by project and template names.
+- Updates templates by project and template names.
+- Deletes templates by project and template names.
+- Exports projects and templates based on specified parameters.
+- Handles the creation of resources for importing configuration templates and projects.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.template_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.8.6
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Details of templates to manage.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates:
+
+      .. rst-class:: ansible-option-title
+
+      **configuration_templates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Operations for Create/Update/Delete on a template.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/author"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/author:
+
+      .. rst-class:: ansible-option-title
+
+      **author**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/author" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Creator of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/commit"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/commit:
+
+      .. rst-class:: ansible-option-title
+
+      **commit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/commit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the template should be committed after configuration changes.
+
+      If set to 'false', the changes are not committed immediately, allowing for additional modifications before an explicit commit.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/composite"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/composite:
+
+      .. rst-class:: ansible-option-title
+
+      **composite**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/composite" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies if the template is composite.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates:
+
+      .. rst-class:: ansible-option-title
+
+      **containing_templates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set of templates within the main template to define more complex or modular configurations.
+
+      This is particularly useful in systems that support hierarchical or nested templates.
+
+      Here parent templates may contain child templates to form a complete configuration.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/composite"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/composite:
+
+      .. rst-class:: ansible-option-title
+
+      **composite**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/composite" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies if the template is composite.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/device_types"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/device_types:
+
+      .. rst-class:: ansible-option-title
+
+      **device_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/device_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of dictionaries details the types of devices that the templates can be applied to.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/device_types/product_family"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/device_types/product_family:
+
+      .. rst-class:: ansible-option-title
+
+      **product_family**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/device_types/product_family" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the family to which the device belongs.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Cisco Cloud Services Platform"`
+      - :ansible-option-choices-entry:`"Cisco Interfaces and Modules"`
+      - :ansible-option-choices-entry:`"Content Networking"`
+      - :ansible-option-choices-entry:`"Network Management"`
+      - :ansible-option-choices-entry:`"NFV-ThirdParty Devices"`
+      - :ansible-option-choices-entry:`"NFVIS"`
+      - :ansible-option-choices-entry:`"Routers"`
+      - :ansible-option-choices-entry:`"Security and VPN"`
+      - :ansible-option-choices-entry:`"Storage Networking"`
+      - :ansible-option-choices-entry:`"Switches and Hubs"`
+      - :ansible-option-choices-entry:`"Voice and Telephony"`
+      - :ansible-option-choices-entry:`"Wireless Controller"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/device_types/product_series"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/device_types/product_series:
+
+      .. rst-class:: ansible-option-title
+
+      **product_series**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/device_types/product_series" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the series classification of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/device_types/product_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/device_types/product_type:
+
+      .. rst-class:: ansible-option-title
+
+      **product_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/device_types/product_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Describes the exact type of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique identifier for the template, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/language"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/language:
+
+      .. rst-class:: ansible-option-title
+
+      **language**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/language" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Programming language used for templating. Options are 'JINJA' for Jinja templating or 'VELOCITY' for Apache Velocity.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"JINJA"`
+      - :ansible-option-choices-entry:`"VELOCITY"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Designation of the template, serving as its unique name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/profile_names"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/profile_names:
+
+      .. rst-class:: ansible-option-title
+
+      **profile_names**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/profile_names" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - List of profile names to be associated with the Configuration Template during creation or update operations.
+          - Enables assignment of one or more network profiles to CLI templates for enhanced device configuration management.
+          - Profile names must correspond to existing network profiles in Cisco Catalyst Center for the specified device types.
+          - Supports assignment of multiple profiles simultaneously for comprehensive device configuration coverage.
+          - Profiles are validated against the device types specified in the template configuration to ensure compatibility.
+          - When combined with existing profile assignments, new profiles are added while preserving existing assignments.
+          - Profile assignment operations are idempotent - re-assigning existing profiles will not cause errors or duplicate assignments.
+          - Requires Cisco Catalyst Center version 3.1.3.0 or later for profile assignment functionality.
+          - Profile names are case-sensitive and must match exactly as configured in Cisco Catalyst Center.
+          - Each profile in the list must be a valid string representing an existing network profile name.
+          - If no profiles are specified, the template will not be associated with any profiles by default.
+          - Profile names can be detached from the template based on deleted state operations.
+          - \ :literal:`examples`\ :
+          - ["Enterprise\_Security\_Profile", "QoS\_Voice\_Profile"]
+          - ["Campus\_Switching\_Profile"]
+          - ["WAN\_Edge\_Profile", "Security\_Baseline\_Profile", "Monitoring\_Profile"]
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/project_description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/project_description:
+
+      .. rst-class:: ansible-option-title
+
+      **project_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/project_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Narrative that elaborates on the purpose and scope of the project.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/project_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/project_name:
+
+      .. rst-class:: ansible-option-title
+
+      **project_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/project_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Title of the project within which the template is categorized and managed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/tags"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of dictionaries representing tags associated with the Configuration Template during creation.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/tags/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/tags/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/tags/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The unique identifier for each tag, presented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/tags/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/tags/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/tags/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The descriptive label or name assigned to the tag.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_content"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_content:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_content" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_description:
+
+      .. rst-class:: ansible-option-title
+
+      **template_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a description of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params:
+
+      .. rst-class:: ansible-option-title
+
+      **template_params**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The customization of the contents within the template.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/binding"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/binding:
+
+      .. rst-class:: ansible-option-title
+
+      **binding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/binding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Associates the parameter with its source.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/custom_order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/custom_order:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/custom_order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a user-defined ordering for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/data_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/data_type:
+
+      .. rst-class:: ansible-option-title
+
+      **data_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/data_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Identifies the data type of the parameter (e.g., string, integer, boolean).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/default_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/default_value:
+
+      .. rst-class:: ansible-option-title
+
+      **default_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/default_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Establishes a default value for the parameter, used if no other value is provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a descriptive explanation of the parameter's purpose.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/display_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/display_name:
+
+      .. rst-class:: ansible-option-title
+
+      **display_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/display_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the parameter as displayed to users.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/group"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/group:
+
+      .. rst-class:: ansible-option-title
+
+      **group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Categorizes the parameter into a named group for organizational purposes.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the parameter, formatted as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/instruction_text"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/instruction_text:
+
+      .. rst-class:: ansible-option-title
+
+      **instruction_text**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/instruction_text" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Gives guidance or instructions regarding the parameter's use.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/key"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique key that identifies the parameter within the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/not_param"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/not_param:
+
+      .. rst-class:: ansible-option-title
+
+      **not_param**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/not_param" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the entry is not to be treated as a parameter.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines the sequence in which the parameter appears relative to others.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/param_array"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/param_array:
+
+      .. rst-class:: ansible-option-title
+
+      **param_array**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/param_array" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies if the parameter should be treated as an array.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/parameter_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/parameter_name:
+
+      .. rst-class:: ansible-option-title
+
+      **parameter_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/parameter_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/provider"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the provider associated with the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/range"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the permissible range for the parameter's value.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/range/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/range/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/range/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique identifier for the range, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/range/max_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/range/max_value:
+
+      .. rst-class:: ansible-option-title
+
+      **max_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/range/max_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the maximum allowable value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/range/min_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/range/min_value:
+
+      .. rst-class:: ansible-option-title
+
+      **min_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/range/min_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the minimum allowable value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/required"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/required:
+
+      .. rst-class:: ansible-option-title
+
+      **required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictates whether the parameter is required for template operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/selection"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/selection:
+
+      .. rst-class:: ansible-option-title
+
+      **selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Contains options for parameter selection when a choice is available.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/selection/default_selected_values"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/selection/default_selected_values:
+
+      .. rst-class:: ansible-option-title
+
+      **default_selected_values**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/selection/default_selected_values" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Lists the default values that are preselected.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/selection/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/selection/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/selection/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the selection entity, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/selection/selection_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/selection/selection_type:
+
+      .. rst-class:: ansible-option-title
+
+      **selection_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/selection/selection_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of selection, such as 'SINGLE\_SELECT' or 'MULTI\_SELECT'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_params/selection/selection_values"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_params/selection/selection_values:
+
+      .. rst-class:: ansible-option-title
+
+      **selection_values**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_params/selection/selection_values" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A dictionary of available values for selection.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The current version of template.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/custom_params_order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/custom_params_order:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_params_order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/custom_params_order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the sequence in which custom parameters or variables should be arranged within the template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/device_types"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/device_types:
+
+      .. rst-class:: ansible-option-title
+
+      **device_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/device_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of dictionaries details the types of devices that the templates can be applied to.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/device_types/product_family"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/device_types/product_family:
+
+      .. rst-class:: ansible-option-title
+
+      **product_family**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/device_types/product_family" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the family to which the device belongs.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Cisco Cloud Services Platform"`
+      - :ansible-option-choices-entry:`"Cisco Interfaces and Modules"`
+      - :ansible-option-choices-entry:`"Content Networking"`
+      - :ansible-option-choices-entry:`"Network Management"`
+      - :ansible-option-choices-entry:`"NFV-ThirdParty Devices"`
+      - :ansible-option-choices-entry:`"NFVIS"`
+      - :ansible-option-choices-entry:`"Routers"`
+      - :ansible-option-choices-entry:`"Security and VPN"`
+      - :ansible-option-choices-entry:`"Storage Networking"`
+      - :ansible-option-choices-entry:`"Switches and Hubs"`
+      - :ansible-option-choices-entry:`"Voice and Telephony"`
+      - :ansible-option-choices-entry:`"Wireless Controller"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/device_types/product_series"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/device_types/product_series:
+
+      .. rst-class:: ansible-option-title
+
+      **product_series**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/device_types/product_series" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the series classification of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/device_types/product_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/device_types/product_type:
+
+      .. rst-class:: ansible-option-title
+
+      **product_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/device_types/product_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Describes the exact type of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/failure_policy"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/failure_policy:
+
+      .. rst-class:: ansible-option-title
+
+      **failure_policy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/failure_policy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Define failure policy if template provisioning fails.
+
+      failure\_policy will be enabled only when the composite is set to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ABORT\_TARGET\_ON\_ERROR"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/language"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/language:
+
+      .. rst-class:: ansible-option-title
+
+      **language**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/language" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Programming language used for templating. Options are 'JINJA' for Jinja templating or 'VELOCITY' for Apache Velocity.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"JINJA"`
+      - :ansible-option-choices-entry:`"VELOCITY"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/new_template_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/new_template_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_template_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/new_template_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      New name of the template.
+
+      Use this field to update the name of the existing template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/project_description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/project_description:
+
+      .. rst-class:: ansible-option-title
+
+      **project_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/project_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Narrative that elaborates on the purpose and scope of the project.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/project_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/project_name:
+
+      .. rst-class:: ansible-option-title
+
+      **project_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/project_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Title of the project within which the template is categorized and managed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/software_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/software_type:
+
+      .. rst-class:: ansible-option-title
+
+      **software_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/software_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Applicable device software type. This field is required to create a new template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"IOS"`
+      - :ansible-option-choices-entry:`"IOS-XE"`
+      - :ansible-option-choices-entry:`"IOS-XR"`
+      - :ansible-option-choices-entry:`"NX-OS"`
+      - :ansible-option-choices-entry:`"Cisco Controller"`
+      - :ansible-option-choices-entry:`"Wide Area Application Services"`
+      - :ansible-option-choices-entry:`"Adaptive Security Appliance"`
+      - :ansible-option-choices-entry:`"NFV-OS"`
+      - :ansible-option-choices-entry:`"Others"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/software_version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/software_version:
+
+      .. rst-class:: ansible-option-title
+
+      **software_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/software_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Applicable device software version.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_content"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_content:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_content" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_description:
+
+      .. rst-class:: ansible-option-title
+
+      **template_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a overview  of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_name:
+
+      .. rst-class:: ansible-option-title
+
+      **template_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of template. This field is required to create a new template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params:
+
+      .. rst-class:: ansible-option-title
+
+      **template_params**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The customization of the contents within the template.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/binding"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/binding:
+
+      .. rst-class:: ansible-option-title
+
+      **binding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/binding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Associates the parameter with its source.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/custom_order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/custom_order:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/custom_order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a user-defined ordering for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/data_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/data_type:
+
+      .. rst-class:: ansible-option-title
+
+      **data_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/data_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Identifies the data type of the parameter (e.g., string, integer, boolean).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/default_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/default_value:
+
+      .. rst-class:: ansible-option-title
+
+      **default_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/default_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Establishes a default value for the parameter, used if no other value is provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a descriptive explanation of the parameter's purpose.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/display_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/display_name:
+
+      .. rst-class:: ansible-option-title
+
+      **display_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/display_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the parameter as displayed to users.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/group"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/group:
+
+      .. rst-class:: ansible-option-title
+
+      **group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Categorizes the parameter into a named group for organizational purposes.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the parameter, formatted as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/instruction_text"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/instruction_text:
+
+      .. rst-class:: ansible-option-title
+
+      **instruction_text**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/instruction_text" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Gives guidance or instructions regarding the parameter's use.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/key"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique key that identifies the parameter within the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/not_param"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/not_param:
+
+      .. rst-class:: ansible-option-title
+
+      **not_param**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/not_param" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the entry is not to be treated as a parameter.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines the sequence in which the parameter appears relative to others.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/param_array"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/param_array:
+
+      .. rst-class:: ansible-option-title
+
+      **param_array**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/param_array" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies if the parameter should be treated as an array.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/parameter_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/parameter_name:
+
+      .. rst-class:: ansible-option-title
+
+      **parameter_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/parameter_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/provider"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the provider associated with the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/range"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the permissible range for the parameter's value.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/range/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/range/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/range/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique identifier for the range, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/range/max_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/range/max_value:
+
+      .. rst-class:: ansible-option-title
+
+      **max_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/range/max_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the maximum allowable value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/range/min_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/range/min_value:
+
+      .. rst-class:: ansible-option-title
+
+      **min_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/range/min_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the minimum allowable value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/required"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/required:
+
+      .. rst-class:: ansible-option-title
+
+      **required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictates whether the parameter is required for template operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/selection"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/selection:
+
+      .. rst-class:: ansible-option-title
+
+      **selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Contains options for parameter selection when a choice is available.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/selection/default_selected_values"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/selection/default_selected_values:
+
+      .. rst-class:: ansible-option-title
+
+      **default_selected_values**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/selection/default_selected_values" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Lists the default values that are preselected.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/selection/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/selection/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/selection/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the selection entity, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/selection/selection_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/selection/selection_type:
+
+      .. rst-class:: ansible-option-title
+
+      **selection_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/selection/selection_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of selection, such as 'SINGLE\_SELECT' or 'MULTI\_SELECT'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_params/selection/selection_values"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_params/selection/selection_values:
+
+      .. rst-class:: ansible-option-title
+
+      **selection_values**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_params/selection/selection_values" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A dictionary of available values for selection.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_tag"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_tag:
+
+      .. rst-class:: ansible-option-title
+
+      **template_tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Refers to a keyword, label, or metadata assigned to a template.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_tag/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_tag/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_tag/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the tag, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_tag/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/template_tag/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_tag/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the tag.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The current version of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/version_description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/version_description:
+
+      .. rst-class:: ansible-option-title
+
+      **version_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/version_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Template version comments.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template:
+
+      .. rst-class:: ansible-option-title
+
+      **deploy_template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      To deploy the template to the devices based on either list of site provisionig details with further filtering criteria like device family, device role, device tag or by providing the device specific details which includes device\_ips, device\_hostnames, serial\_numbers or mac\_addresses.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/copy_config"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/copy_config:
+
+      .. rst-class:: ansible-option-title
+
+      **copy_config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/copy_config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A boolean flag that specifies whether the device's running configuration should be copied to the startup configuration after applying the template.
+
+      If set to 'true', the updated configuration will be saved to the startup configuration. be copied to the start up config from the device before applying the template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/device_details"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/device_details:
+
+      .. rst-class:: ansible-option-title
+
+      **device_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/device_details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Details specific to devices where the template will be deployed, including lists of device IPs, hostnames, serial numbers, or MAC addresses.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/device_details/device_hostnames"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/device_details/device_hostnames:
+
+      .. rst-class:: ansible-option-title
+
+      **device_hostnames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/device_details/device_hostnames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of hostnames of the devices where the template will be deployed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/device_details/device_ips"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/device_details/device_ips:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ips**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/device_details/device_ips" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of IP addresses of the devices where the template will be deployed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/device_details/mac_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/device_details/mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/device_details/mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of MAC addresses of the devices where the template will be deployed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/device_details/serial_numbers"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/device_details/serial_numbers:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_numbers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/device_details/serial_numbers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of serial numbers of the devices where the template will be deployed.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/force_push"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/force_push:
+
+      .. rst-class:: ansible-option-title
+
+      **force_push**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/force_push" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean flag to indicate whether the template should be forcefully pushed to the devices, overriding any existing configuration.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/is_composite"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/is_composite:
+
+      .. rst-class:: ansible-option-title
+
+      **is_composite**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/is_composite" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Boolean flag indicating whether the template is composite, which means the template is built using multiple smaller templates.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/project_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/project_name:
+
+      .. rst-class:: ansible-option-title
+
+      **project_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/project_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provide the name of project under which the template is available.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/resource_parameters"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/resource_parameters:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_parameters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/resource_parameters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of configuration parameters required for provisioning resources in the system. These parameters define specific settings or details that must be supplied when deploying templates. If the template uses system variables (variables prefixed with \_\_, (e.g., \_\_device), the corresponding resource parameters must be provided to ensure successful deployment.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/resource_parameters/resource_scope"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/resource_parameters/resource_scope:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_scope**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/resource_parameters/resource_scope" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the scope in which the resource parameter is to be provisioned.
+
+      Possible enum values are - - RUNTIME - A parameter with a runtime scope is provided at the time of deployment. These values are dynamic and may change with each deployment, as they are based on the specific context of the deployment. - DESIGN - A parameter with a design scope is defined during the design phase of the template. These values are static after template creation and remain consistent across deployments.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/resource_parameters/resource_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/resource_parameters/resource_type:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/resource_parameters/resource_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of the resource param that is to be provisioned during template deployment - Specifies the type of the resource parameter to be provisioned during template deployment. - Possible enum values are - - MANAGED\_DEVICE\_UUID - Used when the parameter value is the UUID of the device. - MANAGED\_DEVICE\_IP - Used when the parameter value is the device's IP address. - MANAGED\_DEVICE\_HOSTNAME - Used when the parameter value is the device's hostname. - SITE\_UUID - Used when the parameter value is the UUID of a site. - MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of managed access points within the network. - SECONDARY\_MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points. - SSID\_NAME - Used when the parameter value is the name of a wireless network. - POLICY\_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users. - From the above enum values, the following resource types support value provisioning at runtime - MANAGED\_DEVICE\_UUID - MANAGED\_DEVICE\_IP - MANAGED\_DEVICE\_HOSTNAME - SITE\_UUID - For all other resource types, the values must be provided at design time in the playbook.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/resource_parameters/resource_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/resource_parameters/resource_value:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/resource_parameters/resource_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The actual value of the resource param to be provisioned.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/site_provisioning_details"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/site_provisioning_details:
+
+      .. rst-class:: ansible-option-title
+
+      **site_provisioning_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/site_provisioning_details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Parameters related to site-based provisioning, allowing the deployment of templates to devices associated with specific sites, with optional filtering by device family, role, or tag.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/site_provisioning_details/device_family"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/site_provisioning_details/device_family:
+
+      .. rst-class:: ansible-option-title
+
+      **device_family**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/site_provisioning_details/device_family" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Family of the devices (e.g., switches, routers) used to filter devices for template deployment.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/site_provisioning_details/device_role"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/site_provisioning_details/device_role:
+
+      .. rst-class:: ansible-option-title
+
+      **device_role**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/site_provisioning_details/device_role" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Role of the devices (e.g., access, core, edge) used to filter devices for template deployment.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/site_provisioning_details/device_tag"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/site_provisioning_details/device_tag:
+
+      .. rst-class:: ansible-option-title
+
+      **device_tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/site_provisioning_details/device_tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specific device tag used to filter devices for template deployment.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/site_provisioning_details/site_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/site_provisioning_details/site_name:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/site_provisioning_details/site_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the site where the devices are associated for provisioning.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/template_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/template_name:
+
+      .. rst-class:: ansible-option-title
+
+      **template_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/template_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the template to be deployed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/template_parameters"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/template_parameters:
+
+      .. rst-class:: ansible-option-title
+
+      **template_parameters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/template_parameters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of parameter name-value pairs used for customizing the template with specific values for each device.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/template_parameters/param_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/template_parameters/param_name:
+
+      .. rst-class:: ansible-option-title
+
+      **param_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/template_parameters/param_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the parameter in the template that needs to be replaced with a specific value.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/template_parameters/param_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/template_parameters/param_value:
+
+      .. rst-class:: ansible-option-title
+
+      **param_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/template_parameters/param_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Value assigned to the parameter for deployment to devices.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This is useful for targeting specific template versions, such as rolling back to a tested version.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/export:
+
+      .. rst-class:: ansible-option-title
+
+      **export**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Perform export on the projects and templates.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export/project"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/export/project:
+
+      .. rst-class:: ansible-option-title
+
+      **project**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export/project" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Export the project(s) details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export/template"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/export/template:
+
+      .. rst-class:: ansible-option-title
+
+      **template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export/template" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Export the template(s) details.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export/template/project_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/export/template/project_name:
+
+      .. rst-class:: ansible-option-title
+
+      **project_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export/template/project_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the project under the template available.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export/template/template_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/export/template/template_name:
+
+      .. rst-class:: ansible-option-title
+
+      **template_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export/template/template_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the template which we need to be exported.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import:
+
+      .. rst-class:: ansible-option-title
+
+      **import**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Perform import on the projects and templates.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/project"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/project:
+
+      .. rst-class:: ansible-option-title
+
+      **project**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/project" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Import the projects.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/project/do_version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/project/do_version:
+
+      .. rst-class:: ansible-option-title
+
+      **do_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/project/do_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines whether to create a new version of the project with the imported contents.
+
+      If set to true and the project already exists, a new version will be created.
+
+      If false, the operation will fail with a 'Project already exists' error if the project already exists.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/project/payload"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/project/payload:
+
+      .. rst-class:: ansible-option-title
+
+      **payload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/project/payload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Directly imports configuration data into the system using the provided payload.
+
+      Offers an alternative to 'project\_file' for importing configurations without referencing an external file.
+
+      Ignored if 'project\_file' is also provided.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/project/payload/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/project/payload/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/project/payload/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the project to be imported.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/project/project_file"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/project/project_file:
+
+      .. rst-class:: ansible-option-title
+
+      **project_file**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/project/project_file" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.17.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the path to a JSON file that contains the import project configuration.
+
+      If both 'project\_file' and 'payload' are provided, the 'project\_file' will be given priority.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template:
+
+      .. rst-class:: ansible-option-title
+
+      **template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Import the templates.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/do_version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/do_version:
+
+      .. rst-class:: ansible-option-title
+
+      **do_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/do_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DoVersion query parameter. If this flag is true, creates a new version of the template with the imported contents, if the templates already exists. " If false and if template already exists, then operation fails with 'Template already exists' error.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload:
+
+      .. rst-class:: ansible-option-title
+
+      **payload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The payload parameter is used to directly import configuration data into the system.
+
+      The payload provides an alternative way to import configurations without the need to reference an external file.
+
+      If both 'template\_file' and 'payload' are provided, the 'template\_file' will be given priority.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/author"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/author:
+
+      .. rst-class:: ansible-option-title
+
+      **author**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/author" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Identifies the creator of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/composite"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/composite:
+
+      .. rst-class:: ansible-option-title
+
+      **composite**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/composite" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies if the template is composite.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates:
+
+      .. rst-class:: ansible-option-title
+
+      **containing_templates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Refer to a set of templates within the main template to define more complex or modular configurations.
+
+      This is particularly useful in systems that support hierarchical or nested templates.
+
+      Here parent templates may contain child templates to form a complete configuration.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/composite"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/composite:
+
+      .. rst-class:: ansible-option-title
+
+      **composite**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/composite" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies if the template is composite.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a description of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/device_types"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/device_types:
+
+      .. rst-class:: ansible-option-title
+
+      **device_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/device_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of dictionaries details the types of devices that the templates can be applied to.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/device_types/product_family"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/device_types/product_family:
+
+      .. rst-class:: ansible-option-title
+
+      **product_family**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/device_types/product_family" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the family to which the device belongs.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Cisco Cloud Services Platform"`
+      - :ansible-option-choices-entry:`"Cisco Interfaces and Modules"`
+      - :ansible-option-choices-entry:`"Content Networking"`
+      - :ansible-option-choices-entry:`"Network Management"`
+      - :ansible-option-choices-entry:`"NFV-ThirdParty Devices"`
+      - :ansible-option-choices-entry:`"NFVIS"`
+      - :ansible-option-choices-entry:`"Routers"`
+      - :ansible-option-choices-entry:`"Security and VPN"`
+      - :ansible-option-choices-entry:`"Storage Networking"`
+      - :ansible-option-choices-entry:`"Switches and Hubs"`
+      - :ansible-option-choices-entry:`"Voice and Telephony"`
+      - :ansible-option-choices-entry:`"Wireless Controller"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/device_types/product_series"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/device_types/product_series:
+
+      .. rst-class:: ansible-option-title
+
+      **product_series**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/device_types/product_series" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the series classification of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/device_types/product_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/device_types/product_type:
+
+      .. rst-class:: ansible-option-title
+
+      **product_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/device_types/product_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Describes the exact type of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique identifier for the template, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/language"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/language:
+
+      .. rst-class:: ansible-option-title
+
+      **language**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/language" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Programming language used for templating. Options are 'JINJA' for Jinja templating or 'VELOCITY' for Apache Velocity.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"JINJA"`
+      - :ansible-option-choices-entry:`"VELOCITY"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Designation of the template, serving as its unique name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/project_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/project_name:
+
+      .. rst-class:: ansible-option-title
+
+      **project_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/project_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Title of the project within which the template is categorized and managed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/tags"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of dictionaries representing tags associated with the Configuration Template during creation.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/tags/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/tags/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/tags/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The unique identifier for each tag, presented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/tags/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/tags/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/tags/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The descriptive label or name assigned to the tag.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_content"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_content:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_content" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params:
+
+      .. rst-class:: ansible-option-title
+
+      **template_params**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The customization of the contents within the template.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/binding"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/binding:
+
+      .. rst-class:: ansible-option-title
+
+      **binding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/binding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Associates the parameter with its source.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/custom_order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/custom_order:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/custom_order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a user-defined ordering for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/data_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/data_type:
+
+      .. rst-class:: ansible-option-title
+
+      **data_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/data_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Identifies the data type of the parameter (e.g., string, integer, boolean).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/default_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/default_value:
+
+      .. rst-class:: ansible-option-title
+
+      **default_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/default_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Establishes a default value for the parameter, used if no other value is provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a descriptive explanation of the parameter's purpose.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/display_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/display_name:
+
+      .. rst-class:: ansible-option-title
+
+      **display_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/display_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the parameter as displayed to users.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/group"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/group:
+
+      .. rst-class:: ansible-option-title
+
+      **group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Categorizes the parameter into a named group for organizational purposes.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the parameter, formatted as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/instruction_text"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/instruction_text:
+
+      .. rst-class:: ansible-option-title
+
+      **instruction_text**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/instruction_text" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Gives guidance or instructions regarding the parameter's use.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/key"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique key that identifies the parameter within the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/not_param"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/not_param:
+
+      .. rst-class:: ansible-option-title
+
+      **not_param**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/not_param" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the entry is not to be treated as a parameter.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines the sequence in which the parameter appears relative to others.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/param_array"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/param_array:
+
+      .. rst-class:: ansible-option-title
+
+      **param_array**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/param_array" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies if the parameter should be treated as an array.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/parameter_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/parameter_name:
+
+      .. rst-class:: ansible-option-title
+
+      **parameter_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/parameter_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/provider"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the provider associated with the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/range"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the permissible range for the parameter's value.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/range/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/range/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/range/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique identifier for the range, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/range/max_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/range/max_value:
+
+      .. rst-class:: ansible-option-title
+
+      **max_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/range/max_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the maximum allowable value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/range/min_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/range/min_value:
+
+      .. rst-class:: ansible-option-title
+
+      **min_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/range/min_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the minimum allowable value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/required"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/required:
+
+      .. rst-class:: ansible-option-title
+
+      **required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictates whether the parameter is required for template operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/selection"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/selection:
+
+      .. rst-class:: ansible-option-title
+
+      **selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Contains options for parameter selection when a choice is available.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/selection/default_selected_values"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/selection/default_selected_values:
+
+      .. rst-class:: ansible-option-title
+
+      **default_selected_values**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/selection/default_selected_values" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Lists the default values that are preselected.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/selection/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/selection/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/selection/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the selection entity, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/selection/selection_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/selection/selection_type:
+
+      .. rst-class:: ansible-option-title
+
+      **selection_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/selection/selection_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of selection, such as 'SINGLE\_SELECT' or 'MULTI\_SELECT'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_params/selection/selection_values"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_params/selection/selection_values:
+
+      .. rst-class:: ansible-option-title
+
+      **selection_values**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_params/selection/selection_values" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A dictionary of available values for selection.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The current version of template.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/custom_params_order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/custom_params_order:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_params_order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/custom_params_order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the sequence in which custom parameters or variables should be arranged within the template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/device_types"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/device_types:
+
+      .. rst-class:: ansible-option-title
+
+      **device_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/device_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of dictionaries details the types of devices that the templates can be applied to.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/device_types/product_family"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/device_types/product_family:
+
+      .. rst-class:: ansible-option-title
+
+      **product_family**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/device_types/product_family" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the family to which the device belongs.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Cisco Cloud Services Platform"`
+      - :ansible-option-choices-entry:`"Cisco Interfaces and Modules"`
+      - :ansible-option-choices-entry:`"Content Networking"`
+      - :ansible-option-choices-entry:`"Network Management"`
+      - :ansible-option-choices-entry:`"NFV-ThirdParty Devices"`
+      - :ansible-option-choices-entry:`"NFVIS"`
+      - :ansible-option-choices-entry:`"Routers"`
+      - :ansible-option-choices-entry:`"Security and VPN"`
+      - :ansible-option-choices-entry:`"Storage Networking"`
+      - :ansible-option-choices-entry:`"Switches and Hubs"`
+      - :ansible-option-choices-entry:`"Voice and Telephony"`
+      - :ansible-option-choices-entry:`"Wireless Controller"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/device_types/product_series"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/device_types/product_series:
+
+      .. rst-class:: ansible-option-title
+
+      **product_series**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/device_types/product_series" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the series classification of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/device_types/product_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/device_types/product_type:
+
+      .. rst-class:: ansible-option-title
+
+      **product_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/device_types/product_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Describes the exact type of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/failure_policy"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/failure_policy:
+
+      .. rst-class:: ansible-option-title
+
+      **failure_policy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/failure_policy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Define failure policy if template provisioning fails.
+
+      failure\_policy will be enabled only when the composite is set to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ABORT\_TARGET\_ON\_ERROR"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/language"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/language:
+
+      .. rst-class:: ansible-option-title
+
+      **language**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/language" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Programming language used for templating. Options are 'JINJA' for Jinja templating or 'VELOCITY' for Apache Velocity.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"JINJA"`
+      - :ansible-option-choices-entry:`"VELOCITY"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/project_description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/project_description:
+
+      .. rst-class:: ansible-option-title
+
+      **project_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/project_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Narrative that elaborates on the purpose and scope of the project.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/project_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/project_name:
+
+      .. rst-class:: ansible-option-title
+
+      **project_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/project_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Title of the project within which the template is categorized and managed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/software_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/software_type:
+
+      .. rst-class:: ansible-option-title
+
+      **software_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/software_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Applicable device software type. This field is required to create a new template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"IOS"`
+      - :ansible-option-choices-entry:`"IOS-XE"`
+      - :ansible-option-choices-entry:`"IOS-XR"`
+      - :ansible-option-choices-entry:`"NX-OS"`
+      - :ansible-option-choices-entry:`"Cisco Controller"`
+      - :ansible-option-choices-entry:`"Wide Area Application Services"`
+      - :ansible-option-choices-entry:`"Adaptive Security Appliance"`
+      - :ansible-option-choices-entry:`"NFV-OS"`
+      - :ansible-option-choices-entry:`"Others"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/software_version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/software_version:
+
+      .. rst-class:: ansible-option-title
+
+      **software_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/software_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Applicable device software version.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_content"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_content:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_content" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_description:
+
+      .. rst-class:: ansible-option-title
+
+      **template_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a overview  of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_name:
+
+      .. rst-class:: ansible-option-title
+
+      **template_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of template. This field is required to create a new template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params:
+
+      .. rst-class:: ansible-option-title
+
+      **template_params**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The customization of the contents within the template.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/binding"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/binding:
+
+      .. rst-class:: ansible-option-title
+
+      **binding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/binding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Associates the parameter with its source.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/custom_order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/custom_order:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/custom_order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a user-defined ordering for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/data_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/data_type:
+
+      .. rst-class:: ansible-option-title
+
+      **data_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/data_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Identifies the data type of the parameter (e.g., string, integer, boolean).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/default_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/default_value:
+
+      .. rst-class:: ansible-option-title
+
+      **default_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/default_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Establishes a default value for the parameter, used if no other value is provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a descriptive explanation of the parameter's purpose.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/display_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/display_name:
+
+      .. rst-class:: ansible-option-title
+
+      **display_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/display_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the parameter as displayed to users.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/group"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/group:
+
+      .. rst-class:: ansible-option-title
+
+      **group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Categorizes the parameter into a named group for organizational purposes.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the parameter, formatted as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/instruction_text"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/instruction_text:
+
+      .. rst-class:: ansible-option-title
+
+      **instruction_text**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/instruction_text" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Gives guidance or instructions regarding the parameter's use.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/key"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique key that identifies the parameter within the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/not_param"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/not_param:
+
+      .. rst-class:: ansible-option-title
+
+      **not_param**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/not_param" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the entry is not to be treated as a parameter.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/order"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines the sequence in which the parameter appears relative to others.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/param_array"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/param_array:
+
+      .. rst-class:: ansible-option-title
+
+      **param_array**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/param_array" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies if the parameter should be treated as an array.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/parameter_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/parameter_name:
+
+      .. rst-class:: ansible-option-title
+
+      **parameter_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/parameter_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/provider"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Denotes the provider associated with the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/range"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the permissible range for the parameter's value.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/range/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/range/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/range/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique identifier for the range, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/range/max_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/range/max_value:
+
+      .. rst-class:: ansible-option-title
+
+      **max_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/range/max_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the maximum allowable value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/range/min_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/range/min_value:
+
+      .. rst-class:: ansible-option-title
+
+      **min_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/range/min_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the minimum allowable value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/required"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/required:
+
+      .. rst-class:: ansible-option-title
+
+      **required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictates whether the parameter is required for template operations.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/selection"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/selection:
+
+      .. rst-class:: ansible-option-title
+
+      **selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Contains options for parameter selection when a choice is available.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/selection/default_selected_values"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/selection/default_selected_values:
+
+      .. rst-class:: ansible-option-title
+
+      **default_selected_values**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/selection/default_selected_values" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Lists the default values that are preselected.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/selection/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/selection/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/selection/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the selection entity, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/selection/selection_type"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/selection/selection_type:
+
+      .. rst-class:: ansible-option-title
+
+      **selection_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/selection/selection_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of selection, such as 'SINGLE\_SELECT' or 'MULTI\_SELECT'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_params/selection/selection_values"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_params/selection/selection_values:
+
+      .. rst-class:: ansible-option-title
+
+      **selection_values**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_params/selection/selection_values" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A dictionary of available values for selection.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_tag"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_tag:
+
+      .. rst-class:: ansible-option-title
+
+      **template_tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Refers to a keyword, label, or metadata assigned to a template.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_tag/id"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_tag/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_tag/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A unique identifier for the tag, represented as a UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_tag/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/template_tag/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_tag/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the tag.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/payload/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The current version of template.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/project_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/project_name:
+
+      .. rst-class:: ansible-option-title
+
+      **project_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/project_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ProjectName path parameter. Project name to create template under the project.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/template_file"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/import/template/template_file:
+
+      .. rst-class:: ansible-option-title
+
+      **template_file**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/template_file" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the path to a JSON file that contains an import template.
+
+      If both 'template\_file' and 'payload' are provided, the 'template\_file' will be given priority.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/projects:
+
+      .. rst-class:: ansible-option-title
+
+      **projects**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Create, update, or delete projects with associated details such as name,
+          and description.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/description"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/projects/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief description of the project.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/projects/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the project. This is used to identify the project for creation,
+          update, or deletion.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/new_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/projects/new_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/new_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specify a new name for the project when updating an existing project.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      If set to True, verifies the Cisco Catalyst Center
+          configuration after applying the playbook.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Desired state of the Cisco Catalyst Center after module execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.create\_template, configuration\_templates.ConfigurationTemplates.deletes\_the\_template, configuration\_templates.ConfigurationTemplates.update\_template, configuration\_templates.ConfigurationTemplates.export\_projects, configuration\_templates.ConfigurationTemplates.export\_templates, configuration\_templates.ConfigurationTemplates.imports\_the\_projects\_provided, configuration\_templates.ConfigurationTemplates.imports\_the\_templates\_provided,
+   - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template, delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template, post /dna/intent/api/v1/template-programmer/project/name/exportprojects, post /dna/intent/api/v1/template-programmer/template/exporttemplates, post /dna/intent/api/v1/template-programmer/project/importprojects, post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
+   - While deploying the template to devices, the value for the following resource types can be filled in the resource parameters at RUNTIME- MANAGED\_DEVICE\_UUID, MANAGED\_DEVICE\_IP, MANAGED\_DEVICE\_HOSTNAME, and SITE\_UUID. For all other resource types, the value must be provided at DESIGN time in the playbook.
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Create a new template.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - configuration_templates:
+              author: string
+              composite: true
+              custom_params_order: true
+              template_description: string
+              device_types:
+                - product_family: string
+                  product_series: string
+                  product_type: string
+              failure_policy: string
+              id: string
+              language: string
+              template_name: string
+              project_name: string
+              project_description: string
+              profile_names:
+                - string
+              software_type: string
+              software_version: string
+              tags:
+                - id: string
+                  name: string
+              template_content: string
+              version: string
+
+    - name: Update a template.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - configuration_templates:
+              author: string
+              composite: true
+              custom_params_order: true
+              template_description: string
+              device_types:
+                - product_family: string
+                  product_series: string
+                  product_type: string
+              failure_policy: string
+              id: string
+              language: string
+              template_name: string
+              new_template_name: string
+              project_name: string
+              project_description: string
+              profile_names:
+                - string
+              software_type: string
+              software_version: string
+              tags:
+                - id: string
+                  name: string
+              template_content: string
+
+    - name: Export the projects.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          export:
+            project:
+              - string
+              - string
+
+    - name: Export the templates.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          export:
+            template:
+              - project_name: string
+                template_name: string
+              - project_name: string
+                template_name: string
+
+    - name: Import the Projects.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          import:
+            project:
+              do_version: false
+              payload:
+                - name: string
+                - name: string
+
+    - name: Import the Templates.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          import:
+            template:
+              do_version: false
+              project_name: string
+              template_file: string
+
+    - name: Creating a JINJA-based template to configure
+        access VLAN and interfaces on Catalyst 9300
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          - configuration_templates:
+              author: Test_User
+              composite: false
+              custom_params_order: true
+              template_description: Template to configure access
+                VLAN and access interfaces
+              device_types:
+                - product_family: Switches and Hubs
+                  product_series: Cisco Catalyst 9300 Series
+                    Switches
+              failure_policy: ABORT_TARGET_ON_ERROR
+              language: JINJA
+              template_name: PnP-Upstream-SW1
+              project_name: access_vlan_template_9300_switches
+              project_description: This project contains
+                all the templates for Access Switches
+              software_type: IOS-XE
+              template_content: |
+                {% raw %}
+                vlan {{ vlan }}
+                interface {{ interface }}
+                no shutdown
+                switchport access vlan {{ vlan }}
+                switchport mode access
+                description {{ interface_description }}
+                {% endraw %}
+              version: "1.0"
+
+    - name: Creating a VELOCITY-based Fusion Router template
+        for Catalyst 3850 switches
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          - configuration_templates:
+              template_name: "Fusion Router Config"
+              template_description: "VELOCITY template to configure
+                L3 handoff and loopback on Catalyst 3850"
+              project_name: "Network Configuration Templates"
+              tags: []
+              author: admin
+              device_types:
+                - product_family: "Switches and Hubs"
+                  product_series: "Cisco Catalyst 3850 Series
+                    Ethernet Stackable Switch"
+              software_type: IOS-XE
+              language: VELOCITY
+              failure_policy: ABORT_TARGET_ON_ERROR
+              template_content: |
+                ! L3handoff Vlan
+                vlan $VLANID
+                hostname  Old$__device.hostname
+                interface Loopback0
+                ip address $LOOPBACKIP 255.255.255.255
+                ipv6 address $LOOPBACKIPV6
+                ipv6 enable
+                ipv6 nd other-config-flag
+                ipv6 dhcp server EMPPool
+                ! L3handdoff interface for provider VN
+                interface Vlan$VLANID
+                description L3handoff $VLANID
+                ip address $interfaceIP 255.255.255.252
+                ip route-cache same-interface
+                ipv6 address $interfaceIPV6
+                ipv6 enable
+                ipv6 tcp adjust-mss 1400
+
+    - name: Deploy the given template to the devices based
+        on site specific details and other filtering mode
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          deploy_template:
+            project_name: "Sample_Project"
+            template_name: "Sample Template"
+            force_push: true
+            template_parameters:
+              - param_name: "vlan_id"
+                param_value: "1431"
+              - param_name: "vlan_name"
+                param_value: "testvlan31"
+            site_provisioning_details:
+              - site_name: "Global/Bangalore/Building14/Floor1"
+                device_family: "Switches and Hubs"
+
+    - name: Deploy the given template to the devices based
+        on device specific details
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          deploy_template:
+            project_name: "Sample_Project"
+            template_name: "Sample Template"
+            force_push: true
+            template_parameters:
+              - param_name: "vlan_id"
+                param_value: "1431"
+              - param_name: "vlan_name"
+                param_value: "testvlan31"
+            device_details:
+              device_ips: ["10.1.2.1", "10.2.3.4"]
+
+    - name: Deploy template to the devices using resource
+        parameters and copying config
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          deploy_template:
+            project_name: "Sample_Project"
+            template_name: "Sample Template"
+            force_push: true
+            template_parameters:
+              - param_name: "vlan_id"
+                param_value: "1431"
+              - param_name: "vlan_name"
+                param_value: "testvlan31"
+            resource_parameters:
+              - resource_type: "MANAGED_DEVICE_IP"
+                resource_scope: "RUNTIME"
+            device_details:
+              device_ips: ["10.1.2.1", "10.2.3.4"]
+            copy_config: true
+
+    - name: Delete the given project or template from the
+        Cisco Catalyst Center
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: deleted
+        config:
+          configuration_templates:
+            project_name: "Sample_Project"
+            template_name: "Sample Template"
+            language: "velocity"
+            software_type: "IOS-XE"
+            device_types:
+              - product_family: "Switches and Hubs"
+
+    - name: Create a New Project
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - projects:
+              - name: Wireless_Controller
+                description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+    - name: Update project name and details.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - projects:
+              - name: Wireless_Controller
+                new_name: Wireless_Template_Management
+                description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+    - name: Delete project based on the name.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: deleted
+        config:
+          - projects:
+              - name: Wireless_Template_Management
+
+    - name: Creating complete configuration template with profiles
+        response in Case_9
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          - configuration_templates:
+              author: Test_User
+              composite: false
+              custom_params_order: true
+              template_description: Template to configure access
+                VLAN and access interfaces
+              device_types:
+                - product_family: Switches and Hubs
+                  product_series: Cisco Catalyst 9300 Series
+                    Switches
+              failure_policy: ABORT_TARGET_ON_ERROR
+              language: JINJA
+              template_name: PnP-Upstream-SW1
+              profile_names:
+                - TestProfile
+                - PNP_Onboarding_Template
+              project_name: access_vlan_template_9300_switches
+              project_description: This project contains
+                all the templates for Access Switches
+              software_type: IOS-XE
+              template_content: |
+                {% raw %}
+                vlan {{ vlan }}
+                interface {{ interface }}
+                no shutdown
+                switchport access vlan {{ vlan }}
+                switchport mode access
+                description {{ interface_description }}
+                {% endraw %}
+              version: "1.0"
+
+    - name: Update configuration template with additional profile
+        response in Case_10
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          - configuration_templates:
+              author: Test_User
+              composite: false
+              custom_params_order: true
+              template_description: Template to configure access
+                VLAN and access interfaces
+              device_types:
+                - product_family: Switches and Hubs
+                  product_series: Cisco Catalyst 9300 Series
+                    Switches
+              failure_policy: ABORT_TARGET_ON_ERROR
+              language: JINJA
+              template_name: PnP-Upstream-SW1
+              profile_names:
+                - TestProfile
+                - PNP_Onboarding_Template
+              project_name: access_vlan_template_9300_switches
+              project_description: This project contains
+                all the templates for Access Switches
+              software_type: IOS-XE
+              template_content: |
+                {% raw %}
+                vlan {{ vlan }}
+                interface {{ interface }}
+                no shutdown
+                switchport access vlan {{ vlan }}
+                switchport mode access
+                description {{ interface_description }}
+                {% endraw %}
+              version: "1.0"
+
+    - name: Detach a profile from the configuration template on deleted state
+        response in Case_11
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: deleted
+        config:
+          configuration_templates:
+            project_name: "access_vlan_template_9300_switches"
+            template_name: "AA_PnP-Upstream-SW1"
+            language: "JINJA"
+            software_type: "IOS-XE"
+            profile_names:
+              - TestProfile
+            device_types:
+              - product_family: "Switches and Hubs"
+
+    - name: Deleting configuration template no need to attach profiles
+        it will unassign profiles and delete the template without impacting profiles
+        response in Case_12
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        config_verify: true
+        state: deleted
+        config:
+          configuration_templates:
+            project_name: "access_vlan_template_9300_switches"
+            template_name: "AA_PnP-Upstream-SW1"
+            language: "JINJA"
+            software_type: "IOS-XE"
+            device_types:
+              - product_family: "Switches and Hubs"
+
+    - name: Create L2VN anycast template in Catalyst Center where
+        template content is stored in a file and its path is set in a ENV variable.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - configuration_templates:
+              project_name: "evpn_l2vn_anycast"
+              template_name: "evpn_l2vn_anycast_template"
+              template_content_file_path: "{{ lookup('env', 'BGPEVPN_L2VNANYCAST_TEMPDIR_PATH') | mandatory }}/evpn_anycast.j2"
+              version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+              language: JINJA
+              software_type: "IOS-XE"
+              device_types:
+                - product_family: Switches and Hubs
+
+    - name: Create L2VN anycast template in Catalyst Center where
+        template content is stored in a file and its relative path is provided.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        config_verify: true
+        state: merged
+        config:
+          - configuration_templates:
+              project_name: "evpn_l2vn_anycast"
+              template_name: "evpn_l2vn_anycast_template"
+              template_content_file_path: "evpn_templates/evpn_anycast.j2"
+              version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+              language: JINJA
+              software_type: "IOS-XE"
+              device_types:
+                - product_family: Switches and Hubs
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with versioning details of the template as returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\": {\\n                    \\"endTime\\": 0,\\n                    \\"version\\": 0,\\n                    \\"data\\": String,\\n                    \\"startTime\\": 0,\\n                    \\"username\\": String,\\n                    \\"progress\\": String,\\n                    \\"serviceType\\": String, \\"rootId\\": String,\\n                    \\"isError\\": bool,\\n                    \\"instanceTenantId\\": String,\\n                    \\"id\\": String\\n                    \\"version\\": 0\\n              },\\n  \\"msg\\": String\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_10"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_10:
+
+      .. rst-class:: ansible-option-title
+
+      **response_10**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_10" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a configuration template is updated successfully with an additional profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Template '['AA\_PnP-Upstream-SW1']' updated successfully in the Cisco Catalyst Center.\\n            Template '['AA\_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.\\n            Profile(s) '['PNP\_Onboarding\_Template']' assigned successfully to the template.\\n            Profile(s) '['TestProfile']' already exist and cannot be assigned to the template.\\",\\n    \\"response\\": \\"Template '['AA\_PnP-Upstream-SW1']' updated successfully in the Cisco Catalyst Center.\\n                Template '['AA\_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.\\n                Profile(s) '['PNP\_Onboarding\_Template']' assigned successfully to the template.\\n                Profile(s) '['TestProfile']' already exist and cannot be assigned to the template.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_11"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_11:
+
+      .. rst-class:: ansible-option-title
+
+      **response_11**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_11" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a profile is detached from the configuration template on deleted state.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Profile(s) '['TestProfile']' detached successfully from the template.", "response": "Profile(s) '['TestProfile']' detached successfully from the template.", "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_12"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_12:
+
+      .. rst-class:: ansible-option-title
+
+      **response_12**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_12" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a configuration template is deleted without affecting profiles.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Task: deletes\_the\_template is successful for parameters:\\n            {'template\_id': '9a68dfa3-86ac-442b-bc92-957bfbd76ca7', 'active\_validation': False}\\",\\n    \\"response\\": \\"Task: deletes\_the\_template is successful for parameters:\\n                {'template\_id': '9a68dfa3-86ac-442b-bc92-957bfbd76ca7', 'active\_validation': False}\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_2"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_2:
+
+      .. rst-class:: ansible-option-title
+
+      **response_2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["{\\n  \\"response\\": []", "\\n  \\"msg\\": String\\n}\\n"]`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_3"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_3:
+
+      .. rst-class:: ansible-option-title
+
+      **response_3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary with the exisiting template deatails as returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\": {},\\n  \\"msg\\": String\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_4"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_4:
+
+      .. rst-class:: ansible-option-title
+
+      **response_4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Details of the templates in the list as returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\": {},\\n  \\"msg\\": String\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_5"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_5:
+
+      .. rst-class:: ansible-option-title
+
+      **response_5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_5" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Details of the projects in the list as returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\": {},\\n  \\"msg\\": String\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_6"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_6:
+
+      .. rst-class:: ansible-option-title
+
+      **response_6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_6" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a project is created successfully
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "project Wireless\_Controller created succesfully", "response": "project Wireless\_Controller created succesfully", "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_7"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_7:
+
+      .. rst-class:: ansible-option-title
+
+      **response_7**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_7" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Provides details of the response when a project is successfully updated using the Cisco Catalyst Center Python SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Project 'Wireless\_Template\_Management' updated successfully.\\",\\n    \\"response\\": Project 'Wireless\_Template\_Management' updated successfully.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_8"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_8:
+
+      .. rst-class:: ansible-option-title
+
+      **response_8**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_8" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a project is Deleted successfully.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Project(s) are deleted and verified successfully. ['Wireless\_Template\_Management']", "response": [{"name": "Wireless\_Template\_Management"}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_9"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__return-response_9:
+
+      .. rst-class:: ansible-option-title
+
+      **response_9**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_9" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a complete configuration template is created successfully with profiles.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Template '['AA\_PnP-Upstream-SW1']' created successfully in the Cisco Catalyst Center.\\n            Template '['AA\_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.\\n            Profile(s) '['TestProfile', 'PNP\_Onboarding\_Template']' assigned successfully to the template.\\",\\n    \\"response\\": \\"Template '['AA\_PnP-Upstream-SW1']' created successfully in the Cisco Catalyst Center.\\n                Template '['AA\_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.\\n                Profile(s) '['TestProfile', 'PNP\_Onboarding\_Template']' assigned successfully to the template.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask) Muthu Rakesh (@MUTHU-RAKESH-27) Abhishek Maheshwari (@abmahesh) Archit Soni (@koderchit) A Mohamed Rafeek (@mabdulk2)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

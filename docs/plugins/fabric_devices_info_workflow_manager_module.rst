@@ -1,0 +1,2163 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.fabric_devices_info_workflow_manager module -- Comprehensive fabric device information gathering module for Cisco Catalyst Center with advanced filtering and output capabilities.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.fabric_devices_info_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.32.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Retrieves comprehensive fabric device information from Cisco Catalyst Center using flexible, user-defined filtering criteria.
+- Supports device identification through fabric site hierarchy and optional fabric device role filtering for targeted information retrieval.
+- Enables selective information retrieval across six categories are fabric configuration details, Layer 2/3 handoff configurations, device onboarding status, connected neighbor devices, health metrics, and active issues.
+- Implements robust data collection with configurable retry mechanisms, timeout handling, and polling intervals for reliable operation in enterprise environments.
+- Provides flexible file output capabilities using the \ :literal:`output\_file\_info`\  parameter with support for JSON and YAML formats, configurable file modes (overwrite or append), and optional timestamp inclusion.
+- When \ :literal:`output\_file\_info`\  is specified, results are written to the designated file. otherwise, results are returned in the standard Ansible module output.
+- Returns structured data for each requested information category, or an empty result set when no devices match the specified filter criteria after exhausting all retry attempts.
+- Operates as a read-only facts/info module ensuring safe execution in check mode without modifying device configurations.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.9.3
+- python \>= 3.9.19
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of dictionaries specifying fabric device query parameters.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_devices**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines fabric device filtering criteria to retrieve information from Software-Defined Access (SDA) fabric sites.
+
+      Each device entry must include the fabric\_site\_hierarchy parameter to identify the fabric site.
+
+      Optional device\_identifier parameter provides additional filtering capabilities within the fabric site.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_identifier"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/device_identifier:
+
+      .. rst-class:: ansible-option-title
+
+      **device_identifier**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_identifier" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Optional list of device identification criteria to further filter fabric devices within the specified fabric site.
+
+      Provides granular control over which fabric devices have their information retrieved.
+
+      If omitted, all fabric devices within the fabric site hierarchy (and optional role filter) are processed.
+
+      Multiple identification methods can be combined for comprehensive device targeting.
+
+      Only devices that are both fabric-enabled and match the identifier criteria will be processed.
+
+      For IP-based identification, specify either ip\_address (for individual IPs) OR ip\_address\_range (for IP ranges), not both in the same device\_identifier entry.
+
+      When multiple identification parameters (ip\_address, hostname, serial\_number) are specified in the same entry, they must all refer to the same physical device for proper validation.
+
+      Use separate device\_identifier entries when targeting different devices with different identification methods.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_identifier/hostname"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/device_identifier/hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_identifier/hostname" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device hostnames to identify specific fabric devices.
+
+      Each hostname must match exactly as configured in Cisco Catalyst Center device inventory.
+
+      Only devices with matching hostnames that are also fabric-enabled will have their information retrieved.
+
+      Hostnames are case-sensitive and must match the exact device hostname configuration.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_identifier/ip_address"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/device_identifier/ip_address:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_identifier/ip_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of management IP addresses to identify specific fabric devices within specified fabric site.
+
+      Each IP address must correspond to a managed device in the Cisco Catalyst Center inventory.
+
+      Only devices with matching IP addresses that are also fabric-enabled will have their information retrieved.
+
+      IP addresses must be valid IPv4 addresses in dotted decimal notation.
+
+      Cannot be used together with ip\_address\_range parameter - choose one identification method per device\_identifier entry.
+
+      Mutually exclusive with ip\_address\_range - specify either ip\_address OR ip\_address\_range, not both.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_identifier/ip_address_range"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/device_identifier/ip_address_range:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address_range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_identifier/ip_address_range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address range specification for bulk device identification within specified fabric sites.
+
+      Format "start\_ip-end\_ip" (e.g., "192.168.1.1-192.168.1.50") for contiguous IP ranges.
+
+      Range is automatically expanded into individual IP addresses for processing.
+
+      Only fabric-enabled devices within the specified range will have their information retrieved.
+
+      Useful for targeting entire subnets or network segments within fabric deployments.
+
+      Cannot be used together with ip\_address parameter - choose one identification method per device\_identifier entry.
+
+      Mutually exclusive with ip\_address - specify either ip\_address\_range OR ip\_address, not both.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_identifier/serial_number"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/device_identifier/serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_identifier/serial_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device serial numbers to identify specific fabric devices.
+
+      Each serial number must match exactly as recorded in Cisco Catalyst Center device inventory.
+
+      Only devices with matching serial numbers that are also fabric-enabled will have their information retrieved.
+
+      Serial numbers are case-sensitive and must match the format used by the device manufacturer.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/fabric_device_role"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/fabric_device_role:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_device_role**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/fabric_device_role" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Optional filter to restrict fabric device information retrieval to specific fabric roles.
+
+      When specified, only fabric devices with the matching role will have their information retrieved.
+
+      If omitted, all fabric devices within the specified fabric site hierarchy are included.
+
+      Role-based filtering improves performance for large fabric deployments by reducing the scope of devices processed.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"CONTROL\_PLANE\_NODE"`
+      - :ansible-option-choices-entry:`"BORDER\_NODE"`
+      - :ansible-option-choices-entry:`"EDGE\_NODE"`
+      - :ansible-option-choices-entry:`"EXTENDED\_NODE"`
+      - :ansible-option-choices-entry:`"WIRELESS\_CONTROLLER\_NODE"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/fabric_site_hierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/fabric_site_hierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_site_hierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/fabric_site_hierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Hierarchical path of the fabric site to query for fabric device information.
+
+      Must be an existing site configured as a Software-Defined Access (SDA) fabric site in Cisco Catalyst Center.
+
+      Site path must follow the full hierarchical structure (e.g., "Global/Region/Building/Floor").
+
+      All fabric devices within this site hierarchy will be included unless further filtered by other parameters.
+
+      Site hierarchy paths must match exactly as configured in Cisco Catalyst Center's site management structure.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/interval"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/interval:
+
+      .. rst-class:: ansible-option-title
+
+      **interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Time in seconds to wait between retry attempts for device information retrieval operations.
+
+      Applied as a delay between failed attempts during device lookup and fabric filtering processes.
+
+      Combined with timeout and retries to determine total operation duration.
+
+      If (retries \* interval) exceeds timeout, retries will continue until timeout is reached.
+
+      Longer intervals help reduce API load on Cisco Catalyst Center during retry operations.
+
+      Should be balanced with timeout settings to avoid excessively long operation times.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`10`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/output_file_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/output_file_info:
+
+      .. rst-class:: ansible-option-title
+
+      **output_file_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/output_file_info" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Controls file output generation for fabric device information retrieval results.
+
+      When provided, saves retrieved device information to the specified file along with returning the data in standard Ansible module output.
+
+      Supports flexible file formatting, writing modes, and optional timestamp inclusion for audit purposes.
+
+      Enables automated reporting and data archival workflows for fabric device monitoring operations.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/output_file_info/file_format"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/output_file_info/file_format:
+
+      .. rst-class:: ansible-option-title
+
+      **file_format**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/output_file_info/file_format" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Output data format for the generated file.
+
+      Determines file structure and extension applied to the file path.
+
+      YAML format provides better human readability while JSON offers programmatic parsing advantages.
+
+      Format selection affects file extension and data serialization method.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"json"`
+      - :ansible-option-choices-entry-default:`"yaml"` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/output_file_info/file_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/output_file_info/file_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **file_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/output_file_info/file_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      File writing mode determining how data is written to the target file.
+
+      Use 'w' to overwrite existing file content or 'a' to append new data to existing content.
+
+      Append mode enables incremental data collection across multiple playbook runs.
+
+      Overwrite mode ensures clean data sets for each execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"w"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"a"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/output_file_info/file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/output_file_info/file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/output_file_info/file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Absolute path to the output file without file extension.
+
+      File extension is automatically appended based on the selected file format (.json or .yaml).
+
+      Directory structure will be created automatically if it does not exist.
+
+      Path must be writable by the user executing the Ansible playbook.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/output_file_info/timestamp"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/output_file_info/timestamp:
+
+      .. rst-class:: ansible-option-title
+
+      **timestamp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/output_file_info/timestamp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Controls inclusion of data retrieval timestamp in the output file content.
+
+      When enabled, adds the data collection timestamp as the first entry for audit trail purposes.
+
+      Useful for tracking when fabric device information was collected in automated workflows.
+
+      Timestamp format follows "YYYY-MM-DD HH:MM:SS" standard format.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/requested_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/requested_info:
+
+      .. rst-class:: ansible-option-title
+
+      **requested_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/requested_info" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of fabric device information types to retrieve for each identified fabric device.
+
+      If omitted or empty, all available information categories will be retrieved by default.
+
+      Selective information retrieval improves performance and reduces API load for large fabric deployments.
+
+      Each information type corresponds to specific Cisco Catalyst Center APIs and data sources.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"fabric\_info"`
+      - :ansible-option-choices-entry:`"handoff\_info"`
+      - :ansible-option-choices-entry:`"onboarding\_info"`
+      - :ansible-option-choices-entry:`"connected\_devices\_info"`
+      - :ansible-option-choices-entry:`"device\_health\_info"`
+      - :ansible-option-choices-entry:`"device\_issues\_info"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/retries"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/retries:
+
+      .. rst-class:: ansible-option-title
+
+      **retries**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/retries" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of retry attempts for device information retrieval operations when initial attempts fail.
+
+      Applied to each individual device lookup and fabric device filtering operation.
+
+      Higher retry counts improve reliability in environments with intermittent connectivity or high API load.
+
+      Total operation time is affected by retries combined with timeout and interval settings.
+
+      Actual retry attempts may be less than specified if timeout period is reached first.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`3`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config/fabric_devices/timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum time in seconds to wait for device information retrieval operations to complete.
+
+      Applied to each individual device lookup operation during the filtering process.
+
+      If device information retrieval fails within this timeout period, the operation will retry based on the 'retries' parameter.
+
+      Longer timeouts may be needed for environments with slower network connectivity or larger device inventories.
+
+      If timeout is greater than (retries \* interval), the operation will continue retrying until the timeout period ends.
+
+      Total operation time is bounded by the timeout value regardless of retry configuration.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`120`
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to true to verify the Cisco Catalyst Center after applying the playbook config.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The desired state of the configuration after module execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"gathered"` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - This is a facts/info module that only retrieves information and does not modify any device configurations or network state.
+   - Writing to a local file is for reporting, archival, and audit purposes only and does not affect the state of any managed devices.
+   - Module is safe to use in check mode as it performs read-only operations against Cisco Catalyst Center APIs.
+   - Fabric device filtering automatically identifies SDA fabric-enabled devices from the specified fabric site hierarchy.
+   - The fabric\_site\_hierarchy parameter is required and must reference an existing SDA fabric site in Cisco Catalyst Center.
+   - Device identification through device\_identifier parameters provides granular control over which fabric devices are processed.
+   - Information retrieval is optimized based on device capabilities - SSID details are only retrieved for wireless controllers, handoff information is role-specific.
+   - Retry mechanisms with configurable timeout, retry count, and polling intervals ensure reliable data collection in enterprise-scale deployments.
+   - Requires Cisco Catalyst Center version 2.3.7.9 or later for fabric device information retrieval functionality.
+   - File output supports both JSON and YAML formats with flexible writing modes (overwrite/append) and optional timestamp inclusion for audit trails.
+   - Module handles mixed wired and wireless fabric environments automatically, applying appropriate API calls based on device type detection.
+   - SDK Methods used are - devices.Devices.get\_device\_list - sda.Sda.get\_fabric\_devices - sda.Sda.get\_fabric\_sites - sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_sda\_transit - sda.Sda.get\_fabric\_devices\_layer3\_handoffs\_with\_ip\_transit - sda.Sda.get\_fabric\_devices\_layer2\_handoffs - devices.Devices.get\_interface\_info\_by\_id - devices.Devices.get\_connected\_device\_detail - devices.Devices.devices - issues.Issues.issues - sda.Sda.get\_provisioned\_wired\_device - sda.Sda.get\_port\_assignments - wireless.Wireless.get\_ssid\_details\_for\_specific\_wireless\_controller
+   - Paths used are - GET/dna/intent/api/v1/network-device - GET/dna/intent/api/v1/sda/fabricDevices - GET/dna/intent/api/v1/sda/fabricSites - GET/dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits - GET/dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits - GET/dna/intent/api/v1/sda/fabricDevices/layer2Handoffs - GET/dna/intent/api/v1/interface/network-device/{deviceId} - GET/dna/intent/api/v1/network-device/{deviceUuid}/interface/{interfaceUuid}/neighbor - GET/dna/intent/api/v1/device-health - GET/dna/intent/api/v1/issues - GET/dna/intent/api/v1/business/sda/provision-device - GET/dna/intent/api/v1/sda/portAssignments - GET/dna/intent/api/v1/wireless/controller/{networkDeviceId}/ssidDetails
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+
+    # Case 1: Retrieves all information for devices that are part of the fabric, from Cisco Catalyst Center.
+    - name: Get Fabric device information from Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Gather detailed facts for specific fabric devices
+          cisco.dnac.fabric_devices_info_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: gathered
+            config:
+              - fabric_devices:
+                  - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
+                    fabric_device_role: "CONTROL_PLANE_NODE"
+                    device_identifier:
+                      - ip_address: ["192.168.200.69"]
+                      - serial_number: ["FJC272121AG"]
+                      - hostname: ["SJ-BN-9300.cisco.local"]
+                    timeout: 30
+                    retries: 3
+                    interval: 10
+                    output_file_info:
+                      file_path: /Users/priyadharshini/Downloads/fabric_device_info
+                      file_format: yaml
+                      file_mode: a
+                      timestamp: true
+
+    # Case 2: Retrieves specific information for devices that are part of the fabric, from Cisco Catalyst Center.
+    - name: Get Fabric device information from Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Gather detailed facts for specific fabric devices
+          cisco.dnac.fabric_devices_info_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: gathered
+            config:
+              - fabric_devices:
+                  - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
+                    fabric_device_role: "CONTROL_PLANE_NODE"
+                    device_identifier:
+                      - ip_address: ["192.168.200.69"]
+                      - serial_number: ["FJC272121AG"]
+                      - hostname: ["SJ-BN-9300.cisco.local"]
+                    timeout: 30
+                    retries: 3
+                    interval: 10
+                    requested_info:
+                      - fabric_info
+                      - handoff_info
+                      - onboarding_info
+                      - connected_devices_info
+                      - device_health_info
+                      - device_issues_info
+                    output_file_info:
+                      file_path: /Users/priyadharshini/Downloads/fabric_device_info
+                      file_format: json
+                      file_mode: w
+                      timestamp: true
+
+    # Case 3: Retrieves all information for devices that are part of the fabric, from Cisco Catalyst Center.
+    - name: Get Fabric device information from Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Gather detailed facts for specific fabric devices
+          cisco.dnac.fabric_devices_info_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: gathered
+            config:
+              - fabric_devices:
+                  - fabric_site_hierarchy: "Global/rishipat_area/Fabric-area-1"  # Mandatory parameter
+                    fabric_device_role: "CONTROL_PLANE_NODE"
+                    device_identifier:
+                      - ip_address: ["192.168.200.69"]
+                      - serial_number: ["FJC272121AG"]
+                      - hostname: ["SJ-BN-9300.cisco.local"]
+                    timeout: 30
+                    retries: 3
+                    interval: 10
+                    requested_info:
+                      - all
+                    output_file_info:
+                      file_path: /Users/priyadharshini/Downloads/fabric_device_info
+                      file_format: yaml
+                      file_mode: a
+                      timestamp: true
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_all_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__return-response_all_info:
+
+      .. rst-class:: ansible-option-title
+
+      **response_all_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_all_info" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      All fabric related information for filtered fabric devices.
+
+      Returned for each fabric device matching the filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["The fabric devices filtered from the network devices are: ['204.1.2.2', '204.192.6.200']", [{"fabric\_info": [{"device\_ip": "204.1.2.2", "fabric\_details": [{"borderDeviceSettings": {"borderTypes": ["LAYER\_3"], "layer3Settings": {"borderPriority": 10, "importExternalRoutes": false, "isDefaultExit": true, "localAutonomousSystemNumber": "5", "prependAutonomousSystemCount": 0}}, "deviceRoles": ["BORDER\_NODE", "CONTROL\_PLANE\_NODE", "EDGE\_NODE"], "fabricId": "c9fda934-a212-4a1b-be5f-f391d2ff8863", "id": "9294625f-52d4-485f-9d36-5abcfa4f863f", "networkDeviceId": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"}]}]}], [{"device\_issues\_info": [{"device\_ip": "204.1.2.2", "issue\_details": [{"aiDriven": "No", "category": "Connected", "clientMac": null, "deviceId": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a", "deviceRole": "", "issueId": "4eec8a72-65ff-45ae-89be-f0437eae778e", "issue\_occurence\_count": 1703, "last\_occurence\_time": 1750856863468, "name": "AAA Server '172.23.241.245' state on Edge device 'abhitest' is DEAD.", "priority": "P1", "siteId": "", "status": "active"}, {"aiDriven": "No", "category": "User Defined", "clientMac": null, "deviceId": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a", "deviceRole": "", "issueId": "80ba94eb-15d3-48c2-a3f4-20bf99551217", "issue\_occurence\_count": 5, "last\_occurence\_time": 1750789583288, "name": "NON\_AUTHORITATIVE\_CLOCK", "priority": "P2", "siteId": "", "status": "active"}]}]}], [{"device\_health\_info": [{"device\_ip": "204.1.2.2", "health\_details": [{"airQualityHealth": {}, "avgTemperature": 4350.0, "band": {}, "clientCount": {}, "cpuHealth": 10, "cpuUlitilization": 2.75, "cpuUtilization": 2.75, "deviceFamily": "SWITCHES\_AND\_HUBS", "deviceType": "Cisco Catalyst 9300 Switch", "freeMemoryBufferHealth": -1, "freeTimerScore": -1, "interDeviceLinkAvailFabric": 10, "interDeviceLinkAvailHealth": 100, "interfaceLinkErrHealth": 10, "interferenceHealth": {}, "ipAddress": "204.1.2.2", "issueCount": 2, "location": "Global/USA/New York/NY\_BLD1", "macAddress": "90:88:55:07:59:00", "maxTemperature": 5700.0, "memoryUtilization": 50, "memoryUtilizationHealth": 10.0, "model": "Cisco Catalyst 9300 Switch", "name": "abhitest", "noiseHealth": {}, "osVersion": "17.12.4", "overallHealth": 1, "packetPoolHealth": -1, "reachabilityHealth": "REACHABLE", "utilizationHealth": {}, "uuid": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a", "wanLinkUtilization": -1.0, "wqePoolsHealth": -1}]}]}], [{"fabric\_devices\_layer3\_handoffs\_sda\_info": [{"device\_ip": "204.1.2.2", "handoff\_info": []}]}], [{"fabric\_devices\_layer3\_handoffs\_ip\_info": [{"device\_ip": "204.1.2.2", "handoff\_info": []}]}], [{"fabric\_devices\_layer2\_handoffs\_info": [{"device\_ip": "204.1.2.2", "handoff\_info": []}]}], [{"connected\_device\_info": [{"connected\_device\_details": [{"capabilities": ["IGMP\_CONDITIONAL\_FILTERING", "ROUTER", "SWITCH"], "neighborDevice": "NY-BN-9300", "neighborPort": "TenGigabitEthernet2/1/2"}, {"capabilities": ["IGMP\_CONDITIONAL\_FILTERING", "ROUTER", "SWITCH"], "neighborDevice": "NY-BN-9300", "neighborPort": "TenGigabitEthernet1/1/2"}, {"capabilities": ["ROUTER", "TB\_BRIDGE"], "neighborDevice": "AP6849.9275.0FD0", "neighborPort": "GigabitEthernet0"}, {"capabilities": ["ROUTER", "TB\_BRIDGE"], "neighborDevice": "AP6CD6.E369.49B4", "neighborPort": "GigabitEthernet0"}, {"capabilities": ["ROUTER", "TB\_BRIDGE"], "neighborDevice": "AP34B8.8315.7C6C", "neighborPort": "GigabitEthernet0"}, {"capabilities": ["HOST"], "neighborDevice": "IAC-TSIM", "neighborPort": "TenGigabitEthernet0/0/2"}, {"capabilities": ["ROUTER", "TB\_BRIDGE"], "neighborDevice": "AP345D.A80E.20B4", "neighborPort": "GigabitEthernet0"}], "device\_ip": "204.1.2.2"}]}]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_connected_device_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__return-response_connected_device_info:
+
+      .. rst-class:: ansible-option-title
+
+      **response_connected_device_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_connected_device_info" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Connected device information for filtered fabric devices.
+
+      Returned for each fabric device matching the filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["The fabric devices filtered from the network devices are: ['204.1.2.2']", [{"connected\_device\_info": [{"connected\_device\_details": [{"capabilities": ["ROUTER", "TB\_BRIDGE"], "neighborDevice": "AP345D.A80E.20B4", "neighborPort": "GigabitEthernet0"}, {"capabilities": ["IGMP\_CONDITIONAL\_FILTERING", "ROUTER", "SWITCH"], "neighborDevice": "NY-BN-9300", "neighborPort": "TenGigabitEthernet1/1/2"}, {"capabilities": ["ROUTER", "TB\_BRIDGE"], "neighborDevice": "AP6849.9275.0FD0", "neighborPort": "GigabitEthernet0"}, {"capabilities": ["ROUTER", "TB\_BRIDGE"], "neighborDevice": "AP6CD6.E369.49B4", "neighborPort": "GigabitEthernet0"}, {"capabilities": ["ROUTER", "TB\_BRIDGE"], "neighborDevice": "AP34B8.8315.7C6C", "neighborPort": "GigabitEthernet0"}, {"capabilities": ["HOST"], "neighborDevice": "IAC-TSIM", "neighborPort": "TenGigabitEthernet0/0/2"}, {"capabilities": ["IGMP\_CONDITIONAL\_FILTERING", "ROUTER", "SWITCH"], "neighborDevice": "NY-BN-9300", "neighborPort": "TenGigabitEthernet2/1/2"}], "device\_ip": "204.1.2.2"}]}]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_device_health_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__return-response_device_health_info:
+
+      .. rst-class:: ansible-option-title
+
+      **response_device_health_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_device_health_info" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Health information for filtered fabric devices.
+
+      Returned for each fabric device matching the filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["The fabric devices filtered from the network devices are: ['204.1.2.2']", [{"device\_health\_info": [{"device\_ip": "204.1.2.2", "health\_details": [{"airQualityHealth": {}, "avgTemperature": 4350.0, "band": {}, "clientCount": {}, "cpuHealth": 10, "cpuUlitilization": 2.75, "cpuUtilization": 2.75, "deviceFamily": "SWITCHES\_AND\_HUBS", "deviceType": "Cisco Catalyst 9300 Switch", "freeMemoryBufferHealth": -1, "freeTimerScore": -1, "interDeviceLinkAvailFabric": 10, "interDeviceLinkAvailHealth": 100, "interfaceLinkErrHealth": 10, "interferenceHealth": {}, "ipAddress": "204.1.2.2", "issueCount": 2, "location": "Global/USA/New York/NY\_BLD1", "macAddress": "90:88:55:07:59:00", "maxTemperature": 5700.0, "memoryUtilization": 50, "memoryUtilizationHealth": 10.0, "model": "Cisco Catalyst 9300 Switch", "name": "abhitest", "noiseHealth": {}, "osVersion": "17.12.4", "overallHealth": 1, "packetPoolHealth": -1, "reachabilityHealth": "REACHABLE", "utilizationHealth": {}, "uuid": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a", "wanLinkUtilization": -1.0, "wqePoolsHealth": -1}]}]}]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_device_issues_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__return-response_device_issues_info:
+
+      .. rst-class:: ansible-option-title
+
+      **response_device_issues_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_device_issues_info" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Issue information for filtered fabric devices.
+
+      Returned for each fabric device matching the filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["The fabric devices filtered from the network devices are: ['204.1.2.2']", [{"device\_issues\_info": [{"device\_ip": "204.1.2.2", "issue\_details": [{"aiDriven": "No", "category": "Connected", "clientMac": null, "deviceId": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a", "deviceRole": "", "issueId": "4eec8a72-65ff-45ae-89be-f0437eae778e", "issue\_occurence\_count": 1703, "last\_occurence\_time": 1750856863468, "name": "AAA Server '172.23.241.245' state on Edge device 'abhitest' is DEAD.", "priority": "P1", "siteId": "", "status": "active"}, {"aiDriven": "No", "category": "User Defined", "clientMac": null, "deviceId": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a", "deviceRole": "", "issueId": "80ba94eb-15d3-48c2-a3f4-20bf99551217", "issue\_occurence\_count": 5, "last\_occurence\_time": 1750789583288, "name": "NON\_AUTHORITATIVE\_CLOCK", "priority": "P2", "siteId": "", "status": "active"}]}]}]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_fabric_devices_layer3_handoffs_sda_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__return-response_fabric_devices_layer3_handoffs_sda_info:
+
+      .. rst-class:: ansible-option-title
+
+      **response_fabric_devices_layer3_handoffs_sda_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_fabric_devices_layer3_handoffs_sda_info" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Handoff information for filtered fabric devices.
+
+      Returned for each fabric device matching the filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["The fabric devices filtered from the network devices are: ['91.1.1.2']", [{"fabric\_devices\_layer3\_handoffs\_sda\_info": [{"device\_ip": "91.1.1.2", "handoff\_layer3\_sda\_transit\_info": [{"connectedToInternet": true, "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "isMulticastOverTransitEnabled": false, "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "transitNetworkId": "02f92f56-e9c8-4534-b7f1-e06635061de9"}]}]}], [{"fabric\_devices\_layer3\_handoffs\_ip\_info": [{"device\_ip": "91.1.1.2", "handoff\_layer3\_ip\_transit\_info": [{"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "f10250af-bd72-4175-ad9b-ea2831e74a15", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.69/30", "localIpv6Address": "2004:1:16::1:0:45/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.70/30", "remoteIpv6Address": "2004:1:16::1:0:46/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "DEFAULT\_VN", "vlanId": 3000}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "3cd81271-4621-40fd-aac7-8b8499127c0c", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.73/30", "localIpv6Address": "2004:1:16::1:0:49/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.74/30", "remoteIpv6Address": "2004:1:16::1:0:4a/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "Fabric\_VN", "vlanId": 3001}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "cdad28e7-8df2-432d-8550-666a9fcfc21c", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.77/30", "localIpv6Address": "2004:1:16::1:0:4d/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.78/30", "remoteIpv6Address": "2004:1:16::1:0:4e/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "INFRA\_VN", "vlanId": 3002}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "8711bdb5-7a92-4ab0-a7d7-b4053e1db84c", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.81/30", "localIpv6Address": "2004:1:16::1:0:51/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.82/30", "remoteIpv6Address": "2004:1:16::1:0:52/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "IntraSubnet\_VN", "vlanId": 3003}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "66b48881-e72f-44cc-aedb-6819af25bd27", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.85/30", "localIpv6Address": "2004:1:16::1:0:55/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.86/30", "remoteIpv6Address": "2004:1:16::1:0:56/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "SGT\_Port\_test", "vlanId": 3004}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "6dd7d005-74aa-4762-a59e-1c280a975425", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.89/30", "localIpv6Address": "2004:1:16::1:0:59/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.90/30", "remoteIpv6Address": "2004:1:16::1:0:5a/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "VN1", "vlanId": 3005}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "a13167ae-d900-4048-92a6-0d41bd1bd531", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.93/30", "localIpv6Address": "2004:1:16::1:0:5d/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.94/30", "remoteIpv6Address": "2004:1:16::1:0:5e/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "VN2", "vlanId": 3006}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "932cd9d7-9067-4224-ab1d-922a7cd79b5b", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.97/30", "localIpv6Address": "2004:1:16::1:0:61/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.98/30", "remoteIpv6Address": "2004:1:16::1:0:62/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "VN3", "vlanId": 3007}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "9c09c4a8-5a7f-4b06-ac28-4d895293cfe7", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.101/30", "localIpv6Address": "2004:1:16::1:0:65/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.102/30", "remoteIpv6Address": "2004:1:16::1:0:66/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "VN4", "vlanId": 3008}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "df69abf3-266a-4678-84d2-ca8d9340b4c2", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.105/30", "localIpv6Address": "2004:1:16::1:0:69/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.106/30", "remoteIpv6Address": "2004:1:16::1:0:6a/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "VN5", "vlanId": 3009}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "d95e8a82-7a71-4f4a-a31a-85385c1e1ef8", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.109/30", "localIpv6Address": "2004:1:16::1:0:6d/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.110/30", "remoteIpv6Address": "2004:1:16::1:0:6e/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "VN6", "vlanId": 3010}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "27171568-3f08-4f13-8991-a8904bc7e2a6", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.113/30", "localIpv6Address": "2004:1:16::1:0:71/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.114/30", "remoteIpv6Address": "2004:1:16::1:0:72/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "VN7", "vlanId": 3011}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "bb704a7d-8988-4d8c-80e5-4c02bb9ab042", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.117/30", "localIpv6Address": "2004:1:16::1:0:75/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.118/30", "remoteIpv6Address": "2004:1:16::1:0:76/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "WiredVNFB1", "vlanId": 3012}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "8d814e72-25af-490d-8f69-dec10af9e790", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.121/30", "localIpv6Address": "2004:1:16::1:0:79/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.122/30", "remoteIpv6Address": "2004:1:16::1:0:7a/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "WiredVNFBLayer2", "vlanId": 3013}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "b01aa3a2-61c8-4179-a568-6dcdbafe993f", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.125/30", "localIpv6Address": "2004:1:16::1:0:7d/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.126/30", "remoteIpv6Address": "2004:1:16::1:0:7e/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "WiredVNStatic", "vlanId": 3014}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "a4f61e60-b75c-4bcd-b7c4-e3bd68ec324d", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.129/30", "localIpv6Address": "2004:1:16::1:0:81/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.130/30", "remoteIpv6Address": "2004:1:16::1:0:82/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "WirelessVNFB", "vlanId": 3015}, {"externalConnectivityIpPoolName": "BorderHandOff\_sub", "fabricId": "6ea62e10-cc4b-4f67-8251-d0939fdd4ad8", "id": "43761af5-509f-4d07-9d2c-8b09f6ba2114", "interfaceName": "TenGigabitEthernet1/0/2", "localIpAddress": "204.1.16.133/30", "localIpv6Address": "2004:1:16::1:0:85/126", "networkDeviceId": "36680b59-39b2-446b-8ceb-5a1e157b5799", "remoteIpAddress": "204.1.16.134/30", "remoteIpv6Address": "2004:1:16::1:0:86/126", "tcpMssAdjustment": 0, "transitNetworkId": "bbf16d41-031b-4061-b9b6-ae75768ae196", "virtualNetworkName": "WirelessVNFGuest", "vlanId": 3016}]}]}], [{"fabric\_devices\_layer2\_handoffs\_info": [{"device\_ip": "91.1.1.2", "handoff\_layer2\_info": []}]}]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_fabric_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__return-response_fabric_info:
+
+      .. rst-class:: ansible-option-title
+
+      **response_fabric_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_fabric_info" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Fabric information for filtered fabric devices
+
+      Returned for each fabric device matching the filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["The fabric devices filtered from the network devices are: ['204.1.2.2']", {"fabric\_info": [{"device\_ip": "204.1.2.2", "fabric\_details": [{"borderDeviceSettings": {"borderTypes": ["LAYER\_3"], "layer3Settings": {"borderPriority": 10, "importExternalRoutes": false, "isDefaultExit": true, "localAutonomousSystemNumber": "5", "prependAutonomousSystemCount": 0}}, "deviceRoles": ["BORDER\_NODE", "CONTROL\_PLANE\_NODE", "EDGE\_NODE"], "fabricId": "c9fda934-a212-4a1b-be5f-f391d2ff8863", "id": "9294625f-52d4-485f-9d36-5abcfa4f863f", "networkDeviceId": "e5cc9398-afbf-40a2-a8b1-e9cf0635c28a"}]}]}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__return-response_info:
+
+      .. rst-class:: ansible-option-title
+
+      **response_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_info" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Returned when no fabric devices match the provided filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["No fabric devices found for the given filters."]}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_onboarding_info"></div>
+
+      .. _ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module__return-response_onboarding_info:
+
+      .. rst-class:: ansible-option-title
+
+      **response_onboarding_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_onboarding_info" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Onboarding information for filtered fabric devices.
+
+      Returned for each fabric device matching the filters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["The fabric devices filtered from the network devices are: ['204.192.5.2']", [{"device\_onboarding\_info": [{"device\_ip": "204.192.5.2", "port\_details": []}]}], [{"ssid\_info": [{"device\_ip": "204.192.5.2", "ssid\_details": [{"adminStatus": true, "l2Security": "open", "l3Security": "web\_auth", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "ARUBA\_SSIDtb17", "wlanId": 28, "wlanProfileName": "ARUBA\_SSID\_profile"}, {"adminStatus": true, "l2Security": "wpa2\_enterprise", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz + 6GHz", "ssidName": "CiscoSensorProvisioning", "wlanId": 1, "wlanProfileName": "CiscoSensorProvisioning"}, {"adminStatus": true, "l2Security": "open", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "GUEST2tb17", "wlanId": 26, "wlanProfileName": "GUEST2\_profile"}, {"adminStatus": true, "l2Security": "open", "l3Security": "web\_auth", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "Guest\_passthrough\_inttb17", "wlanId": 18, "wlanProfileName": "Guest\_passthrough\_int\_profile"}, {"adminStatus": true, "l2Security": "open", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz", "ssidName": "GUESTtb17", "wlanId": 20, "wlanProfileName": "GUEST\_profile"}, {"adminStatus": true, "l2Security": "wpa2\_enterprise", "l3Security": "web\_auth", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "Guest\_webauthinternaltb17", "wlanId": 22, "wlanProfileName": "Guest\_webauthinternal\_profile"}, {"adminStatus": true, "l2Security": "open", "l3Security": "web\_auth", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "Guest\_webpassthroughtb17", "wlanId": 19, "wlanProfileName": "Guest\_webpassthrough\_profile"}, {"adminStatus": true, "l2Security": "open", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "OPENtb17", "wlanId": 23, "wlanProfileName": "OPEN\_profile"}, {"adminStatus": true, "l2Security": "wpa2\_enterprise", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "posturetb17", "wlanId": 21, "wlanProfileName": "posture\_profile"}, {"adminStatus": true, "l2Security": "wpa2\_enterprise", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "Radius\_ssidtb17", "wlanId": 17, "wlanProfileName": "Radius\_ssid\_profile"}, {"adminStatus": true, "l2Security": "wpa2\_enterprise", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "Random\_mactb17", "wlanId": 29, "wlanProfileName": "Random\_mac\_profile"}, {"adminStatus": true, "l2Security": "wpa2\_personal", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "Single5KBandtb17", "wlanId": 27, "wlanProfileName": "Single5KBand\_profile"}, {"adminStatus": true, "l2Security": "wpa2\_enterprise", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "SSIDDot1XIndiatb17", "wlanId": 30, "wlanProfileName": "SSIDDot1XIndia\_profile"}, {"adminStatus": true, "l2Security": "wpa2\_enterprise", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "SSIDDUAL BANDtb17", "wlanId": 25, "wlanProfileName": "SSIDDUAL BAND\_profile"}, {"adminStatus": false, "l2Security": "wpa2\_enterprise", "l3Security": "open", "managed": true, "radioPolicy": "2.4GHz + 5GHz", "ssidName": "SSIDSchedulertb17", "wlanId": 24, "wlanProfileName": "SSIDScheduler\_profile"}]}]}], [{"provision\_status\_info": [{"device\_ip": "204.192.5.2", "provision\_status": {"description": "Wired Provisioned device detail retrieved successfully.", "deviceManagementIpAddress": "204.192.5.2", "siteNameHierarchy": "Global/USA/SAN JOSE/BLD23", "status": "success"}}]}]], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Priyadharshini B (@pbalaku2)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

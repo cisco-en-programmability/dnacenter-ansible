@@ -1,0 +1,4558 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.inventory_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.46.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.inventory_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.inventory_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.8.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Add, update, delete, and synchronize network devices in Cisco Catalyst Center inventory
+- Provision wired devices and manage device configurations across multiple sites
+- Schedule and manage device maintenance windows with flexible recurrence options
+- Handle device credentials, roles, and user-defined fields
+- Export device details and credentials with encrypted file support
+- Perform bulk operations on network devices with comprehensive error handling
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.inventory_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.7.2
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of device configurations for inventory operations
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/add_user_defined_field"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/add_user_defined_field:
+
+      .. rst-class:: ansible-option-title
+
+      **add_user_defined_field**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/add_user_defined_field" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Create and assign Global User Defined Fields.
+
+      This operation will take dictionary as a parameter and in this we give details to create/update/delete/assign multiple UDF to a device.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/add_user_defined_field/description"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/add_user_defined_field/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/add_user_defined_field/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UDF description and metadata. Info about the global user defined field. Also used while updating interface details.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/add_user_defined_field/name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/add_user_defined_field/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/add_user_defined_field/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Global UDF name (required for create/delete/assign).
+
+      Name of Global User Defined Field. Required for creating/deleting UDF and then assigning it to device.
+
+      Must be unique across Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/add_user_defined_field/value"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/add_user_defined_field/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/add_user_defined_field/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Value to assign to the UDF.
+
+      Value to assign to tag with or without the same user defined field name.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/clean_config"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/clean_config:
+
+      .. rst-class:: ansible-option-title
+
+      **clean_config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/clean_config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Remove device configuration during deletion.
+
+      \ :literal:`false`\  - Remove from inventory only (default).
+
+      \ :literal:`true`\  - Remove device and clear configuration.
+
+      Required if need to delete the Provisioned device by clearing current configuration.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/cli_transport"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/cli_transport:
+
+      .. rst-class:: ansible-option-title
+
+      **cli_transport**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/cli_transport" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      CLI transport protocol for device communication.
+
+      The essential prerequisite for adding Network devices is the specification of the transport protocol (either ssh or telnet) used by the device.
+
+      Required for NETWORK\_DEVICE types.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ssh"`
+      - :ansible-option-choices-entry:`"telnet"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/compute_device"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/compute_device:
+
+      .. rst-class:: ansible-option-title
+
+      **compute_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/compute_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether a device is a compute device.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/credential_update"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/credential_update:
+
+      .. rst-class:: ansible-option-title
+
+      **credential_update**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/credential_update" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set this to 'True' to update device credentials and other device details.
+
+      When this parameter is 'True', ensure that the devices are present in Cisco Catalyst Center; only then can update operations be performed on the respective devices.
+
+      If the parameter is 'True' and any device is not present, the module will attempt to add it. If required parameters are missing during this addition, the module will fail and stop execution, preventing update operations for devices that are already present.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/device_resync"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/device_resync:
+
+      .. rst-class:: ansible-option-title
+
+      **device_resync**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/device_resync" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Trigger device inventory synchronization.
+
+      Make this as true needed for the resyncing of device.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule:
+
+      .. rst-class:: ansible-option-title
+
+      **devices_maintenance_schedule**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Schedule device maintenance windows.
+
+      Defines the maintenance schedule for a list of devices, specifying the time frame and recurrence details for scheduled maintenance tasks or deleting them.
+
+      Supports one-time and recurring maintenance.
+
+      Requires Catalyst Center \>= 2.3.7.9.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/description"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maintenance purpose and details.
+
+      A brief description of the maintenance schedule, specifying its purpose or any relevant details.
+
+      Description can be created but cannot be updated later for maintenance schedules.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/device_ips"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/device_ips:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ips**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/device_ips" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of network device IPs.
+
+      This field is applicable only during the creation or deletion of schedules. For updates, this field is read-only, and devices cannot be added or removed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/end_time"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/end_time:
+
+      .. rst-class:: ansible-option-title
+
+      **end_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/end_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maintenance window end time.
+
+      The scheduled end time of the maintenance window. For one-time schedules, this must be later than the current time.
+
+      Format - "YYYY-MM-DD HH:MM:SS" (e.g., "2025-04-05 12:00:00").
+
+      Must be after start\_time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/recurrence_end_time"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/recurrence_end_time:
+
+      .. rst-class:: ansible-option-title
+
+      **recurrence_end_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/recurrence_end_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      End time for recurring maintenance.
+
+      The timestamp indicating when the recurring maintenance schedule should end. It must be greater than both the maintenance end date/time and the current time.
+
+      Format - "YYYY-MM-DD HH:MM:SS".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/recurrence_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/recurrence_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **recurrence_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/recurrence_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Days between recurring maintenance windows.
+
+      Interval for recurrence in days. The interval must be longer than the duration of the maintenance schedules and must be within the range 1 to 365 (inclusive).
+
+      recurrence\_interval is required if recurrence\_end\_time is provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/start_time"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/start_time:
+
+      .. rst-class:: ansible-option-title
+
+      **start_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/start_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maintenance window start time.
+
+      The scheduled start time of the maintenance window. For one-time schedules, this must be later than the current time.
+
+      Format - "YYYY-MM-DD HH:MM:SS" (e.g., "2025-04-05 10:00:00").
+
+      Must be future time for new schedules.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/devices_maintenance_schedule/time_zone"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/devices_maintenance_schedule/time_zone:
+
+      .. rst-class:: ansible-option-title
+
+      **time_zone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/devices_maintenance_schedule/time_zone" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Timezone for maintenance schedule.
+
+      Time zone in which the maintenance schedule is defined (for example, "Africa/Nairobi", "America/New\_York", "Asia/Kolkata", "Europe/London", "Australia/Sydney", etc.).
+
+      See Catalyst Center documentation for complete list.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Africa/Abidjan"`
+      - :ansible-option-choices-entry:`"Africa/Accra"`
+      - :ansible-option-choices-entry:`"Africa/Addis\_Ababa"`
+      - :ansible-option-choices-entry:`"Africa/Algiers"`
+      - :ansible-option-choices-entry:`"Africa/Asmara"`
+      - :ansible-option-choices-entry:`"Africa/Bamako"`
+      - :ansible-option-choices-entry:`"Africa/Bangui"`
+      - :ansible-option-choices-entry:`"Africa/Banjul"`
+      - :ansible-option-choices-entry:`"Africa/Bissau"`
+      - :ansible-option-choices-entry:`"Africa/Blantyre"`
+      - :ansible-option-choices-entry:`"Africa/Brazzaville"`
+      - :ansible-option-choices-entry:`"Africa/Bujumbura"`
+      - :ansible-option-choices-entry:`"Africa/Cairo"`
+      - :ansible-option-choices-entry:`"Africa/Casablanca"`
+      - :ansible-option-choices-entry:`"Africa/Conakry"`
+      - :ansible-option-choices-entry:`"Africa/Dakar"`
+      - :ansible-option-choices-entry:`"Africa/Dar\_es\_Salaam"`
+      - :ansible-option-choices-entry:`"Africa/Djibouti"`
+      - :ansible-option-choices-entry:`"Africa/Douala"`
+      - :ansible-option-choices-entry:`"Africa/El\_Aaiun"`
+      - :ansible-option-choices-entry:`"Africa/Freetown"`
+      - :ansible-option-choices-entry:`"Africa/Gaborone"`
+      - :ansible-option-choices-entry:`"Africa/Harare"`
+      - :ansible-option-choices-entry:`"Africa/Johannesburg"`
+      - :ansible-option-choices-entry:`"Africa/Juba"`
+      - :ansible-option-choices-entry:`"Africa/Kampala"`
+      - :ansible-option-choices-entry:`"Africa/Khartoum"`
+      - :ansible-option-choices-entry:`"Africa/Kigali"`
+      - :ansible-option-choices-entry:`"Africa/Kinshasa"`
+      - :ansible-option-choices-entry:`"Africa/Lagos"`
+      - :ansible-option-choices-entry:`"Africa/Libreville"`
+      - :ansible-option-choices-entry:`"Africa/Lome"`
+      - :ansible-option-choices-entry:`"Africa/Luanda"`
+      - :ansible-option-choices-entry:`"Africa/Lubumbashi"`
+      - :ansible-option-choices-entry:`"Africa/Lusaka"`
+      - :ansible-option-choices-entry:`"Africa/Malabo"`
+      - :ansible-option-choices-entry:`"Africa/Maputo"`
+      - :ansible-option-choices-entry:`"Africa/Maseru"`
+      - :ansible-option-choices-entry:`"Africa/Mbabane"`
+      - :ansible-option-choices-entry:`"Africa/Mogadishu"`
+      - :ansible-option-choices-entry:`"Africa/Monrovia"`
+      - :ansible-option-choices-entry:`"Africa/Nairobi"`
+      - :ansible-option-choices-entry:`"Africa/Ndjamena"`
+      - :ansible-option-choices-entry:`"Africa/Niamey"`
+      - :ansible-option-choices-entry:`"Africa/Nouakchott"`
+      - :ansible-option-choices-entry:`"Africa/Ouagadougou"`
+      - :ansible-option-choices-entry:`"Africa/Porto-Novo"`
+      - :ansible-option-choices-entry:`"Africa/Sao\_Tome"`
+      - :ansible-option-choices-entry:`"Africa/Tripoli"`
+      - :ansible-option-choices-entry:`"Africa/Tunis"`
+      - :ansible-option-choices-entry:`"Africa/Windhoek"`
+      - :ansible-option-choices-entry:`"America/Adak"`
+      - :ansible-option-choices-entry:`"America/Anchorage"`
+      - :ansible-option-choices-entry:`"America/Anguilla"`
+      - :ansible-option-choices-entry:`"America/Antigua"`
+      - :ansible-option-choices-entry:`"America/Argentina/Buenos\_Aires"`
+      - :ansible-option-choices-entry:`"America/Aruba"`
+      - :ansible-option-choices-entry:`"America/Asuncion"`
+      - :ansible-option-choices-entry:`"America/Atikokan"`
+      - :ansible-option-choices-entry:`"America/Barbados"`
+      - :ansible-option-choices-entry:`"America/Belize"`
+      - :ansible-option-choices-entry:`"America/Blanc-Sablon"`
+      - :ansible-option-choices-entry:`"America/Bogota"`
+      - :ansible-option-choices-entry:`"America/Cancun"`
+      - :ansible-option-choices-entry:`"America/Caracas"`
+      - :ansible-option-choices-entry:`"America/Cayenne"`
+      - :ansible-option-choices-entry:`"America/Cayman"`
+      - :ansible-option-choices-entry:`"America/Chicago"`
+      - :ansible-option-choices-entry:`"America/Costa\_Rica"`
+      - :ansible-option-choices-entry:`"America/Curacao"`
+      - :ansible-option-choices-entry:`"America/Danmarkshavn"`
+      - :ansible-option-choices-entry:`"America/Denver"`
+      - :ansible-option-choices-entry:`"America/Dominica"`
+      - :ansible-option-choices-entry:`"America/Edmonton"`
+      - :ansible-option-choices-entry:`"America/El\_Salvador"`
+      - :ansible-option-choices-entry:`"America/Grand\_Turk"`
+      - :ansible-option-choices-entry:`"America/Grenada"`
+      - :ansible-option-choices-entry:`"America/Guadeloupe"`
+      - :ansible-option-choices-entry:`"America/Guatemala"`
+      - :ansible-option-choices-entry:`"America/Guayaquil"`
+      - :ansible-option-choices-entry:`"America/Guyana"`
+      - :ansible-option-choices-entry:`"America/Halifax"`
+      - :ansible-option-choices-entry:`"America/Havana"`
+      - :ansible-option-choices-entry:`"America/Hermosillo"`
+      - :ansible-option-choices-entry:`"America/Jamaica"`
+      - :ansible-option-choices-entry:`"America/Kralendijk"`
+      - :ansible-option-choices-entry:`"America/La\_Paz"`
+      - :ansible-option-choices-entry:`"America/Lima"`
+      - :ansible-option-choices-entry:`"America/Los\_Angeles"`
+      - :ansible-option-choices-entry:`"America/Lower\_Princes"`
+      - :ansible-option-choices-entry:`"America/Managua"`
+      - :ansible-option-choices-entry:`"America/Manaus"`
+      - :ansible-option-choices-entry:`"America/Marigot"`
+      - :ansible-option-choices-entry:`"America/Martinique"`
+      - :ansible-option-choices-entry:`"America/Mexico\_City"`
+      - :ansible-option-choices-entry:`"America/Miquelon"`
+      - :ansible-option-choices-entry:`"America/Montevideo"`
+      - :ansible-option-choices-entry:`"America/Montserrat"`
+      - :ansible-option-choices-entry:`"America/Nassau"`
+      - :ansible-option-choices-entry:`"America/New\_York"`
+      - :ansible-option-choices-entry:`"America/Noronha"`
+      - :ansible-option-choices-entry:`"America/Nuuk"`
+      - :ansible-option-choices-entry:`"America/Ojinaga"`
+      - :ansible-option-choices-entry:`"America/Panama"`
+      - :ansible-option-choices-entry:`"America/Paramaribo"`
+      - :ansible-option-choices-entry:`"America/Phoenix"`
+      - :ansible-option-choices-entry:`"America/Port-au-Prince"`
+      - :ansible-option-choices-entry:`"America/Port\_of\_Spain"`
+      - :ansible-option-choices-entry:`"America/Puerto\_Rico"`
+      - :ansible-option-choices-entry:`"America/Punta\_Arenas"`
+      - :ansible-option-choices-entry:`"America/Regina"`
+      - :ansible-option-choices-entry:`"America/Rio\_Branco"`
+      - :ansible-option-choices-entry:`"America/Santiago"`
+      - :ansible-option-choices-entry:`"America/Santo\_Domingo"`
+      - :ansible-option-choices-entry:`"America/Sao\_Paulo"`
+      - :ansible-option-choices-entry:`"America/Scoresbysund"`
+      - :ansible-option-choices-entry:`"America/St\_Barthelemy"`
+      - :ansible-option-choices-entry:`"America/St\_Johns"`
+      - :ansible-option-choices-entry:`"America/St\_Kitts"`
+      - :ansible-option-choices-entry:`"America/St\_Lucia"`
+      - :ansible-option-choices-entry:`"America/St\_Thomas"`
+      - :ansible-option-choices-entry:`"America/St\_Vincent"`
+      - :ansible-option-choices-entry:`"America/Tegucigalpa"`
+      - :ansible-option-choices-entry:`"America/Thule"`
+      - :ansible-option-choices-entry:`"America/Tijuana"`
+      - :ansible-option-choices-entry:`"America/Toronto"`
+      - :ansible-option-choices-entry:`"America/Tortola"`
+      - :ansible-option-choices-entry:`"America/Vancouver"`
+      - :ansible-option-choices-entry:`"America/Whitehorse"`
+      - :ansible-option-choices-entry:`"America/Winnipeg"`
+      - :ansible-option-choices-entry:`"Antarctica/Casey"`
+      - :ansible-option-choices-entry:`"Antarctica/Davis"`
+      - :ansible-option-choices-entry:`"Antarctica/DumontDUrville"`
+      - :ansible-option-choices-entry:`"Antarctica/Mawson"`
+      - :ansible-option-choices-entry:`"Antarctica/McMurdo"`
+      - :ansible-option-choices-entry:`"Antarctica/Palmer"`
+      - :ansible-option-choices-entry:`"Antarctica/Syowa"`
+      - :ansible-option-choices-entry:`"Antarctica/Troll"`
+      - :ansible-option-choices-entry:`"Antarctica/Vostok"`
+      - :ansible-option-choices-entry:`"Arctic/Longyearbyen"`
+      - :ansible-option-choices-entry:`"Asia/Aden"`
+      - :ansible-option-choices-entry:`"Asia/Almaty"`
+      - :ansible-option-choices-entry:`"Asia/Amman"`
+      - :ansible-option-choices-entry:`"Asia/Ashgabat"`
+      - :ansible-option-choices-entry:`"Asia/Baghdad"`
+      - :ansible-option-choices-entry:`"Asia/Bahrain"`
+      - :ansible-option-choices-entry:`"Asia/Baku"`
+      - :ansible-option-choices-entry:`"Asia/Bangkok"`
+      - :ansible-option-choices-entry:`"Asia/Beirut"`
+      - :ansible-option-choices-entry:`"Asia/Bishkek"`
+      - :ansible-option-choices-entry:`"Asia/Brunei"`
+      - :ansible-option-choices-entry:`"Asia/Calcutta"`
+      - :ansible-option-choices-entry:`"Asia/Chita"`
+      - :ansible-option-choices-entry:`"Asia/Colombo"`
+      - :ansible-option-choices-entry:`"Asia/Damascus"`
+      - :ansible-option-choices-entry:`"Asia/Dhaka"`
+      - :ansible-option-choices-entry:`"Asia/Dili"`
+      - :ansible-option-choices-entry:`"Asia/Dubai"`
+      - :ansible-option-choices-entry:`"Asia/Dushanbe"`
+      - :ansible-option-choices-entry:`"Asia/Hebron"`
+      - :ansible-option-choices-entry:`"Asia/Ho\_Chi\_Minh"`
+      - :ansible-option-choices-entry:`"Asia/Hong\_Kong"`
+      - :ansible-option-choices-entry:`"Asia/Hovd"`
+      - :ansible-option-choices-entry:`"Asia/Irkutsk"`
+      - :ansible-option-choices-entry:`"Asia/Jakarta"`
+      - :ansible-option-choices-entry:`"Asia/Jayapura"`
+      - :ansible-option-choices-entry:`"Asia/Jerusalem"`
+      - :ansible-option-choices-entry:`"Asia/Kabul"`
+      - :ansible-option-choices-entry:`"Asia/Kamchatka"`
+      - :ansible-option-choices-entry:`"Asia/Karachi"`
+      - :ansible-option-choices-entry:`"Asia/Kathmandu"`
+      - :ansible-option-choices-entry:`"Asia/Kuala\_Lumpur"`
+      - :ansible-option-choices-entry:`"Asia/Kuwait"`
+      - :ansible-option-choices-entry:`"Asia/Macau"`
+      - :ansible-option-choices-entry:`"Asia/Makassar"`
+      - :ansible-option-choices-entry:`"Asia/Manila"`
+      - :ansible-option-choices-entry:`"Asia/Muscat"`
+      - :ansible-option-choices-entry:`"Asia/Nicosia"`
+      - :ansible-option-choices-entry:`"Asia/Novosibirsk"`
+      - :ansible-option-choices-entry:`"Asia/Omsk"`
+      - :ansible-option-choices-entry:`"Asia/Phnom\_Penh"`
+      - :ansible-option-choices-entry:`"Asia/Pyongyang"`
+      - :ansible-option-choices-entry:`"Asia/Qatar"`
+      - :ansible-option-choices-entry:`"Asia/Qyzylorda"`
+      - :ansible-option-choices-entry:`"Asia/Riyadh"`
+      - :ansible-option-choices-entry:`"Asia/Sakhalin"`
+      - :ansible-option-choices-entry:`"Asia/Seoul"`
+      - :ansible-option-choices-entry:`"Asia/Shanghai"`
+      - :ansible-option-choices-entry:`"Asia/Singapore"`
+      - :ansible-option-choices-entry:`"Asia/Taipei"`
+      - :ansible-option-choices-entry:`"Asia/Tashkent"`
+      - :ansible-option-choices-entry:`"Asia/Tbilisi"`
+      - :ansible-option-choices-entry:`"Asia/Tehran"`
+      - :ansible-option-choices-entry:`"Asia/Thimphu"`
+      - :ansible-option-choices-entry:`"Asia/Tokyo"`
+      - :ansible-option-choices-entry:`"Asia/Ulaanbaatar"`
+      - :ansible-option-choices-entry:`"Asia/Urumqi"`
+      - :ansible-option-choices-entry:`"Asia/Vientiane"`
+      - :ansible-option-choices-entry:`"Asia/Vladivostok"`
+      - :ansible-option-choices-entry:`"Asia/Yangon"`
+      - :ansible-option-choices-entry:`"Asia/Yekaterinburg"`
+      - :ansible-option-choices-entry:`"Asia/Yerevan"`
+      - :ansible-option-choices-entry:`"Atlantic/Azores"`
+      - :ansible-option-choices-entry:`"Atlantic/Bermuda"`
+      - :ansible-option-choices-entry:`"Atlantic/Canary"`
+      - :ansible-option-choices-entry:`"Atlantic/Cape\_Verde"`
+      - :ansible-option-choices-entry:`"Atlantic/Faroe"`
+      - :ansible-option-choices-entry:`"Atlantic/Reykjavik"`
+      - :ansible-option-choices-entry:`"Atlantic/South\_Georgia"`
+      - :ansible-option-choices-entry:`"Atlantic/St\_Helena"`
+      - :ansible-option-choices-entry:`"Atlantic/Stanley"`
+      - :ansible-option-choices-entry:`"Australia/Adelaide"`
+      - :ansible-option-choices-entry:`"Australia/Brisbane"`
+      - :ansible-option-choices-entry:`"Australia/Darwin"`
+      - :ansible-option-choices-entry:`"Australia/Eucla"`
+      - :ansible-option-choices-entry:`"Australia/Lord\_Howe"`
+      - :ansible-option-choices-entry:`"Australia/Perth"`
+      - :ansible-option-choices-entry:`"Australia/Sydney"`
+      - :ansible-option-choices-entry:`"Europe/Amsterdam"`
+      - :ansible-option-choices-entry:`"Europe/Andorra"`
+      - :ansible-option-choices-entry:`"Europe/Athens"`
+      - :ansible-option-choices-entry:`"Europe/Belgrade"`
+      - :ansible-option-choices-entry:`"Europe/Berlin"`
+      - :ansible-option-choices-entry:`"Europe/Bratislava"`
+      - :ansible-option-choices-entry:`"Europe/Brussels"`
+      - :ansible-option-choices-entry:`"Europe/Bucharest"`
+      - :ansible-option-choices-entry:`"Europe/Budapest"`
+      - :ansible-option-choices-entry:`"Europe/Chisinau"`
+      - :ansible-option-choices-entry:`"Europe/Copenhagen"`
+      - :ansible-option-choices-entry:`"Europe/Dublin"`
+      - :ansible-option-choices-entry:`"GMT"`
+      - :ansible-option-choices-entry:`"Europe/Gibraltar"`
+      - :ansible-option-choices-entry:`"Europe/Guernsey"`
+      - :ansible-option-choices-entry:`"Europe/Helsinki"`
+      - :ansible-option-choices-entry:`"Europe/Isle\_of\_Man"`
+      - :ansible-option-choices-entry:`"Europe/Istanbul"`
+      - :ansible-option-choices-entry:`"Europe/Jersey"`
+      - :ansible-option-choices-entry:`"Europe/Kaliningrad"`
+      - :ansible-option-choices-entry:`"Europe/Kyiv"`
+      - :ansible-option-choices-entry:`"Europe/Lisbon"`
+      - :ansible-option-choices-entry:`"Europe/Ljubljana"`
+      - :ansible-option-choices-entry:`"Europe/London"`
+      - :ansible-option-choices-entry:`"Europe/Luxembourg"`
+      - :ansible-option-choices-entry:`"Europe/Madrid"`
+      - :ansible-option-choices-entry:`"Europe/Malta"`
+      - :ansible-option-choices-entry:`"Europe/Mariehamn"`
+      - :ansible-option-choices-entry:`"Europe/Minsk"`
+      - :ansible-option-choices-entry:`"Europe/Monaco"`
+      - :ansible-option-choices-entry:`"Europe/Moscow"`
+      - :ansible-option-choices-entry:`"Europe/Oslo"`
+      - :ansible-option-choices-entry:`"Europe/Paris"`
+      - :ansible-option-choices-entry:`"Europe/Podgorica"`
+      - :ansible-option-choices-entry:`"Europe/Prague"`
+      - :ansible-option-choices-entry:`"Europe/Riga"`
+      - :ansible-option-choices-entry:`"Europe/Rome"`
+      - :ansible-option-choices-entry:`"Europe/Samara"`
+      - :ansible-option-choices-entry:`"Europe/San\_Marino"`
+      - :ansible-option-choices-entry:`"Europe/Sarajevo"`
+      - :ansible-option-choices-entry:`"Europe/Simferopol"`
+      - :ansible-option-choices-entry:`"Europe/Skopje"`
+      - :ansible-option-choices-entry:`"Europe/Sofia"`
+      - :ansible-option-choices-entry:`"Europe/Stockholm"`
+      - :ansible-option-choices-entry:`"Europe/Tallinn"`
+      - :ansible-option-choices-entry:`"Europe/Tirane"`
+      - :ansible-option-choices-entry:`"Europe/Vaduz"`
+      - :ansible-option-choices-entry:`"Europe/Vatican"`
+      - :ansible-option-choices-entry:`"Europe/Vienna"`
+      - :ansible-option-choices-entry:`"Europe/Vilnius"`
+      - :ansible-option-choices-entry:`"Europe/Warsaw"`
+      - :ansible-option-choices-entry:`"Europe/Zagreb"`
+      - :ansible-option-choices-entry:`"Europe/Zurich"`
+      - :ansible-option-choices-entry:`"Indian/Antananarivo"`
+      - :ansible-option-choices-entry:`"Indian/Chagos"`
+      - :ansible-option-choices-entry:`"Indian/Christmas"`
+      - :ansible-option-choices-entry:`"Indian/Cocos"`
+      - :ansible-option-choices-entry:`"Indian/Comoro"`
+      - :ansible-option-choices-entry:`"Indian/Kerguelen"`
+      - :ansible-option-choices-entry:`"Indian/Mahe"`
+      - :ansible-option-choices-entry:`"Indian/Maldives"`
+      - :ansible-option-choices-entry:`"Indian/Mauritius"`
+      - :ansible-option-choices-entry:`"Indian/Mayotte"`
+      - :ansible-option-choices-entry:`"Indian/Reunion"`
+      - :ansible-option-choices-entry:`"Pacific/Apia"`
+      - :ansible-option-choices-entry:`"Pacific/Auckland"`
+      - :ansible-option-choices-entry:`"Pacific/Bougainville"`
+      - :ansible-option-choices-entry:`"Pacific/Chatham"`
+      - :ansible-option-choices-entry:`"Pacific/Chuuk"`
+      - :ansible-option-choices-entry:`"Pacific/Easter"`
+      - :ansible-option-choices-entry:`"Pacific/Efate"`
+      - :ansible-option-choices-entry:`"Pacific/Fakaofo"`
+      - :ansible-option-choices-entry:`"Pacific/Fiji"`
+      - :ansible-option-choices-entry:`"Pacific/Funafuti"`
+      - :ansible-option-choices-entry:`"Pacific/Galapagos"`
+      - :ansible-option-choices-entry:`"Pacific/Gambier"`
+      - :ansible-option-choices-entry:`"Pacific/Guadalcanal"`
+      - :ansible-option-choices-entry:`"Pacific/Guam"`
+      - :ansible-option-choices-entry:`"Pacific/Honolulu"`
+      - :ansible-option-choices-entry:`"Pacific/Kiritimati"`
+      - :ansible-option-choices-entry:`"Pacific/Kosrae"`
+      - :ansible-option-choices-entry:`"Pacific/Majuro"`
+      - :ansible-option-choices-entry:`"Pacific/Marquesas"`
+      - :ansible-option-choices-entry:`"Pacific/Midway"`
+      - :ansible-option-choices-entry:`"Pacific/Nauru"`
+      - :ansible-option-choices-entry:`"Pacific/Niue"`
+      - :ansible-option-choices-entry:`"Pacific/Norfolk"`
+      - :ansible-option-choices-entry:`"Pacific/Noumea"`
+      - :ansible-option-choices-entry:`"Pacific/Pago\_Pago"`
+      - :ansible-option-choices-entry:`"Pacific/Palau"`
+      - :ansible-option-choices-entry:`"Pacific/Pitcairn"`
+      - :ansible-option-choices-entry:`"Pacific/Port\_Moresby"`
+      - :ansible-option-choices-entry:`"Pacific/Rarotonga"`
+      - :ansible-option-choices-entry:`"Pacific/Saipan"`
+      - :ansible-option-choices-entry:`"Pacific/Tahiti"`
+      - :ansible-option-choices-entry:`"Pacific/Tarawa"`
+      - :ansible-option-choices-entry:`"Pacific/Tongatapu"`
+      - :ansible-option-choices-entry:`"Pacific/Wake"`
+      - :ansible-option-choices-entry:`"Pacific/Wallis"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/enable_password"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/enable_password:
+
+      .. rst-class:: ansible-option-title
+
+      **enable_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/enable_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Privileged EXEC mode password.
+
+      Required for enabling configurations on the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export_device_details_limit"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/export_device_details_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **export_device_details_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export_device_details_limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum devices per export batch.
+
+      Specifies the limit for updating device details or exporting device details/credentials to a file. The default limit is set to 500 devices.
+
+      This limit is applied when exporting device details/credentials and editing device details.
+
+      The maximum number of device details/credentials that can be exported in a single API call is 800.
+
+      Controls memory usage for large inventories.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`500`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export_device_list"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/export_device_list:
+
+      .. rst-class:: ansible-option-title
+
+      **export_device_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export_device_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Export device information to encrypted CSV.
+
+      This operation take dictionary as parameter and export the device details as well as device credentials details in a csv file.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export_device_list/operation_enum"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/export_device_list/operation_enum:
+
+      .. rst-class:: ansible-option-title
+
+      **operation_enum**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export_device_list/operation_enum" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Export data type.
+
+      \ :literal:`0/CREDENTIALDETAILS`\  - 0 to export Device Credential Details. Used for exporting device credentials details like snmp credentials, device credentials etc.
+
+      \ :literal:`1/DEVICEDETAILS`\  - 1 to export Device Details. Used for exporting device specific details like device hostname, serial number, type, family etc.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"0"`
+      - :ansible-option-choices-entry:`"1"`
+      - :ansible-option-choices-entry:`"CREDENTIALDETAILS"`
+      - :ansible-option-choices-entry:`"DEVICEDETAILS"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export_device_list/parameters"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/export_device_list/parameters:
+
+      .. rst-class:: ansible-option-title
+
+      **parameters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export_device_list/parameters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specific device attributes to export.
+
+      List of device parameters that needs to be exported to file. (For example, ["componentName", "SerialNumber", "Last Sync Status"])
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export_device_list/password"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/export_device_list/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export_device_list/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      CSV file encryption password.
+
+      Specifies the password for the encryption of file while exporting the device credentails into the file.
+
+      Must meet complexity requirements (8+ chars, mixed case, numbers, symbols).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/export_device_list/site_name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/export_device_list/site_name:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/export_device_list/site_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Filter devices by site location.
+
+      Indicates the exact location where the wired device will be provisioned. This is a string value that should represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL\_18/floor\_pnp").
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/extended_discovery_info"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/extended_discovery_info:
+
+      .. rst-class:: ansible-option-title
+
+      **extended_discovery_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/extended_discovery_info" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Additional discovery information for the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/force_sync"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/force_sync:
+
+      .. rst-class:: ansible-option-title
+
+      **force_sync**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/force_sync" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Use high-priority thread for synchronization.
+
+      If forcesync is true then device sync would run in high priority thread if available, else the sync will fail.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/hostname_list"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/hostname_list:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/hostname_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Alternative device identification using hostnames.
+
+      Can be used instead of IP addresses for operations.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/http_password"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/http_password:
+
+      .. rst-class:: ansible-option-title
+
+      **http_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/http_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      HTTP authentication password.
+
+      Required for COMPUTE\_DEVICE, MERAKI\_DASHBOARD, and FIREPOWER\_MANAGEMENT\_SYSTEM.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/http_port"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/http_port:
+
+      .. rst-class:: ansible-option-title
+
+      **http_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/http_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      HTTP service port.
+
+      Required for COMPUTE\_DEVICE and FIREPOWER\_MANAGEMENT\_SYSTEM.
+
+      Common values are 80 (HTTP) or 443 (HTTPS).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/http_secure"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/http_secure:
+
+      .. rst-class:: ansible-option-title
+
+      **http_secure**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/http_secure" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag indicating HTTP security.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/http_username"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/http_username:
+
+      .. rst-class:: ansible-option-title
+
+      **http_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/http_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      HTTP authentication username.
+
+      Required for COMPUTE\_DEVICE and FIREPOWER\_MANAGEMENT\_SYSTEM.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/ip_address_list"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/ip_address_list:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_address_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/ip_address_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device management IP addresses.
+
+      Primary method for device identification.
+
+      Required for most device operations (except Meraki).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/mac_address_list"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/mac_address_list:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_address_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/mac_address_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Alternative device identification using MAC addresses.
+
+      Helpful for network discovery scenarios.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/netconf_port"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/netconf_port:
+
+      .. rst-class:: ansible-option-title
+
+      **netconf_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/netconf_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the port number for connecting to devices using the Netconf protocol. Netconf (Network Configuration Protocol) is used for managing network devices.
+
+      Ensure that the provided port number corresponds to the Netconf service port configured on your network devices.
+
+      NETCONF with user privilege 15 is mandatory for enabling Wireless Services on Wireless capable devices such as Catalyst 9000 series Switches and C9800 Series Wireless Controllers.
+
+      The NETCONF credentials are required to connect to C9800 Series Wireless Controllers as the majority of data collection is done using NETCONF for these Devices.
+
+      Standard NETCONF port is 830.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/password"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device access password and file encryption key.
+
+      Required for NETWORK\_DEVICE additions.
+
+      Also used for CSV export file encryption.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device:
+
+      .. rst-class:: ansible-option-title
+
+      **provision_wired_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provision wired devices to network sites.
+
+      This parameter takes a list of dictionaries. Each dictionary provides the IP address of a wired device and the name of the site where the device will be provisioned.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device/device_ip"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device/device_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device/device_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address of device to provision.
+
+      Specifies the IP address of the wired device. This is a string value that should be in the format of standard IPv4 or IPv6 addresses.
+
+      Device must exist in inventory.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device/resync_retry_count"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device/resync_retry_count:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_retry_count**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device/resync_retry_count" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Retry attempts for managed state verification.
+
+      Determines the total number of retry attempts for checking if the device has reached a managed state during the provisioning process.
+
+      If unspecified, the default value is set to 200 retries.
+
+      Higher values provide more reliability.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device/resync_retry_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device/resync_retry_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_retry_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device/resync_retry_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in cisco.dnac 6.12.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Seconds between managed state checks.
+
+      Sets the interval, in seconds, at which the system will recheck the device status throughout the provisioning process.
+
+      If unspecified, the system will check the device status every 2 seconds by default.
+
+      Balance between responsiveness and system load.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/provision_wired_device/site_name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/provision_wired_device/site_name:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/provision_wired_device/site_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Target site for device provisioning.
+
+      Indicates the exact location where the wired device will be provisioned. This is a string value that should represent the complete hierarchical path of the site (For example, "Global/USA/San Francisco/BGL\_18/floor\_pnp").
+
+      Must use complete hierarchical path.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reboot_device"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/reboot_device:
+
+      .. rst-class:: ansible-option-title
+
+      **reboot_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reboot_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Trigger device reboot (Access Points only).
+
+      Make this as true needed for the Rebooting of Access Points.
+
+      Only applicable to Unified AP devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/resync_device_count"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/resync_device_count:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_device_count**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/resync_device_count" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum devices per resync batch.
+
+      Specifies the maximum number of devices to be resynced in the inventory.
+
+      Ensure this count does not exceed 200, as attempting to resync more than 200 devices may cause the 'sync\_devices\_using\_forcesync' API to enter an infinite loop.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/resync_max_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/resync_max_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **resync_max_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/resync_max_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum resync wait time in seconds.
+
+      Sets the maximum timeout for the device resync process in the inventory, in seconds.
+
+      The default is 600 seconds, which helps prevent infinite loops.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`600`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/role"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/role:
+
+      .. rst-class:: ansible-option-title
+
+      **role**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/role" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Network device role assignment.
+
+      \ :literal:`ACCESS`\  - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network. These devices are often located at the edge of the network and provide connectivity to end-user devices.
+
+      \ :literal:`DISTRIBUTION`\  - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic from access switches and route it toward the core of the network or toward other distribution switches.
+
+      \ :literal:`CORE`\  - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes of traffic and provide connectivity between different parts of network, such as connecting distribution switches or providing interconnection between different network segments.
+
+      \ :literal:`BORDER\_ROUTER`\  - These are devices that connect different network domains or segments together. They often serve as gateways between different networks, such as connecting an enterprise network to the internet or connecting multiple branch offices.
+
+      \ :literal:`UNKNOWN`\  - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalyst Center. This could happen if the platform is unable to determine the device's role based on available information.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ACCESS"`
+      - :ansible-option-choices-entry:`"DISTRIBUTION"`
+      - :ansible-option-choices-entry:`"CORE"`
+      - :ansible-option-choices-entry:`"BORDER\_ROUTER"`
+      - :ansible-option-choices-entry:`"UNKNOWN"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/serial_number_list"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/serial_number_list:
+
+      .. rst-class:: ansible-option-title
+
+      **serial_number_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/serial_number_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Alternative device identification using serial numbers.
+
+      Useful for devices before IP assignment.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_auth_passphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_auth_passphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_auth_passphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_auth_passphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNMPv3 authentication passphrase.
+
+      Required for AUTHNOPRIV and AUTHPRIV modes.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_auth_protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_auth_protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_auth_protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_auth_protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNMPv3 authentication algorithm. SHA (Secure Hash Algorithm) - cryptographic hash function commonly used for data integrity verification and authentication purposes.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"SHA"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"MD5"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device's snmp Mode refer to different SNMP (Simple Network Management Protocol) versions and their corresponding security levels.
+
+      \ :literal:`NOAUTHNOPRIV`\  - This mode provides no authentication or encryption for SNMP messages. It means that devices communicating using SNMPv1 do not require any authentication (username/password) or encryption (data confidentiality). This makes it the least secure option.
+
+      \ :literal:`AUTHNOPRIV`\  - This mode provides authentication but no encryption for SNMP messages. Authentication involves validating the source of the SNMP messages using a community string (similar to a password). However, the data transmitted between devices is not encrypted, so it's susceptible to eavesdropping.
+
+      \ :literal:`AUTHPRIV`\  - This mode provides both authentication and encryption for SNMP messages. It offers the highest level of security among the three options. Authentication ensures that the source of the messages is genuine, and encryption ensures that the data exchanged between devices is confidential and cannot be intercepted by unauthorized parties.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"NOAUTHNOPRIV"`
+      - :ansible-option-choices-entry:`"AUTHNOPRIV"`
+      - :ansible-option-choices-entry:`"AUTHPRIV"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_priv_passphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_priv_passphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_priv_passphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_priv_passphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNMPv3 privacy/encryption passphrase.
+
+      Required for AUTHPRIV mode.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_priv_protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_priv_protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_priv_protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_priv_protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNMPv3 encryption algorithm.
+
+      AES variants provide different key lengths.
+
+      Required for adding network, compute, and third-party devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"AES128"`
+      - :ansible-option-choices-entry:`"AES192"`
+      - :ansible-option-choices-entry:`"AES256"`
+      - :ansible-option-choices-entry:`"CISCOAES128"`
+      - :ansible-option-choices-entry:`"CISCOAES192"`
+      - :ansible-option-choices-entry:`"CISCOAES256"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_retry"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_retry:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_retry**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_retry" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of SNMP request retries before timeout.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`3`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_ro_community"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_ro_community:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_ro_community**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_ro_community" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNMPv2c read-only community string.
+
+      Required for SNMPv2c devices.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_rw_community"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_rw_community:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_rw_community**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_rw_community" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNMPv2c read-write community string.
+
+      Required for configuration changes via SNMP.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNMP request timeout in seconds.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`5`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_username"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_username:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SNMPv3 username for authentication.
+
+      Required for SNMPv3 with authentication.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_version"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/snmp_version:
+
+      .. rst-class:: ansible-option-title
+
+      **snmp_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      It is a standard protocol used for managing and monitoring network devices.
+
+      \ :literal:`v2`\  - In this communication between the SNMP manager (such as Cisco Catalyst) and the managed devices (such as routers, switches, or access points) is based on community strings. Community strings serve as a form of authentication and they are transmitted in clear text, providing no encryption.
+
+      \ :literal:`v3`\  - It is the most secure version of SNMP, providing authentication, integrity, and encryption features. It allows for the use of usernames, authentication passwords, and encryption keys, providing stronger security compared to v2.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"v2"`
+      - :ansible-option-choices-entry:`"v3"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/type"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device type classification for inventory management.
+
+      \ :literal:`NETWORK\_DEVICE`\  - This refers to traditional networking equipment such as routers, switches, access points, and firewalls. These devices are responsible for routing, switching, and providing connectivity within the network.
+
+      \ :literal:`COMPUTE\_DEVICE`\  - These are computing resources such as servers, virtual machines, or containers that are part of the network infrastructure. Cisco Catalyst Center can integrate with compute devices to provide visibility and management capabilities, ensuring that the network and compute resources work together seamlessly to support applications and services.
+
+      \ :literal:`MERAKI\_DASHBOARD`\  - It is a cloud-based platform used to manage Meraki networking devices, including wireless access points, switches, security appliances, and cameras.
+
+      \ :literal:`THIRD\_PARTY\_DEVICE`\  - This category encompasses devices from vendors other than Cisco or Meraki. Cisco Catalyst Center is designed to support integration with third-party devices through open standards and APIs. This allows organizations to manage heterogeneous network environments efficiently using Cisco Catalyst Center's centralized management and automation capabilities.
+
+      \ :literal:`FIREPOWER\_MANAGEMENT\_SYSTEM`\  - It is a centralized management console used to manage Cisco's Firepower Next-Generation Firewall (NGFW) devices. It provides features such as policy management, threat detection, and advanced security analytics.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"NETWORK\_DEVICE"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"COMPUTE\_DEVICE"`
+      - :ansible-option-choices-entry:`"MERAKI\_DASHBOARD"`
+      - :ansible-option-choices-entry:`"THIRD\_PARTY\_DEVICE"`
+      - :ansible-option-choices-entry:`"FIREPOWER\_MANAGEMENT\_SYSTEM"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_interface_details"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_interface_details:
+
+      .. rst-class:: ansible-option-title
+
+      **update_interface_details**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_interface_details" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Update physical interface configurations.
+
+      This operation will take dictionary as a parameter and in this we give details to update interface details of device.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_interface_details/admin_status"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_interface_details/admin_status:
+
+      .. rst-class:: ansible-option-title
+
+      **admin_status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_interface_details/admin_status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Administrative interface state.
+
+      Status of Interface of a device, it can be (UP/DOWN).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"UP"`
+      - :ansible-option-choices-entry:`"DOWN"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_interface_details/clear_mac_address_table"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_interface_details/clear_mac_address_table:
+
+      .. rst-class:: ansible-option-title
+
+      **clear_mac_address_table**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_interface_details/clear_mac_address_table" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Clear interface MAC address table.
+
+      Set this to true if you need to clear the MAC address table for a specific device's interface. It's a boolean type, with a default value of False.
+
+      Only supported on ACCESS role devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_interface_details/deployment_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_interface_details/deployment_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **deployment_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_interface_details/deployment_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration deployment mode.
+
+      \ :literal:`Preview`\  - Preview/Deploy [Preview means the configuration is not pushed to the device.
+
+      \ :literal:`Deploy`\  - Deploy makes the configuration pushed to the device].
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"Preview"`
+      - :ansible-option-choices-entry-default:`"Deploy"` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_interface_details/description"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_interface_details/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_interface_details/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface description text. Specifies the description of the interface of the device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_interface_details/interface_name"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_interface_details/interface_name:
+
+      .. rst-class:: ansible-option-title
+
+      **interface_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_interface_details/interface_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of interface names to update.
+
+      Specify the list of interface names to update the details of the device interface. (For example, GigabitEthernet1/0/11, FortyGigabitEthernet1/1/2)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_interface_details/vlan_id"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_interface_details/vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_interface_details/vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Access VLAN ID assignment.
+
+      Unique Id number assigned to a VLAN within a network used only while updating interface details.
+
+      Must be valid VLAN number (1-4094).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_interface_details/voice_vlan_id"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_interface_details/voice_vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **voice_vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_interface_details/voice_vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Voice VLAN ID for IP phone traffic.
+
+      Identifier used to distinguish a specific VLAN that is dedicated to voice traffic used only while updating interface details.
+
+      Separate VLAN for voice traffic optimization.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_mgmt_ipaddresslist"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_mgmt_ipaddresslist:
+
+      .. rst-class:: ansible-option-title
+
+      **update_mgmt_ipaddresslist**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_mgmt_ipaddresslist" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Update device management IP addresses.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_mgmt_ipaddresslist/exist_mgmt_ipaddress"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_mgmt_ipaddresslist/exist_mgmt_ipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **exist_mgmt_ipaddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_mgmt_ipaddresslist/exist_mgmt_ipaddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device's existing Mgmt IpAddress.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/update_mgmt_ipaddresslist/new_mgmt_ipaddress"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/update_mgmt_ipaddresslist/new_mgmt_ipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **new_mgmt_ipaddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/update_mgmt_ipaddresslist/new_mgmt_ipaddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device's new Mgmt IpAddress.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/username"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device access username.
+
+      Required for NETWORK\_DEVICE additions.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable verification of Cisco Catalyst Center configuration after applying playbook changes
+
+      When enabled, the module will validate that changes were applied correctly
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Desired state of the device inventory after module execution
+
+      \ :literal:`merged`\  - Add new devices or update existing device configurations
+
+      \ :literal:`deleted`\  - Remove devices from inventory (use clean\_config for configuration cleanup)
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Minimum Catalyst Center version 2.3.5.3 required for inventory workflow features.
+   - Device maintenance scheduling requires Catalyst Center \>= 2.3.7.9.
+   - Enhanced provisioning features available in Catalyst Center \>= 2.3.5.3.
+   - Primary SDK Methods - devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id, devices.Devices.sync\_devices.
+   - REST Endpoints - POST /dna/intent/api/v1/network-device, DELETE /dna/intent/api/v1/network-device/{id}, PUT /dna/intent/api/v1/network-device.
+   - Parameter 'ip\_address' renamed to 'ip\_address\_list' in v6.12.0.
+   - Removed 'managementIpAddress' options in v4.3.0.
+   - Removed parameters in v6.12.0 'serial\_number', 'device\_added', 'role\_source'.
+   - Added in v6.13.1 - 'add\_user\_defined\_field', 'update\_interface\_details', 'export\_device\_list', 'admin\_status'.
+   - Removed in v6.13.1 - 'provision\_wireless\_device', 'reprovision\_wired\_device', 'device\_updated'.
+   - Use strong passwords for device access and file encryption (8+ characters, mixed case, numbers, symbols).
+   - Enable SNMP v3 with AUTHPRIV mode for secure device monitoring.
+   - Regularly rotate device credentials and update in Catalyst Center.
+   - Use HTTPS (http\_secure=true) for web-based device management.
+   - Maximum 200 devices per resync operation to prevent API timeouts.
+   - Export operations limited to 800 devices per API call.
+   - Maintenance scheduling supports up to 365-day recurrence intervals.
+   - Use appropriate batch sizes for large-scale operations.
+   - NETWORK\_DEVICE - Requires username, password, and transport protocol.
+   - COMPUTE\_DEVICE - Requires http\_username, http\_password, and http\_port.
+   - MERAKI\_DASHBOARD -  Requires only http\_password (API key).
+   - FIREPOWER\_MANAGEMENT\_SYSTEM - Requires http\_username, http\_password, http\_port.
+   - THIRD\_PARTY\_DEVICE - Requires SNMP configuration for monitoring.
+   - Device deletion with clean\_config=false retains device configuration. To delete a device along with its configuration, the 'clean\_config' flag must be explicitly set to True.
+   - Interface updates only supported on user-facing/access ports.
+   - MAC address table clearing restricted to ACCESS role devices.
+   - Timezone specification recommended for maintenance scheduling accuracy. For a list of supported time zones, please refer to the relevant documentation detailing all available options.
+   - Verify device reachability before bulk operations.
+   - Monitor task status for long-running operations.
+   - Check device management state before provisioning.
+   - Validate site hierarchy before device-to-site assignments.
+   - Ensure proper SNMP/NETCONF connectivity for device management.
+   - Review Catalyst Center logs for detailed error information.
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center API Documentation <https://developer.cisco.com/docs/dna-center/>`_
+       Complete API reference for device management.
+   `Device Management API <https://developer.cisco.com/docs/dna-center/#!add-device>`_
+       Specific documentation for device operations.
+   `Cisco Catalyst Center documentation for Devices DeleteDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
+       Complete reference of the DeleteDeviceById API.
+   `Cisco Catalyst Center documentation for Devices SyncDevices2 <https://developer.cisco.com/docs/dna-center/#!sync-devices>`_
+       Complete reference of the SyncDevices2 API.
+   `Site Design and Hierarchy <https://developer.cisco.com/docs/dna-center/#!sites>`_
+       Site management for device provisioning.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Add new device in Inventory with full credentials
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            cli_transport: ssh
+            compute_device: false
+            password: Test@123
+            enable_password: Test@1234
+            extended_discovery_info: test
+            http_username: "testuser"
+            http_password: "test"
+            http_port: "443"
+            http_secure: false
+            netconf_port: 830
+            snmp_auth_passphrase: "Lablab@12"
+            snmp_auth_protocol: SHA
+            snmp_mode: AUTHPRIV
+            snmp_priv_passphrase: "Lablab@123"
+            snmp_priv_protocol: AES256
+            snmp_retry: 3
+            snmp_timeout: 5
+            snmp_username: v3Public
+            snmp_version: v3
+            type: NETWORK_DEVICE
+            username: cisco
+    - name: Add new Compute device in Inventory with full
+        credentials.Inputs needed for Compute Device
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            http_username: "testuser"
+            http_password: "test"
+            http_port: "443"
+            snmp_auth_passphrase: "Lablab@12"
+            snmp_auth_protocol: SHA
+            snmp_mode: AUTHPRIV
+            snmp_priv_passphrase: "Lablab@123"
+            snmp_priv_protocol: AES256
+            snmp_retry: 3
+            snmp_timeout: 5
+            snmp_username: v3Public
+            compute_device: true
+            username: cisco
+            password: Lablab@123
+            enable_password: Cisco@123
+            type: "COMPUTE_DEVICE"
+    - name: Add new Compute device in Inventory with minimal configuration
+        credentials.Inputs needed for Compute Device
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            compute_device: true
+            type: "COMPUTE_DEVICE"
+            http_username: "testuser"
+            http_password: "test"
+            http_port: "443"
+            snmp_version: v2  # Based on device snmp version field required
+            snmp_ro_community: Private@123  # Based on device snmp version field required
+    - name: Add new Meraki device in Inventory with full
+        credentials.Inputs needed for Meraki Device.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - http_password: "test"
+            type: "MERAKI_DASHBOARD"
+    - name: Add new Firepower Management device in Inventory
+        with full credentials.Input needed to add Device.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            http_username: "testuser"
+            http_password: "test"
+            http_port: "443"
+            type: "FIREPOWER_MANAGEMENT_SYSTEM"
+    - name: Add new Third Party device in Inventory with
+        full credentials.Input needed to add Device.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            snmp_auth_passphrase: "Lablab@12"
+            snmp_auth_protocol: SHA
+            snmp_mode: AUTHPRIV
+            snmp_priv_passphrase: "Lablab@123"
+            snmp_priv_protocol: AES256
+            snmp_retry: 3
+            snmp_timeout: 5
+            snmp_username: v3Public
+            type: "THIRD_PARTY_DEVICE"
+            username: v3Public
+            password: "Lablab@123"
+    - name: Update device details or credentails in Inventory
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            cli_transport: telnet
+            compute_device: false
+            password: newtest123
+            enable_password: newtest1233
+            type: NETWORK_DEVICE
+            credential_update: true
+    - name: Update new management IP address of device in
+        inventory
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            credential_update: true
+            update_mgmt_ipaddresslist:
+              - exist_mgmt_ipaddress: "1.1.1.1"
+                new_mgmt_ipaddress: "12.12.12.12"
+    - name: Associate Wired Devices to site and Provisioned
+        it in Inventory
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - provision_wired_device:
+              - device_ip: "1.1.1.1"
+                site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
+                resync_retry_count: 200
+                resync_retry_interval: 2
+              - device_ip: "2.2.2.2"
+                site_name: "Global/USA/San Francisco/BGL_18/floor_test"
+                resync_retry_count: 200
+                resync_retry_interval: 2
+    - name: Update Device Role with IP Address
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            role: ACCESS
+    - name: Update Interface details with IP Address
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            update_interface_details:
+              description: "Testing for updating interface
+                details"
+              admin_status: "UP"
+              vlan_id: 23
+              voice_vlan_id: 45
+              deployment_mode: "Deploy"
+              interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
+              clear_mac_address_table: true
+    - name: Export Device Details in a CSV file Interface
+        details with IP Address
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            export_device_list:
+              password: "File_password"
+              operation_enum: "0"
+              parameters: ["componentName", "SerialNumber", "Last Sync Status"]
+    - name: Create Global User Defined with IP Address
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            add_user_defined_field:
+              - name: Test123
+                description: "Added first udf for testing"
+                value: "value123"
+              - name: Test321
+                description: "Added second udf for testing"
+                value: "value321"
+    - name: Resync Device with IP Addresses
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            device_resync: true
+            force_sync: false
+    - name: Reboot AP Devices with IP Addresses
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            reboot_device: true
+    - name: Schedule the maintenance for the devices for
+        one time.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - devices_maintenance_schedule:
+              - device_ips:
+                  - "204.1.2.2"
+                  - "204.1.2.3"
+                description: "Schedule maintenance for 2
+                  devices"
+                start_time: "2025-04-05 10:30:00"
+                end_time: "2025-04-05 11:30:00"
+                time_zone: "Asia/Kolkata"
+    - name: Schedule the maintenance for the devices with
+        recurrence interval and recurrence end time.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - devices_maintenance_schedule:
+              - device_ips:
+                  - "204.1.2.2"
+                  - "204.1.2.3"
+                description: "Schedule maintenance for 2
+                  devices"
+                start_time: "2025-04-05 10:30:00"
+                end_time: "2025-04-05 11:30:00"
+                time_zone: "Asia/Kolkata"
+                recurrence_end_time: "2025-04-10 11:40:00"
+                recurrence_interval: 2
+    - name: Update the maintenance schedule for the devices.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: merged
+        config:
+          - devices_maintenance_schedule:
+              - device_ips:
+                  - "204.1.2.2"
+                  - "204.1.2.3"
+                description: "Updated description for maintenance
+                  of 2 devices"
+                start_time: "2025-04-05 10:30:00"
+                end_time: "2025-04-05 11:30:00"
+                time_zone: "Asia/Kolkata"
+                recurrence_end_time: "2025-04-10 11:40:00"
+                recurrence_interval: 1
+    - name: Delete Provision/Unprovision Devices by IP Address
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: false
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            clean_config: false
+    - name: Delete Provision/Unprovision network devices
+        along with configuration
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: false
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: deleted
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            clean_config: true
+    - name: Delete Global User Defined Field with name
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: deleted
+        config:
+          - ip_address_list:
+              - "204.1.2.2"
+              - "204.1.2.3"
+            add_user_defined_field:
+              - name: "Test123"
+    - name: Delete the maintenance schedule for the devices.
+      cisco.dnac.inventory_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: false
+        state: deleted
+        config:
+          - devices_maintenance_schedule:
+              - device_ips:
+                  - "204.1.2.2"
+                  - "204.1.2.3"
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.inventory_workflow_manager_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Abhishek Maheshwari (@abmahesh)
+- Madhan Sankaranarayanan (@madhansansel)
+- Syed Khadeer Ahmed (@syed-khadeerahmed)
+- Ajith Andrew J (@ajithandrewj)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
