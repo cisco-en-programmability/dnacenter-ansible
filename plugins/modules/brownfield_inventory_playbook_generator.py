@@ -123,9 +123,9 @@ options:
               role:
                 description:
                 - Filter devices by network role.
-                - Valid values are ACCESS, CORE, DISTRIBUTION, BORDER_ROUTER, UNKNOWN.
+                - Valid values are ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
                 type: str
-                choices: [ACCESS, CORE, DISTRIBUTION, BORDER_ROUTER, UNKNOWN]
+                choices: [ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN]
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
@@ -661,301 +661,194 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns reverse mapping specification for inventory devices.
         Transforms API response from Catalyst Center to inventory_workflow_manager format.
         Maps device attributes from API response to playbook configuration structure.
-        All field names are in snake_case format.
-        Includes ONLY fields present in the actual API response.
+        Includes only fields needed for inventory_workflow_manager module.
         """
         return OrderedDict({
-            # Device Type and Classification
-            "device_type": {
+            # Device IP Address (required for inventory_workflow_manager)
+            "ip_address_list": {
+                "type": "list",
+                "source_key": "managementIpAddress",
+                "transform": lambda x: [x] if x else []
+            },
+            
+            # Device Type (required)
+            "type": {
                 "type": "str",
                 "source_key": "type",
-                "transform": lambda x: x if x else None
+                "transform": lambda x: x if x else "NETWORK_DEVICE"
             },
-            "family": {
-                "type": "str",
-                "source_key": "family",
-                "transform": lambda x: x if x else None
-            },
-            "series": {
-                "type": "str",
-                "source_key": "series",
-                "transform": lambda x: x if x else None
-            },
+            
+            # Device Role
             "role": {
                 "type": "str",
                 "source_key": "role",
                 "transform": lambda x: x if x else None
             },
-            "role_source": {
+            
+            # CLI Transport (ssh/telnet)
+            "cli_transport": {
                 "type": "str",
-                "source_key": "roleSource",
-                "transform": lambda x: x if x else None
+                "source_key": "cliTransport",
+                "transform": lambda x: x.lower() if x else "ssh"
             },
-
-            # Device Identification
-            "hostname": {
+            
+            # NETCONF Port
+            "netconf_port": {
                 "type": "str",
-                "source_key": "hostname",
-                "transform": lambda x: x if x else None
+                "source_key": "netconfPort",
+                "transform": lambda x: str(x) if x else "830"
             },
-            "management_ip_address": {
+            
+            # SNMP Mode
+            "snmp_mode": {
                 "type": "str",
-                "source_key": "managementIpAddress",
-                "transform": lambda x: x if x else None
+                "source_key": "snmpVersion",
+                "transform": lambda x: x if x else "{{ item.snmp_mode }}"
             },
-            "serial_number": {
+            
+            # SNMP Read-Only Community (for v2/v2c)
+            "snmp_ro_community": {
                 "type": "str",
-                "source_key": "serialNumber",
-                "transform": lambda x: x if x else None
+                "source_key": "snmpRoCommunity",
+                "transform": lambda x: x if x else "{{ item.snmp_ro_community }}"
             },
-            "mac_address": {
+            
+            # SNMP Read-Write Community (for v2/v2c)
+            "snmp_rw_community": {
                 "type": "str",
-                "source_key": "macAddress",
-                "transform": lambda x: x if x else None
+                "source_key": "snmpRwCommunity",
+                "transform": lambda x: x if x else "{{ item.snmp_rw_community }}"
             },
-            "platform_id": {
+            
+            # SNMP Username (for v3)
+            "snmp_username": {
                 "type": "str",
-                "source_key": "platformId",
-                "transform": lambda x: x if x else None
+                "source_key": "snmpUsername",
+                "transform": lambda x: x if x else "{{ item.snmp_username }}"
             },
-            "device_id": {
+            
+            # SNMP Auth Protocol (for v3)
+            "snmp_auth_protocol": {
                 "type": "str",
-                "source_key": "id",
-                "transform": lambda x: x if x else None
+                "source_key": "snmpAuthProtocol",
+                "transform": lambda x: x if x else "{{ item.snmp_auth_protocol }}"
             },
-            "instance_uuid": {
+            
+            # SNMP Privacy Protocol (for v3)
+            "snmp_priv_protocol": {
                 "type": "str",
-                "source_key": "instanceUuid",
-                "transform": lambda x: x if x else None
+                "source_key": "snmpPrivProtocol",
+                "transform": lambda x: x if x else "{{ item.snmp_priv_protocol }}"
             },
-            "instance_tenant_id": {
+            
+            # SNMP Retry Count
+            "snmp_retry": {
+                "type": "int",
+                "source_key": "snmpRetry",
+                "transform": lambda x: int(x) if x else 3
+            },
+            
+            # SNMP Timeout
+            "snmp_timeout": {
+                "type": "int",
+                "source_key": "snmpTimeout",
+                "transform": lambda x: int(x) if x else 5
+            },
+            
+            # SNMP Version (alternate field name)
+            "snmp_version": {
                 "type": "str",
-                "source_key": "instanceTenantId",
-                "transform": lambda x: x if x else None
+                "source_key": "snmpVersion",
+                "transform": lambda x: x if x else "v2"
             },
-
-            # Software Information
-            "software_type": {
+            
+            # Credential fields - NOT available from API (security reasons)
+            # These must be provided by user in vars_files
+            "username": {
                 "type": "str",
-                "source_key": "softwareType",
-                "transform": lambda x: x if x else None
+                "source_key": None,
+                "transform": lambda x: "{{ item.username }}"  # Template variable from vars_files
             },
-            "software_version": {
+            
+            "password": {
                 "type": "str",
-                "source_key": "softwareVersion",
-                "transform": lambda x: x if x else None
+                "source_key": None,
+                "transform": lambda x: "{{ item.password }}"  # Template variable from vars_files
             },
-            "description": {
+            
+            "enable_password": {
                 "type": "str",
-                "source_key": "description",
-                "transform": lambda x: x if x else None
+                "source_key": None,
+                "transform": lambda x: "{{ item.enable_password }}"  # Template variable from vars_files
             },
-
-            # Device Status and Management
-            "device_support_level": {
+            
+            "snmp_auth_passphrase": {
                 "type": "str",
-                "source_key": "deviceSupportLevel",
-                "transform": lambda x: x if x else None
+                "source_key": None,
+                "transform": lambda x: "{{ item.snmp_auth_passphrase }}"  # Template variable from vars_files
             },
-            "reachability_status": {
+            
+            "snmp_priv_passphrase": {
                 "type": "str",
-                "source_key": "reachabilityStatus",
-                "transform": lambda x: x if x else None
+                "source_key": None,
+                "transform": lambda x: "{{ item.snmp_priv_passphrase }}"  # Template variable from vars_files
             },
-            "reachability_failure_reason": {
-                "type": "str",
-                "source_key": "reachabilityFailureReason",
-                "transform": lambda x: x if x else None
-            },
-            "collection_status": {
-                "type": "str",
-                "source_key": "collectionStatus",
-                "transform": lambda x: x if x else None
-            },
-            "collection_interval": {
-                "type": "str",
-                "source_key": "collectionInterval",
-                "transform": lambda x: x if x else None
-            },
-            "management_state": {
-                "type": "str",
-                "source_key": "managementState",
-                "transform": lambda x: x if x else None
-            },
-            "managed_atleast_once": {
+            
+            # Device operation flags
+            "credential_update": {
                 "type": "bool",
-                "source_key": "managedAtleastOnce",
-                "transform": lambda x: x if isinstance(x, bool) else None
+                "source_key": None,
+                "transform": lambda x: "{{ item.credential_update }}"  # Template variable from vars_files
             },
-
-            # Inventory and Sync Status
-            "inventory_status_detail": {
-                "type": "str",
-                "source_key": "inventoryStatusDetail",
-                "transform": lambda x: x if x else None
+            
+            "clean_config": {
+                "type": "bool",
+                "source_key": None,
+                "transform": lambda x: False  # Default to False
             },
-            "last_update_time": {
+            
+            "device_resync": {
+                "type": "bool",
+                "source_key": None,
+                "transform": lambda x: False  # Default to False
+            },
+            
+            "reboot_device": {
+                "type": "bool",
+                "source_key": None,
+                "transform": lambda x: False  # Default to False
+            },
+            
+            # Complex nested structures - user must provide in vars_files
+            "add_user_defined_field": {
+                "type": "list",
+                "source_key": None,
+                "transform": lambda x: "{{ item.add_user_defined_field }}"  # Template variable from vars_files
+            },
+            
+            "provision_wired_device": {
+                "type": "list",
+                "source_key": None,
+                "transform": lambda x: "{{ item.provision_wired_device }}"  # Template variable from vars_files
+            },
+            
+            "update_interface_details": {
+                "type": "dict",
+                "source_key": None,
+                "transform": lambda x: "{{ item.update_interface_details }}"  # Template variable from vars_files
+            },
+            
+            "export_device_list": {
+                "type": "dict",
+                "source_key": None,
+                "transform": lambda x: "{{ item.export_device_list }}"  # Template variable from vars_files
+            },
+            
+            # Export device details limit
+            "export_device_details_limit": {
                 "type": "int",
-                "source_key": "lastUpdateTime",
-                "transform": lambda x: x if x else None
-            },
-            "last_updated": {
-                "type": "str",
-                "source_key": "lastUpdated",
-                "transform": lambda x: x if x else None
-            },
-            "last_managed_resync_reasons": {
-                "type": "str",
-                "source_key": "lastManagedResyncReasons",
-                "transform": lambda x: x if x else None
-            },
-            "last_device_resync_start_time": {
-                "type": "str",
-                "source_key": "lastDeviceResyncStartTime",
-                "transform": lambda x: x if x else None
-            },
-            "reasons_for_device_resync": {
-                "type": "str",
-                "source_key": "reasonsForDeviceResync",
-                "transform": lambda x: x if x else None
-            },
-            "reasons_for_pending_sync_requests": {
-                "type": "str",
-                "source_key": "reasonsForPendingSyncRequests",
-                "transform": lambda x: x if x else None
-            },
-            "pending_sync_requests_count": {
-                "type": "str",
-                "source_key": "pendingSyncRequestsCount",
-                "transform": lambda x: x if x else None
-            },
-            "sync_requested_by_app": {
-                "type": "str",
-                "source_key": "syncRequestedByApp",
-                "transform": lambda x: x if x else None
-            },
-
-            # Network Information
-            "dns_resolved_management_address": {
-                "type": "str",
-                "source_key": "dnsResolvedManagementAddress",
-                "transform": lambda x: x if x else None
-            },
-
-            # Device Hardware Details
-            "memory_size": {
-                "type": "str",
-                "source_key": "memorySize",
-                "transform": lambda x: x if x else None
-            },
-            "line_card_count": {
-                "type": "str",
-                "source_key": "lineCardCount",
-                "transform": lambda x: x if x else None
-            },
-            "line_card_id": {
-                "type": "str",
-                "source_key": "lineCardId",
-                "transform": lambda x: x if x else None
-            },
-            "interface_count": {
-                "type": "str",
-                "source_key": "interfaceCount",
-                "transform": lambda x: x if x else None
-            },
-
-            # Device Uptime
-            "up_time": {
-                "type": "str",
-                "source_key": "upTime",
-                "transform": lambda x: x if x else None
-            },
-            "uptime_seconds": {
-                "type": "int",
-                "source_key": "uptimeSeconds",
-                "transform": lambda x: int(x) if x else None
-            },
-            "boot_date_time": {
-                "type": "str",
-                "source_key": "bootDateTime",
-                "transform": lambda x: x if x else None
-            },
-
-            # SNMP Information
-            "snmp_contact": {
-                "type": "str",
-                "source_key": "snmpContact",
-                "transform": lambda x: x if x else None
-            },
-            "snmp_location": {
-                "type": "str",
-                "source_key": "snmpLocation",
-                "transform": lambda x: x if x else None
-            },
-
-            # Location Information
-            "location": {
-                "type": "str",
-                "source_key": "location",
-                "transform": lambda x: x if x else None
-            },
-            "location_name": {
-                "type": "str",
-                "source_key": "locationName",
-                "transform": lambda x: x if x else None
-            },
-
-            # Vendor Information
-            "vendor": {
-                "type": "str",
-                "source_key": "vendor",
-                "transform": lambda x: x if x else None
-            },
-
-            # Wireless/AP Related Fields (null in your example but present in API)
-            "ap_manager_interface_ip": {
-                "type": "str",
-                "source_key": "apManagerInterfaceIp",
-                "transform": lambda x: x if x else None
-            },
-            "associated_wlc_ip": {
-                "type": "str",
-                "source_key": "associatedWlcIp",
-                "transform": lambda x: x if x else None
-            },
-            "ap_ethernet_mac_address": {
-                "type": "str",
-                "source_key": "apEthernetMacAddress",
-                "transform": lambda x: x if x else None
-            },
-
-            # Error Information
-            "error_code": {
-                "type": "str",
-                "source_key": "errorCode",
-                "transform": lambda x: x if x else None
-            },
-            "error_description": {
-                "type": "str",
-                "source_key": "errorDescription",
-                "transform": lambda x: x if x else None
-            },
-
-            # Additional Fields
-            "tag_count": {
-                "type": "str",
-                "source_key": "tagCount",
-                "transform": lambda x: x if x else None
-            },
-            "tunnel_udp_port": {
-                "type": "str",
-                "source_key": "tunnelUdpPort",
-                "transform": lambda x: x if x else None
-            },
-            "waas_device_mode": {
-                "type": "str",
-                "source_key": "waasDeviceMode",
-                "transform": lambda x: x if x else None
+                "source_key": None,
+                "transform": lambda x: 500  # Default limit for export operations
             }
         })
 
@@ -1296,21 +1189,21 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
     def transform_device_to_playbook_format(self, reverse_mapping_spec, device_response):
         """
         Transforms raw device data from Catalyst Center to playbook format using reverse mapping spec.
-        Creates INDIVIDUAL configuration for each device (not consolidated).
+        Consolidates devices with matching attributes into single config blocks with merged IP addresses.
 
         Args:
             reverse_mapping_spec (OrderedDict): Mapping specification for transformation
             device_response (list): List of raw device dictionaries from API
 
         Returns:
-            list: List of individual device dictionaries in playbook format (one per device)
+            list: List of consolidated device configurations with merged IP addresses
         """
-        transformed_devices = []
-
-        self.log("Starting transformation of {0} devices into INDIVIDUAL configurations".format(
+        self.log("Starting transformation of {0} devices into CONSOLIDATED configurations".format(
             len(device_response)
         ), "INFO")
 
+        # First pass: Transform each device to playbook format
+        transformed_devices = []
         for device_index, device in enumerate(device_response):
             self.log("Processing device {0}/{1}: {2}".format(
                 device_index + 1,
@@ -1318,10 +1211,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 device.get('hostname', 'Unknown')
             ), "DEBUG")
 
-            self.log("Available fields in device response: {0}".format(list(device.keys())), "INFO")
-            self.log("Full device data: {0}".format(device), "DEBUG")
-
-            # Create individual device configuration
             device_config = {}
 
             for playbook_key, mapping_spec in reverse_mapping_spec.items():
@@ -1329,21 +1218,10 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 transform_func = mapping_spec.get("transform")
 
                 try:
-                    # Get the value from the source device data
                     if source_key:
                         api_value = device.get(source_key)
-                        self.log(
-                            "Mapping {0} from source_key '{1}': value={2}".format(
-                                playbook_key, source_key, api_value
-                            ),
-                            "DEBUG"
-                        )
                     else:
                         api_value = None
-                        self.log(
-                            "No source_key for {0}, using default transform".format(playbook_key),
-                            "DEBUG"
-                        )
 
                     # Apply transformation function
                     if transform_func and callable(transform_func):
@@ -1354,13 +1232,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     # Add to device configuration
                     device_config[playbook_key] = transformed_value
 
-                    self.log(
-                        "Transformed {0}: {1} -> {2}".format(
-                            playbook_key, api_value, transformed_value
-                        ),
-                        "DEBUG"
-                    )
-
                 except Exception as e:
                     self.log(
                         "Error transforming {0}: {1}".format(playbook_key, str(e)),
@@ -1368,17 +1239,63 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     device_config[playbook_key] = None
 
-            # Add device config AFTER processing all fields (OUTSIDE inner loop)
             transformed_devices.append(device_config)
-            self.log("Device {0} ({1}) transformation complete and added to list".format(
+            self.log("Device {0} ({1}) transformation complete".format(
                 device_index + 1, device.get('hostname', 'Unknown')
             ), "INFO")
 
-        self.log("Transformation complete. Created {0} individual device configurations".format(
-            len(transformed_devices)
+        # Second pass: Consolidate devices with matching attributes
+        self.log("Starting consolidation of {0} transformed devices".format(len(transformed_devices)), "INFO")
+        
+        # Create a dictionary to group devices by their non-ip_address attributes
+        consolidated_configs = {}
+
+        for device_config in transformed_devices:
+            # Create a key from all attributes except ip_address_list
+            config_key_parts = []
+            for key in sorted(device_config.keys()):
+                if key != 'ip_address_list':
+                    # Convert value to string for key creation
+                    value = device_config[key]
+                    config_key_parts.append("{0}={1}".format(key, str(value)))
+            
+            config_key = "|".join(config_key_parts)
+            
+            # If this config key doesn't exist, create it
+            if config_key not in consolidated_configs:
+                consolidated_configs[config_key] = device_config.copy()
+                # Initialize ip_address_list as empty if not present
+                if 'ip_address_list' not in consolidated_configs[config_key]:
+                    consolidated_configs[config_key]['ip_address_list'] = []
+            
+            # Merge IP addresses
+            current_ips = consolidated_configs[config_key].get('ip_address_list', [])
+            device_ips = device_config.get('ip_address_list', [])
+            
+            if isinstance(device_ips, list):
+                for ip in device_ips:
+                    if ip and ip not in current_ips:
+                        current_ips.append(ip)
+            elif device_ips:
+                if device_ips not in current_ips:
+                    current_ips.append(device_ips)
+            
+            consolidated_configs[config_key]['ip_address_list'] = current_ips
+
+        # Convert back to list format
+        consolidated_list = list(consolidated_configs.values())
+        
+        self.log("Consolidation complete. Created {0} consolidated configurations from {1} devices".format(
+            len(consolidated_list), len(transformed_devices)
         ), "INFO")
 
-        return transformed_devices
+        for idx, config in enumerate(consolidated_list):
+            ip_count = len(config.get('ip_address_list', []))
+            self.log("Consolidated config {0}: {1} IP addresses, {2} attributes".format(
+                idx + 1, ip_count, len(config)
+            ), "INFO")
+
+        return consolidated_list
 
     def apply_component_specific_filters(self, devices, component_filters):
         """
