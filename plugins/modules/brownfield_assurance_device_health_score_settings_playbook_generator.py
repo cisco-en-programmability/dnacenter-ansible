@@ -576,7 +576,7 @@ else:
     OrderedDumper = None
 
 
-class BrownfieldAssuranceDeviceHealthScoreSettings(DnacBase, BrownFieldHelper):
+class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center device health score settings.
 
@@ -3392,7 +3392,7 @@ def main():
     Workflow Steps:
         1. Define module argument specification with required parameters
         2. Initialize Ansible module with argument validation
-        3. Create BrownfieldAssuranceDeviceHealthScoreSettings instance
+        3. Create AssuranceDeviceHealthScorePlaybookGenerator instance
         4. Validate Catalyst Center version compatibility (>= 2.3.7.9)
         5. Validate and sanitize state parameter
         6. Execute input parameter validation
@@ -3557,9 +3557,9 @@ def main():
         time.localtime(module_start_time)
     )
 
-    # Initialize the BrownfieldAssuranceDeviceHealthScoreSettings object
+    # Initialize the AssuranceDeviceHealthScorePlaybookGenerator object
     # This creates the main orchestrator for brownfield device health score settings extraction
-    ccc_brownfield_assurance_device_health_score_settings = BrownfieldAssuranceDeviceHealthScoreSettings(
+    ccc_brownfield_assurance_device_health_score_settings = AssuranceDeviceHealthScorePlaybookGenerator(
         module)
 
     # Log module initialization after object creation (now logging is available)
