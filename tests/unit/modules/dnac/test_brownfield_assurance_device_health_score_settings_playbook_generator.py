@@ -179,7 +179,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
 
     @patch('ansible_collections.cisco.dnac.plugins.modules.'
            'brownfield_assurance_device_health_score_settings_playbook_generator.'
-           'BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator')
+           'AssuranceDeviceHealthScorePlaybookGenerator')
     def test_module_main_function_execution(self, mock_generator_class):
         """Test main function execution flow"""
         from ansible_collections.cisco.dnac.plugins.modules import \
@@ -219,7 +219,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         """Test that the main class can be initialized"""
         from ansible_collections.cisco.dnac.plugins.modules.\
             brownfield_assurance_device_health_score_settings_playbook_generator import \
-            BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator
+            AssuranceDeviceHealthScorePlaybookGenerator
 
         # Mock the parent class initialization
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__') as mock_dnac_init:
@@ -235,7 +235,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
 
                 # Test class instantiation
                 try:
-                    generator = BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(mock_module)
+                    generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
                     self.assertIsNotNone(generator)
                     self.assertTrue(hasattr(generator, 'module_name'))
                     self.assertEqual(generator.module_name, "assurance_device_health_score_settings_workflow_manager")
@@ -246,7 +246,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         """Test that the module supports the correct states"""
         from ansible_collections.cisco.dnac.plugins.modules.\
             brownfield_assurance_device_health_score_settings_playbook_generator import \
-            BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator
+            AssuranceDeviceHealthScorePlaybookGenerator
 
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__'):
             with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__'):
@@ -254,7 +254,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                 mock_module.params = {"config": []}
 
                 try:
-                    generator = BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(mock_module)
+                    generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
                     self.assertEqual(generator.supported_states, ["gathered"])
                 except Exception as e:
                     # If initialization fails due to missing dependencies,
@@ -265,11 +265,11 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         """Test that the workflow elements schema method exists"""
         from ansible_collections.cisco.dnac.plugins.modules.\
             brownfield_assurance_device_health_score_settings_playbook_generator import \
-            BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator
+            AssuranceDeviceHealthScorePlaybookGenerator
 
         # Test that the method exists in the class
         self.assertTrue(
-            hasattr(BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator, 'get_workflow_elements_schema')
+            hasattr(AssuranceDeviceHealthScorePlaybookGenerator, 'get_workflow_elements_schema')
         )
 
     def test_file_path_handling(self):
@@ -466,7 +466,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
 
         # Test module structure
         self.assertTrue(hasattr(test_module, 'main'))
-        self.assertTrue(hasattr(test_module, 'BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator'))
+        self.assertTrue(hasattr(test_module, 'AssuranceDeviceHealthScorePlaybookGenerator'))
 
         # Test constants
         self.assertIsInstance(test_module.HAS_YAML, bool)
