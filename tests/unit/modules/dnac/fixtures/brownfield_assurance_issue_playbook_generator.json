@@ -1,0 +1,237 @@
+{
+    "playbook_config_generate_all": [
+        {
+            "generate_all_configurations": true
+        }
+    ],
+
+    "playbook_config_specific_components": [
+        {
+            "component_specific_filters": {
+                "components_list": [
+                    "assurance_user_defined_issue_settings",
+                    "assurance_system_issue_settings"
+                ]
+            }
+        }
+    ],
+
+    "playbook_config_user_defined_only": [
+        {
+            "component_specific_filters": {
+                "components_list": ["assurance_user_defined_issue_settings"],
+                "assurance_user_defined_issue_settings": [
+                    {"name": "Custom Network Latency Alert"},
+                    {"is_enabled": true}
+                ]
+            }
+        }
+    ],
+
+    "playbook_config_system_only": [
+        {
+            "component_specific_filters": {
+                "components_list": ["assurance_system_issue_settings"],
+                "assurance_system_issue_settings": [
+                    {"device_type": "UNIFIED_AP"},
+                    {"device_type": "ROUTER"}
+                ]
+            }
+        }
+    ],
+
+    "playbook_config_with_file_path": [
+        {
+            "file_path": "/tmp/test_issues.yml",
+            "component_specific_filters": {
+                "components_list": ["assurance_user_defined_issue_settings"]
+            }
+        }
+    ],
+
+    "get_user_defined_issues_response": {
+        "response": [
+            {
+                "name": "Custom Network Latency Alert",
+                "description": "Monitors network latency for critical applications",
+                "isEnabled": true,
+                "priority": "P1",
+                "isNotificationEnabled": true,
+                "rules": [
+                    {
+                        "severity": 0,
+                        "facility": "network",
+                        "mnemonic": "LATENCY_HIGH",
+                        "pattern": "Network latency exceeds threshold",
+                        "occurrences": 5,
+                        "durationInMinutes": 10
+                    }
+                ]
+            },
+            {
+                "name": "Interface Down Alert",
+                "description": "Monitors interface status",
+                "isEnabled": true,
+                "priority": "P2",
+                "isNotificationEnabled": false,
+                "rules": [
+                    {
+                        "severity": 1,
+                        "facility": "interface",
+                        "mnemonic": "INTERFACE_DOWN",
+                        "pattern": "Interface state changed to down",
+                        "occurrences": 1,
+                        "durationInMinutes": 1
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_system_issues_response": {
+        "response": [
+            {
+                "displayName": "CPU Utilization High",
+                "deviceType": "ROUTER",
+                "description": "CPU utilization exceeds threshold",
+                "issueEnabled": true,
+                "priority": "P1",
+                "synchronizeToHealthThreshold": true,
+                "thresholdValue": "80"
+            },
+            {
+                "displayName": "Memory Utilization High", 
+                "deviceType": "SWITCH",
+                "description": "Memory utilization exceeds threshold",
+                "issueEnabled": true,
+                "priority": "P2",
+                "synchronizeToHealthThreshold": false,
+                "thresholdValue": "90"
+            },
+            {
+                "displayName": "AP Offline",
+                "deviceType": "UNIFIED_AP",
+                "description": "Access Point is offline",
+                "issueEnabled": true,
+                "priority": "P1",
+                "synchronizeToHealthThreshold": true,
+                "thresholdValue": "1"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_user_defined_issues_filtered_response": {
+        "response": [
+            {
+                "name": "Custom Network Latency Alert",
+                "description": "Monitors network latency for critical applications",
+                "isEnabled": true,
+                "priority": "P1",
+                "isNotificationEnabled": true,
+                "rules": [
+                    {
+                        "severity": 0,
+                        "facility": "network",
+                        "mnemonic": "LATENCY_HIGH", 
+                        "pattern": "Network latency exceeds threshold",
+                        "occurrences": 5,
+                        "durationInMinutes": 10
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_system_issues_filtered_response": {
+        "response": [
+            {
+                "displayName": "AP Offline",
+                "deviceType": "UNIFIED_AP",
+                "description": "Access Point is offline",
+                "issueEnabled": true,
+                "priority": "P1",
+                "synchronizeToHealthThreshold": true,
+                "thresholdValue": "1"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+
+    "task_response": {
+        "response": {
+            "taskId": "01997f5f-95b1-74fa-842a-18e7e60bf126",
+            "url": "/api/v1/task/01997f5f-95b1-74fa-842a-18e7e60bf126"
+        },
+        "version": "1.0"
+    },
+
+    "task_details_success": {
+        "response": {
+            "bapiKey": "f793-192a-43da-bed9",
+            "bapiName": "Generate Brownfield Configuration",
+            "bapiExecutionId": "827be6d3-e2ad-463b-b034-22add79e5278",
+            "startTime": "Fri Dec 19 16:32:53 UTC 2024",
+            "startTimeEpoch": 1734623573918,
+            "endTime": "Fri Dec 19 16:32:54 UTC 2024", 
+            "endTimeEpoch": 1734623574625,
+            "timeDuration": 707,
+            "status": "SUCCESS",
+            "bapiSyncResponse": {
+                "message": "Configuration generated successfully"
+            }
+        }
+    },
+
+    "file_write_success_response": {
+        "message": "YAML config generation succeeded for module 'assurance_issue_workflow_manager'.",
+        "file_path": "/tmp/test_issues.yml",
+        "generated_config": {
+            "assurance_user_defined_issue_settings": [
+                {
+                    "name": "Custom Network Latency Alert",
+                    "description": "Monitors network latency for critical applications",
+                    "is_enabled": true,
+                    "priority": "P1",
+                    "is_notification_enabled": true,
+                    "rules": [
+                        {
+                            "severity": 0,
+                            "facility": "network",
+                            "mnemonic": "LATENCY_HIGH",
+                            "pattern": "Network latency exceeds threshold",
+                            "occurrences": 5,
+                            "duration_in_minutes": 10
+                        }
+                    ]
+                }
+            ],
+            "assurance_system_issue_settings": [
+                {
+                    "name": "AP Offline",
+                    "device_type": "UNIFIED_AP",
+                    "description": "Access Point is offline", 
+                    "issue_enabled": true,
+                    "priority": "P1",
+                    "synchronize_to_health_threshold": true,
+                    "threshold_value": "1"
+                }
+            ]
+        }
+    },
+
+    "api_error_response": {
+        "response": {
+            "errorCode": "INTERNAL_ERROR",
+            "message": "Internal server error occurred while processing request"
+        },
+        "version": "1.0"
+    }
+}
