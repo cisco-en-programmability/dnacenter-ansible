@@ -363,7 +363,10 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
+        This function performs comprehensive validation of input configuration parameters
+        by checking parameter presence, validating against expected schema specification,
+        verifying minimum requirements for brownfield credential extraction, and setting
+        validated configuration for downstream processing workflows.
         Returns:
             object: An instance of the class with updated attributes:
                 self.msg: A message describing the validation result.
@@ -371,7 +374,10 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.validated_config: If successful, a validated version of the "config" parameter.
         """
         self.log(
-            "Starting validation of input configuration parameters.", "DEBUG"
+            "Starting validation of playbook configuration parameters. Checking "
+            "configuration availability, schema compliance, and minimum requirements "
+            "for device credential extraction workflow.",
+            "DEBUG"
         )
 
         # Check if configuration is available
@@ -381,12 +387,30 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log(self.msg, "ERROR")
             return self
 
+        self.log(
+            "Configuration found with {0} entries. Proceeding with schema validation "
+            "against expected parameter specification.".format(len(self.config)),
+            "DEBUG"
+        )
+
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False
+            },
+            "file_path": {
+                "type": "str",
+                "required": False
+            },
+            "component_specific_filters": {
+                "type": "dict",
+                "required": False
+            },
+            "global_filters": {
+                "type": "dict",
+                "required": False},
         }
 
         # Validate params
@@ -399,12 +423,28 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
         if invalid_params:
+            self.log(
+                "Schema validation failed. Invalid parameters detected: {0}. These "
+                "parameters do not conform to expected types or structure.".format(
+                    invalid_params
+                ),
+                "ERROR"
+            )
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
-
+        self.log(
+            "Schema validation passed successfully. All parameters conform to expected "
+            "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
+            "DEBUG"
+        )
         self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
         self.validate_minimum_requirements(self.config)
+        self.log(
+            "Minimum requirements validation completed successfully. Configuration "
+            "meets all prerequisites for brownfield credential extraction workflow.",
+            "DEBUG"
+        )
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -413,18 +453,50 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             "'validated_input': {0}".format(str(valid_temp))
         )
         self.set_operation_result("success", False, self.msg, "INFO")
+        self.log(
+            "Validation completed successfully. Returning self instance with status "
+            "'success' and validated_config populated for method chaining.",
+            "DEBUG"
+        )
         return self
 
     def get_workflow_filters_schema(self):
-        """Return the supported network elements and filter schema.
+        """
+        Constructs workflow filter schema for device credential network elements.
 
-        The schema describes filters, reverse mapping functions, and handler
-        functions used to build the YAML output for each component.
+        This function defines the complete schema specification for device credential
+        workflow manager operations including filter specifications for global
+        credentials and site assignments, reverse mapping functions for data
+        transformation, API configuration for Catalyst Center integration, and
+        operation handler functions for configuration retrieval enabling consistent
+        parameter validation, API execution, and YAML generation throughout the
+        module lifecycle.
 
         Returns:
-            dict: Module filter and component schema mapping.
+                dict: Dictionary containing network_elements schema configuration with:
+                    - global_credential_details: Complete configuration including:
+                        - filters: Parameter specifications for credential types (CLI,
+                        HTTPS, SNMPv2c, SNMPv3) with description filtering
+                        - reverse_mapping_function: Function reference for API to YAML
+                        format transformation with sensitive field masking
+                        - get_function_name: Method reference for retrieving global
+                        credential configurations
+                    - assign_credentials_to_site: Complete configuration including:
+                        - filters: List containing site_name parameter for filtering
+                        - reverse_mapping_function: Function reference for site
+                        assignment transformation
+                        - api_function: API method name for credential settings retrieval
+                        - api_family: SDK family name (network_settings) for API execution
+                        - get_function_name: Method reference for site assignment retrieval
+                    - global_filters: Empty list reserved for future global filtering
         """
-
+        self.log(
+            "Constructing workflow filter schema for device credential network "
+            "elements. Schema defines filter specifications, reverse mapping functions, "
+            "API configuration, and handler functions for global credentials and site "
+            "assignments enabling consistent parameter validation and YAML generation.",
+            "DEBUG"
+        )
         return {
             "network_elements": {
                 "global_credential_details": {
@@ -495,22 +567,91 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         }
 
     def global_credential_details_temp_spec(self):
-        """Build temp spec for mapping global credentials to YAML.
+        """
+        Constructs reverse mapping specification for global credential details.
+
+        This function generates the complete ordered dictionary structure defining
+        transformation rules for converting API response format to user-friendly YAML
+        format compatible with device_credential_workflow_manager module. Handles six
+        credential types (CLI, HTTPS Read/Write, SNMPv2c Read/Write, SNMPv3) with
+        sensitive field masking using custom variable placeholders to prevent raw
+        credential exposure in generated YAML files.
+
+        Args:
+            None: Uses class methods for credential masking and transformation logic.
 
         Returns:
-            OrderedDict: A spec consumed by `modify_parameters`.
+            OrderedDict: Reverse mapping specification with credential type mappings:
+                        - cli_credential: List transformation with username, masked
+                        password/enable_password, description, and id fields
+                        - https_read: List transformation with username, masked password,
+                        port, description, and id fields
+                        - https_write: List transformation with username, masked password,
+                        port, description, and id fields
+                        - snmp_v2c_read: List transformation with masked read_community,
+                        description, and id fields
+                        - snmp_v2c_write: List transformation with write_community,
+                        description, and id fields
+                        - snmp_v3: List transformation with auth_type, snmp_mode,
+                        privacy settings, username, masked auth_password,
+                        description, and id fields
         """
+        self.log(
+            "Constructing reverse mapping specification for global credential details. "
+            "Specification defines transformation rules for 6 credential types (CLI, "
+            "HTTPS Read/Write, SNMPv2c Read/Write, SNMPv3) with sensitive field masking "
+            "to prevent raw credential exposure in generated YAML playbooks.",
+            "DEBUG"
+        )
         # Mask helper builds a placeholder using description to ensure
         # stable variable names (e.g., { { cli_credential_desc_password } }).
+
         def mask(component_key, item, field):
+            """
+            Generates masked variable placeholder for sensitive credential fields.
+
+            Creates Jinja-like variable references (e.g., {{ cli_credential_desc_password }})
+            to replace sensitive values preventing credential exposure in YAML output.
+
+            Args:
+                component_key (str): Credential type identifier (e.g., 'cli_credential')
+                item (dict): Credential item containing description for variable naming
+                field (str): Sensitive field name to mask (e.g., 'password')
+
+            Returns:
+                str: Masked variable placeholder or None if generation fails
+            """
             try:
-                return self.generate_custom_variable_name(
+                self.log(
+                    "Generating masked variable placeholder for component '{0}', "
+                    "field '{1}' using description '{2}' for unique variable naming.".format(
+                        component_key, field, item.get("description", "unknown")
+                    ),
+                    "DEBUG"
+                )
+
+                masked_value = self.generate_custom_variable_name(
                     item,
                     component_key,
                     "description",
                     field,
                 )
-            except Exception:
+
+                self.log(
+                    "Successfully generated masked placeholder: {0} for field '{1}' "
+                    "in component '{2}'.".format(masked_value, field, component_key),
+                    "DEBUG"
+                )
+
+                return masked_value
+            except Exception as e:
+                self.log(
+                    "Failed to generate masked variable for component '{0}', "
+                    "field '{1}': {2}. Returning None.".format(
+                        component_key, field, str(e)
+                    ),
+                    "ERROR"
+                )
                 return None
 
         global_credential_details = OrderedDict({
@@ -616,18 +757,103 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ],
             },
         })
+        self.log(
+            "Reverse mapping specification constructed successfully with 6 credential "
+            "type transformations. Specification includes field mappings for username, "
+            "passwords (masked), ports, communities (masked for v2c read), auth settings "
+            "(masked for v3), and description/id fields for all credential types.",
+            "DEBUG"
+        )
+
+        self.log(
+            "Returning global credential details reverse mapping specification for use "
+            "in modify_parameters() transformation during YAML generation workflow.",
+            "DEBUG"
+        )
         return global_credential_details
 
     def assign_credentials_to_site_temp_spec(self):
-        """Build temp spec for assigned credentials per site.
+        """
+        Constructs reverse mapping specification for site credential assignments.
+
+        This function generates the complete ordered dictionary structure defining
+        transformation rules for converting site credential assignment API responses
+        to user-friendly YAML format compatible with device_credential_workflow_manager
+        module. Extracts non-sensitive credential metadata (description, username, id)
+        for six credential types assigned to sites, preventing sensitive credential
+        data exposure while maintaining credential reference integrity through ID
+        mapping.
+
+        Args:
+            None: Uses helper function for field extraction from API responses.
 
         Returns:
-            OrderedDict: Spec for `modify_parameters` to map site assignments.
+            OrderedDict: Reverse mapping specification with site assignment mappings:
+                        - cli_credential: Dict transformation with description, username,
+                        and id fields extracted
+                        - https_read: Dict transformation with description, username,
+                        and id fields extracted
+                        - https_write: Dict transformation with description, username,
+                        and id fields extracted
+                        - snmp_v2c_read: Dict transformation with description and id
+                        fields extracted
+                        - snmp_v2c_write: Dict transformation with description and id
+                        fields extracted
+                        - snmp_v3: Dict transformation with description and id fields
+                        extracted
+                        - site_name: List of site names where credentials are assigned
         """
+        self.log(
+            "Constructing reverse mapping specification for site credential "
+            "assignments. Specification defines transformation rules for 6 credential "
+            "types (CLI, HTTPS Read/Write, SNMPv2c Read/Write, SNMPv3) extracting "
+            "non-sensitive metadata (description, username, id) to prevent raw "
+            "credential exposure while maintaining reference integrity.",
+            "DEBUG"
+        )
+
         def pick_fields(src, fields):
+            """
+            Extracts specified fields from source dictionary for safe credential metadata.
+
+            Filters credential assignment objects to include only non-sensitive fields
+            (description, username, id) while excluding passwords, community strings,
+            and other sensitive authentication data from YAML output.
+
+            Args:
+                src (dict): Source credential assignment object from API response
+                fields (list): List of field names to extract (e.g., ['description',
+                            'username', 'id'])
+
+            Returns:
+                dict: Dictionary containing only specified fields with non-None values,
+                    or None if source is not a dictionary
+            """
             if not isinstance(src, dict):
+                self.log(
+                    "Source is not a dictionary type, returning None. Source type: {0}".format(
+                        type(src).__name__
+                    ),
+                    "DEBUG"
+                )
                 return None
-            return {k: src.get(k) for k in fields if src.get(k) is not None}
+            self.log(
+                "Extracting fields {0} from source credential object. Available source "
+                "keys: {1}".format(fields, list(src.keys())),
+                "DEBUG"
+            )
+
+            result = {k: src.get(k) for k in fields if src.get(k) is not None}
+
+            self.log(
+                "Successfully extracted {0} non-None fields from {1} requested fields. "
+                "Extracted fields: {2}".format(
+                    len(result), len(fields), list(result.keys())
+                ),
+                "DEBUG"
+            )
+
+            return result
 
         assign_credentials_to_site = OrderedDict({
             "cli_credential": {
@@ -672,26 +898,95 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "source_key": "siteName"
             },
         })
+
+        self.log(
+            "Reverse mapping specification constructed successfully with 7 field "
+            "mappings (6 credential types + site_name). Specification includes "
+            "transformations for CLI (description, username, id), HTTPS Read/Write "
+            "(description, username, id), SNMPv2c Read/Write (description, id), "
+            "SNMPv3 (description, id), and site_name list for location context.",
+            "DEBUG"
+        )
+
+        self.log(
+            "Returning site credential assignment reverse mapping specification for "
+            "use in modify_parameters() transformation during YAML generation workflow "
+            "with sensitive field protection.",
+            "DEBUG"
+        )
         return assign_credentials_to_site
 
     def get_global_credential_details_configuration(self, network_element, filters):
-        """Retrieve and map global credential details.
+        """
+        Retrieves and transforms global credential details from Catalyst Center.
 
-        Applies optional component-specific filters, then maps results using
-        `global_credential_details_temp_spec`.
+        This function orchestrates global credential retrieval by extracting credentials
+        from cached global_credential_details, applying optional component-specific
+        filters for targeted credential selection, transforming API response format to
+        user-friendly YAML structure using reverse mapping specification, and masking
+        sensitive fields (passwords, community strings) with custom variable placeholders
+        to prevent raw credential exposure in generated playbooks.
 
         Args:
-            network_element (dict): Unused; reserved for consistency.
-            filters (dict): Dictionary containing global filters and component_specific_filters.
+            network_element (dict): Network element configuration (reserved for future
+                                use, currently unused for consistency with other
+                                component functions).
+            filters (dict): Filter configuration containing:
+                        - component_specific_filters (dict, optional): Nested filters
+                            for credential types with description-based filtering:
+                            - cli_credential: List of CLI credential filters
+                            - https_read: List of HTTPS Read credential filters
+                            - https_write: List of HTTPS Write credential filters
+                            - snmp_v2c_read: List of SNMPv2c Read credential filters
+                            - snmp_v2c_write: List of SNMPv2c Write credential filters
+                            - snmp_v3: List of SNMPv3 credential filters
 
         Returns:
-            dict: `{ "global_credential_details": <mapped dict> }`.
+            dict: Dictionary containing transformed global credential details:
+                - global_credential_details (dict): Mapped credential structure with:
+                    - cli_credential (list): CLI credentials with masked passwords
+                    - https_read (list): HTTPS Read credentials with masked passwords
+                    - https_write (list): HTTPS Write credentials with masked passwords
+                    - snmp_v2c_read (list): SNMPv2c Read with masked community strings
+                    - snmp_v2c_write (list): SNMPv2c Write credentials
+                    - snmp_v3 (list): SNMPv3 credentials with masked auth passwords
         """
+        self.log(
+            "Starting global credential details retrieval and transformation workflow. "
+            "Workflow includes credential extraction from cache, optional filter "
+            "application for targeted selection, reverse mapping transformation to "
+            "YAML format, and sensitive field masking to prevent credential exposure.",
+            "DEBUG"
+        )
 
+        self.log(
+            "Extracting component_specific_filters from filters dictionary: {0}. "
+            "Filters determine which credential types and descriptions to include in "
+            "generated YAML configuration.".format(filters),
+            "DEBUG"
+        )
         component_specific_filters = None
         if "component_specific_filters" in filters:
             component_specific_filters = filters.get("component_specific_filters")
-
+            self.log(
+                "Component-specific filters found with {0} credential type filter(s). "
+                "Will apply description-based filtering to credential groups.".format(
+                    len(component_specific_filters) if component_specific_filters else 0
+                ),
+                "DEBUG"
+            )
+        else:
+            self.log(
+                "No component_specific_filters provided. Will retrieve all global "
+                "credentials without filtering for complete credential inventory.",
+                "DEBUG"
+            )
+        self.log(
+            "Initializing final credential list for transformation. List will contain "
+            "either filtered credentials or complete credential set based on filter "
+            "presence.",
+            "DEBUG"
+        )
         self.log(
             (
                 "Starting to retrieve global credential details with "
@@ -702,47 +997,126 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         final_global_credentials = []
 
         self.log(
-            "type of global_credential_details: {0}".format(
-                type(self.global_credential_details)
+            "Cached global credential details type: {0}, count: {1}. Credentials "
+            "retrieved during initialization from discovery.get_all_global_credentials "
+            "API.".format(
+                type(self.global_credential_details),
+                len(self.global_credential_details) if isinstance(
+                    self.global_credential_details, list
+                ) else "N/A"
             ),
-            "DEBUG",
+            "DEBUG"
         )
+
         self.log(
-            "Retrieved global credential details: {0}".format(
+            "Cached global credential details content: {0}. Contains credential groups "
+            "cliCredential, httpsRead, httpsWrite, snmpV2cRead, snmpV2cWrite, snmpV3.".format(
                 self.global_credential_details
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         if component_specific_filters:
+            self.log(
+                "Applying component-specific filters to global credentials. Filtering "
+                "by description fields to extract targeted credential subset for YAML "
+                "generation.",
+                "DEBUG"
+            )
             filtered_credentials = self.filter_credentials(self.global_credential_details, component_specific_filters)
             self.log(
-                (
-                    "Filtered global credential details based on "
-                    "component-specific filters: {0}"
-                ).format(filtered_credentials),
-                "DEBUG",
+                "Filter application completed. Filtered credentials contain {0} "
+                "credential group(s). Groups: {1}".format(
+                    len(filtered_credentials) if isinstance(
+                        filtered_credentials, dict
+                    ) else 0,
+                    list(filtered_credentials.keys()) if isinstance(
+                        filtered_credentials, dict
+                    ) else []
+                ),
+                "DEBUG"
+            )
+
+            self.log(
+                "Filtered credential details: {0}. Using filtered subset for reverse "
+                "mapping transformation.".format(filtered_credentials),
+                "DEBUG"
             )
             final_global_credentials = [filtered_credentials]
         else:
+            self.log(
+                "No filtering applied. Using complete global credential details for "
+                "reverse mapping transformation to generate comprehensive credential "
+                "YAML configuration.",
+                "DEBUG"
+            )
             final_global_credentials = [self.global_credential_details]
 
+        self.log(
+            "Retrieving reverse mapping specification for global credential details "
+            "transformation. Specification defines field mappings, sensitive field "
+            "masking rules, and YAML structure for 6 credential types.",
+            "DEBUG"
+        )
         global_credential_details_temp_spec = self.global_credential_details_temp_spec()
+
+        self.log(
+            "Reverse mapping specification retrieved successfully. Specification "
+            "includes transformations for cli_credential, https_read, https_write, "
+            "snmp_v2c_read, snmp_v2c_write, and snmp_v3 with password/community string "
+            "masking.",
+            "DEBUG"
+        )
+
+        self.log(
+            "Applying reverse mapping transformation to {0} credential set(s) using "
+            "modify_parameters(). Transformation converts API format to user-friendly "
+            "YAML structure with sensitive field placeholders.".format(
+                len(final_global_credentials)
+            ),
+            "DEBUG"
+        )
+
         mapped_list = self.modify_parameters(
             global_credential_details_temp_spec, final_global_credentials
+        )
+
+        self.log(
+            "Reverse mapping transformation completed. Generated {0} mapped "
+            "credential structure(s) with masked sensitive fields for secure YAML "
+            "output.".format(len(mapped_list)),
+            "DEBUG"
         )
         mapped = mapped_list[0] if mapped_list else {}
         return {"global_credential_details": mapped}
 
     def filter_credentials(self, source, filters):
-        """Filter credential groups by description.
+        """
+        Filters global credential groups by matching description fields.
+
+        This function applies component-specific filters to global credential data by
+        matching credential descriptions against requested filter criteria, extracting
+        only credentials with matching descriptions from each credential type group
+        (CLI, HTTPS Read/Write, SNMPv2c Read/Write, SNMPv3), and constructing a filtered
+        credential dictionary containing only matched items for targeted credential
+        selection in YAML generation workflow.
 
         Args:
-            source (dict): Global credentials grouped by keys like `cliCredential`.
-            filters (dict): Desired descriptions per group (e.g., `{"cli_credential": [{"description": "WLC"}]}`).
+            source (dict): Global credentials dictionary from Catalyst Center containing
+                        credential groups with camelCase keys (e.g., cliCredential,
+                        httpsRead, httpsWrite, snmpV2cRead, snmpV2cWrite, snmpV3).
+                        Each group contains list of credential objects with description,
+                        username, id, and sensitive credential fields.
+            filters (dict): Component-specific filter dictionary with snake_case keys
+                        (e.g., cli_credential, https_read) containing lists of
+                        filter objects. Each filter object specifies description
+                        field to match (e.g., [{"description": "WLC"}]).
 
         Returns:
-            dict: Subset of `source` with only matching items per group.
+            dict: Filtered credentials dictionary with camelCase keys containing only
+                credential objects matching filter descriptions. Empty dictionary if
+                no matches found or source/filters invalid. Preserves original API
+                response structure with matched items only.
         """
         self.log("Starting filter_credentials with source: {0} and filters: {1}".format(source, filters), "DEBUG")
         key_map = {
@@ -754,11 +1128,66 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             'snmp_v3': 'snmpV3',
         }
         result = {}
-        for f_key, wanted_list in filters.items():
+        self.log(
+            "Starting iteration through {0} filter entries to extract matching "
+            "credentials from source groups. Each filter specifies description "
+            "criteria for credential selection.".format(len(filters)),
+            "DEBUG"
+        )
+        for filter_index, (f_key, wanted_list) in enumerate(filters.items(), start=1):
+            self.log(
+                "Processing filter {0}/{1} for credential type '{2}' with {3} "
+                "description filter(s). Resolving API key and extracting wanted "
+                "descriptions for matching.".format(
+                    filter_index, len(filters), f_key, len(wanted_list)
+                ),
+                "DEBUG"
+            )
             src_key = key_map.get(f_key)
-            if not src_key or src_key not in source:
+            if not src_key:
+                self.log(
+                    "Filter key '{0}' not found in key mapping. Skipping unsupported "
+                    "credential type filter. Valid filter keys: {1}".format(
+                        f_key, list(key_map.keys())
+                    ),
+                    "WARNING"
+                )
                 continue
+
+            if src_key not in source:
+                self.log(
+                    "Credential group '{0}' (mapped from filter key '{1}') not found "
+                    "in source credentials. Skipping filter for this group. Available "
+                    "source groups: {2}".format(
+                        src_key, f_key, list(source.keys())
+                    ),
+                    "DEBUG"
+                )
+                continue
+
+            self.log(
+                "Extracting wanted descriptions from {0} filter objects for credential "
+                "type '{1}'. Building description set for efficient matching against "
+                "source credentials.".format(len(wanted_list), f_key),
+                "DEBUG"
+            )
             wanted_desc = {item.get('description') for item in wanted_list if 'description' in item}
+            self.log(
+                "Extracted {0} unique description(s) from filter criteria: {1}. "
+                "Matching against {2} credential(s) in source group '{3}'.".format(
+                    len(wanted_desc), wanted_desc, len(source[src_key]), src_key
+                ),
+                "DEBUG"
+            )
+
+            self.log(
+                "Filtering credential group '{0}' with {1} source credential(s) "
+                "against {2} wanted description(s). Extracting credentials with "
+                "matching description fields.".format(
+                    src_key, len(source[src_key]), len(wanted_desc)
+                ),
+                "DEBUG"
+            )
             matched = [item for item in source[src_key] if item.get('description') in wanted_desc]
             if matched:
                 result[src_key] = matched
