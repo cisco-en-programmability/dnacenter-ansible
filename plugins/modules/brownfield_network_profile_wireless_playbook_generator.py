@@ -1684,7 +1684,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "Global filter processing completed with zero profile matches. No profiles "
                 "matched provided filter criteria across all filter types. Verify filter "
                 "values match existing Catalyst Center configurations. Returning None to "
-                "indicate no matching configurations.".format(),
+                "indicate no matching configurations.",
                 "WARNING"
             )
             return None
