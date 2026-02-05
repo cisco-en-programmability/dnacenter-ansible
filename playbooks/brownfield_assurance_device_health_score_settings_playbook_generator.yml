@@ -23,7 +23,7 @@
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          -  component_specific_filters:
+          - component_specific_filters:
               components_list: ["device_health_score_settings"]
               device_health_score_settings:
                 device_families: ["WIRELESS_CLIENT", "WIRED_CLIENT"]
