@@ -1344,7 +1344,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "Applying SECOND PRIORITY filter: day_n_template_list "
                 f"with {len(day_n_templates)} template(s): "
                 f"{len(day_n_templates)}. Matching against wireless_profile_templates "
-                f"with {len(self.have.get("wireless_profile_templates", {}))} cached profile(s). "
+                f"with {len(self.have.get('wireless_profile_templates', {}))} cached profile(s). "
                 "Processing profiles containing any matching Day-N templates.",
                 "DEBUG"
             )
