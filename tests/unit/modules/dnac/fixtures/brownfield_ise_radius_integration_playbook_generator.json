@@ -55,14 +55,24 @@
       "file_path": "/tmp/ise_radius_all_config.yaml"
     }
   ],
+  "playbook_config_with_file_path": [
+    {
+      "file_path": "/tmp/custom_ise_config.yaml",
+      "component_specific_filters": {
+        "components_list": ["authentication_policy_server"]
+      }
+    }
+  ],
   "playbook_config_filter_by_server_type": [
     {
       "file_path": "/tmp/ise_servers_only.yaml",
       "component_specific_filters": {
         "components_list": ["authentication_policy_server"],
-        "authentication_policy_server": {
-          "server_type": "ISE"
-        }
+        "authentication_policy_server": [
+          {
+            "server_type": "ISE"
+          }
+        ]
       }
     }
   ],
@@ -71,9 +81,11 @@
       "file_path": "/tmp/specific_server.yaml",
       "component_specific_filters": {
         "components_list": ["authentication_policy_server"],
-        "authentication_policy_server": {
-          "server_ip_address": "10.197.156.10"
-        }
+        "authentication_policy_server": [
+          {
+            "server_ip_address": "10.197.156.10"
+          }
+        ]
       }
     }
   ],
@@ -82,10 +94,28 @@
       "file_path": "/tmp/ise_server_by_ip.yaml",
       "component_specific_filters": {
         "components_list": ["authentication_policy_server"],
-        "authentication_policy_server": {
-          "server_type": "ISE",
-          "server_ip_address": "10.197.156.10"
-        }
+        "authentication_policy_server": [
+          {
+            "server_type": "ISE",
+            "server_ip_address": "10.197.156.10"
+          }
+        ]
+      }
+    }
+  ],
+  "playbook_config_multiple_filters": [
+    {
+      "file_path": "/tmp/multiple_filters.yaml",
+      "component_specific_filters": {
+        "components_list": ["authentication_policy_server"],
+        "authentication_policy_server": [
+          {
+            "server_ip_address": "10.197.156.10"
+          },
+          {
+            "server_ip_address": "10.197.156.20"
+          }
+        ]
       }
     }
   ],
@@ -102,20 +132,17 @@
       "file_path": "/tmp/invalid_type.yaml",
       "component_specific_filters": {
         "components_list": ["authentication_policy_server"],
-        "authentication_policy_server":{
+        "authentication_policy_server": [
+          {
             "server_type": "INVALID_TYPE"
           }
+        ]
       }
     }
   ],
   "playbook_config_no_file_path": [
     {
       "generate_all_configurations": true
-    }
-  ],
-  "playbook_config_generate_all_configurations_false": [
-    {
-      "generate_all_configurations": false
     }
   ]
 }
