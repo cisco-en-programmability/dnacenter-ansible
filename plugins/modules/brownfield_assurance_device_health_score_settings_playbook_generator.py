@@ -576,7 +576,7 @@ else:
     OrderedDumper = None
 
 
-class BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
+class BrownfieldAssuranceDeviceHealthScoreSettings(DnacBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center device health score settings.
 
@@ -3392,7 +3392,7 @@ def main():
     Workflow Steps:
         1. Define module argument specification with required parameters
         2. Initialize Ansible module with argument validation
-        3. Create BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator instance
+        3. Create BrownfieldAssuranceDeviceHealthScoreSettings instance
         4. Validate Catalyst Center version compatibility (>= 2.3.7.9)
         5. Validate and sanitize state parameter
         6. Execute input parameter validation
@@ -3557,19 +3557,19 @@ def main():
         time.localtime(module_start_time)
     )
 
-    # Initialize the BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator object
+    # Initialize the BrownfieldAssuranceDeviceHealthScoreSettings object
     # This creates the main orchestrator for brownfield device health score settings extraction
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator = BrownfieldAssuranceDeviceHealthScoreSettingsPlaybookGenerator(
+    ccc_brownfield_assurance_device_health_score_settings = BrownfieldAssuranceDeviceHealthScoreSettings(
         module)
 
     # Log module initialization after object creation (now logging is available)
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Starting Ansible module execution for brownfield device health score settings playbook "
         "generator at timestamp {0}".format(initialization_timestamp),
         "INFO"
     )
 
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
         "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
         "config_items={6}".format(
@@ -3587,16 +3587,16 @@ def main():
     # ============================================
     # Version Compatibility Check
     # ============================================
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Validating Catalyst Center version compatibility - checking if version {0} "
         "meets minimum requirement of 2.3.7.9 for device health score settings APIs".format(
-            ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_ccc_version()
+            ccc_brownfield_assurance_device_health_score_settings.get_ccc_version()
         ),
         "INFO"
     )
 
-    if (ccc_brownfield_assurance_device_health_score_settings_playbook_generator.compare_dnac_versions(
-            ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_ccc_version(), "2.3.7.9") < 0):
+    if (ccc_brownfield_assurance_device_health_score_settings.compare_dnac_versions(
+            ccc_brownfield_assurance_device_health_score_settings.get_ccc_version(), "2.3.7.9") < 0):
 
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
@@ -3605,24 +3605,24 @@ def main():
             "device health score settings including KPI thresholds, overall health "
             "inclusion flags, and issue threshold synchronization settings from "
             "the Catalyst Center.".format(
-                ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_ccc_version()
+                ccc_brownfield_assurance_device_health_score_settings.get_ccc_version()
             )
         )
 
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+        ccc_brownfield_assurance_device_health_score_settings.log(
             "Version compatibility check failed: {0}".format(error_msg),
             "ERROR"
         )
 
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.msg = error_msg
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.set_operation_result(
-            "failed", False, ccc_brownfield_assurance_device_health_score_settings_playbook_generator.msg, "ERROR"
+        ccc_brownfield_assurance_device_health_score_settings.msg = error_msg
+        ccc_brownfield_assurance_device_health_score_settings.set_operation_result(
+            "failed", False, ccc_brownfield_assurance_device_health_score_settings.msg, "ERROR"
         ).check_return_status()
 
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Version compatibility check passed - Catalyst Center version {0} supports "
         "all required device health score settings APIs".format(
-            ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_ccc_version()
+            ccc_brownfield_assurance_device_health_score_settings.get_ccc_version()
         ),
         "INFO"
     )
@@ -3630,33 +3630,33 @@ def main():
     # ============================================
     # State Parameter Validation
     # ============================================
-    state = ccc_brownfield_assurance_device_health_score_settings_playbook_generator.params.get("state")
+    state = ccc_brownfield_assurance_device_health_score_settings.params.get("state")
 
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
-            state, ccc_brownfield_assurance_device_health_score_settings_playbook_generator.supported_states
+            state, ccc_brownfield_assurance_device_health_score_settings.supported_states
         ),
         "DEBUG"
     )
 
-    if state not in ccc_brownfield_assurance_device_health_score_settings_playbook_generator.supported_states:
+    if state not in ccc_brownfield_assurance_device_health_score_settings.supported_states:
         error_msg = (
             "State '{0}' is invalid for this module. Supported states are: {1}. "
             "Please update your playbook to use one of the supported states.".format(
-                state, ccc_brownfield_assurance_device_health_score_settings_playbook_generator.supported_states
+                state, ccc_brownfield_assurance_device_health_score_settings.supported_states
             )
         )
 
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+        ccc_brownfield_assurance_device_health_score_settings.log(
             "State validation failed: {0}".format(error_msg),
             "ERROR"
         )
 
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.status = "invalid"
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.msg = error_msg
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.check_return_status()
+        ccc_brownfield_assurance_device_health_score_settings.status = "invalid"
+        ccc_brownfield_assurance_device_health_score_settings.msg = error_msg
+        ccc_brownfield_assurance_device_health_score_settings.check_return_status()
 
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "State validation passed - using state '{0}' for workflow execution".format(
             state
         ),
@@ -3666,14 +3666,14 @@ def main():
     # ============================================
     # Input Parameter Validation
     # ============================================
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Starting comprehensive input parameter validation for playbook configuration",
         "INFO"
     )
 
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.validate_input().check_return_status()
+    ccc_brownfield_assurance_device_health_score_settings.validate_input().check_return_status()
 
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet module requirements",
         "INFO"
@@ -3682,16 +3682,16 @@ def main():
     # ============================================
     # Configuration Processing Loop
     # ============================================
-    config_list = ccc_brownfield_assurance_device_health_score_settings_playbook_generator.validated_config
+    config_list = ccc_brownfield_assurance_device_health_score_settings.validated_config
 
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Starting configuration processing loop - will process {0} configuration "
         "item(s) from playbook".format(len(config_list)),
         "INFO"
     )
 
     for config_index, config in enumerate(config_list, start=1):
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+        ccc_brownfield_assurance_device_health_score_settings.log(
             "Processing configuration item {0}/{1} for state '{2}'".format(
                 config_index, len(config_list), state
             ),
@@ -3699,33 +3699,33 @@ def main():
         )
 
         # Reset values for clean state between configurations
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+        ccc_brownfield_assurance_device_health_score_settings.log(
             "Resetting module state variables for clean configuration processing",
             "DEBUG"
         )
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.reset_values()
+        ccc_brownfield_assurance_device_health_score_settings.reset_values()
 
         # Collect desired state (want) from configuration
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+        ccc_brownfield_assurance_device_health_score_settings.log(
             "Collecting desired state parameters from configuration item {0}".format(
                 config_index
             ),
             "DEBUG"
         )
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_want(
+        ccc_brownfield_assurance_device_health_score_settings.get_want(
             config, state
         ).check_return_status()
 
         # Execute state-specific operation (gathered workflow)
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+        ccc_brownfield_assurance_device_health_score_settings.log(
             "Executing state-specific operation for '{0}' workflow on "
             "configuration item {1}".format(state, config_index),
             "INFO"
         )
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.get_diff_state_apply[state](
+        ccc_brownfield_assurance_device_health_score_settings.get_diff_state_apply[state](
         ).check_return_status()
 
-        ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+        ccc_brownfield_assurance_device_health_score_settings.log(
             "Successfully completed processing for configuration item {0}/{1}".format(
                 config_index, len(config_list)
             ),
@@ -3743,28 +3743,28 @@ def main():
         time.localtime(module_end_time)
     )
 
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Module execution completed successfully at timestamp {0}. Total execution "
         "time: {1:.2f} seconds. Processed {2} configuration item(s) with final "
         "status: {3}".format(
             completion_timestamp,
             module_duration,
             len(config_list),
-            ccc_brownfield_assurance_device_health_score_settings_playbook_generator.status
+            ccc_brownfield_assurance_device_health_score_settings.status
         ),
         "INFO"
     )
 
     # Exit module with results
     # This is a terminal operation - function does not return after this
-    ccc_brownfield_assurance_device_health_score_settings_playbook_generator.log(
+    ccc_brownfield_assurance_device_health_score_settings.log(
         "Exiting Ansible module with result: {0}".format(
-            ccc_brownfield_assurance_device_health_score_settings_playbook_generator.result
+            ccc_brownfield_assurance_device_health_score_settings.result
         ),
         "DEBUG"
     )
 
-    module.exit_json(**ccc_brownfield_assurance_device_health_score_settings_playbook_generator.result)
+    module.exit_json(**ccc_brownfield_assurance_device_health_score_settings.result)
 
 
 if __name__ == "__main__":
