@@ -1898,7 +1898,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         )
         parsed_interfaces = self.parse_profile_info(
             additional_interfaces, "additional_interfaces")
-        
+
         if parsed_interfaces:
             each_profile_config["additional_interfaces"] = parsed_interfaces
 
