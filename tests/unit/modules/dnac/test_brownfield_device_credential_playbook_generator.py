@@ -60,7 +60,7 @@ class TestBrownfieldDeviceCredentialPlaybookGenerator(TestDnacModule):
                 return self.test_data.get("get_device_credential_settings_for_a_site_response")
             else:
                 return {"response": []}
-        
+
         self.run_dnac_exec.side_effect = mock_dnac_exec
 
     def _get_written_yaml(self, mock_file):
