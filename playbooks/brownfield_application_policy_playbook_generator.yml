@@ -1,0 +1,25 @@
+---
+- name: Generate Application Policy Brownfield Configuration
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate all application policy configurations
+      cisco.dnac.brownfield_application_policy_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        state: gathered
+        config:
+          - component_specific_filters:
+              components_list: ["application_policy", "queuing_profile"]
+              application_policy:
+                policy_names_list: ["wired_traffic_policy"]

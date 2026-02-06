@@ -72,6 +72,7 @@ options:
                       - Only letters, numbers and -_./
                         characters are allowed.
                     type: str
+                    required: true
                   pool_type:
                     description: >
                       Includes both the Generic Ip Pool
@@ -99,6 +100,7 @@ options:
                       systematic IP address distribution
                       within a network.
                     type: str
+                    required: true
                   gateway:
                     description: Serves as an entry
                       or exit point for data traffic
@@ -156,6 +158,7 @@ options:
               - Only letters, numbers and -_./ characters
                 are allowed.
             type: str
+            required: true
           pool_type:
             description: Type of the reserve ip sub
               pool. Generic - Used for general purpose
@@ -1222,6 +1225,8 @@ class NetworkSettings(DnacBase):
                     ("ipv6DnsServers", "ipv6DnsServers"),
                     ("ipv4TotalHost", "ipv4TotalHost"),
                     ("slaacSupport", "slaacSupport"),
+                    ("ipV6AddressSpace", "ipV6AddressSpace"),
+                    ("ipV4AddressSpace", "ipV4AddressSpace"),
                 ]
             elif get_object == "Network":
                 obj_params = [
@@ -5419,7 +5424,7 @@ class NetworkSettings(DnacBase):
 
             # Check pool exist, if not create and return
             self.log("IPv4 reserved pool '{0}': {1}"
-                     .format(name, self.want.get("wantReserve")[reserve_pool_index].get("ipv4GlobalPool")), "DEBUG")
+                     .format(name, self.want.get("wantReserve")[reserve_pool_index].get("ipV4AddressSpace")), "DEBUG")
             site_name = item.get("site_name")
             reserve_params = self.want.get("wantReserve")[reserve_pool_index]
             site_exist, site_id = self.get_site_id(site_name)
@@ -6695,12 +6700,18 @@ class NetworkSettings(DnacBase):
                     self.status = "failed"
                     return self
 
-                want_network_aaa = self.want.get("wantNetwork")[network_management_index].get("settings", {}).get("network_aaa", {})
+                want_settings = self.want.get("wantNetwork")[network_management_index].get("settings", {})
+                network_aaa_provided = "network_aaa" in want_settings
+                want_network_aaa = want_settings.get("network_aaa")
                 have_net_details = self.have.get("network")[network_management_index].get("net_details")
                 have_aaa_primary_ip = have_net_details.get("settings", {}).get("network_aaa", {}).get("primaryServerIp", "")
 
                 # RESET CASE (both empty)
-                if want_network_aaa == {} and have_aaa_primary_ip not in ("", None):
+                if (
+                    network_aaa_provided
+                    and want_network_aaa == {}
+                    and have_aaa_primary_ip not in ("", None)
+                ):
                     self.msg = "Network AAA Primary IP update not applied on Cisco Catalyst Center"
                     self.status = "failed"
                     return self

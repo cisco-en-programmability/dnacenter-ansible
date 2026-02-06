@@ -25,14 +25,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_sda_fabric_sites_zones_config_generator
+from ansible_collections.cisco.dnac.plugins.modules import brownfield_sda_fabric_sites_zones_playbook_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
-    module = brownfield_sda_fabric_sites_zones_config_generator
-    test_data = loadPlaybookData("brownfield_sda_fabric_sites_zones_config_generator")
+    module = brownfield_sda_fabric_sites_zones_playbook_generator
+    test_data = loadPlaybookData("brownfield_sda_fabric_sites_zones_playbook_generator")
 
     # Load all playbook configurations
     playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
@@ -179,7 +179,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -204,7 +204,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -229,7 +229,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -254,7 +254,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -279,7 +279,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -304,7 +304,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -329,7 +329,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -354,7 +354,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -379,7 +379,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -404,8 +404,8 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
-        self.assertIn("brownfield_sda_fabric_sites_zones_config_generator_playbook_", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn("sda_fabric_sites_zones_workflow_manager_playbook", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -430,4 +430,4 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))

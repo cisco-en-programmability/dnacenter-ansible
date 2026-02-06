@@ -43,10 +43,16 @@ jobs:
 
       - name: Add swap space (2 GB)
         run: |
-          sudo fallocate -l 2G /swapfile
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
+          set -euxo pipefail
+          SWAP=/mnt/gh-swapfile
+          sudo swapoff "$SWAP" 2>/dev/null || true
+          sudo rm -f "$SWAP"
+          sudo fallocate -l 2G "$SWAP"
+          sudo chmod 600 "$SWAP"
+          sudo mkswap "$SWAP"
+          sudo swapon "$SWAP"
+          swapon --show
+          free -h
 
       - name: Run sanity tests
         run: |

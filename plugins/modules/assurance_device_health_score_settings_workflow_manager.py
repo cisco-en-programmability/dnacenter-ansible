@@ -34,7 +34,7 @@ description:
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Megha Kandari (@kandarimegha) Madhan Sankaranarayanan
+author: Megha Kandari (@kandarimegha), Madhan Sankaranarayanan
   (@madhansansel)
 options:
   config_verify:
@@ -68,7 +68,8 @@ options:
           Configures the health score settings for network
           devices. Defines thresholds for KPIs like
           CPU UTILIZATION, MEMORY UTILIZATION, etc.
-        type: dict
+        type: list
+        elements: dict
         required: true
         suboptions:
           device_family:
@@ -303,7 +304,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.dnac. assurance_device_health_score_settings_workflow_manager:
+      cisco.dnac.assurance_device_health_score_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -330,7 +331,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.dnac. assurance_device_health_score_settings_workflow_manager:
+      cisco.dnac.assurance_device_health_score_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -357,7 +358,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.dnac. assurance_device_health_score_settings_workflow_manager:
+      cisco.dnac.assurance_device_health_score_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -447,7 +448,7 @@ class Healthscore(DnacBase):
             "device_health_score": {
                 "type": "list",
                 "elements": "dict",
-                "name": {"type": "str", "required": True},
+                "kpi_name": {"type": "str", "required": True},
                 "device_family": {"type": "str", "required": True},
                 "include_for_overall_health": {"type": "bool", "required": True},
                 "threshold_value": {"type": "int", "required": False},
