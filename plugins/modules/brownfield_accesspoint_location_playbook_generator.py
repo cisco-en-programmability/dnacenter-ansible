@@ -419,35 +419,99 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
-        Returns:
-            object: An instance of the class with updated attributes:
-                self.msg: A message describing the validation result.
-                self.status: The status of the validation (either "success" or "failed").
-                self.validated_config: If successful, a validated version of the "config" parameter.
-        """
-        self.log("Starting validation of input configuration parameters.", "DEBUG")
+        Validates input configuration parameters for access point location playbook generation.
 
-        # Check if configuration is available
+        This function performs comprehensive validation of input configuration parameters
+        by checking parameter presence, validating against expected schema specification,
+        verifying allowed keys to prevent invalid parameters, ensuring minimum requirements
+        for brownfield playbook generation, and setting validated configuration for
+        downstream processing workflows.
+
+        Args:
+            None (uses self.config from class instance)
+
+        Returns:
+            object: Self instance with updated attributes:
+                - self.validated_config: List of validated configuration dictionaries
+                - self.msg: Success or failure message
+                - self.status: Validation status ("success" or "failed")
+                - Operation result set via set_operation_result()
+        """
+        self.log(
+            "Starting validation of playbook configuration parameters. Checking "
+            "configuration availability, schema compliance, and minimum requirements "
+            "for access point location playbook generation workflow.",
+            "INFO"
+        )
+
         if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
+            self.msg = (
+                "Configuration is not available in the playbook for validation. This is "
+                "valid for certain workflows that don't require configuration parameters."
+            )
             self.log(self.msg, "INFO")
+            self.status = "success"
             return self
 
-        # Expected schema for configuration parameters
+        if not isinstance(self.config, list):
+            self.msg = (
+                "Configuration must be a list of dictionaries, got: {0}. Please provide "
+                "configuration as a list.".format(type(self.config).__name__)
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        self.log(
+            "Configuration list provided with {0} item(s) to validate. Starting "
+            "per-item validation.".format(len(self.config)),
+            "DEBUG"
+        )
+
+        # Define expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "global_filters": {"type": "dict", "elements": "dict", "required": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False
+            },
+            "file_path": {
+                "type": "str",
+                "required": False
+            },
+            "global_filters": {
+                "type": "dict",
+                "required": False
+            },
         }
 
         allowed_keys = set(temp_spec.keys())
+        self.log(
+            "Defined validation schema with {0} allowed parameter(s): {1}".format(
+                len(allowed_keys), list(allowed_keys)
+            ),
+            "DEBUG"
+        )
 
-        # Validate that only allowed keys are present in the configuration
-        for config_item in self.config:
+        # Validate that only allowed keys are present in each configuration item
+        self.log(
+            "Starting per-item key validation to check for invalid/unknown parameters.",
+            "DEBUG"
+        )
+
+        for config_index, config_item in enumerate(self.config, start=1):
+            self.log(
+                "Validating configuration item {0}/{1} for type and allowed keys.".format(
+                    config_index, len(self.config)
+                ),
+                "DEBUG"
+            )
             if not isinstance(config_item, dict):
-                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.msg = (
+                    f"Configuration item {config_index}/{len(self.config)} must be a "
+                    f"dictionary, got: {type(config_item).__name__}. Each "
+                    "configuration entry must be a dictionary with valid parameters."
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -457,32 +521,191 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             if invalid_keys:
                 self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
-                    )
+                    "Invalid parameters found in playbook configuration item "
+                    f"{config_index}/{len(self.config)}: {list(invalid_keys)}. "
+                    f"Only the following parameters are allowed: {list(allowed_keys)}. "
+                    "Please remove the invalid parameters and try again."
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-        self.validate_minimum_requirements(self.config)
-        self.log("Validating configuration parameters against the expected schema: {0}".format(temp_spec), "DEBUG")
+            self.log(
+                "Configuration item {0}/{1} passed key validation. All keys are valid.".format(
+                    config_index, len(self.config)
+                ),
+                "DEBUG"
+            )
+
+        self.log(
+            "Completed per-item key validation. All {0} configuration item(s) have valid "
+            "parameter keys.".format(len(self.config)),
+            "INFO"
+        )
+
+        # Validate minimum requirements (generate_all or global_filters)
+        self.log(
+            "Validating minimum requirements to ensure either generate_all_configurations "
+            "or global_filters is provided.",
+            "DEBUG"
+        )
+
+        try:
+            self.validate_minimum_requirements(self.config)
+            self.log(
+                "Minimum requirements validation passed. Configuration has either "
+                "generate_all_configurations or valid global_filters.",
+                "INFO"
+            )
+        except Exception as e:
+            self.msg = (
+                "Minimum requirements validation failed: {0}. Please ensure either "
+                "generate_all_configurations is true or global_filters is provided with "
+                "at least one filter list.".format(str(e))
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Perform schema-based validation using validate_list_of_dicts
+        self.log(
+            "Starting schema-based validation using validate_list_of_dicts(). Validating "
+            "parameter types, defaults, and required fields against schema: {0}".format(temp_spec),
+            "DEBUG"
+        )
 
         # Import validate_list_of_dicts function here to avoid circular imports
         # from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        self.log(
+            "Schema validation completed. Valid configurations: {0}, Invalid parameters: {1}".format(
+                len(valid_temp) if valid_temp else 0,
+                bool(invalid_params)
+            ),
+            "DEBUG"
+        )
 
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            self.msg = (
+                "Invalid parameters found during schema validation: {0}. Please check "
+                "parameter types and values. Expected types: generate_all_configurations "
+                "(bool), file_path (str), global_filters (dict).".format(invalid_params)
+            )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Set the validated configuration and update the result with success status
+        # Validate global_filters structure if provided
+        self.log(
+            "Validating global_filters structure for configuration items that include filters.",
+            "DEBUG"
+        )
+        for config_index, config_item in enumerate(valid_temp, start=1):
+            global_filters = config_item.get("global_filters")
+
+            if global_filters:
+                self.log(
+                    "Configuration item {0}/{1} has global_filters. Validating filter structure.".format(
+                        config_index, len(valid_temp)
+                    ),
+                    "DEBUG"
+                )
+
+                if not isinstance(global_filters, dict):
+                    self.msg = (
+                        "global_filters in configuration item {0}/{1} must be a dictionary, "
+                        "got: {2}. Please provide global_filters as a dictionary with filter lists.".format(
+                            config_index, len(valid_temp), type(global_filters).__name__
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                # Check that at least one filter list is provided and has values
+                valid_filter_keys = [
+                    "hostname_filter", "site_name_filter", "ap_name_filter",
+                    "site_hierarchy", "accesspoint_model_list", "mac_address_list"
+                ]
+                provided_filters = {
+                    key: global_filters.get(key)
+                    for key in valid_filter_keys
+                    if global_filters.get(key)
+                }
+
+                if not provided_filters:
+                    self.msg = (
+                        "global_filters in configuration item {0}/{1} provided but no valid "
+                        "filter lists have values. At least one of the following must be provided: "
+                        "{2}. Please add at least one filter list with values.".format(
+                            config_index, len(valid_temp), valid_filter_keys
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                # Validate that filter values are lists (except hostname_filter and site_name_filter)
+                for filter_key, filter_value in provided_filters.items():
+                    if filter_key in ["hostname_filter", "site_name_filter"]:
+                        # These can be strings
+                        if not isinstance(filter_value, str):
+                            self.msg = (
+                                "global_filters.{0} in configuration item {1}/{2} must be a string, "
+                                "got: {3}. Please provide {0} as a string value.".format(
+                                    filter_key, config_index, len(valid_temp), type(filter_value).__name__
+                                )
+                            )
+                            self.log(self.msg, "ERROR")
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
+                    else:
+                        # Other filters must be lists
+                        if not isinstance(filter_value, list):
+                            self.msg = (
+                                "global_filters.{0} in configuration item {1}/{2} must be a list, "
+                                "got: {3}. Please provide filter as a list of strings.".format(
+                                    filter_key, config_index, len(valid_temp), type(filter_value).__name__
+                                )
+                            )
+                            self.log(self.msg, "ERROR")
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
+
+                self.log(
+                    "Configuration item {0}/{1} global_filters structure validated successfully. "
+                    "Provided filters: {2}".format(
+                        config_index, len(valid_temp), list(provided_filters.keys())
+                    ),
+                    "INFO"
+                )
+            else:
+                self.log(
+                    "Configuration item {0}/{1} does not have global_filters. Assuming "
+                    "generate_all_configurations mode.".format(config_index, len(valid_temp)),
+                    "DEBUG"
+                )
+
+        # Set validated configuration and return success
         self.validated_config = valid_temp
-        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {valid_temp}"
+
+        self.msg = (
+            "Successfully validated {0} configuration item(s) for access point location "
+            "playbook generation. Validated configuration: {1}".format(
+                len(valid_temp), str(valid_temp)
+            )
+        )
+
+        self.log(
+            "Input validation completed successfully. Total items validated: {0}, "
+            "Items with generate_all: {1}, Items with global_filters: {2}".format(
+                len(valid_temp),
+                sum(1 for item in valid_temp if item.get("generate_all_configurations")),
+                sum(1 for item in valid_temp if item.get("global_filters"))
+            ),
+            "INFO"
+        )
+
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
@@ -490,74 +713,227 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Validates individual configuration parameters for brownfield access point location generation.
 
-        Parameters:
-            config (dict): Configuration parameters
+        This function performs detailed validation of configuration parameters required for
+        YAML playbook generation, including mode flags, file paths, and global filter structures.
+        It ensures configuration completeness and validates file system accessibility.
+
+        Args:
+            config (dict): Configuration parameters from validated playbook containing:
+                - generate_all_configurations (bool, optional): Generate all configurations flag
+                - file_path (str, optional): Output file path for YAML playbook
+                - global_filters (dict, optional): Filter criteria for AP selection
 
         Returns:
-            self: Current instance with validation status updated.
+            object: Self instance with updated attributes:
+                - self.msg: Validation result message
+                - self.status: Validation status ("success" or "failed")
+
+        Side Effects:
+            - May create directory structure if file_path directory doesn't exist
+            - Updates self.status based on validation outcome
+            - Logs validation progress and results
+
+        Raises:
+            Sets self.status to "failed" on validation errors but doesn't raise exceptions.
         """
-        self.log("Starting validation of configuration parameters", "DEBUG")
+        self.log(
+            "Starting detailed validation of individual configuration parameters for access point "
+            "location playbook generation. Checking configuration completeness, parameter types, "
+            "and file system accessibility.",
+            "DEBUG"
+        )
 
         # Check for required parameters
         if not config:
-            self.msg = "Configuration cannot be empty"
+            self.msg = (
+                "Configuration cannot be empty. At least one of 'generate_all_configurations' "
+                "or 'global_filters' must be provided for YAML playbook generation."
+            )
+            self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
+
+        self.log(
+            f"Configuration parameter dictionary provided with {len(config)} key(s):"
+            f" {list(config.keys())}. Proceeding "
+            "with parameter-specific validation.",
+            "DEBUG"
+        )
 
         # Validate file_path if provided
         file_path = config.get("file_path")
         if file_path:
+            self.log(
+                "Validating file_path parameter: '{file_path}'. Checking directory existence and "
+                "write permissions.",
+                "DEBUG"
+            )
             import os
             directory = os.path.dirname(file_path)
-            if directory and not os.path.exists(directory):
-                try:
-                    os.makedirs(directory, exist_ok=True)
-                    self.log("Created directory: {0}".format(directory), "INFO")
-                except Exception as e:
-                    self.msg = "Cannot create directory for file_path: {0}. Error: {1}".format(directory, str(e))
-                    self.status = "failed"
-                    return self
 
-        self.log("Configuration parameters validation completed successfully", "DEBUG")
+            if directory:
+                if not os.path.exists(directory):
+                    self.log(
+                        f"Directory does not exist: '{directory}'. Attempting to create directory "
+                        "structure with makedirs().",
+                        "INFO"
+                    )
+                    try:
+                        os.makedirs(directory, exist_ok=True)
+                        self.log(
+                            f"Successfully created directory: '{directory}'. File path is now "
+                            "accessible for YAML output.",
+                            "INFO"
+                        )
+                    except Exception as e:
+                        self.msg = (
+                            "Cannot create directory for file_path: '{0}'. Error: {1}. "
+                            "Please verify directory path is valid and you have write "
+                            "permissions.".format(directory, str(e))
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.status = "failed"
+                        return self
+                else:
+                    self.log(
+                        f"Directory exists and is accessible: '{directory}'. File path validation "
+                        "successful.",
+                        "DEBUG"
+                    )
+            else:
+                self.log(
+                    "No directory specified in file_path (current directory will be used): "
+                    f"'{file_path}'", "DEBUG"
+                )
+        else:
+            self.log(
+                "No file_path parameter provided. Default filename will be generated "
+                "automatically based on module name and timestamp.",
+                "DEBUG"
+            )
+
+        # Validate generate_all_configurations parameter if provided
+        generate_all = config.get("generate_all_configurations")
+        if generate_all is not None:
+            self.log(
+                f"generate_all_configurations parameter provided: {generate_all}. This will determine "
+                "whether to collect all access point locations or use global_filters.",
+                "DEBUG"
+            )
+            if not isinstance(generate_all, bool):
+                self.msg = (
+                    "generate_all_configurations must be a boolean value (true/false), "
+                    f"got: {type(generate_all).__name__}. Please provide a valid boolean."
+                )
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+        # Validate global_filters parameter if provided
+        global_filters = config.get("global_filters")
+        if global_filters is not None:
+            self.log(
+                "global_filters parameter provided with "
+                f"{len(global_filters) if isinstance(global_filters, dict) else 0} filter(s). Validating filter "
+                "structure.",
+                "DEBUG"
+            )
+            if not isinstance(global_filters, dict):
+                self.msg = (
+                    f"global_filters must be a dictionary, got: {type(global_filters).__name__}. Please provide "
+                    "global_filters as a dictionary with filter lists."
+                )
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            self.log(
+                "global_filters structure validated successfully. Filters will be processed "
+                "during get_have() and yaml_config_generator() operations.",
+                "DEBUG"
+            )
+
+        self.log(
+            "Configuration parameters validation completed successfully. All parameters "
+            "conform to expected types and formats. Status: success",
+            "DEBUG"
+        )
         self.status = "success"
         return self
 
     def get_want(self, config, state):
         """
-        Creates parameters for API calls based on the specified state.
-        This method prepares the parameters required for retrieving and managing
-        access point location such as accesspoint name, model, position and radio
-        in the Cisco Catalyst Center
-        based on the desired state. It logs detailed information for each operation.
+        Prepares desired configuration parameters for API operations based on playbook state.
 
-        Parameters:
-            config (dict): The configuration data for the access point location elements.
-            state (str): The desired state of the network elements ('gathered').
+        This function validates input configuration, extracts YAML generation parameters,
+        and populates the self.want dictionary with structured data required for access point
+        location YAML playbook generation workflow in Cisco Catalyst Center.
+
+        Args:
+            config (dict): Configuration parameters from Ansible playbook containing:
+                  - generate_all_configurations: Mode flag (optional, bool)
+                  - file_path: Output file path (optional, str)
+                  - global_filters: Filter criteria (optional, dict)
+                  Example: {
+                    "generate_all_configurations": False,
+                    "file_path": "/tmp/ap_locations.yml",
+                    "global_filters": {
+                      "site_list": ["Global/USA/San Jose/Building1/Floor1"],
+                      "accesspoint_model_list": ["C9130AXI-B"]
+                    }
+                  }
+            state (str): Desired state for operation (must be 'gathered').
+                        Other states not supported for YAML generation.
 
         Returns:
-            self: The current instance of the class with updated 'want' attributes.
+            object: Self instance with updated attributes:
+                - self.want: Dict containing validated YAML generation parameters
+                - self.msg: Success message describing parameter collection
+                - self.status: Operation status ("success")
+
+        Side Effects:
+            - Validates config parameters via validate_params()
+            - Updates self.want dictionary with YAML generation configuration
+            - Logs detailed parameter extraction and validation information
         """
 
         self.log(
-            "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
+            "Preparing desired configuration parameters for API operations based on playbook "
+            f"configuration. State parameter: '{state}'. This operation validates input parameters, "
+            "extracts YAML generation settings, and populates the want dictionary for downstream "
+            "processing by get_have() and yaml_config_generator() functions.",
+            "INFO"
+        )
+
+        self.log(
+            "Initiating comprehensive input parameter validation using validate_params(). "
+            "This validates parameter types, required fields, and schema compliance for "
+            "YAML generation workflow.",
+            "INFO"
         )
 
         self.validate_params(config)
+        self.log(
+            "Input parameter validation completed successfully. All configuration parameters "
+            "conform to expected schema and type requirements. Proceeding with want dictionary "
+            "population.",
+            "DEBUG"
+        )
 
         want = {}
 
         # Add yaml_config_generator to want
         want["yaml_config_generator"] = config
         self.log(
-            "yaml_config_generator added to want: {0}".format(
-                self.pprint(want["yaml_config_generator"])
-            ),
-            "INFO",
+            "Successfully extracted yaml_config_generator parameters from playbook. Complete "
+            f"parameter structure: {want['yaml_config_generator']}. These parameters will control YAML generation mode "
+            "(generate_all vs filtered), output file location, and access point filtering criteria.",
+            "INFO"
         )
 
         self.want = want
-        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
-        self.msg = "Successfully collected all parameters from the playbook for access point location operations."
+        self.log(f"Desired State (want): {self.pprint(self.want)}", "INFO")
+        self.msg = "Successfully collected all parameters from the playbook for Access Point Location operations."
         self.status = "success"
         return self
 
