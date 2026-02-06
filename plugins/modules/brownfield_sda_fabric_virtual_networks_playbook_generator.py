@@ -1,36 +1,32 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to manage Extranet Policy Operations in SD-Access Fabric in Cisco Catalyst Center."""
+"""Ansible module to generate YAML configurations for SD-Access Fabric Virtual Networks Module."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Abhishek Maheshwari, Madhan Sankaranarayanan"
+__author__ = "Abhishek Maheshwari, Sunil Shatagopa, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_sda_fabric_virtual_networks_config_generator
-short_description: Generate YAML playbook for 'brownfield_sda_fabric_virtual_networks_config_generator' module.
+module: brownfield_sda_fabric_virtual_networks_playbook_generator
+short_description: Generate YAML playbook for C(sda_fabric_virtual_networks_workflow_manager) module.
 description:
-- Generates YAML configurations compatible with the `brownfield_sda_fabric_virtual_networks_config_generator`
+- Generates YAML configurations compatible with the C(sda_fabric_virtual_networks_workflow_manager)
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
 - The YAML configurations generated represent the fabric vlans, virtual networks and anycast
   gateways configured on the Cisco Catalyst Center.
-version_added: 6.17.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Abhishek Maheshwari (@abmahesh)
+- Sunil Shatagopa (@shatagopasunil)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -38,30 +34,22 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `brownfield_sda_fabric_virtual_networks_config_generator`
+    - A list of filters for generating YAML playbook compatible with the `sda_fabric_virtual_networks_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - If C(components_list) is specified, only those components are included, regardless of the filters.
     type: list
     elements: dict
     required: true
     suboptions:
       generate_all_configurations:
         description:
-          - When set to True, automatically generates YAML configurations for all devices and all supported layer2 features.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
+          - When set to C(true), automatically generates YAML configurations for all the fabric vlans, virtual networks
+            and anycast gateways present in the Cisco Catalyst Center, ignoring any provided filters.
           - When enabled, the config parameter becomes optional and will use default values if not provided.
           - A default filename will be generated automatically if file_path is not specified.
           - This is useful for complete brownfield infrastructure discovery and documentation.
-          - IMPORTANT NOTE - Currently, this module only supports layer2 configurations.
-            When generate_all_configurations is enabled, it will attempt to retrieve layer2 configurations
-            from ALL managed devices without filtering for layer2 capability.
-            This may result in API errors for devices that do not support layer2 configuration features
-            (such as older switch models, routers, wireless controllers, etc.).
-            It is recommended to use specific device filters (ip_address_list, hostname_list,
-            or serial_number_list) to target only layer2-capable devices when not using generate_all_configurations mode.
-          - Supported layer2 devices include Catalyst 9000 series switches (9200/9300/9350/9400/9500/9600)
-            and IE series switches (IE3400/IE3400H/IE3500/IE9300) running IOS-XE 17.3 or higher.
+          - When set to false, the module uses provided filters to generate a targeted YAML configuration.
         type: bool
         required: false
         default: false
@@ -69,28 +57,27 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "<module_name>_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "brownfield_sda_fabric_virtual_networks_config_generator_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(sda_fabric_virtual_networks_workflow_manager_playbook_2026-01-24_12-33-20.yml).
         type: str
       component_specific_filters:
         description:
-          - Filters to specify which components to include in the YAML configuration
-            file.
-          - If "components_list" is specified, only those components are included,
-            regardless of other filters.
+        - Filters to specify which components to include in the YAML configuration file.
+        - If C(components_list) is specified, only those components are included, regardless of other filters.
         type: dict
         suboptions:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
             - Valid values are
-              - Fabric VLANs "fabric_vlan"
-              - Virtual Networks "virtual_networks"
-              - Anycast Gateways "anycast_gateways"
-            - If not specified, all components are included.
+              - Fabric VLANs C(fabric_vlan)
+              - Virtual Networks C(virtual_networks)
+              - Anycast Gateways C(anycast_gateways)
             - For example, ["fabric_vlan", "virtual_networks", "anycast_gateways"].
+            - If not specified, all components are included.
             type: list
             elements: str
+            choices: ["fabric_vlan", "virtual_networks", "anycast_gateways"]
           fabric_vlan:
             description:
             - Fabric VLANs to filter fabric vlans by vlan name or vlan id.
@@ -138,12 +125,14 @@ options:
                 description:
                 - IP Pool name to filter anycast gateways by IP Pool name.
                 type: str
+
 requirements:
-- dnacentersdk >= 2.10.10
+- dnacentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
 - SDK Methods used are
-    - sites.Sites.get_site - site_design.SiteDesigns.get_sites
+    - sites.Sites.get_site
+    - site_design.SiteDesigns.get_sites
     - sda.Sda.get_layer2_virtual_networks
     - sda.Sda.get_layer3_virtual_networks
     - sda.Sda.get_anycast_gateways
@@ -160,12 +149,16 @@ notes:
     - GET /dna/intent/api/v1/sda/fabric-zones
     - GET /dna/intent/api/v1/sda/fabric-sites/{id}
     - GET /dna/intent/api/v1/sda/fabric-zones/{id}
+seealso:
+- module: cisco.dnac.sda_fabric_virtual_networks_workflow_manager
+  description: Module for managing fabric VLANs, Virtual Networks,
+               and Anycast Gateways in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
 - name: Auto-generate YAML Configuration for all components which
      includes fabric vlans, virtual networks and anycast gateways.
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -178,8 +171,9 @@ EXAMPLES = r"""
     state: gathered
     config:
       - generate_all_configurations: true
+
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -191,9 +185,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - generate_all_configurations: true
+        file_path: "/tmp/all_config.yml"
+
 - name: Generate YAML Configuration with specific fabric vlan components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -205,11 +201,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_fabric_vlan_components_config.yml"
         component_specific_filters:
           components_list: ["fabric_vlan"]
+
 - name: Generate YAML Configuration with specific virtual networks components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -221,11 +218,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_virtual_networks_components_config.yml"
         component_specific_filters:
           components_list: ["virtual_networks"]
+
 - name: Generate YAML Configuration with specific anycast gateways components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -237,11 +235,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
         component_specific_filters:
           components_list: ["anycast_gateways"]
+
 - name: Generate YAML Configuration for fabric vlans with vlan name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -253,14 +252,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_fabric_vlans_components_config.yml"
         component_specific_filters:
           components_list: ["fabric_vlan"]
           fabric_vlan:
             - vlan_name: "vlan_1"
             - vlan_name: "vlan_2"
+
 - name: Generate YAML Configuration for fabric vlans and virtual networks with multiple filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -272,7 +272,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_multiple_components_config.yml"
         component_specific_filters:
           components_list: ["fabric_vlan", "virtual_networks"]
           fabric_vlan:
@@ -281,8 +281,9 @@ EXAMPLES = r"""
           virtual_networks:
             - vn_name: "vn_1"
             - vn_name: "vn_2"
+
 - name: Generate YAML Configuration for all components with no filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -294,11 +295,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_all_components_config.yml"
         component_specific_filters:
           components_list: ["fabric_vlan", "virtual_networks", "anycast_gateways"]
+
 - name: Generate YAML Configuration for fabric vlans with VLAN IDs filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -310,14 +312,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_fabric_vlan_components_config.yml"
         component_specific_filters:
           components_list: ["fabric_vlan"]
           fabric_vlan:
             - vlan_id: 1031
             - vlan_id: 1038
+
 - name: Generate YAML Configuration for fabric vlans with both VLAN name and ID filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -329,7 +332,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_fabric_vlan_components_config.yml"
         component_specific_filters:
           components_list: ["fabric_vlan"]
           fabric_vlan:
@@ -337,8 +340,9 @@ EXAMPLES = r"""
               vlan_id: 1031
             - vlan_name: "Chennai-VN9-Pool2"
               vlan_id: 1038
+
 - name: Generate YAML Configuration for virtual networks with specific VN names
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -350,14 +354,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_virtual_networks_components_config.yml"
         component_specific_filters:
           components_list: ["virtual_networks"]
           virtual_networks:
             - vn_name: "VN1"
             - vn_name: "VN3"
+
 - name: Generate YAML Configuration for anycast gateways with VN name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -369,14 +374,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
         component_specific_filters:
           components_list: ["anycast_gateways"]
           anycast_gateways:
             - vn_name: "Chennai_VN1"
             - vn_name: "Chennai_VN3"
+
 - name: Generate YAML Configuration for anycast gateways with IP pool name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -388,14 +394,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
         component_specific_filters:
           components_list: ["anycast_gateways"]
           anycast_gateways:
             - ip_pool_name: "Chennai-VN3-Pool1"
             - ip_pool_name: "Chennai-VN1-Pool2"
+
 - name: Generate YAML Configuration for anycast gateways with VLAN ID and IP pool filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -407,15 +414,16 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
         component_specific_filters:
           components_list: ["anycast_gateways"]
           anycast_gateways:
             - vlan_id: 1032
             - vlan_id: 1033
             - ip_pool_name: "Chennai-VN1-Pool2"
+
 - name: Generate YAML Configuration for anycast gateways with VLAN name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -427,14 +435,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
         component_specific_filters:
           components_list: ["anycast_gateways"]
           anycast_gateways:
             - vlan_name: "Chennai-VN1-Pool2"
             - vlan_name: "Chennai-VN7-Pool1"
+
 - name: Generate YAML Configuration for anycast gateways with VLAN name and ID combination
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -446,7 +455,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
         component_specific_filters:
           components_list: ["anycast_gateways"]
           anycast_gateways:
@@ -454,8 +463,9 @@ EXAMPLES = r"""
               vlan_id: 1022
             - vlan_name: "Chennai-VN7-Pool1"
               vlan_id: 1033
+
 - name: Generate YAML Configuration for anycast gateways with comprehensive filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_config_generator:
+  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -467,7 +477,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yaml"
+      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
         component_specific_filters:
           components_list: ["anycast_gateways"]
           anycast_gateways:
@@ -501,11 +511,15 @@ response_1:
 response_2:
   description: A string with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
     {
-      "response": [],
-      "msg": String
+        "msg":
+            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+             when 'generate_all_configurations' is set to False.",
+        "response":
+            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+             when 'generate_all_configurations' is set to False."
     }
 """
 
@@ -520,23 +534,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts
 )
 import time
-try:
-    import yaml
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-    yaml = None
 from collections import OrderedDict
-
-
-if HAS_YAML:
-    class OrderedDumper(yaml.Dumper):
-        def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
-
-    OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
-else:
-    OrderedDumper = None
 
 
 class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
@@ -560,8 +558,6 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.site_id_name_dict = self.get_site_id_name_mapping()
         self.module_name = "sda_fabric_virtual_networks_workflow_manager"
 
-        # Initialize generate_all_configurations as class-level parameter
-
     def validate_input(self):
         """
         Validates the input configuration parameters for the playbook.
@@ -582,19 +578,35 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False
+            },
+            "file_path": {
+                "type": "str",
+                "required": False
+            },
+            "component_specific_filters": {
+                "type": "dict",
+                "required": False
+            }
         }
 
         # Validate params
+        self.log("Validating configuration against schema", "DEBUG")
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
+        self.validate_minimum_requirements(self.config)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -606,11 +618,10 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_workflow_elements_schema(self):
         """
-        Description:
-            Constructs and returns a structured mapping for managing various virtual network elements
-            such as fabric VLANs, virtual networks, and anycast gateways. This mapping includes
-            associated filters, temporary specification functions, API details, and fetch function references
-            used in the virtual network workflow orchestration process.
+        Constructs and returns a structured mapping for managing various virtual network elements
+        such as fabric VLANs, virtual networks, and anycast gateways. This mapping includes
+        associated filters, temporary specification functions, API details, and fetch function references
+        used in the virtual network workflow orchestration process.
 
         Args:
             self: Refers to the instance of the class containing definitions of helper methods like
@@ -625,10 +636,11 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
                     - "api_function": Name of the API to be called for the component.
                     - "api_family": API family name (e.g., 'sda').
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
-                - "global_filters": An empty list reserved for global filters applicable across all network elements.
         """
 
-        return {
+        self.log("Building workflow filters schema for sda fabric virtual networks module", "DEBUG")
+
+        schema = {
             "network_elements": {
                 "fabric_vlan": {
                     "filters": ["vlan_name", "vlan_id"],
@@ -651,9 +663,16 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "api_family": "sda",
                     "get_function_name": self.get_anycast_gateways_configuration,
                 },
-            },
-            "global_filters": [],
+            }
         }
+
+        network_elements = list(schema["network_elements"].keys())
+        self.log(
+            f"Workflow filters schema generated successfully with {len(network_elements)} network element(s): {network_elements}",
+            "INFO",
+        )
+
+        return schema
 
     def transform_fabric_site_locations(self, vlan_details):
         """
@@ -670,12 +689,42 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Transforming fabric site locations for VLAN details: {0}".format(vlan_details),
+            "Starting site name hierarchy and fabric type transformation for given fabric id: {0}"
+            .format(vlan_details.get("fabricId", "Unknown")),
             "DEBUG"
         )
         fabric_id = vlan_details.get("fabricId")
+
+        if not fabric_id:
+            self.log("No fabric ID found in vlan details: {0}".format(vlan_details), "WARNING")
+            return fabric_id
+
+        self.log(
+            "Processing site name hierarchy and fabric type for given fabric id: {0}"
+            .format(fabric_id),
+            "DEBUG"
+        )
         site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
+
+        if not site_id:
+            self.log("No site ID found for given fabric ID: {0}". format(fabric_id), "WARNING")
+            return site_id
+
+        if not fabric_type:
+            self.log("Fabric type not found for given fabric ID: {0}".format(fabric_id), "WARNING")
+            return fabric_type
+
         site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
+        if not site_name_hierarchy:
+            self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+            return site_name_hierarchy
+
+        self.log(
+            "Completed site name hierarchy and fabric type transformation for fabric id: {0}, "
+            "Transformed site name hierarchy: {1}, fabric type: {2}"
+            .format(fabric_id, site_name_hierarchy, fabric_type),
+            "DEBUG"
+        )
 
         return [{
             "site_name_hierarchy": site_name_hierarchy,
@@ -699,7 +748,8 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Transforming fabric site locations for VN details: {0}".format(vn_details),
+            "Starting fabric site locations transformation for given fabric id(s): {0}"
+            .format(vn_details.get("fabricIds", "Unknown")),
             "DEBUG"
         )
         fabric_ids = vn_details.get("fabricIds")
@@ -711,12 +761,29 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             return fabric_site_list
 
+        self.log(
+            "Processing {0} fabric site locations for fabric id(s): {1}".format(len(fabric_ids), fabric_ids),
+            "DEBUG"
+        )
+
         for fabric_id in fabric_ids:
             site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
+            if not site_id:
+                self.log("No site ID found for given fabric ID: {0}". format(fabric_id), "WARNING")
+                return site_id
+
+            if not fabric_type:
+                self.log("Fabric type not found for given fabric ID: {0}".format(fabric_id), "WARNING")
+                return fabric_type
+
             site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
+            if not site_name_hierarchy:
+                self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+                return site_name_hierarchy
+
             self.log(
-                "Transformed fabric site name {0} for VN details: {1}".format(
-                    site_name_hierarchy, vn_details
+                "Transformed fabric site name {0} for fabric id: {1}".format(
+                    site_name_hierarchy, fabric_id
                 ),
                 "DEBUG"
             )
@@ -725,6 +792,11 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "fabric_type": fabric_type
             }
             fabric_site_list.append(site_dict)
+
+        self.log(
+            "Completed fabric site locations transformation. Transformed fabric site(s): {0}"
+            .format(fabric_site_list), "DEBUG"
+        )
 
         return fabric_site_list
 
@@ -745,23 +817,36 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Transforming anycast gateway details for: {0}".format(anycast_details),
-            "DEBUG"
+            "Starting anycast gateway details transformation for given fabric id: {0}"
+            .format(anycast_details.get("fabricId", "Unknown")), "DEBUG"
         )
+
         fabric_id = anycast_details.get("fabricId")
         if not fabric_id:
             self.log(
                 "No fabric ID found in anycast gateway details: {0}".format(anycast_details),
                 "DEBUG"
             )
-            return None
+            return fabric_id
 
         site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
+        if not site_id:
+            self.log("No site ID found for given fabric ID: {0}". format(fabric_id), "WARNING")
+            return site_id
+
+        if not fabric_type:
+            self.log("Fabric type not found for given fabric ID: {0}".format(fabric_id), "WARNING")
+            return fabric_type
+
         site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
+        if not site_name_hierarchy:
+            self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+            return site_name_hierarchy
+
         self.log(
-            "Transformed fabric site name {0} for anycast gateway details: {1}".format(
-                site_name_hierarchy, anycast_details
-            ),
+            "Completed anycast gateway details transformation for fabric id: {0}. "
+            "Transformed site name hierarchy: {1}, fabric type: {2}"
+            .format(fabric_id, site_name_hierarchy, fabric_type),
             "DEBUG"
         )
         return {
@@ -783,23 +868,35 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Transforming anchored site name for VN details: {0}".format(vn_details),
-            "DEBUG"
+            "Starting anchored site name transformation for given anchored site id: {0}"
+            .format(vn_details.get("anchoredSiteId", "Unknown")), "DEBUG"
         )
+
         fabric_id = vn_details.get("anchoredSiteId")
         if not fabric_id:
             self.log(
                 "No anchored site ID found in VN details: {0}".format(vn_details),
                 "DEBUG"
             )
-            return None
+            return fabric_id
 
         site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
+        if not site_id:
+            self.log("No site ID found for given fabric ID: {0}". format(fabric_id), "WARNING")
+            return site_id
+
+        if not fabric_type:
+            self.log("Fabric type not found for given fabric ID: {0}".format(fabric_id), "WARNING")
+            return fabric_type
+
         site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
+        if not site_name_hierarchy:
+            self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+            return site_name_hierarchy
+
         self.log(
-            "Transformed anchored site name {0} for VN details: {1}".format(
-                site_name_hierarchy, vn_details
-            ),
+            "Completed anchored site name transformation for anchored site id: {0}. "
+            "Transformed anchored site name: {1}". format(fabric_id, site_name_hierarchy),
             "DEBUG"
         )
         return site_name_hierarchy
@@ -940,16 +1037,20 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
             ).format(vlan_id)
             self.fail_and_exit(self.msg)
 
-    def get_fabric_vlans_configuration(self, network_element, component_specific_filters=None):
+    def get_fabric_vlans_configuration(self, network_element, filters):
         """
-        Retrieves fabric VLANs based on the provided network element and component-specific filters.
+        Retrieves fabric VLANs based on the provided network element and component_specific_filters.
         Args:
             network_element (dict): A dictionary containing the API family and function for retrieving fabric VLANs.
-            component_specific_filters (list, optional): A list of dictionaries containing filters for fabric VLANs.
+            filters (dict): Dictionary containing global filters and component_specific_filters for fabric VLANs.
 
         Returns:
             dict: A dictionary containing the modified details of fabric VLANs.
         """
+
+        component_specific_filters = None
+        if "component_specific_filters" in filters:
+            component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve fabric VLANs with network element: {0} and component-specific filters: {1}".format(
@@ -957,48 +1058,105 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG",
         )
-        # Extract API family and function from network_element
-        final_fabric_vlans = []
+
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
+        if not api_family or not api_function:
+            self.log(
+                "Missing API family or function in network element: {0}".format(network_element),
+                "ERROR"
+            )
+            return {"fabric_vlan": []}
+
+        final_fabric_vlans = []
+
         self.log(
-            "Getting layer 2 fabric vlans using family '{0}' and function '{1}'.".format(
+            "Getting fabric vlans using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "INFO",
+            "DEBUG"
         )
 
         params = {}
         if component_specific_filters:
+            self.log(
+                "Started Processing {0} filter(s) for fabric vlans retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
+
             for filter_param in component_specific_filters:
-                self.log("Processing filter parameter: {0}".format(filter_param), "DEBUG")
-                for key, value in filter_param.items():
-                    if key == "vlan_name":
-                        params["vlanName"] = value
-                    elif key == "vlan_id":
-                        self.validate_fabric_vlan_id(value)
-                        params["vlanId"] = value
-                    else:
-                        self.log(
-                            "Ignoring unsupported filter parameter: {0}".format(key),
-                            "DEBUG",
-                        )
+                supported_keys = {"vlan_name", "vlan_id"}
+
+                if "vlan_name" in filter_param:
+                    params["vlanName"] = filter_param["vlan_name"]
+                if "vlan_id" in filter_param:
+                    self.validate_fabric_vlan_id(filter_param["vlan_id"])
+                    params["vlanId"] = filter_param["vlan_id"]
+
+                unsupported_keys = set(filter_param.keys()) - supported_keys
+                if unsupported_keys:
+                    self.log(
+                        "Ignoring unsupported filter parameters for fabric vlans: {0}".format(unsupported_keys),
+                        "WARNING"
+                    )
+
+                self.log(
+                    "Fetching fabric vlans with parameters: {0}".format(params),
+                    "DEBUG"
+                )
                 fabric_vlan_details = self.execute_get_with_pagination(
                     api_family, api_function, params
                 )
-                self.log("Retrieved fabric vlan details: {0}".format(fabric_vlan_details), "INFO")
-                final_fabric_vlans.extend(fabric_vlan_details)
+
+                if fabric_vlan_details:
+                    final_fabric_vlans.extend(fabric_vlan_details)
+                    self.log(
+                        "Retrieved {0} fabric vlan(s): {1}".format(
+                            len(fabric_vlan_details), fabric_vlan_details
+                        ),
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        "No fabric vlans found for parameters: {0}".format(params),
+                        "DEBUG"
+                    )
                 params.clear()
-            self.log("Using component-specific filters for API call.", "INFO")
+
+            self.log(
+                "Completed Processing {0} filter(s) for fabric vlans retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
+
         else:
-            # Execute API call to retrieve Interfaces details
+            self.log("Fetching all fabric vlans from Catalyst Center", "DEBUG")
+
             fabric_vlan_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
-            self.log("Retrieved fabric vlan details: {0}".format(fabric_vlan_details), "INFO")
-            final_fabric_vlans.extend(fabric_vlan_details)
 
-        # Modify Fabric VLAN's details using temp_spec
+            if fabric_vlan_details:
+                final_fabric_vlans.extend(fabric_vlan_details)
+                self.log(
+                    "Retrieved {0} fabric vlan(s) from Catalyst Center".format(
+                        len(fabric_vlan_details)
+                    ),
+                    "DEBUG"
+                )
+            else:
+                self.log("No fabric vlans found in Catalyst Center", "DEBUG")
+
+        # Transform using temp spec
+        self.log(
+            "Transforming {0} fabric vlan(s) using fabric_vlan temp spec".format(
+                len(final_fabric_vlans)
+            ),
+            "DEBUG"
+        )
         fabric_vlan_temp_spec = self.fabric_vlan_temp_spec()
         vlans_details = self.modify_parameters(
             fabric_vlan_temp_spec, final_fabric_vlans
@@ -1007,7 +1165,7 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
         modified_fabric_vlans_details['fabric_vlan'] = vlans_details
 
         self.log(
-            "Modified Fabric VLAN's details: {0}".format(
+            "Completed retrieving fabric vlan(s): {0}".format(
                 modified_fabric_vlans_details
             ),
             "INFO",
@@ -1015,17 +1173,21 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return modified_fabric_vlans_details
 
-    def get_virtual_networks_configuration(self, network_element, component_specific_filters=None):
+    def get_virtual_networks_configuration(self, network_element, filters):
         """
         Retrieves virtual networks based on the provided network element and component-specific filters.
 
         Args:
             network_element (dict): A dictionary containing the API family and function for retrieving virtual networks.
-            component_specific_filters (list, optional): A list of dictionaries containing filters for virtual networks.
+            filters (dict): Dictionary containing global filters and component_specific_filters for virtual networks.
 
         Returns:
             dict: A dictionary containing the modified details of virtual networks.
         """
+
+        component_specific_filters = None
+        if "component_specific_filters" in filters:
+            component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve virtual networks with network element: {0} and component-specific filters: {1}".format(
@@ -1033,42 +1195,98 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG",
         )
-        final_virtual_networks = []
+
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
+        if not api_family or not api_function:
+            self.log(
+                "Missing API family or function in network element: {0}".format(network_element),
+                "ERROR"
+            )
+            return {"virtual_networks": []}
+
+        final_virtual_networks = []
         self.log(
-            "Getting layer 2 virtual networks using family '{0}' and function '{1}'.".format(
+            "Getting virtual networks using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "INFO",
+            "DEBUG"
         )
 
         params = {}
         if component_specific_filters:
+            self.log(
+                "Started Processing {0} filter(s) for virtual networks retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
+
             for filter_param in component_specific_filters:
-                for key, value in filter_param.items():
-                    if key == "vn_name":
-                        params["virtualNetworkName"] = value
-                    else:
-                        self.log(
-                            "Ignoring unsupported filter parameter: {0}".format(key),
-                            "DEBUG",
-                        )
+                if "vn_name" in filter_param:
+                    params["virtualNetworkName"] = filter_param["vn_name"]
+
+                unsupported_keys = set(filter_param.keys()) - {"vn_name"}
+                if unsupported_keys:
+                    self.log(
+                        "Ignoring unsupported filter parameters for virtual networks: {0}".format(unsupported_keys),
+                        "WARNING"
+                    )
+
+                self.log(
+                    "Fetching virtual networks with parameters: {0}".format(params),
+                    "DEBUG"
+                )
                 virtual_network_details = self.execute_get_with_pagination(
                     api_family, api_function, params
                 )
-                self.log("Retrieved virtual network details: {0}".format(virtual_network_details), "INFO")
-                final_virtual_networks.extend(virtual_network_details)
-            self.log("Using component-specific filters for API call.", "INFO")
+
+                if virtual_network_details:
+                    final_virtual_networks.extend(virtual_network_details)
+                    self.log(
+                        "Retrieved {0} virtual network(s): {1}".format(
+                            len(virtual_network_details), virtual_network_details
+                        ),
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        "No virtual networks found for parameters: {0}".format(params),
+                        "DEBUG"
+                    )
+                params.clear()
+
+            self.log(
+                "Completed Processing {0} filter(s) for virtual networks retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
         else:
-            # Execute API call to retrieve Virtual Networks details
+            self.log("Fetching all virtual networks from Catalyst Center", "DEBUG")
+
             virtual_network_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
-            self.log("Retrieved virtual network details: {0}".format(virtual_network_details), "INFO")
-            final_virtual_networks.extend(virtual_network_details)
 
-        # Modify Virtual Network's details using temp_spec
+            if virtual_network_details:
+                final_virtual_networks.extend(virtual_network_details)
+                self.log(
+                    "Retrieved {0} virtual network(s) from Catalyst Center".format(
+                        len(virtual_network_details)
+                    ),
+                    "DEBUG"
+                )
+            else:
+                self.log("No virtual networks found in Catalyst Center", "DEBUG")
+
+        # Transform using temp spec
+        self.log(
+            "Transforming {0} virtual network(s) using virtual_network temp spec".format(
+                len(final_virtual_networks)
+            ),
+            "DEBUG"
+        )
         virtual_network_temp_spec = self.virtual_network_temp_spec()
         vn_details = self.modify_parameters(
             virtual_network_temp_spec, final_virtual_networks
@@ -1077,7 +1295,7 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
         modified_virtual_networks_details['virtual_networks'] = vn_details
 
         self.log(
-            "Modified Virtual Network's details: {0}".format(
+            "Completed retrieving virtual network(s): {0}".format(
                 modified_virtual_networks_details
             ),
             "INFO",
@@ -1085,17 +1303,21 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return modified_virtual_networks_details
 
-    def get_anycast_gateways_configuration(self, network_element, component_specific_filters=None):
+    def get_anycast_gateways_configuration(self, network_element, filters):
         """
         Fetches anycast gateways from the Cisco DNA Center using the provided network element and component-specific filters.
 
         Args:
             network_element (dict): A dictionary containing the API family and function for retrieving anycast gateways.
-            component_specific_filters (list, optional): A list of dictionaries containing filters for anycast gateways.
+            filters (dict): Dictionary containing global filters and component_specific_filters for anycast gateways.
 
         Returns:
             dict: A dictionary containing the modified details of anycast gateways.
         """
+
+        component_specific_filters = None
+        if "component_specific_filters" in filters:
+            component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve anycast gateways with network element: {0} and component-specific filters: {1}".format(
@@ -1103,238 +1325,151 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG",
         )
-        final_anycast_gateways = []
+
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
+        if not api_family or not api_function:
+            self.log(
+                "Missing API family or function in network element: {0}".format(network_element),
+                "ERROR"
+            )
+            return {"anycast_gateways": []}
+
+        final_anycast_gateways = []
+
         self.log(
-            "Getting anycast gateways using family '{0}' and function '{1}'.".format(
+            "Getting anycast gateways using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "INFO",
+            "DEBUG",
         )
 
         params = {}
         if component_specific_filters:
+            self.log(
+                "Started Processing {0} filter(s) for anycast gateways retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
+
             for filter_param in component_specific_filters:
-                params = {}
-                for key, value in filter_param.items():
-                    if key == "vn_name":
-                        params["virtualNetworkName"] = value
-                    elif key == "vlan_name":
-                        params["vlanName"] = value
-                    elif key == "ip_pool_name":
-                        params["ipPoolName"] = value
-                    elif key == "vlan_id":
-                        self.validate_fabric_vlan_id(value)
-                        params["vlanId"] = value
-                    else:
-                        self.log(
-                            "Ignoring unsupported filter parameter: {0}".format(key),
-                            "DEBUG",
-                        )
+                supported_keys = {"vn_name", "vlan_name", "ip_pool_name", "vlan_id"}
+
+                if "vn_name" in filter_param:
+                    params["virtualNetworkName"] = filter_param["vn_name"]
+                if "vlan_name" in filter_param:
+                    params["vlanName"] = filter_param["vlan_name"]
+                if "ip_pool_name" in filter_param:
+                    params["ipPoolName"] = filter_param["ip_pool_name"]
+                if "vlan_id" in filter_param:
+                    self.validate_fabric_vlan_id(filter_param["vlan_id"])
+                    params["vlanId"] = filter_param["vlan_id"]
+
+                unsupported_keys = set(filter_param.keys()) - supported_keys
+                if unsupported_keys:
+                    self.log(
+                        "Ignoring unsupported filter parameters for anycast gateways: {0}".format(unsupported_keys),
+                        "WARNING"
+                    )
+
+                self.log(
+                    "Fetching anycast gateways with parameters: {0}".format(params),
+                    "DEBUG"
+                )
                 anycast_gateway_details = self.execute_get_with_pagination(
                     api_family, api_function, params
                 )
-                self.log("Retrieved anycast gateway details: {0}".format(anycast_gateway_details), "INFO")
-                final_anycast_gateways.extend(anycast_gateway_details)
-            self.log("Using component-specific filters for API call.", "INFO")
+
+                if anycast_gateway_details:
+                    final_anycast_gateways.extend(anycast_gateway_details)
+                    self.log(
+                        "Retrieved {0} anycast gateway(s): {1}".format(
+                            len(anycast_gateway_details), anycast_gateway_details
+                        ),
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        "No anycast gateways found for parameters: {0}".format(params),
+                        "DEBUG"
+                    )
+                params.clear()
+
+            self.log(
+                "Completed Processing {0} filter(s) for anycast gateways retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
         else:
-            # Execute API call to retrieve Anycast Gateways details
+            self.log("Fetching all anycast gateways from Catalyst Center", "DEBUG")
+
             anycast_gateway_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
-            self.log("Retrieved anycast gateway details: {0}".format(anycast_gateway_details), "INFO")
-            final_anycast_gateways.extend(anycast_gateway_details)
 
-        # Modify Anycast Gateway's details using temp_spec
+            if anycast_gateway_details:
+                final_anycast_gateways.extend(anycast_gateway_details)
+                self.log(
+                    "Retrieved {0} anycast gateway(s) from Catalyst Center".format(
+                        len(anycast_gateway_details)
+                    ),
+                    "DEBUG"
+                )
+            else:
+                self.log("No anycast gateways found in Catalyst Center", "DEBUG")
+
+        # Transform using temp spec
+        self.log(
+            "Transforming {0} anycast gateway(s) using anycast_gateway temp spec".format(
+                len(final_anycast_gateways)
+            ),
+            "DEBUG"
+        )
         anycast_gateway_temp_spec = self.anycast_gateway_temp_spec()
         anycast_gateways_details = self.modify_parameters(
             anycast_gateway_temp_spec, final_anycast_gateways
         )
+
         modified_anycast_gateways_details = {}
         modified_anycast_gateways_details["anycast_gateways"] = anycast_gateways_details
 
         self.log(
-            "Modified Anycast Gateway's details: {0}".format(
+            "Completed retrieving anycast gateway(s): {0}".format(
                 modified_anycast_gateways_details
             ),
             "INFO",
         )
         return modified_anycast_gateways_details
 
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters, processes the data,
-        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
-
-        Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
-
-        Returns:
-            self: The current instance with the operation result and message updated.
-        """
-
-        self.log(
-            "Starting YAML config generation with parameters: {0}".format(
-                yaml_config_generator
-            ),
-            "DEBUG",
-        )
-
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if generate_all:
-            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
-
-        self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
-        if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
-            file_path = self.generate_filename()
-        else:
-            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
-
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
-
-        self.log("Initializing filter dictionaries", "DEBUG")
-        if generate_all:
-            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
-            if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-
-            # Set empty filters to retrieve everything
-            global_filters = {}
-            component_specific_filters = {}
-        else:
-            # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
-
-        self.log("Retrieving supported network elements schema for the module", "DEBUG")
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
-
-        self.log("Determining components list for processing", "DEBUG")
-        components_list = component_specific_filters.get(
-            "components_list", list(module_supported_network_elements.keys())
-        )
-        self.log("Components to process: {0}".format(components_list), "DEBUG")
-
-        self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
-        final_list = []
-        for component in components_list:
-            self.log("Processing component: {0}".format(component), "DEBUG")
-            network_element = module_supported_network_elements.get(component)
-            if not network_element:
-                self.log(
-                    "Component {0} not supported by module, skipping processing".format(component),
-                    "WARNING",
-                )
-                continue
-
-            filters = component_specific_filters.get(component, [])
-            operation_func = network_element.get("get_function_name")
-            if callable(operation_func):
-                details = operation_func(network_element, filters)
-                self.log(
-                    "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
-                )
-                final_list.append(details)
-
-        if not final_list:
-            self.log("No configurations found to process, setting appropriate result", "WARNING")
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
-                    self.module_name
-                )
-            }
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
-
-        final_dict = {"config": final_list}
-        self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
-
-        if self.write_dict_to_yaml(final_dict, file_path):
-            self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
-            }
-            self.set_operation_result("success", True, self.msg, "INFO")
-        else:
-            self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
-            }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        return self
-
-    def get_want(self, config, state):
-        """
-        Creates parameters for API calls based on the specified state.
-        This method prepares the parameters required for adding, updating, or deleting
-        network configurations such as SSIDs and interfaces in the Cisco Catalyst Center
-        based on the desired state. It logs detailed information for each operation.
-
-        Args:
-            config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('gathered').
-        """
-
-        self.log(
-            "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
-        )
-
-        self.validate_params(config)
-
-        # Set generate_all_configurations after validation
-        self.generate_all_configurations = config.get("generate_all_configurations", False)
-        self.log("Set generate_all_configurations mode: {0}".format(self.generate_all_configurations), "DEBUG")
-
-        want = {}
-
-        # Add yaml_config_generator to want
-        want["yaml_config_generator"] = config
-        self.log(
-            "yaml_config_generator added to want: {0}".format(
-                want["yaml_config_generator"]
-            ),
-            "INFO",
-        )
-
-        self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-        self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
-        self.status = "success"
-        return self
-
     def get_diff_gathered(self):
         """
-        Executes the merge operations for various network configurations in the Cisco Catalyst Center.
-        This method processes additions and updates for SSIDs, interfaces, power profiles, access point profiles,
-        radio frequency profiles, and anchor groups. It logs detailed information about each operation,
-        updates the result status, and returns a consolidated result.
+        Executes YAML configuration file generation for brownfield sda fabric virtual networks workflow.
+
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing network element details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
 
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
-        operations = [
+        # Define workflow operations
+        workflow_operations = [
             (
                 "yaml_config_generator",
                 "YAML Config Generator",
                 self.yaml_config_generator,
             )
         ]
+        operations_executed = 0
+        operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
-            operations, start=1
+            workflow_operations, start=1
         ):
             self.log(
                 "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
@@ -1350,8 +1485,27 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO",
                 )
-                operation_func(params).check_return_status()
+
+                try:
+                    operation_func(params).check_return_status()
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    ).check_return_status()
+
             else:
+                operations_skipped += 1
                 self.log(
                     "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
                         index, operation_name
@@ -1386,7 +1540,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
@@ -1405,11 +1558,7 @@ def main():
     ):
         ccc_virtual_networks_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for Wireless Design Module. Supported versions start from '2.3.7.9' onwards. "
-            "Version '2.3.7.9' introduces APIs for retrieving the wireless settings for "
-            "the following components: SSID(s), Interface(s), Power Profile(s), Access "
-            "Point Profile(s), Radio Frequency Profile(s), Anchor Group(s) from the "
-            "Catalyst Center".format(
+            "for SDA FABRIC VIRTUAL NETWORKS Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_virtual_networks_playbook_generator.get_ccc_version()
             )
         )
@@ -1430,7 +1579,6 @@ def main():
 
     # Validate the input parameters and check the return statusk
     ccc_virtual_networks_playbook_generator.validate_input().check_return_status()
-    config = ccc_virtual_networks_playbook_generator.validated_config
 
     # Iterate over the validated configuration parameters
     for config in ccc_virtual_networks_playbook_generator.validated_config:

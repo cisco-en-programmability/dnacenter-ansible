@@ -1,0 +1,2338 @@
+{
+    "playbook_pnp_generate_all_configurations": [
+        {
+            "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
+            "generate_all_configurations": true
+        }
+    ],
+    "PnPdevices": [
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FJC2402A0TX",
+            "name": "FJC2402A0TX",
+            "deviceType": "Router",
+            "dnacDeviceType": "NETWORK",
+            "pid": "ISR4451-X/K9",
+            "lastSyncTime": 0,
+            "addedOn": 1764217073012,
+            "lastUpdateOn": 1764217073012,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "SF-BN-ISR",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764217073012,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d0f1a347aa6b89f736fe"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FJC243912MQ",
+            "name": "FJC243912MQ",
+            "deviceType": "AP",
+            "dnacDeviceType": "NETWORK",
+            "agentType": "POSIX",
+            "pid": "C9130AXE-B",
+            "lastSyncTime": 0,
+            "addedOn": 1764217114103,
+            "lastUpdateOn": 1765964177210,
+            "firstContact": 1764232962835,
+            "lastContact": 1765964177210,
+            "lastContactDuration": 122196,
+            "provisionedOn": 0,
+            "state": "Error",
+            "onbState": "Workflow Execution Error",
+            "cmState": "Secured Connection",
+            "imageFile": "/san/BUILD/workspace/c1712_throttle_17_12_4_22_CCO/label/ap1g6a",
+            "imageVersion": "17.12.4.22",
+            "macAddress": "14:16:9D:2A:1D:10",
+            "httpHeaders": [
+                {
+                "key": "clientAddress",
+                "value": "204.1.216.4"
+                }
+            ],
+            "projectId": "68ed03d4222dc23fe4d06d3d",
+            "workflowId": "6927d11aa347aa6b89f73707",
+            "projectName": "Default",
+            "workflowName": "Default 6927d11aa347aa6b89f73706",
+            "siteId": "2488d293-fc5d-45ed-82d0-d2a160fd8046",
+            "siteName": "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR2",
+            "fileSystemList": [
+                {
+                "name": "bootflash",
+                "type": "flash",
+                "readable": true,
+                "writeable": true,
+                "freespace": 122949632,
+                "size": 125829120
+                }
+            ],
+            "pnpProfileList": [
+                {
+                "profileName": "Profile 1",
+                "discoveryCreated": false,
+                "createdBy": "PnP-DHCP",
+                "primaryEndpoint": {
+                    "protocol": "HTTPS",
+                    "port": 443,
+                    "ipv4Address": "204.192.1.214"
+                }
+                }
+            ],
+            "hostname": "AP1416.9D2A.1D10",
+            "authStatus": "UNSUPPORTED",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "capabilitiesSupported": [
+                "CLI_CONFIG",
+                "TOPOLOGY",
+                "IMAGE_INSTALL",
+                "RELOAD",
+                "CLI_EXEC",
+                "DEVICE_AUTH",
+                "REDIRECTION",
+                "DEVICE_INFO",
+                "CAPABILITY",
+                "BACKOFF",
+                "SCRIPT",
+                "CERTIFICATE_INSTALL",
+                "TAG",
+                "CONFIG_UPGRADE",
+                "TOKEN_AUTH"
+            ],
+            "featuresSupported": [
+                "CAPWAP_BACKOFF",
+                "RELOAD_WITH_FACTORY_RESET",
+                "BACKOFF_CCO",
+                "CERTIFICATE_CHECKSUM"
+            ],
+            "populateInventory": false,
+            "poeSupported": false,
+            "imageFilesOnDevice": [
+                
+            ],
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "errorDetails": {
+                "timestamp": 1765892821622,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            "deviceCheckpoint": "INITIALIZING",
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": false,
+                "editWfParams": false,
+                "delete": true,
+                "claim": false,
+                "unclaim": false,
+                "reset": true,
+                "authorize": false,
+                "editWfParamsMsg": "Device configuration has been pushed. Configuration parameters may not be edited.",
+                "editSUDIMsg": "SUDI Authorization already complete. SUDI info cannot be modified at this time.",
+                "claimMsg": "A device cannot be claimed when in Error state, it must be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "AccessPoint"
+            },
+            "progress": {
+            "message": "Error while provisioning. Please check details from Info under History tab. Use Reset or Delete and re-claim the device to provision it.",
+            "inProgress": false,
+            "progressPercent": 75
+            },
+            "systemWorkflow": {
+            "version": 0,
+            "name": "System Workflow",
+            "state": "Success",
+            "type": "Standard",
+            "instanceType": "SystemWorkflow",
+            "addedOn": 1764232989422,
+            "lastupdateOn": 1764232992667,
+            "startTime": 1764232989422,
+            "endTime": 1764232992667,
+            "execTime": 3245,
+            "currTaskIdx": 0,
+            "addToInventory": false,
+            "usedInDeviceCount": 0
+            },
+            "workflow": {
+            "version": 0,
+            "name": "Default 6927d11aa347aa6b89f73706",
+            "state": "Error",
+            "type": "Default",
+            "instanceType": "UserWorkflow",
+            "addedOn": 1764217114787,
+            "lastupdateOn": 1764232996898,
+            "startTime": 1764232996808,
+            "endTime": 1764232996898,
+            "execTime": 90,
+            "currTaskIdx": 0,
+            "addToInventory": false,
+            "correlationId": "c57c26b8-23ec-42d4-b7a7-90f60c3791d5",
+            "usedInDeviceCount": 1,
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046/",
+            "id": "6927d11aa347aa6b89f73707"
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "userContext": {
+            "userName": "thievo",
+            "userId": "685a22edcd0f400013b8606b",
+            "roles": [
+                "SUPER-ADMIN"
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "authSource": "legacy",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046/"
+            },
+            "runSummaryList": [
+            {
+                "timestamp": 1764351434002,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764351434006,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764351434010,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764351450199,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764469912270,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764469912274,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764469912277,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764469928616,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764588433764,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764588433769,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764588433777,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764588448968,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764706790215,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764706790219,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764706790222,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764706807454,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764825463914,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764825463917,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764825463920,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764825477143,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764944175868,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764944175872,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764944175875,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764944191123,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765062843999,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765062844003,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765062844007,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765062861252,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765181545575,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765181545579,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765181545583,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765181562818,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765300485791,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765300485797,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765300485800,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765300504189,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765418973945,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765418973949,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765418973952,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765418987495,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765537466939,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765537466943,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765537466946,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765537479351,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765655941026,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765655941031,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765655941035,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765655953173,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765774428786,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765774428791,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765774428795,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765774448930,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765892821611,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765892821619,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765892821622,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765892834463,
+                "details": "Secured Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046/",
+            "id": "6927d11aa347aa6b89f73704"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FJC271925Q1",
+            "name": "FJC271925Q1",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UXM",
+            "lastSyncTime": 0,
+            "addedOn": 1764217354196,
+            "lastUpdateOn": 1764263516611,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Planned",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "projectId": "68ed03d4222dc23fe4d06d3d",
+            "workflowId": "692897d9a347aa6b89f74a4c",
+            "projectName": "Default",
+            "workflowName": "Default 692897d9a347aa6b89f74a4b",
+            "siteId": "3036414b-0b9d-4f28-8e3d-89d246e84123",
+            "siteName": "Global/USA/SAN JOSE/SJ_BLD20",
+            "hostname": "Exists-SW2",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": true,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has been claimed but has not yet contacted the server. You can re-claim this device if you want to change its assigned site or configurations.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            "configList": [
+                {
+                "configId": "d149cef5-e48b-494e-97f4-996d1b3cccca",
+                "configParameters": [
+                    {
+                    "key": "PNP_VLAN_ID",
+                    "value": 2005
+                    },
+                    {
+                    "key": "LOOPBACK_IP",
+                    "value": "204.1.2.2"
+                    }
+                ]
+                }
+            ]
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "userContext": {
+            "userName": "admin",
+            "userId": "685975c1cd0f400013b86059",
+            "roles": [
+                "SUPER-ADMIN"
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "authSource": "legacy",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/"
+            },
+            "runSummaryList": [
+            {
+                "timestamp": 1764217354196,
+                "details": "User Added Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764217355044,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764267858590,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764267993508,
+                "details": "Claimed Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/",
+            "id": "6927d20aa347aa6b89f73728"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FOC2439LA89",
+            "name": "FOC2439LA89",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-24UXB",
+            "lastSyncTime": 0,
+            "addedOn": 1764217420757,
+            "lastUpdateOn": 1764217420757,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Planned",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "projectId": "68ed03d4222dc23fe4d06d3d",
+            "workflowId": "69394602a347aa6b89f8df5a",
+            "projectName": "Default",
+            "workflowName": "Default 69394602a347aa6b89f8df59",
+            "siteId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "siteName": "Global/USA/SAN JOSE/SJ_BLD23",
+            "hostname": "SJ-EN-10-9300",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": true,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has been claimed but has not yet contacted the server. You can re-claim this device if you want to change its assigned site or configurations.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "userContext": {
+            "userName": "thievo",
+            "userId": "685a22edcd0f400013b8606b",
+            "roles": [
+                "SUPER-ADMIN"
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "authSource": "legacy",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/"
+            },
+            "runSummaryList": [
+            {
+                "timestamp": 1764217420757,
+                "details": "User Added Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764217421360,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764268629319,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764268768439,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765361154752,
+                "details": "Claimed Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/",
+            "id": "6927d24ca347aa6b89f73734"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "NOTFOUND001",
+            "name": "NOTFOUND001",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UXC",
+            "lastSyncTime": 0,
+            "addedOn": 1764217629220,
+            "lastUpdateOn": 1764217629220,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "NotExist-SW",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764217629220,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d31da347aa6b89f73751"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FAKE001",
+            "name": "FAKE001",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UXM",
+            "lastSyncTime": 0,
+            "addedOn": 1764217672610,
+            "lastUpdateOn": 1764217672610,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "Fake-SW1",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764217672610,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d348a347aa6b89f7375a"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FAKE002",
+            "name": "FAKE002",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UXM",
+            "lastSyncTime": 0,
+            "addedOn": 1764217672612,
+            "lastUpdateOn": 1764217672612,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "Fake-SW2",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764217672612,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d348a347aa6b89f7375b"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "AP001",
+            "name": "AP001",
+            "dnacDeviceType": "NETWORK",
+            "pid": "AIR-AP2802I-B-K9",
+            "lastSyncTime": 0,
+            "addedOn": 1764218010787,
+            "lastUpdateOn": 1764218010787,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "AP-Non-Floor",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "AccessPoint"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764218010787,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d49aa347aa6b89f73785"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "AP002",
+            "name": "AP002",
+            "dnacDeviceType": "NETWORK",
+            "pid": "AIR-AP2802I-B-K9",
+            "lastSyncTime": 0,
+            "addedOn": 1764218050766,
+            "lastUpdateOn": 1764218050766,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "AP-Missing-RF",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "AccessPoint"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764218050766,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d4c2a347aa6b89f7378e"
+        }
+    ],
+
+    "playbook_component_global_specific_filter": [
+        {
+            "component_specific_filters": {
+                "components_list": [
+                    "device_info"
+                ]
+            },
+            "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
+            "generate_all_configurations": true,
+            "global_filters": {
+                "site_name": "Global/USA/SAN JOSE/SJ_BLD20"
+            }
+        }
+    ],
+    "PnPdevices1": 
+    [
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FJC2402A0TX",
+            "name": "FJC2402A0TX",
+            "deviceType": "Router",
+            "dnacDeviceType": "NETWORK",
+            "pid": "ISR4451-X/K9",
+            "lastSyncTime": 0,
+            "addedOn": 1764217073012,
+            "lastUpdateOn": 1764217073012,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "SF-BN-ISR",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764217073012,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d0f1a347aa6b89f736fe"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FJC243912MQ",
+            "name": "FJC243912MQ",
+            "deviceType": "AP",
+            "dnacDeviceType": "NETWORK",
+            "agentType": "POSIX",
+            "pid": "C9130AXE-B",
+            "lastSyncTime": 0,
+            "addedOn": 1764217114103,
+            "lastUpdateOn": 1765965883074,
+            "firstContact": 1764232962835,
+            "lastContact": 1765965883074,
+            "lastContactDuration": 122207,
+            "provisionedOn": 0,
+            "state": "Error",
+            "onbState": "Workflow Execution Error",
+            "cmState": "Secured Connection",
+            "imageFile": "/san/BUILD/workspace/c1712_throttle_17_12_4_22_CCO/label/ap1g6a",
+            "imageVersion": "17.12.4.22",
+            "macAddress": "14:16:9D:2A:1D:10",
+            "httpHeaders": [
+                {
+                "key": "clientAddress",
+                "value": "204.1.216.4"
+                }
+            ],
+            "projectId": "68ed03d4222dc23fe4d06d3d",
+            "workflowId": "6927d11aa347aa6b89f73707",
+            "projectName": "Default",
+            "workflowName": "Default 6927d11aa347aa6b89f73706",
+            "siteId": "2488d293-fc5d-45ed-82d0-d2a160fd8046",
+            "siteName": "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR2",
+            "fileSystemList": [
+                {
+                "name": "bootflash",
+                "type": "flash",
+                "readable": true,
+                "writeable": true,
+                "freespace": 122949632,
+                "size": 125829120
+                }
+            ],
+            "pnpProfileList": [
+                {
+                "profileName": "Profile 1",
+                "discoveryCreated": false,
+                "createdBy": "PnP-DHCP",
+                "primaryEndpoint": {
+                    "protocol": "HTTPS",
+                    "port": 443,
+                    "ipv4Address": "204.192.1.214"
+                }
+                }
+            ],
+            "hostname": "AP1416.9D2A.1D10",
+            "authStatus": "UNSUPPORTED",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "capabilitiesSupported": [
+                "CLI_CONFIG",
+                "TOPOLOGY",
+                "IMAGE_INSTALL",
+                "RELOAD",
+                "CLI_EXEC",
+                "DEVICE_AUTH",
+                "REDIRECTION",
+                "DEVICE_INFO",
+                "CAPABILITY",
+                "BACKOFF",
+                "SCRIPT",
+                "CERTIFICATE_INSTALL",
+                "TAG",
+                "CONFIG_UPGRADE",
+                "TOKEN_AUTH"
+            ],
+            "featuresSupported": [
+                "CAPWAP_BACKOFF",
+                "RELOAD_WITH_FACTORY_RESET",
+                "BACKOFF_CCO",
+                "CERTIFICATE_CHECKSUM"
+            ],
+            "populateInventory": false,
+            "poeSupported": false,
+            "imageFilesOnDevice": [
+                
+            ],
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "errorDetails": {
+                "timestamp": 1765892821622,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            "deviceCheckpoint": "INITIALIZING",
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": false,
+                "editWfParams": false,
+                "delete": true,
+                "claim": false,
+                "unclaim": false,
+                "reset": true,
+                "authorize": false,
+                "editWfParamsMsg": "Device configuration has been pushed. Configuration parameters may not be edited.",
+                "editSUDIMsg": "SUDI Authorization already complete. SUDI info cannot be modified at this time.",
+                "claimMsg": "A device cannot be claimed when in Error state, it must be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "AccessPoint"
+            },
+            "progress": {
+            "message": "Error while provisioning. Please check details from Info under History tab. Use Reset or Delete and re-claim the device to provision it.",
+            "inProgress": false,
+            "progressPercent": 75
+            },
+            "systemWorkflow": {
+            "version": 0,
+            "name": "System Workflow",
+            "state": "Success",
+            "type": "Standard",
+            "instanceType": "SystemWorkflow",
+            "addedOn": 1764232989422,
+            "lastupdateOn": 1764232992667,
+            "startTime": 1764232989422,
+            "endTime": 1764232992667,
+            "execTime": 3245,
+            "currTaskIdx": 0,
+            "addToInventory": false,
+            "usedInDeviceCount": 0
+            },
+            "workflow": {
+            "version": 0,
+            "name": "Default 6927d11aa347aa6b89f73706",
+            "state": "Error",
+            "type": "Default",
+            "instanceType": "UserWorkflow",
+            "addedOn": 1764217114787,
+            "lastupdateOn": 1764232996898,
+            "startTime": 1764232996808,
+            "endTime": 1764232996898,
+            "execTime": 90,
+            "currTaskIdx": 0,
+            "addToInventory": false,
+            "correlationId": "c57c26b8-23ec-42d4-b7a7-90f60c3791d5",
+            "usedInDeviceCount": 1,
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046/",
+            "id": "6927d11aa347aa6b89f73707"
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "userContext": {
+            "userName": "thievo",
+            "userId": "685a22edcd0f400013b8606b",
+            "roles": [
+                "SUPER-ADMIN"
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "authSource": "legacy",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046/"
+            },
+            "runSummaryList": [
+            {
+                "timestamp": 1764351434002,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764351434006,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764351434010,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764351450199,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764469912270,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764469912274,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764469912277,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764469928616,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764588433764,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764588433769,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764588433777,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764588448968,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764706790215,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764706790219,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764706790222,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764706807454,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764825463914,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764825463917,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764825463920,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764825477143,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764944175868,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764944175872,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764944175875,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1764944191123,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765062843999,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765062844003,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765062844007,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765062861252,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765181545575,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765181545579,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765181545583,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765181562818,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765300485791,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765300485797,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765300485800,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765300504189,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765418973945,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765418973949,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765418973952,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765418987495,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765537466939,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765537466943,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765537466946,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765537479351,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765655941026,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765655941031,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765655941035,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765655953173,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765774428786,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765774428791,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765774428795,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765774448930,
+                "details": "Secured Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765892821611,
+                "details": "Please delete the device from Inventory/PnP to re-provision",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765892821619,
+                "details": "Securing Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765892821622,
+                "details": "NCOB02073: Unexpected reload detected.",
+                "errorFlag": true
+            },
+            {
+                "timestamp": 1765892834463,
+                "details": "Secured Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046/",
+            "id": "6927d11aa347aa6b89f73704"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FJC271925Q1",
+            "name": "FJC271925Q1",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UXM",
+            "lastSyncTime": 0,
+            "addedOn": 1764217354196,
+            "lastUpdateOn": 1764263516611,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Planned",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "projectId": "68ed03d4222dc23fe4d06d3d",
+            "workflowId": "692897d9a347aa6b89f74a4c",
+            "projectName": "Default",
+            "workflowName": "Default 692897d9a347aa6b89f74a4b",
+            "siteId": "3036414b-0b9d-4f28-8e3d-89d246e84123",
+            "siteName": "Global/USA/SAN JOSE/SJ_BLD20",
+            "hostname": "Exists-SW2",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": true,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has been claimed but has not yet contacted the server. You can re-claim this device if you want to change its assigned site or configurations.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            "configList": [
+                {
+                "configId": "d149cef5-e48b-494e-97f4-996d1b3cccca",
+                "configParameters": [
+                    {
+                    "key": "PNP_VLAN_ID",
+                    "value": 2005
+                    },
+                    {
+                    "key": "LOOPBACK_IP",
+                    "value": "204.1.2.2"
+                    }
+                ]
+                }
+            ]
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "userContext": {
+            "userName": "admin",
+            "userId": "685975c1cd0f400013b86059",
+            "roles": [
+                "SUPER-ADMIN"
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "authSource": "legacy",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/"
+            },
+            "runSummaryList": [
+            {
+                "timestamp": 1764217354196,
+                "details": "User Added Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764217355044,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764267858590,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764267993508,
+                "details": "Claimed Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/",
+            "id": "6927d20aa347aa6b89f73728"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FOC2439LA89",
+            "name": "FOC2439LA89",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-24UXB",
+            "lastSyncTime": 0,
+            "addedOn": 1764217420757,
+            "lastUpdateOn": 1764217420757,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Planned",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "projectId": "68ed03d4222dc23fe4d06d3d",
+            "workflowId": "69394602a347aa6b89f8df5a",
+            "projectName": "Default",
+            "workflowName": "Default 69394602a347aa6b89f8df59",
+            "siteId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "siteName": "Global/USA/SAN JOSE/SJ_BLD23",
+            "hostname": "SJ-EN-10-9300",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": true,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has been claimed but has not yet contacted the server. You can re-claim this device if you want to change its assigned site or configurations.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "userContext": {
+            "userName": "thievo",
+            "userId": "685a22edcd0f400013b8606b",
+            "roles": [
+                "SUPER-ADMIN"
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "authSource": "legacy",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/"
+            },
+            "runSummaryList": [
+            {
+                "timestamp": 1764217420757,
+                "details": "User Added Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764217421360,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764268629319,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1764268768439,
+                "details": "Claimed Device",
+                "errorFlag": false
+            },
+            {
+                "timestamp": 1765361154752,
+                "details": "Claimed Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/",
+            "id": "6927d24ca347aa6b89f73734"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "NOTFOUND001",
+            "name": "NOTFOUND001",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UXC",
+            "lastSyncTime": 0,
+            "addedOn": 1764217629220,
+            "lastUpdateOn": 1764217629220,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "NotExist-SW",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764217629220,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d31da347aa6b89f73751"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FAKE001",
+            "name": "FAKE001",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UXM",
+            "lastSyncTime": 0,
+            "addedOn": 1764217672610,
+            "lastUpdateOn": 1764217672610,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "Fake-SW1",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764217672610,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d348a347aa6b89f7375a"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "FAKE002",
+            "name": "FAKE002",
+            "deviceType": "Switch",
+            "dnacDeviceType": "NETWORK",
+            "pid": "C9300-48UXM",
+            "lastSyncTime": 0,
+            "addedOn": 1764217672612,
+            "lastUpdateOn": 1764217672612,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "Fake-SW2",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "Default"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764217672612,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d348a347aa6b89f7375b"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "AP001",
+            "name": "AP001",
+            "dnacDeviceType": "NETWORK",
+            "pid": "AIR-AP2802I-B-K9",
+            "lastSyncTime": 0,
+            "addedOn": 1764218010787,
+            "lastUpdateOn": 1764218010787,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "AP-Non-Floor",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "AccessPoint"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764218010787,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d49aa347aa6b89f73785"
+        },
+        {
+            "version": 0,
+            "deviceInfo": {
+            "serialNumber": "AP002",
+            "name": "AP002",
+            "dnacDeviceType": "NETWORK",
+            "pid": "AIR-AP2802I-B-K9",
+            "lastSyncTime": 0,
+            "addedOn": 1764218050766,
+            "lastUpdateOn": 1764218050766,
+            "firstContact": 0,
+            "lastContact": 0,
+            "lastContactDuration": 0,
+            "provisionedOn": 0,
+            "state": "Unclaimed",
+            "onbState": "Not Contacted",
+            "cmState": "Not Contacted",
+            "hostname": "AP-Missing-RF",
+            "source": "User",
+            "reloadRequested": false,
+            "aaaCredentials": {
+                "username": "",
+                "password": ""
+            },
+            "populateInventory": false,
+            "poeSupported": false,
+            "capwapBackOff": false,
+            "redirectionState": "null",
+            "dayN": false,
+            "dayNClaimOperation": "NO_OP",
+            "tlsState": "NO_OP",
+            "reProvision": false,
+            "authOperation": "AUTHORIZATION_NOT_REQUIRED",
+            "apProvisionStatus": "DAY0",
+            "provisioningServerType": "DNAC",
+            "pnpaasSupportBundleState": "SUPPORT_BUNDLE_null",
+            "stack": false,
+            "hseclicense": false,
+            "sudiRequired": false,
+            "validActions": {
+                "editSUDI": true,
+                "editWfParams": true,
+                "delete": true,
+                "claim": true,
+                "unclaim": true,
+                "reset": false,
+                "authorize": false,
+                "resetMsg": "This device is not in Error state. Only devices in Error state may be reset.",
+                "authorizeMsg": "This device is not in PendingAuthorization state."
+            },
+            "siteClaimType": "AccessPoint"
+            },
+            "progress": {
+            "message": "Device has not yet contacted the server. Device is ready to be claimed.",
+            "inProgress": false,
+            "progressPercent": 0
+            },
+            "workflowParameters": {
+            
+            },
+            "dayNCmdQueue": [
+            
+            ],
+            "runSummaryList": [
+            {
+                "timestamp": 1764218050766,
+                "details": "User Added Device",
+                "errorFlag": false
+            }
+            ],
+            "tenantId": "68593aeecd0f400013b8604e",
+            "siteHierarchyId": "*",
+            "id": "6927d4c2a347aa6b89f7378e"
+        }
+    ],
+    "site_response1": {"response": {"parentId": "af407062-b499-4bc0-86df-7d81ffb28b02", "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046/", "additionalInfo": [{"nameSpace": "mapGeometry", "attributes": {"length": "100.0", "width": "100.0", "height": "10.0"}}, {"nameSpace": "Location", "attributes": {"address": "Salesforce Tower, 415 Mission St, San Francisco, California 94105, United States", "addressInheritedFrom": "af407062-b499-4bc0-86df-7d81ffb28b02", "type": "floor"}}, {"nameSpace": "mapsSummary", "attributes": {"rfModel": "82082", "floorIndex": "2"}}], "name": "FLOOR2", "instanceTenantId": "68593aeecd0f400013b8604e", "id": "2488d293-fc5d-45ed-82d0-d2a160fd8046", "siteHierarchy": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046", "siteNameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR2"}},
+    "site_response2": {"response": {"parentId": "18d688cb-e9ca-4a16-abdc-5923edadfb00", "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/", "additionalInfo": [{"nameSpace": "Location", "attributes": {"country": "United States", "address": "725 Alder Drive, Milpitas, California 95035, United States", "latitude": "37.415947", "addressInheritedFrom": "3036414b-0b9d-4f28-8e3d-89d246e84123", "type": "building", "longitude": "-121.91633"}}], "name": "SJ_BLD20", "instanceTenantId": "68593aeecd0f400013b8604e", "id": "3036414b-0b9d-4f28-8e3d-89d246e84123", "siteHierarchy": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123", "siteNameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20"}},
+    "site_response3": {"response": {"parentId": "18d688cb-e9ca-4a16-abdc-5923edadfb00", "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/", "additionalInfo": [{"nameSpace": "ETA", "attributes": {"member.compatibleWithNaasOnly.direct": "0", "member.etaCapable.direct": "2", "member.etaReady.direct": "2", "member.etaEnabledNaasOnly.direct": "0", "ETAReady": "true", "member.etaNotReady.direct": "0", "member.etaReadyNotEnabled.direct": "2", "member.etaEnabled.direct": "0"}}, {"nameSpace": "Location", "attributes": {"country": "United States", "address": "560 McCarthy Blvd, Milpitas, California 95035, United States", "latitude": "37.41864", "addressInheritedFrom": "ca6442ab-00e7-4454-b52c-cba2137fa66f", "type": "building", "longitude": "-121.9193"}}], "name": "SJ_BLD23", "instanceTenantId": "68593aeecd0f400013b8604e", "id": "ca6442ab-00e7-4454-b52c-cba2137fa66f", "siteHierarchy": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f", "siteNameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23"}},
+
+    "playbook_no_config": [
+        {
+            "component_specific_filters": {
+                "components_list": [
+                    "device_info"
+                ]
+            },
+            "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
+            "generate_all_configurations": true,
+            "global_filters": {
+                "device_state": [
+                    "Unclaimed"
+                ]
+            }
+        }
+    ]
+}
