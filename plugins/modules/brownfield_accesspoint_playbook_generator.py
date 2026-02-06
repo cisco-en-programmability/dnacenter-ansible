@@ -12,11 +12,20 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: brownfield_accesspoint_playbook_generator
-short_description: Generate YAML configurations playbook for 'accesspoint_workflow_manager' module.
+short_description: >-
+  Generate YAML configurations playbook for
+  'accesspoint_workflow_manager' module.
 description:
-  - Generates YAML configurations compatible with the 'accesspoint_workflow_manager'
-    module, reducing the effort required to manually create Ansible playbooks and
+  - Generates YAML configurations compatible with the
+    'accesspoint_workflow_manager' module, reducing
+    the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
+  - Supports complete brownfield infrastructure discovery by
+    collecting all access point configurations from Cisco Catalyst Center.
+  - Enables targeted extraction using filters (site hierarchies,
+    provisioned hostnames, AP configurations, or MAC addresses).
+  - Auto-generates timestamped YAML filenames when file path not
+    specified.
 version_added: 6.45.0
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -31,85 +40,133 @@ options:
     default: gathered
   config:
     description:
-      - A list of filters for generating YAML playbook compatible with the
-        'brownfield_accesspoint_playbook_generator' module.
-      - Filters specify which components to include in the YAML configuration file.
-      - If "components_list" is specified, only those components are included, regardless of the filters.
+      - A list of filters for generating YAML playbook compatible
+        with the 'brownfield_accesspoint_playbook_generator'
+        module.
+      - Filters specify which components to include in the YAML
+        configuration file.
+      - Either 'generate_all_configurations' or 'global_filters'
+        must be specified to identify target access points.
     type: list
     elements: dict
     required: true
     suboptions:
       generate_all_configurations:
         description:
-          - When set to True, automatically generates YAML configurations for all access point configuration features.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
+          - When set to True, automatically generates YAML
+            configurations for all access point provisioning and
+            configuration features.
+          - This mode discovers all managed access points in Cisco
+            Catalyst Center and extracts all supported
+            configurations.
+          - When enabled, the config parameter becomes optional
+            and will use default values if not provided.
+          - A default filename will be generated automatically
+            if file_path is not specified.
+          - This is useful for complete brownfield infrastructure
+            discovery and documentation.
+          - Any provided global_filters will be IGNORED in this
+            mode.
         type: bool
         required: false
         default: false
       file_path:
         description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  "accesspoint_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "accesspoint_workflow_manager_playbook_2025-04-22_21-43-26.yml".
+          - Path where the YAML configuration file will be saved.
+          - If not provided, the file will be saved in the current
+            working directory with a default file name
+            'accesspoint_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'.
+          - For example,
+            'accesspoint_workflow_manager_playbook_2025-04-22_21-43-26.yml'.
+          - Supports both absolute and relative file paths.
         type: str
       global_filters:
         description:
-          - Global filters to apply when generating the YAML configuration file.
-          - These filters apply to all components unless overridden by component-specific filters.
-          - At least one filter type must be specified to identify target devices.
+          - Global filters to apply when generating the YAML
+            configuration file.
+          - These filters apply to all components unless overridden
+            by component-specific filters.
+          - At least one filter type must be specified to identify
+            target access points.
+          - Filter priority (highest to lowest) is site_list,
+            provision_hostname_list, accesspoint_config_list,
+            accesspoint_provision_config_list,
+            accesspoint_provision_config_mac_list.
+          - Only the highest priority filter with valid data will
+            be processed.
         type: dict
         required: false
         suboptions:
           site_list:
             description:
-              - List of access point configuration names and details to extract configurations from.
-              - LOWEST PRIORITY - Only used if neither site name nor hostname list are provided.
-              - Access Point configuration names must match those registered in Catalyst Center.
+              - List of floor site hierarchies to extract AP
+                configurations from.
+              - HIGHEST PRIORITY - Used first if provided with
+                valid data.
+              - Site hierarchies must match those registered
+                in Catalyst Center.
               - Case-sensitive and must be exact matches.
-              - Can also be set to "all" to include all access point configurations.
-              - Example ["Global/USA/SAN JOSE/SJ_BLD20/FLOOR1", "Global/USA/SAN JOSE/SJ_BLD20/FLOOR2"]
+              - Can also be set to "all" to include all access
+                point configurations.
+              - Example ["Global/USA/SAN JOSE/SJ_BLD20/FLOOR1",
+                "Global/USA/SAN JOSE/SJ_BLD20/FLOOR2"]
+              - Module will extract APs provisioned to these
+                specific floor sites.
             type: list
             elements: str
             required: false
           provision_hostname_list:
             description:
-              - List of access points provisioned configuration to the floor.
-              - LOWEST PRIORITY - Only used if neither mac address nor hostname list are provided.
+              - List of access point hostnames with provisioned
+                configurations to the floor.
+              - MEDIUM-HIGH PRIORITY - Only used if site_list
+                is not provided.
               - Case-sensitive and must be exact matches.
-              - Can also be set to "all" to include all planned access points.
+              - Can also be set to "all" to include all provisioned
+                access points.
               - Example ["test_ap_1", "test_ap_2"]
+              - Retrieves provisioning details for specified AP
+                hostnames.
             type: list
             elements: str
             required: false
           accesspoint_config_list:
             description:
-              - List of access points configuration based on the accesspoint hostnames.
-              - LOWEST PRIORITY - Only used if neither mac address nor hostname list are provided.
+              - List of access point hostnames to extract
+                configurations from.
+              - MEDIUM PRIORITY - Only used if site_list and
+                provision_hostname_list are not provided.
               - Case-sensitive and must be exact matches.
-              - Can also be set to "all" to include all real access points.
+              - Can also be set to "all" to include all configured
+                access points.
               - Example ["Test_ap_1", "Test_ap_2"]
+              - Retrieves AP configuration details for specified
+                hostnames.
             type: list
             elements: str
             required: false
           accesspoint_provision_config_list:
             description:
-              - List of access points assigned to the floor.
-              - LOWEST PRIORITY - Only used if neither mac address nor hostname are provided.
+              - List of access point hostnames assigned to floors
+                with both provisioning and configuration data.
+              - MEDIUM-LOW PRIORITY - Only used if higher priority
+                filters are not provided.
               - Case-sensitive and must be exact matches.
               - Example ["Test_ap_1", "Test_ap_2"]
+              - Retrieves combined provisioning and configuration
+                details.
             type: list
             elements: str
             required: false
           accesspoint_provision_config_mac_list:
             description:
-              - List of Access point MAC addresses assigned to the floor.
-              - LOWEST PRIORITY - Only used if neither mac address nor hostname are provided.
+              - List of access point MAC addresses assigned to
+                floors with provisioning and configuration data.
+              - LOWEST PRIORITY - Only used if no other filters
+                are provided.
               - Case-sensitive and must be exact matches.
               - Example ["a4:88:73:d4:dd:80", "a4:88:73:d4:dd:81"]
+              - Retrieves AP details by MAC address filtering.
             type: list
             elements: str
             required: false
@@ -117,9 +174,6 @@ requirements:
   - dnacentersdk >= 2.10.10
   - python >= 3.9
 notes:
-    # Version Compatibility
-  - Minimum Catalyst Center version 2.3.5.3 required for accesspoint configuration generator.
-
   - This module utilizes the following SDK methods
     devices.get_device_list
     wireless.get_access_point_configuration
@@ -129,12 +183,18 @@ notes:
     wireless.ap_provision
     wireless.configure_access_points
     sites.get_membership
-
   - The following API paths are used
-    GET  /dna/intent/api/v1/network-device
-    GET  /dna/intent/api/v1/site
-    GET  /dna/intent/api/v1/business/sda/device
-    GET  /dna/intent/api/v1/membership/{siteId}
+    GET /dna/intent/api/v1/network-device
+    GET /dna/intent/api/v1/site
+    GET /dna/intent/api/v1/business/sda/device
+    GET /dna/intent/api/v1/membership/{siteId}
+  - Minimum Cisco Catalyst Center version required is 2.3.5.3 for
+    YAML playbook generation support.
+  - Filter priority hierarchy ensures only one filter type is
+    processed per execution.
+  - Module creates YAML file compatible with
+    'accesspoint_workflow_manager' module for
+    automation workflows.
 """
 
 EXAMPLES = r"""
@@ -265,32 +325,44 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: A dictionary with  with the response returned by the Cisco Catalyst Center Python SDK
+  description: >-
+    A dictionary with the response returned by the Cisco Catalyst
+    Center Python SDK
   returned: always
   type: dict
   sample: >
     {
       "response": {
-        "YAML config generation Task succeeded for module 'brownfield_accesspoint_playbook_generator'.": {
-            "file_path": "tmp/brownfield_accesspoint_playbook_templatebase.yml"}
+        "YAML config generation Task succeeded for module
+         'accesspoint_workflow_manager'.": {
+            "file_path":
+             "tmp/brownfield_accesspoint_workflow_playbook_templatebase.yml"
+          }
         },
       "msg": {
-        "YAML config generation Task succeeded for module 'brownfield_accesspoint_playbook_generator'.": {
-            "file_path": "tmp/brownfield_accesspoint_playbook_templatebase.yml"}
+        "YAML config generation Task succeeded for module
+         'accesspoint_workflow_manager'.": {
+            "file_path":
+             "tmp/brownfield_accesspoint_workflow_playbook_templatebase.yml"
+          }
         }
     }
 
 # Case_2: Error Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  description: >-
+    A string with the response returned by the Cisco Catalyst
+    Center Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
     {
-      "response": "No configurations or components to process for module 'accesspoint_workflow_manager'.
-                  Verify input filters or configuration.",
-      "msg": "No configurations or components to process for module 'accesspoint_workflow_manager'.
-             Verify input filters or configuration."
+      "response": "No configurations or components to process for
+                   module 'accesspoint_workflow_manager'.
+                   Verify input filters or configuration.",
+      "msg": "No configurations or components to process for module
+              'accesspoint_workflow_manager'.
+              Verify input filters or configuration."
     }
 """
 
@@ -1233,70 +1305,380 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 
 def main():
-    """main entry point for module execution"""
-    # Define the specification for the module"s arguments
+    """
+    Main entry point for the Cisco Catalyst Center brownfield access point playbook generator module.
+
+    This function serves as the primary execution entry point for the Ansible module,
+    orchestrating the complete workflow from parameter collection to YAML playbook
+    generation for brownfield access point configurations.
+
+    Purpose:
+        Initializes and executes the brownfield access point playbook generator
+        workflow to extract existing AP configurations from Cisco Catalyst Center
+        and generate Ansible-compatible YAML playbook files.
+
+    Workflow Steps:
+        1. Define module argument specification with required parameters
+        2. Initialize Ansible module with argument validation
+        3. Create AccessPointPlaybookGenerator instance
+        4. Validate Catalyst Center version compatibility (>= 2.3.5.3)
+        5. Validate and sanitize state parameter
+        6. Execute input parameter validation
+        7. Process each configuration item in the playbook
+        8. Execute state-specific operations (gathered workflow)
+        9. Return results via module.exit_json()
+
+    Module Arguments:
+        Connection Parameters:
+            - dnac_host (str, required): Catalyst Center hostname/IP
+            - dnac_port (str, default="443"): HTTPS port
+            - dnac_username (str, default="admin"): Authentication username
+            - dnac_password (str, required, no_log): Authentication password
+            - dnac_verify (bool, default=True): SSL certificate verification
+
+        API Configuration:
+            - dnac_version (str, default="2.2.3.3"): Catalyst Center version
+            - dnac_api_task_timeout (int, default=1200): API timeout (seconds)
+            - dnac_task_poll_interval (int, default=2): Poll interval (seconds)
+            - validate_response_schema (bool, default=True): Schema validation
+
+        Logging Configuration:
+            - dnac_debug (bool, default=False): Debug mode
+            - dnac_log (bool, default=False): Enable file logging
+            - dnac_log_level (str, default="WARNING"): Log level
+            - dnac_log_file_path (str, default="dnac.log"): Log file path
+            - dnac_log_append (bool, default=True): Append to log file
+
+        Playbook Configuration:
+            - config (list[dict], required): Configuration parameters list
+            - state (str, default="gathered", choices=["gathered"]): Workflow state
+
+    Version Requirements:
+        - Minimum Catalyst Center version: 2.3.5.3
+        - Introduced APIs for access point configuration retrieval:
+            * Network device list (get_device_list)
+            * AP configuration (get_access_point_configuration)
+            * Site details (get_site)
+            * Device info (get_device_info)
+            * AP provisioning (ap_provision)
+            * AP configuration (configure_access_points)
+
+    Supported States:
+        - gathered: Extract existing AP configurations and generate YAML playbook
+        - Future: merged, deleted, replaced (reserved for future use)
+
+    Error Handling:
+        - Version compatibility failures: Module exits with error
+        - Invalid state parameter: Module exits with error
+        - Input validation failures: Module exits with error
+        - Configuration processing errors: Module exits with error
+        - All errors are logged and returned via module.fail_json()
+
+    Return Format:
+        Success: module.exit_json() with result containing:
+            - changed (bool): Whether changes were made
+            - msg (str): Operation result message
+            - response (dict): Detailed operation results
+            - operation_summary (dict): Execution statistics
+
+        Failure: module.fail_json() with error details:
+            - failed (bool): True
+            - msg (str): Error message
+            - error (str): Detailed error information
+    """
+    # Record module initialization start time for performance tracking
+    module_start_time = time.time()
+
+    # Define the specification for the module's arguments
+    # This structure defines all parameters accepted by the module with their types,
+    # defaults, and validation rules
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
-        "validate_response_schema": {"type": "bool", "default": True},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "gathered", "choices": ["gathered"]},
+        # ============================================
+        # Catalyst Center Connection Parameters
+        # ============================================
+        "dnac_host": {
+            "required": True,
+            "type": "str"
+        },
+        "dnac_port": {
+            "type": "str",
+            "default": "443"
+        },
+        "dnac_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"]
+        },
+        "dnac_password": {
+            "type": "str",
+            "no_log": True  # Prevent password from appearing in logs
+        },
+        "dnac_verify": {
+            "type": "bool",
+            "default": True
+        },
+
+        # ============================================
+        # API Configuration Parameters
+        # ============================================
+        "dnac_version": {
+            "type": "str",
+            "default": "2.2.3.3"
+        },
+        "dnac_api_task_timeout": {
+            "type": "int",
+            "default": 1200
+        },
+        "dnac_task_poll_interval": {
+            "type": "int",
+            "default": 2
+        },
+        "validate_response_schema": {
+            "type": "bool",
+            "default": True
+        },
+
+        # ============================================
+        # Logging Configuration Parameters
+        # ============================================
+        "dnac_debug": {
+            "type": "bool",
+            "default": False
+        },
+        "dnac_log_level": {
+            "type": "str",
+            "default": "WARNING"
+        },
+        "dnac_log_file_path": {
+            "type": "str",
+            "default": "dnac.log"
+        },
+        "dnac_log_append": {
+            "type": "bool",
+            "default": True
+        },
+        "dnac_log": {
+            "type": "bool",
+            "default": False
+        },
+
+        # ============================================
+        # Playbook Configuration Parameters
+        # ============================================
+        "config": {
+            "required": True,
+            "type": "list",
+            "elements": "dict"
+        },
+        "state": {
+            "default": "gathered",
+            "choices": ["gathered"]
+        },
     }
 
-    # Initialize the Ansible module with the provided argument specifications
-    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
-    # Initialize the NetworkCompliance object with the module
+    # Initialize the Ansible module with argument specification
+    # supports_check_mode=True allows module to run in check mode (dry-run)
+    module = AnsibleModule(
+        argument_spec=element_spec,
+        supports_check_mode=True
+    )
+
+    # Create initial log entry with module initialization timestamp
+    # Note: Logging is not yet available since object isn't created
+    initialization_timestamp = time.strftime(
+        "%Y-%m-%d %H:%M:%S",
+        time.localtime(module_start_time)
+    )
+
+    # Initialize the AccessPointPlaybookGenerator object
+    # This creates the main orchestrator for brownfield AP configuration extraction
     ccc_accesspoint_playbook_generator = AccessPointPlaybookGenerator(module)
-    if (
-        ccc_accesspoint_playbook_generator.compare_dnac_versions(
-            ccc_accesspoint_playbook_generator.get_ccc_version(), "2.3.5.3"
+
+    # Log module initialization after object creation (now logging is available)
+    ccc_accesspoint_playbook_generator.log(
+        f"Starting Ansible module execution for brownfield access point playbook "
+        f"generator at timestamp {initialization_timestamp}",
+        "INFO"
+    )
+
+    ccc_accesspoint_playbook_generator.log(
+        f"Module initialized with parameters: dnac_host={module.params.get('dnac_host')}, "
+        f"dnac_port={module.params.get('dnac_port')}, "
+        f"dnac_username={module.params.get('dnac_username')}, "
+        f"dnac_verify={module.params.get('dnac_verify')}, "
+        f"dnac_version={module.params.get('dnac_version')}, "
+        f"state={module.params.get('state')}, "
+        f"config_items={len(module.params.get('config', []))}",
+        "DEBUG"
+    )
+
+    # ============================================
+    # Version Compatibility Check
+    # ============================================
+    ccc_accesspoint_playbook_generator.log(
+        f"Validating Catalyst Center version compatibility - checking if version "
+        f"{ccc_accesspoint_playbook_generator.get_ccc_version()} meets minimum requirement "
+        f"of 2.3.5.3 for access point configuration APIs",
+        "INFO"
+    )
+
+    if (ccc_accesspoint_playbook_generator.compare_dnac_versions(
+            ccc_accesspoint_playbook_generator.get_ccc_version(), "2.3.5.3") < 0):
+
+        error_msg = (
+            f"The specified Catalyst Center version "
+            f"'{ccc_accesspoint_playbook_generator.get_ccc_version()}' does not support the YAML "
+            f"playbook generation for Access Point Workflow Manager module. Supported versions start "
+            f"from '2.3.5.3' onwards. Version '2.3.5.3' introduces APIs for retrieving "
+            f"access point configurations or the following global filters: site_list, "
+            f"provision_hostname_list, accesspoint_config_list, accesspoint_provision_config_list, "
+            f"and accesspoint_provision_config_mac_list from the Catalyst Center."
         )
-        < 0
-    ):
-        ccc_accesspoint_playbook_generator.msg = (
-            "The specified version '{0}' does not support the YAML Playbook generation "
-            "for ACCESSPOINT WORKFLOW MANAGER Module. Supported versions start from '2.3.5.3' onwards. ".format(
-                ccc_accesspoint_playbook_generator.get_ccc_version()
-            )
+
+        ccc_accesspoint_playbook_generator.log(
+            f"Version compatibility check failed: {error_msg}",
+            "ERROR"
         )
+
+        ccc_accesspoint_playbook_generator.msg = error_msg
         ccc_accesspoint_playbook_generator.set_operation_result(
             "failed", False, ccc_accesspoint_playbook_generator.msg, "ERROR"
         ).check_return_status()
 
-    # Get the state parameter from the provided parameters
+    ccc_accesspoint_playbook_generator.log(
+        f"Version compatibility check passed - Catalyst Center version "
+        f"{ccc_accesspoint_playbook_generator.get_ccc_version()} supports "
+        f"all required access point configuration APIs",
+        "INFO"
+    )
+
+    # ============================================
+    # State Parameter Validation
+    # ============================================
     state = ccc_accesspoint_playbook_generator.params.get("state")
-    # Check if the state is valid
+
+    ccc_accesspoint_playbook_generator.log(
+        f"Validating requested state parameter: '{state}' against supported states: "
+        f"{ccc_accesspoint_playbook_generator.supported_states}",
+        "DEBUG"
+    )
+
     if state not in ccc_accesspoint_playbook_generator.supported_states:
-        ccc_accesspoint_playbook_generator.status = "invalid"
-        ccc_accesspoint_playbook_generator.msg = "State {0} is invalid".format(
-            state
+        error_msg = (
+            f"State '{state}' is invalid for this module. Supported states are: "
+            f"{ccc_accesspoint_playbook_generator.supported_states}. "
+            f"Please update your playbook to use one of the supported states."
         )
+
+        ccc_accesspoint_playbook_generator.log(
+            f"State validation failed: {error_msg}",
+            "ERROR"
+        )
+
+        ccc_accesspoint_playbook_generator.status = "invalid"
+        ccc_accesspoint_playbook_generator.msg = error_msg
         ccc_accesspoint_playbook_generator.check_return_status()
 
-    # Validate the input parameters and check the return statusk
+    ccc_accesspoint_playbook_generator.log(
+        f"State validation passed - using state '{state}' for workflow execution",
+        "INFO"
+    )
+
+    # ============================================
+    # Input Parameter Validation
+    # ============================================
+    ccc_accesspoint_playbook_generator.log(
+        "Starting comprehensive input parameter validation for playbook configuration",
+        "INFO"
+    )
+
     ccc_accesspoint_playbook_generator.validate_input().check_return_status()
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_accesspoint_playbook_generator.validated_config:
+    ccc_accesspoint_playbook_generator.log(
+        "Input parameter validation completed successfully - all configuration "
+        "parameters meet module requirements",
+        "INFO"
+    )
+
+    # ============================================
+    # Configuration Processing Loop
+    # ============================================
+    config_list = ccc_accesspoint_playbook_generator.validated_config
+
+    ccc_accesspoint_playbook_generator.log(
+        f"Starting configuration processing loop - will process {len(config_list)} configuration "
+        f"item(s) from playbook",
+        "INFO"
+    )
+
+    for config_index, config in enumerate(config_list, start=1):
+        ccc_accesspoint_playbook_generator.log(
+            f"Processing configuration item {config_index}/{len(config_list)} for state '{state}'",
+            "INFO"
+        )
+
+        # Reset values for clean state between configurations
+        ccc_accesspoint_playbook_generator.log(
+            "Resetting module state variables for clean configuration processing",
+            "DEBUG"
+        )
         ccc_accesspoint_playbook_generator.reset_values()
+
+        # Collect desired state (want) from configuration
+        ccc_accesspoint_playbook_generator.log(
+            f"Collecting desired state parameters from configuration item {config_index}",
+            "DEBUG"
+        )
         ccc_accesspoint_playbook_generator.get_want(
-            config, state).check_return_status()
+            config, state
+        ).check_return_status()
+
+        # Collect current state (have) from Catalyst Center
+        ccc_accesspoint_playbook_generator.log(
+            f"Collecting current state from Catalyst Center for configuration item {config_index}",
+            "DEBUG"
+        )
         ccc_accesspoint_playbook_generator.get_have(
-            config).check_return_status()
-        ccc_accesspoint_playbook_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+            config
+        ).check_return_status()
+
+        # Execute state-specific operation (gathered workflow)
+        ccc_accesspoint_playbook_generator.log(
+            f"Executing state-specific operation for '{state}' workflow on "
+            f"configuration item {config_index}",
+            "INFO"
+        )
+        ccc_accesspoint_playbook_generator.get_diff_state_apply[state]().check_return_status()
+
+        ccc_accesspoint_playbook_generator.log(
+            f"Successfully completed processing for configuration item {config_index}/{len(config_list)}",
+            "INFO"
+        )
+
+    # ============================================
+    # Module Completion and Exit
+    # ============================================
+    module_end_time = time.time()
+    module_duration = module_end_time - module_start_time
+
+    completion_timestamp = time.strftime(
+        "%Y-%m-%d %H:%M:%S",
+        time.localtime(module_end_time)
+    )
+
+    ccc_accesspoint_playbook_generator.log(
+        f"Module execution completed successfully at timestamp {completion_timestamp}. "
+        f"Total execution time: {module_duration:.2f} seconds. Processed {len(config_list)} "
+        f"configuration item(s) with final status: {ccc_accesspoint_playbook_generator.status}",
+        "INFO"
+    )
+
+    # Exit module with results
+    # This is a terminal operation - function does not return after this
+    ccc_accesspoint_playbook_generator.log(
+        f"Exiting Ansible module with result: {ccc_accesspoint_playbook_generator.result}",
+        "DEBUG"
+    )
 
     module.exit_json(**ccc_accesspoint_playbook_generator.result)
 
