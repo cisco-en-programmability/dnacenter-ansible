@@ -624,8 +624,8 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 # Check that at least one filter list is provided and has values
                 valid_filter_keys = [
-                    "hostname_filter", "site_name_filter", "ap_name_filter",
-                    "site_hierarchy", "accesspoint_model_list", "mac_address_list"
+                    "site_list", "planned_accesspoint_list", "real_accesspoint_list",
+                    "accesspoint_model_list", "mac_address_list"
                 ]
                 provided_filters = {
                     key: global_filters.get(key)
@@ -939,154 +939,511 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_have(self, config):
         """
-        Retrieves the current state of access point location from the Cisco Catalyst Center.
-        This method fetches the existing configurations for Access Point position
-        such as accesspoint name, model, position and radio in the Cisco Catalyst Center.
-        It logs detailed information about the retrieval process and updates the
-        current state attributes accordingly.
+        Retrieves current access point location state from Cisco Catalyst Center.
 
-        Parameters:
-            config (dict): The configuration data for the access point location elements.
+        This function collects complete access point location configurations including
+        position coordinates, floor assignments, radio configurations, and device metadata
+        from Catalyst Center based on configuration mode (generate_all or filtered) for
+        YAML playbook generation workflow.
+
+        Args:
+            config (dict): Configuration parameters containing:
+                        - generate_all_configurations: Mode flag (optional, bool)
+                        - global_filters: Filter criteria (optional, dict)
+                        Example: {
+                            "generate_all_configurations": False,
+                            "global_filters": {
+                                "site_list": ["Global/USA/Building1/Floor1"],
+                                "planned_accesspoint_list": ["Floor1-AP1"],
+                                "real_accesspoint_list": ["Floor2-AP1"],
+                                "accesspoint_model_list": ["C9130AXI-B"],
+                                "mac_address_list": ["aa:bb:cc:dd:ee:ff"]
+                            }
+                        }
 
         Returns:
-            object: An instance of the class with updated attributes:
-                self.have: A dictionary containing the current state of access point location.
-                self.msg: A message describing the retrieval result.
-                self.status: The status of the retrieval (either "success" or "failed").
+            object: Self instance with updated attributes:
+                - self.have: Dict containing current AP location state with keys:
+                    * all_floor: All floor sites from Catalyst Center
+                    * filtered_floor: Floors containing APs matching filters
+                    * all_config: Combined planned + real AP configurations
+                    * planned_aps: Planned AP position configurations
+                    * real_aps: Real/deployed AP position configurations
+                    * all_detailed_config: Detailed AP metadata with IDs
+                - self.msg: Success message describing retrieval result
+                - self.status: Operation status ("success")
+
+        Side Effects:
+            - Calls collect_all_accesspoint_location_list() to populate self.have
+            - Validates filter parameters against retrieved AP inventory
+            - Exits with failure via fail_and_exit() if filtered items not found
+            - Logs detailed progress information at INFO/DEBUG/WARNING levels
+
+        Filter Priority and Processing:
+            Filters are processed independently (not hierarchical):
+            - site_list: Filters by floor site hierarchy paths
+            - planned_accesspoint_list: Filters by planned AP names
+            - real_accesspoint_list: Filters by real/deployed AP names
+            - accesspoint_model_list: Filters by AP hardware models
+            - mac_address_list: Filters by AP MAC addresses
+
+        Validation Behavior:
+            - "all" keyword (case-insensitive): Skips validation, returns all data
+            - Specific values: Validates each item exists, fails if any missing
+            - Empty list: Ignored (no filtering applied)
+
+        Notes:
+            - Function always succeeds unless validation fails (fail_and_exit called)
+            - Missing APs in filtered mode causes playbook execution failure
+            - generate_all mode skips all filter validation
+            - All filters validated against all_detailed_config populated by
+              collect_all_accesspoint_location_list()
         """
         self.log(
-            "Retrieving current state of access point location from Cisco Catalyst Center.",
-            "INFO",
+            "Retrieving current state of access point locations from Cisco Catalyst Center. "
+            "This operation collects AP position configurations including coordinates, floor "
+            "assignments, radio settings, and device metadata based on configuration mode "
+            "(generate_all or filtered). Data will be used for YAML playbook generation workflow.",
+            "INFO"
         )
 
-        if config and isinstance(config, dict):
-            if config.get("generate_all_configurations", False):
-                self.log("Collecting all access point location details", "INFO")
-                self.collect_all_accesspoint_location_list()
-                if not self.have.get("all_config"):
-                    self.msg = "No existing access point locations found in Cisco Catalyst Center."
-                    self.status = "success"
-                    return self
+        if not config or not isinstance(config, dict):
+            self.log(
+                f"Invalid config parameter provided to get_have(). Config is None or not a "
+                f"dictionary type. Cannot retrieve AP location data without valid configuration. "
+                f"Skipping data collection. Config type: {type(config).__name__}",
+                "WARNING"
+            )
+            self.msg = "Invalid configuration provided. Skipping access point location data retrieval."
+            return self
 
-                self.log("All Configurations collected successfully : {0}".format(
-                    self.pprint(self.have.get("all_config"))), "INFO")
+        self.log(
+            "Configuration parameter validated successfully. Config type: dict. Proceeding with "
+            "operational mode detection and data collection workflow.",
+            "DEBUG"
+        )
+
+        if config.get("generate_all_configurations", False):
+            self.log(
+                "Generate all configurations mode ENABLED (generate_all_configurations=True). "
+                "Initiating complete access point location collection from Cisco Catalyst Center "
+                "without applying any filters. This mode retrieves ALL AP positions (planned and "
+                "real) including complete position coordinates, radio configurations, and floor "
+                "assignments for comprehensive brownfield infrastructure discovery and documentation.",
+                "INFO"
+            )
+
+            self.log(
+                "Calling collect_all_accesspoint_location_list() without filters to retrieve "
+                "complete AP location inventory from Catalyst Center. This will fetch all floor "
+                "sites and associated AP positions using paginated API calls.",
+                "INFO"
+            )
+            self.collect_all_accesspoint_location_list()
+
+            if not self.have.get("all_config"):
+                self.msg = (
+                    "No existing access point locations found in Cisco Catalyst Center. Please verify "
+                    "that APs are configured and positioned on floor maps in the system and API "
+                    "credentials have sufficient permissions to retrieve site design data."
+                )
+                self.log(self.msg, "WARNING")
+                self.status = "success"
+                return self
+
+            self.log(
+                f"Successfully retrieved {len(self.have.get('all_config', []))} floor site(s) with "
+                f"access point location data from Catalyst Center in generate_all mode. Total APs "
+                f"collected: Planned={len(self.have.get('planned_aps', []))}, "
+                f"Real={len(self.have.get('real_aps', []))}. Complete configuration data: "
+                f"{self.pprint(self.have.get('all_config'))}",
+                "INFO"
+            )
+        else:
+            self.log(
+                "Filtered configuration mode detected (generate_all_configurations=False or not "
+                "specified). Extracting global_filters parameter to determine data collection and "
+                "validation strategy. Supported filters: site_list, planned_accesspoint_list, "
+                "real_accesspoint_list, accesspoint_model_list, mac_address_list. Each filter is "
+                "processed independently with existence validation.",
+                "INFO"
+            )
 
             global_filters = config.get("global_filters")
-            if global_filters:
-                self.log(f"Collecting access point location details based on global filters: {global_filters}", "INFO")
-                self.collect_all_accesspoint_location_list()
 
-                site_list = global_filters.get("site_list", [])
-                if site_list:
-                    self.log(f"Collecting access point location details for site list: {site_list}", "INFO")
+            if not global_filters or not isinstance(global_filters, dict):
+                self.log(
+                    "No valid global_filters provided in filtered mode. global_filters is None or "
+                    "not a dictionary. Cannot determine which access points to validate. Skipping "
+                    "data collection. To retrieve AP locations, either enable "
+                    "generate_all_configurations or provide global_filters with at least one filter "
+                    "type (site_list, planned_accesspoint_list, real_accesspoint_list, "
+                    "accesspoint_model_list, or mac_address_list).",
+                    "WARNING"
+                )
+                self.msg = (
+                    "No global_filters provided in filtered mode. Cannot collect access point "
+                    "location data without filter criteria."
+                )
+                return self
 
-                    if len(site_list) == 1 and site_list[0].lower() == "all":
-                        return self
-                    else:
-                        missing_floors = []
-                        for floor_name in site_list:
-                            self.log(f"Check access point location details exist for site: {floor_name}", "INFO")
-                            floor_exist = self.find_dict_by_key_value(
-                                self.have["filtered_floor"], "floor_site_hierarchy", floor_name)
+            self.log(
+                f"Global filters parameter validated successfully. Calling "
+                f"collect_all_accesspoint_location_list() to retrieve complete AP inventory for "
+                f"filter validation. Filter structure: {global_filters}",
+                "DEBUG"
+            )
+            self.collect_all_accesspoint_location_list()
 
-                            if not floor_exist:
-                                missing_floors.append(floor_name)
-                                self.log(f"Given floor site hierarchy not exist for the : {floor_name}", "WARNING")
+            # Extract individual filter components
+            site_list = global_filters.get("site_list", [])
+            planned_ap_list = global_filters.get("planned_accesspoint_list", [])
+            real_ap_list = global_filters.get("real_accesspoint_list", [])
+            model_list = global_filters.get("accesspoint_model_list", [])
+            mac_list = global_filters.get("mac_address_list", [])
 
-                        if missing_floors:
-                            self.msg = f"The following floor site hierarchies do not exist: {missing_floors}."
-                            self.fail_and_exit(self.msg)
+            self.log(
+                f"Extracted filter components from global_filters. site_list: {site_list} "
+                f"(count: {len(site_list) if isinstance(site_list, list) else 0}), "
+                f"planned_accesspoint_list: {planned_ap_list} "
+                f"(count: {len(planned_ap_list) if isinstance(planned_ap_list, list) else 0}), "
+                f"real_accesspoint_list: {real_ap_list} "
+                f"(count: {len(real_ap_list) if isinstance(real_ap_list, list) else 0}), "
+                f"accesspoint_model_list: {model_list} "
+                f"(count: {len(model_list) if isinstance(model_list, list) else 0}), "
+                f"mac_address_list: {mac_list} "
+                f"(count: {len(mac_list) if isinstance(mac_list, list) else 0})",
+                "DEBUG"
+            )
 
-                planned_ap_list = global_filters.get("planned_accesspoint_list", [])
-                if planned_ap_list:
-                    self.log(f"Collecting access point location details for planned access point list: {planned_ap_list}",
-                             "INFO")
+            # Process site_list filter
+            if site_list and isinstance(site_list, list):
+                self.log(
+                    f"Site list filter detected. Requested floor site hierarchies: {site_list} "
+                    f"(count: {len(site_list)}). This filter validates floor sites contain access "
+                    f"points and exist in Catalyst Center.",
+                    "INFO"
+                )
 
-                    if len(planned_ap_list) == 1 and planned_ap_list[0].lower() == "all":
-                        return self
-                    else:
-                        missing_planned_aps = []
-                        for planned_ap in planned_ap_list:
-                            self.log(f"Check planned access point exist for : {planned_ap}", "INFO")
-                            ap_exist = self.find_dict_by_key_value(
-                                self.have["all_detailed_config"], "accesspoint_name", planned_ap)
+                if len(site_list) == 1 and site_list[0].lower() == "all":
+                    self.log(
+                        "Site list contains 'all' keyword. Skipping site validation, all floors "
+                        "with APs will be included in YAML generation.",
+                        "INFO"
+                    )
+                    return self
+                else:
+                    self.log(
+                        f"Validating {len(site_list)} floor site(s) exist in filtered_floor data "
+                        f"populated by collect_all_accesspoint_location_list(). Each site must exist "
+                        f"or playbook will fail.",
+                        "DEBUG"
+                    )
+                    missing_floors = []
+                    for floor_index, floor_name in enumerate(site_list, start=1):
+                        self.log(
+                            f"Validating floor site {floor_index}/{len(site_list)}: '{floor_name}'. "
+                            f"Checking existence in filtered_floor list.",
+                            "DEBUG"
+                        )
+                        floor_exist = self.find_dict_by_key_value(
+                            self.have["filtered_floor"], "floor_site_hierarchy", floor_name
+                        )
 
-                            if not ap_exist or ap_exist.get("accesspoint_type") == "real":
-                                missing_planned_aps.append(planned_ap)
-                                self.log(f"Given planned access point not exist : {planned_ap}", "WARNING")
+                        if not floor_exist:
+                            missing_floors.append(floor_name)
+                            self.log(
+                                f"Floor site hierarchy '{floor_name}' does not exist or has no "
+                                f"access points configured. Adding to missing_floors list.",
+                                "WARNING"
+                            )
+                        else:
+                            self.log(
+                                f"Floor site {floor_index}/{len(site_list)}: '{floor_name}' "
+                                f"validated successfully. Floor exists with AP configurations.",
+                                "DEBUG"
+                            )
 
-                        if missing_planned_aps:
-                            self.msg = f"The following planned access points do not exist: {missing_planned_aps}."
-                            self.fail_and_exit(self.msg)
+                    if missing_floors:
+                        self.msg = (
+                            f"The following floor site hierarchies do not exist or have no access "
+                            f"points configured: {missing_floors}. Total missing: "
+                            f"{len(missing_floors)}/{len(site_list)} requested. Please verify site "
+                            f"hierarchy paths are correct (case-sensitive, full path from Global) "
+                            f"and floors have APs positioned on floor maps before retrying."
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
 
-                real_ap_list = global_filters.get("real_accesspoint_list", [])
-                if real_ap_list:
-                    self.log(f"Collecting access point location details for real access point list: {real_ap_list}",
-                             "INFO")
+                    self.log(
+                        f"All {len(site_list)} floor site(s) validated successfully. All requested "
+                        f"floors exist with access point configurations.",
+                        "INFO"
+                    )
 
-                    if len(real_ap_list) == 1 and real_ap_list[0].lower() == "all":
-                        return self
-                    else:
-                        missing_real_aps = []
-                        for real_ap in real_ap_list:
-                            self.log(f"Check real access point exist for : {real_ap}", "INFO")
-                            ap_exist = self.find_dict_by_key_value(
-                                self.have["all_detailed_config"], "accesspoint_name", real_ap)
+            # Process planned_accesspoint_list filter
+            if planned_ap_list and isinstance(planned_ap_list, list):
+                self.log(
+                    f"Planned access point list filter detected. Requested planned AP names: "
+                    f"{planned_ap_list} (count: {len(planned_ap_list)}). This filter validates "
+                    f"planned APs exist in Catalyst Center.",
+                    "INFO"
+                )
 
-                            if not ap_exist or ap_exist.get("accesspoint_type") != "real":
-                                missing_real_aps.append(real_ap)
-                                self.log(f"Given real access point not exist : {real_ap}", "WARNING")
+                if len(planned_ap_list) == 1 and planned_ap_list[0].lower() == "all":
+                    self.log(
+                        "Planned AP list contains 'all' keyword. Skipping planned AP validation, "
+                        "all planned APs will be included in YAML generation.",
+                        "INFO"
+                    )
+                    return self
+                else:
+                    self.log(
+                        f"Validating {len(planned_ap_list)} planned AP(s) exist in "
+                        f"all_detailed_config data. Each planned AP must exist or playbook will fail.",
+                        "DEBUG"
+                    )
+                    missing_planned_aps = []
+                    for ap_index, planned_ap in enumerate(planned_ap_list, start=1):
+                        self.log(
+                            f"Validating planned AP {ap_index}/{len(planned_ap_list)}: "
+                            f"'{planned_ap}'. Checking existence in all_detailed_config.",
+                            "DEBUG"
+                        )
+                        ap_exist = self.find_dict_by_key_value(
+                            self.have["all_detailed_config"], "accesspoint_name", planned_ap
+                        )
 
-                        if missing_real_aps:
-                            self.msg = f"The following real access points do not exist: {missing_real_aps}."
-                            self.fail_and_exit(self.msg)
+                        if not ap_exist or ap_exist.get("accesspoint_type") == "real":
+                            missing_planned_aps.append(planned_ap)
+                            self.log(
+                                f"Planned access point '{planned_ap}' does not exist or is marked "
+                                f"as 'real' type. Adding to missing_planned_aps list.",
+                                "WARNING"
+                            )
+                        else:
+                            self.log(
+                                f"Planned AP {ap_index}/{len(planned_ap_list)}: '{planned_ap}' "
+                                f"validated successfully. AP exists with type 'planned'.",
+                                "DEBUG"
+                            )
 
-                model_list = global_filters.get("accesspoint_model_list", [])
-                if model_list:
-                    self.log(f"Collecting access point location details for access point model list: {model_list}",
-                             "INFO")
+                    if missing_planned_aps:
+                        self.msg = (
+                            f"The following planned access points do not exist: {missing_planned_aps}. "
+                            f"Total missing: {len(missing_planned_aps)}/{len(planned_ap_list)} "
+                            f"requested. Please verify planned AP names are correct (case-sensitive) "
+                            f"and APs are configured as planned (not real) on floor maps before retrying."
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
 
-                    if len(model_list) == 1 and model_list[0].lower() == "all":
-                        return self
-                    else:
-                        missing_models = []
-                        for model in model_list:
-                            self.log(f"Check access point model exist for : {model}", "INFO")
-                            aps_exist = self.find_multiple_dict_by_key_value(
-                                self.have["all_detailed_config"], "accesspoint_model", model)
+                    self.log(
+                        f"All {len(planned_ap_list)} planned AP(s) validated successfully. All "
+                        f"requested planned APs exist in Catalyst Center.",
+                        "INFO"
+                    )
 
-                            if not aps_exist:
-                                missing_models.append(model)
-                                self.log(f"Given access point model not exist : {model}", "WARNING")
+            # Process real_accesspoint_list filter
+            if real_ap_list and isinstance(real_ap_list, list):
+                self.log(
+                    f"Real access point list filter detected. Requested real AP names: "
+                    f"{real_ap_list} (count: {len(real_ap_list)}). This filter validates real/"
+                    f"deployed APs exist in Catalyst Center.",
+                    "INFO"
+                )
 
-                        if missing_models:
-                            self.msg = f"The following access point models do not exist: {missing_models}."
-                            self.fail_and_exit(self.msg)
+                if len(real_ap_list) == 1 and real_ap_list[0].lower() == "all":
+                    self.log(
+                        "Real AP list contains 'all' keyword. Skipping real AP validation, all "
+                        "real/deployed APs will be included in YAML generation.",
+                        "INFO"
+                    )
+                    return self
+                else:
+                    self.log(
+                        f"Validating {len(real_ap_list)} real AP(s) exist in all_detailed_config "
+                        f"data. Each real AP must exist or playbook will fail.",
+                        "DEBUG"
+                    )
+                    missing_real_aps = []
+                    for ap_index, real_ap in enumerate(real_ap_list, start=1):
+                        self.log(
+                            f"Validating real AP {ap_index}/{len(real_ap_list)}: '{real_ap}'. "
+                            f"Checking existence in all_detailed_config.",
+                            "DEBUG"
+                        )
+                        ap_exist = self.find_dict_by_key_value(
+                            self.have["all_detailed_config"], "accesspoint_name", real_ap
+                        )
 
-                mac_list = global_filters.get("mac_address_list", [])
-                if mac_list:
-                    self.log(f"Collecting access point location details for MAC address list: {mac_list}",
-                             "INFO")
+                        if not ap_exist or ap_exist.get("accesspoint_type") != "real":
+                            missing_real_aps.append(real_ap)
+                            self.log(
+                                f"Real access point '{real_ap}' does not exist or is not marked "
+                                f"as 'real' type. Adding to missing_real_aps list.",
+                                "WARNING"
+                            )
+                        else:
+                            self.log(
+                                f"Real AP {ap_index}/{len(real_ap_list)}: '{real_ap}' validated "
+                                f"successfully. AP exists with type 'real'.",
+                                "DEBUG"
+                            )
 
-                    if len(mac_list) == 1 and mac_list[0].lower() == "all":
-                        return self
-                    else:
-                        missing_macs = []
-                        for mac in mac_list:
-                            self.log(f"Check MAC address exist for : {mac}", "INFO")
-                            aps_exist = self.find_multiple_dict_by_key_value(
-                                self.have["all_detailed_config"], "mac_address", mac)
+                    if missing_real_aps:
+                        self.msg = (
+                            f"The following real access points do not exist: {missing_real_aps}. "
+                            f"Total missing: {len(missing_real_aps)}/{len(real_ap_list)} requested. "
+                            f"Please verify real AP names are correct (case-sensitive) and APs are "
+                            f"deployed and visible in Catalyst Center before retrying."
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
 
-                            if not aps_exist:
-                                missing_macs.append(mac)
-                                self.log(f"Given MAC address not exist : {mac}", "WARNING")
+                    self.log(
+                        f"All {len(real_ap_list)} real AP(s) validated successfully. All requested "
+                        f"real/deployed APs exist in Catalyst Center.",
+                        "INFO"
+                    )
 
-                        if missing_macs:
-                            self.msg = f"The following MAC addresses do not exist: {missing_macs}."
-                            self.fail_and_exit(self.msg)
+            # Process accesspoint_model_list filter
+            if model_list and isinstance(model_list, list):
+                self.log(
+                    f"Access point model list filter detected. Requested AP models: {model_list} "
+                    f"(count: {len(model_list)}). This filter validates AP hardware models exist "
+                    f"in Catalyst Center.",
+                    "INFO"
+                )
 
-        self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
-        self.msg = "Successfully retrieved the details from the system"
+                if len(model_list) == 1 and model_list[0].lower() == "all":
+                    self.log(
+                        "AP model list contains 'all' keyword. Skipping model validation, all AP "
+                        "models will be included in YAML generation.",
+                        "INFO"
+                    )
+                    return self
+                else:
+                    self.log(
+                        f"Validating {len(model_list)} AP model(s) exist in all_detailed_config "
+                        f"data. Each model must have at least one AP or playbook will fail.",
+                        "DEBUG"
+                    )
+                    missing_models = []
+                    for model_index, model in enumerate(model_list, start=1):
+                        self.log(
+                            f"Validating AP model {model_index}/{len(model_list)}: '{model}'. "
+                            f"Searching for APs with this model in all_detailed_config.",
+                            "DEBUG"
+                        )
+                        aps_exist = self.find_multiple_dict_by_key_value(
+                            self.have["all_detailed_config"], "accesspoint_model", model
+                        )
+
+                        if not aps_exist:
+                            missing_models.append(model)
+                            self.log(
+                                f"Access point model '{model}' not found in Catalyst Center. No "
+                                f"APs with this model exist. Adding to missing_models list.",
+                                "WARNING"
+                            )
+                        else:
+                            self.log(
+                                f"AP model {model_index}/{len(model_list)}: '{model}' validated "
+                                f"successfully. Found {len(aps_exist)} AP(s) with this model.",
+                                "DEBUG"
+                            )
+
+                    if missing_models:
+                        self.msg = (
+                            f"The following access point models do not exist: {missing_models}. "
+                            f"Total missing: {len(missing_models)}/{len(model_list)} requested. "
+                            f"Please verify AP model names are correct (case-sensitive, exact match) "
+                            f"and APs with these models are deployed in Catalyst Center before retrying."
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
+
+                    self.log(
+                        f"All {len(model_list)} AP model(s) validated successfully. All requested "
+                        f"models have deployed APs in Catalyst Center.",
+                        "INFO"
+                    )
+
+            # Process mac_address_list filter
+            if mac_list and isinstance(mac_list, list):
+                self.log(
+                    f"MAC address list filter detected. Requested MAC addresses: {mac_list} "
+                    f"(count: {len(mac_list)}). This filter validates AP MAC addresses exist in "
+                    f"Catalyst Center.",
+                    "INFO"
+                )
+
+                if len(mac_list) == 1 and mac_list[0].lower() == "all":
+                    self.log(
+                        "MAC address list contains 'all' keyword. Skipping MAC validation, all "
+                        "APs with MAC addresses will be included in YAML generation.",
+                        "INFO"
+                    )
+                    return self
+                else:
+                    self.log(
+                        f"Validating {len(mac_list)} MAC address(es) exist in all_detailed_config "
+                        f"data. Each MAC must match an AP or playbook will fail.",
+                        "DEBUG"
+                    )
+                    missing_macs = []
+                    for mac_index, mac in enumerate(mac_list, start=1):
+                        normalized_mac = mac.lower()
+                        self.log(
+                            f"Validating MAC address {mac_index}/{len(mac_list)}: '{normalized_mac}' "
+                            f"(normalized). Searching for AP with this MAC in all_detailed_config.",
+                            "DEBUG"
+                        )
+                        aps_exist = self.find_multiple_dict_by_key_value(
+                            self.have["all_detailed_config"], "mac_address", normalized_mac
+                        )
+
+                        if not aps_exist:
+                            missing_macs.append(mac)
+                            self.log(
+                                f"MAC address '{normalized_mac}' not found in Catalyst Center. No "
+                                f"AP with this MAC exists. Adding to missing_macs list.",
+                                "WARNING"
+                            )
+                        else:
+                            self.log(
+                                f"MAC address {mac_index}/{len(mac_list)}: '{normalized_mac}' "
+                                f"validated successfully. Found {len(aps_exist)} AP(s) with this MAC.",
+                                "DEBUG"
+                            )
+
+                    if missing_macs:
+                        self.msg = (
+                            f"The following MAC addresses do not exist: {missing_macs}. Total "
+                            f"missing: {len(missing_macs)}/{len(mac_list)} requested. Please verify "
+                            f"MAC addresses are correct (format: aa:bb:cc:dd:ee:ff) and APs with "
+                            f"these MACs are deployed in Catalyst Center before retrying."
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
+
+                    self.log(
+                        f"All {len(mac_list)} MAC address(es) validated successfully. All requested "
+                        f"MAC addresses match deployed APs in Catalyst Center.",
+                        "INFO"
+                    )
+
+        self.log(
+            f"Current State (have): {self.pprint(self.have)}. Data collection and validation "
+            f"completed successfully. Total floors: {len(self.have.get('all_floor', []))}, "
+            f"Filtered floors: {len(self.have.get('filtered_floor', []))}, "
+            f"All configs: {len(self.have.get('all_config', []))}, "
+            f"Planned APs: {len(self.have.get('planned_aps', []))}, "
+            f"Real APs: {len(self.have.get('real_aps', []))}",
+            "INFO"
+        )
+        self.msg = "Successfully retrieved access point location details from Cisco Catalyst Center."
         return self
 
     def find_multiple_dict_by_key_value(self, data_list, key, value):
@@ -1831,15 +2188,66 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Gathers access point location details from Cisco Catalyst Center and generates YAML playbook.
+        Executes YAML configuration generation workflow for access point locations.
+
+        This function orchestrates the complete YAML playbook generation process by
+        extracting parameters from the validated want dictionary, calling the
+        yaml_config_generator function, and validating operation status. It coordinates
+        data collection, filtering, and YAML file creation for brownfield AP location
+        documentation and automation.
+
+        Args:
+            None (operates on instance attributes self.want and self.have)
 
         Returns:
-            self: Returns the current object with status and result set.
+            object: Self instance with updated attributes:
+                - self.result: Contains operation results from yaml_config_generator
+                - self.msg: Operation completion message
+                - self.status: Operation status ("success" or "failed")
+
+        Side Effects:
+            - Calls yaml_config_generator() with extracted parameters
+            - Invokes check_return_status() to validate operation success
+            - Logs detailed progress information at DEBUG and INFO levels
+            - Measures and logs total execution time
+            - Updates self.result with YAML generation outcomes
+
+        Workflow Overview:
+            1. Initialize timing and log workflow start
+            2. Define operations list (currently: yaml_config_generator only)
+            3. Iterate through operations sequentially
+            4. For each operation:
+               a. Extract parameters from self.want using param_key
+               b. If parameters exist, call operation function
+               c. Validate operation success via check_return_status()
+               d. Log results and continue to next operation
+            5. Calculate and log total execution time
+            6. Return self with updated result
+
+        Operation Pattern:
+            Operations defined as tuples: (param_key, operation_name, operation_func)
+            - param_key: Key in self.want dict containing operation parameters
+            - operation_name: Human-readable operation name for logging
+            - operation_func: Function to call with extracted parameters
+
+        Notes:
+            - Currently supports single operation (yaml_config_generator)
+            - Architecture designed for extensibility (future operations)
+            - Operations processed sequentially (not parallel)
+            - Missing parameters cause operation skip (not failure)
+            - check_return_status() raises exceptions on operation failure
+            - Execution time logged for performance monitoring
         """
-        self.log("Starting brownfield access point location gathering process", "INFO")
 
         start_time = time.time()
-        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
+        self.log(
+            "Starting YAML configuration generation workflow orchestration (get_diff_gathered). "
+            "This operation coordinates the complete YAML playbook generation process by extracting "
+            "parameters from validated want dictionary, calling yaml_config_generator function, "
+            "and checking operation status. Workflow supports extensible operation pattern for "
+            "future enhancements.",
+            "DEBUG"
+        )
         operations = [
             (
                 "yaml_config_generator",
@@ -1849,39 +2257,62 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         ]
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log(
+            f"Operations configuration defined successfully. Total operations: {len(operations)}. "
+            f"Operation details: {[(op[0], op[1]) for op in operations]}. Each operation will be "
+            f"processed sequentially with parameter validation and status checking.",
+            "DEBUG"
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             operations, start=1
         ):
             self.log(
-                "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
-                    index, operation_name, param_key
-                ),
-                "DEBUG",
+                f"Iteration {index}/{len(operations)}: Processing '{operation_name}' operation. "
+                f"Checking for parameters in self.want using param_key '{param_key}'. If parameters "
+                f"exist, operation function will be called with extracted parameters and return "
+                f"status validated.",
+                "DEBUG"
             )
             params = self.want.get(param_key)
             if params:
                 self.log(
-                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
-                        index, operation_name
-                    ),
-                    "INFO",
+                    f"Iteration {index}/{len(operations)}: Parameters successfully extracted for "
+                    f"'{operation_name}' operation. Parameter structure: {param_key} "
+                    f"(type: {type(params).__name__}). Initiating operation execution by calling "
+                    f"operation function with extracted parameters.",
+                    "INFO"
+                )
+
+                self.log(
+                    f"Iteration {index}/{len(operations)}: Calling operation function "
+                    f"'{operation_name}' with extracted parameters. Function will process parameters, "
+                    f"execute YAML generation workflow, and return self instance with updated result "
+                    f"status. check_return_status() will validate operation success after completion.",
+                    "DEBUG"
                 )
                 operation_func(params).check_return_status()
+                self.log(
+                    f"Iteration {index}/{len(operations)}: '{operation_name}' operation completed "
+                    f"successfully. check_return_status() validated operation success. Result status: "
+                    f"{self.status}, Changed: {self.result.get('changed')}. Continuing to next "
+                    f"operation if available.",
+                    "INFO"
+                )
             else:
                 self.log(
-                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
-                        index, operation_name
-                    ),
-                    "WARNING",
+                    f"Iteration {index}/{len(operations)}: No parameters found in self.want for "
+                    f"'{operation_name}' operation using param_key '{param_key}'. Parameters are "
+                    f"None or missing, indicating operation should be skipped. This is expected if "
+                    f"operation is optional or disabled. Continuing to next operation without execution.",
+                    "WARNING"
                 )
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
-                end_time - start_time
-            ),
-            "DEBUG",
+            f"Completed 'get_diff_gathered' operation in {end_time - start_time:.2f} seconds. "
+            f"All configured operations processed successfully. YAML configuration generation workflow "
+            f"completed. Final result status: {self.status}.",
+            "DEBUG"
         )
 
         return self
