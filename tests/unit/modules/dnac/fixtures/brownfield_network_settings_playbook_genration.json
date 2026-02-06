@@ -1,0 +1,502 @@
+{
+
+  "playbook_config_generate_all_configurations": [
+    {
+      "generate_all_configurations": true,
+      "file_path": "/tmp/test_demo.yaml"
+    }
+  ],
+
+  "playbook_config_global_pools_single": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["global_pool_details"],
+        "global_pool_details": [
+          {
+            "pool_name": "Global_Pool_1"
+          }
+        ]
+      }
+    }
+  ],
+
+  "playbook_config_global_pools_multiple": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["global_pool_details"],
+        "global_pool_details": [
+          {
+            "pool_name": "Global_Pool_1"
+          },
+          {
+            "pool_name": "Global_Pool_2"
+          }
+        ]
+      }
+    }
+  ],
+
+  "playbook_config_reserve_pools_by_site_single": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["reserve_pool_details"],
+        "reserve_pool_details": [
+          {
+            "site_name": "Global/India/Mumbai"
+          }
+        ]
+      }
+    }
+  ],
+
+  "playbook_config_reserve_pools_by_pool_name": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["reserve_pool_details"],
+        "reserve_pool_details": [
+          {
+            "pool_name": "Reserve_Pool_1"
+          },
+          {
+            "pool_name": "Reserve_Pool_2"
+          }
+        ]
+      }
+    }
+  ],
+
+  "playbook_config_network_management_by_site": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["network_management_details"],
+        "network_management_details": [
+          {
+            "site_name": "Global/India/Mumbai"
+          },
+          {
+            "site_name": "Global/India/Delhi"
+          }
+        ]
+      }
+    }
+  ],
+
+  "playbook_config_device_controllability_by_site": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["device_controllability_details"],
+        "device_controllability_details": [
+          {
+            "site_name": "Global/India/Mumbai"
+          },
+          {
+            "site_name": "Global/India/Delhi"
+          }
+        ]
+      }
+    }
+  ],
+
+  "playbook_config_aaa_settings_by_network": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["aaa_settings"],
+        "aaa_settings": [
+          {
+            "network": "network_aaa"
+          }
+        ]
+      }
+    }
+  ],
+
+  "playbook_config_aaa_settings_by_server_type": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["aaa_settings"],
+        "aaa_settings": [
+          {
+            "server_type": "ISE"
+          },
+          {
+            "server_type": "AAA"
+          }
+        ]
+      }
+    }
+  ],
+
+  "playbook_config_global_filters_by_site": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "global_filters": {
+        "site_name_list": ["Global/India/Mumbai", "Global/India/Delhi"]
+      }
+    }
+  ],
+
+  "playbook_config_global_filters_by_pool_name": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "global_filters": {
+        "pool_name_list": ["Global_Pool_1", "Reserve_Pool_1"]
+      }
+    }
+  ],
+
+  "playbook_config_global_filters_by_pool_type": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "global_filters": {
+        "pool_type_list": ["LAN", "WAN", "Management"]
+      }
+    }
+  ],
+
+  "playbook_config_multiple_components": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "global_filters": {
+        "site_name_list": ["Global/India/Mumbai"]
+      },
+      "component_specific_filters": {
+        "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details"]
+      }
+    }
+  ],
+
+  "playbook_config_all_components": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "global_filters": {
+        "site_name_list": ["Global/India/Mumbai", "Global/India/Delhi"]
+      },
+      "component_specific_filters": {
+        "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details", "device_controllability_details", "aaa_settings"]
+      }
+    }
+  ],
+
+  "playbook_config_combined_filters": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "global_filters": {
+        "site_name_list": ["Global/India/Mumbai"],
+        "pool_name_list": ["Global_Pool_1"],
+        "pool_type_list": ["LAN"]
+      },
+      "component_specific_filters": {
+        "components_list": ["global_pool_details", "reserve_pool_details"]
+      }
+    }
+  ],
+
+  "playbook_config_empty_filters": [
+    {
+      "file_path": "/tmp/test_demo.yaml",
+      "component_specific_filters": {
+        "components_list": ["global_pool_details"]
+      }
+    }
+  ],
+
+  "playbook_config_no_file_path": [
+    {
+      "component_specific_filters": {
+        "components_list": ["global_pool_details"],
+        "global_pool_details": [
+          {
+            "pool_name": "Global_Pool_1"
+          }
+        ]
+      }
+    }
+  ],
+  
+
+  "get_empty_global_pool_response": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_empty_reserve_pool_response": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_empty_network_management_response": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_site_details": {
+    "response": [
+      {
+        "id": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "Fabric_Test",
+        "nameHierarchy": "Global/Fabric_Test",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_zone_site_details": {
+    "response": [
+      {
+        "id": "e62d0d19-06b3-428c-baf7-2ad83c7b7851",
+        "parentId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "name": "Fabric_Test_Zone",
+        "nameHierarchy": "Global/Fabric_Test/Fabric_Test_Zone",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_fabric_site_details": {
+    "response": [
+      {
+        "id": "879173be-e21f-472d-bc78-06407f9c5091",
+        "siteId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "authenticationProfileName": "No Authentication",
+        "isPubSubEnabled": false
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_fabric_zone_details": {
+    "response": [
+      {
+        "id": "890487f2-24d9-4923-b0f9-9149cc8d84f7",
+        "siteId": "e62d0d19-06b3-428c-baf7-2ad83c7b7851",
+        "authenticationProfileName": "No Authentication"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "response_get_task_id_success": {
+    "response": {
+      "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
+      "url": "/api/v1/task/0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_status_by_id_success": {
+    "response": {
+      "endTime": 1743681571226,
+      "status": "SUCCESS",
+      "startTime": 1743681570921,
+      "resultLocation": "/dna/intent/api/v1/tasks/0195fb85-4869-7f1d-8665-590d552534a5/detail",
+      "id": "0195fb85-4869-7f1d-8665-590d552534a5"
+    },
+    "version": "1.0"
+  },
+
+  "response_get_task_status_by_id_failed_anchored_vn": {
+    "response": {
+      "endTime": 1744200848242,
+      "lastUpdate": 1744200848221,
+      "status": "FAILURE",
+      "startTime": 1744200847419,
+      "resultLocation": "/dna/intent/api/v1/tasks/01961a78-d03b-7a3d-8d16-8d665ddefcef/detail",
+      "id": "01961a78-d03b-7a3d-8d16-8d665ddefcef"
+    },
+    "version": "1.0"
+  },  
+
+  "get_global_pool_response": {
+    "response": [
+      {
+        "id": "767f0f96-2279-4aab-8b05-94e855e62d28",
+        "name": "Global_Pool_1",
+        "poolType": "Generic",
+        "ipv6": false,
+        "addressSpace": {
+          "subnet": "10.1.1.0",
+          "prefixLength": 24,
+          "gatewayIpAddress": "10.1.1.1",
+          "dhcpServers": ["10.1.1.10"],
+          "dnsServers": ["8.8.8.8", "8.8.4.4"]
+        },
+        "context": [
+          {
+            "owner": "DNAC",
+            "contextKey": "pool_type",
+            "contextValue": "Generic"
+          }
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+  
+  "get_network_management_response": {
+    "response": [
+      {
+        "siteName": "Global",
+        "siteId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "settings": {
+          "dhcp": {
+            "servers": ["10.1.1.10", "10.1.1.11"]
+          },
+          "dns": {
+            "domainName": "example.com",
+            "dnsServers": ["8.8.8.8", "8.8.4.4"]
+          },
+          "ntp": {
+            "servers": ["pool.ntp.org", "time.google.com"]
+          },
+          "timeZone": {
+            "identifier": "America/New_York"
+          },
+          "banner": {
+            "message": "Welcome to the network",
+            "retainExistingBanner": false
+          },
+          "aaaNetwork": {
+            "primaryServerIp": "10.1.1.100",
+            "protocol": "RADIUS",
+            "serverType": "ISE",
+            "sharedSecret": "secret123"
+          },
+          "aaaClient": {
+            "primaryServerIp": "10.1.1.101",
+            "protocol": "TACACS",
+            "serverType": "AAA",
+            "sharedSecret": "clientsecret"
+          },
+          "telemetry": {
+            "applicationVisibility": {
+              "collector": {
+                "address": "10.1.1.200",
+                "port": 9995
+              }
+            },
+            "snmpTraps": {
+              "useBuiltinTrapServer": true,
+              "externalTrapServers": ["10.1.1.250"]
+            },
+            "syslogs": {
+              "useBuiltinSyslogServer": false,
+              "externalSyslogServers": ["10.1.1.251"]
+            },
+            "wiredDataCollection": {
+              "enableWiredDataCollection": true
+            },
+            "wirelessTelemetry": {
+              "enableWirelessTelemetry": true
+            }
+          }
+        }
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_device_controllability_response": {
+    "response": {
+      "deviceControllability": true,
+      "autocorrectTelemetryConfig": false
+    },
+    "version": "1.0"
+  },
+  
+  "get_aaa_settings_response": {
+    "response": [
+      {
+        "network": "network_aaa",
+        "protocol": "RADIUS",
+        "servers": "10.1.1.100",
+        "serverType": "ISE",
+        "sharedSecret": "secret123"
+      },
+      {
+        "network": "client_aaa",
+        "protocol": "TACACS",
+        "servers": "10.1.1.101",
+        "serverType": "AAA",
+        "sharedSecret": "clientsecret"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_reserve_ip_pool_details": {
+    "response": [
+      {
+        "id": "817b55f8-c5e6-4d6d-962a-137cd935ccf1",
+        "groupName": "Reserve_Ip_pool",
+        "ipPools": [
+          {
+            "ipPoolName": "Reserve_Ip_pool",
+            "dhcpServerIps": [],
+            "gateways": ["204.1.208.129"],
+            "createTime": 1744195422930,
+            "lastUpdateTime": 1744195422940,
+            "totalIpAddressCount": 128,
+            "usedIpAddressCount": 0,
+            "parentUuid": "767f0f96-2279-4aab-8b05-94e855e62d28",
+            "owner": "DNAC",
+            "shared": true,
+            "overlapping": false,
+            "configureExternalDhcp": false,
+            "usedPercentage": "0",
+            "clientOptions": {},
+            "groupUuid": "817b55f8-c5e6-4d6d-962a-137cd935ccf1",
+            "unavailableIpAddressCount": 0,
+            "availableIpAddressCount": 0,
+            "totalAssignableIpAddressCount": 125,
+            "dnsServerIps": [],
+            "hasSubpools": false,
+            "defaultAssignedIpAddressCount": 3,
+            "context": [
+              {
+                "owner": "DNAC",
+                "contextKey": "reserved_by",
+                "contextValue": "DNAC"
+              },
+              {
+                "owner": "DNAC",
+                "contextKey": "siteId",
+                "contextValue": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b"
+              }
+            ],
+            "preciseUsedPercentage": "0",
+            "ipv6": false,
+            "id": "5b3a0af9-9ecf-4d94-a8ec-781609facfa5",
+            "ipPoolCidr": "204.1.208.128/25"
+          }
+        ],
+        "siteId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "siteHierarchy": "Global/Fabric_Test",
+        "type": "generic",
+        "groupOwner": "DNAC"
+      }
+    ],
+    "version": "1.0"
+  },
+
+
+
+  "get_invalid_pool_type":{
+    "message": "Invalid pool_type 'InvalidType' given in the playbook. Allowed pool types are ['Generic', 'LAN', 'WAN', 'Management']."
+  },
+
+  "get_invalid_testbed_release":{
+    "message": "The specified version '2.3.5.3' does not support the network settings feature. Supported versions start from '2.3.7.6' onwards."
+  }
+
+}
