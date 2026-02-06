@@ -3,7 +3,18 @@
 # Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to generate YAML configurations for Device Credential Module."""
+"""
+Ansible module for brownfield YAML playbook generation of device credentials.
+
+This module automates the extraction of device credential configurations from Cisco
+Catalyst Center infrastructure, transforming them into YAML playbooks compatible
+with device_credential_workflow_manager module. It retrieves global device
+credentials (CLI, HTTPS Read/Write, SNMPv2c Read/Write, SNMPv3) and site-specific
+credential assignments via REST APIs, applies optional component-based filters for
+targeted extraction, masks sensitive fields with Jinja2 variable placeholders, and
+generates formatted YAML files for configuration documentation, credential auditing,
+disaster recovery, and multi-site credential standardization workflows.
+"""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -14,9 +25,20 @@ DOCUMENTATION = r"""
 module: brownfield_device_credential_playbook_generator
 short_description: Generate YAML configurations playbook for 'device_credential_workflow_manager' module.
 description:
-- Generates YAML configurations compatible with the 'device_credential_workflow_manager'
-  module, reducing the effort required to manually create Ansible playbooks and
-  enabling programmatic modifications.
+- Automates brownfield YAML playbook generation for device credential
+  configurations deployed in Cisco Catalyst Center infrastructure.
+- Extracts global device credentials (CLI, HTTPS Read/Write, SNMPv2c Read/Write,
+  SNMPv3) and site-specific credential assignments via REST APIs.
+- Generates YAML files compatible with device_credential_workflow_manager module
+  for configuration documentation, credential auditing, disaster recovery, and
+  multi-site credential standardization.
+- Supports auto-discovery mode for complete credential infrastructure extraction
+  or component-based filtering for targeted extraction (global credentials,
+  site assignments).
+- Masks sensitive fields (passwords, community strings, auth credentials) with
+  Jinja2 variable placeholders for secure playbook generation.
+- Transforms camelCase API responses to snake_case YAML format with comprehensive
+  header comments and metadata.
 version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
@@ -25,128 +47,221 @@ author:
 - Madhan Sankaranarayanan (@madhansansel)
 options:
   state:
-    description: The desired state of Cisco Catalyst Center after module execution.
+    description:
+    - Desired state for YAML playbook generation workflow.
+    - Only 'gathered' state supported for brownfield credential extraction.
     type: str
     choices: [gathered]
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `device_credential_workflow_manager`
-      module.
-    - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - Configuration parameters for YAML playbook generation workflow.
+    - Defines output file path, auto-discovery mode, and component-specific
+      filters for targeted credential extraction.
+    - At least one of generate_all_configurations or component_specific_filters
+      with components_list must be specified to identify target credentials.
     type: list
     elements: dict
     required: true
     suboptions:
       generate_all_configurations:
         description:
-          - When set to True, automatically generates YAML configurations for all devices and all supported features.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
+        - Enables auto-discovery mode for complete credential extraction.
+        - When True, extracts all global device credentials and all site
+          credential assignments without filter restrictions.
+        - Ignores component_specific_filters if provided; retrieves complete
+          brownfield credential inventory from Catalyst Center.
+        - Automatically generates timestamped filename if file_path not specified.
+        - Useful for complete credential documentation, configuration backup, and
+          disaster recovery planning.
         type: bool
         required: false
         default: false
       file_path:
         description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(device_credential_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+        - Absolute or relative path for YAML configuration file output.
+        - If not provided, generates default filename in current working directory
+          with pattern
+          'device_credential_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'
+        - Example default filename
+          'device_credential_workflow_manager_playbook_2026-01-24_12-33-20.yml'
+        - Directory created automatically if path does not exist.
+        - Supports YAML file extension (.yml or .yaml).
         type: str
       component_specific_filters:
         description:
-        - Filters to specify which components to include in the YAML configuration
-          file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
+        - Component-based filters for targeted credential extraction.
+        - Requires components_list to specify which components to process.
+        - When generate_all_configurations is False, component_specific_filters
+          with components_list must be provided.
+        - Filters apply independently per component type (global credentials,
+          site assignments).
         type: dict
         suboptions:
           components_list:
             description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are
-              - global_credential_details
-              - assign_credentials_to_site
-            - If not specified, all supported components will be included.
+            - List of credential components to include in YAML configuration.
+            - Valid values are 'global_credential_details' for global credentials
+              and 'assign_credentials_to_site' for site-specific assignments.
+            - If not specified when generate_all_configurations is False, validation
+              fails requiring explicit component selection.
+            - Multiple components can be specified for combined extraction.
             - For example, [global_credential_details, assign_credentials_to_site]
             type: list
             choices: ["global_credential_details", "assign_credentials_to_site"]
             elements: str
           global_credential_details:
-            description: Global credentials to be included in the YAML configuration file.
+            description:
+            - Filters for global device credential extraction.
+            - Extracts only credentials matching specified descriptions.
+            - Each credential type (cli_credential, https_read, https_write,
+              snmp_v2c_read, snmp_v2c_write, snmp_v3) can be filtered independently.
+            - Description values must match exactly as configured in Catalyst Center
+              (case-sensitive).
+            - If credential type not specified, all credentials of that type extracted.
             type: dict
             suboptions:
               cli_credential:
-                description: CLI credentials to be included.
+                description:
+                - List of CLI credential descriptions to extract.
+                - Extracts CLI credentials with matching description field.
+                - Each list item contains description key for filtering.
+                - 'For example: [{"description": "WLC_CLI"}, {"description": "Router_CLI"}]'
                 type: list
                 elements: dict
+                required: false
                 suboptions:
                   description:
-                    description: Description of the CLI credential.
+                    description:
+                    - Exact description of CLI credential to extract.
+                    - Must match Catalyst Center credential description exactly
+                      (case-sensitive).
                     type: str
+                    required: true
               https_read:
-                description: HTTPS Read credentials to be included.
+                description:
+                - List of HTTPS Read credential descriptions to extract.
+                - Extracts HTTPS Read credentials with matching description field.
+                - Each list item contains description key for filtering.
+                - 'For example: [{"description": "HTTPS_Read_Admin"}]'
                 type: list
                 elements: dict
+                required: false
                 suboptions:
                   description:
-                    description: Description of the HTTPS Read credential.
+                    description:
+                    - Exact description of HTTPS Read credential to extract.
+                    - Must match Catalyst Center credential description exactly
+                      (case-sensitive).
                     type: str
+                    required: true
               https_write:
-                description: HTTPS Write credentials to be included.
+                description:
+                - List of HTTPS Write credential descriptions to extract.
+                - Extracts HTTPS Write credentials with matching description field.
+                - Each list item contains description key for filtering.
+                - 'For example: [{"description": "HTTPS_Write_Admin"}]'
                 type: list
                 elements: dict
+                required: false
                 suboptions:
                   description:
-                    description: Description of the HTTPS Write credential.
+                    description:
+                    - Exact description of HTTPS Write credential to extract.
+                    - Must match Catalyst Center credential description exactly
+                      (case-sensitive).
                     type: str
+                    required: true
               snmp_v2c_read:
-                description: SNMPv2c Read credentials to be included.
+                description:
+                - List of SNMPv2c Read credential descriptions to extract.
+                - Extracts SNMPv2c Read credentials with matching description field.
+                - Each list item contains description key for filtering.
+                - 'For example: [{"description": "SNMP_RO_Community"}]'
                 type: list
                 elements: dict
+                required: false
                 suboptions:
                   description:
-                    description: Description of the SNMPv2c Read credential.
+                    description:
+                    - Exact description of SNMPv2c Read credential to extract.
+                    - Must match Catalyst Center credential description exactly
+                      (case-sensitive).
                     type: str
+                    required: true
               snmp_v2c_write:
-                description: SNMPv2c Write credentials to be included.
+                description:
+                - List of SNMPv2c Write credential descriptions to extract.
+                - Extracts SNMPv2c Write credentials with matching description field.
+                - Each list item contains description key for filtering.
+                - 'For example: [{"description": "SNMP_RW_Community"}]'
                 type: list
                 elements: dict
+                required: false
                 suboptions:
                   description:
-                    description: Description of the SNMPv2c Write credential.
+                    description:
+                    - Exact description of SNMPv2c Write credential to extract.
+                    - Must match Catalyst Center credential description exactly
+                      (case-sensitive).
                     type: str
+                    required: true
               snmp_v3:
-                description: SNMPv3 credentials to be included.
+                description:
+                - List of SNMPv3 credential descriptions to extract.
+                - Extracts SNMPv3 credentials with matching description field.
+                - Each list item contains description key for filtering.
+                - 'For example: [{"description": "SNMPv3_Admin"}]'
                 type: list
                 elements: dict
+                required: false
                 suboptions:
                   description:
-                    description: Description of the SNMPv3 credential.
+                    description:
+                    - Exact description of SNMPv3 credential to extract.
+                    - Must match Catalyst Center credential description exactly
+                      (case-sensitive).
                     type: str
+                    required: true
           assign_credentials_to_site:
-            description: Assign credentials to site details to be included in the YAML configuration file.
+            description:
+            - Filters for site-specific credential assignment extraction.
+            - Extracts credential assignments for specified site hierarchical paths.
+            - Site names must be full hierarchical paths (case-sensitive).
+            - If not specified when component included in components_list, extracts
+              all site credential assignments.
             type: dict
+            required: false
             suboptions:
               site_name:
-                description: List of site names to include.
+                description:
+                - List of site hierarchical paths to extract credential assignments.
+                - Site names must match exact hierarchical paths in Catalyst Center
+                  (case-sensitive).
+                - Extracts CLI, HTTPS Read/Write, SNMPv2c Read/Write, and SNMPv3
+                  credential assignments per site.
+                - For example, ["Global/India/Assam", "Global/India/Haryana"]
                 type: list
                 elements: str
+                required: false
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
+- PyYAML >= 5.1
 notes:
-- SDK Methods used are
-  discovery.Discovery.get_all_global_credentials,
-  site_design.SiteDesigns.get_sites,
-  network_settings.NetworkSettings.get_device_credential_settings_for_a_site
-- Paths used are
-  GET /dna/intent/api/v2/global-credential,
-  GET /dna/intent/api/v1/sites,
-  GET /dna/intent/api/v1/sites/${id}/deviceCredentials
+  - SDK methods utilized - discovery.get_all_global_credentials,
+    site_design.get_sites, network_settings.get_device_credential_settings_for_a_site
+  - API paths utilized - GET /dna/intent/api/v2/global-credential,
+    GET /dna/intent/api/v1/sites, GET /dna/intent/api/v1/sites/${id}/deviceCredentials
+  - Module is idempotent; multiple runs generate identical YAML content except
+    timestamp in header comments.
+  - Check mode supported; validates parameters without file generation.
+  - Sensitive credential fields (passwords, community strings, auth credentials)
+    masked with Jinja2 variable placeholders (e.g., {{ cli_credential_wlc_password }}).
+  - Generated YAML uses OrderedDumper for consistent key ordering enabling version
+    control.
+  - Description-based filtering is case-sensitive and requires exact matches.
+  - Site hierarchical paths must match exact Catalyst Center site structure.
 seealso:
 - module: cisco.dnac.device_credential_workflow_manager
   description: Module for managing device credential workflows in Cisco Catalyst Center.
@@ -260,45 +375,104 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-# Case_1: Success Scenario
+# Case_1: Successful YAML Generation
 response_1:
-  description: A dictionary with  with the response returned by the Cisco Catalyst Center Python SDK
+  description:
+  - Response returned when YAML configuration generation completes successfully
+    with all requested credentials and site assignments extracted and written to
+    file.
+  - Includes operation summary with component counts, configuration counts, and
+    file path details.
+  - Generated YAML file contains formatted playbook compatible with
+    C(device_credential_workflow_manager) module.
   returned: always
   type: dict
-  sample: >
-    {
-        "msg": {
-            "components_processed": 2,
-            "components_skipped": 0,
-            "configurations_count": 2,
-            "file_path": "device_credential_config.yml",
-            "message": "YAML configuration file generated successfully for module 'device_credential_workflow_manager'",
-            "status": "success"
-        },
-        "response": {
-            "components_processed": 2,
-            "components_skipped": 0,
-            "configurations_count": 2,
-            "file_path": "device_credential_config.yml",
-            "message": "YAML configuration file generated successfully for module 'device_credential_workflow_manager'",
-            "status": "success"
-        },
-        "status": "success"
-    }
-# Case_2: Error Scenario
+  sample:
+    response:
+      status: success
+      message: >-
+        YAML configuration file generated successfully for module
+        'device_credential_workflow_manager'
+      file_path: device_credential_config.yml
+      components_processed: 2
+      components_skipped: 0
+      configurations_count: 2
+    msg:
+      status: success
+      message: >-
+        YAML configuration file generated successfully for module
+        'device_credential_workflow_manager'
+      file_path: device_credential_config.yml
+      components_processed: 2
+      components_skipped: 0
+      configurations_count: 2
+    status: success
+# Case_2: No Configurations Found
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  description:
+  - Response returned when no device credentials or site assignments are found
+    matching the specified filters or in the Catalyst Center system.
+  - Operation status is C(ok) indicating successful execution but no data
+    available to generate.
+  - No YAML file is created when no configurations are found.
+  - C(components_attempted) shows which components were requested for extraction.
   returned: always
   type: dict
-  sample: >
-    {
-        "msg":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
-        "response":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
-    }
+  sample:
+    response:
+      status: ok
+      message: >-
+        No configurations found for module 'device_credential_workflow_manager'.
+        Verify filters and component availability. Components attempted:
+        ['global_credential_details', 'assign_credentials_to_site']
+      components_attempted: 2
+      components_processed: 0
+      components_skipped: 2
+    msg:
+      status: ok
+      message: >-
+        No configurations found for module 'device_credential_workflow_manager'.
+        Verify filters and component availability. Components attempted:
+        ['global_credential_details', 'assign_credentials_to_site']
+      components_attempted: 2
+      components_processed: 0
+      components_skipped: 2
+    status: ok
+# Case_3: Validation Error
+response_3:
+  description:
+  - Response returned when playbook configuration parameters fail validation
+    before YAML generation begins.
+  - Occurs when invalid filter parameters, incorrect data types, or unsupported
+    component names are provided.
+  - No API calls executed and no file generation attempted.
+  - Error message provides specific validation failure details and allowed
+    parameter values.
+  returned: always
+  type: dict
+  sample:
+    response: >-
+      Validation Error in entry 1: 'component_specific_filters' must be
+      provided with 'components_list' key when 'generate_all_configurations'
+      is set to False.
+    msg: >-
+      Validation Error in entry 1: 'component_specific_filters' must be
+      provided with 'components_list' key when 'generate_all_configurations'
+      is set to False.
+    status: failed
+
+msg:
+  description:
+  - Human-readable message describing the operation result.
+  - Indicates success, failure, or informational status of YAML generation.
+  - Provides high-level summary with file path and configuration counts for
+    success scenarios.
+  - Provides error details for validation or generation failures.
+  returned: always
+  type: str
+  sample: >-
+    YAML configuration file generated successfully for module
+    'device_credential_workflow_manager'
 """
 
 import time
@@ -335,7 +509,98 @@ else:
 
 class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
-    A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
+    Brownfield playbook generator for Cisco Catalyst Center device credentials.
+
+    This class orchestrates automated YAML playbook generation for device credential
+    configurations by extracting existing settings from Cisco Catalyst Center via
+    REST APIs and transforming them into Ansible playbooks compatible with the
+    device_credential_workflow_manager module.
+
+    The generator supports both auto-discovery mode (extracting all configured
+    credentials and site assignments) and targeted extraction mode (filtering by
+    credential types and site names) to facilitate brownfield infrastructure
+    documentation, configuration backup, migration planning, and multi-site
+    deployment standardization workflows.
+
+    Key Capabilities:
+    - Extracts six credential types (CLI, HTTPS Read/Write, SNMPv2c Read/Write,
+      SNMPv3) with description-based filtering from global credential store
+    - Retrieves site credential assignments mapping credentials to site hierarchies
+      for multi-site deployment documentation
+    - Masks sensitive credential fields (passwords, community strings, auth passwords)
+      with Jinja variable placeholders to prevent raw credential exposure in YAML
+    - Generates YAML files with comprehensive header comments including metadata,
+      generation timestamp, configuration summary statistics, and usage instructions
+    - Supports legacy filter formats (global_filters) and modern nested filter
+      structures (component_specific_filters) for backward compatibility
+    - Transforms camelCase API response keys to snake_case YAML format for improved
+      playbook readability and maintainability
+
+    Inheritance:
+        DnacBase: Provides Cisco Catalyst Center API connectivity, authentication,
+                  request execution, logging infrastructure, and common utility methods
+        BrownFieldHelper: Provides parameter transformation utilities, reverse mapping
+                         functions, and configuration processing helpers for brownfield
+                         operations including modify_parameters() and YAML generation
+
+    Class-Level Attributes:
+        supported_states (list): List of supported Ansible states, currently
+                                ['gathered'] for configuration extraction workflow
+        module_schema (dict): Network elements schema configuration mapping API
+                             families, functions, filters, and reverse mapping
+                             specifications for credential components
+        site_id_name_dict (dict): Cached mapping of site UUIDs to hierarchical site
+                                 names from Catalyst Center for site name resolution
+        global_credential_details (dict): Cached global credentials grouped by type
+                                         (cliCredential, httpsRead, etc.) from
+                                         discovery.get_all_global_credentials API
+        module_name (str): Target workflow manager module name for generated playbooks
+                          ('device_credential_workflow_manager')
+        values_to_nullify (list): List of string values to treat as None during
+                                 processing (e.g., ['NOT CONFIGURED'])
+
+
+    Workflow Execution:
+        1. validate_input() - Validates playbook configuration parameters and filters
+        2. get_want() - Constructs desired state parameters from validated configuration
+        3. get_diff_gathered() - Orchestrates YAML generation workflow execution
+        4. yaml_config_generator() - Generates YAML file with header and configurations
+        5. get_global_credential_details_configuration() - Retrieves global credentials
+        6. get_assign_credentials_to_site_configuration() - Retrieves site assignments
+        7. filter_credentials() - Applies description-based credential filtering
+        8. write_dict_to_yaml() - Writes formatted YAML with header comments to file
+
+    Error Handling:
+        - Comprehensive parameter validation with detailed error messages
+        - API exception handling with error tracking and logging
+        - File I/O error handling with fallback messaging and status reporting
+        - Component-specific filter validation preventing invalid configurations
+        - Credential ID matching validation with warnings for missing credentials
+
+    Version Requirements:
+        - Cisco Catalyst Center: 2.3.7.9 or higher
+        - dnacentersdk: 2.10.10 or higher
+        - Python: 3.9 or higher
+        - PyYAML: 5.1 or higher (for YAML serialization with OrderedDumper)
+
+    Notes:
+        - The class is idempotent; multiple runs with same parameters generate
+          identical YAML content (except generation timestamp in header comments)
+        - Check mode is supported but does not perform actual file generation;
+          validates parameters and returns expected operation results
+        - Large-scale deployments with many credentials and sites may require
+          increased dnac_api_task_timeout values for complete data extraction
+        - Generated YAML files use OrderedDumper for consistent key ordering across
+          multiple generations enabling reliable version control
+        - Credential description fields are case-sensitive and must match exact
+          descriptions configured in Catalyst Center
+        - Site names must be full hierarchical paths (e.g., 'Global/India/Assam')
+          and are case-sensitive matching exact site hierarchy
+
+    See Also:
+        device_credential_workflow_manager: Target module for applying generated
+                                            credential configurations to Catalyst
+                                            Center instances
     """
 
     values_to_nullify = ["NOT CONFIGURED"]
@@ -1118,7 +1383,32 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                 no matches found or source/filters invalid. Preserves original API
                 response structure with matched items only.
         """
-        self.log("Starting filter_credentials with source: {0} and filters: {1}".format(source, filters), "DEBUG")
+        self.log(
+            "Starting credential filtering operation with {0} source credential "
+            "groups and {1} filter criteria. Filtering extracts credentials matching "
+            "description fields from each credential type group.".format(
+                len(source) if isinstance(source, dict) else 0,
+                len(filters) if isinstance(filters, dict) else 0
+            ),
+            "DEBUG"
+        )
+
+        self.log(
+            "Source credential groups available: {0}. Filters provided for credential "
+            "types: {1}.".format(
+                list(source.keys()) if isinstance(source, dict) else [],
+                list(filters.keys()) if isinstance(filters, dict) else []
+            ),
+            "DEBUG"
+        )
+
+        self.log(
+            "Initializing filter key mapping from snake_case filter keys to camelCase "
+            "API response keys for credential group matching. Mapping enables "
+            "consistent filter application across 6 credential types.",
+            "DEBUG"
+        )
+
         key_map = {
             'cli_credential': 'cliCredential',
             'https_read': 'httpsRead',
@@ -1128,6 +1418,9 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             'snmp_v3': 'snmpV3',
         }
         result = {}
+        processed_filters = 0
+        matched_credentials = 0
+
         self.log(
             "Starting iteration through {0} filter entries to extract matching "
             "credentials from source groups. Each filter specifies description "
@@ -1191,23 +1484,96 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             matched = [item for item in source[src_key] if item.get('description') in wanted_desc]
             if matched:
                 result[src_key] = matched
+                matched_credentials += len(matched)
+                processed_filters += 1
+
+                self.log(
+                    "Filter {0}/{1} for '{2}' matched {3} credential(s) from {4} "
+                    "source credential(s). Matched credentials added to result "
+                    "dictionary under key '{5}'.".format(
+                        filter_index, len(filters), f_key, len(matched),
+                        len(source[src_key]), src_key
+                    ),
+                    "DEBUG"
+                )
+            else:
+                self.log(
+                    "Filter {0}/{1} for '{2}' matched 0 credentials from {3} source "
+                    "credential(s). No credentials found with descriptions matching: "
+                    "{4}. Group '{5}' will not be included in result.".format(
+                        filter_index, len(filters), f_key, len(source[src_key]),
+                        wanted_desc, src_key
+                    ),
+                    "WARNING"
+                )
+
+        self.log(
+            "Credential filtering completed successfully. Processed {0}/{1} filter "
+            "criteria, matched {2} total credential(s) across {3} credential group(s). "
+            "Result contains groups: {4}".format(
+                processed_filters, len(filters), matched_credentials,
+                len(result), list(result.keys())
+            ),
+            "INFO"
+        )
         return result
 
     def get_assign_credentials_to_site_configuration(self, network_element, filters):
-        """Build assigned credential configuration per requested sites.
+        """
+        Retrieves and transforms site credential assignments from Catalyst Center.
 
-        Resolves site names to IDs, queries sync status, matches credential IDs
-        against global credentials, and maps the first match per type to a
-        dict suitable for YAML output.
+        This function orchestrates site credential assignment retrieval by resolving
+        site names to site IDs using cached site mapping, querying credential sync
+        status for each site via API calls, matching assigned credential IDs against
+        global credential cache to extract non-sensitive metadata (description,
+        username, id), transforming API response format to user-friendly YAML structure
+        using reverse mapping specification, and constructing per-site credential
+        assignment dictionaries for YAML generation workflow.
 
         Args:
-            network_element (dict): Contains API family and function names.
-            filters (dict): Dictionary containing global filters and component_specific_filters.
+            network_element (dict): Network element configuration containing:
+                                - api_family (str): SDK API family name
+                                    (e.g., 'network_settings')
+                                - api_function (str): SDK function name
+                                    (e.g., 'get_device_credential_settings_for_a_site')
+            filters (dict): Filter configuration containing:
+                        - component_specific_filters (dict, optional): Nested filters
+                            for site selection:
+                            - site_name (list): List of site hierarchical names to
+                            process (e.g., ['Global/India/Assam'])
+                        If component_specific_filters not provided or site_name empty,
+                        processes all sites from cached site mapping.
 
         Returns:
-            list | dict: One item per site `{ "assign_credentials_to_site": <mapped> }`,
-            or empty dict if no sites resolved.
+            list | dict: List of dictionaries, one per site with structure:
+                        - assign_credentials_to_site (dict): Mapped credential
+                        assignment containing:
+                        - cli_credential (dict): CLI credential metadata if assigned
+                        - https_read (dict): HTTPS Read credential metadata if assigned
+                        - https_write (dict): HTTPS Write credential metadata if assigned
+                        - snmp_v2c_read (dict): SNMPv2c Read credential metadata if assigned
+                        - snmp_v2c_write (dict): SNMPv2c Write credential metadata if assigned
+                        - snmp_v3 (dict): SNMPv3 credential metadata if assigned
+                        - site_name (list): Site hierarchical name list
+                        Returns empty dict {"assign_credentials_to_site": {}} if no
+                        site IDs resolved from site names.
         """
+
+        self.log(
+            "Starting site credential assignment retrieval and transformation workflow. "
+            "Workflow includes site name to ID resolution using cached mapping, API "
+            "calls to retrieve credential sync status per site, credential ID matching "
+            "against global credential cache, and reverse mapping transformation to "
+            "YAML format with sensitive field protection.",
+            "DEBUG"
+        )
+
+        self.log(
+            "Extracting component_specific_filters from filters dictionary: {0}. "
+            "Filters determine which sites to process for credential assignment "
+            "retrieval.".format(filters),
+            "DEBUG"
+        )
 
         component_specific_filters = None
         if "component_specific_filters" in filters:
@@ -1231,28 +1597,78 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         # Resolve requested site names (if any) to IDs using the cached mapping from __init__
         final_assignments = []
-        name_site_id_dict = {v: k for k, v in self.site_id_name_dict.items() if v is not None}
+
         self.log(
-            "Name to Site ID mapping: {0}".format(name_site_id_dict), "DEBUG"
+            "Building name-to-site-ID mapping from cached site_id_name_dict with {0} "
+            "site entries. Mapping enables site name resolution to site IDs for API "
+            "calls.".format(len(self.site_id_name_dict)),
+            "DEBUG"
         )
+
+        name_site_id_dict = {v: k for k, v in self.site_id_name_dict.items() if v is not None}
+
+        self.log(
+            "Name-to-site-ID mapping created with {0} entries. Mapping: {1}".format(
+                len(name_site_id_dict), name_site_id_dict
+            ),
+            "DEBUG"
+        )
+
+        self.log(
+            "Determining site names to process based on filter presence. Extracting "
+            "site_name list from component_specific_filters or using all cached sites.",
+            "DEBUG"
+        )
+
         site_names = []
         if component_specific_filters:
             site_names = component_specific_filters.get("site_name", []) or []
+            self.log(
+                "Using filtered site names from component_specific_filters: {0}. "
+                "Will process {1} specified site(s).".format(site_names, len(site_names)),
+                "DEBUG"
+            )
         else:
             site_names = list(name_site_id_dict.keys())
-        site_ids = [name_site_id_dict.get(n) for n in site_names if n in name_site_id_dict]
+            self.log(
+                "No site name filter provided. Using all {0} cached site names for "
+                "complete credential assignment retrieval.".format(len(site_names)),
+                "DEBUG"
+            )
+
         self.log(
-            "Resolved site IDs from site names {0}: {1}".format(
-                site_names, site_ids
+            "Resolving site names to site IDs for API calls. Mapping {0} site name(s) "
+            "against name_site_id_dict with {1} entries.".format(
+                len(site_names), len(name_site_id_dict)
             ),
-            "DEBUG",
+            "DEBUG"
         )
+
+        site_ids = [name_site_id_dict.get(n) for n in site_names if n in name_site_id_dict]
+
+        self.log(
+            "Site name resolution completed. Resolved {0} site ID(s) from {1} site "
+            "name(s). Site names: {2}, Site IDs: {3}".format(
+                len(site_ids), len(site_names), site_names, site_ids
+            ),
+            "INFO"
+        )
+
         if not site_ids:
             self.log(
-                "No site IDs resolved from site names: {0}".format(site_names),
-                "INFO",
+                "No site IDs resolved from site names: {0}. No sites found in cached "
+                "mapping or invalid site names provided. Returning empty credential "
+                "assignment dictionary.".format(site_names),
+                "WARNING"
             )
             return {"assign_credentials_to_site": {}}
+
+        self.log(
+            "Initializing credential ID to group mapping for credential matching. "
+            "Mapping converts sync status credential ID keys (cliCredentialsId, etc.) "
+            "to global credential group keys (cliCredential, etc.) for lookup.",
+            "DEBUG"
+        )
 
         key_map = {
             "cliCredentialsId": "cliCredential",
@@ -1263,23 +1679,96 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             "snmpv3CredentialsId": "snmpV3",
         }
 
+        self.log(
+            "Credential ID mapping initialized with {0} credential type mappings for "
+            "sync status to global credential group conversion.".format(len(key_map)),
+            "DEBUG"
+        )
+
         def find_credential(cred_group_key, cred_id):
+            """
+            Finds credential object from global credential cache by ID.
+
+            Searches global_credential_details cache for credential matching
+            specified credential ID within given credential group extracting
+            complete credential metadata for site assignment mapping.
+
+            Args:
+                cred_group_key (str): Credential group key (e.g., 'cliCredential',
+                                    'httpsRead') identifying which credential type
+                                    to search
+                cred_id (str): Credential UUID to match against credential objects
+                            in specified group
+
+            Returns:
+                dict | None: Credential object containing description, username, id,
+                            and other metadata if match found, None if credential ID
+                            not found in group or group not found in cache
+            """
+            self.log(
+                "Searching for credential in group '{0}' with ID: {1}. Checking "
+                "global_credential_details cache for matching credential object.".format(
+                    cred_group_key, cred_id
+                ),
+                "DEBUG"
+            )
             group = []
             if isinstance(self.global_credential_details, dict):
                 group = self.global_credential_details.get(cred_group_key, []) or []
-            for item in group:
+                self.log(
+                    "Retrieved credential group '{0}' with {1} credential(s) from "
+                    "cache for ID matching.".format(cred_group_key, len(group)),
+                    "DEBUG"
+                )
+            else:
+                self.log(
+                    "Global credential details cache is not a dictionary type: {0}. "
+                    "Cannot search for credential.".format(
+                        type(self.global_credential_details).__name__
+                    ),
+                    "WARNING"
+                )
+
+            for item_index, item in enumerate(group, start=1):
                 if item.get("id") == cred_id:
+                    self.log(
+                        "Found matching credential at position {0}/{1} in group '{2}'. "
+                        "Credential description: '{3}', username: '{4}'".format(
+                            item_index, len(group), cred_group_key,
+                            item.get("description"), item.get("username")
+                        ),
+                        "DEBUG"
+                    )
                     return item
+            self.log(
+                "No matching credential found for ID {0} in group '{1}' with {2} "
+                "credential(s). Credential may not exist or wrong group specified.".format(
+                    cred_id, cred_group_key, len(group)
+                ),
+                "DEBUG"
+            )
             return None
 
-        for site_id in site_ids:
+        self.log(
+            "Starting iteration through {0} resolved site ID(s) to retrieve credential "
+            "sync status and build site assignment mappings.".format(len(site_ids)),
+            "DEBUG"
+        )
+
+        for site_index, site_id in enumerate(site_ids, start=1):
             if not site_id:
+                self.log(
+                    "Site {0}/{1} has None/empty site_id, skipping credential sync "
+                    "status retrieval.".format(site_index, len(site_ids)),
+                    "WARNING"
+                )
                 continue
             self.log(
-                "Fetching credential sync status for site_id: {0}".format(
-                    site_id
+                "Processing site {0}/{1} with site_id: {2}. Fetching credential sync "
+                "status using API family '{3}', function '{4}'.".format(
+                    site_index, len(site_ids), site_id, api_family, api_function
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             try:
                 resp = self.dnac._exec(
@@ -1287,19 +1776,39 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                     function=api_function,
                     params={"id": site_id}
                 ) or {}
+                self.log(
+                    "API call successful for site {0}/{1} (site_id: {2}). Response "
+                    "received with {3} key(s).".format(
+                        site_index, len(site_ids), site_id, len(resp)
+                    ),
+                    "DEBUG"
+                )
             except Exception as e:
                 self.log(
-                    (
-                        "Failed to fetch credential sync status for site {0}: "
-                        "{1}"
-                    ).format(site_id, str(e)),
-                    "ERROR",
+                    "API call failed for site {0}/{1} (site_id: {2}): {3}. Exception "
+                    "type: {4}. Skipping this site and continuing with remaining sites.".format(
+                        site_index, len(site_ids), site_id, str(e), type(e).__name__
+                    ),
+                    "ERROR"
                 )
                 continue
 
             sync_resp = resp.get("response", {}) or {}
             self.log(
-                "Sync status response for site {0}".format(sync_resp), "DEBUG"
+                "Credential sync status response for site {0}/{1} (site_id: {2}): {3}. "
+                "Response contains {4} key(s) for credential assignment processing.".format(
+                    site_index, len(site_ids), site_id, sync_resp, len(sync_resp)
+                ),
+                "DEBUG"
+            )
+
+            self.log(
+                "Initializing raw assignment dictionary for site {0}/{1} with None "
+                "values for 6 credential types and site name. Dictionary will be "
+                "populated with matched credentials from sync status response.".format(
+                    site_index, len(site_ids)
+                ),
+                "DEBUG"
             )
 
             raw_assign = {
@@ -1311,14 +1820,58 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "snmpV3": None,
                 "siteName": None,
             }
-            for sync_key, global_key in key_map.items():
+            self.log(
+                "Starting credential ID extraction and matching from sync status "
+                "response for site {0}/{1}. Iterating through {2} key mappings.".format(
+                    site_index, len(site_ids), len(key_map)
+                ),
+                "DEBUG"
+            )
+
+            for map_index, (sync_key, global_key) in enumerate(key_map.items(), start=1):
+                self.log(
+                    "Processing credential mapping {0}/{1} for site {2}/{3}: "
+                    "sync_key='{4}', global_key='{5}'. Extracting credential ID from "
+                    "sync response.".format(
+                        map_index, len(key_map), site_index, len(site_ids),
+                        sync_key, global_key
+                    ),
+                    "DEBUG"
+                )
                 raw_val = sync_resp.get(sync_key)
                 cred_id = None
                 if isinstance(raw_val, dict):
                     cred_id = raw_val.get("credentialsId")
+                    self.log(
+                        "Extracted credential ID from sync_key '{0}': {1}. Credential "
+                        "ID will be matched against global credential cache.".format(
+                            sync_key, cred_id
+                        ),
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        "Sync key '{0}' value is not a dictionary or not found in sync "
+                        "response. Value type: {1}. Skipping credential matching for "
+                        "this type.".format(
+                            sync_key, type(raw_val).__name__
+                        ),
+                        "DEBUG"
+                    )
                 if not cred_id:
+                    self.log(
+                        "No credential ID found for sync_key '{0}'. Site may not have "
+                        "this credential type assigned. Skipping to next credential type.".format(
+                            sync_key
+                        ),
+                        "DEBUG"
+                    )
                     continue
-
+                self.log(
+                    "Searching global credential cache for credential ID {0} in group "
+                    "'{1}' for sync_key '{2}'.".format(cred_id, global_key, sync_key),
+                    "DEBUG"
+                )
                 cred_obj = find_credential(global_key, cred_id)
                 if cred_obj and raw_assign.get(global_key) is None:
                     raw_assign[global_key] = cred_obj
@@ -1329,16 +1882,55 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                         ).format(cred_id, sync_key, global_key),
                         "DEBUG",
                     )
+                elif cred_obj:
+                    self.log(
+                        "Credential found for ID {0} but raw_assign already has value "
+                        "for global_key '{1}'. Skipping duplicate assignment.".format(
+                            cred_id, global_key
+                        ),
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        "Credential ID {0} not found in global credential cache for "
+                        "group '{1}'. Credential may have been deleted or cache stale.".format(
+                            cred_id, global_key
+                        ),
+                        "WARNING"
+                    )
             raw_assign["siteName"] = [self.site_id_name_dict.get(site_id, "UNKNOWN SITE")]
 
+            none_count = 0
             for k in list(raw_assign.keys()):
                 if raw_assign[k] is None:
                     del raw_assign[k]
+                    none_count += 1
+            self.log(
+                "Removed {0} None-valued credential type(s) from assignment dictionary "
+                "Remaining credential types: {1}".format(
+                    none_count, list(raw_assign.keys())
+                ),
+                "DEBUG"
+            )
 
+            self.log(
+                "Retrieving reverse mapping specification for site credential "
+                "assignment transformation. Specification extracts non-sensitive fields "
+                "(description, username, id) from matched credentials.",
+                "DEBUG"
+            )
             assign_spec = self.assign_credentials_to_site_temp_spec()
             mapped_list = self.modify_parameters(assign_spec, [raw_assign])
             mapped = mapped_list[0] if mapped_list else {}
             final_assignments.append({"assign_credentials_to_site": mapped})
+        self.log(
+            "Site credential assignment retrieval and transformation completed "
+            "successfully. Processed {0} site(s), generated {1} credential assignment "
+            "structure(s) ready for YAML generation.".format(
+                len(site_ids), len(final_assignments)
+            ),
+            "INFO"
+        )
         return final_assignments
 
     def generate_custom_variable_name(
@@ -1348,29 +1940,54 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
         network_component_name_parameter,
         parameter,
     ):
-        """Generate masked variable placeholder for sensitive fields.
+        """
+        Generates masked variable placeholder for sensitive credential fields.
 
-        Constructs a Jinja-like variable name for the given component and parameter
-        to prevent emitting raw values.
+        This function constructs Jinja-like variable references (e.g.,
+        {{ cli_credential_wlc_password }}) to replace sensitive credential values in
+        generated YAML playbooks preventing raw credential exposure while maintaining
+        variable naming consistency based on credential description fields for easy
+        identification and reference in downstream Ansible variable files.
 
         Args:
-            network_component_details (dict): Source dict containing the component name parameter.
-            network_component (str): Component key, e.g., "cli_credential".
-            network_component_name_parameter (str): Field name used as component identifier, e.g., "description".
-            parameter (str): Field to mask, e.g., "password".
+            network_component_details (dict): Source credential object containing
+                                            component name parameter field value used
+                                            for variable naming (e.g., credential with
+                                            description field).
+            network_component (str): Credential component type identifier (e.g.,
+                                    'cli_credential', 'https_read', 'snmp_v3') used as
+                                    variable name prefix.
+            network_component_name_parameter (str): Field name from component details
+                                                used as unique identifier in variable
+                                                name (e.g., 'description') for
+                                                distinguishing multiple credentials of
+                                                same type.
+            parameter (str): Sensitive field name to mask in variable placeholder (e.g.,
+                            'password', 'enable_password', 'read_community',
+                            'auth_password').
 
         Returns:
-            str: Masked variable placeholder string.
+            str: Masked variable placeholder in format {{ component_identifier_field }}
+                with spaces and hyphens normalized to underscores, all lowercase for
+                consistent YAML variable naming (e.g.,
+                {{ cli_credential_wlc_password }}).
         """
         # Generate the custom variable name
         self.log(
-            "Generating custom variable name for network component: {0}".format(
-                network_component
+            "Generating masked variable placeholder for component '{0}', parameter "
+            "'{1}' using identifier from field '{2}' in component details to prevent "
+            "sensitive credential exposure in generated YAML playbook.".format(
+                network_component, parameter, network_component_name_parameter
             ),
-            "DEBUG",
+            "DEBUG"
         )
+
         self.log(
-            "Network component details: {0}".format(network_component_details), "DEBUG"
+            "Component details for variable generation: {0}. Extracting identifier "
+            "value from field '{1}' for unique variable naming.".format(
+                network_component_details, network_component_name_parameter
+            ),
+            "DEBUG"
         )
         self.log(
             "Network component name parameter: {0}".format(
@@ -1392,47 +2009,138 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters, processes the data,
-        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
+        Generates YAML configuration file for device credential brownfield workflow.
+
+        This function orchestrates complete YAML playbook generation by determining
+        output file path (user-provided or auto-generated), processing auto-discovery
+        mode flags to override filters for complete infrastructure extraction,
+        iterating through requested network components (global_credential_details,
+        assign_credentials_to_site) with component-specific filters, executing
+        retrieval functions for each component, aggregating configurations into
+        unified structure, and writing formatted YAML file with comprehensive header
+        comments for compatibility with device_credential_workflow_manager module.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Configuration parameters containing:
+                                        - generate_all_configurations (bool, optional):
+                                        Auto-discovery mode flag enabling complete
+                                        infrastructure extraction
+                                        - file_path (str, optional): Output YAML file
+                                        path, defaults to auto-generated timestamped
+                                        filename if not provided
+                                        - global_filters (dict, optional): Legacy
+                                        top-level filters for backward compatibility
+                                        - component_specific_filters (dict, optional):
+                                        Component filters with components_list and
+                                        per-component filter criteria
 
         Returns:
-            self: The current instance with the operation result and message updated.
+            object: Self instance with updated attributes:
+                    - self.msg: Operation result message with status, file path,
+                    component counts, and configuration counts
+                    - self.status: Operation status ("success", "failed", or "ok")
+                    - self.result: Complete operation result for module exit
+                    - Operation result set via set_operation_result()
         """
 
         self.log(
-            "Starting YAML config generation with parameters: {0}".format(
+            "Starting YAML configuration generation workflow for device credential "
+            "brownfield playbook. Workflow includes file path determination, "
+            "auto-discovery mode processing, component iteration with filters, and "
+            "YAML file writing with header comments.",
+            "DEBUG"
+        )
+
+        self.log(
+            "YAML config generator parameters received: {0}. Extracting "
+            "generate_all_configurations flag, file_path, and filter configurations.".format(
                 yaml_config_generator
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
-            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode enabled (generate_all_configurations=True). Will "
+                "process all device credentials and all supported components without "
+                "filter restrictions for complete brownfield inventory.",
+                "INFO"
+            )
+        else:
+            self.log(
+                "Targeted extraction mode (generate_all_configurations=False). Will "
+                "apply provided filters for selective component and credential retrieval.",
+                "DEBUG"
+            )
 
-        self.log("Determining output file path for YAML configuration", "DEBUG")
+        self.log(
+            "Determining output file path for YAML configuration. Checking for "
+            "user-provided file_path parameter or generating default timestamped "
+            "filename.",
+            "DEBUG"
+        )
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            self.log(
+                "No file_path provided in configuration. Generating default filename "
+                "with pattern <module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml in "
+                "current working directory.",
+                "DEBUG"
+            )
             file_path = self.generate_filename()
+            self.log(
+                "Default filename generated: {0}. File will be created in current "
+                "working directory.".format(file_path),
+                "DEBUG"
+            )
         else:
-            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
+            self.log(
+                "Using user-provided file_path: {0}. File will be created at "
+                "specified location with directory creation if needed.".format(file_path),
+                "DEBUG"
+            )
 
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        self.log(
+            "YAML configuration file path determined: {0}. Path will be used for "
+            "write_dict_to_yaml() operation.".format(file_path),
+            "INFO"
+        )
 
-        self.log("Initializing filter dictionaries", "DEBUG")
+        self.log(
+            "Initializing filter dictionaries from yaml_config_generator parameters. "
+            "Filters determine which components and credentials to extract from "
+            "Catalyst Center.",
+            "DEBUG"
+        )
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode: Overriding any provided filters to ensure "
+                "complete credential and component extraction without restrictions. "
+                "All global_filters and component_specific_filters will be ignored.",
+                "INFO"
+            )
+
             if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: global_filters provided ({0}) but will be ignored due to "
+                    "generate_all_configurations=True. Complete infrastructure "
+                    "extraction takes precedence.".format(
+                        yaml_config_generator.get("global_filters")
+                    ),
+                    "WARNING"
+                )
             if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: component_specific_filters provided ({0}) but will be "
+                    "ignored due to generate_all_configurations=True. All components "
+                    "and credentials will be extracted.".format(
+                        yaml_config_generator.get("component_specific_filters")
+                    ),
+                    "WARNING"
+                )
 
             # Set empty filters to retrieve everything
             global_filters = {}
@@ -1441,29 +2149,94 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            self.log(
+                "Targeted extraction mode: Using provided filters. Global filters: {0}, "
+                "Component-specific filters: {1}. Filters will be applied during "
+                "component retrieval.".format(
+                    bool(global_filters), bool(component_specific_filters)
+                ),
+                "DEBUG"
+            )
 
-        self.log("Retrieving supported network elements schema for the module", "DEBUG")
+        self.log(
+            "Retrieving supported network elements schema from module_schema. Schema "
+            "defines available components (global_credential_details, "
+            "assign_credentials_to_site) with their retrieval functions and filter "
+            "specifications.",
+            "DEBUG"
+        )
         module_supported_network_elements = self.module_schema.get("network_elements", {})
 
-        self.log("Determining components list for processing", "DEBUG")
+        self.log(
+            "Module supports {0} network element component(s): {1}. Components define "
+            "available credential types and site assignment configurations.".format(
+                len(module_supported_network_elements),
+                list(module_supported_network_elements.keys())
+            ),
+            "DEBUG"
+        )
+
+        self.log(
+            "Determining components list for processing. Extracting components_list "
+            "from component_specific_filters or defaulting to all supported components "
+            "from module schema.",
+            "DEBUG"
+        )
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
 
         # If components_list is empty, default to all supported components
         if not components_list:
-            self.log("No components specified; processing all supported components.", "DEBUG")
+            self.log(
+                "No components specified in components_list. Defaulting to all "
+                "supported components for complete credential extraction: {0}".format(
+                    list(module_supported_network_elements.keys())
+                ),
+                "DEBUG"
+            )
             components_list = list(module_supported_network_elements.keys())
+        else:
+            self.log(
+                "Components list extracted from filters: {0}. Will process {1} "
+                "component(s) for targeted credential retrieval.".format(
+                    components_list, len(components_list)
+                ),
+                "DEBUG"
+            )
 
-        self.log("Components to process: {0}".format(components_list), "DEBUG")
+        self.log(
+            "Components to process: {0}. Starting iteration through components for "
+            "credential retrieval and configuration aggregation.".format(components_list),
+            "INFO"
+        )
 
-        self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
+        self.log(
+            "Initializing final configuration list for aggregating component data. "
+            "List will contain retrieved configurations from all processed components "
+            "ready for YAML serialization.",
+            "DEBUG"
+        )
+
         final_config_list = []
         processed_count = 0
         skipped_count = 0
 
-        for component in components_list:
-            self.log("Processing component: {0}".format(component), "DEBUG")
+        self.log(
+            "Starting component iteration loop. Processing {0} component(s) with "
+            "retrieval functions, filter application, and data aggregation for each.".format(
+                len(components_list)
+            ),
+            "DEBUG"
+        )
+        for component_index, component in enumerate(components_list, start=1):
+            self.log(
+                "Processing component {0}/{1}: '{2}'. Checking module schema for "
+                "component support and retrieval function availability.".format(
+                    component_index, len(components_list), component
+                ),
+                "DEBUG"
+            )
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
@@ -1477,6 +2250,22 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "global_filters": global_filters,
                 "component_specific_filters": component_specific_filters.get(component, [])
             }
+            self.log(
+                "Filter dictionary constructed for component '{0}': global_filters={1}, "
+                "component_specific_filters={2}. Filters will be passed to component "
+                "retrieval function.".format(
+                    component, bool(filters["global_filters"]),
+                    bool(filters["component_specific_filters"])
+                ),
+                "DEBUG"
+            )
+
+            self.log(
+                "Extracting retrieval function for component '{0}' from network element "
+                "schema. Function will execute API calls and data transformation for "
+                "this component.".format(component),
+                "DEBUG"
+            )
             operation_func = network_element.get("get_function_name")
             if not callable(operation_func):
                 self.log(
@@ -1502,13 +2291,39 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             if isinstance(component_data, list):
                 final_config_list.extend(component_data)
+                self.log(
+                    "Component '{0}' returned list with {1} item(s). Extended final "
+                    "configuration list. Total configurations: {2}".format(
+                        component, len(component_data), len(final_config_list)
+                    ),
+                    "DEBUG"
+                )
             else:
                 final_config_list.append(component_data)
+                self.log(
+                    "Component '{0}' returned single dictionary. Appended to final "
+                    "configuration list. Total configurations: {1}".format(
+                        component, len(final_config_list)
+                    ),
+                    "DEBUG"
+                )
 
+        self.log(
+            "Component iteration completed. Processed {0}/{1} component(s), skipped "
+            "{2} component(s). Final configuration list contains {3} item(s) for YAML "
+            "generation.".format(
+                processed_count, len(components_list), skipped_count,
+                len(final_config_list)
+            ),
+            "INFO"
+        )
         if not final_config_list:
             self.log(
-                "No configurations retrieved. Processed: {0}, Skipped: {1}, Components: {2}".format(
-                    processed_count, skipped_count, components_list
+                "No configurations retrieved after processing {0} component(s). "
+                "Processed: {1}, Skipped: {2}. All filters may have excluded available "
+                "credentials or no credentials exist in Catalyst Center for requested "
+                "components: {3}".format(
+                    len(components_list), processed_count, skipped_count, components_list
                 ),
                 "WARNING"
             )
@@ -1527,11 +2342,26 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         yaml_config_dict = {"config": final_config_list}
         self.log(
-            "Final config dictionary created: {0}".format(self.pprint(yaml_config_dict)),
+            "Final YAML configuration dictionary created successfully. Dictionary "
+            "structure: {0}. Proceeding with write_dict_to_yaml() operation.".format(
+                self.pprint(yaml_config_dict)
+            ),
+            "DEBUG"
+        )
+
+        self.log(
+            "Writing YAML configuration dictionary to file path: {0}. Using "
+            "OrderedDumper for consistent key ordering and formatting.".format(file_path),
             "DEBUG"
         )
 
         if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
+            self.log(
+                "YAML file write operation succeeded. File created at: {0}. File "
+                "contains {1} configuration(s) with header comments and formatted "
+                "structure.".format(file_path, len(final_config_list)),
+                "INFO"
+            )
             self.msg = {
                 "status": "success",
                 "message": "YAML configuration file generated successfully for module '{0}'".format(
@@ -1562,14 +2392,33 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes YAML configuration file generation for brownfield device credentials.
+        Executes YAML configuration generation workflow for gathered state.
 
-        Processes the desired state parameters prepared by get_want() and generates a
-        YAML configuration file containing network element details from Catalyst Center.
-        This method orchestrates the yaml_config_generator operation and tracks execution
-        time for performance monitoring.
+        This function orchestrates the complete YAML playbook generation workflow by
+        iterating through defined operations (yaml_config_generator), checking for
+        operation parameters in want dictionary, executing operation functions with
+        parameter validation, tracking execution timing for performance monitoring,
+        and handling operation status checking for error propagation throughout the
+        workflow execution lifecycle.
+
+        Args:
+            None: Uses self.want dictionary populated by get_want() containing
+                yaml_config_generator parameters for operation execution.
+
+        Returns:
+            object: Self instance with updated attributes:
+                - self.msg: Operation result message from yaml_config_generator
+                - self.status: Operation status ("success", "failed", or "ok")
+                - self.result: Complete operation result with file path and summary
+                - Operation timing logged for performance analysis
         """
-
+        self.log(
+            "Starting gathered state workflow execution for YAML playbook generation. "
+            "Workflow orchestrates yaml_config_generator operation by checking want "
+            "dictionary for parameters, executing generation function, validating "
+            "operation status, and tracking execution timing for performance monitoring.",
+            "DEBUG"
+        )
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
         # Define workflow operations
@@ -1632,20 +2481,117 @@ class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
-                end_time - start_time
+            "Gathered state workflow execution completed successfully."
+            "Workflow processed {0} operation(s): {1} executed, "
+            "{2} skipped. Operation results available in self.result for module exit.".format(
+                len(workflow_operations), operations_executed,
+                operations_skipped
             ),
-            "DEBUG",
+            "INFO"
+        )
+
+        self.log(
+            "Performance metrics - Start time: {0}, End time: {1},"
+            "Operations executed: {2}, Operations skipped: {3}. Metrics provide timing "
+            "analysis for workflow optimization and performance monitoring.".format(
+                start_time, end_time, operations_executed,
+                operations_skipped
+            ),
+            "DEBUG"
+        )
+
+        self.log(
+            "Returning self instance for method chaining. Instance contains complete "
+            "operation results with msg, status, result attributes populated by "
+            "yaml_config_generator execution for module exit and user feedback.",
+            "DEBUG"
         )
 
         return self
 
 
 def main():
-    """Main entry point for module execution.
+    """
+    Main entry point for Ansible module execution.
+    This function orchestrates complete brownfield YAML playbook generation
+    workflow by parsing Ansible module parameters with connection credentials
+    and configuration filters, initializing DeviceCredentialPlaybookGenerator
+    instance for Catalyst Center API interaction, validating minimum Catalyst
+    Center version requirement (2.3.7.9+) for brownfield generation support,
+    checking requested state against supported states (gathered only), validating
+    input configuration parameters against schema with required field checking,
+    iterating through validated configurations to execute get_want() for
+    parameter preparation and get_diff_gathered() for YAML generation workflow,
+    and returning operation results via module.exit_json() with success/failure
+    status, generated file path, and component processing summary for Ansible
+    playbook feedback.
 
-    Parses Ansible parameters, initializes the module class, validates input,
-    runs the requested operations, and returns results via `module.exit_json`.
+    The function handles complete module lifecycle including parameter
+    specification, version compatibility checking, state validation, input
+    validation, workflow execution, and result aggregation for brownfield
+    device credential YAML playbook generation.
+
+    Args:
+        None: Reads parameters from Ansible runtime environment via AnsibleModule
+            argument parsing with element_spec definition.
+
+    Returns:
+        None: Exits via module.exit_json() with operation results including:
+            - changed: Boolean indicating configuration changes (always False
+                for gathered state)
+            - msg: Operation result message with success/failure details
+            - response: Complete operation response with file path and summary
+            - status: Operation status (success, failed, ok, invalid)
+            - check_return_status() validates status before exit
+
+    Raises:
+        Exits via check_return_status() when:
+        - Catalyst Center version below 2.3.7.9 minimum requirement
+        - Invalid state provided (not 'gathered')
+        - Input validation fails with schema violations
+        - YAML generation workflow encounters errors
+        - API calls fail during credential retrieval
+
+    Module Parameters:
+        dnac_host (str, required): Catalyst Center hostname/IP for API connection
+        dnac_port (str, default='443'): HTTPS port for API endpoints
+        dnac_username (str, default='admin'): Authentication username with read
+                                            permissions for global credentials
+                                            and site configurations
+        dnac_password (str, no_log=True): Authentication password for API access
+        dnac_verify (bool, default=True): SSL certificate verification flag
+        dnac_version (str, default='2.2.3.3'): Target Catalyst Center version
+                                            for API compatibility
+        dnac_debug (bool, default=False): Debug mode flag for detailed logging
+        dnac_log_level (str, default='WARNING'): Logging level (DEBUG, INFO,
+                                                WARNING, ERROR)
+        dnac_log_file_path (str, default='dnac.log'): Log file path for
+                                                    persistent logging
+        dnac_log_append (bool, default=True): Append mode for log file
+        dnac_log (bool, default=False): Enable file logging flag
+        validate_response_schema (bool, default=True): Enable API response
+                                                    schema validation
+        dnac_api_task_timeout (int, default=1200): Maximum seconds for API
+                                                task completion
+        dnac_task_poll_interval (int, default=2): Seconds between task status
+                                                polls
+        config (list[dict], required): Configuration parameters with
+                                    generate_all_configurations, file_path,
+                                    and component_specific_filters
+        state (str, default='gathered', choices=['gathered']): Desired state
+                                                            for brownfield
+                                                            extraction
+
+    Workflow Execution:
+        1. Parse module parameters with AnsibleModule argument specification
+        2. Initialize DeviceCredentialPlaybookGenerator with module instance
+        3. Validate Catalyst Center version >= 2.3.7.9 for brownfield support
+        4. Check state parameter against supported_states list (gathered only)
+        5. Validate input configuration against schema with type checking
+        6. Iterate validated configurations executing get_want() and
+        get_diff_gathered()
+        7. Aggregate results and exit via module.exit_json() with complete
+        status
     """
     # Define the specification for the module"s arguments
     element_spec = {
