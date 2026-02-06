@@ -935,15 +935,15 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Validate configuration parameters
         self.log(
-            f"Calling validate_params() to ensure configuration parameters are valid and "
-            f"accessible before constructing want state.",
+            "Calling validate_params() to ensure configuration parameters are valid and "
+            "accessible before constructing want state.",
             "DEBUG"
         )
         self.validate_params(config)
 
         if self.status == "failed":
             self.log(
-                f"Parameter validation failed in validate_params(). Cannot proceed with want "
+                "Parameter validation failed in validate_params(). Cannot proceed with want "
                 f"state construction. Error: {self.msg}",
                 "ERROR"
             )
@@ -1174,8 +1174,8 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return self
 
             self.log(
-                f"Global filters validation passed. At least one filter contains values. "
-                f"Calling get_current_config() with filters to retrieve matching APs.",
+                "Global filters validation passed. At least one filter contains values. "
+                "Calling get_current_config() with filters to retrieve matching APs.",
                 "DEBUG"
             )
 
@@ -1183,9 +1183,9 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             if not self.have.get("all_ap_config"):
                 self.msg = (
-                    f"No access point configurations found matching the provided global filters: "
+                    "No access point configurations found matching the provided global filters: "
                     f"{global_filters}. This may indicate: (1) Filter values don't match existing "
-                    f"APs, (2) APs exist but have no configurations, or (3) Filters are too restrictive."
+                    "APs, (2) APs exist but have no configurations, or (3) Filters are too restrictive."
                 )
                 self.log(self.msg, "WARNING")
                 self.status = "success"
@@ -1218,11 +1218,50 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_workflow_elements_schema(self):
         """
-        Returns the mapping configuration for access point workflow manager.
+        Retrieves the schema configuration for access point workflow manager components.
+
+        This function defines the complete validation schema for global filters used in access
+        point playbook generation, specifying allowed filter types, data structures, and
+        validation rules for site-based, hostname-based, and MAC address-based filtering.
+
+        Args:
+            None (uses self context for potential future expansion)
+
         Returns:
-            dict: A dictionary containing network elements and global filters configuration with validation rules.
+            dict: Schema configuration dictionary with global_filters structure containing
+                validation rules for site_list, provision_hostname_list, accesspoint_config_list,
+                accesspoint_provision_config_list, and accesspoint_provision_config_mac_list
+                filter types. All filters optional with list[str] type requirement.
+
+        Filter Types:
+            - site_list: Floor site hierarchies for location-based filtering
+            - provision_hostname_list: Provisioned AP hostnames
+            - accesspoint_config_list: AP configuration hostnames
+            - accesspoint_provision_config_list: Combined provision/config hostnames
+            - accesspoint_provision_config_mac_list: AP MAC addresses
+
+        Usage:
+            - Called during class initialization (__init__)
+            - Schema stored in self.module_schema for validation
+            - Used by validate_input() for parameter validation
+            - Defines contract for global_filters structure
+
+        Notes:
+            - All filters are optional (required=False)
+            - All filters expect list of strings (type="list", elements="str")
+            - At least one filter must have values when global_filters provided
+            - Schema enables dynamic filter validation without hardcoded checks
         """
-        return {
+        self.log(
+            "Defining validation schema for access point workflow manager. Schema includes "
+            "global_filters structure with five filter types: site_list, provision_hostname_list, "
+            "accesspoint_config_list, accesspoint_provision_config_list, and "
+            "accesspoint_provision_config_mac_list. All filters are optional list[str] types "
+            "enabling flexible AP filtering for brownfield playbook generation.",
+            "DEBUG"
+        )
+
+        schema = {
             "global_filters": {
                 "site_list": {
                     "type": "list",
@@ -1252,178 +1291,620 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             }
         }
 
+        self.log(
+            f"Schema definition completed successfully. Schema contains {len(schema)} top-level "
+            f"key(s) with {len(schema['global_filters'])} filter type(s). This schema enables "
+            "structured validation of AP filtering parameters during playbook configuration "
+            "validation workflow.",
+            "DEBUG"
+        )
+
+        return schema
+
     def get_current_config(self, input_config):
         """
-        Retrieves the current configuration of an access point and site related details
-        from Cisco Catalyst Center.
+        Retrieves and parses current access point configurations from Cisco Catalyst Center.
 
-        Parameters:
-          - self (object): An instance of the class containing the method.
-          - input_config (dict): A dictionary containing the input configuration details.
+        This function orchestrates the complete AP configuration retrieval workflow by fetching
+        device details, querying AP configurations, and parsing radio settings for all discovered
+        access points. It handles API pagination, error recovery, and configuration normalization
+        to produce standardized AP configuration data for YAML generation.
+
+        Args:
+            input_config (dict): Configuration parameters containing operational mode and filters:
+                                - generate_all_configurations (bool, optional): Complete discovery mode
+                                - global_filters (dict, optional): Filter criteria for targeted extraction
+                                Note: input_config determines which APs to retrieve but doesn't filter
+                                      at this level - filtering happens in process_global_filters()
+
         Returns:
-            - tuple: A tuple containing a boolean indicating if the access point exists
-                and a dictionary of the current configuration details.
-        Description:
-            Queries the Cisco Catalyst Center for the existence of an Access Point
-            using the provided input configuration details such as MAC address,
-            management IP address, or hostname. If found, it retrieves the current
-            Access Point configuration and returns it.
-        """
-        self.log("Starting to retrieve current configuration with input: {0}".format(
-            self.pprint(input_config)), "INFO")
+            list: List of parsed AP configuration dictionaries with structure:
+                 [{
+                     "mac_address": "aa:bb:cc:dd:ee:ff",
+                     "ap_name": "AP-Floor1-001",
+                     "admin_status": "Enabled",
+                     "led_status": "Enabled",
+                     "location": "Global/USA/Building1/Floor1",
+                     "2.4ghz_radio": {...},
+                     "5ghz_radio": {...},
+                     "rf_profile": "HIGH",
+                     "site": {...}
+                 }]
+                 Returns empty list if no APs found or API errors occur.
 
+        Configuration Components:
+            Device Details (from get_accesspoint_details):
+                - id, eth_mac_address, mac_address, hostname
+                - management_ip_address, model, serial_number
+                - site_hierarchy, reachability_status, type
+
+            AP Configuration (from get_accesspoint_configuration):
+                - mac_address, ap_name, admin_status, led_status
+                - ap_mode, location, failover_priority
+                - Controller settings (primary, secondary, tertiary)
+                - Radio configurations (2.4GHz, 5GHz, 6GHz, XOR, Tri)
+
+            Parsed Configuration (from parse_accesspoint_configuration):
+                - Normalized field names and values
+                - Radio settings organized by frequency band
+                - Clean Air SI per band
+                - Provisioning details (site, RF profile)
+
+        Error Handling:
+            - No AP devices found: Returns empty list with status success
+            - AP configuration fetch fails: Logs warning and skips AP
+            - Invalid device list structure: Returns None with warning
+            - API connectivity issues: Propagated from get_accesspoint_details()
+
+        Notes:
+            - input_config parameter logged but not used for filtering at this level
+            - All discovered APs are processed regardless of input_config filters
+            - Filtering applied later in process_global_filters() function
+            - Empty results are valid (e.g., no APs configured in Catalyst Center)
+            - self.have["all_detailed_config"] preserves complete metadata for troubleshooting
+        """
+        self.log(
+            f"Starting comprehensive access point configuration retrieval from Cisco Catalyst "
+            f"Center. Input configuration: {self.pprint(input_config)}. This operation will "
+            f"query device inventory APIs to discover all Unified APs, fetch detailed "
+            f"configurations for each AP, and parse radio settings to produce normalized "
+            f"configuration data for YAML playbook generation.",
+            "INFO"
+        )
+
+        # Initialize collection lists
         collect_all_config = []
         collect_all_config_details = []
+
+        # Retrieve all AP device details from Catalyst Center
+        self.log(
+            "Calling get_accesspoint_details() to retrieve complete device inventory for all "
+            "Unified AP devices in Catalyst Center. This API call queries the network device "
+            "list with family filter 'Unified AP' to discover AP MAC addresses, hostnames, "
+            "models, and site assignments required for configuration retrieval.",
+            "DEBUG"
+        )
+
         current_configuration = self.get_accesspoint_details()
-        self.log("Retrieved current access point details: {0}".format(
-            self.pprint(current_configuration)), "INFO")
 
+        self.log(
+            f"Retrieved access point device details from Catalyst Center. Device list contains "
+            f"{len(current_configuration) if current_configuration else 0} AP device(s). "
+            f"Device details: {self.pprint(current_configuration)}",
+            "INFO"
+        )
+
+        # Validate device list is not empty and has correct structure
         if not current_configuration or not isinstance(current_configuration, list):
-            self.msg = "No access point details found in Cisco Catalyst Center."
+            self.msg = (
+                "No access point device details found in Cisco Catalyst Center inventory. "
+                "This indicates either: (1) No Unified APs are registered in Catalyst Center, "
+                "(2) API permissions insufficient to query device inventory, or (3) Device "
+                "family filter 'Unified AP' returned empty results. Verify APs are onboarded "
+                "to Catalyst Center before running brownfield playbook generation."
+            )
+            self.log(self.msg, "WARNING")
             self.status = "success"
-            return
+            return []
 
-        for ap_detail in current_configuration:
+        self.log(
+            f"Device inventory validation passed. Found {len(current_configuration)} Unified AP "
+            f"device(s) in Catalyst Center inventory. Starting configuration retrieval loop to "
+            f"fetch detailed AP configurations for each device by Ethernet MAC address.",
+            "INFO"
+        )
+
+        # Iterate through each AP device and fetch configurations
+        for ap_index, ap_detail in enumerate(current_configuration, start=1):
             eth_mac_address = ap_detail.get("eth_mac_address")
-            current_eth_configuration = self.get_accesspoint_configuration(
-                eth_mac_address)
+
+            self.log(
+                f"Processing AP device {ap_index}/{len(current_configuration)}: Ethernet MAC "
+                f"address '{eth_mac_address}', hostname '{ap_detail.get('hostname')}', model "
+                f"'{ap_detail.get('model')}'. Calling get_accesspoint_configuration() to retrieve "
+                f"detailed configuration including radio settings, admin status, LED config, and "
+                f"controller assignments.",
+                "DEBUG"
+            )
+
+            current_eth_configuration = self.get_accesspoint_configuration(eth_mac_address)
 
             if not current_eth_configuration:
-                self.log(f"No configuration found for access point with MAC address: {eth_mac_address}",
-                         "WARNING")
+                self.log(
+                    f"No configuration found for access point {ap_index}/{len(current_configuration)} "
+                    f"with Ethernet MAC address '{eth_mac_address}', hostname "
+                    f"'{ap_detail.get('hostname')}'. This AP may not have a complete configuration "
+                    f"in Catalyst Center or API query failed. Skipping this AP and continuing with "
+                    f"next device in inventory.",
+                    "WARNING"
+                )
                 continue
 
+            self.log(
+                f"Successfully retrieved configuration for AP {ap_index}/{len(current_configuration)} "
+                f"with Ethernet MAC '{eth_mac_address}'. Configuration contains admin status, radio "
+                f"settings, LED configuration, and controller details. Attaching configuration to "
+                f"device details and calling parse_accesspoint_configuration() for normalization.",
+                "DEBUG"
+            )
+
+            # Attach configuration to device details
             ap_detail["configuration"] = current_eth_configuration
-            parsed_config = self.parse_accesspoint_configuration(current_eth_configuration, ap_detail)
-            self.log(f"Parsed configuration for access point with MAC address {eth_mac_address}: {parsed_config}",
-                     "INFO")
+
+            # Parse and normalize configuration structure
+            self.log(
+                f"Parsing configuration for AP {ap_index}/{len(current_configuration)} with MAC "
+                f"'{eth_mac_address}'. Parser will normalize field names, organize radio settings "
+                f"by frequency band, extract provisioning details, and produce standardized "
+                f"configuration structure for YAML generation.",
+                "DEBUG"
+            )
+
+            parsed_config = self.parse_accesspoint_configuration(
+                current_eth_configuration, ap_detail
+            )
+
+            self.log(
+                f"Successfully parsed configuration for AP {ap_index}/{len(current_configuration)} "
+                f"with Ethernet MAC '{eth_mac_address}'. Parsed configuration: {parsed_config}. "
+                f"Adding parsed config to collection list for YAML generation.",
+                "INFO"
+            )
+
+            # Store parsed configuration and detailed metadata
             collect_all_config.append(parsed_config)
             collect_all_config_details.append(ap_detail)
 
-        self.log("Completed parsing all current configuration: {0}".format(
-            self.pprint(collect_all_config)), "INFO")
+            self.log(
+                f"Completed processing for AP {ap_index}/{len(current_configuration)}. Current "
+                f"collection statistics - Parsed configs: {len(collect_all_config)}, Detailed "
+                f"metadata records: {len(collect_all_config_details)}",
+                "DEBUG"
+            )
+
+        # Store detailed configuration for troubleshooting reference
+        self.log(
+            f"Storing complete detailed configuration metadata in self.have['all_detailed_config'] "
+            f"for troubleshooting and reference. Detailed configs include raw API responses, "
+            f"device UUIDs, and unparsed configuration data. Total detailed records: "
+            f"{len(collect_all_config_details)}",
+            "DEBUG"
+        )
+
         self.have["all_detailed_config"] = copy.deepcopy(collect_all_config_details)
+
+        self.log(
+            f"Completed access point configuration retrieval and parsing workflow. Final "
+            f"statistics - Total APs in inventory: {len(current_configuration)}, Successfully "
+            f"retrieved configs: {len(collect_all_config)}, Failed/skipped APs: "
+            f"{len(current_configuration) - len(collect_all_config)}. Parsed configurations: "
+            f"{self.pprint(collect_all_config)}",
+            "INFO"
+        )
 
         return collect_all_config
 
     def get_accesspoint_details(self):
         """
-        Retrieves the current details of all access point devices in Cisco Catalyst Center.
+        Retrieves complete device inventory for all Unified AP devices in Cisco Catalyst Center.
 
-        Parameters:
-        - self (object): An instance of the class containing the method.
+        This function queries the Catalyst Center network device API with pagination to discover
+        all access points registered in the system. It extracts essential device metadata including
+        MAC addresses, hostnames, models, site assignments, and reachability status for downstream
+        configuration retrieval and YAML generation workflows.
+
+        Args:
+            None (uses self.payload for API configuration parameters)
 
         Returns:
-        A tuple containing a boolean indicating if the devices exists and a
-        dictionary of the current inventory details
-
-        Description:
-        Retrieve all access point device details from Cisco Catalyst Center.
+            list: List of AP device detail dictionaries with structure:
+                 [{
+                     "id": "<device_uuid>",
+                     "associated_wlc_ip": "10.1.1.1",
+                     "eth_mac_address": "aa:bb:cc:dd:ee:ff",
+                     "mac_address": "aa:bb:cc:dd:ee:ff",
+                     "hostname": "AP-Floor1-001",
+                     "management_ip_address": "10.1.2.1",
+                     "model": "AIR-AP2802I-B-K9",
+                     "serial_number": "FCW2234G0QZ",
+                     "site_hierarchy": "Global/USA/Building1/Floor1",
+                     "reachability_status": "Reachable",
+                     "type": "Unified AP"
+                 }]
+                 Returns empty list if no APs found or API errors occur.
         """
+        self.log(
+            "Starting comprehensive Unified AP device inventory retrieval from Cisco Catalyst "
+            "Center. Initializing pagination loop to query network device API with family filter "
+            "'Unified AP'. This operation will discover all access points registered in Catalyst "
+            "Center and extract device metadata (MAC addresses, hostnames, models, sites) required "
+            "for configuration retrieval workflow.",
+            "INFO"
+        )
+
+        # Initialize collection variables
         response_all = []
         offset = 1
         limit = 500
+
+        # API call configuration
         api_family, api_function, param_key = "devices", "get_device_list", "family"
         request_params = {param_key: "Unified AP", "offset": offset, "limit": limit}
+
+        # Timeout and retry configuration from payload
         resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
         resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
+        self.log(
+            f"Pagination configuration initialized. Starting offset: {offset}, page size limit: "
+            f"{limit} devices, API timeout: {resync_retry_count} seconds, retry interval: "
+            f"{resync_retry_interval} seconds. API call parameters: family='Unified AP', "
+            f"offset={offset}, limit={limit}. Loop will continue until all devices retrieved or "
+            "timeout exhausted.",
+            "DEBUG"
+        )
+
+        page_number = 1
+        total_devices_collected = 0
+
+        # Pagination loop to retrieve all AP devices
         while resync_retry_count > 0:
-            self.log(f"Sending initial API request: Family='{api_family}', Function='{api_function}', Params={request_params}",
-                     "DEBUG")
+            self.log(
+                f"Requesting AP device inventory page {page_number} from Catalyst Center API. "
+                f"API call parameters - Family: '{api_family}', Function: '{api_function}', "
+                f"Params: {request_params}. This request targets Unified AP devices with offset "
+                f"{offset} (starting index) and limit {limit} (max devices per page). Remaining "
+                f"timeout: {resync_retry_count} seconds.",
+                "DEBUG"
+            )
 
+            # Execute API request
             response = self.execute_get_request(api_family, api_function, request_params)
+
             if not response:
-                self.log("No data received from API (Offset={0}). Exiting pagination.".
-                         format(request_params["offset"]), "DEBUG")
+                self.log(
+                    f"No data received from Catalyst Center API for page {page_number} (offset={offset}). "
+                    "API returned None or empty response. This indicates either end of available "
+                    "devices or potential API connectivity issue. Exiting pagination loop to prevent "
+                    "unnecessary API calls and return collected data.",
+                    "DEBUG"
+                )
                 break
 
-            self.log("Received {0} devices(s) from API (Offset={1}).".format(
-                len(response.get("response")), request_params["offset"]), "DEBUG")
+            # Extract device list from response
             device_list = response.get("response")
-            if device_list and isinstance(device_list, list):
-                self.log("Processing device list: {0}".format(
-                    self.pprint(device_list)), "DEBUG")
-                required_data_list = []
-                for device_response in device_list:
-                    required_data = {
-                        "id": device_response.get("id"),
-                        "associated_wlc_ip": device_response.get("associatedWlcIp"),
-                        "eth_mac_address": device_response.get("apEthernetMacAddress"),
-                        "mac_address": device_response.get("macAddress"),
-                        "hostname": device_response.get("hostname"),
-                        "management_ip_address": device_response.get("managementIpAddress"),
-                        "model": device_response.get("platformId"),
-                        "serial_number": device_response.get("serialNumber"),
-                        "site_hierarchy": device_response.get("snmpLocation"),
-                        "reachability_status": device_response.get("reachabilityStatus"),
-                        "type": device_response.get("type")
-                    }
-                    required_data_list.append(required_data)
 
-            response_all.extend(required_data_list)
-
-            if len(response.get("response")) < limit:
-                self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
-                         format(len(response.get("response"))), "DEBUG")
+            if not device_list or not isinstance(device_list, list):
+                self.log(
+                    f"Invalid or empty device list received from API for page {page_number}. "
+                    f"Expected list of devices, got {type(device_list).__name__}. Breaking "
+                    "pagination loop.",
+                    "WARNING"
+                )
                 break
 
-            offset += limit
-            request_params["offset"] = offset  # Increment offset for pagination
-            self.log("Incrementing offset to {0} for next API request.".format(
-                request_params["offset"]), "DEBUG")
+            page_device_count = len(device_list)
+            total_devices_collected += page_device_count
 
             self.log(
-                "Pauses execution for {0} seconds.".format(resync_retry_interval),
-                "INFO",
+                f"Successfully retrieved {page_device_count} Unified AP device(s) from Catalyst "
+                f"Center API for page {page_number} (offset={offset}). Cumulative devices collected "
+                f"across all pages: {total_devices_collected}. API response contains valid device "
+                "data with IDs, MAC addresses, hostnames, and site assignments.",
+                "DEBUG"
+            )
+
+            # Process and normalize device data
+            self.log(
+                f"Processing device list for page {page_number}. Extracting and normalizing device "
+                "metadata including ID, MAC addresses, hostname, model, site hierarchy, and "
+                "reachability status. Converting camelCase API field names to snake_case for "
+                f"internal use. Device list: {self.pprint(device_list)}",
+                "DEBUG"
+            )
+
+            required_data_list = []
+            for device_index, device_response in enumerate(device_list, start=1):
+                required_data = {
+                    "id": device_response.get("id"),
+                    "associated_wlc_ip": device_response.get("associatedWlcIp"),
+                    "eth_mac_address": device_response.get("apEthernetMacAddress"),
+                    "mac_address": device_response.get("macAddress"),
+                    "hostname": device_response.get("hostname"),
+                    "management_ip_address": device_response.get("managementIpAddress"),
+                    "model": device_response.get("platformId"),
+                    "serial_number": device_response.get("serialNumber"),
+                    "site_hierarchy": device_response.get("snmpLocation"),
+                    "reachability_status": device_response.get("reachabilityStatus"),
+                    "type": device_response.get("type")
+                }
+                required_data_list.append(required_data)
+
+                self.log(
+                    f"Normalized device {device_index}/{page_device_count} on page {page_number}: "
+                    f"hostname='{required_data.get('hostname')}', eth_mac='{required_data.get('eth_mac_address')}', "
+                    f"model='{required_data.get('model')}', site='{required_data.get('site_hierarchy')}', "
+                    f"reachability='{required_data.get('reachability_status')}'",
+                    "DEBUG"
+                )
+
+            # Append normalized data to collection
+            response_all.extend(required_data_list)
+
+            self.log(
+                f"Appended {page_device_count} normalized device record(s) to collection. Current "
+                f"total devices in collection: {len(response_all)}. Normalized data includes "
+                f"complete device metadata for downstream configuration retrieval.",
+                "DEBUG"
+            )
+
+            # Check for last page (received fewer devices than limit)
+            if page_device_count < limit:
+                self.log(
+                    f"Received device count ({page_device_count}) is less than configured page size "
+                    f"limit ({limit}). This indicates the last page of device inventory has been "
+                    "retrieved. No additional Unified AP devices available in Catalyst Center. "
+                    "Exiting pagination loop to complete inventory collection operation.",
+                    "DEBUG"
+                )
+                break
+
+            # Increment offset for next page
+            offset += limit
+            request_params["offset"] = offset
+            page_number += 1
+
+            self.log(
+                f"Incrementing pagination offset to {offset} for next API request (page {page_number}). "
+                f"Next API call will retrieve devices starting from index {offset}, continuing "
+                "sequential collection of Unified AP inventory from Catalyst Center.",
+                "DEBUG"
+            )
+
+            # Rate limiting sleep to prevent API throttling
+            self.log(
+                f"Pausing execution for {resync_retry_interval} second(s) before next API request "
+                "to prevent API rate limiting and throttling by Catalyst Center. This delay ensures "
+                "stable API performance and prevents HTTP 429 (Too Many Requests) errors during "
+                "large device inventory retrieval.",
+                "INFO"
             )
             time.sleep(resync_retry_interval)
+
+            # Decrement timeout counter
             resync_retry_count = resync_retry_count - resync_retry_interval
 
+            self.log(
+                "Decremented retry timeout counter after sleep interval. Remaining timeout: "
+                f"{resync_retry_count} seconds, next timeout check in: {resync_retry_interval} "
+                "seconds. Pagination loop will exit if timeout exhausted before all devices retrieved.",
+                "DEBUG"
+            )
+
+        # Final logging based on collection results
         if response_all:
-            self.log("Total {0} accesspoint(s) details retrieved. {1}".format(
-                len(response_all), self.pprint(response_all)), "DEBUG")
+            self.log(
+                "AP device inventory retrieval completed successfully. Total Unified AP device(s) "
+                f"retrieved: {len(response_all)} across {page_number} page(s) of API responses. "
+                "Device inventory contains complete metadata (ID, MAC addresses, hostnames, models, "
+                "sites, reachability status) for all access points registered in Catalyst Center. "
+                f"Inventory data: {self.pprint(response_all)}",
+                "INFO"
+            )
         else:
-            self.log("No accesspoint details found for the Unified AP.", "WARNING")
+            self.log(
+                "No Unified AP devices found in Cisco Catalyst Center inventory after pagination "
+                "loop completion. The device collection is empty. This indicates either: (1) No "
+                "access points are onboarded to Catalyst Center, (2) API permissions insufficient "
+                "to query device inventory, or (3) Family filter 'Unified AP' returned no matches. "
+                "Verify access points are registered in Catalyst Center before running brownfield "
+                "playbook generation.",
+                "WARNING"
+            )
 
         return response_all
 
     def get_accesspoint_configuration(self, eth_mac_address):
         """
-        Retrieves the current configuration of an access point from Cisco Catalyst Center.
+        Retrieves detailed configuration for a specific access point from Cisco Catalyst Center.
 
-        Parameters:
-            eth_mac_address (str): The Ethernet MAC address of the access point.
+        Queries the Catalyst Center wireless API to fetch complete configuration details for
+        an access point identified by its Ethernet MAC address. Configuration includes radio
+        settings (2.4GHz, 5GHz, 6GHz, XOR, Tri-band), admin status, LED brightness, AP mode,
+        location, failover priority, and WLC controller assignments (primary, secondary, tertiary).
+
+        Args:
+            eth_mac_address (str): Ethernet MAC address of target access point.
+                                  Format: "aa:bb:cc:dd:ee:ff" (colon-separated hexadecimal).
+                                  This is the apEthernetMacAddress from device inventory.
+                                  Required for API query; returns None if missing.
 
         Returns:
-            dict: A dictionary containing the current configuration details of the access point.
+            dict: AP configuration with camelCase keys converted to snake_case. Structure:
+                 {
+                     "mac_address": "aa:bb:cc:dd:ee:ff",
+                     "ap_name": "AP-Floor1-001",
+                     "admin_status": "Enabled",
+                     "led_status": "Enabled",
+                     "led_brightness_level": 5,
+                     "ap_mode": "Local",
+                     "location": "Building1-Floor1-Zone1",
+                     "failover_priority": "Low",
+                     "primary_controller_name": "WLC-Primary",
+                     "primary_ip_address": {"address": "10.1.1.1"},
+                     "secondary_controller_name": "WLC-Secondary",
+                     "secondary_ip_address": {"address": "10.1.1.2"},
+                     "tertiary_controller_name": "WLC-Tertiary",
+                     "tertiary_ip_address": {"address": "10.1.1.3"},
+                     "radio_configurations": [
+                         {
+                             "radio_role_assignment": "AUTO",
+                             "admin_status": "Enabled",
+                             "antenna_name": "AIR-ANT2513P4M-N",
+                             "channel_number": 36,
+                             "channel_width": "20 MHz",
+                             "power_assignment_mode": "Global",
+                             "radio_band": "5 GHz",
+                             "clean_air_si": "Enabled"
+                         }
+                     ],
+                     "is_assigned_site_as_location": True,
+                     "mesh_dto": {...},
+                     "ap_height": 10.5
+                 }
+                 Returns None if no configuration found or API error.
 
-        Description:
-            Queries the Cisco Catalyst Center for the configuration of an access point
-            using its Ethernet MAC address. If found, it retrieves the current configuration
-            details and returns them.
+        Side Effects:
+            - Calls execute_get_request() with wireless.get_access_point_configuration API
+            - Converts response camelCase to snake_case via camel_to_snake_case()
+            - Logs API request/response at INFO/DEBUG levels
+            - Returns None on validation failures (missing MAC, API errors)
+
+        API Configuration:
+            - API Family: "wireless"
+            - API Function: "get_access_point_configuration"
+            - Parameter: key=eth_mac_address
+            - Response: Single AP configuration dictionary
+            - Authentication: Inherited from self.dnac._session
+
+        Data Transformations:
+            Field name conversions (camelCase → snake_case):
+                - macAddress → mac_address
+                - apName → ap_name
+                - adminStatus → admin_status
+                - ledStatus → led_status
+                - ledBrightnessLevel → led_brightness_level
+                - apMode → ap_mode
+                - primaryControllerName → primary_controller_name
+                - primaryIpAddress → primary_ip_address
+                - secondaryControllerName → secondary_controller_name
+                - secondaryIpAddress → secondary_ip_address
+                - tertiaryControllerName → tertiary_controller_name
+                - tertiaryIpAddress → tertiary_ip_address
+                - radioConfigurations → radio_configurations
+                - radioRoleAssignment → radio_role_assignment
+                - antennaName → antenna_name
+                - channelNumber → channel_number
+                - channelWidth → channel_width
+                - powerAssignmentMode → power_assignment_mode
+                - radioBand → radio_band
+                - cleanAirSi → clean_air_si
+                - isAssignedSiteAsLocation → is_assigned_site_as_location
+                - meshDto → mesh_dto
+                - apHeight → ap_height
+
+        Error Handling:
+            - Missing eth_mac_address: Returns None with ERROR log
+            - No API response: Returns None with DEBUG log (AP may not exist)
+            - Invalid API response: Returns None (logged by execute_get_request)
+            - Network errors: Propagated from execute_get_request()
+
+        Usage Context:
+            Called from get_current_config() in loop iterating all AP devices:
+                for ap_detail in current_configuration:
+                    eth_mac = ap_detail.get("eth_mac_address")
+                    config = self.get_accesspoint_configuration(eth_mac)
+
+        Notes:
+            - eth_mac_address must match value from get_accesspoint_details()
+            - Configuration snapshot reflects current state at query time
+            - Radio configurations list varies by AP model (1-3 radios)
+            - Tertiary controller may be null if not configured
+            - Snake_case conversion ensures consistency with module conventions
+            - None return indicates AP has no retrievable configuration
         """
-        self.log("Starting to retrieve access point configuration for MAC: {0}".format(
-            eth_mac_address), "INFO")
+        self.log(
+            "Starting access point configuration retrieval from Cisco Catalyst Center for AP "
+            f"with Ethernet MAC address '{eth_mac_address}'. This API call will query the wireless "
+            "configuration endpoint to retrieve complete AP settings including radio configurations "
+            "(2.4GHz, 5GHz, 6GHz), admin status, LED settings, AP mode, location, failover priority, "
+            "and WLC controller assignments.",
+            "INFO"
+        )
 
+        # Validate required parameter
         if not eth_mac_address:
-            self.msg = "Ethernet MAC address is required to retrieve access point configuration."
+            self.msg = (
+                "Ethernet MAC address is required to retrieve access point configuration from "
+                "Cisco Catalyst Center. No MAC address provided in function call. Cannot proceed "
+                "with API query. Verify device inventory contains valid 'eth_mac_address' field "
+                "from get_accesspoint_details() response."
+            )
             self.log(self.msg, "ERROR")
             return None
 
+        self.log(
+            f"Ethernet MAC address validation passed: '{eth_mac_address}'. Preparing API request "
+            "to query Catalyst Center wireless configuration endpoint with MAC address as key "
+            "parameter. Request will retrieve current operational configuration for this AP.",
+            "DEBUG"
+        )
+
+        # API call configuration
         api_family, api_function, param_key = "wireless", "get_access_point_configuration", "key"
         request_params = {param_key: eth_mac_address}
 
-        self.log(f"Sending initial API request: Family='{api_family}', Function='{api_function}', Params={request_params}",
-                 "DEBUG")
+        self.log(
+            "Sending AP configuration API request to Cisco Catalyst Center. API Family: "
+            f"'{api_family}', Function: '{api_function}', Parameters: {request_params}. This call "
+            "queries the wireless configuration database for AP with Ethernet MAC "
+            f"'{eth_mac_address}' and retrieves complete operational settings.",
+            "DEBUG"
+        )
+
+        # Execute API request
         response = self.execute_get_request(api_family, api_function, request_params)
+
         if not response:
-            self.log("No data received from access point config API.", "DEBUG")
+            self.log(
+                "No configuration data received from Catalyst Center API for access point with "
+                f"Ethernet MAC address '{eth_mac_address}'. API returned None or empty response. "
+                "This indicates either: (1) AP does not exist in Catalyst Center inventory, "
+                "(2) AP has no configuration stored, (3) MAC address format incorrect, or "
+                "(4) API connectivity issue. Returning None to skip this AP in processing loop.",
+                "DEBUG"
+            )
             return None
 
+        self.log(
+            "Successfully received API response from Catalyst Center for AP with Ethernet MAC "
+            f"address '{eth_mac_address}'. Response contains configuration data with camelCase "
+            "field names. Converting field names from camelCase to snake_case for internal "
+            f"consistency and YAML generation. Raw API response structure: {self.pprint(response)}",
+            "DEBUG"
+        )
+
+        # Convert camelCase to snake_case for consistency
         current_eth_configuration = self.camel_to_snake_case(response)
-        self.log("Received API response from get_access_point_configuration: {0}".format(
-            self.pprint(current_eth_configuration)), "INFO")
+
+        self.log(
+            "Successfully retrieved and transformed access point configuration for Ethernet MAC "
+            f"address '{eth_mac_address}'. Configuration includes: AP name, admin status, LED "
+            "settings, AP mode, location, failover priority, controller assignments (primary, "
+            "secondary, tertiary), and radio configurations for all frequency bands. Snake_case "
+            f"converted configuration: {self.pprint(current_eth_configuration)}",
+            "INFO"
+        )
 
         return current_eth_configuration
 
