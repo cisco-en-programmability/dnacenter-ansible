@@ -2187,8 +2187,8 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
         else:
             self.log(
-                f"No radio configuration found in access point config (radio_dtos is None or empty). "
-                f"AP configuration will not include radio settings.",
+                "No radio configuration found in access point config (radio_dtos is None or empty). "
+                "AP configuration will not include radio settings.",
                 "WARNING"
             )
 
