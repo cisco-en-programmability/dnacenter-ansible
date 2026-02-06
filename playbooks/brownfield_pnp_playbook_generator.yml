@@ -19,6 +19,8 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          - file_path: "/tmp/pnp_device_info.yml"
+          - generate_all_configurations: true
             component_specific_filters:
               components_list: ["device_info"]
+            global_filters:
+              device_state: ["Onboarding"]

@@ -87,15 +87,14 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 config=self.playbook_pnp_generate_all_configurations
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get("response"),
+            result.get("response").get("message"),
             "YAML config generation succeeded for module 'pnp_workflow_manager'."
         )
 
@@ -114,15 +113,14 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 config=self.playbook_component_global_specific_filter
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get("response"),
+            result.get("response").get("message"),
             "YAML config generation succeeded for module 'pnp_workflow_manager'."
         )
 
@@ -141,14 +139,13 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                config_verify=True,
-                dnac_version="2.3.7.6",
+                dnac_version="2.3.7.9",
                 config=self.playbook_no_config
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result.get("response"),
-            "No PnP devices found to generate configuration"
+            result.get("response").get("message"),
+            "No PnP devices found matching specified filters. Verify device inventory and filter criteria."
         )

@@ -2330,7 +2330,7 @@
             "generate_all_configurations": true,
             "global_filters": {
                 "device_state": [
-                    "Claimed"
+                    "Unclaimed"
                 ]
             }
         }
