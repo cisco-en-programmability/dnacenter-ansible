@@ -2002,34 +2002,103 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
     def parse_accesspoint_position_for_floor(self, floor_id, floor_site_hierarchy,
                                              floor_response, ap_type=None):
         """
-        Parse access point position information for a specific floor.
+        Parses and transforms raw AP position data into structured configuration format.
 
-        Parameters:
-            floor_id (str) - The ID of the floor
-            floor_site_hierarchy (str) - The site hierarchy of the floor
-            floor_response (dict) - The access point position response for the floor
-            ap_type (str) - The type of access point position ("planned" or "real")
+        This function processes access point position responses from Catalyst Center APIs,
+        extracting position coordinates, radio configurations, antenna settings, and device
+        metadata into two formatted data structures: simplified positions for YAML generation
+        and detailed metadata for internal filtering operations.
+
+        Args:
+            floor_id (str): Unique identifier (UUID) of the floor site in Catalyst Center.
+                           Used to associate parsed APs with specific floor location.
+                           Example: "abc12345-6789-0def-1234-567890abcdef"
+
+            floor_site_hierarchy (str): Full site hierarchy path of the floor from Global.
+                                       Used for organizing APs by location in output.
+                                       Example: "Global/USA/San Jose/Building1/Floor1"
+
+            floor_response (list): Raw API response containing AP position data from
+                                  get_access_point_position(). List of dictionaries with
+                                  AP details including name, type, position, MAC, radios.
+                                  Example: [{"name": "AP1", "type": "C9130", "position": {...}}]
+
+            ap_type (str, optional): Type classification of access points being parsed.
+                                    - "planned": APs from planning/design phase
+                                    - "real": APs from deployed/operational inventory
+                                    - None: Defaults to "planned" if not specified
+                                    Used to differentiate AP sources in detailed metadata.
 
         Returns:
-            list - A list of parsed access point position information
+            tuple: (parsed_positions, parsed_detailed_data)
+                - parsed_positions (list): Simplified AP configurations for YAML output
+                  [{"accesspoint_name": "AP1", "position": {...}, "radios": [...]}]
+                - parsed_detailed_data (list): Complete metadata with IDs and hierarchy
+                  [{"accesspoint_name": "AP1", ..., "floor_id": "...", "id": "..."}]
+                Returns (None, None) if floor_response invalid or empty.
+
+        Side Effects:
+            - Logs INFO message at parse operation start
+            - Logs WARNING if invalid/empty floor_response received
+            - Logs DEBUG messages for each parsed AP with full data structure
+            - Logs DEBUG summary with total AP count parsed
+            - Does not modify input floor_response data
+
+        Data Transformations:
+            1. Position coordinates: Converts to integers, extracts x/y/z
+            2. MAC addresses: Normalizes to lowercase format
+            3. Radio bands: Converts numeric (2.4, 5, 6) to string format
+            4. Antenna parameters: Extracts name, azimuth, elevation
+            5. Adds metadata: floor_site_hierarchy, accesspoint_type, floor_id, id
+
+        Structure Differences:
+            - parsed_positions: Clean data for YAML playbook generation
+            - parsed_detailed_data: Extended with floor_id, id, hierarchy for filtering
+
+        Notes:
+            - Radio data only included if "radios" field present in API response
+            - MAC addresses only in real APs (planned APs may not have MACs)
+            - Position coordinates converted to integers (floor map units)
+            - Radio bands normalized to string format: "2.4", "5", "6"
+            - Uses copy.deepcopy to prevent mutation between structures
         """
         self.log(
-            f"Parsing access point position for floor ID: {floor_id}, Site Hierarchy: {floor_site_hierarchy}.",
-            "INFO",
+            f"Starting AP position parsing for floor '{floor_site_hierarchy}' (Floor ID: {floor_id}). "
+            f"AP type: '{ap_type if ap_type else 'planned'}'. Processing raw API response data to "
+            f"extract position coordinates, radio configurations, and device metadata into structured "
+            f"format for YAML generation and internal filtering operations.",
+            "INFO"
         )
 
         if not floor_response or not isinstance(floor_response, list):
             self.log(
-                f"No valid access point position data to parse for floor ID: {floor_id}.",
-                "WARNING",
+                f"Invalid or empty floor_response received for floor ID '{floor_id}', floor '{floor_site_hierarchy}'. "
+                f"Response type: {type(floor_response).__name__ if floor_response else 'None'}. Cannot parse AP "
+                f"position data without valid list of AP responses. Returning None to indicate no parseable data.",
+                "WARNING"
             )
             return None
+
+        self.log(
+            f"Received {len(floor_response)} AP position(s) to parse for floor '{floor_site_hierarchy}'. "
+            f"Initiating per-AP data extraction and transformation. Each AP will be processed for position "
+            f"coordinates (x/y/z), radio configurations (bands/channels/power), antenna settings, and metadata.",
+            "DEBUG"
+        )
 
         parsed_floor_data = {}
         parsed_positions = []
         parsed_detailed_data = []
 
-        for ap_position in floor_response:
+        for ap_index, ap_position in enumerate(floor_response, start=1):
+            self.log(
+                f"Processing AP {ap_index}/{len(floor_response)} on floor '{floor_site_hierarchy}'. "
+                f"AP Name: '{ap_position.get('name')}', Model: '{ap_position.get('type')}'. "
+                f"Extracting position coordinates and configuration parameters.",
+                "DEBUG"
+            )
+
+            # Extract core AP position data
             parsed_data = {
                 "accesspoint_name": ap_position.get("name"),
                 "accesspoint_model": ap_position.get("type"),
@@ -2039,12 +2108,34 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "z_position": int(ap_position.get("position", {}).get("z"))
                 }
             }
+
+            # Add MAC address if available (real APs have MACs, planned may not)
             if ap_position.get("macAddress"):
-                parsed_data["mac_address"] = ap_position.get("macAddress").lower()
+                normalized_mac = ap_position.get("macAddress").lower()
+                parsed_data["mac_address"] = normalized_mac
+                self.log(
+                    f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has MAC address: "
+                    f"{normalized_mac} (normalized to lowercase). This indicates a real/deployed AP.",
+                    "DEBUG"
+                )
+            else:
+                self.log(
+                    f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has no MAC address. "
+                    f"This is expected for planned APs in design phase.",
+                    "DEBUG"
+                )
+
+            # Process radio configurations if available
             radio_params = ap_position.get("radios", [])
             if radio_params and isinstance(radio_params, list):
+                self.log(
+                    f"Processing {len(radio_params)} radio configuration(s) for AP '{ap_position.get('name')}'. "
+                    f"Extracting band configurations, channel assignments, TX power, and antenna parameters.",
+                    "DEBUG"
+                )
                 parsed_radios = []
-                for radio in radio_params:
+                for radio_index, radio in enumerate(radio_params, start=1):
+                    # Convert numeric band values to standardized string format
                     radio_bands = []
                     for each_band in radio.get("bands", []):
                         if each_band == 2.4:
@@ -2065,9 +2156,21 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                         }
                     }
                     parsed_radios.append(parsed_radio)
-                parsed_data["radios"] = parsed_radios
+                    self.log(
+                        f"Radio {radio_index}/{len(radio_params)} parsed for AP '{ap_position.get('name')}'. "
+                        f"Bands: {parsed_radio['bands']}, Channel: {parsed_radio.get('channel')}, "
+                        f"TX Power: {parsed_radio.get('tx_power')} dBm, Antenna: {parsed_radio['antenna'].get('antenna_name')}",
+                        "DEBUG"
+                    )
 
-                # Append detailed data for filtered floor if applicable
+                parsed_data["radios"] = parsed_radios
+                self.log(
+                    f"Completed radio configuration parsing for AP '{ap_position.get('name')}'. "
+                    f"Total radios configured: {len(parsed_radios)}.",
+                    "DEBUG"
+                )
+
+                # Create detailed metadata version with floor and ID information
                 detailed_data = copy.deepcopy(parsed_data)
                 detailed_data["floor_site_hierarchy"] = floor_site_hierarchy
                 detailed_data["accesspoint_type"] = ap_type if ap_type else "planned"
@@ -2075,62 +2178,187 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 detailed_data["id"] = ap_position.get("id")
                 parsed_detailed_data.append(detailed_data)
 
-            self.log(
-                f"Added detailed access point data for floor ID: {floor_id}, Parse Data: {self.pprint(detailed_data)}.",
-                "DEBUG",
-            )
+                self.log(
+                    f"Created detailed metadata for AP '{ap_position.get('name')}' on floor '{floor_site_hierarchy}'. "
+                    f"Metadata includes: floor_id='{floor_id}', accesspoint_type='{ap_type if ap_type else 'planned'}', "
+                    f"AP ID='{ap_position.get('id')}'. Full detailed data: {self.pprint(detailed_data)}",
+                    "DEBUG"
+                )
+            else:
+                self.log(
+                    f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has no radio configurations. "
+                    f"Radio parameters missing or empty in API response.",
+                    "DEBUG"
+                )
+
             parsed_positions.append(parsed_data)
+            self.log(
+                f"Completed parsing AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}'. "
+                f"Added to parsed_positions collection. Current parsed count: {len(parsed_positions)}.",
+                "DEBUG"
+            )
 
         self.log(
-            f"Parsed {len(parsed_positions)} access point positions for floor ID: {floor_id}.",
-            "DEBUG",
+            f"AP position parsing completed for floor '{floor_site_hierarchy}' (Floor ID: {floor_id}). "
+            f"Successfully parsed {len(parsed_positions)} access point(s). Parsed positions (simplified): "
+            f"{len(parsed_positions)} item(s), Detailed metadata: {len(parsed_detailed_data)} item(s).",
+            "INFO"
         )
 
-        self.log("Parsed Floor Data: {0}, Parsed detailed Positions: {1}".format(
-            self.pprint(parsed_floor_data), self.pprint(parsed_detailed_data)), "DEBUG"
+        self.log(
+            f"Final parsed data structures - Floor Data: {self.pprint(parsed_floor_data)}, "
+            f"Detailed Positions: {self.pprint(parsed_detailed_data)}. Returning tuple of "
+            f"(parsed_positions, parsed_detailed_data) for downstream processing.",
+            "DEBUG"
         )
 
         return parsed_positions, parsed_detailed_data
 
     def collect_all_accesspoint_location_list(self):
         """
-        Get required details for the given access point location from Cisco Catalyst Center
+        Collects comprehensive access point location inventory from Cisco Catalyst Center.
+
+        This function orchestrates the complete AP location data collection workflow by:
+        1. Retrieving all floor sites from Catalyst Center
+        2. Querying both planned and real AP positions for each floor
+        3. Parsing AP position data into structured configurations
+        4. Organizing data into multiple collections for different use cases
+
+        The function populates self.have with five distinct data structures to support
+        various filtering and YAML generation scenarios in brownfield infrastructure
+        documentation workflows.
+
+        Args:
+            None (uses self.payload for API configuration parameters)
 
         Returns:
-            self - The current object with Filtered or all profile list
+            object: Self instance with updated self.have attributes:
+                - self.have["all_floor"]: Complete floor site list with IDs and hierarchy
+                - self.have["filtered_floor"]: Floors containing at least one AP (planned or real)
+                - self.have["all_config"]: Combined planned + real AP configs by floor
+                - self.have["planned_aps"]: Planned AP configurations organized by floor
+                - self.have["real_aps"]: Real/deployed AP configurations organized by floor
+                - self.have["all_detailed_config"]: Complete AP metadata with IDs for filtering
+
+        Side Effects:
+            - Calls get_all_floors_from_sites() for floor inventory
+            - Calls get_access_point_position() twice per floor (planned + real)
+            - Calls parse_accesspoint_position_for_floor() to transform AP data
+            - Logs INFO/DEBUG/WARNING messages throughout collection process
+            - Populates multiple self.have collections for downstream processing
+
+        Data Structure Organization:
+            all_config: [{floor_site_hierarchy: "...", access_points: [{...}]}]
+                - Combined planned + real APs per floor
+                - Used for generate_all_configurations mode
+                - Simplified structure for YAML generation
+
+            planned_aps: [{floor_site_hierarchy: "...", access_points: [{...}]}]
+                - Only planned APs per floor
+                - Used for planned_accesspoint_list filtering
+                - Supports design/planning workflows
+
+            real_aps: [{floor_site_hierarchy: "...", access_points: [{...}]}]
+                - Only real/deployed APs per floor
+                - Used for real_accesspoint_list filtering
+                - Supports operational inventory workflows
+
+            filtered_floor: [{floor_id: "...", floor_site_hierarchy: "..."}]
+                - Floors with at least one AP configured
+                - Used for site_list validation
+                - Excludes empty floors without APs
+
+            all_detailed_config: [{..., floor_id: "...", id: "...", accesspoint_type: "..."}]
+                - Complete AP metadata with IDs and hierarchy
+                - Used for model_list and mac_address_list filtering
+                - Includes both planned and real APs with full context
+
+        Workflow Steps:
+            1. Call get_all_floors_from_sites() to retrieve floor inventory
+            2. For each floor:
+               a. Query planned AP positions
+               b. Parse planned AP data if found
+               c. Query real AP positions
+               d. Parse real AP data if found
+               e. Combine configs for all_config if any APs present
+               f. Add floor to filtered_floor if APs present
+            3. Populate self.have collections with organized data
+
+        Error Handling:
+            - Returns self immediately if no floors retrieved
+            - Logs WARNING if no AP locations found
+            - Continues processing remaining floors if individual floor fails
+            - Empty collections indicate no APs configured in Catalyst Center
+
+        Performance Notes:
+            - Makes 2 API calls per floor (planned + real positions)
+            - Total API calls = 1 (floors) + (2 * number_of_floors)
+            - Uses pagination automatically via get_all_floors_from_sites()
+            - Processing time scales linearly with floor count
         """
         self.log(
-            "Collecting all access point location details:", "INFO",
+            "Starting comprehensive access point location collection from Cisco Catalyst Center. "
+            "This operation will retrieve all floor sites, query both planned and real AP positions "
+            "for each floor, parse position data into structured configurations, and organize data "
+            "into multiple collections supporting various filtering and YAML generation scenarios.",
+            "INFO"
         )
 
+        # Initialize collection structures
         collect_all_config = []
         collect_planned_config = []
         collect_real_config = []
         filtered_floor = []
         collect_all_detailed_config = []
 
+        self.log(
+            "Initialized five data collection structures: all_config (combined planned+real), "
+            "planned_config (planned only), real_config (real only), filtered_floor (floors with APs), "
+            "all_detailed_config (complete metadata). Calling get_all_floors_from_sites() to retrieve "
+            "floor inventory from Catalyst Center.",
+            "DEBUG"
+        )
+
         floor_response = self.get_all_floors_from_sites()
         if floor_response and isinstance(floor_response, list):
             self.have["all_floor"] = floor_response
             self.log(
-                "Total {0} floor(s) retrieved: {1}.".format(
-                    len(self.have["all_floor"]),
-                    self.pprint(self.have["all_floor"]),
-                ),
-                "DEBUG",
+                f"Successfully retrieved {len(self.have['all_floor'])} floor site(s) from Catalyst Center. "
+                f"Floor site details: {self.pprint(self.have['all_floor'])}. Proceeding to query AP positions "
+                f"for each floor (2 API calls per floor: planned + real).",
+                "DEBUG"
             )
-            for floor in floor_response:
+
+            self.log(
+                f"Starting per-floor AP position collection loop. Total floors to process: "
+                f"{len(floor_response)}. Each floor will be queried for both planned and real AP positions.",
+                "INFO"
+            )
+
+            for floor_index, floor in enumerate(floor_response, start=1):
                 floor_id = floor.get("id")
                 floor_site_hierarchy = floor.get("floor_site_hierarchy")
                 collect_each_floor_config = []
 
+                self.log(
+                    f"Processing floor {floor_index}/{len(floor_response)}: '{floor_site_hierarchy}' "
+                    f"(Floor ID: {floor_id}). Querying planned and real AP positions for this floor.",
+                    "DEBUG"
+                )
+
+                # Query and process planned AP positions
+                self.log(
+                    f"Querying planned AP positions for floor {floor_index}/{len(floor_response)}: "
+                    f"'{floor_site_hierarchy}'. Calling get_access_point_position() with ap_type='planned'.",
+                    "DEBUG"
+                )
                 planned_ap_response = self.get_access_point_position(floor_id, floor_site_hierarchy)
                 if planned_ap_response:
                     self.log(
-                        "Planned Access Point Position Response for floor '{0}': {1}".format(
-                            floor_site_hierarchy, self.pprint(planned_ap_response)
-                        ),
-                        "DEBUG",
+                        f"Received {len(planned_ap_response) if isinstance(planned_ap_response, list) else 'unknown'} "
+                        f"planned AP position(s) for floor '{floor_site_hierarchy}'. Raw API response: "
+                        f"{self.pprint(planned_ap_response)}. Parsing AP data into structured format.",
+                        "DEBUG"
                     )
                     each_planned_config, planned_detailed_config = self.parse_accesspoint_position_for_floor(
                         floor_id, floor_site_hierarchy, planned_ap_response, ap_type="planned"
@@ -2143,14 +2371,38 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "access_points": each_planned_config
                         }
                         collect_planned_config.append(planned_floor_data)
+                        self.log(
+                            f"Successfully parsed and collected {len(each_planned_config)} planned AP(s) for floor "
+                            f"'{floor_site_hierarchy}'. Added to planned_config collection. Total planned floors collected: "
+                            f"{len(collect_planned_config)}.",
+                            "DEBUG"
+                        )
+                    else:
+                        self.log(
+                            f"Planned AP response received but parsing returned empty data for floor '{floor_site_hierarchy}'. "
+                            f"This may indicate data format issues or missing required fields in API response.",
+                            "WARNING"
+                        )
+                else:
+                    self.log(
+                        f"No planned APs found on floor {floor_index}/{len(floor_response)}: '{floor_site_hierarchy}'. "
+                        f"API returned None or empty response.",
+                        "DEBUG"
+                    )
 
+                # Query and process real AP positions
+                self.log(
+                    f"Querying real/deployed AP positions for floor {floor_index}/{len(floor_response)}: "
+                    f"'{floor_site_hierarchy}'. Calling get_access_point_position() with ap_type='real'.",
+                    "DEBUG"
+                )
                 real_ap_response = self.get_access_point_position(floor_id, floor_site_hierarchy, ap_type="real")
                 if real_ap_response:
                     self.log(
-                        "Real Access Point Position Response for floor '{0}': {1}".format(
-                            floor_site_hierarchy, self.pprint(real_ap_response)
-                        ),
-                        "DEBUG",
+                        f"Received {len(real_ap_response) if isinstance(real_ap_response, list) else 'unknown'} "
+                        f"real AP position(s) for floor '{floor_site_hierarchy}'. Raw API response: "
+                        f"{self.pprint(real_ap_response)}. Parsing AP data into structured format.",
+                        "DEBUG"
                     )
                     each_real_config, real_detailed_config = self.parse_accesspoint_position_for_floor(
                         floor_id, floor_site_hierarchy, real_ap_response, ap_type="real"
@@ -2163,26 +2415,106 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "access_points": each_real_config
                         }
                         collect_real_config.append(real_floor_data)
+                        self.log(
+                            f"Successfully parsed and collected {len(each_real_config)} real AP(s) for floor "
+                            f"'{floor_site_hierarchy}'. Added to real_config collection. Total real floors collected: "
+                            f"{len(collect_real_config)}.",
+                            "DEBUG"
+                        )
+                    else:
+                        self.log(
+                            f"Real AP response received but parsing returned empty data for floor '{floor_site_hierarchy}'. "
+                            f"This may indicate data format issues or missing required fields in API response.",
+                            "WARNING"
+                        )
+                else:
+                    self.log(
+                        f"No real APs found on floor {floor_index}/{len(floor_response)}: '{floor_site_hierarchy}'. "
+                        f"API returned None or empty response.",
+                        "DEBUG"
+                    )
 
+                # Create combined config entry if any APs present on this floor
                 if collect_each_floor_config:
                     floor_data = {
                         "floor_site_hierarchy": floor_site_hierarchy,
                         "access_points": collect_each_floor_config
                     }
                     collect_all_config.append(floor_data)
+                    self.log(
+                        f"Floor {floor_index}/{len(floor_response)} '{floor_site_hierarchy}' has {len(collect_each_floor_config)} "
+                        f"total AP(s) (planned + real combined). Added to all_config collection. Total floors with APs: "
+                        f"{len(collect_all_config)}.",
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        f"Floor {floor_index}/{len(floor_response)} '{floor_site_hierarchy}' has no APs configured "
+                        f"(neither planned nor real). Skipping all_config entry for this floor.",
+                        "DEBUG"
+                    )
 
+                # Add floor to filtered list if it has any AP positions
                 if planned_ap_response or real_ap_response:
-                    filtered_floor.append({"floor_id": floor_id,
-                                           "floor_site_hierarchy": floor_site_hierarchy})
+                    filtered_floor.append({
+                        "floor_id": floor_id,
+                        "floor_site_hierarchy": floor_site_hierarchy
+                    })
+                    self.log(
+                        f"Floor {floor_index}/{len(floor_response)} '{floor_site_hierarchy}' added to filtered_floor "
+                        f"collection (has at least one AP configured). Total filtered floors: {len(filtered_floor)}.",
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        f"Floor {floor_index}/{len(floor_response)} '{floor_site_hierarchy}' NOT added to filtered_floor "
+                        f"(no APs configured). This floor will be excluded from site_list validation.",
+                        "DEBUG"
+                    )
 
+            # Populate self.have with all collected data structures
             self.have["all_config"] = collect_all_config
             self.have["planned_aps"] = collect_planned_config
             self.have["real_aps"] = collect_real_config
             self.have["filtered_floor"] = filtered_floor
             self.have["all_detailed_config"] = collect_all_detailed_config
 
+            self.log(
+                f"AP location collection completed successfully. Final statistics - "
+                f"Total floors processed: {len(floor_response)}, "
+                f"Floors with APs: {len(collect_all_config)}, "
+                f"Filtered floors: {len(filtered_floor)}, "
+                f"Planned AP floors: {len(collect_planned_config)}, "
+                f"Real AP floors: {len(collect_real_config)}, "
+                f"Total detailed AP configs: {len(collect_all_detailed_config)}. "
+                f"All data structures populated in self.have for downstream processing.",
+                "INFO"
+            )
+
+            self.log(
+                f"Final collection data structures - "
+                f"all_config: {len(collect_all_config)} floor(s), "
+                f"planned_aps: {len(collect_planned_config)} floor(s), "
+                f"real_aps: {len(collect_real_config)} floor(s), "
+                f"filtered_floor: {len(filtered_floor)} floor(s), "
+                f"all_detailed_config: {len(collect_all_detailed_config)} AP(s) with complete metadata.",
+                "DEBUG"
+            )
+
         else:
-            self.log("No existing access points location found.", "WARNING")
+            self.log(
+                "No floor sites retrieved from Catalyst Center or invalid floor_response received. "
+                f"Response type: {type(floor_response).__name__ if floor_response else 'None'}. Cannot collect "
+                f"AP location data without floor inventory. This indicates either no floors are configured in "
+                f"Catalyst Center or API connectivity issue. Verify floor sites exist in Catalyst Center Site "
+                f"Hierarchy before running AP location playbook generation.",
+                "WARNING"
+            )
+            self.log(
+                "AP location collection completed with no data. All self.have collections remain empty. "
+                "No access points found in Cisco Catalyst Center.",
+                "WARNING"
+            )
 
         return self
 
