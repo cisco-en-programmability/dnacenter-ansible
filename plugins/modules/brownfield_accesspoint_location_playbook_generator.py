@@ -2651,100 +2651,335 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters,
-        processes the data and writes the YAML content to a specified file.
-        It dynamically handles multiple network elements and their respective filters.
+        Generates YAML configuration file for access point locations with applied filters.
 
-        Parameters:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+        This function processes access point location configurations from Cisco Catalyst Center,
+        applies global filtering criteria (site-based, AP-based, model-based, or MAC-based),
+        and exports the structured data to a YAML file compatible with the
+        accesspoint_location_workflow_manager module for automation and documentation.
+
+        Args:
+            yaml_config_generator (dict): Configuration parameters containing:
+                                        - file_path: Output file path (optional, str)
+                                        - generate_all_configurations: Mode flag (optional, bool)
+                                        - global_filters: Filter criteria (optional, dict)
+                                        Example: {
+                                            "file_path": "/tmp/ap_locations.yml",
+                                            "generate_all_configurations": False,
+                                            "global_filters": {
+                                                "site_list": ["Global/USA/Building1/Floor1"],
+                                                "accesspoint_model_list": ["C9130AXI-B"]
+                                            }
+                                        }
 
         Returns:
-            self: The current instance with the operation result and message updated.
+            object: Self instance with updated attributes:
+                - self.msg: Operation result message with file_path
+                - self.status: Operation status ("success" or "failed")
+                - self.result: Complete operation result dictionary
+
+        Side Effects:
+            - Calls process_global_filters() if global_filters provided
+            - Calls write_dict_to_yaml() to create YAML file
+            - Calls generate_filename() if file_path not provided
+            - Sets operation result via set_operation_result()
+            - Logs detailed progress information at INFO/DEBUG/WARNING levels
+
+        Workflow Steps:
+            1. Log operation start with parameters
+            2. Determine operational mode (generate_all vs filtered)
+            3. Resolve output file path (custom or auto-generated)
+            4. If generate_all: Use self.have["all_config"] directly
+            5. If filtered: Call process_global_filters() with criteria
+            6. Validate final_list has data
+            7. Create config dictionary with "config" key
+            8. Write dictionary to YAML file
+            9. Set operation result and return
+
+        Operational Modes:
+            generate_all_configurations=True:
+                - Retrieves complete AP location inventory
+                - Ignores global_filters parameter
+                - Uses self.have["all_config"] collection
+                - Includes all planned and real APs on all floors
+
+            generate_all_configurations=False:
+                - Applies global_filters criteria
+                - Calls process_global_filters() for filtering
+                - Supports 5 filter types (site, planned_ap, real_ap, model, MAC)
+                - Returns filtered subset of AP locations
+
+        File Path Resolution:
+            Custom path: User-provided absolute or relative path
+            Auto-generated: {module_name}_playbook_YYYY-MM-DD_HH-MM-SS.yml
+
+        Error Handling:
+            - Empty final_list: Sets success result with warning message
+            - YAML write failure: Sets failed result with error message
+            - No exceptions raised, errors communicated via result status
+
+        Notes:
+            - global_filters parameter ignored if generate_all=True
+            - Empty configurations result in success (not failure)
+            - File path supports both absolute and relative paths
+            - YAML structure: {"config": [floor_configs]}
+            - Compatible with accesspoint_location_workflow_manager module
         """
 
         self.log(
-            "Starting YAML config generation with parameters: {0}".format(
-                yaml_config_generator
-            ),
-            "DEBUG",
+            f"Starting YAML configuration file generation for access point locations. "
+            f"Input parameters: {yaml_config_generator}. This operation will process AP location "
+            f"configurations from Catalyst Center, apply filtering criteria, and export structured "
+            f"data to YAML file compatible with accesspoint_location_workflow_manager module.",
+            "DEBUG"
         )
 
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
-            self.log("Generate all access point location configurations from Catalyst Center", "INFO")
+            self.log(
+                "Operational mode: GENERATE ALL CONFIGURATIONS enabled (generate_all_configurations=True). "
+                "This mode will retrieve complete AP location inventory from Catalyst Center including "
+                "all planned and real AP positions on all floors, ignoring any provided filters. Use this "
+                "mode for comprehensive brownfield infrastructure discovery and documentation.",
+                "INFO"
+            )
+        else:
+            self.log(
+                "Operational mode: FILTERED CONFIGURATION generation (generate_all_configurations=False). "
+                "This mode will apply global_filters to extract specific AP location subset based on "
+                "site_list, planned_accesspoint_list, real_accesspoint_list, accesspoint_model_list, "
+                "or mac_address_list criteria.",
+                "INFO"
+            )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            self.log(
+                "No custom file_path provided by user in yaml_config_generator parameters. "
+                "Initiating automatic filename generation with timestamp format. Default filename "
+                "pattern: accesspoint_location_workflow_manager_playbook_YYYY-MM-DD_HH-MM-SS.yml",
+                "DEBUG"
+            )
             file_path = self.generate_filename()
+            self.log(
+                f"Auto-generated default filename for YAML output: {file_path}. File will be created "
+                f"in current working directory with timestamped name for uniqueness.",
+                "INFO"
+            )
         else:
-            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
+            self.log(
+                f"Using user-provided custom file_path for YAML output: {file_path}. File will be "
+                f"created at specified path (absolute or relative path supported).",
+                "INFO"
+            )
 
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        self.log(f"YAML configuration file path determined: {file_path}", "DEBUG")
 
-        self.log("Initializing filter dictionaries", "DEBUG")
+        self.log("Initializing filter processing workflow", "DEBUG")
         # Set empty filters to retrieve everything
         global_filters = {}
         final_list = []
         if generate_all:
-            self.log("Preparing to collect all configurations for access point location workflow.",
-                     "DEBUG")
-            final_list = self.have.get("all_config", [])
-            self.log(f"All configurations collected for generate_all_configurations mode: {final_list}", "DEBUG")
+            self.log(
+                "Processing in GENERATE ALL CONFIGURATIONS mode. Preparing to collect complete AP "
+                "location inventory from Catalyst Center without applying any filters. This will "
+                "include all AP configurations discovered during get_have() operation.",
+                "INFO"
+            )
 
-        else:
-            # we get ALL configurations
-            self.log("Overriding any provided filters to retrieve based on global filters", "INFO")
+            # Warn if filters provided in generate_all mode
             if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                         "WARNING")
+                self.log(
+                    "Warning: global_filters parameter provided in yaml_config_generator but will be "
+                    "IGNORED due to generate_all_configurations=True. In generate_all mode, ALL access "
+                    "point locations are processed regardless of filter criteria. Remove global_filters "
+                    "or set generate_all_configurations=False to apply filtering.",
+                    "WARNING"
+                )
+
+            final_list = self.have.get("all_config", [])
+            self.log(
+                f"All configurations collected for generate_all_configurations mode. Total floor sites "
+                f"with AP configurations: {len(final_list)}. Complete configuration data structure: "
+                f"{self.pprint(final_list)}",
+                "DEBUG"
+            )
+        else:
+            # Filtered configuration mode
+            self.log(
+                "Processing in FILTERED CONFIGURATION mode. Extracting global_filters parameter to "
+                "determine filter criteria. Supported filter types: site_list, planned_accesspoint_list, "
+                "real_accesspoint_list, accesspoint_model_list, mac_address_list.",
+                "INFO"
+            )
 
             # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
             if global_filters:
+                self.log(
+                    f"Global filters provided for AP location filtering. Filter structure: "
+                    f"{global_filters}. Calling process_global_filters() to apply filter criteria "
+                    f"and extract matching AP configurations.",
+                    "INFO"
+                )
                 final_list = self.process_global_filters(global_filters)
+                if final_list:
+                    self.log(
+                        f"Filtered configurations collected successfully. Total floor sites matching "
+                        f"filter criteria: {len(final_list)}. Filtered data ready for YAML generation.",
+                        "INFO"
+                    )
+                else:
+                    self.log(
+                        "Filter processing returned empty result. No access point locations match the "
+                        "provided filter criteria. This may indicate filter values don't exist in "
+                        "Catalyst Center or filters are too restrictive.",
+                        "WARNING"
+                    )
+            else:
+                self.log(
+                    "No global_filters provided in filtered mode. Cannot determine which AP locations "
+                    "to collect. Either provide global_filters or enable generate_all_configurations.",
+                    "WARNING"
+                )
 
         if not final_list:
-            self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
-                self.module_name
+            self.msg = (
+                f"No configurations or components to process for module '{self.module_name}'. This indicates "
+                f"either no access point locations exist in Catalyst Center, filter criteria returned no "
+                f"matches, or data collection failed. Verify input filters match existing AP configurations "
+                f"and AP locations are properly configured in Catalyst Center."
             )
+            self.log(self.msg, "WARNING")
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         final_dict = {"config": final_list}
-        self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
+        self.log(
+            f"Final YAML dictionary structure created successfully. Dictionary contains {len(final_list)} "
+            f"floor site configuration(s) under 'config' key. Total structure: {self.pprint(final_dict)}. "
+            f"Proceeding to write dictionary to YAML file: {file_path}",
+            "DEBUG"
+        )
+
+        self.log(
+            f"Initiating YAML file write operation. Target file: {file_path}. Converting Python "
+            f"dictionary to YAML format with proper indentation and structure for Ansible playbook "
+            f"compatibility.",
+            "DEBUG"
+        )
 
         if self.write_dict_to_yaml(final_dict, file_path):
             self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                f"YAML config generation Task succeeded for module '{self.module_name}'.": {
+                    "file_path": file_path
+                }
             }
+            self.log(
+                f"YAML configuration file created successfully at: {file_path}. File contains "
+                f"{len(final_list)} floor site(s) with access point location configurations. "
+                f"File is ready for use with accesspoint_location_workflow_manager Ansible module.",
+                "INFO"
+            )
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                f"YAML config generation Task failed for module '{self.module_name}'.": {
+                    "file_path": file_path
+                }
             }
+            self.log(
+                f"YAML configuration file write operation FAILED for file: {file_path}. File may not "
+                f"have been created or may be incomplete. Check file permissions, disk space, and path "
+                f"validity. Review write_dict_to_yaml() error messages for specific failure details.",
+                "ERROR"
+            )
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
         return self
 
     def process_global_filters(self, global_filters):
         """
-        Process global filters for access point location workflow.
+        Processes global filter criteria to extract matching AP location configurations.
 
-        Parameters:
-            global_filters (dict): A dictionary containing global filter parameters.
+        This function applies hierarchical filtering logic to self.have collections based on
+        provided filter criteria, supporting five filter types: site-based, planned AP-based,
+        real AP-based, model-based, and MAC address-based filtering. It extracts matching
+        configurations and organizes them by floor for YAML generation.
+
+        Args:
+            global_filters (dict): Dictionary containing filter criteria with keys:
+                                  - site_list: Floor site hierarchy paths (list[str])
+                                  - planned_accesspoint_list: Planned AP names (list[str])
+                                  - real_accesspoint_list: Real/deployed AP names (list[str])
+                                  - accesspoint_model_list: AP hardware models (list[str])
+                                  - mac_address_list: AP MAC addresses (list[str])
+                                  Example: {
+                                      "site_list": ["Global/USA/Building1/Floor1"],
+                                      "accesspoint_model_list": ["C9130AXI-B"]
+                                  }
 
         Returns:
-            dict: A dictionary containing processed global filter parameters.
+            list or None: List of floor configuration dictionaries with structure:
+                         [{"floor_site_hierarchy": "...", "access_points": [{...}]}]
+                         Returns None if no matching configurations found.
+
+        Side Effects:
+            - Calls find_multiple_dict_by_key_value() for searching collections
+            - Logs DEBUG/INFO/WARNING messages throughout filtering process
+            - Removes metadata keys from detailed configs before return
+            - Does not modify self.have collections
+
+        Filter Processing Order (first match wins):
+            1. site_list: Filters by floor site hierarchy
+            2. planned_accesspoint_list: Filters by planned AP names
+            3. real_accesspoint_list: Filters by real/deployed AP names
+            4. accesspoint_model_list: Filters by AP hardware models
+            5. mac_address_list: Filters by AP MAC addresses
+
+        Filter Behavior:
+            "all" keyword (case-insensitive):
+                - Returns complete collection for that filter type
+                - Bypasses individual item matching
+                - Example: ["all"] returns all planned/real/model APs
+
+            Specific values:
+                - Searches self.have collections for matches
+                - Extracts matching items and organizes by floor
+                - Removes metadata keys before return
+                - Returns None if no matches found
+
+        Metadata Removal:
+            Keys removed from detailed configs:
+            - accesspoint_type: Internal type classification
+            - floor_id: Internal floor UUID
+            - id: Internal AP UUID
+            - floor_site_hierarchy: Duplicated at floor level
+
+        Data Sources:
+            - self.have["all_config"]: Combined planned + real APs by floor
+            - self.have["planned_aps"]: Planned APs only by floor
+            - self.have["real_aps"]: Real APs only by floor
+            - self.have["all_detailed_config"]: Complete AP metadata with IDs
+            - self.have["filtered_floor"]: Floors with at least one AP
+
+        Notes:
+            - Only first matching filter type is processed
+            - Filter priority: site > planned_ap > real_ap > model > MAC
+            - Empty results return None (not empty list)
+            - "all" keyword bypasses individual item validation
+            - Metadata keys removed to prevent YAML pollution
         """
-        self.log(f"Processing global filters: {global_filters}", "DEBUG")
+        self.log(
+            f"Starting global filter processing for AP location configurations. Filter structure: "
+            f"{global_filters}. This operation will apply hierarchical filtering logic to extract "
+            f"matching configurations from self.have collections based on provided filter criteria. "
+            f"Supported filter types: site_list, planned_accesspoint_list, real_accesspoint_list, "
+            f"accesspoint_model_list, mac_address_list.",
+            "DEBUG"
+        )
 
         site_list = global_filters.get("site_list")
         planned_accesspoint_list = global_filters.get("planned_accesspoint_list")
@@ -2754,59 +2989,195 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         final_list = []
         keys_to_remove = ["accesspoint_type", "floor_id", "id", "floor_site_hierarchy"]
 
+        self.log(
+            f"Extracted individual filter components from global_filters. site_list: "
+            f"{site_list} (count: {len(site_list) if isinstance(site_list, list) else 0}), "
+            f"planned_accesspoint_list: {planned_accesspoint_list} "
+            f"(count: {len(planned_accesspoint_list) if isinstance(planned_accesspoint_list, list) else 0}), "
+            f"real_accesspoint_list: {real_accesspoint_list} "
+            f"(count: {len(real_accesspoint_list) if isinstance(real_accesspoint_list, list) else 0}), "
+            f"accesspoint_model_list: {accesspoint_model_list} "
+            f"(count: {len(accesspoint_model_list) if isinstance(accesspoint_model_list, list) else 0}), "
+            f"mac_address_list: {mac_address_list} "
+            f"(count: {len(mac_address_list) if isinstance(mac_address_list, list) else 0})",
+            "DEBUG"
+        )
+
+        self.log(
+            f"Metadata keys to remove from detailed configs before return: {keys_to_remove}. "
+            f"These keys are internal metadata not needed in YAML output.",
+            "DEBUG"
+        )
+
+        # Process site_list filter (HIGHEST PRIORITY)
         if site_list and isinstance(site_list, list):
-            self.log(f"Filtering access point location based on site_list: {site_list}",
-                     "DEBUG")
+            self.log(
+                f"Site list filter detected (HIGHEST PRIORITY). Requested floor site hierarchies: "
+                f"{site_list} (count: {len(site_list)}). This filter will extract AP configurations "
+                f"for specified floor sites. Other filters will be IGNORED due to priority hierarchy.",
+                "INFO"
+            )
+
             if len(site_list) == 1 and site_list[0].lower() == "all":
+                self.log(
+                    "Site list contains 'all' keyword. Returning complete planned AP configuration "
+                    "collection without individual site validation. This bypasses per-site matching.",
+                    "INFO"
+                )
                 if not self.have.get("planned_aps"):
-                    self.log("No planned access points found in the catalyst center.", "WARNING")
+                    self.log(
+                        "No planned access points found in Catalyst Center. self.have['planned_aps'] "
+                        "is empty or None. Cannot return planned AP configurations.",
+                        "WARNING"
+                    )
 
                 final_list = self.have.get("planned_aps", [])
+                self.log(
+                    f"Returned {len(final_list)} floor site(s) with planned AP configurations for "
+                    f"'all' keyword in site_list.",
+                    "DEBUG"
+                )
             else:
+                self.log(
+                    f"Processing {len(site_list)} specific floor site(s) from site_list. Searching "
+                    f"for matching floor sites in all_config collection.",
+                    "DEBUG"
+                )
                 prepare_planned_list = []
-                for floor in site_list:
+                for site_index, floor in enumerate(site_list, start=1):
+                    self.log(
+                        f"Searching for site {site_index}/{len(site_list)}: '{floor}' in all_config "
+                        f"collection. Calling find_multiple_dict_by_key_value() to find matching floor.",
+                        "DEBUG"
+                    )
                     ap_site_exist = self.find_multiple_dict_by_key_value(
-                        self.have.get("all_config", []), "floor_site_hierarchy", floor)
+                        self.have.get("all_config", []), "floor_site_hierarchy", floor
+                    )
 
                     if ap_site_exist:
                         prepare_planned_list.append(ap_site_exist[0])
-                final_list = prepare_planned_list
-            self.log(f"Access points location collected for site list {site_list}: {final_list}", "DEBUG")
+                        self.log(
+                            f"Site {site_index}/{len(site_list)}: '{floor}' found in all_config. "
+                            f"Added floor configuration to collection. Current collected: "
+                            f"{len(prepare_planned_list)}/{len(site_list)}.",
+                            "DEBUG"
+                        )
+                    else:
+                        self.log(
+                            f"Site {site_index}/{len(site_list)}: '{floor}' NOT found in all_config. "
+                            f"This floor either has no APs or doesn't exist. Skipping.",
+                            "WARNING"
+                        )
 
+                final_list = prepare_planned_list
+                self.log(
+                    f"Site list processing completed. Collected {len(final_list)} floor site(s) out "
+                    f"of {len(site_list)} requested.",
+                    "INFO"
+                )
+
+            self.log(
+                f"Access point locations collected for site list {site_list}. Total floor "
+                f"configurations: {len(final_list)}. Final data: {self.pprint(final_list)}",
+                "DEBUG"
+            )
+
+        # Process planned_accesspoint_list filter (MEDIUM PRIORITY)
         elif planned_accesspoint_list and isinstance(planned_accesspoint_list, list):
-            self.log(f"Filtering access point location based on planned accesspoint list: {planned_accesspoint_list}",
-                     "DEBUG")
+            self.log(
+                f"Planned access point list filter detected (MEDIUM PRIORITY, site_list not provided). "
+                f"Requested planned AP names: {planned_accesspoint_list} (count: {len(planned_accesspoint_list)}). "
+                f"This filter will extract configurations for specified planned APs.",
+                "INFO"
+            )
 
             if len(planned_accesspoint_list) == 1 and planned_accesspoint_list[0].lower() == "all":
+                self.log(
+                    "Planned AP list contains 'all' keyword. Returning complete planned AP configuration "
+                    "collection without individual AP validation.",
+                    "INFO"
+                )
                 if not self.have.get("planned_aps"):
-                    self.log("No planned access points found in the catalyst center.", "WARNING")
+                    self.log(
+                        "No planned access points found in Catalyst Center. self.have['planned_aps'] "
+                        "is empty or None.",
+                        "WARNING"
+                    )
                 final_list = self.have.get("planned_aps", [])
+                self.log(
+                    f"Returned {len(final_list)} floor site(s) with planned AP configurations for "
+                    f"'all' keyword.",
+                    "DEBUG"
+                )
             else:
+                self.log(
+                    f"Processing {len(planned_accesspoint_list)} specific planned AP(s). Searching "
+                    f"all_detailed_config for matching planned APs.",
+                    "DEBUG"
+                )
                 collected_aps = []
-                for planned_ap in planned_accesspoint_list:
-                    self.log(f"Check planned access point exist for : {planned_ap}", "INFO")
+                for ap_index, planned_ap in enumerate(planned_accesspoint_list, start=1):
+                    self.log(
+                        f"Searching for planned AP {ap_index}/{len(planned_accesspoint_list)}: '{planned_ap}' "
+                        f"in all_detailed_config. Filtering by accesspoint_name and accesspoint_type='planned'.",
+                        "DEBUG"
+                    )
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        self.have["all_detailed_config"], "accesspoint_name", planned_ap)
+                        self.have["all_detailed_config"], "accesspoint_name", planned_ap
+                    )
 
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        ap_exist, "accesspoint_type", "planned")
+                        ap_exist, "accesspoint_type", "planned"
+                    )
 
                     if ap_exist:
                         collected_aps.extend(ap_exist)
-                        self.log(f"Given planned access point exist : {ap_exist}", "INFO")
+                        self.log(
+                            f"Planned AP {ap_index}/{len(planned_accesspoint_list)}: '{planned_ap}' "
+                            f"found with {len(ap_exist)} instance(s). Added to collection. "
+                            f"Total collected: {len(collected_aps)} AP(s).",
+                            "INFO"
+                        )
+                    else:
+                        self.log(
+                            f"Planned AP {ap_index}/{len(planned_accesspoint_list)}: '{planned_ap}' "
+                            f"NOT found in all_detailed_config or not type='planned'. Skipping.",
+                            "WARNING"
+                        )
 
                 if not collected_aps:
-                    self.log("No planned access points found matching the provided list.", "WARNING")
+                    self.log(
+                        f"No planned access points found matching the provided list: "
+                        f"{planned_accesspoint_list}. None of the requested APs exist as planned type.",
+                        "WARNING"
+                    )
                     return None
+
+                self.log(
+                    f"Successfully collected {len(collected_aps)} planned AP instance(s) matching "
+                    f"filter criteria. Organizing by floor site hierarchy.",
+                    "INFO"
+                )
 
                 if self.have.get("filtered_floor"):
                     floors = {floor.get("floor_site_hierarchy") for floor in self.have.get("filtered_floor", [])}
+                    self.log(
+                        f"Organizing {len(collected_aps)} collected AP(s) into {len(floors)} floor "
+                        f"site(s). Grouping APs by floor_site_hierarchy.",
+                        "DEBUG"
+                    )
                     prepare_planned_list = []
-                    for floor in floors:
+                    for floor_index, floor in enumerate(floors, start=1):
                         ap_site_exist = self.find_multiple_dict_by_key_value(
-                            collected_aps, "floor_site_hierarchy", floor)
+                            collected_aps, "floor_site_hierarchy", floor
+                        )
 
                         if ap_site_exist:
+                            self.log(
+                                f"Floor {floor_index}/{len(floors)}: '{floor}' has {len(ap_site_exist)} "
+                                f"matching planned AP(s). Removing metadata keys: {keys_to_remove}",
+                                "DEBUG"
+                            )
                             for each_ap_site in ap_site_exist:
                                 for key in keys_to_remove:
                                     del each_ap_site[key]
@@ -2816,45 +3187,120 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 "access_points": ap_site_exist
                             }
                             prepare_planned_list.append(floor_data)
-                    final_list = prepare_planned_list
-            self.log(f"Access points location collected for planned access point list {planned_accesspoint_list}: {final_list}",
-                     "DEBUG")
+                            self.log(
+                                f"Added floor configuration for '{floor}' with {len(ap_site_exist)} AP(s).",
+                                "DEBUG"
+                            )
 
+                    final_list = prepare_planned_list
+                    self.log(
+                        f"Floor organization completed. Total floor configurations created: {len(final_list)}",
+                        "INFO"
+                    )
+
+            self.log(
+                f"Access point locations collected for planned access point list "
+                f"{planned_accesspoint_list}. Total floor configurations: {len(final_list)}",
+                "DEBUG"
+            )
+
+        # Process real_accesspoint_list filter (MEDIUM-LOW PRIORITY)
         elif real_accesspoint_list and isinstance(real_accesspoint_list, list):
-            self.log(f"Filtering access point location based on real accesspoint list: {real_accesspoint_list}",
-                     "DEBUG")
+            self.log(
+                f"Real access point list filter detected (MEDIUM-LOW PRIORITY). Requested real AP names: "
+                f"{real_accesspoint_list} (count: {len(real_accesspoint_list)}). This filter will extract "
+                f"configurations for specified real/deployed APs.",
+                "INFO"
+            )
 
             if len(real_accesspoint_list) == 1 and real_accesspoint_list[0].lower() == "all":
+                self.log(
+                    "Real AP list contains 'all' keyword. Returning complete real AP configuration "
+                    "collection without individual AP validation.",
+                    "INFO"
+                )
                 if not self.have.get("real_aps"):
-                    self.log("No real access points found in the catalyst center.", "WARNING")
+                    self.log(
+                        "No real access points found in Catalyst Center. self.have['real_aps'] "
+                        "is empty or None.",
+                        "WARNING"
+                    )
 
                 final_list = self.have.get("real_aps", [])
+                self.log(
+                    f"Returned {len(final_list)} floor site(s) with real AP configurations for "
+                    f"'all' keyword.",
+                    "DEBUG"
+                )
             else:
+                self.log(
+                    f"Processing {len(real_accesspoint_list)} specific real AP(s). Searching "
+                    f"all_detailed_config for matching real APs.",
+                    "DEBUG"
+                )
                 collected_aps = []
-                for real_ap in real_accesspoint_list:
-                    self.log(f"Check real access point exist for : {real_ap}", "INFO")
+                for ap_index, real_ap in enumerate(real_accesspoint_list, start=1):
+                    self.log(
+                        f"Searching for real AP {ap_index}/{len(real_accesspoint_list)}: '{real_ap}' "
+                        f"in all_detailed_config. Filtering by accesspoint_name and accesspoint_type='real'.",
+                        "DEBUG"
+                    )
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        self.have["all_detailed_config"], "accesspoint_name", real_ap)
+                        self.have["all_detailed_config"], "accesspoint_name", real_ap
+                    )
 
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        ap_exist, "accesspoint_type", "real")
+                        ap_exist, "accesspoint_type", "real"
+                    )
 
                     if ap_exist:
                         collected_aps.extend(ap_exist)
-                        self.log(f"Given real access point exist : {ap_exist}", "INFO")
+                        self.log(
+                            f"Real AP {ap_index}/{len(real_accesspoint_list)}: '{real_ap}' found with "
+                            f"{len(ap_exist)} instance(s). Added to collection. Total collected: "
+                            f"{len(collected_aps)} AP(s).",
+                            "INFO"
+                        )
+                    else:
+                        self.log(
+                            f"Real AP {ap_index}/{len(real_accesspoint_list)}: '{real_ap}' NOT found "
+                            f"in all_detailed_config or not type='real'. Skipping.",
+                            "WARNING"
+                        )
 
                 if not collected_aps:
-                    self.log("No real access points found matching the provided list.", "WARNING")
+                    self.log(
+                        f"No real access points found matching the provided list: {real_accesspoint_list}. "
+                        f"None of the requested APs exist as real/deployed type.",
+                        "WARNING"
+                    )
                     return None
+
+                self.log(
+                    f"Successfully collected {len(collected_aps)} real AP instance(s) matching filter "
+                    f"criteria. Organizing by floor site hierarchy.",
+                    "INFO"
+                )
 
                 if self.have.get("filtered_floor"):
                     floors = {floor.get("floor_site_hierarchy") for floor in self.have.get("filtered_floor", [])}
+                    self.log(
+                        f"Organizing {len(collected_aps)} collected AP(s) into {len(floors)} floor "
+                        f"site(s). Grouping APs by floor_site_hierarchy.",
+                        "DEBUG"
+                    )
                     prepare_real_list = []
-                    for floor in floors:
+                    for floor_index, floor in enumerate(floors, start=1):
                         ap_site_exist = self.find_multiple_dict_by_key_value(
-                            collected_aps, "floor_site_hierarchy", floor)
+                            collected_aps, "floor_site_hierarchy", floor
+                        )
 
                         if ap_site_exist:
+                            self.log(
+                                f"Floor {floor_index}/{len(floors)}: '{floor}' has {len(ap_site_exist)} "
+                                f"matching real AP(s). Removing metadata keys: {keys_to_remove}",
+                                "DEBUG"
+                            )
                             for each_ap_site in ap_site_exist:
                                 for key in keys_to_remove:
                                     del each_ap_site[key]
@@ -2864,38 +3310,115 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 "access_points": ap_site_exist
                             }
                             prepare_real_list.append(floor_data)
-                    final_list = prepare_real_list
-            self.log(f"Access points location collected for real access point list {real_accesspoint_list}: {final_list}",
-                     "DEBUG")
+                            self.log(
+                                f"Added floor configuration for '{floor}' with {len(ap_site_exist)} AP(s).",
+                                "DEBUG"
+                            )
 
+                    final_list = prepare_real_list
+                    self.log(
+                        f"Floor organization completed. Total floor configurations created: {len(final_list)}",
+                        "INFO"
+                    )
+
+            self.log(
+                f"Access point locations collected for real access point list {real_accesspoint_list}. "
+                f"Total floor configurations: {len(final_list)}",
+                "DEBUG"
+            )
+
+        # Process accesspoint_model_list filter (LOW PRIORITY)
         elif accesspoint_model_list and isinstance(accesspoint_model_list, list):
-            self.log(f"Filtering access point location based on access point model list: {accesspoint_model_list}",
-                     "DEBUG")
+            self.log(
+                f"Access point model list filter detected (LOW PRIORITY). Requested AP models: "
+                f"{accesspoint_model_list} (count: {len(accesspoint_model_list)}). This filter will extract "
+                f"configurations for specified AP hardware models.",
+                "INFO"
+            )
+
             if len(accesspoint_model_list) == 1 and accesspoint_model_list[0].lower() == "all":
+                self.log(
+                    "AP model list contains 'all' keyword. Returning complete AP configuration collection "
+                    "(planned + real) without individual model validation.",
+                    "INFO"
+                )
                 if not self.have.get("all_config"):
-                    self.log("No access points location found in the catalyst center.", "WARNING")
+                    self.log(
+                        "No access point locations found in Catalyst Center. self.have['all_config'] "
+                        "is empty or None.",
+                        "WARNING"
+                    )
 
                 final_list = self.have.get("all_config", [])
+                self.log(
+                    f"Returned {len(final_list)} floor site(s) with AP configurations for 'all' keyword.",
+                    "DEBUG"
+                )
             else:
+                self.log(
+                    f"Processing {len(accesspoint_model_list)} specific AP model(s). Searching "
+                    f"all_detailed_config for matching models.",
+                    "DEBUG"
+                )
                 collected_aps = []
-                for each_model in accesspoint_model_list:
-                    self.log(f"Check access point model exist for : {each_model}", "INFO")
+                for model_index, each_model in enumerate(accesspoint_model_list, start=1):
+                    self.log(
+                        f"Searching for AP model {model_index}/{len(accesspoint_model_list)}: "
+                        f"'{each_model}' in all_detailed_config. Filtering by accesspoint_model.",
+                        "DEBUG"
+                    )
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        self.have["all_detailed_config"], "accesspoint_model", each_model)
+                        self.have["all_detailed_config"], "accesspoint_model", each_model
+                    )
+
                     if ap_exist:
                         collected_aps.extend(ap_exist)
-                        self.log(f"Given access point model exist : {ap_exist}", "INFO")
+                        self.log(
+                            f"AP model {model_index}/{len(accesspoint_model_list)}: '{each_model}' found "
+                            f"with {len(ap_exist)} AP instance(s). Added to collection. Total collected: "
+                            f"{len(collected_aps)} AP(s).",
+                            "INFO"
+                        )
+                    else:
+                        self.log(
+                            f"AP model {model_index}/{len(accesspoint_model_list)}: '{each_model}' NOT "
+                            f"found in all_detailed_config. No APs with this model. Skipping.",
+                            "WARNING"
+                        )
+
                 if not collected_aps:
-                    self.log("No access points found matching the provided model list.", "WARNING")
+                    self.log(
+                        f"No access points found matching the provided model list: {accesspoint_model_list}. "
+                        f"None of the requested models have deployed APs.",
+                        "WARNING"
+                    )
                     return None
+
+                self.log(
+                    f"Successfully collected {len(collected_aps)} AP instance(s) matching model filter "
+                    f"criteria. Organizing by floor site hierarchy.",
+                    "INFO"
+                )
+
                 if self.have.get("filtered_floor"):
                     floors = {floor.get("floor_site_hierarchy") for floor in self.have.get("filtered_floor", [])}
+                    self.log(
+                        f"Organizing {len(collected_aps)} collected AP(s) into {len(floors)} floor "
+                        f"site(s). Grouping APs by floor_site_hierarchy.",
+                        "DEBUG"
+                    )
                     prepare_model_list = []
-                    for floor in floors:
+                    for floor_index, floor in enumerate(floors, start=1):
                         ap_site_exist = self.find_multiple_dict_by_key_value(
-                            collected_aps, "floor_site_hierarchy", floor)
+                            collected_aps, "floor_site_hierarchy", floor
+                        )
 
                         if ap_site_exist:
+                            self.log(
+                                f"Floor {floor_index}/{len(floors)}: '{floor}' has {len(ap_site_exist)} "
+                                f"AP(s) matching model filter. Removing metadata keys: {keys_to_remove}",
+                                "DEBUG"
+                            )
                             for each_ap_site in ap_site_exist:
                                 for key in keys_to_remove:
                                     del each_ap_site[key]
@@ -2905,38 +3428,98 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 "access_points": ap_site_exist
                             }
                             prepare_model_list.append(floor_data)
+                            self.log(
+                                f"Added floor configuration for '{floor}' with {len(ap_site_exist)} AP(s).",
+                                "DEBUG"
+                            )
+
                     final_list = prepare_model_list
+                    self.log(
+                        f"Floor organization completed. Total floor configurations created: {len(final_list)}",
+                        "INFO"
+                    )
 
-            self.log(f"Access point location config collected for model list {accesspoint_model_list}: {final_list}",
-                     "DEBUG")
+            self.log(
+                f"Access point location config collected for model list {accesspoint_model_list}. "
+                f"Total floor configurations: {len(final_list)}",
+                "DEBUG"
+            )
 
+        # Process mac_address_list filter (LOWEST PRIORITY)
         elif mac_address_list and isinstance(mac_address_list, list):
-            self.log(f"Filtering access point location based on MAC address list: {mac_address_list}",
-                     "DEBUG")
-            collected_aps = []
+            self.log(
+                f"MAC address list filter detected (LOWEST PRIORITY). Requested MAC addresses: "
+                f"{mac_address_list} (count: {len(mac_address_list)}). This filter will extract "
+                f"configurations for specified AP MAC addresses.",
+                "INFO"
+            )
 
-            for each_mac in mac_address_list:
+            collected_aps = []
+            self.log(
+                f"Processing {len(mac_address_list)} MAC address(es). Searching all_detailed_config "
+                f"for matching MAC addresses (normalized to lowercase).",
+                "DEBUG"
+            )
+
+            for mac_index, each_mac in enumerate(mac_address_list, start=1):
                 normalized_mac = each_mac.lower()
-                self.log(f"Check access point exist for MAC address : {normalized_mac}", "INFO")
+                self.log(
+                    f"Searching for MAC address {mac_index}/{len(mac_address_list)}: '{normalized_mac}' "
+                    f"(normalized) in all_detailed_config. Filtering by mac_address field.",
+                    "DEBUG"
+                )
                 ap_exist = self.find_multiple_dict_by_key_value(
-                    self.have["all_detailed_config"], "mac_address", normalized_mac)
+                    self.have["all_detailed_config"], "mac_address", normalized_mac
+                )
 
                 if ap_exist:
                     collected_aps.extend(ap_exist)
-                    self.log(f"Given access point exist for MAC address : {ap_exist}", "INFO")
+                    self.log(
+                        f"MAC address {mac_index}/{len(mac_address_list)}: '{normalized_mac}' found with "
+                        f"{len(ap_exist)} AP instance(s). Added to collection. Total collected: "
+                        f"{len(collected_aps)} AP(s).",
+                        "INFO"
+                    )
+                else:
+                    self.log(
+                        f"MAC address {mac_index}/{len(mac_address_list)}: '{normalized_mac}' NOT found "
+                        f"in all_detailed_config. No AP with this MAC. Skipping.",
+                        "WARNING"
+                    )
 
             if not collected_aps:
-                self.log("No access points found matching the provided MAC address list.", "WARNING")
+                self.log(
+                    f"No access points found matching the provided MAC address list: {mac_address_list}. "
+                    f"None of the requested MAC addresses have deployed APs.",
+                    "WARNING"
+                )
                 return None
+
+            self.log(
+                f"Successfully collected {len(collected_aps)} AP instance(s) matching MAC address filter "
+                f"criteria. Organizing by floor site hierarchy.",
+                "INFO"
+            )
 
             if self.have.get("filtered_floor"):
                 floors = {floor.get("floor_site_hierarchy") for floor in self.have.get("filtered_floor", [])}
+                self.log(
+                    f"Organizing {len(collected_aps)} collected AP(s) into {len(floors)} floor site(s). "
+                    f"Grouping APs by floor_site_hierarchy.",
+                    "DEBUG"
+                )
                 prepare_mac_list = []
-                for floor in floors:
+                for floor_index, floor in enumerate(floors, start=1):
                     ap_site_exist = self.find_multiple_dict_by_key_value(
-                        collected_aps, "floor_site_hierarchy", floor)
+                        collected_aps, "floor_site_hierarchy", floor
+                    )
 
                     if ap_site_exist:
+                        self.log(
+                            f"Floor {floor_index}/{len(floors)}: '{floor}' has {len(ap_site_exist)} "
+                            f"AP(s) matching MAC filter. Removing metadata keys: {keys_to_remove}",
+                            "DEBUG"
+                        )
                         for each_ap_site in ap_site_exist:
                             for key in keys_to_remove:
                                 del each_ap_site[key]
@@ -2946,17 +3529,48 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "access_points": ap_site_exist
                         }
                         prepare_mac_list.append(floor_data)
-                final_list = prepare_mac_list
+                        self.log(
+                            f"Added floor configuration for '{floor}' with {len(ap_site_exist)} AP(s).",
+                            "DEBUG"
+                        )
 
-            self.log(f"Access point location config collected for MAC address list {mac_address_list}: {final_list}",
-                     "DEBUG")
+                final_list = prepare_mac_list
+                self.log(
+                    f"Floor organization completed. Total floor configurations created: {len(final_list)}",
+                    "INFO"
+                )
+
+            self.log(
+                f"Access point location config collected for MAC address list {mac_address_list}. "
+                f"Total floor configurations: {len(final_list)}",
+                "DEBUG"
+            )
 
         else:
-            self.log("No specific global filters provided, processing all profiles", "DEBUG")
+            self.log(
+                "No specific global filters provided or all filters are empty/invalid. Cannot determine "
+                "which AP locations to collect. Supported filters: site_list, planned_accesspoint_list, "
+                "real_accesspoint_list, accesspoint_model_list, mac_address_list. Provide at least one "
+                "valid filter with values.",
+                "WARNING"
+            )
 
         if not final_list:
-            self.log("No access points position found in the catalyst center.", "WARNING")
+            self.log(
+                "No access point positions found in Catalyst Center matching the provided filter criteria. "
+                "This indicates either filter values don't exist or filters are too restrictive. Verify "
+                "filter values match existing AP configurations in Catalyst Center.",
+                "WARNING"
+            )
             return None
+
+        self.log(
+            f"Global filter processing completed successfully. Final result contains {len(final_list)} "
+            f"floor site configuration(s) with filtered AP data. Total APs across all floors: "
+            f"{sum(len(floor.get('access_points', [])) for floor in final_list)}. Returning filtered "
+            f"configuration list for YAML generation.",
+            "INFO"
+        )
 
         return final_list
 
