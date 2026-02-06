@@ -1091,51 +1091,182 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def find_multiple_dict_by_key_value(self, data_list, key, value):
         """
-        Find a dictionary in a list by a matching key-value pair.
+        Searches for and returns all dictionaries matching a specific key-value pair.
 
-        Parameters:
-            data_list (list): List of dictionaries to search.
-            key (str): The key to match in each dictionary.
-            value (any): The value to match against the given key.
+        This function performs a comprehensive search through a list of dictionaries to find
+        all items where the specified key matches the given value. It includes input validation,
+        detailed logging, and handles edge cases gracefully.
+
+        Args:
+            data_list (list): List of dictionaries to search through. Each item must be a dict.
+                             Empty lists are valid and will return None.
+                             Example: [
+                                 {"name": "AP1", "model": "C9130"},
+                                 {"name": "AP2", "model": "C9130"},
+                                 {"name": "AP3", "model": "C9120"}
+                             ]
+            key (str): Dictionary key to search for in each item. Key must exist in at least
+                      one dictionary to produce matches. Case-sensitive string matching.
+                      Example: "model"
+            value (any): Value to match against the specified key. Comparison uses equality
+                        operator (==) so exact match is required. Type should match the
+                        expected type of the key's value.
+                        Example: "C9130"
 
         Returns:
-            list or None: The list of dictionaries that match the key-value pair, or None if not found.
+            list or None:
+                - Returns list of all matching dictionaries if matches found
+                - Returns None if no matches found or validation fails
+                - Returns None if data_list is empty
+                - Each returned dict maintains its original structure
 
-        Description:
-            Iterates through the list of dictionaries and returns the first dictionary
-            where the specified key has the specified value. If no match is found, returns None.
+        Side Effects:
+            - Logs DEBUG messages for search initiation, progress, and results
+            - Logs ERROR messages for validation failures
+            - Does not modify input data_list or matched items
+
+        Example:
+            >>> data = [
+            ...     {"ap_name": "Floor1-AP1", "model": "C9130AXI"},
+            ...     {"ap_name": "Floor1-AP2", "model": "C9130AXI"},
+            ...     {"ap_name": "Floor2-AP1", "model": "C9120AXI"}
+            ... ]
+            >>> result = self.find_multiple_dict_by_key_value(data, "model", "C9130AXI")
+            >>> # Returns: [{"ap_name": "Floor1-AP1", ...}, {"ap_name": "Floor1-AP2", ...}]
+
+        Validation:
+            - data_list must be a list (not None, dict, str, etc.)
+            - All items in data_list must be dictionaries
+            - key parameter should be a valid dictionary key
+            - No type restrictions on value parameter
         """
+        self.log(
+            f"Starting dictionary search operation. Searching for key '{key}' with value '{value}' "
+            f"in a list containing {len(data_list) if isinstance(data_list, list) else 0} item(s). "
+            "This search will return all matching dictionaries "
+            "or None if no matches are found.",
+            "DEBUG"
+        )
+
+        # Validate data_list is a list
         if not isinstance(data_list, list):
-            self.log("The 'data_list' parameter must be a list.", "ERROR")
+            self.msg = (
+                f"The 'data_list' parameter must be a list, got: {type(data_list).__name__}. Please provide a valid "
+                "list of dictionaries to search."
+            )
+            self.log(self.msg, "ERROR")
             return None
 
+        # Validate all items in data_list are dictionaries
         if not all(isinstance(item, dict) for item in data_list):
-            self.log("All items in 'data_list' must be dictionaries.", "ERROR")
+            invalid_types = [type(item).__name__ for item in data_list if not isinstance(item, dict)]
+            self.msg = (
+                f"All items in 'data_list' must be dictionaries. Found invalid type(s): {set(invalid_types)}. "
+                "Please ensure all list items are dictionary objects."
+            )
+            self.log(self.msg, "ERROR")
             return None
 
-        self.log(f"Searching for key '{key}' with value '{value}' in a list of {len(data_list)} items.",
-                 "DEBUG")
+        # Handle empty list case
+        if not data_list:
+            self.log(
+                "Empty data_list provided. No items to search. Returning None.",
+                "DEBUG"
+            )
+            return None
+
+        self.log(
+            f"Input validation passed. Beginning iteration through {len(data_list)} dictionary item(s) "
+            f"to find matches for key '{key}' with value '{value}'.",
+            "DEBUG"
+        )
+
         matched_items = []
         for idx, item in enumerate(data_list):
-            self.log(f"Checking item at index {idx}: {item}", "DEBUG")
+            # Log search progress for debugging (verbose mode)
+            self.log(
+                f"Checking item at index {idx + 1}/{len(data_list)}: {item}",
+                "DEBUG"
+            )
+
             if item.get(key) == value:
-                self.log(f"Match found at index {idx}: {item}", "DEBUG")
+                self.log(
+                    f"Match found at index {idx + 1}/{len(data_list)}. Item: {item}. Adding to matched_items list.",
+                    "DEBUG"
+                )
                 matched_items.append(item)
 
+        # Log search results
         if matched_items:
-            self.log(f"Total matches found: {len(matched_items)}", "DEBUG")
+            self.log(
+                "Dictionary search completed successfully. Total matches "
+                f"found: {len(matched_items)} out of {len(data_list)} "
+                f"item(s) searched. Matched items: {matched_items}",
+                "DEBUG"
+            )
             return matched_items
 
-        self.log(f"No matching item found for key '{key}' with value '{value}'.", "DEBUG")
+        self.log(
+            "Dictionary search completed. No matching items found for "
+            f"key '{key}' with value '{value}' "
+            f"in {len(data_list)} item(s) searched. Returning None.",
+            "DEBUG"
+        )
         return None
 
     def get_workflow_elements_schema(self):
         """
-        Returns the mapping configuration for access point location workflow manager.
+        Retrieves the schema configuration for access point location workflow manager components.
+
+        This function defines the complete validation schema for global filters used in access
+        point location playbook generation, specifying allowed filter types, data structures,
+        and validation rules for site-based, access point-based, model-based, and MAC-based filtering.
+
+        Args:
+            None (uses self context for potential future expansion)
+
         Returns:
-            dict: A dictionary containing network elements and global filters configuration with validation rules.
+            dict: Schema configuration dictionary with global_filters structure containing
+                validation rules for multiple filter types:
+                - site_list: Floor site hierarchy paths (list[str])
+                - planned_accesspoint_list: Planned AP names (list[str])
+                - real_accesspoint_list: Real/deployed AP names (list[str])
+                - accesspoint_model_list: AP hardware models (list[str])
+                - mac_address_list: AP MAC addresses (list[str])
+                All filters optional with list[str] type requirement.
+
+        Side Effects:
+            - Logs DEBUG message documenting schema structure
+            - Schema used by validate_input() for parameter validation
+
+        Example Schema Structure:
+            {
+                "global_filters": {
+                    "site_list": {
+                        "type": "list",
+                        "required": False,
+                        "elements": "str"
+                    },
+                    ...
+                }
+            }
+
+        Notes:
+            - All filters are optional (required: False)
+            - All filters expect list of strings as input
+            - Schema matches Ansible module_utils validation format
+            - Used during input validation phase in validate_input()
+            - Filter priority: site > planned_ap > real_ap > model > mac
         """
-        return {
+        self.log(
+            "Defining validation schema for access point location workflow manager. "
+            "Schema includes global_filters structure with five filter types: site_list, "
+            "planned_accesspoint_list, real_accesspoint_list, accesspoint_model_list, and "
+            "mac_address_list. All filters are optional and expect list[str] format.",
+            "DEBUG"
+        )
+
+        schema = {
             "global_filters": {
                 "site_list": {
                     "type": "list",
@@ -1165,14 +1296,65 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             }
         }
 
+        self.log(
+            f"Schema definition completed. Schema contains {len(schema.get('global_filters', {}))}"
+            f" global filter type(s): {list(schema.get('global_filters', {}).keys())}. "
+            "This schema will be used for input validation and filter processing.",
+            "DEBUG"
+        )
+
+        return schema
+
     def get_all_floors_from_sites(self):
         """
-        Get all floors from the sites in Cisco Catalyst Center
+        Retrieves all floor-type sites from Cisco Catalyst Center with pagination support.
+
+        This function queries the Catalyst Center site design API to retrieve all sites with
+        type 'floor', handling pagination automatically for large site inventories. It extracts
+        floor ID and site hierarchy information for downstream processing.
+
+        Args:
+            None (uses self.payload for API configuration parameters)
 
         Returns:
-            list: A list of all floors from the sites
+            list: List of dictionaries containing floor information with structure:
+                [
+                    {
+                        "id": "floor-uuid-1",
+                        "floor_site_hierarchy": "Global/USA/Building1/Floor1"
+                    },
+                    ...
+                ]
+                Returns empty list if no floors found or API errors occur.
+
+        Side Effects:
+            - Makes multiple paginated API calls to Catalyst Center
+            - Respects dnac_api_task_timeout and dnac_task_poll_interval from payload
+            - Adds sleep delays between pagination requests to avoid rate limiting
+            - Logs detailed progress information at DEBUG and INFO levels
+
+        API Parameters Used:
+            - offset: Starting position for pagination (increments by limit)
+            - limit: Number of results per page (default: 500)
+            - type: Filter for 'floor' type sites only
+
+        Pagination Logic:
+            - Starts at offset=1, limit=500
+            - Continues until response < limit or timeout reached
+            - Respects dnac_task_poll_interval between requests
+            - Exits early if no response received
+
+        Notes:
+            - Only retrieves sites with type='floor', excludes buildings/areas
+            - Timeout calculated from dnac_api_task_timeout parameter
+            - Poll interval from dnac_task_poll_interval parameter
+            - Uses site_design.get_sites API family/function
         """
-        self.log("Collecting all floors from the sites in Cisco Catalyst Center", "INFO")
+        self.log(
+            "Starting floor site collection from Cisco Catalyst Center. Preparing to query "
+            "all floor-type sites using paginated API requests with automatic retry logic.",
+            "INFO"
+        )
 
         response_all = []
         offset = 1
@@ -1182,121 +1364,282 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
         request_params = {param_key: "floor", "offset": offset, "limit": limit}
 
+        self.log(
+            f"Initialized pagination parameters: offset={offset}, limit={limit}, "
+            f"timeout={resync_retry_count}s, poll_interval={resync_retry_interval}s. "
+            f"API target: {api_family}.{api_function}(type='floor')",
+            "DEBUG"
+        )
+
         while resync_retry_count > 0:
-            self.log(f"Sending initial API request: Family='{api_family}', Function='{api_function}', Params={request_params}",
-                     "DEBUG")
+            self.log(
+                f"Sending paginated API request to Catalyst Center - "
+                f"Family: '{api_family}', Function: '{api_function}', "
+                f"Parameters: {request_params}. Remaining timeout: {resync_retry_count}s",
+                "DEBUG"
+            )
 
             response = self.execute_get_request(api_family, api_function, request_params)
+
             if not response:
-                self.log("No data received from API (Offset={0}). Exiting pagination.".
-                         format(request_params["offset"]), "DEBUG")
+                self.log(
+                    f"No data received from API at offset {request_params['offset']}. "
+                    f"This may indicate end of results or API error. Exiting pagination loop.",
+                    "DEBUG"
+                )
                 break
 
-            self.log("Received {0} site(s) from API (Offset={1}).".format(
-                len(response.get("response")), request_params["offset"]), "DEBUG")
+            response_data = response.get("response", [])
+            self.log(
+                f"Received {len(response_data)} floor site(s) from API at offset "
+                f"{request_params['offset']}. Processing floor data extraction.",
+                "DEBUG"
+            )
+
             floor_list = response.get("response")
             if floor_list and isinstance(floor_list, list):
-                self.log("Processing floor list: {0}".format(
-                    self.pprint(floor_list)), "DEBUG")
+                self.log(
+                    f"Processing {len(floor_list)} floor site(s). Extracting ID and "
+                    f"site hierarchy information. Raw response: {self.pprint(floor_list)}",
+                    "DEBUG"
+                )
                 required_data_list = []
-                for floor_response in floor_list:
+                for idx, floor_response in enumerate(floor_list, start=1):
                     required_data = {
                         "id": floor_response.get("id"),
                         "floor_site_hierarchy": floor_response.get("nameHierarchy")
                     }
                     required_data_list.append(required_data)
+                    self.log(
+                        f"Extracted floor {idx}/{len(floor_list)}: ID='{required_data['id']}', "
+                        f"Hierarchy='{required_data['floor_site_hierarchy']}'",
+                        "DEBUG"
+                    )
 
-            response_all.extend(required_data_list)
+                response_all.extend(required_data_list)
+                self.log(
+                    f"Added {len(required_data_list)} floor(s) to collection. "
+                    f"Total floors collected so far: {len(response_all)}",
+                    "DEBUG"
+                )
+            else:
+                self.log(
+                    f"No valid floor list in API response at offset {request_params['offset']}. "
+                    f"Response type: {type(floor_list).__name__ if floor_list else 'None'}",
+                    "WARNING"
+                )
 
-            if len(response.get("response")) < limit:
-                self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
-                         format(len(response.get("response"))), "DEBUG")
+            # Check if this is the last page
+            if len(response.get("response", [])) < limit:
+                self.log(
+                    f"Received {len(response.get('response', []))} results (less than limit of {limit}). "
+                    f"Assuming this is the last page. Exiting pagination loop.",
+                    "DEBUG"
+                )
                 break
 
+            # Prepare for next page
             offset += limit
-            request_params["offset"] = offset  # Increment offset for pagination
-            self.log("Incrementing offset to {0} for next API request.".format(
-                request_params["offset"]), "DEBUG")
-
+            request_params["offset"] = offset
             self.log(
-                "Pauses execution for {0} seconds.".format(resync_retry_interval),
-                "INFO",
+                f"Incrementing pagination offset to {request_params['offset']} for next API request. "
+                f"Will retrieve next {limit} floor sites.",
+                "DEBUG"
+            )
+
+            # Rate limiting delay
+            self.log(
+                f"Applying rate limiting delay: pausing execution for {resync_retry_interval} second(s) "
+                f"before next API request to avoid overwhelming Catalyst Center.",
+                "INFO"
             )
             time.sleep(resync_retry_interval)
             resync_retry_count = resync_retry_count - resync_retry_interval
 
+        # Log final results
         if response_all:
-            self.log("Total {0} site(s) retrieved for the floor type: {1}".format(
-                len(response_all), self.pprint(response_all)), "DEBUG")
+            self.log(
+                f"Floor site collection completed successfully. Total floor sites retrieved: "
+                f"{len(response_all)}. Floor details: {self.pprint(response_all)}",
+                "DEBUG"
+            )
+            self.log(
+                f"Successfully collected {len(response_all)} floor site(s) from Cisco Catalyst Center.",
+                "INFO"
+            )
         else:
-            self.log("No site details found for floor type", "WARNING")
+            self.log(
+                "Floor site collection completed but no floor sites were found. This may indicate "
+                "no floors are configured in Catalyst Center or all floors were filtered out.",
+                "WARNING"
+            )
 
         return response_all
 
     def get_access_point_position(self, floor_id, floor_name, ap_type=False):
         """
-        Retrieve access point position information from Cisco Catalyst Center.
+        Retrieves access point position information from Cisco Catalyst Center for a specific floor.
 
-        Queries either planned or real access point positions based on operation context
-        and access point configuration. Supports both planned and real position queries.
+        This function queries either planned or real (deployed) access point positions based on the
+        ap_type parameter. It supports retrieving AP locations with detailed position coordinates,
+        radio configurations, and antenna settings for floor planning and visualization.
 
-        Parameters:
-            floor_id (str) - The ID of the floor where the access point is located.
-            floor_name (str) - The name of the floor where the access point is located.
-            ap_type (bool) - Flag to indicate if this is a recheck for deletion.
+        Args:
+            floor_id (str): Unique identifier (UUID) of the floor site in Catalyst Center.
+                           Used to filter APs to specific floor location.
+                           Example: "abc12345-6789-0def-1234-567890abcdef"
+
+            floor_name (str): Human-readable site hierarchy path of the floor.
+                             Used for logging and error messages.
+                             Example: "Global/USA/San Jose/Building1/Floor1"
+
+            ap_type (str or bool, optional): Type of access points to retrieve:
+                                            - False or "planned": Retrieves planned AP positions
+                                            - "real": Retrieves real/deployed AP positions
+                                            Default: False (planned APs)
 
         Returns:
-            dict - Planned or real access point position information
+            list or None: List of access point position dictionaries if successful, None otherwise.
+                         Each AP dict contains: name, type, position (x/y/z), macAddress, radios
+                         Returns None if:
+                         - No response received from API
+                         - Invalid response format (not dict)
+                         - API exception occurs
+                         - No APs found on specified floor
 
-        Description:
-            - Determines whether to query planned or real position based on operation type
-            - Constructs appropriate API payload with floor ID and name
-            - Executes position retrieval via Catalyst Center site design APIs
-            - Handles both planned position queries and real position validation
+        Side Effects:
+            - Makes API call to Catalyst Center site_design family
+            - Logs INFO/DEBUG/WARNING/ERROR messages throughout operation
+            - Sets self.msg on error conditions
+
+        API Endpoints Used:
+            - Planned APs: site_design.get_planned_access_points_positions
+            - Real APs: site_design.get_access_points_positions
+
+        Example Response Structure:
+            [
+                {
+                    "name": "Floor1-AP1",
+                    "type": "C9130AXI-B",
+                    "position": {"x": 10.5, "y": 20.3, "z": 3.0},
+                    "macAddress": "aa:bb:cc:dd:ee:ff",
+                    "radios": [...]
+                },
+                ...
+            ]
+
+        Error Handling:
+            - Returns None on API errors with ERROR log
+            - Returns None on empty response with WARNING log
+            - Returns None on invalid response type with WARNING log
+            - Logs all exceptions with full error details
+
+        Notes:
+            - Pagination handled automatically (offset=1, limit=500)
+            - Planned APs may not have MAC addresses
+            - Real APs always have MAC addresses
+            - Position coordinates in floor map units (not physical meters)
+            - Radio data includes bands, channels, power, antenna settings
         """
         self.log(
-            f"Collecting planned access point position for site: {floor_name}.",
-            "INFO",
+            f"Initiating access point position retrieval for floor '{floor_name}'. "
+            f"AP type: '{ap_type if ap_type else 'planned'}', Floor ID: '{floor_id}'. "
+            f"This operation will query Catalyst Center site design APIs to retrieve AP "
+            f"location and configuration data.",
+            "INFO"
         )
 
         self.log(
-            f"Retrieving position for floor '{floor_name}', operation '{ap_type}'",
+            f"Preparing API request parameters - Floor: '{floor_name}', "
+            f"Floor ID: '{floor_id}', AP Type: '{ap_type if ap_type else 'planned'}'. "
+            f"Determining appropriate API endpoint based on AP type.",
             "DEBUG"
         )
 
+        # Prepare API payload with pagination
         payload = {
             "offset": 1,
             "limit": 500,
             "floor_id": floor_id
         }
 
+        # Determine API function based on AP type
         function_name = "get_planned_access_points_positions"
         if ap_type == "real":
             function_name = "get_access_points_positions"
 
+        self.log(
+            f"API endpoint selected: site_design.{function_name}(). Payload: {payload}. "
+            f"This endpoint will retrieve {ap_type if ap_type else 'planned'} access point "
+            f"positions for floor '{floor_name}'.",
+            "DEBUG"
+        )
+
         try:
+            self.log(
+                f"Executing API request to retrieve {ap_type if ap_type else 'planned'} AP positions. "
+                f"Target: site_design.{function_name}, Floor: '{floor_name}', ID: '{floor_id}'",
+                "DEBUG"
+            )
+
             response = self.execute_get_request(
                 "site_design", function_name, payload
             )
+
             if not response:
-                msg = f"No response received from API for the {ap_type} access point and floor {floor_name}"
+                msg = (
+                    f"No response received from API for {ap_type if ap_type else 'planned'} access point "
+                    f"position query. Floor: '{floor_name}', Floor ID: '{floor_id}'. This may indicate "
+                    f"no APs configured on this floor or API connectivity issue."
+                )
                 self.log(msg, "WARNING")
                 return None
 
             if not isinstance(response, dict):
                 warning_msg = (
-                    "Invalid response format for {0} position query - expected dict, "
-                    "got: {1}".format(ap_type, type(response).__name__)
+                    f"Invalid response format received from {ap_type if ap_type else 'planned'} AP position "
+                    f"API query. Expected dictionary, received: {type(response).__name__}. "
+                    f"Floor: '{floor_name}', Floor ID: '{floor_id}'. API may have returned unexpected data format."
                 )
                 self.log(warning_msg, "WARNING")
                 return None
 
-            self.log(f"{ap_type} Access Point Position API Response: {response}", "DEBUG")
-            return response.get("response")
+            self.log(
+                f"Successfully retrieved {ap_type if ap_type else 'planned'} AP position data from API. "
+                f"Floor: '{floor_name}', Response structure: {response}. "
+                f"Extracting AP details from response.",
+                "DEBUG"
+            )
+
+            ap_positions = response.get("response")
+            if ap_positions:
+                self.log(
+                    f"Found {len(ap_positions) if isinstance(ap_positions, list) else 'unknown'} "
+                    f"{ap_type if ap_type else 'planned'} access point(s) on floor '{floor_name}'. "
+                    f"Returning AP position data for downstream processing.",
+                    "INFO"
+                )
+            else:
+                self.log(
+                    f"No {ap_type if ap_type else 'planned'} access points found on floor '{floor_name}' "
+                    f"(Floor ID: '{floor_id}'). The floor exists but has no APs configured.",
+                    "DEBUG"
+                )
+
+            return ap_positions
 
         except Exception as e:
-            self.msg = f'An error occurred during get {ap_type} AP position. '
-            self.log(self.msg + str(e), "ERROR")
+            self.msg = (
+                f"An error occurred during {ap_type if ap_type else 'planned'} AP position retrieval. "
+                f"Floor: '{floor_name}', Floor ID: '{floor_id}'. Error details: {str(e)}"
+            )
+            self.log(self.msg, "ERROR")
+            self.log(
+                f"Exception traceback for AP position retrieval failure - "
+                f"Floor: '{floor_name}', AP Type: '{ap_type if ap_type else 'planned'}', "
+                f"Exception: {type(e).__name__}, Message: {str(e)}",
+                "DEBUG"
+            )
             return None
 
     def parse_accesspoint_position_for_floor(self, floor_id, floor_site_hierarchy,
