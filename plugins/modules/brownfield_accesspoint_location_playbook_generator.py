@@ -12,11 +12,20 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: brownfield_accesspoint_location_playbook_generator
-short_description: Generate YAML configurations playbook for 'accesspoint_location_workflow_manager' module.
+short_description: >-
+  Generate YAML configurations playbook for
+  'accesspoint_location_workflow_manager' module.
 description:
-  - Generates YAML configurations compatible with the 'accesspoint_location_workflow_manager'
-    module, reducing the effort required to manually create Ansible playbooks and
+  - Generates YAML configurations compatible with the
+    'accesspoint_location_workflow_manager' module, reducing
+    the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
+  - Supports complete brownfield infrastructure discovery by
+    collecting all access point locations from Cisco Catalyst Center.
+  - Enables targeted extraction using filters (site hierarchies,
+    planned access points, real access points, AP models, or MAC addresses).
+  - Auto-generates timestamped YAML filenames when file path not
+    specified.
 version_added: 6.45.0
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -31,74 +40,116 @@ options:
     default: gathered
   config:
     description:
-      - A list of filters for generating YAML playbook compatible with the
-        'brownfield_accesspoint_location_playbook_generator' module.
-      - Filters specify which components to include in the YAML configuration file.
-      - If "components_list" is specified, only those components are included, regardless of the filters.
+      - A list of filters for generating YAML playbook compatible
+        with the 'brownfield_accesspoint_location_playbook_generator'
+        module.
+      - Filters specify which components to include in the YAML
+        configuration file.
+      - Either 'generate_all_configurations' or 'global_filters'
+        must be specified to identify target access point locations.
     type: list
     elements: dict
     required: true
     suboptions:
       generate_all_configurations:
         description:
-          - When set to True, automatically generates YAML configurations for all access point location and all supported features.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
+          - When set to True, automatically generates YAML
+            configurations for all access point locations and all
+            supported features.
+          - This mode discovers all floor locations with access points
+            in Cisco Catalyst Center and extracts all supported
+            configurations.
+          - When enabled, the config parameter becomes optional
+            and will use default values if not provided.
+          - A default filename will be generated automatically
+            if file_path is not specified.
+          - This is useful for complete brownfield infrastructure
+            discovery and documentation.
+          - Any provided global_filters will be IGNORED in this
+            mode.
         type: bool
         required: false
         default: false
       file_path:
         description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  "network_accesspoint_location_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "network_accesspoint_location_manager_playbook_2025-04-22_21-43-26.yml".
+          - Path where the YAML configuration file will be saved.
+          - If not provided, the file will be saved in the current
+            working directory with a default file name
+            'accesspoint_location_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'.
+          - For example,
+            'accesspoint_location_workflow_manager_playbook_2025-04-22_21-43-26.yml'.
+          - Supports both absolute and relative file paths.
         type: str
       global_filters:
         description:
-          - Global filters to apply when generating the YAML configuration file.
-          - These filters apply to all components unless overridden by component-specific filters.
-          - At least one filter type must be specified to identify target devices.
+          - Global filters to apply when generating the YAML
+            configuration file.
+          - These filters apply to all components unless overridden
+            by component-specific filters.
+          - At least one filter type must be specified to identify
+            target access point locations.
+          - Filter priority (highest to lowest) is site_list,
+            planned_accesspoint_list, real_accesspoint_list,
+            accesspoint_model_list, mac_address_list.
+          - Only the highest priority filter with valid data will
+            be processed.
         type: dict
         required: false
         suboptions:
           site_list:
             description:
-              - List of access point location names and details to extract configurations from.
-              - LOWEST PRIORITY - Only used if neither site name nor PAP list are provided.
-              - Access Point Location names must match those registered in Catalyst Center.
+              - List of floor site hierarchies to extract access point
+                location configurations from.
+              - HIGHEST PRIORITY - Used first if provided with
+                valid data.
+              - Site paths must match floor locations registered
+                in Catalyst Center.
               - Case-sensitive and must be exact matches.
-              - Can also be set to "all" to include all access point floor locations.
-              - Example ["Global/USA/SAN JOSE/SJ_BLD20/FLOOR1", "Global/USA/SAN JOSE/SJ_BLD20/FLOOR2"]
+              - Can also be set to "all" to include all floor locations.
+              - Example ["Global/USA/SAN JOSE/SJ_BLD20/FLOOR1",
+                "Global/USA/SAN JOSE/SJ_BLD20/FLOOR2"]
+              - Module will fail if any specified site does not
+                exist in Catalyst Center.
             type: list
             elements: str
             required: false
           planned_accesspoint_list:
             description:
-              - List of planned access points assigned to the floor.
-              - LOWEST PRIORITY - Only used if neither site_list nor real_accesspoint_list are provided.
+              - List of planned access point names to filter locations.
+              - MEDIUM-HIGH PRIORITY - Only used if site_list
+                is not provided.
+              - Retrieves all floor locations containing any of
+                the specified planned access points.
               - Case-sensitive and must be exact matches.
-              - Can also be set to "all" to include all planned access points.
+              - Can also be set to "all" to include all planned
+                access points.
               - Example ["test_ap_location", "test_ap2_location"]
             type: list
             elements: str
             required: false
           real_accesspoint_list:
             description:
-              - List of real access points assigned to the floor.
-              - LOWEST PRIORITY - Only used if neither site_list nor planned_accesspoint_list are provided.
+              - List of real (provisioned) access point names to
+                filter locations.
+              - MEDIUM PRIORITY - Only used if neither
+                site_list nor planned_accesspoint_list are
+                provided.
+              - Retrieves all floor locations containing any of
+                the specified real access points.
               - Case-sensitive and must be exact matches.
-              - Can also be set to "all" to include all real access points.
+              - Can also be set to "all" to include all real
+                access points.
               - Example ["Test_ap", "AP687D.B402.1614-AP-Test6"]
             type: list
             elements: str
             required: false
           accesspoint_model_list:
             description:
-              - List of access point models assigned to the floor.
-              - LOWEST PRIORITY - Only used if neither site_list nor planned_accesspoint_list are provided.
+              - List of access point models to filter locations.
+              - MEDIUM-LOW PRIORITY - Only used if higher priority
+                filters are not provided.
+              - Retrieves all floor locations containing any of
+                the specified AP models.
               - Case-sensitive and must be exact matches.
               - Example ["AP9120E", "AP9130E"]
             type: list
@@ -106,8 +157,11 @@ options:
             required: false
           mac_address_list:
             description:
-              - List of Access point MAC addresses assigned to the floor.
-              - LOWEST PRIORITY - Only used if neither site_list nor real_accesspoint_list are provided.
+              - List of access point MAC addresses to filter locations.
+              - LOWEST PRIORITY - Only used if all other filters
+                are not provided.
+              - Retrieves all floor locations containing access points
+                with the specified MAC addresses.
               - Case-sensitive and must be exact matches.
               - Example ["a4:88:73:d4:dd:80", "a4:88:73:d4:dd:81"]
             type: list
@@ -118,13 +172,20 @@ requirements:
   - python >= 3.9
 notes:
   - This module utilizes the following SDK methods
-    site_design.SiteDesign.get_planned_access_points_positions
-    site_design.SiteDesign.get_access_points_positions
-    site_design.SiteDesign.get_sites
+    site_design.get_planned_access_points_positions
+    site_design.get_access_points_positions
+    site_design.get_sites
   - The following API paths are used
     GET /dna/intent/api/v2/floors/${floorId}/plannedAccessPointPositions
     GET /dna/intent/api/v1/sites
     GET /dna/intent/api/v2/floors/${floorId}/accessPointPositions
+  - Minimum Cisco Catalyst Center version required is 3.1.3.0 for
+    YAML playbook generation support.
+  - Filter priority hierarchy ensures only one filter type is
+    processed per execution.
+  - Module creates YAML file compatible with
+    'accesspoint_location_workflow_manager' module for
+    automation workflows.
 """
 
 EXAMPLES = r"""
@@ -255,32 +316,44 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: A dictionary with  with the response returned by the Cisco Catalyst Center Python SDK
+  description: >-
+    A dictionary with the response returned by the Cisco Catalyst
+    Center Python SDK
   returned: always
   type: dict
   sample: >
     {
       "response": {
-        "YAML config generation Task succeeded for module 'accesspoint_location_workflow_manager'.": {
-            "file_path": "tmp/brownfield_accesspoint_location_workflow_playbook_templatebase.yml"}
+        "YAML config generation Task succeeded for module
+         'accesspoint_location_workflow_manager'.": {
+            "file_path":
+             "tmp/brownfield_accesspoint_location_workflow_playbook_templatebase.yml"
+          }
         },
       "msg": {
-        "YAML config generation Task succeeded for module 'accesspoint_location_workflow_manager'.": {
-            "file_path": "tmp/brownfield_accesspoint_location_workflow_playbook_templatebase.yml"}
+        "YAML config generation Task succeeded for module
+         'accesspoint_location_workflow_manager'.": {
+            "file_path":
+             "tmp/brownfield_accesspoint_location_workflow_playbook_templatebase.yml"
+          }
         }
     }
 
 # Case_2: Error Scenario
 response_2:
-  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  description: >-
+    A string with the response returned by the Cisco Catalyst
+    Center Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
     {
-      "response": "No configurations or components to process for module 'accesspoint_location_workflow_manager'.
-                  Verify input filters or configuration.",
-      "msg": "No configurations or components to process for module 'accesspoint_location_workflow_manager'.
-             Verify input filters or configuration."
+      "response": "No configurations or components to process for
+                   module 'accesspoint_location_workflow_manager'.
+                   Verify input filters or configuration.",
+      "msg": "No configurations or components to process for module
+              'accesspoint_location_workflow_manager'.
+              Verify input filters or configuration."
     }
 """
 
@@ -1407,8 +1480,199 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 
 def main():
-    """main entry point for module execution"""
-    # Define the specification for the module"s arguments
+    """
+    Main entry point for the Ansible brownfield access point location playbook generator module.
+
+    This function serves as the primary orchestrator for generating YAML playbooks that capture
+    the current state of access point location assignments in Cisco Catalyst Center. It performs
+    comprehensive validation, infrastructure discovery, and templated playbook generation.
+
+    Workflow:
+        1. Module Initialization:
+           - Define argument specifications for all module parameters
+           - Initialize AnsibleModule instance with check mode support
+           - Create AccesspointLocationPlaybookGenerator instance
+           - Enable structured logging for debugging and audit trails
+
+        2. Version Validation:
+           - Verify Catalyst Center version meets minimum requirement (3.1.3.0+)
+           - Fail gracefully with clear error message if version is unsupported
+           - Log version information for troubleshooting
+
+        3. State Validation:
+           - Verify requested state is 'gathered' (only supported state)
+           - Fail immediately if invalid state is requested
+           - Log state information for audit purposes
+
+        4. Input Validation:
+           - Validate all module parameters (credentials, filters, paths)
+           - Check filter parameter combinations and priorities
+           - Verify file path permissions and writability
+           - Fail with detailed error messages on validation failures
+
+        5. Configuration Processing:
+           - Iterate through each validated config item
+           - Reset internal state between config items
+           - For each config:
+             a. Get desired state (get_want) - parse and validate filters
+             b. Get current state (get_have) - query Catalyst Center APIs
+             c. Apply state logic (get_diff_state_apply) - generate playbook
+           - Check return status after each step
+
+        6. Result Return:
+           - Exit with JSON result containing operation status
+           - Include file paths for generated playbooks
+           - Provide user-friendly success/failure messages
+
+    Args:
+        None. Module parameters are obtained from Ansible module specification.
+
+    Module Parameters (element_spec):
+        Connection Parameters:
+            - dnac_host (str, required): Catalyst Center hostname or IP address
+            - dnac_port (str, optional): API port number (default: "443")
+            - dnac_username (str, optional): Authentication username (default: "admin")
+            - dnac_password (str, required): Authentication password (no_log: True)
+            - dnac_verify (bool, optional): Verify SSL certificates (default: True)
+            - dnac_version (str, optional): API version (default: "2.2.3.3")
+            - dnac_debug (bool, optional): Enable SDK debug logging (default: False)
+
+        Logging Parameters:
+            - dnac_log_level (str, optional): Log level (default: "WARNING")
+            - dnac_log_file_path (str, optional): Log file path (default: "dnac.log")
+            - dnac_log_append (bool, optional): Append to log file (default: True)
+            - dnac_log (bool, optional): Enable file logging (default: False)
+
+        Operational Parameters:
+            - validate_response_schema (bool, optional): Validate API responses (default: True)
+            - dnac_api_task_timeout (int, optional): API task timeout in seconds (default: 1200)
+            - dnac_task_poll_interval (int, optional): Task polling interval in seconds (default: 2)
+
+        Configuration Parameters:
+            - config (list of dict, required): Filter configuration for AP selection
+            - state (str, optional): Operation state, must be "gathered" (default: "gathered")
+
+    Returns:
+        dict: Ansible module result dictionary via module.exit_json() with keys:
+            - changed (bool): Always False (read-only operation)
+            - response (dict): Operation result including:
+                * Success message string
+                * file_path (str): Absolute path to generated playbook
+            - msg (str): User-facing summary message
+
+    Side Effects:
+        - Establishes HTTPS connection to Cisco Catalyst Center API
+        - Performs multiple API queries to retrieve:
+            * Access point details and configurations
+            * Site hierarchy and location information
+            * Floor maps and physical location data
+        - Writes YAML playbook file to filesystem at yaml_file_path
+        - Creates log entries at configured log level (DEBUG, INFO, WARNING, ERROR)
+        - May create output directories if they don't exist
+
+    Raises:
+        AnsibleFailJson: Via module.fail_json() for any error condition:
+            - Version Check Failures:
+                * Catalyst Center version < 3.1.3.0
+                * Unable to determine Catalyst Center version
+            - State Validation Failures:
+                * Unsupported state requested (not 'gathered')
+            - Input Validation Failures:
+                * Missing or invalid credentials
+                * Invalid filter parameters or combinations
+                * Unreachable file paths or permission errors
+            - API Communication Failures:
+                * Network connectivity issues
+                * Authentication failures
+                * API timeout or rate limiting
+            - Data Processing Failures:
+                * Schema validation errors
+                * Unexpected API response formats
+                * Missing required data in API responses
+
+    Success Scenarios:
+        Case 1: Access points found and playbook generated successfully
+            {
+                "changed": False,
+                "response": {
+                    "YAML config generation Task succeeded for module 'accesspoint_location_workflow_manager'.": {
+                        "file_path": "/path/to/brownfield_accesspoint_location_workflow_playbook.yml"
+                    }
+                },
+                "msg": "YAML configuration playbook generation completed successfully"
+            }
+
+        Case 2: No access points match the specified filters
+            {
+                "changed": False,
+                "response": "No configurations or components to process for module 'accesspoint_location_workflow_manager'. Verify input filters or configuration.",
+                "msg": "No access point locations found matching the specified filter criteria"
+            }
+
+    Error Scenarios:
+        - Version Mismatch:
+            "The specified version '2.3.5.3' does not support the YAML Playbook generation for ACCESSPOINT LOCATION WORKFLOW Module. Supported versions start from '3.1.3.0' onwards."
+
+        - Invalid State:
+            "State 'merged' is invalid. Only 'gathered' state is supported for this module."
+
+        - Authentication Failure:
+            "Failed to authenticate with Cisco Catalyst Center at <host>:<port>. Verify credentials and network connectivity."
+
+        - Invalid Filters:
+            "Validation failed for config parameter: Cannot use both 'site_hierarchy' and 'site_name_filter' simultaneously. Choose one filter method."
+
+        - File Write Error:
+            "Failed to write playbook to '<path>': Permission denied. Ensure the directory exists and is writable."
+
+    Example Usage:
+        This function is invoked automatically by Ansible when the module is executed.
+        It should never be called directly by user code.
+
+        Typical Ansible playbook usage:
+        ```yaml
+        - name: Generate brownfield access point location playbook
+          brownfield_accesspoint_location_playbook_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: False
+            state: gathered
+            config:
+              - yaml_file_path: "output/ap_locations.yml"
+                site_name_filter: "Global/San Jose"
+        ```
+
+    Performance Considerations:
+        - Large environments (1000+ access points) may take 5-10 minutes
+        - API queries are performed serially to avoid rate limiting
+        - Memory usage scales with number of access points (approximately 1KB per AP)
+        - Network latency significantly impacts total execution time
+
+    Notes:
+        - Requires Cisco Catalyst Center version 3.1.3.0 or later
+        - Filter priorities (highest to lowest):
+            1. hostname_filter (exact matches only)
+            2. site_name_filter (includes all child sites)
+            3. ap_name_filter (supports wildcards)
+            4. site_hierarchy (full hierarchy path)
+        - Generated playbooks use 'accesspoint_location_workflow_manager' as target module
+        - Check mode (--check) is supported but has no effect (read-only operation)
+        - Module always returns changed=False as it performs read-only discovery
+        - Playbook generation is idempotent - repeated runs produce identical output
+        - Output YAML files use UTF-8 encoding with LF line endings
+
+    See Also:
+        - AccesspointLocationPlaybookGenerator class for implementation details
+        - validate_input() for complete filter validation logic
+        - get_want() for desired state determination
+        - get_have() for current state retrieval
+        - get_diff_gathered() for playbook generation logic
+    """
+    # ========================================
+    # Module Argument Specification
+    # ========================================
+    # Define the specification for the module's arguments
     element_spec = {
         "dnac_host": {"required": True, "type": "str"},
         "dnac_port": {"type": "str", "default": "443"},
@@ -1428,10 +1692,19 @@ def main():
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
+    # ========================================
+    # Module Initialization
+    # ========================================
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
-    # Initialize the NetworkCompliance object with the module
+
+    # Initialize the AccesspointLocationPlaybookGenerator object with the module
     ccc_accesspoint_location_playbook_generator = AccesspointLocationPlaybookGenerator(module)
+
+    # ========================================
+    # Catalyst Center Version Validation
+    # ========================================
+    # Verify Catalyst Center version meets minimum requirement (3.1.3.0+)
     if (
         ccc_accesspoint_location_playbook_generator.compare_dnac_versions(
             ccc_accesspoint_location_playbook_generator.get_ccc_version(), "3.1.3.0"
@@ -1448,9 +1721,13 @@ def main():
             "failed", False, ccc_accesspoint_location_playbook_generator.msg, "ERROR"
         ).check_return_status()
 
+    # ========================================
+    # State Parameter Validation
+    # ========================================
     # Get the state parameter from the provided parameters
     state = ccc_accesspoint_location_playbook_generator.params.get("state")
-    # Check if the state is valid
+
+    # Check if the state is valid (must be 'gathered')
     if state not in ccc_accesspoint_location_playbook_generator.supported_states:
         ccc_accesspoint_location_playbook_generator.status = "invalid"
         ccc_accesspoint_location_playbook_generator.msg = "State {0} is invalid".format(
@@ -1458,20 +1735,37 @@ def main():
         )
         ccc_accesspoint_location_playbook_generator.check_return_status()
 
+    # ========================================
+    # Input Parameter Validation
+    # ========================================
     # Validate the input parameters and check the return status
     ccc_accesspoint_location_playbook_generator.validate_input().check_return_status()
 
+    # ========================================
+    # Configuration Processing Loop
+    # ========================================
     # Iterate over the validated configuration parameters
     for config in ccc_accesspoint_location_playbook_generator.validated_config:
+        # Reset internal values before processing each config item
         ccc_accesspoint_location_playbook_generator.reset_values()
+
+        # Get desired state (parse and validate filters)
         ccc_accesspoint_location_playbook_generator.get_want(
             config, state).check_return_status()
+
+        # Get current state (query Catalyst Center APIs)
         ccc_accesspoint_location_playbook_generator.get_have(
             config).check_return_status()
+
+        # Apply state-specific logic (generate playbook)
         ccc_accesspoint_location_playbook_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
+    # ========================================
+    # Result Return
+    # ========================================
+    # Exit with JSON result containing operation status and file paths
     module.exit_json(**ccc_accesspoint_location_playbook_generator.result)
 
 
