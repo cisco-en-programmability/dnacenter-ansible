@@ -744,8 +744,12 @@ class DnacBase():
         # Retrieve device IDs from the specified site
         api_response, device_ids = self.get_device_ids_from_site(site_name, site_id)
         if not api_response:
-            self.msg = "No response received from API call 'get_device_ids_from_site' for site ID: {0}".format(site_id)
-            self.fail_and_exit(self.msg)
+            self.log(
+                "No response received from API call 'get_device_ids_from_site' for site ID: {0}, site name: {1}"
+                .format(site_id, site_name),
+                "DEBUG"
+            )
+            return device_details_list
 
         self.log("Device IDs retrieved from site '{0}': {1}".format(site_id, str(device_ids)), "DEBUG")
 

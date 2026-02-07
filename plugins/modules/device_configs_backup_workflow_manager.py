@@ -1728,8 +1728,8 @@ class DeviceConfigsBackup(DnacBase):
 
         if not mgmt_ip_to_instance_id_map:
             self.msg = f"No reachable devices found among the provided parameters: {config}"
-            self.set_operation_result("failed", False, self.msg, "WARNING")
-            self.log(f"Process aborted: {self.msg}", "WARNING")
+            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.log(f"Process completed: {self.msg}", "INFO")
             return self
 
         self.log(
@@ -1763,6 +1763,10 @@ class DeviceConfigsBackup(DnacBase):
         """
         self.log("Executing the get_diff_merged function", "DEBUG")
 
+        if not self.want:
+            self.log("No configuration found to backup. Skipping the operation.", "DEBUG")
+            return self
+
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             action_map = {
                 "export_device_configurations_params": (
@@ -1791,6 +1795,10 @@ class DeviceConfigsBackup(DnacBase):
             within a specified time window. It logs the desired state, checks the modification time of files in the specified directory,
             and sets the operation status based on whether recent backup files are found.
         """
+
+        if not self.want:
+            self.log("No configuration found to verify. Skipping the operation.", "DEBUG")
+            return self
 
         file_path = self.want.get("file_path")
         self.log("File Path: {0}".format(file_path))
