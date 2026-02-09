@@ -16,7 +16,7 @@ description:
 - Generates YAML configurations compatible with the 'sda_extranet_policies_workflow_manager'
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
-version_added: 6.43.0
+version_added: 6.45.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 options:
@@ -49,8 +49,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "sda_extranet_policies_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "sda_extranet_policies_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name  C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(discovery_workflow_manager_playbook_2026-01-24_12-33-20.yml).
         type: str
       global_filters:
         description:
@@ -278,6 +278,28 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
             "global_filters": {"type": "dict", "required": False},
         }
         allowed_keys = set(temp_spec.keys())
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.validate_minimum_requirements(self.config)
 
         # Import validate_list_of_dicts function here to avoid circular imports
         from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
@@ -336,20 +358,54 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def transform_fabric_site_ids_to_names(self, extranet_policy_details):
         """
-        Transforms fabric site IDs into their corresponding site name hierarchies.
-        This method converts fabric IDs from extranet policy details into human-readable
-        site name hierarchies by analyzing each fabric ID and mapping it to its corresponding
-        site name from the site_id_name_dict.
+        Transform fabric site IDs into human-readable site name hierarchies for extranet policies.
+
+        Converts fabric site IDs from Cisco Catalyst Center's internal UUID format into
+        their corresponding hierarchical site name paths (e.g., "Global/USA/San Jose/Building1"),
+        enabling user-friendly YAML playbook generation and configuration management.
+
+        Purpose:
+            Provides human-readable site references in generated playbooks by mapping
+            internal fabric IDs to site hierarchy paths, supporting infrastructure-as-code
+            workflows for SDA extranet policy management.
 
         Args:
-            self: The instance of the class containing site_id_name_dict and helper methods.
-            extranet_policy_details (dict): Dictionary containing extranet policy details with fabricIds.
-                Expected to have a 'fabricIds' key containing a list of fabric IDs.
+            self: Instance containing site_id_name_dict mapping and helper methods
+            extranet_policy_details (dict): Extranet policy configuration containing:
+                - fabricIds (list[str]): List of fabric site/zone UUIDs from Catalyst Center
+                - Other policy details (not processed by this method)
 
         Returns:
-            list: A list of fabric site name hierarchies (strings) corresponding to the fabric IDs.
-                Only includes site names that were successfully resolved from the site_id_name_dict.
-                Returns an empty list if no fabric IDs are provided or none can be resolved.
+            list[str]: Fabric site name hierarchies in order:
+                - Format: "Global/Region/Site/Building"
+                - Only includes successfully resolved site names
+                - Returns empty list if no fabricIds or resolution failures
+
+        Processing Flow:
+            1. Extract fabricIds list from policy details
+            2. For each fabric ID:
+                a. Analyze ID to extract site_id and fabric_type
+                b. Lookup site_id in site_id_name_dict
+                c. Add resolved site name to results
+                d. Log warning if resolution fails
+            3. Return consolidated site name list
+
+        Site Name Resolution:
+            - Uses pre-populated site_id_name_dict from get_sites() API
+            - Handles both fabric sites and fabric zones
+            - Skips IDs that cannot be resolved (logs warning)
+
+        Example Transformation:
+            Input:
+                fabricIds: ["550e8400-e29b-41d4-a716-446655440000"]
+
+            Output:
+                ["Global/USA/California/San Jose/Building21"]
+
+        Logging:
+            - DEBUG: Start/completion with counts
+            - DEBUG: Successful site name resolution
+            - WARNING: Failed site ID lookups
         """
         self.log("Starting transformation of fabric site IDs to names for extranet policy.", "DEBUG")
         fabric_ids = extranet_policy_details.get("fabricIds", [])
@@ -371,7 +427,77 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def extranet_policy_temp_spec(self):
 
-        """Generates a temporary specification mapping for transforming extranet policy data."""
+        """
+        Generate temporary specification mapping for transforming SDA extranet policy data structures.
+
+        Creates an OrderedDict schema that defines the mapping between Cisco Catalyst Center
+        API response fields (camelCase) and Ansible playbook YAML fields (snake_case),
+        including data type definitions and special transformation functions.
+
+        Purpose:
+            Provides a structured specification for the modify_parameters() method to
+            consistently transform raw API responses into Ansible-compatible YAML configuration
+            format, ensuring standardized playbook generation across all extranet policies.
+
+        Returns:
+            OrderedDict: Specification mapping with structure:
+                {
+                    "yaml_field_name": {
+                        "type": "str|list|dict|bool|int",
+                        "source_key": "apiResponseFieldName",
+                        "special_handling": bool (optional),
+                        "transform": callable (optional)
+                    }
+                }
+
+        Specification Fields:
+            1. extranet_policy_name (str):
+                - Source: extranetPolicyName
+                - Policy identifier name
+                - Required field for policy operations
+
+            2. provider_virtual_network (str):
+                - Source: providerVirtualNetworkName
+                - Provider VN name providing services
+                - Single VN per extranet policy
+
+            3. subscriber_virtual_networks (list[str]):
+                - Source: subscriberVirtualNetworkNames
+                - List of subscriber VNs consuming services
+                - Multiple subscribers supported
+
+            4. fabric_sites (list[str]):
+                - Special handling: True
+                - Transform: transform_fabric_site_ids_to_names()
+                - Converts fabric UUIDs to site hierarchies
+                - Custom transformation function applied
+
+        Transform Function Usage:
+            - Standard fields: Direct mapping via source_key
+            - Special fields: Transformation function called with policy details
+            - fabric_sites: Converts fabricIds→site names via transform method
+
+        Integration with modify_parameters():
+            The temp_spec is consumed by modify_parameters() to:
+            1. Iterate through extranet policy list
+            2. For each field in temp_spec:
+                a. Extract value from API response using source_key
+                b. Apply transform function if special_handling=True
+                c. Set YAML field with transformed value
+            3. Return list of transformed policy dictionaries
+
+        Example Output Format:
+            OrderedDict([
+                ("extranet_policy_name", {"type": "str", "source_key": "extranetPolicyName"}),
+                ("provider_virtual_network", {"type": "str", "source_key": "providerVirtualNetworkName"}),
+                ("subscriber_virtual_networks", {"type": "list", "source_key": "subscriberVirtualNetworkNames"}),
+                ("fabric_sites", {"type": "list", "special_handling": True, "transform": <function>})
+            ])
+
+        Usage Pattern:
+            temp_spec = self.extranet_policy_temp_spec()
+            transformed_policies = self.modify_parameters(temp_spec, raw_api_response)
+        """
         self.log("Generating temporary specification for extranet policies.", "DEBUG")
         extranet_policy = OrderedDict(
             {
@@ -398,29 +524,116 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_extranet_policies_configuration(self, network_element, component_specific_filters=None):
         """
-        Retrieves extranet policies configuration from Cisco Catalyst Center.
-        This method fetches extranet policy details either for all policies or filtered by specific
-        policy names, transforms the raw API response data into a structured format suitable for
-        YAML playbook generation, and returns the processed configuration.
+        Retrieve and transform SDA extranet policies configuration from Cisco Catalyst Center.
+
+        Executes API calls to fetch extranet policy details from Catalyst Center, applies
+        filtering based on policy names if specified, transforms raw API responses into
+        Ansible-compatible format, and returns structured configuration data suitable for
+        YAML playbook generation.
+
+        Purpose:
+            Serves as the primary data retrieval function for SDA extranet policies brownfield
+            documentation, enabling discovery and export of existing multi-VN connectivity
+            configurations across SDA fabric deployments.
 
         Args:
-            self: The instance of the class containing API execution methods and configuration.
-            network_element (dict): Dictionary containing network element metadata including:
-                - api_family (str): The API family name (e.g., 'sda').
-                - api_function (str): The API function name (e.g., 'get_extranet_policies').
-            component_specific_filters (list, optional): List of filter dictionaries to narrow down
-                the extranet policies to retrieve. Each filter dictionary can contain:
-                - extranet_policy_name (str): Specific policy name to filter by.
-                If None or empty, retrieves all extranet policies.
+            self: Instance with API execution methods, transformation utilities, and logging
+            network_element (dict): Component metadata from workflow schema containing:
+                - api_family (str): "sda" - API family for extranet operations
+                - api_function (str): "get_extranet_policies" - API method name
+                - filters (list): Supported filter field names
+                - reverse_mapping_function (callable): Temp spec generator reference
+                - get_function_name (callable): This function reference
+
+            component_specific_filters (list[dict], optional): Filter criteria:
+                Format: [{"extranet_policy_name": "Policy_Name"}, ...]
+                - extranet_policy_name (str): Specific policy name to retrieve
+                - Multiple filters supported for batch retrieval
+                - None/empty: Retrieves ALL extranet policies
 
         Returns:
-            dict: A dictionary with the key 'extranet_policies' containing a list of transformed
-                extranet policy configurations. Each policy includes:
-                - extranet_policy_name: The name of the extranet policy.
-                - provider_virtual_network: The provider virtual network name.
-                - subscriber_virtual_networks: List of subscriber virtual network names.
-                - fabric_sites: List of fabric site name hierarchies (transformed from fabric IDs).
-                Returns empty list if no policies are found.
+            dict: Transformed extranet policies configuration:
+                {
+                    "extranet_policies": [
+                        {
+                            "extranet_policy_name": str,
+                            "provider_virtual_network": str,
+                            "subscriber_virtual_networks": list[str],
+                            "fabric_sites": list[str]  # Site hierarchies, not UUIDs
+                        },
+                        ...
+                    ]
+                }
+                Returns {"extranet_policies": []} if no policies found
+
+        Processing Workflow:
+            1. Extract API family and function from network_element
+            2. Initialize results collection list
+            3. Apply filtering logic:
+                a. If filters provided: Process each filter individually
+                b. If no filters: Retrieve all policies via pagination
+            4. For filtered retrieval:
+                - Iterate through filter parameters
+                - Extract policy name from filter
+                - Build filter_params dict {"extranetPolicyName": value}
+                - Execute API call with filters
+                - Append results to collection
+            5. For full retrieval:
+                - Execute paginated API call with empty params
+                - Collect all policies from Catalyst Center
+            6. Transform results:
+                - Generate extranet_policy_temp_spec()
+                - Apply modify_parameters(temp_spec, policies)
+                - Convert API format to YAML format
+            7. Return structured result dictionary
+
+        API Integration:
+            - Family: sda
+            - Function: get_extranet_policies
+            - Pagination: Handled by execute_get_with_pagination()
+            - Response: List of extranet policy objects
+
+        Data Transformation:
+            Raw API Response (camelCase):
+                {
+                    "extranetPolicyName": "Test_Policy_1",
+                    "providerVirtualNetworkName": "Provider_VN",
+                    "subscriberVirtualNetworkNames": ["Subscriber_VN1", "Subscriber_VN2"],
+                    "fabricIds": ["uuid-1", "uuid-2"]
+                }
+
+            Transformed Output (snake_case):
+                {
+                    "extranet_policy_name": "Test_Policy_1",
+                    "provider_virtual_network": "Provider_VN",
+                    "subscriber_virtual_networks": ["Subscriber_VN1", "Subscriber_VN2"],
+                    "fabric_sites": ["Global/USA/Site1", "Global/USA/Site2"]
+                }
+
+        Filter Examples:
+            # Retrieve specific policy
+            filters = [{"extranet_policy_name": "Production_Extranet"}]
+
+            # Retrieve multiple policies
+            filters = [
+                {"extranet_policy_name": "Prod_Extranet"},
+                {"extranet_policy_name": "Dev_Extranet"}
+            ]
+
+            # Retrieve all policies
+            filters = None
+
+        Error Handling:
+            - API failures: Logged and propagated to calling function
+            - Empty results: Returns empty list, not error
+            - Invalid filter names: Logged as warning, skipped
+            - Failed transformations: Logged and may cause failures
+
+        Logging:
+            - DEBUG: Start, filter details, API calls, transformation process
+            - INFO: Completion with counts
+            - WARNING: Invalid filters, missing data
+            - ERROR: API failures, transformation errors
         """
         self.log("Starting retrieval of extranet policies configuration.", "DEBUG")
         self.log("Network element details: {0}".format(network_element), "DEBUG")
@@ -460,15 +673,181 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters, processes the data,
-        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
+        Generate YAML playbook configuration file for sda_extranet_policies_workflow_manager module.
+
+        Orchestrates the complete brownfield SDA extranet policies extraction workflow by:
+        1. Processing configuration parameters and filters
+        2. Iterating through requested network components (extranet policies)
+        3. Executing component-specific retrieval functions
+        4. Consolidating extranet policy configurations
+        5. Writing final YAML configuration to file
+
+        Purpose:
+            Creates Ansible-compatible YAML playbook files containing SDA extranet policy
+            configurations discovered from Cisco Catalyst Center, enabling brownfield
+            fabric documentation, policy auditing, and programmatic policy management.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Configuration parameters containing:
+                - file_path (str, optional): Output YAML file path
+                    Default: Auto-generated with timestamp
+                    Format: "sda_extranet_policies_workflow_manager_playbook_YYYY-MM-DD_HH-MM-SS.yml"
+                - generate_all_configurations (bool, optional): Enable auto-discovery mode
+                    Default: False
+                    When True: Exports ALL extranet policies from Catalyst Center
+                - global_filters (dict, optional): Reserved for future use
+                - component_specific_filters (dict, optional): Component-level filters containing:
+                    - components_list (list[str]): Components to extract
+                        Valid: ["extranet_policies"]
+                    - extranet_policies (list[dict], optional): Policy-specific filters
+                        Format: [{"extranet_policy_name": "Policy_Name"}, ...]
 
         Returns:
-            self: The current instance with the operation result and message updated.
+            self: Current instance with operation result:
+                - self.status: "success" or "failed"
+                - self.msg (dict): Operation result message:
+                    Success: {
+                        "YAML config generation Task succeeded for module 'sda_extranet_policies_workflow_manager'": {
+                            "file_path": "/path/to/generated/file.yml"
+                        }
+                    }
+                    Failure: {
+                        "YAML config generation Task failed for module 'sda_extranet_policies_workflow_manager'": {
+                            "file_path": "/path/to/file.yml"
+                        }
+                    }
+                - self.result: Ansible module result dictionary
+                - self.changed: Boolean indicating if file was written
+
+        Auto-Discovery Mode (generate_all_configurations=True):
+            - Overrides all filter parameters
+            - Retrieves ALL extranet policies from Catalyst Center
+            - Processes ALL supported components (extranet_policies)
+            - Generates comprehensive brownfield SDA extranet documentation
+            - Logs warnings if filters provided (as they are ignored)
+
+        Component Processing Flow:
+            For each requested component:
+            1. Validate component exists in module_schema
+            2. Retrieve network_element configuration
+            3. Extract component-specific filters if provided
+            4. Execute get_function_name (get_extranet_policies_configuration)
+            5. Add returned policy details to final_list
+            6. Log retrieval details
+
+        YAML Output Structure:
+            Generated playbook format:
+            ```yaml
+            config:
+            - extranet_policies:
+                - extranet_policy_name: "Production_Extranet"
+                    provider_virtual_network: "Provider_VN"
+                    subscriber_virtual_networks:
+                    - "Subscriber_VN1"
+                    - "Subscriber_VN2"
+                    fabric_sites:
+                    - "Global/USA/California/San Jose"
+                    - "Global/USA/Texas/Austin"
+                - extranet_policy_name: "Development_Extranet"
+                    provider_virtual_network: "Dev_Provider_VN"
+                    subscriber_virtual_networks:
+                    - "Dev_Subscriber_VN"
+                    fabric_sites:
+                    - "Global/USA/California/San Jose/Building1"
+            ```
+
+        File Generation:
+            - Uses write_dict_to_yaml() to create playbook file
+            - Maintains YAML formatting with OrderedDict preservation
+            - Creates directory structure if needed
+            - Overwrites existing files without warning
+
+        Filter Processing Logic:
+            Mode 1: Auto-Discovery (generate_all_configurations=True)
+                - Sets global_filters = {}
+                - Sets component_specific_filters = {}
+                - Processes all components from module_schema
+                - Retrieves all policies without filtering
+
+            Mode 2: Component Filtering (component_specific_filters provided)
+                - Respects components_list specification
+                - Applies policy name filters if extranet_policies filters specified
+                - Retrieves only matching policies
+
+            Mode 3: Default (no filters)
+                - Processes components specified in components_list
+                - Retrieves all policies for each component
+
+        Workflow Execution Steps:
+            1. Log workflow start with parameters
+            2. Determine auto-discovery mode status
+            3. Resolve output file path (user-provided or auto-generated)
+            4. Initialize filter dictionaries
+            5. Retrieve module_schema network elements
+            6. Determine components_list:
+                - Auto-discovery: All components
+                - Filtered: Specified components_list
+            7. Iterate through components:
+                a. Validate component support
+                b. Retrieve component metadata
+                c. Extract component filters
+                d. Execute get_function_name(network_element, filters)
+                e. Append results to final_list
+            8. Validate final_list not empty
+            9. Build final_dict with "config" key
+            10. Write YAML to file
+            11. Set operation result and message
+            12. Return self
+
+        Error Handling:
+            - No configurations to process:
+                * Sets status="success", changed=False
+                * Logs informational message about empty results
+            - YAML write failure:
+                * Sets status="failed", changed=True
+                * Returns error message with file path
+            - Unsupported component:
+                * Logs warning and skips component
+                * Continues processing other components
+            - Component retrieval failure:
+                * Propagated from get_extranet_policies_configuration
+                * May cause workflow failure
+
+        Performance Considerations:
+            - Large deployments: May retrieve hundreds of policies
+            - API pagination: Handled automatically
+            - Memory usage: All policies loaded before writing
+            - File I/O: Single write operation at completion
+
+        Logging:
+            - DEBUG: Workflow parameters, filter application, component details
+            - INFO: Auto-discovery status, file path, processing completion
+            - WARNING: Ignored filters, unsupported components
+            - ERROR: YAML write failures, component processing errors
+
+        Example Usage Scenarios:
+            # Export all extranet policies
+            yaml_config_generator({
+                "generate_all_configurations": True
+            })
+
+            # Export specific policies
+            yaml_config_generator({
+                "file_path": "/tmp/extranet_policies.yml",
+                "component_specific_filters": {
+                    "components_list": ["extranet_policies"],
+                    "extranet_policies": [
+                        {"extranet_policy_name": "Prod_Policy"},
+                        {"extranet_policy_name": "Dev_Policy"}
+                    ]
+                }
+            })
+
+            # Export all with custom path
+            yaml_config_generator({
+                "file_path": "/exports/all_extranet_policies.yml",
+                "generate_all_configurations": True
+            })
         """
 
         self.log(
@@ -574,14 +953,152 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_want(self, config, state):
         """
-        Creates parameters for API calls based on the specified state.
-        This method prepares the parameters required for adding, updating, or deleting
-        network configurations such as SSIDs and interfaces in the Cisco Catalyst Center
-        based on the desired state. It logs detailed information for each operation.
+        Prepare desired state parameters for SDA extranet policies playbook generation workflow.
+
+        Processes and validates input configuration parameters from the Ansible playbook,
+        constructs the internal 'want' state dictionary containing validated parameters
+        for YAML config generation, and prepares the module for state-specific operations.
+
+        Purpose:
+            Serves as the parameter preparation and validation layer between raw Ansible
+            playbook input and internal workflow execution, ensuring all required parameters
+            are present, valid, and properly structured before proceeding with extranet
+            policy extraction operations.
 
         Args:
-            config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('gathered' or 'deleted').
+            self: Instance containing validation methods, logging, and state management
+            config (dict): Configuration data from Ansible playbook containing:
+                - file_path (str, optional): Custom output file path
+                - generate_all_configurations (bool, optional): Auto-discovery flag
+                - component_specific_filters (dict, optional): Component filters
+                    * components_list (list[str]): ["extranet_policies"]
+                    * extranet_policies (list[dict]): Policy name filters
+                - global_filters (dict, optional): Reserved for future use
+
+            state (str): Desired workflow state:
+                - "gathered": Extract existing extranet policies (only supported state)
+                - Future: "merged", "deleted", "replaced" (reserved)
+
+        Returns:
+            self: Current instance with updated attributes:
+                - self.want (dict): Prepared parameters for workflow execution:
+                    {
+                        "yaml_config_generator": {
+                            "file_path": str,
+                            "generate_all_configurations": bool,
+                            "component_specific_filters": dict,
+                            "global_filters": dict
+                        }
+                    }
+                - self.msg (str): Success message
+                - self.status (str): "success"
+
+        Parameter Validation:
+            Executes validate_params(config) to ensure:
+            - Required parameters present
+            - Data types correct
+            - Filter structures valid
+            - Component names supported
+            - File paths accessible (if specified)
+
+        Want Dictionary Structure:
+            The 'want' dictionary consolidates all parameters needed for
+            yaml_config_generator() execution:
+
+            {
+                "yaml_config_generator": {
+                    # Output file configuration
+                    "file_path": "/tmp/extranet_policies.yml",  # or None for auto-gen
+
+                    # Auto-discovery mode
+                    "generate_all_configurations": True,  # or False
+
+                    # Component filtering
+                    "component_specific_filters": {
+                        "components_list": ["extranet_policies"],
+                        "extranet_policies": [
+                            {"extranet_policy_name": "Policy1"},
+                            {"extranet_policy_name": "Policy2"}
+                        ]
+                    },
+
+                    # Global filtering (reserved)
+                    "global_filters": {}
+                }
+            }
+
+        Workflow Integration:
+            This method is called before get_diff_gathered() in the main workflow:
+
+            1. main() → validate_input()
+            2. main() → get_want(config, state)  ← This function
+            3. main() → get_diff_state_apply[state]()
+            4. get_diff_gathered() → yaml_config_generator(want["yaml_config_generator"])
+
+        State-Specific Behavior:
+            Currently only "gathered" state is supported:
+            - gathered: Prepares parameters for extraction workflow
+            - Future states: Will prepare different parameter sets
+
+        Parameter Pass-Through:
+            All config parameters are passed directly to yaml_config_generator
+            without modification, maintaining user's original intent for:
+            - File path specifications
+            - Filter criteria
+            - Auto-discovery settings
+
+        Validation Flow:
+            1. Log workflow initiation
+            2. Execute validate_params(config)
+                - Checks parameter structure
+                - Validates data types
+                - Verifies component support
+                - Confirms filter format
+            3. Construct want dictionary
+            4. Add yaml_config_generator to want
+            5. Log want dictionary contents
+            6. Set success status and message
+            7. Return self for method chaining
+
+        Error Handling:
+            - Validation failures: validate_params() raises exceptions
+            - Invalid state: Caught by main() before calling get_want()
+            - Missing config: Should not occur (required parameter)
+            - Malformed config: validate_params() detects and fails
+
+        Logging:
+            - INFO: Workflow start, parameter collection, want contents
+            - DEBUG: Detailed parameter structures
+            - WARNING: Parameter concerns (via validate_params)
+            - ERROR: Validation failures (via validate_params)
+
+        Example Want States:
+            # Auto-discovery all policies
+            want = {
+                "yaml_config_generator": {
+                    "generate_all_configurations": True,
+                    "file_path": None
+                }
+            }
+
+            # Filtered extraction
+            want = {
+                "yaml_config_generator": {
+                    "generate_all_configurations": False,
+                    "file_path": "/tmp/policies.yml",
+                    "component_specific_filters": {
+                        "components_list": ["extranet_policies"],
+                        "extranet_policies": [
+                            {"extranet_policy_name": "Prod_Policy"}
+                        ]
+                    }
+                }
+            }
+
+        Check-Mode Compatibility:
+            - Fully compatible with Ansible check mode
+            - Parameter validation occurs without API calls
+            - Want state prepared but not executed
         """
 
         self.log(
@@ -609,10 +1126,159 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes the merge operations for various network configurations in the Cisco Catalyst Center.
-        This method processes additions and updates for SSIDs, interfaces, power profiles, access point profiles,
-        radio frequency profiles, and anchor groups. It logs detailed information about each operation,
-        updates the result status, and returns a consolidated result.
+        Execute the 'gathered' state workflow for SDA extranet policies playbook generation.
+
+        Orchestrates the complete brownfield extraction workflow by iterating through
+        defined operations, executing the YAML config generator with prepared parameters
+        from the 'want' state, and consolidating results into the module's result dictionary.
+
+        Purpose:
+            Implements the 'gathered' state behavior for the sda_extranet_policies_playbook_generator
+            module, coordinating the retrieval of existing extranet policy configurations from
+            Cisco Catalyst Center and generation of Ansible-compatible YAML playbook files.
+
+        Args:
+            self: Instance containing:
+                - self.want (dict): Prepared parameters from get_want()
+                - self.module_name (str): "sda_extranet_policies_workflow_manager"
+                - Operation methods (yaml_config_generator)
+                - Result tracking (self.result, self.status, self.msg)
+
+        Returns:
+            self: Current instance with updated result:
+                - self.result (dict): Ansible module result containing:
+                    * changed (bool): Whether YAML file was written
+                    * msg (dict/str): Operation result message
+                    * response (dict): Detailed operation results
+                    * file_path (str): Path to generated YAML file
+                - self.status (str): "success" or "failed"
+                - self.msg (dict/str): Operation outcome message
+
+        Operations List:
+            Processes a sequential list of operations defined as tuples:
+            [
+                (
+                    param_key: "yaml_config_generator",
+                    operation_name: "YAML Config Generator",
+                    operation_func: self.yaml_config_generator
+                )
+            ]
+
+            Future operations can be added to this list for additional
+            extranet policy processing tasks.
+
+        Workflow Execution:
+            1. Record start time for performance tracking
+            2. Log workflow initiation
+            3. Define operations list with:
+                - Parameter key from want dictionary
+                - Human-readable operation name
+                - Callable operation function
+            4. Iterate through operations:
+                a. Log iteration details with index
+                b. Extract parameters from want using param_key
+                c. Check if parameters exist
+                d. If parameters present:
+                    - Log operation start
+                    - Execute operation_func(params)
+                    - Call check_return_status() to validate result
+                    - Continue to next operation
+                e. If parameters absent:
+                    - Log warning about missing parameters
+                    - Skip operation
+            5. Calculate and log execution time
+            6. Return self for method chaining
+
+        Operation Execution Flow:
+            For yaml_config_generator operation:
+            1. Extract params = self.want.get("yaml_config_generator")
+            2. Verify params is not None/empty
+            3. Execute self.yaml_config_generator(params)
+            4. yaml_config_generator workflow:
+                - Determine file path
+                - Apply filters
+                - Retrieve extranet policies
+                - Transform to YAML format
+                - Write to file
+                - Set operation result
+            5. check_return_status() validates:
+                - Operation completed successfully
+                - No critical errors occurred
+                - Result properly populated
+            6. If check fails: Module exits with error
+            7. If check passes: Continue to next operation
+
+        State Application:
+            The get_diff_state_apply dictionary maps states to methods:
+            {
+                "gathered": self.get_diff_gathered  # This method
+            }
+
+            Called from main() as:
+            get_diff_state_apply[state]().check_return_status()
+
+        Performance Tracking:
+            - Logs total execution time at completion
+            - Useful for monitoring large deployments
+            - Format: "Completed 'get_diff_gathered' operation in X.XX seconds."
+
+        Error Handling:
+            - Missing parameters: Logged as WARNING, operation skipped
+            - Operation failures: Caught by check_return_status()
+            - check_return_status() exits module on failure
+            - No exception handling needed (delegated to operations)
+
+        Logging:
+            - DEBUG: Workflow start/end, timing, iteration details
+            - INFO: Operation execution, parameter validation
+            - WARNING: Missing parameters, skipped operations
+            - ERROR: Operation failures (via operation functions)
+
+        Method Chaining:
+            Returns self to support fluent interface:
+            get_diff_gathered().check_return_status()
+
+        Result Structure After Execution:
+            Success:
+            {
+                "changed": True,
+                "msg": {
+                    "YAML config generation Task succeeded for module 'sda_extranet_policies_workflow_manager'": {
+                        "file_path": "/path/to/generated/file.yml"
+                    }
+                },
+                "response": {
+                    "YAML config generation Task succeeded for module 'sda_extranet_policies_workflow_manager'": {
+                        "file_path": "/path/to/generated/file.yml"
+                    }
+                }
+            }
+
+            Failure:
+            {
+                "failed": True,
+                "msg": "YAML config generation Task failed for module 'sda_extranet_policies_workflow_manager': <error details>",
+                "error": "<detailed error information>"
+            }
+
+        Future Extensibility:
+            Additional operations can be added to the operations list:
+            - Policy validation
+            - Configuration drift detection
+            - Policy compliance checking
+            - Multi-site policy aggregation
+
+            Example:
+            operations = [
+                ("yaml_config_generator", "YAML Config Generator", self.yaml_config_generator),
+                ("policy_validator", "Policy Validator", self.validate_policies),
+                ("drift_detector", "Drift Detector", self.detect_drift)
+            ]
+
+        Check-Mode Behavior:
+            - Operations should respect Ansible check mode
+            - YAML generation may or may not occur in check mode
+            - Depends on implementation of operation functions
         """
 
         start_time = time.time()
@@ -665,27 +1331,187 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 
 def main():
-    """main entry point for module execution"""
-    # Define the specification for the module"s arguments
-    element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
-        "validate_response_schema": {"type": "bool", "default": True},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "gathered", "choices": ["gathered"]},
-    }
+    """
+    Main entry point for the Cisco Catalyst Center brownfield SDA extranet policies playbook generator module.
 
+    This function serves as the primary execution entry point for the Ansible module,
+    orchestrating the complete workflow from parameter collection to YAML playbook
+    generation for brownfield SDA extranet policies extraction.
+
+    Purpose:
+        Initializes and executes the brownfield SDA extranet policies playbook generator
+        workflow to extract existing extranet policy configurations from Cisco Catalyst Center
+        and generate Ansible-compatible YAML playbook files for SDA fabric extranet policies.
+
+    Workflow Steps:
+        1. Define module argument specification with required parameters
+        2. Initialize Ansible module with argument validation
+        3. Create SdaExtranetPoliciesPlaybookGenerator instance
+        4. Validate Catalyst Center version compatibility (>= 2.3.7.9)
+        5. Validate and sanitize state parameter
+        6. Execute input parameter validation
+        7. Process each configuration item in the playbook
+        8. Execute state-specific operations (gathered workflow)
+        9. Return results via module.exit_json()
+
+    Module Arguments:
+        Connection Parameters:
+            - dnac_host (str, required): Catalyst Center hostname/IP
+            - dnac_port (str, default="443"): HTTPS port
+            - dnac_username (str, default="admin"): Authentication username
+            - dnac_password (str, required, no_log): Authentication password
+            - dnac_verify (bool, default=True): SSL certificate verification
+
+        API Configuration:
+            - dnac_version (str, default="2.2.3.3"): Catalyst Center version
+            - dnac_api_task_timeout (int, default=1200): API timeout (seconds)
+            - dnac_task_poll_interval (int, default=2): Poll interval (seconds)
+            - validate_response_schema (bool, default=True): Schema validation
+
+        Logging Configuration:
+            - dnac_debug (bool, default=False): Debug mode
+            - dnac_log (bool, default=False): Enable file logging
+            - dnac_log_level (str, default="WARNING"): Log level
+            - dnac_log_file_path (str, default="dnac.log"): Log file path
+            - dnac_log_append (bool, default=True): Append to log file
+
+        Playbook Configuration:
+            - config (list[dict], required): Configuration parameters list
+            - state (str, default="gathered", choices=["gathered"]): Workflow state
+
+    Version Requirements:
+        - Minimum Catalyst Center version: 2.3.7.9
+        - Introduced APIs for SDA extranet policies:
+            * get_extranet_policies (SDA API family)
+            * Extranet policy details retrieval
+            * Fabric site and virtual network associations
+
+    Supported States:
+        - gathered: Extract existing SDA extranet policies and generate YAML playbook
+        - Future: merged, deleted, replaced (reserved for future use)
+
+    Configuration Options:
+        - generate_all_configurations (bool): Auto-discover and export all extranet policies
+        - component_specific_filters (dict): Filter specific policies by name
+        - file_path (str): Custom output file path for generated playbook
+
+    Extranet Policy Components:
+        - extranet_policy_name: Name identifier for the policy
+        - provider_virtual_network: Provider VN associated with the policy
+        - subscriber_virtual_networks: List of subscriber VNs
+        - fabric_sites: List of fabric site hierarchies where policy is deployed
+
+    Error Handling:
+        - Version compatibility failures: Module exits with error
+        - Invalid state parameter: Module exits with error
+        - Input validation failures: Module exits with error
+        - Configuration processing errors: Module exits with error
+        - All errors are logged and returned via module.fail_json()
+
+    Return Format:
+        Success: module.exit_json() with result containing:
+            - changed (bool): Whether changes were made
+            - msg (dict/str): Operation result message with file path
+            - response (dict): Detailed operation results
+            - file_path (str): Path to generated YAML playbook
+
+        Failure: module.fail_json() with error details:
+            - failed (bool): True
+            - msg (str): Error message
+            - error (str): Detailed error information
+
+    Examples:
+        See EXAMPLES constant for usage patterns including:
+        - Generate all extranet policies
+        - Filter specific policies by name
+        - Custom file path specification
+    """
+    # Define the specification for the module's arguments
+    # This structure defines all parameters accepted by the module with their types,
+    # defaults, and validation rules
+    element_spec = {
+        # ============================================
+        # Catalyst Center Connection Parameters
+        # ============================================
+        "dnac_host": {
+            "required": True,
+            "type": "str"
+        },
+        "dnac_port": {
+            "type": "str",
+            "default": "443"
+        },
+        "dnac_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"]
+        },
+        "dnac_password": {
+            "type": "str",
+            "no_log": True  # Prevent password from appearing in logs
+        },
+        "dnac_verify": {
+            "type": "bool",
+            "default": True
+        },
+
+        # ============================================
+        # API Configuration Parameters
+        # ============================================
+        "dnac_version": {
+            "type": "str",
+            "default": "2.2.3.3"
+        },
+        "dnac_api_task_timeout": {
+            "type": "int",
+            "default": 1200
+        },
+        "dnac_task_poll_interval": {
+            "type": "int",
+            "default": 2
+        },
+        "validate_response_schema": {
+            "type": "bool",
+            "default": True
+        },
+
+        # ============================================
+        # Logging Configuration Parameters
+        # ============================================
+        "dnac_debug": {
+            "type": "bool",
+            "default": False
+        },
+        "dnac_log_level": {
+            "type": "str",
+            "default": "WARNING"
+        },
+        "dnac_log_file_path": {
+            "type": "str",
+            "default": "dnac.log"
+        },
+        "dnac_log_append": {
+            "type": "bool",
+            "default": True
+        },
+        "dnac_log": {
+            "type": "bool",
+            "default": False
+        },
+
+        # ============================================
+        # Playbook Configuration Parameters
+        # ============================================
+        "config": {
+            "required": True,
+            "type": "list",
+            "elements": "dict"
+        },
+        "state": {
+            "default": "gathered",
+            "choices": ["gathered"]
+        },
+    }
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module

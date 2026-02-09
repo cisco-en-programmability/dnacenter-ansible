@@ -1,4 +1,8 @@
-- name: Generate complete brownfield tag configuration
+---
+# ==============================================================================
+# BROWNFIELD SDA EXTRANET POLICIES PLAYBOOK GENERATOR - EXAMPLES
+# ==============================================================================
+- name: Generate complete brownfield sda extranet policies configuration
   hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -29,7 +33,7 @@
           # Scenario 2: SDA Extranet Policies - Component Specific Filters
           # Tests behavior when component specific filters are provided
           # ====================================================================================
-          - component_specific_filters:
-              components_list: ["extranet_policies"]
-              extranet_policies:
-                - extranet_policy_name: Test_3
+          # - component_specific_filters:
+          #     components_list: ["extranet_policies"]
+          #     extranet_policies:
+          #       - extranet_policy_name: Test_3
