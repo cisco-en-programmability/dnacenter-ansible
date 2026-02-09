@@ -1,0 +1,364 @@
+{
+  "playbook_config_generate_all": {
+    "dnac_host": "198.18.129.100",
+    "dnac_username": "admin", 
+    "dnac_password": "C1sco12345",
+    "dnac_verify": false,
+    "dnac_version": "2.3.7.6",
+    "state": "merged",
+    "config": [
+      {
+        "generate_all_configurations": true,
+        "file_path": "/tmp/complete_health_score_settings.yml"
+      }
+    ]
+  },
+  "playbook_config_specific_families": {
+    "dnac_host": "198.18.129.100",
+    "dnac_username": "admin",
+    "dnac_password": "C1sco12345", 
+    "dnac_verify": false,
+    "dnac_version": "2.3.7.6",
+    "state": "merged",
+    "config": [
+      {
+        "file_path": "/tmp/specific_families_settings.yml",
+        "component_specific_filters": {
+          "device_families": ["UNIFIED_AP", "ROUTER"]
+        }
+      }
+    ]
+  },
+  "playbook_config_specific_kpis": {
+    "dnac_host": "198.18.129.100",
+    "dnac_username": "admin",
+    "dnac_password": "C1sco12345",
+    "dnac_verify": false, 
+    "dnac_version": "2.3.7.6",
+    "state": "merged",
+    "config": [
+      {
+        "file_path": "/tmp/specific_kpis_settings.yml",
+        "component_specific_filters": {
+          "kpi_names": ["CPU Utilization", "Memory Utilization", "Interface Utilization"]
+        }
+      }
+    ]
+  },
+  "playbook_config_combined_filters": {
+    "dnac_host": "198.18.129.100",
+    "dnac_username": "admin",
+    "dnac_password": "C1sco12345",
+    "dnac_verify": false,
+    "dnac_version": "2.3.7.6",
+    "state": "merged",
+    "config": [
+      {
+        "file_path": "/tmp/combined_filters_settings.yml",
+        "component_specific_filters": {
+          "device_families": ["SWITCH", "ROUTER"], 
+          "kpi_names": ["CPU Utilization", "Interface Utilization"]
+        }
+      }
+    ]
+  },
+  "playbook_config_invalid_filters": {
+    "dnac_host": "198.18.129.100",
+    "dnac_username": "admin",
+    "dnac_password": "C1sco12345",
+    "dnac_verify": false,
+    "dnac_version": "2.3.7.6",
+    "state": "merged",
+    "config": [
+      {
+        "file_path": "/tmp/invalid_filters_settings.yml",
+        "component_specific_filters": {
+          "device_families": ["INVALID_DEVICE", "NONEXISTENT_TYPE"],
+          "kpi_names": ["Invalid KPI", "Nonexistent Metric"]
+        }
+      }
+    ]
+  },
+  "api_response_complete_data": {
+    "response": [
+      {
+        "deviceFamily": "UNIFIED_AP",
+        "kpiName": "CPU Utilization",
+        "thresholdValue": 80,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "ap-cpu-001"
+      },
+      {
+        "deviceFamily": "UNIFIED_AP", 
+        "kpiName": "Memory Utilization",
+        "thresholdValue": 85,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": true,
+        "id": "ap-memory-001"
+      },
+      {
+        "deviceFamily": "UNIFIED_AP",
+        "kpiName": "Interference 2.4 GHz",
+        "thresholdValue": 75,
+        "includeForOverallHealth": false,
+        "synchronizeWithIssueThreshold": false,
+        "id": "ap-interference-24-001"
+      },
+      {
+        "deviceFamily": "UNIFIED_AP",
+        "kpiName": "Interference 5 GHz", 
+        "thresholdValue": 70,
+        "includeForOverallHealth": false,
+        "synchronizeWithIssueThreshold": false,
+        "id": "ap-interference-5-001"
+      },
+      {
+        "deviceFamily": "ROUTER",
+        "kpiName": "CPU Utilization",
+        "thresholdValue": 85,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": true,
+        "id": "router-cpu-001"
+      },
+      {
+        "deviceFamily": "ROUTER",
+        "kpiName": "Memory Utilization", 
+        "thresholdValue": 90,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "router-memory-001"
+      },
+      {
+        "deviceFamily": "ROUTER",
+        "kpiName": "Interface Utilization",
+        "thresholdValue": 95,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": true,
+        "id": "router-interface-001"
+      },
+      {
+        "deviceFamily": "SWITCH",
+        "kpiName": "CPU Utilization",
+        "thresholdValue": 80,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "switch-cpu-001"
+      },
+      {
+        "deviceFamily": "SWITCH",
+        "kpiName": "Memory Utilization",
+        "thresholdValue": 85,
+        "includeForOverallHealth": true, 
+        "synchronizeWithIssueThreshold": true,
+        "id": "switch-memory-001"
+      },
+      {
+        "deviceFamily": "SWITCH",
+        "kpiName": "Interface Utilization",
+        "thresholdValue": 90,
+        "includeForOverallHealth": false,
+        "synchronizeWithIssueThreshold": false,
+        "id": "switch-interface-001"
+      },
+      {
+        "deviceFamily": "SWITCH",
+        "kpiName": "Power Supply",
+        "thresholdValue": 95,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "switch-power-001"
+      },
+      {
+        "deviceFamily": "WIRELESS_CONTROLLER",
+        "kpiName": "CPU Utilization", 
+        "thresholdValue": 85,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": true,
+        "id": "wlc-cpu-001"
+      },
+      {
+        "deviceFamily": "WIRELESS_CONTROLLER",
+        "kpiName": "Memory Utilization",
+        "thresholdValue": 90,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "wlc-memory-001"
+      }
+    ]
+  },
+  "api_response_filtered_device_families": {
+    "response": [
+      {
+        "deviceFamily": "UNIFIED_AP",
+        "kpiName": "CPU Utilization",
+        "thresholdValue": 80,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "ap-cpu-001"
+      },
+      {
+        "deviceFamily": "UNIFIED_AP",
+        "kpiName": "Memory Utilization",
+        "thresholdValue": 85,
+        "includeForOverallHealth": true, 
+        "synchronizeWithIssueThreshold": true,
+        "id": "ap-memory-001"
+      },
+      {
+        "deviceFamily": "ROUTER",
+        "kpiName": "CPU Utilization",
+        "thresholdValue": 85,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": true,
+        "id": "router-cpu-001"
+      },
+      {
+        "deviceFamily": "ROUTER",
+        "kpiName": "Memory Utilization",
+        "thresholdValue": 90,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "router-memory-001"
+      }
+    ]
+  },
+  "api_response_filtered_kpis": {
+    "response": [
+      {
+        "deviceFamily": "UNIFIED_AP",
+        "kpiName": "CPU Utilization",
+        "thresholdValue": 80,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "ap-cpu-001"
+      },
+      {
+        "deviceFamily": "ROUTER",
+        "kpiName": "CPU Utilization", 
+        "thresholdValue": 85,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": true,
+        "id": "router-cpu-001"
+      },
+      {
+        "deviceFamily": "SWITCH",
+        "kpiName": "CPU Utilization",
+        "thresholdValue": 80,
+        "includeForOverallHealth": true,
+        "synchronizeWithIssueThreshold": false,
+        "id": "switch-cpu-001"
+      }
+    ]
+  },
+  "api_response_empty": {
+    "response": []
+  },
+  "api_response_error": {
+    "error": "Unauthorized access",
+    "message": "Invalid credentials provided"
+  },
+  "expected_yaml_output": {
+    "config": [
+      {
+        "device_family": "UNIFIED_AP",
+        "kpi_name": "CPU Utilization",
+        "threshold_value": 80,
+        "include_for_overall_health": true,
+        "sync_with_issue_threshold": false
+      },
+      {
+        "device_family": "UNIFIED_AP",
+        "kpi_name": "Memory Utilization",
+        "threshold_value": 85,
+        "include_for_overall_health": true,
+        "sync_with_issue_threshold": true
+      },
+      {
+        "device_family": "ROUTER",
+        "kpi_name": "CPU Utilization",
+        "threshold_value": 85,
+        "include_for_overall_health": true,
+        "sync_with_issue_threshold": true
+      }
+    ]
+  },
+  "operation_summary_success": {
+    "total_device_families_processed": 4,
+    "total_kpis_processed": 13,
+    "total_successful_operations": 13,
+    "total_failed_operations": 0,
+    "device_families_with_complete_success": ["UNIFIED_AP", "ROUTER", "SWITCH", "WIRELESS_CONTROLLER"],
+    "device_families_with_partial_success": [],
+    "device_families_with_complete_failure": [],
+    "success_details": [
+      {
+        "device_family": "UNIFIED_AP",
+        "kpi_name": "CPU Utilization", 
+        "status": "success",
+        "operation": "extracted"
+      },
+      {
+        "device_family": "ROUTER",
+        "kpi_name": "Memory Utilization",
+        "status": "success", 
+        "operation": "extracted"
+      }
+    ],
+    "failure_details": []
+  },
+  "operation_summary_partial_failure": {
+    "total_device_families_processed": 2,
+    "total_kpis_processed": 5,
+    "total_successful_operations": 3,
+    "total_failed_operations": 2,
+    "device_families_with_complete_success": ["UNIFIED_AP"],
+    "device_families_with_partial_success": ["ROUTER"],
+    "device_families_with_complete_failure": [],
+    "success_details": [
+      {
+        "device_family": "UNIFIED_AP", 
+        "kpi_name": "CPU Utilization",
+        "status": "success",
+        "operation": "extracted"
+      }
+    ],
+    "failure_details": [
+      {
+        "device_family": "ROUTER",
+        "kpi_name": "Invalid KPI",
+        "status": "failed",
+        "error_info": {
+          "error_type": "kpi_not_found",
+          "error_message": "KPI not found for this device family",
+          "error_code": "KPI_NOT_FOUND"
+        }
+      }
+    ]
+  },
+  "operation_summary_complete_failure": {
+    "total_device_families_processed": 0,
+    "total_kpis_processed": 0, 
+    "total_successful_operations": 0,
+    "total_failed_operations": 0,
+    "device_families_with_complete_success": [],
+    "device_families_with_partial_success": [],
+    "device_families_with_complete_failure": [],
+    "success_details": [],
+    "failure_details": []
+  },
+  "response_no_data_message": {
+    "message": "No configurations or components to process for module 'assurance_device_health_score_settings_workflow_manager'. Verify input filters or configuration.",
+    "operation_summary": {
+      "total_device_families_processed": 0,
+      "total_kpis_processed": 0,
+      "total_successful_operations": 0,
+      "total_failed_operations": 0, 
+      "device_families_with_complete_success": [],
+      "device_families_with_partial_success": [],
+      "device_families_with_complete_failure": [],
+      "success_details": [],
+      "failure_details": []
+    }
+  }
+}

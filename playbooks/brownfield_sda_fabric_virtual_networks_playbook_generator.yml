@@ -1,0 +1,223 @@
+---
+- name: Configure the Fabric Vlan(s), Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate the playbook for Fabric Vlan(s), Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
+      cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          # ====================================================================================
+          # Scenario 1: Generate all configurations (Fabric VLANs, Virtual Networks, Anycast Gateways)
+          # ====================================================================================
+          - generate_all_configurations: true
+            file_path: "/tmp/all_configurations.yml"
+            # ====================================================================================
+            # Scenario 2: Fabric VLANs - Filter by VLAN Name
+            # Fetches fabric VLAN from Cisco Catalyst Center using vlan_name as filter
+            # ====================================================================================
+            # - file_path: "/tmp/fabric_vlan_by_name_single.yml"
+            #   component_specific_filters:
+            #     components_list: ["fabric_vlan"]
+            #     fabric_vlan:
+            #       - vlan_name: "Test123"
+            # ====================================================================================
+            # Scenario 3: Fabric VLANs - Filter by VLAN Name (Multiple)
+            # Fetches multiple fabric VLANs from Cisco Catalyst Center using vlan_name as filter
+            # ====================================================================================
+            # - file_path: "/tmp/fabric_vlan_by_name_multiple.yml"
+            #   component_specific_filters:
+            #     components_list: ["fabric_vlan"]
+            #     fabric_vlan:
+            #       - vlan_name: "Test123"
+            #       - vlan_name: "abc"
+            # ====================================================================================
+            # Scenario 4: Fabric VLANs - Filter by VLAN ID (Single)
+            # Fetches a single fabric VLAN from Cisco Catalyst Center using vlan_id as filter
+            # ====================================================================================
+            # - file_path: "/tmp/fabric_vlan_by_id_single.yml"
+            #   component_specific_filters:
+            #     components_list: ["fabric_vlan"]
+            #     fabric_vlan:
+            #       - vlan_id: 1031
+            # ====================================================================================
+            # Scenario 5: Fabric VLANs - Filter by VLAN ID (Multiple)
+            # Fetches multiple fabric VLANs from Cisco Catalyst Center using vlan_id as filter
+            # ====================================================================================
+            # - file_path: "/tmp/fabric_vlan_by_id_multiple.yml"
+            #   component_specific_filters:
+            #     components_list: ["fabric_vlan"]
+            #     fabric_vlan:
+            #       - vlan_id: 1031
+            #       - vlan_id: 1038
+            # ====================================================================================
+            # Scenario 6: Fabric VLANs - Filter by VLAN Name and ID (Combined)
+            # Fetches fabric VLANs from Cisco Catalyst Center using both vlan_name and vlan_id filters
+            # ====================================================================================
+            # - file_path: "/tmp/fabric_vlan_by_name_and_id.yml"
+            #   component_specific_filters:
+            #     components_list: ["fabric_vlan"]
+            #     fabric_vlan:
+            #       - vlan_name: "Chennai-VN6-Pool1"
+            #         vlan_id: 1031
+            #       - vlan_name: "Chennai-VN9-Pool2"
+            # ====================================================================================
+            # Scenario 7: Fabric VLANs - Invalid VLAN ID Test
+            # Tests validation for VLAN IDs outside the acceptable range (2-4094)
+            # ====================================================================================
+            # - file_path: "/tmp/fabric_vlan_invalid_id.yml"
+            #   component_specific_filters:
+            #     components_list: ["fabric_vlan"]
+            #     fabric_vlan:
+            #       - vlan_id: 10031
+            #       - vlan_id: 10052
+            # ====================================================================================
+            # Scenario 8: Fabric VLANs - Fetch All without Filters presented in components_list
+            # Tests behavior when components_list is specified but no filter criteria provided
+            # ====================================================================================
+            # - file_path: "/tmp/fabric_vlan_empty_filter.yml"  # optional
+            #   component_specific_filters:  # optional
+            #     components_list: ["virtual_networks"]
+            # ====================================================================================
+            # Scenario 9: Virtual Networks - Filter by VN Name (Single)
+            # Fetches a single virtual network from Cisco Catalyst Center using vn_name as filter
+            # ====================================================================================
+            # - file_path: "/tmp/virtual_network_by_name_single.yml"
+            #   component_specific_filters:
+            #     components_list: ["virtual_networks"]
+            #     virtual_networks:
+            #       - vn_name: "VN1"
+            # ====================================================================================
+            # Scenario 10: Virtual Networks - Filter by VN Name (Multiple)
+            # Fetches multiple virtual networks from Cisco Catalyst Center using vn_name as filter
+            # ====================================================================================
+            # - file_path: "/tmp/virtual_network_by_name_multiple.yml"
+            #   component_specific_filters:
+            #     components_list: ["virtual_networks"]
+            #     virtual_networks:
+            #       - vn_name: "VN1"
+            #       - vn_name: "VN3"
+            # ====================================================================================
+            # Scenario 11: Anycast Gateways - Filter by VN Name
+            # Fetches anycast gateways from Cisco Catalyst Center using vn_name as filter
+            # ====================================================================================
+            # - file_path: "/tmp/anycast_gateway_by_vn_name.yml"
+            #   component_specific_filters:
+            #     components_list: ["anycast_gateways"]
+            #     anycast_gateways:
+            #       - vn_name: "Chennai_VN1"
+            #       - vn_name: "Chennai_VN3"
+            # ====================================================================================
+            # Scenario 12: Anycast Gateways - Filter by IP Pool Name
+            # Fetches anycast gateways from Cisco Catalyst Center using ip_pool_name as filter
+            # ====================================================================================
+            # - file_path: "/tmp/anycast_gateway_by_ip_pool.yml"
+            #   component_specific_filters:
+            #     components_list: ["anycast_gateways"]
+            #     anycast_gateways:
+            #       - ip_pool_name: "Chennai-VN3-Pool1"
+            #       - ip_pool_name: "Chennai-VN1-Pool2"
+            # ====================================================================================
+            # Scenario 13: Anycast Gateways - Filter by VLAN ID and IP Pool Name
+            # Fetches anycast gateways from Cisco Catalyst Center using vlan_id as filter
+            # Can be combined with ip_pool_name for more specific filtering
+            # ====================================================================================
+            # - file_path: "/tmp/anycast_gateway_by_vlan_id.yml"
+            #   component_specific_filters:
+            #     components_list: ["anycast_gateways"]
+            #     anycast_gateways:
+            #       - vlan_id: 1032
+            #       - vlan_id: 1033
+            #       - ip_pool_name: "Chennai-VN1-Pool2"
+            # ====================================================================================
+            # Scenario 14: Anycast Gateways - Filter by VLAN Name
+            # Fetches anycast gateways from Cisco Catalyst Center using vlan_name as filter
+            # ====================================================================================
+            # - file_path: "/tmp/anycast_gateway_by_vlan_name.yml"
+            #   component_specific_filters:
+            #     components_list: ["anycast_gateways"]
+            #     anycast_gateways:
+            #       - vlan_name: "Chennai-VN1-Pool2"
+            #       - vlan_name: "Chennai-VN7-Pool1"
+            # ====================================================================================
+            # Scenario 15: Anycast Gateways - Filter by VLAN Name and ID (Combined)
+            # Fetches anycast gateways from Cisco Catalyst Center using both vlan_name and vlan_id
+            # ====================================================================================
+            # - file_path: "/tmp/anycast_gateway_by_vlan_name_and_id.yml"
+            #   component_specific_filters:
+            #     components_list: ["anycast_gateways"]
+            #     anycast_gateways:
+            #       - vlan_name: "Chennai-VN1-Pool2"
+            #         vlan_id: 1022
+            #       - vlan_name: "Chennai-VN7-Pool1"
+            #         vlan_id: 1033
+            # ====================================================================================
+            # Scenario 16: Anycast Gateways - All Filters Combined
+            # Fetches anycast gateways using all available filters: vlan_name, vlan_id,
+            # ip_pool_name, and vn_name for comprehensive filtering
+            # ====================================================================================
+            # - file_path: "/tmp/anycast_gateway_all_filters.yml"
+            #   component_specific_filters:
+            #     components_list: ["anycast_gateways"]
+            #     anycast_gateways:
+            #       - vlan_name: "Chennai-VN1-Pool2"
+            #         vlan_id: 1022
+            #         ip_pool_name: "Chennai-VN1-Pool2"
+            #         vn_name: "Chennai_VN1"
+            #       - vlan_name: "Chennai-VN7-Pool1"
+            #         vlan_id: 1033
+            #         ip_pool_name: "Chennai-VN7-Pool1"
+            #         vn_name: "Chennai_VN7"
+            # ====================================================================================
+            # Scenario 17: Multiple Components - Fetch All Component Types
+            # Fetches fabric VLANs, virtual networks, and anycast gateways simultaneously
+            # Each component can have its own filter criteria
+            # ====================================================================================
+            # - file_path: "/tmp/multiple_components.yml"
+            #   component_specific_filters:
+            #     components_list: ["fabric_vlan", "virtual_networks", "anycast_gateways"]
+            #     fabric_vlan:
+            #       - vlan_name: "Test123"
+            #     virtual_networks:
+            #       - vn_name: "VN1"
+            #     anycast_gateways:
+            #       - vn_name: "Chennai_VN1"
+            # ====================================================================================
+            # Scenario 18: All Components with Different Filters
+            # Demonstrates fetching all component types with varied filter combinations
+            # ====================================================================================
+            # - file_path: "/tmp/all_components_custom_filters.yml"
+            #   component_specific_filters:
+            #     components_list: ["fabric_vlan", "virtual_networks", "anycast_gateways"]
+            #     fabric_vlan:
+            #       - vlan_id: 1031
+            #     virtual_networks:
+            #       - vn_name: "VN1"
+            #     anycast_gateways:
+            #       - ip_pool_name: "Chennai-VN1-Pool2"
+            # ====================================================================================
+            # Scenario 19: No File Path - Default File Generation
+            # Tests default file name generation when file_path is not provided
+            # Default format: virtual_networks_design_workflow_manager_playbook_<timestamp>.yml
+            # ====================================================================================
+            # - component_specific_filters:
+            #     components_list: ["fabric_vlan"]
+            #     fabric_vlan:
+            #       - vlan_name: "Test123"
+
+      register: result
+
+      tags:
+        - brownfield_fabric_virtual_networks_generator_testing

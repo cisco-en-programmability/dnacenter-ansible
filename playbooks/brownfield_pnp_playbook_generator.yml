@@ -1,0 +1,26 @@
+---
+- name: Generate PnP Brownfield Configuration
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate all PnP device configurations
+      cisco.dnac.brownfield_pnp_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        state: gathered
+        config:
+          - generate_all_configurations: true
+            component_specific_filters:
+              components_list: ["device_info"]
+            global_filters:
+              device_state: ["Onboarding"]

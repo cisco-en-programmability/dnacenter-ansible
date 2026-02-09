@@ -219,8 +219,7 @@ requirements:
   - python >= 3.9
 notes:
   - SDK Method used are
-    wireless.create_wireless_profile
-    ,
+    wireless.create_wireless_profile,
     wireless.update_application_policy,
     wireless.get_wireless_profile,
     site_design.assign_sites,
@@ -2253,55 +2252,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             return False, unmatched_keys
 
         return True, None
-
-    def get_wireless_profile(self, profile_name):
-        """
-        Get wireless profile from the given playbook data and response with
-        wireless profile information with ssid details.
-
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            profile_name (str): A string containing input data to get wireless profile
-                                for given profile name.
-
-        Returns:
-            dict or None: Dict contains wireless profile information, otherwise None.
-
-        Description:
-            This function used to get the wireless profile from the input config.
-        """
-
-        self.log("Get wireless profile for : {0}".format(profile_name), "INFO")
-        try:
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_wireless_profiles",
-                params={"wireless_profile_name": profile_name},
-            )
-            self.log(
-                "Response from 'get_wireless_profiles_v1' API: {0}".format(
-                    self.pprint(response)
-                ),
-                "DEBUG",
-            )
-            if not response:
-                self.log(
-                    "No wireless profile found for: {0}".format(profile_name), "INFO"
-                )
-                return None
-            self.log(
-                "Received the wireless profile response: {0}".format(
-                    self.pprint(response)
-                ),
-                "INFO",
-            )
-            return response.get("response")[0]
-
-        except Exception as e:
-            msg = "An error occurred during get wireless profile: {0}".format(str(e))
-            self.log(msg, "ERROR")
-            self.set_operation_result("failed", False, msg, "ERROR")
-            return None
 
     def get_ssid_details(self, site_id, site_name):
         """
