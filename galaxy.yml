@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: dnac
-version: 6.43.0
+version: 6.45.0
 readme: README.md
 authors:
   - Rafael Campos <rcampos@altus.cr>
@@ -30,6 +30,7 @@ authors:
   - Priyadharshini Balakumar <pbalaku2@cisco.com>
   - Karthick S N <kasn@cisco.com>
   - Sunil Shatagopa <sshatago@cisco.com>
+  - Vivek Raj Penke <vpenke@cisco.com>
 
 description: Ansible Modules for Cisco DNA Center
 license_file: "LICENSE"
