@@ -222,7 +222,11 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
                 "components_processed": 0,
                 "components_skipped": 1,
                 "configurations_count": 0,
-                "message": "No device replacement workflows found to process for module 'rma_workflow_manager'. Verify that RMA workflows are configured in Catalyst Center or check user permissions.",
+                "message": (
+                    "No device replacement workflows found to process for module "
+                    "'rma_workflow_manager'. Verify that RMA workflows are configured in "
+                    "Catalyst Center or check user permissions."
+                ),
                 "status": "success"
             }
         )
