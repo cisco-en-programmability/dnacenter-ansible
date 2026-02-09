@@ -20,6 +20,7 @@ description:
 - The YAML configurations generated represent the network device inventory configurations
   such as device credentials, management IP addresses, device types, and other device-specific
   attributes configured on the Cisco Catalyst Center.
+- Automatically generates provision_wired_device configurations by mapping devices to their assigned sites.
 - Devices with type 'NETWORK_DEVICE' are automatically excluded from all generated configurations.
 version_added: 6.44.0
 extends_documentation_fragment:
@@ -133,10 +134,13 @@ notes:
 - SDK Methods used are
     - devices.Devices.get_device_list
     - devices.Devices.get_network_device_by_ip
+    - licenses.Licenses.device_license_summary
 - Paths used are
     - GET /dna/intent/api/v2/devices
     - GET /dna/intent/api/v2/network-device
+    - GET /dna/intent/api/v1/licenses/device/summary
 - Devices with type 'NETWORK_DEVICE' are automatically excluded from all generated configurations.
+- A separate provision_wired_device configuration is generated below the device configs using site information from device_license_summary.
 seealso:
 - module: cisco.dnac.inventory_workflow_manager
   description: Module for managing inventory configurations in Cisco Catalyst Center.
@@ -277,6 +281,20 @@ EXAMPLES = r"""
           inventory_workflow_manager:
             - role: "ACCESS"
         file_path: "./inventory_access_role_devices.yml"
+
+- name: Generate inventory playbook with auto-populated provision_wired_device
+  cisco.dnac.brownfield_inventory_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    config:
+      - generate_all_configurations: true
+        file_path: "./inventory_with_provisioning.yml"
 """
 RETURN = r"""
 # Case_1: Success Scenario
@@ -822,26 +840,36 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Complex nested structures - user must provide in vars_files
             "add_user_defined_field": {
                 "type": "list",
-                "source_key": None,
-                "transform": lambda x: "{{ item.add_user_defined_field }}"  # Template variable from vars_files
+                "elements": "dict",
+                "name": {"type": "str"},
+                "description": {"type": "str"},
+                "value": {"type": "str"},
             },
             
             "provision_wired_device": {
                 "type": "list",
-                "source_key": None,
-                "transform": lambda x: "{{ item.provision_wired_device }}"  # Template variable from vars_files
+                "elements": "dict",
+                "device_ip": {"type": "str"},
+                "site_name": {"type": "str"},
+                "resync_retry_count": {"default": 200, "type": "int"},
+                "resync_retry_interval": {"default": 2, "type": "int"},
             },
             
             "update_interface_details": {
                 "type": "dict",
-                "source_key": None,
-                "transform": lambda x: "{{ item.update_interface_details }}"  # Template variable from vars_files
+                "description": {"type": "str"},
+                "vlan_id": {"type": "int"},
+                "voice_vlan_id": {"type": "int"},
+                "interface_name": {"type": "list", "elements": "str"},
+                "deployment_mode": {"default": "Deploy", "type": "str"},
+                "clear_mac_address_table": {"default": False, "type": "bool"},
+                "admin_status": {"type": "str"},
             },
             
             "export_device_list": {
                 "type": "dict",
                 "source_key": None,
-                "transform": lambda x: "{{ item.export_device_list }}"  # Template variable from vars_files
+                "transform": lambda x: x if x else None  # Template variable from vars_files
             },
             
             # Export device details limit
@@ -852,7 +880,188 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             }
         })
 
+    def fetch_device_site_mapping(self, device_id):
+        """
+        Fetch site assignment for a specific device.
+        
+        Args:
+            device_id (str): Device UUID
+            
+        Returns:
+            str: Site name path (e.g., "Global/USA/San Francisco/BGL_18") or empty string if not assigned
+        """
+        try:
+            self.log("Fetching site assignment for device: {0}".format(device_id), "DEBUG")
+            response = self.dnac._exec(
+                family="devices",
+                function="get_assigned_site_for_device",
+                params={"device_id": device_id},
+                op_modifies=False
+            )
+
+            self.log("Site assignment response for device {0}: {1}".format(device_id, response), "INFO")
+            
+            if response and response.get("response"):
+                site_info = response.get("response", {})
+                site_name_path = site_info.get("groupNameHierarchy") or site_info.get("site")
+                if site_name_path:
+                    self.log("Device {0} assigned to site: {1}".format(device_id, site_name_path), "DEBUG")
+                    return site_name_path
+                else:
+                    self.log("Device {0} has no site assignment".format(device_id), "DEBUG")
+                    return ""
+            else:
+                self.log("No site info found for device: {0}".format(device_id), "DEBUG")
+                return ""
+                
+        except Exception as e:
+            self.log("Error fetching site for device {0}: {1}".format(device_id, str(e)), "WARNING")
+            return ""
+
+    def build_provision_wired_device_config(self, device_list):
+        """
+        Build provision_wired_device configuration from device list.
+        
+        Args:
+            device_list (list): List of device dictionaries from API
+            
+        Returns:
+            list: List of provision_wired_device configuration dictionaries
+        """
+        self.log("Building provision_wired_device config for {0} devices".format(len(device_list)), "INFO")
+        
+        provision_devices = []
+        
+        for device in device_list:
+            try:
+                device_ip = device.get("managementIpAddress") or device.get("ipAddress")
+                device_id = device.get("id") or device.get("instanceUuid")
+                device_hostname = device.get("hostname", "Unknown")
+                
+                if not device_ip:
+                    self.log("Skipping device {0}: no management IP".format(device_hostname), "DEBUG")
+                    continue
+                
+                # Fetch site assignment for this device
+                site_name = self.fetch_device_site_mapping(device_id)
+                
+                # If no site assigned, use placeholder
+                if not site_name:
+                    site_name = "Global/{{ site_name }}"
+                    self.log("Device {0}: using placeholder for site_name".format(device_ip), "DEBUG")
+                
+                # Build provision device entry
+                provision_entry = {
+                    "device_ip": device_ip,
+                    "site_name": site_name,
+                    "resync_retry_count": 200,
+                    "resync_retry_interval": 2
+                }
+                
+                provision_devices.append(provision_entry)
+                self.log("Added provision config for device {0} ({1})".format(device_ip, device_hostname), "DEBUG")
+                
+            except Exception as e:
+                self.log("Error building provision config for device: {0}".format(str(e)), "ERROR")
+                continue
+        
+        self.log("Built provision_wired_device configs: {0} devices".format(len(provision_devices)), "INFO")
+        return provision_devices
+
+    def fetch_device_license_summary(self):
+        """
+        Fetch device license summary which includes site information.
+        
+        Returns:
+            list: List of license summary dictionaries containing device IP and site
+        """
+        try:
+            self.log("Fetching device license summary for site information", "INFO")
+            response = self.dnac._exec(
+                family="licenses",
+                function="device_license_summary",
+                params={
+                    "limit": 500,
+                    "page_number": 1,
+                    "order": "asc"
+                }
+            )
+            
+            if response and isinstance(response, list):
+                license_summaries = response
+                self.log("Retrieved {0} license summaries".format(len(license_summaries)), "INFO")
+                return license_summaries
+            elif response and isinstance(response, dict) and "response" in response:
+                license_summaries = response.get("response", [])
+                self.log("Retrieved {0} license summaries".format(len(license_summaries)), "INFO")
+                return license_summaries
+            else:
+                self.log("No license summary data returned", "WARNING")
+                return []
+                
+        except Exception as e:
+            self.log("Error fetching device license summary: {0}".format(str(e)), "WARNING")
+            return []
+
+    def build_provision_wired_device_from_license_summary(self):
+        """
+        Build provision_wired_device configuration from license summary data.
+        Creates a separate config entry with devices and their site information.
+        
+        Returns:
+            dict: Configuration dictionary with provision_wired_device from license summary
+        """
+        self.log("Building provision_wired_device config from license summary", "INFO")
+        
+        # Fetch license summary data
+        license_summaries = self.fetch_device_license_summary()
+        
+        if not license_summaries:
+            self.log("No license summary data available for provisioning config", "WARNING")
+            return {}
+        
+        provision_devices = []
+        
+        for device_license in license_summaries:
+            try:
+                device_ip = device_license.get("ip_address")
+                site_name = device_license.get("site") or "Global"
+                
+                if not device_ip:
+                    self.log("Skipping device: no IP address in license summary", "DEBUG")
+                    continue
+                
+                # Build provision device entry from license summary
+                provision_entry = {
+                    "device_ip": device_ip,
+                    "site_name": site_name,
+                    "resync_retry_count": 200,
+                    "resync_retry_interval": 2
+                }
+                
+                provision_devices.append(provision_entry)
+                self.log("Added provision config from license summary - IP: {0}, Site: {1}".format(
+                    device_ip, site_name
+                ), "DEBUG")
+                
+            except Exception as e:
+                self.log("Error processing license summary for device: {0}".format(str(e)), "ERROR")
+                continue
+        
+        if provision_devices:
+            provision_config = {
+                "provision_wired_device": provision_devices
+            }
+            self.log("Built provision config with {0} devices from license summary".format(
+                len(provision_devices)
+            ), "INFO")
+            return provision_config
+        else:
+            self.log("No provision devices built from license summary", "WARNING")
+            return {}
+
     def transform_ip_address_list(self, api_value):
+
         """
         Transform API ipAddress to ip_address_list format.
         Ensures it's always returned as a list.
@@ -953,6 +1162,18 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 self.log("Devices transformed successfully: {0} configurations".format(len(transformed_devices)), "INFO")
+                
+                # Step 4: Add separate provision_wired_device config from license summary
+                self.log("Building separate provision_wired_device config from license summary", "INFO")
+                license_provision_config = self.build_provision_wired_device_from_license_summary()
+                
+                if license_provision_config:
+                    # Add provision config as a separate entry below the device configs
+                    transformed_devices.append(license_provision_config)
+                    self.log("Added separate provision_wired_device config to output", "INFO")
+                else:
+                    self.log("No provision config built from license summary", "DEBUG")
+                
                 return transformed_devices
 
         except Exception as e:
@@ -1084,12 +1305,40 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
 
-        final_dict = {"config": final_list}
+        # Separate provision_wired_device config from device configs
+        device_configs = []
+        provision_config = None
+        
+        self.log("Separating configs from final_list with {0} total items".format(len(final_list)), "DEBUG")
+        
+        for idx, config in enumerate(final_list):
+            self.log("Config {0}: keys = {1}".format(idx, list(config.keys()) if isinstance(config, dict) else type(config)), "DEBUG")
+            # Check if this is the main provision_wired_device config (not the null field in device configs)
+            if isinstance(config, dict) and "provision_wired_device" in config and isinstance(config.get("provision_wired_device"), list):
+                provision_config = config
+                self.log("Found provision_wired_device config at index {0}".format(idx), "DEBUG")
+            else:
+                device_configs.append(config)
+                self.log("Added device config at index {0}".format(idx), "DEBUG")
+        
+        self.log("Separated configs - Device configs: {0}, Provision config: {1}".format(
+            len(device_configs), "yes" if provision_config else "no"), "DEBUG")
+        
+        # Create the list of dictionaries to output (may be one or two configs)
+        dicts_to_write = []
+        
+        if device_configs:
+            dicts_to_write.append({"config": device_configs})
+            self.log("Added device configs section with {0} configs".format(len(device_configs)), "DEBUG")
+        
+        if provision_config:
+            dicts_to_write.append({"config": [provision_config]})
+            self.log("Added provision_wired_device config section", "DEBUG")
+        
+        self.log("Final dictionaries created: {0} config sections".format(len(dicts_to_write)), "DEBUG")
 
-        self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
-
-        self.log("Writing final dictionary to file: {0}".format(file_path), "INFO")
-        write_result = self.write_dict_to_yaml(final_dict, file_path)
+        self.log("Writing final dictionaries to file: {0}".format(file_path), "INFO")
+        write_result = self.write_dicts_to_yaml(dicts_to_write, file_path)
         if write_result:
             self.msg = {
                 "YAML config generation Task succeeded for module '{0}'.".format(
@@ -1106,6 +1355,151 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
         return self
+
+    def write_dicts_to_yaml(self, dicts_list, file_path, dumper=None):
+        """
+        Writes multiple dictionaries as separate YAML documents to a file.
+        Each dictionary becomes a separate YAML document separated by ---.
+        Adds blank lines before top-level config items for better readability.
+        
+        Args:
+            dicts_list (list): List of dictionaries to write as separate YAML documents.
+            file_path (str): The path where the YAML file will be written.
+            dumper: The YAML dumper class to use for serialization (default is OrderedDumper).
+        Returns:
+            bool: True if the YAML file was successfully written, False otherwise.
+        """
+        if dumper is None:
+            dumper = OrderedDumper
+
+        self.log(
+            "Starting to write {0} dictionaries to YAML file at: {1}".format(len(dicts_list), file_path),
+            "DEBUG",
+        )
+        try:
+            self.log("Starting conversion of dictionaries to YAML format.", "INFO")
+            
+            all_yaml_content = "---\n"
+            
+            for idx, data_dict in enumerate(dicts_list):
+                yaml_content = yaml.dump(
+                    data_dict,
+                    Dumper=dumper,
+                    default_flow_style=False,
+                    indent=2,
+                    allow_unicode=True,
+                    sort_keys=False,
+                )
+                
+                # Post-process to add blank lines only before top-level list items (config items)
+                lines = yaml_content.split('\n')
+                result_lines = []
+                
+                for i, line in enumerate(lines):
+                    # Check if this line starts a top-level list item (no leading whitespace before -)
+                    if line.startswith('- ') and i > 0:
+                        # Check if previous line is not blank
+                        if result_lines and result_lines[-1].strip() != '':
+                            # Add a blank line before this top-level list item
+                            result_lines.append('')
+                    result_lines.append(line)
+                
+                yaml_content = '\n'.join(result_lines)
+                all_yaml_content += yaml_content
+                
+                # Add document separator before next document (if not the last one)
+                if idx < len(dicts_list) - 1:
+                    all_yaml_content += "\n---\n"
+            
+            self.log("Dictionaries successfully converted to YAML format.", "DEBUG")
+
+            # Ensure the directory exists
+            self.ensure_directory_exists(file_path)
+
+            self.log(
+                "Preparing to write YAML content to file: {0}".format(file_path), "INFO"
+            )
+            with open(file_path, "w") as yaml_file:
+                yaml_file.write(all_yaml_content)
+
+            self.log(
+                "Successfully written {0} YAML documents to {1}.".format(len(dicts_list), file_path), "INFO"
+            )
+            return True
+
+        except Exception as e:
+            self.msg = "An error occurred while writing to {0}: {1}".format(
+                file_path, str(e)
+            )
+            self.fail_and_exit(self.msg)
+
+    def write_dict_to_yaml(self, data_dict, file_path, dumper=None):
+        """
+        Override: Converts a dictionary to YAML format and writes it to a specified file path.
+        Adds blank lines before top-level config items (no indentation) for better readability.
+        
+        Args:
+            data_dict (dict): The dictionary to convert to YAML format.
+            file_path (str): The path where the YAML file will be written.
+            dumper: The YAML dumper class to use for serialization (default is OrderedDumper).
+        Returns:
+            bool: True if the YAML file was successfully written, False otherwise.
+        """
+        if dumper is None:
+            dumper = OrderedDumper
+
+        self.log(
+            "Starting to write dictionary to YAML file at: {0}".format(file_path),
+            "DEBUG",
+        )
+        try:
+            self.log("Starting conversion of dictionary to YAML format.", "INFO")
+            yaml_content = yaml.dump(
+                data_dict,
+                Dumper=dumper,
+                default_flow_style=False,
+                indent=2,
+                allow_unicode=True,
+                sort_keys=False,
+            )
+            yaml_content = "---\n" + yaml_content
+            
+            # Post-process to add blank lines only before top-level list items (config items)
+            # Top-level items have no indentation (start with - at column 0)
+            lines = yaml_content.split('\n')
+            result_lines = []
+            
+            for i, line in enumerate(lines):
+                # Check if this line starts a top-level list item (no leading whitespace before -)
+                if line.startswith('- ') and i > 0:
+                    # Check if previous line is not blank and not the opening ---
+                    if result_lines and result_lines[-1].strip() != '' and result_lines[-1] != '---':
+                        # Add a blank line before this top-level list item
+                        result_lines.append('')
+                result_lines.append(line)
+            
+            yaml_content = '\n'.join(result_lines)
+            self.log("Dictionary successfully converted to YAML format with blank lines before config items.", "DEBUG")
+
+            # Ensure the directory exists
+            self.ensure_directory_exists(file_path)
+
+            self.log(
+                "Preparing to write YAML content to file: {0}".format(file_path), "INFO"
+            )
+            with open(file_path, "w") as yaml_file:
+                yaml_file.write(yaml_content)
+
+            self.log(
+                "Successfully written YAML content to {0}.".format(file_path), "INFO"
+            )
+            return True
+
+        except Exception as e:
+            self.msg = "An error occurred while writing to {0}: {1}".format(
+                file_path, str(e)
+            )
+            self.fail_and_exit(self.msg)
 
     def get_diff_gathered(self):
         """
