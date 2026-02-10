@@ -22,7 +22,7 @@
           # ====================================================================================
           # Scenario 1: Generate all site configurations (area, building, floor)
           # ====================================================================================
-          # - generate_all_configurations: true
+          - generate_all_configurations: true
           #   file_path: "/tmp/all_site_configurations.yaml"
 
           # ====================================================================================
@@ -124,15 +124,15 @@
           # Scenario 10: Pattern filtering for parentNameHierarchy
           # `Global/USA/.*` selects descendants under Global/USA (not the scope node itself).
           # ====================================================================================
-          - file_path: "/tmp/site_by_parent_name_hierarchy_pattern.yaml"
-            component_specific_filters:
-              components_list: ["parentNameHierarchy", "type"]
-              parentNameHierarchy:
-                - "Global/USA/.*"
-              type:
-                - "area"
-                - "building"
-                - "floor"
+          # - file_path: "/tmp/site_by_parent_name_hierarchy_pattern.yaml"
+          #   component_specific_filters:
+          #     components_list: ["parentNameHierarchy", "type"]
+          #     parentNameHierarchy:
+          #       - "Global/USA/.*"
+          #     type:
+          #       - "area"
+          #       - "building"
+          #       - "floor"
 
           # ====================================================================================
           # Scenario 11: Combined pattern filtering for nameHierarchy + parentNameHierarchy

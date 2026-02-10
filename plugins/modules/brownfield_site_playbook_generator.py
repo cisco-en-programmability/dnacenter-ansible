@@ -1170,14 +1170,15 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             end_time = time.time()
             self.log(
                 "Exiting apply_site_post_filters early because no post-filters "
-                "were provided. start_time={0:.6f}, end_time={1:.6f}, "
-                "duration_seconds={2:.6f}, input_records={3}, output_records={4}, "
-                "filtered_out_records=0, processed_filter_keys=0, skipped_filter_keys=2.".format(
-                    start_time,
-                    end_time,
-                    end_time - start_time,
-                    input_records,
-                    input_records,
+                "were provided. start_time={start_time:.6f}, end_time={end_time:.6f}, "
+                "duration_seconds={duration_seconds:.6f}, input_records={input_records}, "
+                "output_records={output_records}, filtered_out_records=0, "
+                "processed_filter_keys=0, skipped_filter_keys=2.".format(
+                    start_time=start_time,
+                    end_time=end_time,
+                    duration_seconds=end_time - start_time,
+                    input_records=input_records,
+                    output_records=input_records,
                 ),
                 "INFO",
             )
