@@ -3,7 +3,7 @@
 # BROWNFIELD DISCOVERY PLAYBOOK GENERATOR - EXAMPLE PLAYBOOK
 # ===================================================================================================
 
-- name: Cisco DNA Center Brownfield Discovery Playbook Generator Examples
+- name: Catalyst Center Center Brownfield Discovery Playbook Generator Examples
   hosts: dnac_servers
   gather_facts: false
   connection: local
