@@ -2001,9 +2001,15 @@ class UserandRole(DnacBase):
 
             for user in users:
                 if input_config.get("username") is not None:
-                    if user.get("username") == input_config.get("username").lower():
-                        current_user_configuration = user
-                        user_exists = True
+                    if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+                        if user.get("username") == input_config.get("username").lower():
+                            current_user_configuration = user
+                            user_exists = True
+                    else:
+                        if user.get("username") == input_config.get("username"):
+                            current_user_configuration = user
+                            user_exists = True
+
                 elif input_config.get("email") is not None:
                     if user.get("email") == input_config.get("email"):
                         current_user_configuration = user
