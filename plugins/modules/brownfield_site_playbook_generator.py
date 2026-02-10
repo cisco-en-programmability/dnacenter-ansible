@@ -91,17 +91,20 @@ options:
             - Site name hierarchy filter.
             - Can be a list of name hierarchies to match multiple sites.
             type: list
+            elements: str
           parentNameHierarchy:
             description:
             - Parent site name hierarchy filter.
             - Can be a list of parent name hierarchies to match multiple sites.
             type: list
+            elements: str
           type:
             description:
             - Site type filter.
             - Valid values are "area", "building", and "floor".
             - Can be a list to match multiple site types.
             type: list
+            elements: str
 requirements:
 - dnacentersdk >= 2.3.7.6
 - python >= 3.9
@@ -110,6 +113,12 @@ notes:
     - sites.Sites.get_sites
 - Paths used are
     - GET /dna/intent/api/v1/sites
+seealso:
+- module: cisco.dnac.site_workflow_manager
+  description: Module for managing site configurations.
+- name: Site Management API
+  description: Specific documentation for site operations in Catalyst Center version.
+  link: https://developer.cisco.com/docs/dna-center/#!sites
 """
 
 EXAMPLES = r"""
@@ -210,7 +219,7 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/catc_site_components_config.yaml"
         component_specific_filters:
-          components_list: ["nameHierarchy","type"]
+          components_list: ["nameHierarchy", "type"]
           nameHierarchy:
             - "Global/USA"
             - "Global/Europe"
@@ -436,14 +445,14 @@ response_2:
     {
       "msg": {
         "status": "ok",
-        "message": "No configurations found for module 'site_workflow_manager'. Verify filters and component availability. Components attempted: ['areas', 'buildings', 'floors']",
+        "message": "No configurations found for module 'site_workflow_manager'. Verify filters and component availability. Components attempted: ['site']",
         "components_attempted": 3,
         "components_processed": 0,
         "components_skipped": 0
       },
       "response": {
         "status": "ok",
-        "message": "No configurations found for module 'site_workflow_manager'. Verify filters and component availability. Components attempted: ['areas', 'buildings', 'floors']",
+        "message": "No configurations found for module 'site_workflow_manager'. Verify filters and component availability. Components attempted: ['site']",
         "components_attempted": 3,
         "components_processed": 0,
         "components_skipped": 0
@@ -3469,7 +3478,7 @@ def main():
         "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
         "dnac_password": {"type": "str", "no_log": True},
         "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.3.7.6"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
         "dnac_debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
