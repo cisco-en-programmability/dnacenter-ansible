@@ -60,6 +60,66 @@
         "snmpRwCommunity": "private",
         "snmpRetry": 3,
         "snmpTimeout": 5
+      },
+      {
+        "id": "device-004",
+        "hostname": "core-router-01",
+        "managementIpAddress": "210.1.1.1",
+        "serialNumber": "CR1234567",
+        "macAddress": "22:33:44:55:66:77",
+        "role": "CORE",
+        "type": "Cisco ASR 1000 Series Router",
+        "cliTransport": "ssh",
+        "netconfPort": "830",
+        "snmpVersion": "v3",
+        "snmpMode": "AUTHPRIV",
+        "snmpUsername": "snmpv3user",
+        "snmpAuthProtocol": "SHA",
+        "snmpPrivProtocol": "AES256",
+        "snmpRoCommunity": "",
+        "snmpRwCommunity": "",
+        "snmpRetry": 3,
+        "snmpTimeout": 5
+      },
+      {
+        "id": "device-005",
+        "hostname": "core-router-02",
+        "managementIpAddress": "210.1.1.2",
+        "serialNumber": "CR7654321",
+        "macAddress": "33:44:55:66:77:88",
+        "role": "CORE",
+        "type": "Cisco ASR 1000 Series Router",
+        "cliTransport": "ssh",
+        "netconfPort": "830",
+        "snmpVersion": "v3",
+        "snmpMode": "AUTHPRIV",
+        "snmpUsername": "snmpv3user",
+        "snmpAuthProtocol": "SHA",
+        "snmpPrivProtocol": "AES256",
+        "snmpRoCommunity": "",
+        "snmpRwCommunity": "",
+        "snmpRetry": 3,
+        "snmpTimeout": 5
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "serialNumber": "AS1234567",
+        "macAddress": "44:55:66:77:88:99",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch",
+        "cliTransport": "ssh",
+        "netconfPort": "830",
+        "snmpVersion": "v3",
+        "snmpMode": "AUTHPRIV",
+        "snmpUsername": "snmpv3user",
+        "snmpAuthProtocol": "SHA",
+        "snmpPrivProtocol": "AES128",
+        "snmpRoCommunity": "",
+        "snmpRwCommunity": "",
+        "snmpRetry": 3,
+        "snmpTimeout": 5
       }
     ]
   },
@@ -162,6 +222,13 @@
         "managementIpAddress": "204.1.2.2",
         "role": "ACCESS",
         "type": "Cisco Catalyst 9800-CL Wireless Controller for Cloud"
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch"
       }
     ]
   },
@@ -194,285 +261,283 @@
       }
     ]
   },
+  "get_filtered_devices_by_site_response": {
+    "response": [
+      {
+        "id": "device-002",
+        "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+        "managementIpAddress": "205.1.2.67",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch",
+        "site": "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch",
+        "site": "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+      }
+    ]
+  },
+  "get_filtered_devices_multi_role_response": {
+    "response": [
+      {
+        "id": "device-002",
+        "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+        "managementIpAddress": "205.1.2.67",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch"
+      },
+      {
+        "id": "device-003",
+        "hostname": "TB3-SJC-BORDER-01.autoagni1.com",
+        "managementIpAddress": "204.1.2.2",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9800-CL Wireless Controller for Cloud"
+      },
+      {
+        "id": "device-004",
+        "hostname": "core-router-01",
+        "managementIpAddress": "210.1.1.1",
+        "role": "CORE",
+        "type": "Cisco ASR 1000 Series Router"
+      },
+      {
+        "id": "device-005",
+        "hostname": "core-router-02",
+        "managementIpAddress": "210.1.1.2",
+        "role": "CORE",
+        "type": "Cisco ASR 1000 Series Router"
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch"
+      }
+    ]
+  },
+  "get_filtered_devices_global_site_filter_response": {
+    "response": [
+      {
+        "id": "device-002",
+        "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+        "managementIpAddress": "205.1.2.67",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch",
+        "site": "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch",
+        "site": "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+      }
+    ]
+  },
   "playbook_config_scenario1_complete_infrastructure_generate_all_device_configurations": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "DEBUG",
-      "state": "gathered",
-      "config": [
-        {
-          "generate_all_configurations": true,
-          "file_path": "/tmp/inventory_all_devices_complete.yml"
-        }
-      ]
+      "generate_all_configurations": true,
+      "file_path": "/tmp/inventory_all_devices_complete.yml"
     }
   ],
   "playbook_config_scenario2_specific_devices_by_ip_address_list": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "INFO",
-      "state": "gathered",
-      "config": [
-        {
-          "generate_all_configurations": false,
-          "file_path": "inventory_specific_ips.yml",
-          "global_filters": {
-            "ip_address_list": [
-              "206.1.2.1",
-              "205.1.2.67"
-            ]
-          },
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ]
-          }
-        }
-      ]
+      "generate_all_configurations": false,
+      "file_path": "inventory_specific_ips.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "206.1.2.1",
+          "205.1.2.67"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ]
+      }
     }
   ],
   "playbook_config_scenario3_devices_by_hostname_list": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "INFO",
-      "state": "gathered",
-      "config": [
-        {
-          "generate_all_configurations": false,
-          "file_path": "/tmp/inventory_by_hostname.yml",
-          "global_filters": {
-            "hostname_list": [
-              "evpn-app-c9k-27",
-              "TB3-BGL-EDGE2.autoagni1.com",
-              "TB3-SJC-BORDER-01.autoagni1.com"
-            ]
-          },
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ]
-          }
-        }
-      ]
+      "generate_all_configurations": false,
+      "file_path": "/tmp/inventory_by_hostname.yml",
+      "global_filters": {
+        "hostname_list": [
+          "evpn-app-c9k-27",
+          "TB3-BGL-EDGE2.autoagni1.com",
+          "TB3-SJC-BORDER-01.autoagni1.com"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ]
+      }
     }
   ],
   "playbook_config_scenario4_devices_by_serial_number_list": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "INFO",
-      "state": "gathered",
-      "config": [
-        {
-          "generate_all_configurations": false,
-          "file_path": "/tmp/inventory_by_serial.yml",
-          "global_filters": {
-            "serial_number_list": [
-              "9ODWZQTV7RY",
-              "91GRFWNYCL6",
-              "FOC2435L165"
-            ]
-          },
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ]
-          }
-        }
-      ]
+      "generate_all_configurations": false,
+      "file_path": "/tmp/inventory_by_serial.yml",
+      "global_filters": {
+        "serial_number_list": [
+          "9ODWZQTV7RY",
+          "91GRFWNYCL6",
+          "FOC2435L165"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ]
+      }
     }
   ],
   "playbook_config_scenario5_devices_by_mac_address_list": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "INFO",
-      "state": "gathered",
-      "config": [
-        {
-          "generate_all_configurations": false,
-          "file_path": "/tmp/inventory_by_mac.yml",
-          "global_filters": {
-            "mac_address_list": [
-              "00:1A:2B:3C:4D:5E",
-              "AA:BB:CC:DD:EE:FF"
-            ]
-          },
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ]
-          }
-        }
-      ]
+      "generate_all_configurations": false,
+      "file_path": "/tmp/inventory_by_mac.yml",
+      "global_filters": {
+        "mac_address_list": [
+          "00:1A:2B:3C:4D:5E",
+          "AA:BB:CC:DD:EE:FF"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ]
+      }
     }
   ],
   "playbook_config_scenario6_devices_by_role_access": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "INFO",
-      "state": "gathered",
-      "config": [
-        {
-          "file_path": "/tmp/inventory_access_role_devices.yml",
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ],
-            "inventory_workflow_manager": [
-              {
-                "role": "ACCESS"
-              }
-            ]
-          }
+      "file_path": "/tmp/inventory_access_role_devices.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ],
+        "device_details": {
+          "role": "ACCESS"
         }
-      ]
+      }
     }
   ],
   "playbook_config_scenario7_devices_by_role_core": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "INFO",
-      "state": "gathered",
-      "config": [
-        {
-          "file_path": "/tmp/inventory_core_role_devices.yml",
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ],
-            "inventory_workflow_manager": [
-              {
-                "role": "CORE"
-              }
-            ]
-          }
+      "file_path": "/tmp/inventory_core_role_devices.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ],
+        "device_details": {
+          "role": "CORE"
         }
-      ]
+      }
     }
   ],
   "playbook_config_scenario8_combined_filters_multiple_criteria": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "INFO",
-      "state": "gathered",
-      "config": [
-        {
-          "file_path": "/tmp/inventory_combined_filters.yml",
-          "global_filters": {
-            "ip_address_list": [
-              "204.1.2.2",
-              "204.1.2.3"
-            ]
-          },
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ],
-            "inventory_workflow_manager": [
-              {
-                "role": "ACCESS"
-              }
-            ]
-          }
+      "file_path": "/tmp/inventory_combined_filters.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "204.1.2.2",
+          "204.1.2.3"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ],
+        "device_details": {
+          "role": "ACCESS"
         }
-      ]
+      }
     }
   ],
   "playbook_config_scenario9_multiple_device_groups": [
     {
-      "dnac_host": "192.168.1.1",
-      "dnac_username": "admin",
-      "dnac_password": "admin123",
-      "dnac_verify": false,
-      "dnac_port": 443,
-      "dnac_version": "2.3.3.0",
-      "dnac_debug": false,
-      "dnac_log": true,
-      "dnac_log_level": "INFO",
-      "state": "gathered",
-      "config": [
-        {
-          "file_path": "/tmp/inventory_group_access.yml",
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ],
-            "inventory_workflow_manager": [
-              {
-                "role": "ACCESS"
-              }
-            ]
-          }
-        },
-        {
-          "file_path": "/tmp/inventory_group_core.yml",
-          "component_specific_filters": {
-            "components_list": [
-              "inventory_workflow_manager"
-            ],
-            "inventory_workflow_manager": [
-              {
-                "role": "CORE"
-              }
-            ]
-          }
+      "file_path": "/tmp/inventory_group_access.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ],
+        "device_details": {
+          "role": "ACCESS"
         }
-      ]
+      }
+    },
+    {
+      "file_path": "/tmp/inventory_group_core.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ],
+        "device_details": {
+          "role": "CORE"
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario10_provision_devices_by_site_with_role_filter": [
+    {
+      "generate_all_configurations": false,
+      "file_path": "/tmp/inventory_site_provision.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "provision_device"
+        ],
+        "device_details": {
+          "role": "ACCESS"
+        },
+        "provision_device": {
+          "site_name": "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario11_multiple_roles": [
+    {
+      "generate_all_configurations": false,
+      "file_path": "/tmp/inventory_multi_role.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details"
+        ],
+        "device_details": {
+          "role": [
+            "ACCESS",
+            "CORE"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario12_global_filter_plus_site_filter": [
+    {
+      "generate_all_configurations": false,
+      "file_path": "/tmp/inventory_global_site_filter.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "205.1.2.67",
+          "172.27.248.224"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "provision_device"
+        ],
+        "provision_device": {
+          "site_name": "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+        }
+      }
     }
   ]
 }

@@ -107,26 +107,38 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are "inventory_workflow_manager".
+            - Valid values are "device_details" and "provision_device".
             - If not specified, all components are included.
             type: list
             elements: str
-            choices: ["role"]
-          inventory_workflow_manager:
+            choices: ["device_details", "provision_device"]
+          device_details:
             description:
-            - Specific filters for inventory_workflow_manager component.
+            - Specific filters for device_details component.
             - These filters apply after global filters to further refine device selection.
             - Supports both single filter dict and list of filter dicts with OR logic.
-            - Note - Devices with type 'NETWORK_DEVICE' are excluded from results.
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               role:
                 description:
                 - Filter devices by network role.
+                - Can be a single role string or a list of roles (matches any in the list).
                 - Valid values are ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
-                type: str
+                - Examples: role="ACCESS" or role=["ACCESS", "CORE"]
+                type: [str, list]
                 choices: [ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN]
+          provision_device:
+            description:
+            - Specific filters for provision_device component.
+            - Filters the provision_wired_device configuration based on site assignment.
+            - No additional API calls are made; filtering is applied to existing provision data.
+            type: dict
+            suboptions:
+              site_name:
+                description:
+                - Filter provision devices by site name.
+                - Example: "Global/India/Telangana/Hyderabad/BLD_1"
+                type: str
       update_interface_details:
         description:
         - Configuration for updating interface details on devices.
@@ -517,12 +529,16 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Inside get_workflow_filters_schema function.", "DEBUG")
         return {
             "network_elements": {
-                "inventory_workflow_manager": {
+                "device_details": {
                     "filters": ["ip_address", "hostname", "serial_number", "role"],
                     "api_function": "get_device_list",
                     "api_family": "devices",
                     "reverse_mapping_function": self.inventory_get_device_reverse_mapping,
-                    "get_function_name": self.get_inventory_workflow_manager_details,
+                    "get_function_name": self.get_device_details_details,
+                },
+                "provision_device": {
+                    "filters": ["site_name"],
+                    "is_filter_only": True,  # This component only filters existing provision data, doesn't fetch new data
                 }
             },
             "global_filters": {
@@ -545,7 +561,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
             },
             "component_specific_filters": {
-                "inventory_workflow_manager": {
+                "device_details": {
                     "type": {
                         "type": "str",
                         "required": False,
@@ -1496,13 +1512,13 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             return api_value
         return [api_value]
 
-    def get_inventory_workflow_manager_details(self, network_element, filters):
+    def get_device_details_details(self, network_element, filters):
         """
         Retrieves inventory device credentials from Cisco Catalyst Center API.
         Processes the response and transforms it using the reverse mapping specification.
         Captures FULL device response with all available fields.
         """
-        self.log("Starting get_inventory_workflow_manager_details", "INFO")
+        self.log("Starting get_device_details_details", "INFO")
 
         try:
             reverse_mapping_spec = self.inventory_get_device_reverse_mapping()
@@ -1601,7 +1617,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return transformed_devices
 
         except Exception as e:
-            self.log("Error in get_inventory_workflow_manager_details: {0}".format(str(e)), "ERROR")
+            self.log("Error in get_device_details_details: {0}".format(str(e)), "ERROR")
             import traceback
             self.log("Traceback: {0}".format(traceback.format_exc()), "ERROR")
             return []
@@ -1701,6 +1717,12 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 continue
 
+            # Skip provision_device in this loop as it's a filter-only component
+            # It will be handled after provision_wired_device is built
+            if network_element.get("is_filter_only"):
+                self.log("Skipping filter-only component: {0}".format(component), "DEBUG")
+                continue
+
             # Create filters dictionary properly with both global and component-specific filters
             # Include generate_all_configurations flag in the filters
             filters = {
@@ -1747,6 +1769,49 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         
         self.log("Separated configs - Device configs: {0}, Provision config: {1}".format(
             len(device_configs), "yes" if provision_config else "no"), "DEBUG")
+        
+        # Filter provision_wired_device by site_name if provision_device component is specified
+        # Note: provision_wired_device was already built from devices filtered by device_details criteria (role, type, etc.)
+        # This site_name filter further narrows down the results to match BOTH criteria
+        if provision_config and "provision_device" in components_list:
+            provision_device_filters = component_specific_filters.get("provision_device", {})
+            site_name_filter = provision_device_filters.get("site_name")
+            
+            if site_name_filter:
+                self.log("Applying provision_device filter (site_name) on top of device_details filters (role, type, etc.)", "INFO")
+                self.log("Filtering by site_name: {0}".format(site_name_filter), "INFO")
+                
+                # Filter provision_wired_device
+                provision_wired_devices = provision_config.get("provision_wired_device", [])
+                filtered_provision_devices = [
+                    device for device in provision_wired_devices
+                    if device.get("site_name") == site_name_filter
+                ]
+                self.log("Provision devices before site_name filter: {0}, after filter: {1}".format(
+                    len(provision_wired_devices), len(filtered_provision_devices)), "INFO")
+                provision_config["provision_wired_device"] = filtered_provision_devices
+                
+                # Also filter device_configs by the same site - extract IPs that belong to the filtered site
+                filtered_site_ips = {device.get("device_ip") for device in filtered_provision_devices}
+                filtered_device_configs = []
+                
+                for config in device_configs:
+                    if isinstance(config, dict) and "ip_address_list" in config:
+                        # Filter IP list to only include IPs that belong to the filtered site
+                        original_ips = config.get("ip_address_list", [])
+                        filtered_ips = [ip for ip in original_ips if ip in filtered_site_ips]
+                        
+                        if filtered_ips:
+                            config["ip_address_list"] = filtered_ips
+                            filtered_device_configs.append(config)
+                            self.log("Device config filtered - original IPs: {0}, filtered IPs: {1}".format(
+                                original_ips, filtered_ips), "DEBUG")
+                    else:
+                        filtered_device_configs.append(config)
+                
+                device_configs = filtered_device_configs
+                self.log("Device configs after site_name filter: {0}".format(len(device_configs)), "INFO")
+                self.log("Final device configs match BOTH device_details criteria AND provision_device site_name criteria", "DEBUG")
         
         # Check if update_interface_details is specified in yaml_config_generator
         update_interface_config = yaml_config_generator.get("update_interface_details")
@@ -2284,21 +2349,27 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                         device_hostname, device_role, device_role_value
                     ), "DEBUG")
 
+                    # Normalize device_role to a list for uniform comparison
+                    role_filter_list = device_role if isinstance(device_role, list) else [device_role]
+
                     # Handle None or empty role
                     if not device_role_value or device_role_value == "":
-                        if device_role.upper() not in ["UNKNOWN", ""]:
+                        # Check if any filter role is UNKNOWN or empty
+                        if any(r.upper() in ["UNKNOWN", ""] for r in role_filter_list):
+                            self.log("Device {0}: role MATCH - both are UNKNOWN/empty".format(device_hostname), "DEBUG")
+                        else:
                             self.log("Device {0}: role MISMATCH - device role is None/empty (filter: {1})".format(
-                                device_hostname, device_role
+                                device_hostname, role_filter_list
                             ), "DEBUG")
                             device_matched = False
-                        else:
-                            self.log("Device {0}: role MATCH - both are UNKNOWN/empty".format(device_hostname), "DEBUG")
-                    # Compare roles (case-insensitive)
-                    elif device_role_value.upper() == device_role.upper():
-                        self.log("Device {0}: role MATCH ({1})".format(device_hostname, device_role_value), "DEBUG")
+                    # Compare roles (case-insensitive) - check if device role matches ANY in the filter list
+                    elif any(device_role_value.upper() == r.upper() for r in role_filter_list):
+                        self.log("Device {0}: role MATCH ({1}) - matches one of {2}".format(
+                            device_hostname, device_role_value, role_filter_list
+                        ), "DEBUG")
                     else:
                         self.log("Device {0}: role MISMATCH (filter: {1}, device: {2})".format(
-                            device_hostname, device_role, device_role_value
+                            device_hostname, role_filter_list, device_role_value
                         ), "DEBUG")
                         device_matched = False
 

@@ -67,6 +67,15 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
     playbook_config_scenario9_multiple_device_groups = test_data.get(
         "playbook_config_scenario9_multiple_device_groups"
     )
+    playbook_config_scenario10_provision_devices_by_site_with_role_filter = test_data.get(
+        "playbook_config_scenario10_provision_devices_by_site_with_role_filter"
+    )
+    playbook_config_scenario11_multiple_roles = test_data.get(
+        "playbook_config_scenario11_multiple_roles"
+    )
+    playbook_config_scenario12_global_filter_plus_site_filter = test_data.get(
+        "playbook_config_scenario12_global_filter_plus_site_filter"
+    )
 
     def setUp(self):
         """Set up test fixtures and mocks."""
@@ -153,6 +162,24 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_filtered_devices_by_access_role_response"),
                 self.test_data.get("get_filtered_devices_by_core_role_response")
+            ]
+
+        elif "scenario10_provision_devices_by_site" in self._testMethodName:
+            # Scenario 10: Site-based provisioning with role filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_by_site_response")
+            ]
+
+        elif "scenario11_multiple_roles" in self._testMethodName:
+            # Scenario 11: Multiple roles filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_multi_role_response")
+            ]
+
+        elif "scenario12_global_filter_plus_site" in self._testMethodName:
+            # Scenario 12: Global filter + site filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_global_site_filter_response")
             ]
 
     def test_brownfield_inventory_playbook_generator_scenario1_complete_infrastructure(self):
@@ -410,8 +437,95 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertIn(
-            "4",
+            "5",
             str(result.get('total_device_count', 0))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario10_provision_devices_by_site(self):
+        """
+        Test case for scenario 10: Provision Devices by Site with Role Filter
+
+        Description: Generate configurations for devices at a specific site with role filtering
+        Use Case: Site-specific device provisioning, location-based device management
+        Output: YAML with devices from specified site matching role criteria
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario10_provision_devices_by_site_with_role_filter
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "2",
+            str(result.get('device_count', 0))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario11_multiple_roles(self):
+        """
+        Test case for scenario 11: Multiple Roles
+
+        Description: Generate configurations for devices with multiple role types
+        Use Case: Multi-layer device management, combined ACCESS and CORE devices
+        Output: YAML with devices matching any of the specified roles
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario11_multiple_roles
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "5",
+            str(result.get('device_count', 0))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario12_global_filter_plus_site(self):
+        """
+        Test case for scenario 12: Global Filter Plus Site Filter
+
+        Description: Generate configurations using both global IP filters and site-specific filters
+        Use Case: Complex filtering combining network and location criteria
+        Output: YAML with devices matching both IP list and site location
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario12_global_filter_plus_site_filter
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "2",
+            str(result.get('device_count', 0))
         )
 
     # Additional edge case and error scenario tests

@@ -4,7 +4,7 @@
 # ===================================================================================================
 #
 # This playbook demonstrates all possible scenarios for generating YAML configurations
-# for the inventory_workflow_manager module based on existing device inventory in
+# for the device_details module based on existing device inventory in
 # Cisco Catalyst Center.
 #
 # ===================================================================================================
@@ -69,7 +69,7 @@
                 - "206.1.2.1"
                 - "205.1.2.67"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
+              components_list: ["device_details"]
 
       tags: [scenario2, specific_ips]
 
@@ -101,7 +101,7 @@
                 - "TB3-BGL-EDGE2.autoagni1.com"
                 - "TB3-SJC-BORDER-01.autoagni1.com"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
+              components_list: ["device_details"]
       tags: [scenario3, hostname_filter]
 
     # ===================================================================================
@@ -132,7 +132,7 @@
                 - "91GRFWNYCL6"
                 - "FOC2435L165"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
+              components_list: ["device_details"]
       tags: [scenario4, serial_number_filter]
 
     # ===================================================================================
@@ -162,7 +162,7 @@
                 - "00:1A:2B:3C:4D:5E"
                 - "AA:BB:CC:DD:EE:FF"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
+              components_list: ["device_details"]
       tags: [scenario5, mac_address_filter]
 
     # ===================================================================================
@@ -187,9 +187,9 @@
         config:
           - file_path: "/tmp/inventory_access_role_devices.yml"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
-              inventory_workflow_manager:
-                - role: "ACCESS"
+              components_list: ["device_details"]
+              device_details:
+                role: "ACCESS"
       tags: [scenario6, access_role]
 
     # ===================================================================================
@@ -214,9 +214,9 @@
         config:
           - file_path: "/tmp/inventory_core_role_devices.yml"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
-              inventory_workflow_manager:
-                - role: "CORE"
+              components_list: ["device_details"]
+              device_details:
+                role: "CORE"
       tags: [scenario7, core_role]
 
     # ===================================================================================
@@ -245,9 +245,9 @@
                 - "204.1.2.2"
                 - "204.1.2.3"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
-              inventory_workflow_manager:
-                - role: "ACCESS"
+              components_list: ["device_details"]
+              device_details:
+                role: "ACCESS"
       tags: [scenario8, combined_filters]
 
     # ===================================================================================
@@ -273,13 +273,103 @@
           # Group 1: Access Layer Devices
           - file_path: "/tmp/inventory_group_access.yml"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
-              inventory_workflow_manager:
-                - role: "ACCESS"
+              components_list: ["device_details"]
+              device_details:
+                role: "ACCESS"
           # Group 2: Core Layer Devices
           - file_path: "/tmp/inventory_group_core.yml"
             component_specific_filters:
-              components_list: ["inventory_workflow_manager"]
-              inventory_workflow_manager:
-                - role: "CORE"
+              components_list: ["device_details"]
+              device_details:
+                role: "CORE"
       tags: [scenario9, multiple_groups]
+
+    # ===================================================================================
+    # SCENARIO 10: Provision Devices by Site (with Role Filter)
+    # ===================================================================================
+    # Description: Generate configurations for devices that match both role and site
+    # Use Case: Site-specific provisioning for access devices
+    # Output: YAML with only devices matching role AND site filters
+    # ===================================================================================
+    - name: "SCENARIO 10: Generate YAML for Provision Devices by Site"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_site_provision.yml"
+            component_specific_filters:
+              components_list: ["device_details", "provision_device"]
+              device_details:
+                role: "ACCESS"
+              provision_device:
+                site_name: "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+      tags: [scenario10, provision_site]
+
+    # ===================================================================================
+    # SCENARIO 11: Multiple Roles (OR within role filter)
+    # ===================================================================================
+    # Description: Generate configurations for devices with multiple roles
+    # Use Case: Combined access + core device selection
+    # Output: YAML with devices matching any of the specified roles
+    # ===================================================================================
+    - name: "SCENARIO 11: Generate YAML for Multiple Roles"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_multi_role.yml"
+            component_specific_filters:
+              components_list: ["device_details"]
+              device_details:
+                role: ["ACCESS", "CORE"]
+      tags: [scenario11, multi_role]
+
+    # ===================================================================================
+    # SCENARIO 12: Global Filter + Site Filter
+    # ===================================================================================
+    # Description: Generate configurations using global IP filter and site filter together
+    # Use Case: Targeted provisioning within a specific site for a known IP list
+    # Output: YAML with devices matching global IPs AND site filter
+    # ===================================================================================
+    - name: "SCENARIO 12: Generate YAML for Global Filter + Site"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: false
+            file_path: "/tmp/inventory_global_site_filter.yml"
+            global_filters:
+              ip_address_list:
+                - "205.1.2.67"
+                - "172.27.248.224"
+            component_specific_filters:
+              components_list: ["provision_device"]
+              provision_device:
+                site_name: "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+      tags: [scenario12, global_filter, site_filter]
