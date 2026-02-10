@@ -91,7 +91,7 @@ options:
         - If C(generate_all_configurations) is C(true), these filters are
           ignored and all configurations are retrieved.
         - Supports filtering by fabric site hierarchy and Layer 3 virtual
-      network names.
+          network names.
         type: dict
         required: false
         suboptions:
@@ -299,7 +299,9 @@ response_error:
       sample: "2.3.7.9"
   sample:
     response: []
-    msg: "The specified version '2.3.5.3' does not support the YAML Playbook generation for SDA FABRIC MULTICAST Module. Supported versions start from '2.3.7.9' onwards."
+    msg: >-
+      The specified version '2.3.5.3' does not support the YAML Playbook generation
+      for SDA FABRIC MULTICAST Module. Supported versions start from '2.3.7.9' onwards.
     version: "2.3.5.3"
 
 msg:
