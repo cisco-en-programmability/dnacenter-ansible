@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_authentication_profile
-short_description: Resource module for Sda Fabric Authentication
-  Profile
+short_description: Resource module for Sda Fabric Authentication Profile
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Fabric Authentication Profile.
+  - Manage operations create, update and delete of the resource Sda Fabric Authentication Profile.
   - Add default authentication template in SDA Fabric.
   - Delete default authentication profile in SDA Fabric.
   - Update default authentication profile in SDA Fabric.
@@ -21,8 +19,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Sda Fabric Authentication Profile's
-      payload.
+    description: Sda Fabric Authentication Profile's payload.
     elements: dict
     suboptions:
       authenticateTemplateName:
@@ -37,20 +34,17 @@ options:
     description: SiteNameHierarchy query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddDefaultAuthenticationTemplateInSDAFabric
-    description: Complete reference of the AddDefaultAuthenticationTemplateInSDAFabric
-      API.
+    description: Complete reference of the AddDefaultAuthenticationTemplateInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!add-default-authentication-template-in-sda-fabric
   - name: Cisco DNA Center documentation for SDA DeleteDefaultAuthenticationProfileFromSDAFabric
-    description: Complete reference of the DeleteDefaultAuthenticationProfileFromSDAFabric
-      API.
+    description: Complete reference of the DeleteDefaultAuthenticationProfileFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-default-authentication-profile-from-sda-fabric
   - name: Cisco DNA Center documentation for SDA UpdateDefaultAuthenticationProfileInSDAFabric
-    description: Complete reference of the UpdateDefaultAuthenticationProfileInSDAFabric
-      API.
+    description: Complete reference of the UpdateDefaultAuthenticationProfileInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!update-default-authentication-profile-in-sda-fabric
 notes:
   - SDK Method used are
@@ -65,6 +59,17 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete all
+  cisco.dnac.sda_fabric_authentication_profile:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    siteNameHierarchy: string
 - name: Create
   cisco.dnac.sda_fabric_authentication_profile:
     dnac_host: "{{dnac_host}}"
@@ -95,17 +100,6 @@ EXAMPLES = r"""
         numberOfHosts: string
         siteNameHierarchy: string
         wakeOnLan: true
-- name: Delete all
-  cisco.dnac.sda_fabric_authentication_profile:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    siteNameHierarchy: string
 """
 RETURN = r"""
 dnac_response:

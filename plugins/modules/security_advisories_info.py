@@ -20,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Security
-      Advisories GetAdvisoriesList
-    description: Complete reference of the GetAdvisoriesList
-      API.
+  - name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesList
+    description: Complete reference of the GetAdvisoriesList API.
     link: https://developer.cisco.com/docs/dna-center/#!get-advisories-list
 notes:
   - SDK Method used are

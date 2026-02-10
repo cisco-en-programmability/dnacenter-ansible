@@ -10,8 +10,7 @@ module: images_count_info
 short_description: Information module for Images Count
 description:
   - Get all Images Count.
-  - Returns the count of software images for given `siteId`.
-    The default value of siteId is global.
+  - Returns the count of software images for given `siteId`. The default value of siteId is global.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,94 +22,72 @@ options:
   siteId:
     description:
       - >
-        SiteId query parameter. Site identifier to get
-        the list of all available products under the
-        site. The default value is the global site.
-        See https //developer.cisco.com/docs/dna-center/get-site
-        for siteId.
+        SiteId query parameter. Site identifier to get the list of all available products under the site. The
+        default value is the global site. See https //developer.cisco.com/docs/dna-center/get-site for siteId.
     type: str
   productNameOrdinal:
     description:
       - >
-        ProductNameOrdinal query parameter. The product
-        name ordinal is a unique value for each network
-        device product. The productNameOrdinal can be
-        obtained from the response of the API `/dna/intent/api/v1/siteWiseProductNames`.
+        ProductNameOrdinal query parameter. The product name ordinal is a unique value for each network device
+        product. The productNameOrdinal can be obtained from the response of the API
+        `/dna/intent/api/v1/siteWiseProductNames`.
     type: float
   supervisorProductNameOrdinal:
     description:
       - >
-        SupervisorProductNameOrdinal query parameter.
-        The supervisor engine module ordinal is a unique
-        value for each supervisor module. The `supervisorProductNameOrdinal`
-        can be obtained from the response of API `/dna/intent/api/v1/siteWiseProductNames`.
+        SupervisorProductNameOrdinal query parameter. The supervisor engine module ordinal is a unique value for
+        each supervisor module. The `supervisorProductNameOrdinal` can be obtained from the response of API
+        `/dna/intent/api/v1/siteWiseProductNames`.
     type: float
   imported:
     description:
       - >
-        Imported query parameter. When the value is
-        set to `true`, it will include physically imported
-        images. Conversely, when the value is set to
-        `false`, it will include image records from
-        the cloud. The identifier for cloud images can
-        be utilised to download images from Cisco.com
-        to the disk.
+        Imported query parameter. When the value is set to `true`, it will include physically imported images.
+        Conversely, when the value is set to `false`, it will include image records from the cloud. The
+        identifier for cloud images can be utilised to download images from Cisco.com to the disk.
     type: bool
   name:
     description:
       - >
-        Name query parameter. Filter with software image
-        or add-on name. Supports partial case-insensitive
-        search. A minimum of 3 characters is required
-        for the search.
+        Name query parameter. Filter with software image or add-on name. Supports partial case-insensitive
+        search. A minimum of 3 characters is required for the search.
     type: str
   version:
     description:
       - >
-        Version query parameter. Filter with image version.
-        Supports partial case-insensitive search. A
-        minimum of 3 characters is required for the
-        search.
+        Version query parameter. Filter with image version. Supports partial case-insensitive search. A minimum
+        of 3 characters is required for the search.
     type: str
   golden:
     description:
       - >
-        Golden query parameter. When set to `true`,
-        it will retrieve the images marked tagged golden.
-        When set to `false`, it will retrieve the images
-        marked not tagged golden.
+        Golden query parameter. When set to `true`, it will retrieve the images marked tagged golden. When set
+        to `false`, it will retrieve the images marked not tagged golden.
     type: str
   integrity:
     description:
       - >
-        Integrity query parameter. Filter with verified
-        images using Integrity Verification Available
-        values UNKNOWN, VERIFIED.
+        Integrity query parameter. Filter with verified images using Integrity Verification Available values
+        UNKNOWN, VERIFIED.
     type: str
   hasAddonImages:
     description:
       - >
-        HasAddonImages query parameter. When set to `true`,
-        it will retrieve the images which have add-on
-        images. When set to `false`, it will retrieve
-        the images which do not have add-on images.
+        HasAddonImages query parameter. When set to `true`, it will retrieve the images which have add-on
+        images. When set to `false`, it will retrieve the images which do not have add-on images.
     type: bool
   isAddonImages:
     description:
       - >
-        IsAddonImages query parameter. When set to `true`,
-        it will retrieve the images that an add-on image.
-        When set to `false`, it will retrieve the images
-        that are not add-on images.
+        IsAddonImages query parameter. When set to `true`, it will retrieve the images that an add-on image.
+        When set to `false`, it will retrieve the images that are not add-on images.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) ReturnsCountOfSoftwareImages
-    description: Complete reference of the ReturnsCountOfSoftwareImages
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfSoftwareImages
+    description: Complete reference of the ReturnsCountOfSoftwareImages API.
     link: https://developer.cisco.com/docs/dna-center/#!returns-count-of-software-images
 notes:
   - SDK Method used are
@@ -151,7 +128,8 @@ dnac_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "taskId": "string",
+        "url": "string"
       },
       "version": "string"
     }

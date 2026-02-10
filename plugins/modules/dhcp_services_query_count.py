@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: dhcp_services_query_count
-short_description: Resource module for Dhcp Services
-  Query Count
+short_description: Resource module for Dhcp Services Query Count
 description:
-  - Manage operation create of the resource Dhcp Services
-    Query Count. - > Retrieves the total number of DHCP
-    Services and offers complex filtering and sorting
-    capabilities. For detailed information about the
-    usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Dhcp Services Query Count. - > Retrieves the total number of DHCP Services and
+    offers complex filtering and sorting capabilities. For detailed information about the usage of the API, please refer to
+    the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     DHCPServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -47,13 +43,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFilters
-    description: Complete reference of the RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFilters
-      API.
+  - name: Cisco DNA Center documentation for Devices RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFilters
+    description: Complete reference of the RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-dhcp-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are

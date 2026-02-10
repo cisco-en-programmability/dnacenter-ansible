@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -35,7 +34,6 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present"]),
-        object=dict(type="str"),
         previewActivityId=dict(type="str"),
         networkDeviceId=dict(type="str"),
     )
@@ -55,18 +53,12 @@ class IcapSettingsConfigurationModelsPreviewActivityIdNetworkDevicesNetworkDevic
     def __init__(self, params, dnac):
         self.dnac = dnac
         self.new_object = dict(
-            object=params.get("object"),
             preview_activity_id=params.get("previewActivityId"),
             network_device_id=params.get("networkDeviceId"),
         )
 
     def create_params(self):
         new_object_params = {}
-        new_object_params["object"] = self.new_object.get("object")
-        new_object_params["previewActivityId"] = self.new_object.get(
-            "previewActivityId"
-        )
-        new_object_params["networkDeviceId"] = self.new_object.get("networkDeviceId")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -122,7 +114,6 @@ class IcapSettingsConfigurationModelsPreviewActivityIdNetworkDevicesNetworkDevic
         requested_obj = self.new_object
 
         obj_params = [
-            ("object", "object"),
             ("previewActivityId", "preview_activity_id"),
             ("networkDeviceId", "network_device_id"),
         ]
@@ -189,7 +180,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = prev_obj
