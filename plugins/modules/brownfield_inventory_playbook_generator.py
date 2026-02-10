@@ -1084,10 +1084,14 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Error fetching device license summary: {0}".format(str(e)), "WARNING")
             return []
 
-    def build_provision_wired_device_from_license_summary(self):
+    def build_provision_wired_device_from_license_summary(self, device_configs):
         """
         Build provision_wired_device configuration from license summary data.
         Creates a separate config entry with devices and their site information.
+        Only includes device IPs that are present in the filtered device_configs.
+        
+        Args:
+            device_configs (list): List of filtered device configurations with ip_address_list
         
         Returns:
             dict: Configuration dictionary with provision_wired_device from license summary
@@ -1101,6 +1105,18 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("No license summary data available for provisioning config", "WARNING")
             return {}
         
+        # Collect all filtered device IPs from device_configs
+        filtered_device_ips = set()
+        for config in device_configs:
+            if isinstance(config, dict) and "ip_address_list" in config:
+                ip_list = config.get("ip_address_list", [])
+                if isinstance(ip_list, list):
+                    filtered_device_ips.update(ip_list)
+        
+        self.log("Filtering provision devices to only include {0} filtered device IPs".format(
+            len(filtered_device_ips)
+        ), "INFO")
+        
         provision_devices = []
         
         for device_license in license_summaries:
@@ -1110,6 +1126,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 
                 if not device_ip:
                     self.log("Skipping device: no IP address in license summary", "DEBUG")
+                    continue
+                
+                # Only include devices that are in the filtered device_configs
+                if device_ip not in filtered_device_ips:
+                    self.log("Skipping device {0}: not in filtered device list".format(device_ip), "DEBUG")
                     continue
                 
                 # Build provision device entry from license summary
@@ -1568,7 +1589,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 
                 # Step 4: Add separate provision_wired_device config from license summary
                 self.log("Building separate provision_wired_device config from license summary", "INFO")
-                license_provision_config = self.build_provision_wired_device_from_license_summary()
+                license_provision_config = self.build_provision_wired_device_from_license_summary(transformed_devices)
                 
                 if license_provision_config:
                     # Add provision config as a separate entry below the device configs
@@ -1766,9 +1787,9 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             dicts_to_write.append({"config for adding network devices": device_configs})
             self.log("Added device configs section with {0} configs".format(len(device_configs)), "DEBUG")
         
-        # When generate_all_configurations is true, auto-fetch and add interface details
+        # When device configs are available, auto-fetch and add interface details
         auto_interface_configs = []
-        if self.generate_all_configurations and device_configs:
+        if device_configs:
             self.log("Auto-generating interface details from all devices", "INFO")
             auto_interface_configs = self.build_update_interface_details_from_all_devices(device_configs)
             if auto_interface_configs:
