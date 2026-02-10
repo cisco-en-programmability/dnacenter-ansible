@@ -302,7 +302,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -327,7 +327,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -352,7 +352,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -377,7 +377,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -402,7 +402,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -427,7 +427,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     def test_brownfield_sda_fabric_virtual_networks_config_generator_fabric_vlan_by_vlan_id_large_values(self):
         """
@@ -474,7 +474,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -499,7 +499,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -524,7 +524,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -549,7 +549,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -574,7 +574,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -599,7 +599,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -624,7 +624,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -649,7 +649,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -674,7 +674,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -699,7 +699,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -724,7 +724,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -749,4 +749,4 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
