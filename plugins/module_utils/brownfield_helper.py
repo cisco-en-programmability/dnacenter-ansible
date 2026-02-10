@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2021, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -24,8 +24,26 @@ if HAS_YAML:
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
 
     OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
+
+    class SingleQuotedStr(str):
+        pass
+
+    def _represent_single_quoted_str(dumper, data):
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="'")
+
+    OrderedDumper.add_representer(SingleQuotedStr, _represent_single_quoted_str)
+
+    class DoubleQuotedStr(str):
+        pass
+
+    def _represent_double_quoted_str(dumper, data):
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
+
+    OrderedDumper.add_representer(DoubleQuotedStr, _represent_double_quoted_str)
 else:
     OrderedDumper = None
+    SingleQuotedStr = None
+    DoubleQuotedStr = None
 __metaclass__ = type
 from abc import ABCMeta
 
@@ -678,7 +696,6 @@ class BrownFieldHelper:
             "Completed validation of minimum requirements for configuration entries.",
             "DEBUG",
         )
-
     def validate_minimum_requirement_for_global_filters(self, config_list):
         """
         Validates minimum requirements for configuration entries using global filters.
@@ -1004,7 +1021,12 @@ class BrownFieldHelper:
                 "DEBUG",
             )
             processed_count += 1
-            final_config_list.append(component_data)
+            # Keep final YAML `config` as a flat list when retrieval returns a list
+            # of component entries (for example area/building/floor record sets).
+            if isinstance(component_data, list):
+                final_config_list.extend(component_data)
+            else:
+                final_config_list.append(component_data)
 
         if not final_config_list:
             self.log(

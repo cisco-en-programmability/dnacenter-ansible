@@ -1,0 +1,155 @@
+---
+- name: Generate YAML playbook for site configurations from Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate the playbook for site hierarchy (area, building, floor) from Cisco Catalyst Center
+      cisco.dnac.brownfield_site_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          # ====================================================================================
+          # Scenario 1: Generate all site configurations (area, building, floor)
+          # ====================================================================================
+          # - generate_all_configurations: true
+          #   file_path: "/tmp/all_site_configurations.yaml"
+
+          # ====================================================================================
+          # Scenario 2: Filter only by nameHierarchy
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_name_hierarchy.yaml"
+          #   component_specific_filters:
+          #     components_list: ["nameHierarchy"]
+          #     nameHierarchy:
+          #       - "Global/USA"
+
+          # ====================================================================================
+          # Scenario 3: Filter only by parentNameHierarchy
+          # Hierarchical scope behavior: value acts as a subtree root.
+          # Example: "Global" includes matching areas and descendant buildings/floors.
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_parent_name_hierarchy.yaml"
+          #   component_specific_filters:
+          #     components_list: ["parentNameHierarchy"]
+          #     parentNameHierarchy:
+          #       - "Global/USA/San Jose"
+
+          # ====================================================================================
+          # Scenario 4: Filter only by type
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_type.yaml"
+          #   component_specific_filters:
+          #     components_list: ["type"]
+          #     type:
+          #       - "building"
+          #       - "floor"
+
+          # ====================================================================================
+          # Scenario 5: Combine nameHierarchy + type filters
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_name_and_type.yaml"
+          #   component_specific_filters:
+          #     components_list: ["nameHierarchy", "type"]
+          #     nameHierarchy:
+          #       - "Global/USA"
+          #       - "Global/Europe"
+          #     type:
+          #       - "area"
+
+          # ====================================================================================
+          # Scenario 6: Combine parentNameHierarchy + type filters
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_parent_and_type.yaml"
+          #   component_specific_filters:
+          #     components_list: ["parentNameHierarchy", "type"]
+          #     parentNameHierarchy:
+          #       - "Global/USA/San Jose"
+          #       - "Global/USA/San Jose/Building1"
+          #     type:
+          #       - "building"
+          #       - "floor"
+
+          # ====================================================================================
+          # Scenario 7: Combine all three filters
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_all_filters.yaml"
+          #   component_specific_filters:
+          #     components_list: ["nameHierarchy", "parentNameHierarchy", "type"]
+          #     nameHierarchy:
+          #       - "Global/USA/San Jose"
+          #     parentNameHierarchy:
+          #       - "Global/USA"
+          #     type:
+          #       - "building"
+
+          # ====================================================================================
+          # Scenario 8: Omit components_list and rely on direct filters only
+          # ====================================================================================
+          # - file_path: "/tmp/site_without_components_list.yaml"
+          #   component_specific_filters:
+          #     nameHierarchy:
+          #       - "Global/USA/San Francisco"
+          #     parentNameHierarchy:
+          #       - "Global/USA/San Francisco"
+          #     type:
+          #       - "building"
+          #       - "floor"
+          #       - "area"
+
+          # ====================================================================================
+          # Scenario 9: Pattern filtering for nameHierarchy
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_name_hierarchy_pattern.yaml"
+          #   component_specific_filters:
+          #     components_list: ["nameHierarchy", "type"]
+          #     nameHierarchy:
+          #       - "Global/USA/.*"
+          #     type:
+          #       - "area"
+          #       - "building"
+          #       - "floor"
+
+          # ====================================================================================
+          # Scenario 10: Pattern filtering for parentNameHierarchy
+          # `Global/USA/.*` selects descendants under Global/USA (not the scope node itself).
+          # ====================================================================================
+          - file_path: "/tmp/site_by_parent_name_hierarchy_pattern.yaml"
+            component_specific_filters:
+              components_list: ["parentNameHierarchy", "type"]
+              parentNameHierarchy:
+                - "Global/USA/.*"
+              type:
+                - "area"
+                - "building"
+                - "floor"
+
+          # ====================================================================================
+          # Scenario 11: Combined pattern filtering for nameHierarchy + parentNameHierarchy
+          # Both filters are evaluated together, then constrained by type.
+          # ====================================================================================
+          # - file_path: "/tmp/site_by_combined_hierarchy_patterns.yaml"
+          #   component_specific_filters:
+          #     components_list: ["nameHierarchy", "parentNameHierarchy", "type"]
+          #     nameHierarchy:
+          #       - "Global/USA/.*"
+          #     parentNameHierarchy:
+          #       - "Global/USA/.*"
+          #     type:
+          #       - "area"
+          #       - "building"
+          #       - "floor"
+      register: result
+
+      tags:
+        - brownfield_site_generator_testing

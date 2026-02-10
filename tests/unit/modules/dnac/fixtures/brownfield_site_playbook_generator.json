@@ -1,0 +1,492 @@
+{
+  "playbook_config_generate_all_configurations": [
+    {
+      "generate_all_configurations": true,
+      "file_path": "/tmp/test_site_demo.yaml"
+    }
+  ],
+  "playbook_config_area_by_site_name_single": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": "Global/USA",
+        "type": "area"
+      }
+    }
+  ],
+  "playbook_config_area_by_site_name_multiple": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": [
+          "Global/USA",
+          "Global/Europe"
+        ],
+        "type": "area"
+      }
+    }
+  ],
+  "playbook_config_area_by_parent_site": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "parentNameHierarchy",
+          "type"
+        ],
+        "parentNameHierarchy": "Global",
+        "type": "area"
+      }
+    }
+  ],
+  "playbook_config_building_by_site_name_single": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": "Global/USA/San Jose/Building1",
+        "type": "building"
+      }
+    }
+  ],
+  "playbook_config_building_by_site_name_multiple": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": [
+          "Global/USA/San Jose/Building1",
+          "Global/USA/San Jose/Building2"
+        ],
+        "type": "building"
+      }
+    }
+  ],
+  "playbook_config_building_by_parent_site": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "parentNameHierarchy",
+          "type"
+        ],
+        "parentNameHierarchy": "Global/USA/San Jose",
+        "type": "building"
+      }
+    }
+  ],
+  "playbook_config_floor_by_site_name_single": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": "Global/USA/San Jose/Building1/Floor1",
+        "type": "floor"
+      }
+    }
+  ],
+  "playbook_config_floor_by_site_name_multiple": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": [
+          "Global/USA/San Jose/Building1/Floor1",
+          "Global/USA/San Jose/Building1/Floor2"
+        ],
+        "type": "floor"
+      }
+    }
+  ],
+  "playbook_config_floor_by_parent_site": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "parentNameHierarchy",
+          "type"
+        ],
+        "parentNameHierarchy": "Global/USA/San Jose/Building1",
+        "type": "floor"
+      }
+    }
+  ],
+  "playbook_config_area_combined_filters": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "parentNameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": "Global/USA",
+        "parentNameHierarchy": "Global",
+        "type": "area"
+      }
+    }
+  ],
+  "playbook_config_floor_combined_filters": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "parentNameHierarchy",
+          "type"
+        ],
+        "parentNameHierarchy": "Global/USA/San Jose/Building1",
+        "type": "floor"
+      }
+    }
+  ],
+  "playbook_config_areas_and_buildings": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": [
+          "Global/USA",
+          "Global/USA/San Jose/Building1"
+        ],
+        "type": [
+          "area",
+          "building"
+        ]
+      }
+    }
+  ],
+  "playbook_config_buildings_and_floors": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "parentNameHierarchy",
+          "type"
+        ],
+        "parentNameHierarchy": [
+          "Global/USA/San Jose",
+          "Global/USA/San Jose/Building1"
+        ],
+        "type": [
+          "building",
+          "floor"
+        ]
+      }
+    }
+  ],
+  "playbook_config_all_components": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "parentNameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": "Global/USA/.*",
+        "parentNameHierarchy": "Global/USA/San Jose",
+        "type": [
+          "area",
+          "building",
+          "floor"
+        ]
+      }
+    }
+  ],
+  "playbook_config_empty_filters": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "type"
+        ],
+        "type": "area"
+      }
+    }
+  ],
+  "playbook_config_no_file_path": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": "Global/USA/San Jose/Building1",
+        "type": "building"
+      }
+    }
+  ],
+  "playbook_config_direct_filter_components_list_name_hierarchy": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy"
+        ],
+        "nameHierarchy": "Global/USA"
+      }
+    }
+  ],
+  "playbook_config_name_hierarchy_pattern": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": "Global/USA/.*",
+        "type": [
+          "area",
+          "building",
+          "floor"
+        ]
+      }
+    }
+  ],
+  "playbook_config_parent_name_hierarchy_pattern": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "parentNameHierarchy",
+          "type"
+        ],
+        "parentNameHierarchy": "Global/USA/.*",
+        "type": [
+          "area",
+          "building",
+          "floor"
+        ]
+      }
+    }
+  ],
+  "playbook_config_combined_hierarchy_patterns": [
+    {
+      "file_path": "/tmp/test_site_demo.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "nameHierarchy",
+          "parentNameHierarchy",
+          "type"
+        ],
+        "nameHierarchy": "Global/USA/.*",
+        "parentNameHierarchy": "Global/USA/.*",
+        "type": [
+          "area",
+          "building",
+          "floor"
+        ]
+      }
+    }
+  ],
+  "get_area_response": {
+    "response": [
+      {
+        "id": "area-uuid-001",
+        "siteId": "area-uuid-001",
+        "name": "USA",
+        "parentName": "Global",
+        "nameHierarchy": "Global/USA",
+        "type": "area",
+        "additionalInfo": []
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_multiple_area_response": {
+    "response": [
+      {
+        "id": "area-uuid-001",
+        "siteId": "area-uuid-001",
+        "name": "USA",
+        "parentName": "Global",
+        "nameHierarchy": "Global/USA",
+        "type": "area",
+        "additionalInfo": []
+      },
+      {
+        "id": "area-uuid-002",
+        "siteId": "area-uuid-002",
+        "name": "Europe",
+        "parentName": "Global",
+        "nameHierarchy": "Global/Europe",
+        "type": "area",
+        "additionalInfo": []
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_building_response": {
+    "response": [
+      {
+        "id": "building-uuid-001",
+        "siteId": "building-uuid-001",
+        "name": "Building1",
+        "parentName": "Global/USA/San Jose",
+        "nameHierarchy": "Global/USA/San Jose/Building1",
+        "type": "building",
+        "address": "123 Main St, San Jose, CA 95110",
+        "latitude": 37.338,
+        "longitude": -121.832,
+        "country": "United States",
+        "additionalInfo": []
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_multiple_building_response": {
+    "response": [
+      {
+        "id": "building-uuid-001",
+        "siteId": "building-uuid-001",
+        "name": "Building1",
+        "parentName": "Global/USA/San Jose",
+        "nameHierarchy": "Global/USA/San Jose/Building1",
+        "type": "building",
+        "address": "123 Main St, San Jose, CA 95110",
+        "latitude": 37.338,
+        "longitude": -121.832,
+        "country": "United States",
+        "additionalInfo": []
+      },
+      {
+        "id": "building-uuid-002",
+        "siteId": "building-uuid-002",
+        "name": "Building2",
+        "parentName": "Global/USA/San Jose",
+        "nameHierarchy": "Global/USA/San Jose/Building2",
+        "type": "building",
+        "address": "456 Second St, San Jose, CA 95110",
+        "latitude": 37.340,
+        "longitude": -121.835,
+        "country": "United States",
+        "additionalInfo": []
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_floor_response": {
+    "response": [
+      {
+        "id": "floor-uuid-001",
+        "siteId": "floor-uuid-001",
+        "name": "Floor1",
+        "parentName": "Global/USA/San Jose/Building1",
+        "nameHierarchy": "Global/USA/San Jose/Building1/Floor1",
+        "type": "floor",
+        "rfModel": "Cubes And Walled Offices",
+        "length": 100.5,
+        "width": 75.0,
+        "height": 10.0,
+        "floorNumber": 1,
+        "unitsOfMeasure": "feet",
+        "additionalInfo": []
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_multiple_floor_response": {
+    "response": [
+      {
+        "id": "floor-uuid-001",
+        "siteId": "floor-uuid-001",
+        "name": "Floor1",
+        "parentName": "Global/USA/San Jose/Building1",
+        "nameHierarchy": "Global/USA/San Jose/Building1/Floor1",
+        "type": "floor",
+        "rfModel": "Cubes And Walled Offices",
+        "length": 100.5,
+        "width": 75.0,
+        "height": 10.0,
+        "floorNumber": 1,
+        "unitsOfMeasure": "feet",
+        "additionalInfo": []
+      },
+      {
+        "id": "floor-uuid-002",
+        "siteId": "floor-uuid-002",
+        "name": "Floor2",
+        "parentName": "Global/USA/San Jose/Building1",
+        "nameHierarchy": "Global/USA/San Jose/Building1/Floor2",
+        "type": "floor",
+        "rfModel": "Drywall Office Only",
+        "length": 100.5,
+        "width": 75.0,
+        "height": 10.0,
+        "floorNumber": 2,
+        "unitsOfMeasure": "feet",
+        "additionalInfo": []
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_all_sites_response": {
+    "response": [
+      {
+        "id": "area-uuid-001",
+        "siteId": "area-uuid-001",
+        "name": "USA",
+        "parentName": "Global",
+        "nameHierarchy": "Global/USA",
+        "type": "area",
+        "additionalInfo": []
+      },
+      {
+        "id": "building-uuid-001",
+        "siteId": "building-uuid-001",
+        "name": "Building1",
+        "parentName": "Global/USA/San Jose",
+        "nameHierarchy": "Global/USA/San Jose/Building1",
+        "type": "building",
+        "address": "123 Main St, San Jose, CA 95110",
+        "latitude": 37.338,
+        "longitude": -121.832,
+        "country": "United States",
+        "additionalInfo": []
+      },
+      {
+        "id": "floor-uuid-001",
+        "siteId": "floor-uuid-001",
+        "name": "Floor1",
+        "parentName": "Global/USA/San Jose/Building1",
+        "nameHierarchy": "Global/USA/San Jose/Building1/Floor1",
+        "type": "floor",
+        "rfModel": "Cubes And Walled Offices",
+        "length": 100.5,
+        "width": 75.0,
+        "height": 10.0,
+        "floorNumber": 1,
+        "unitsOfMeasure": "feet",
+        "additionalInfo": []
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_invalid_testbed_release": {
+    "message": "The specified version does not support the YAML Playbook generation for Site Workflow Manager Module. Supported versions start from '2.3.7.9' onwards."
+  }
+}
