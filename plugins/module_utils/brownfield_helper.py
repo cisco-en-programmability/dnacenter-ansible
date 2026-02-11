@@ -778,7 +778,11 @@ class BrownFieldHelper:
         self.log("Timestamp successfully generated: {0}".format(timestamp), "DEBUG")
 
         # Construct the filename
-        filename = "{0}_playbook_{1}.yml".format(self.module_name, timestamp)
+        self.module_name_prefix = self.module_name.split("_workflow_manager")[0]
+
+        filename = "{0}_playbook_config_{1}.yml".format(
+            self.module_name_prefix, timestamp
+        )
         self.log("Filename successfully constructed: {0}".format(filename), "DEBUG")
 
         self.log(
