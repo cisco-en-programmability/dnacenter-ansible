@@ -455,9 +455,9 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Import validate_list_of_dicts function here to avoid circular imports
         from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
         self.log(
-        "Validating configuration parameters against "
-        "schema",
-        "DEBUG",
+            "Validating configuration parameters against "
+            "schema",
+            "DEBUG",
         )
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -585,7 +585,7 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
             - DEBUG: Successful site name resolution
             - WARNING: Failed site ID lookups
         """
-        
+
         self.log("Starting transformation of fabric site IDs to names for extranet policy.", "DEBUG")
         fabric_ids = extranet_policy_details.get("fabricIds", [])
         if not fabric_ids:
@@ -713,10 +713,10 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
             transformed_policies = self.modify_parameters(temp_spec, raw_api_response)
         """
         self.log(
-        "Generating reverse mapping specification for "
-        "extranet policy transformation",
-        "DEBUG",
-       )
+            "Generating reverse mapping specification for "
+            "extranet policy transformation",
+            "DEBUG",
+        )
         extranet_policy = OrderedDict(
             {
                 "extranet_policy_name": {
@@ -1989,7 +1989,7 @@ def main():
         ccc_sda_extranet_policies_playbook_generator.get_diff_state_apply[
             state
         ]().check_return_status()
-    
+
     ccc_sda_extranet_policies_playbook_generator.log(
         "All {0} configuration(s) processed "
         "successfully. Exiting module.".format(
