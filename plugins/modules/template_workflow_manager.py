@@ -223,6 +223,14 @@ options:
                   - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
                   - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
                 type: str
+              validate_jinja2_syntax:
+                description:
+                    - Validates Jinja2 template syntax when template_content_file_path ends with '.j2'.
+                    - Requires jinja2 Python library (pip install jinja2).
+                    - When True, module fails if syntax errors detected with line number and error details.
+                    - When False, skips validation allowing potentially invalid templates to be uploaded.
+                type: bool
+                default: false
               template_params:
                 description: The customization of the
                   contents within the template.
@@ -1116,8 +1124,8 @@ options:
                       - When provided, this field takes precedence over 'template_content'.
                       - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
                         directory (typically the directory where `ansible-playbook` is executed).
-                      - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
-                        variables and logic are evaluated using the provided `template_params` and runtime context.
+                      - For '.j2' files, content is evaluated if validate_jinja2_syntax is set to true, using Jinja templating engine before
+                        being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided `template_params` and runtime context.
                       - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
                         evaluation or interpolation.
                       - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
@@ -2046,7 +2054,7 @@ EXAMPLES = r"""
             - product_family: Switches and Hubs
 
 - name: Create L2VN anycast template in Catalyst Center where
-    template content is stored in a file and its relative path is provided.
+    template content is stored in a file and its relative path is provided. validate_jinja2_syntax is set to true.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
@@ -2064,6 +2072,7 @@ EXAMPLES = r"""
           project_name: "evpn_l2vn_anycast"
           template_name: "evpn_l2vn_anycast_template"
           template_content_file_path: "evpn_templates/evpn_anycast.j2"
+          validate_jinja2_syntax: true
           version_description: "Raw Jinja BGP EVPN L2VN anycast template"
           language: JINJA
           software_type: "IOS-XE"
@@ -2329,6 +2338,7 @@ class Template(NetworkProfileFunctions):
                 "software_version": {"type": "str"},
                 "template_content": {"type": "str"},
                 "template_content_file_path": {"type": "str"},
+                "validate_jinja2_syntax": {"type": "bool", "default": False},
                 "template_params": {"type": "list"},
                 "template_name": {"type": "str"},
                 "new_template_name": {"type": "str"},
@@ -3030,6 +3040,8 @@ class Template(NetworkProfileFunctions):
         # Read template content from file if file path is provided (both sources optional)
         template_content = params.get("template_content")
         template_content_file_path = params.get("template_content_file_path")
+        validate_jinja2_syntax = params.get("validate_jinja2_syntax")
+
         self.log(
             "Template content sources - file_path: {0}, inline_content: {1}".format(
                 bool(template_content_file_path), bool(template_content)
@@ -3083,6 +3095,53 @@ class Template(NetworkProfileFunctions):
                 )
                 self.status = "failed"
                 return self.check_return_status()
+
+            # Validate .j2 file content for Jinja2 syntax
+            if validate_jinja2_syntax and str(template_content_file_path).lower().endswith(".j2"):
+                self.log(
+                    "Validating Jinja2 template syntax for file: {0}".format(
+                        template_content_file_path
+                    ),
+                    "INFO"
+                )
+                try:
+                    from jinja2 import Environment, TemplateSyntaxError
+                except ImportError:
+                    self.msg = (
+                        "Jinja2 library is required to validate .j2 template files. "
+                        "Install it using: pip install jinja2"
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self.check_return_status()
+
+                try:
+                    env = Environment()
+                    env.parse(template_content)
+                    self.log(
+                        "Jinja2 template validation successful for file: {0}".format(
+                            template_content_file_path
+                        ),
+                        "INFO"
+                    )
+                except TemplateSyntaxError as e:
+                    self.msg = (
+                        "Invalid Jinja2 template syntax in file '{0}' at line {1}: {2}".format(
+                            template_content_file_path, e.lineno, e.message
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self.check_return_status()
+                except Exception as e:
+                    self.msg = (
+                        "Failed to validate Jinja2 template from file '{0}': {1}".format(
+                            template_content_file_path, str(e)
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self.check_return_status()
 
         # Priority 2: template_content (inline content) - fallback
         elif template_content:
