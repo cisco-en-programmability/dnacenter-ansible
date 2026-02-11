@@ -11,85 +11,161 @@ __author__ = "Apoorv Bansal, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: brownfield_sda_extranet_policies_playbook_generator
-short_description: Generate YAML configurations playbook for 'sda_extranet_policies_workflow_manager' module.
+short_description: Generate YAML playbooks for SDA extranet
+  policies from existing configurations.
 description:
-- Generates YAML configurations compatible with the 'sda_extranet_policies_workflow_manager'
-  module, reducing the effort required to manually create Ansible playbooks and
-  enabling programmatic modifications.
+- Generates YAML playbooks compatible with the
+  C(sda_extranet_policies_workflow_manager) module by
+  extracting existing SDA extranet policy configurations
+  from Cisco Catalyst Center.
+- Reduces manual effort by programmatically retrieving
+  extranet policy details including provider virtual
+  networks, subscriber virtual networks, and fabric
+  site assignments.
+- Supports selective filtering by extranet policy name
+  to generate targeted playbooks.
+- Enables complete infrastructure discovery with
+  auto-generation mode when
+  C(generate_all_configurations) is enabled.
+- Resolves fabric site UUIDs to human-readable site
+  hierarchy paths for generated playbooks.
+- Requires Cisco Catalyst Center version 2.3.7.9 or
+  higher for SDA extranet policy API support.
 version_added: 6.45.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 options:
   state:
-    description: The desired state of Cisco Catalyst Center after module execution.
+    description:
+    - The desired state for the module operation.
+    - Only C(gathered) state is supported to generate
+      YAML playbooks from existing configurations.
     type: str
     choices: [gathered]
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the SDA extranet policies workflow manager
-      module.
-    - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - A list of configuration filters for generating
+      YAML playbooks compatible with the
+      C(sda_extranet_policies_workflow_manager) module.
+    - Each configuration entry can include file path
+      specification, component filters, and
+      auto-discovery settings.
+    - Multiple configuration entries can be provided to
+      generate separate playbooks with different filter
+      criteria.
     type: list
     elements: dict
     required: true
     suboptions:
       generate_all_configurations:
         description:
-          - When set to True, automatically generates YAML configurations for all devices and all supported features.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
+        - Enables automatic discovery and generation of
+          YAML configurations for all SDA extranet
+          policies.
+        - When C(true), retrieves all extranet policies
+          from Cisco Catalyst Center without requiring
+          specific filters.
+        - Overrides any provided
+          C(component_specific_filters) to ensure
+          complete configuration retrieval.
+        - Ideal for complete brownfield infrastructure
+          migration and documentation.
+        - "Default filename format when file_path not
+          provided:
+          C(sda_extranet_policies_workflow_manager_playbook_<timestamp>.yml)"
         type: bool
         required: false
         default: false
       file_path:
         description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(discovery_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+        - Absolute or relative path where the generated
+          YAML playbook file will be saved.
+        - If not provided, the file is saved in the
+          current working directory with an
+          auto-generated filename.
+        - "Default filename format:
+          C(sda_extranet_policies_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml)"
+        - Ensure the directory path exists and has write
+          permissions.
         type: str
       global_filters:
         description:
-        - Global filters to apply when generating the YAML configuration file.
-        - These filters apply to all components unless overridden by component-specific filters.
+        - Global-level filters that apply across all
+          components.
+        - Currently not used by this module but reserved
+          for future extensibility.
         type: dict
+        required: false
       component_specific_filters:
         description:
-        - Filters to specify which components to include in the YAML configuration
-          file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
+        - Absolute or relative path where the generated
+          YAML playbook file will be saved.
+        - If not provided, the file is saved in the
+          current working directory with an
+          auto-generated filename.
+        - "Default filename format:
+          C(sda_extranet_policies_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml)"
+        - Ensure the directory path exists and has write
+          permissions.
         type: dict
         suboptions:
           components_list:
             description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are
-              - Extranet Policies "extranet_policies"
-            - If not specified, all components are included.
-            - For example, ["extranet_policies"].
+            - List of component types to include in the
+              generated YAML playbook.
+            - Currently supports only
+              C(extranet_policies) for SDA extranet
+              policy configurations.
+            - If omitted, all supported components are
+              included by default.
             type: list
             elements: str
+            choices:
+            - extranet_policies
+            required: false
           extranet_policies:
             description:
-            - Extranet Policies to filter by extranet policy name.
+            - Filters for retrieving specific extranet
+              policy configurations from Cisco Catalyst
+              Center.
+            - Multiple filter entries can be specified
+              to target different policies.
+            - If no filters are provided, all extranet
+              policies are retrieved.
             type: list
             elements: dict
+            required: false
             suboptions:
               extranet_policy_name:
                 description:
-                - Extranet Policy name to filter extranet policies by policy name.
+                - Name of the extranet policy to filter.
+                - Must match the exact policy name as
+                  configured in Cisco Catalyst Center.
+                - "Example: C(Test_1)"
                 type: str
+                required: false
 author:
 - Apoorv Bansal (@Apoorv74-dot)
 - Madhan Sankaranarayanan (@madhansansel)
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
+- Cisco Catalyst Center >= 2.3.7.9
+- Requires minimum Cisco Catalyst Center version 2.3.7.9
+  for SDA extranet policies API support.
+- Module will fail with an error if connected to an
+  unsupported version.
+- Generated playbooks are compatible with the
+  C(sda_extranet_policies_workflow_manager) module for
+  extranet policy management operations.
+- Fabric site UUIDs are automatically resolved to
+  human-readable site hierarchy paths in the generated
+  playbook.
+- The module operates in check mode but does not make
+  any changes to Cisco Catalyst Center.
+- Use C(dnac_log) and C(dnac_log_level) parameters for
+  detailed operation logging and troubleshooting.
 notes:
 - SDK Methods used are
     - sites.Sites.get_site
@@ -105,6 +181,10 @@ notes:
     - GET /dna/intent/api/v1/sda/fabric-zones
     - GET /dna/intent/api/v1/sda/fabric-sites/{id}
     - GET /dna/intent/api/v1/sda/fabric-zones/{id}
+seealso:
+- module: cisco.dnac.sda_extranet_policies_workflow_manager
+  description: Manage SDA extranet policies in Cisco
+    Catalyst Center
 """
 
 EXAMPLES = r"""
@@ -153,7 +233,8 @@ EXAMPLES = r"""
     state: gathered
     config:
       - component_specific_filters:
-          components_list: ["extranet_policies"]
+          components_list:
+            - extranet_policies
           extranet_policies:
             - extranet_policy_name: "Test_1"
 
@@ -172,11 +253,32 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/selected_extranet_policies.yml"
         component_specific_filters:
-          components_list: ["extranet_policies"]
+          components_list:
+            - extranet_policies
           extranet_policies:
             - extranet_policy_name: "Test_1"
             - extranet_policy_name: "Test_2"
             - extranet_policy_name: "Test_3"
+
+- name: Generate multiple playbooks with different filters
+  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    config:
+      - file_path: "/tmp/policy_test1.yml"
+        component_specific_filters:
+          extranet_policies:
+            - extranet_policy_name: "Test_1"
+      - file_path: "/tmp/all_policies.yml"
+        generate_all_configurations: true
 """
 
 
@@ -223,8 +325,13 @@ from collections import OrderedDict
 
 if HAS_YAML:
     class OrderedDumper(yaml.Dumper):
+        """Custom YAML dumper preserving OrderedDict key order."""
+
         def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
+            """Represent OrderedDict as YAML mapping."""
+            return self.represent_mapping(
+                "tag:yaml.org,2002:map", data.items()
+            )
 
     OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
 else:
@@ -233,7 +340,29 @@ else:
 
 class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
-    A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
+    Brownfield playbook generator for SDA extranet policies.
+    Attributes:
+        supported_states (list): Supported Ansible states
+            (only 'gathered').
+        module_schema (dict): Workflow filters schema
+            defining network elements and API mappings.
+        site_id_name_dict (dict): Cached mapping of site
+            IDs to hierarchical site names.
+        module_name (str): Target module name for generated
+            playbooks
+            ('sda_extranet_policies_workflow_manager').
+        values_to_nullify (list): Values treated as null
+            during transformation.
+
+    Description:
+        Retrieves existing SDA extranet policy configurations
+        from Cisco Catalyst Center and generates YAML
+        playbooks compatible with the
+        sda_extranet_policies_workflow_manager module.
+        Supports filtering by policy name or complete
+        auto-discovery mode. Transforms fabric site UUIDs
+        to human-readable site hierarchies. Requires Cisco
+        Catalyst Center version 2.3.7.9 or higher.
     """
 
     values_to_nullify = ["NOT CONFIGURED"]
@@ -272,14 +401,36 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False,
+            },
+            "file_path": {
+                "type": "str",
+                "required": False,
+            },
+            "component_specific_filters": {
+                "type": "dict",
+                "required": False,
+            },
+            "global_filters": {
+                "type": "dict",
+                "required": False,
+            },
         }
         allowed_keys = set(temp_spec.keys())
         # Validate that only allowed keys are present in the configuration
-        for config_item in self.config:
+        for config_index, config_item in enumerate(
+            self.config, start=1
+        ):
+            self.log(
+                "Validating configuration item "
+                "{0}/{1}".format(
+                    config_index, len(self.config)
+                ),
+                "DEBUG",
+            )
             if not isinstance(config_item, dict):
                 self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -303,7 +454,11 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Import validate_list_of_dicts function here to avoid circular imports
         from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
-
+        self.log(
+        "Validating configuration parameters against "
+        "schema",
+        "DEBUG",
+        )
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
@@ -343,18 +498,41 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 - "global_filters": An empty list reserved for global filters applicable across all network elements.
         """
 
-        return {
+        self.log(
+            "Building workflow filters schema for SDA "
+            "extranet policies",
+            "DEBUG",
+        )
+
+        schema = {
             "network_elements": {
                 "extranet_policies": {
                     "filters": ["extranet_policy_name"],
-                    "reverse_mapping_function": self.extranet_policy_temp_spec,
+                    "reverse_mapping_function": (
+                        self.extranet_policy_temp_spec
+                    ),
                     "api_function": "get_extranet_policies",
                     "api_family": "sda",
-                    "get_function_name": self.get_extranet_policies_configuration,
+                    "get_function_name": (
+                        self
+                        .get_extranet_policies_configuration
+                    ),
                 },
             },
             "global_filters": [],
         }
+
+        network_elements = list(
+            schema["network_elements"].keys()
+        )
+        self.log(
+            "Built workflow schema with {0} network "
+            "element type(s): {1}".format(
+                len(network_elements), network_elements
+            ),
+            "DEBUG",
+        )
+        return schema
 
     def transform_fabric_site_ids_to_names(self, extranet_policy_details):
         """
@@ -407,22 +585,58 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
             - DEBUG: Successful site name resolution
             - WARNING: Failed site ID lookups
         """
+        
         self.log("Starting transformation of fabric site IDs to names for extranet policy.", "DEBUG")
         fabric_ids = extranet_policy_details.get("fabricIds", [])
-        self.log("Found {0} fabric IDs to process.".format(len(fabric_ids)), "DEBUG")
+        if not fabric_ids:
+            self.log(
+                "No fabric IDs found in extranet policy "
+                "details, returning empty list",
+                "DEBUG",
+            )
+            return []
+
+        self.log(
+            "Processing {0} fabric ID(s) for site name "
+            "resolution".format(len(fabric_ids)),
+            "DEBUG",
+        )
 
         fabric_site_names = []
-        for fabric_id in fabric_ids:
-            site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
-            site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
-            if site_name_hierarchy:
-                fabric_site_names.append(site_name_hierarchy)
-                self.log("Resolved fabric ID '{0}' to site name: '{1}'.".format(fabric_id, site_name_hierarchy), "DEBUG")
-            else:
-                self.log("Unable to resolve site name for fabric ID '{0}' with site ID '{1}'.".format(fabric_id, site_id), "WARNING")
+        for index, fabric_id in enumerate(fabric_ids, start=1):
+            site_id, fabric_type = (
+                self.analyse_fabric_site_or_zone_details(
+                    fabric_id
+                )
+            )
+            site_name_hierarchy = (
+                self.site_id_name_dict.get(site_id)
+            )
 
-        self.log("Completed transformation. Returning {0} fabric site names: {1}".format(
-            len(fabric_site_names), fabric_site_names), "DEBUG")
+            if not site_name_hierarchy:
+                self.log(
+                    "Unable to resolve site name for fabric "
+                    "ID {0}/{1}: '{2}' (site_id: '{3}'). "
+                    "The site may have been deleted or the "
+                    "ID is invalid.".format(
+                        index, len(fabric_ids),
+                        fabric_id, site_id,
+                    ),
+                    "WARNING",
+                )
+                continue
+
+            fabric_site_names.append(site_name_hierarchy)
+            self.log(
+                "Resolved fabric ID {0}/{1}: '{2}' "
+                "(type: {3}) to site name: "
+                "'{4}'".format(
+                    index, len(fabric_ids),
+                    fabric_id, fabric_type,
+                    site_name_hierarchy,
+                ),
+                "DEBUG",
+            )
         return fabric_site_names
 
     def extranet_policy_temp_spec(self):
@@ -498,7 +712,11 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
             temp_spec = self.extranet_policy_temp_spec()
             transformed_policies = self.modify_parameters(temp_spec, raw_api_response)
         """
-        self.log("Generating temporary specification for extranet policies.", "DEBUG")
+        self.log(
+        "Generating reverse mapping specification for "
+        "extranet policy transformation",
+        "DEBUG",
+       )
         extranet_policy = OrderedDict(
             {
                 "extranet_policy_name": {
@@ -645,15 +863,58 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if component_specific_filters:
             # Process filters for specific policies
-            self.log("Processing component-specific filters for extranet policies.", "DEBUG")
-            for filter_param in component_specific_filters:
+            self.log(
+                "Processing {0} component-specific "
+                "filter(s) for extranet policies".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG",
+            )
+            for filter_index, filter_param in enumerate(
+                component_specific_filters, start=1
+            ):
                 for key, value in filter_param.items():
-                    if key == "extranet_policy_name":
-                        self.log("Filtering extranet policies by name: '{0}'.".format(value), "INFO")
-                        params = {"extranetPolicyName": value}
-                        policies = self.execute_get_with_pagination(api_family, api_function, params)
-                        final_extranet_policies.extend(policies)
-                        self.log("Retrieved {0} policies for filter '{1}'.".format(len(policies), value), "DEBUG")
+                    if key != "extranet_policy_name":
+                        self.log(
+                            "Skipping unsupported filter "
+                            "key '{0}' in filter entry "
+                            "{1}/{2}. Only "
+                            "'extranet_policy_name' is "
+                            "supported.".format(
+                                key,
+                                filter_index,
+                                len(component_specific_filters),
+                            ),
+                            "WARNING",
+                        )
+                        continue
+
+                    self.log(
+                        "Retrieving extranet policy by "
+                        "name: '{0}' (filter {1}/"
+                        "{2})".format(
+                            value,
+                            filter_index,
+                            len(component_specific_filters),
+                        ),
+                        "INFO",
+                    )
+                    params = {"extranetPolicyName": value}
+                    policies = self.execute_get_with_pagination(
+                        api_family, api_function, params
+                    )
+                    final_extranet_policies.extend(policies)
+                    self.log(
+                        "Retrieved {0} policy(ies) for "
+                        "name '{1}' (filter {2}/"
+                        "{3})".format(
+                            len(policies),
+                            value,
+                            filter_index,
+                            len(component_specific_filters),
+                        ),
+                        "DEBUG",
+                    )
         else:
             # Retrieve all policies
             self.log("No filters provided. Retrieving all extranet policies.", "INFO")
@@ -662,7 +923,22 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Retrieved {0} total extranet policies.".format(len(policies)), "DEBUG")
 
         # Transform using temp_spec
-        self.log("Transforming {0} extranet policies using temp_spec.".format(len(final_extranet_policies)), "DEBUG")
+        if not final_extranet_policies:
+            self.log(
+                "No extranet policies found matching the "
+                "specified filters. Returning empty "
+                "result.",
+                "WARNING",
+            )
+            return {"extranet_policies": []}
+
+        self.log(
+            "Transforming {0} extranet policy(ies) using "
+            "reverse mapping specification".format(
+                len(final_extranet_policies)
+            ),
+            "DEBUG",
+        )
         extranet_policy_temp_spec = self.extranet_policy_temp_spec()
         ep_details = self.modify_parameters(extranet_policy_temp_spec, final_extranet_policies)
 
@@ -859,16 +1135,81 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
+        self.log(
+            "Auto-discovery mode: {0}".format(
+                "enabled" if generate_all else "disabled"
+            ),
+            "INFO",
+        )
         if generate_all:
             self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            self.log(
+                "No file_path parameter provided by user, generating default filename "
+                "with timestamp for uniqueness",
+                "DEBUG"
+            )
             file_path = self.generate_filename()
+            self.log(
+                "Auto-generated file path: {0}".format(file_path),
+                "INFO"
+            )
         else:
-            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
+            # Validate file_path is a string
+            if not isinstance(file_path, str):
+                error_msg = (
+                    "Invalid file_path parameter - expected str, got {0}. "
+                    "Cannot proceed with YAML generation.".format(
+                        type(file_path).__name__
+                    )
+                )
+                self.log(error_msg, "ERROR")
+                self.msg = {
+                    "message": "YAML config generation failed for module '{0}' - invalid file_path parameter.".format(
+                        self.module_name
+                    ),
+                    "error": error_msg
+                }
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log(
+                "Using user-provided file path for YAML output: {0}".format(file_path),
+                "INFO"
+            )
+
+            # Validate file path is writable
+            import os
+            directory = os.path.dirname(file_path)
+            if directory and not os.path.exists(directory):
+                self.log(
+                    "Output directory does not exist: {0}. Attempting to create it.".format(
+                        directory
+                    ),
+                    "WARNING"
+                )
+                try:
+                    os.makedirs(directory, exist_ok=True)
+                    self.log(
+                        "Successfully created output directory: {0}".format(directory),
+                        "INFO"
+                    )
+                except Exception as e:
+                    error_msg = "Failed to create output directory: {0}. Error: {1}".format(
+                        directory, str(e)
+                    )
+                    self.log(error_msg, "ERROR")
+                    self.msg = {
+                        "message": "YAML config generation failed for module '{0}' - cannot create output directory.".format(
+                            self.module_name
+                        ),
+                        "error": error_msg
+                    }
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
         self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
 
@@ -917,16 +1258,63 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             filters = component_specific_filters.get(component, [])
             operation_func = network_element.get("get_function_name")
-            if callable(operation_func):
-                details = operation_func(network_element, filters)
+            if not callable(operation_func):
                 self.log(
-                    "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
+                    "No callable retrieval function found "
+                    "for component '{0}'. "
+                    "Skipping.".format(component),
+                    "WARNING",
                 )
-                final_list.append(details)
+                continue
+
+            self.log(
+                "Calling retrieval function for component "
+                "'{0}' with {1} filter(s)".format(
+                    component,
+                    len(filters)
+                    if isinstance(filters, list)
+                    else 0,
+                ),
+                "INFO",
+            )
+            details = operation_func(
+                network_element, filters
+            )
+            if details:
+                component_data = details.get(component, [])
+                if component_data:
+                    self.log(
+                        "Retrieved {0} configuration(s) "
+                        "for component "
+                        "'{1}'".format(
+                            len(component_data),
+                            component,
+                        ),
+                        "INFO",
+                    )
+                    final_list.append(details)
+                else:
+                    self.log(
+                        "No configurations found for "
+                        "component '{0}'".format(
+                            component
+                        ),
+                        "WARNING",
+                    )
+            else:
+                self.log(
+                    "No data returned for component "
+                    "'{0}'".format(component),
+                    "WARNING",
+                )
 
         if not final_list:
-            self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
-                self.module_name
+            self.msg = (
+                "No configurations or components to "
+                "process for module '{0}'. Verify input "
+                "filters or check if extranet policies "
+                "exist in Cisco Catalyst "
+                "Center.".format(self.module_name)
             )
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
@@ -1282,7 +1670,11 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         start_time = time.time()
-        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
+        self.log(
+            "Starting YAML playbook generation workflow "
+            "for SDA extranet policies",
+            "INFO",
+        )
         operations = [
             (
                 "yaml_config_generator",
@@ -1320,11 +1712,11 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
         end_time = time.time()
+        elapsed_time = time.time() - start_time
         self.log(
-            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
-                end_time - start_time
-            ),
-            "DEBUG",
+            "Completed gathered state workflow in "
+            "{0:.2f} seconds".format(elapsed_time),
+            "INFO",
         )
 
         return self
@@ -1516,6 +1908,11 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
     ccc_sda_extranet_policies_playbook_generator = SdaExtranetPoliciesPlaybookGenerator(module)
+    ccc_sda_extranet_policies_playbook_generator.log(
+        "Starting SDA extranet policies playbook "
+        "generator execution",
+        "INFO",
+    )
     if (
         ccc_sda_extranet_policies_playbook_generator.compare_dnac_versions(
             ccc_sda_extranet_policies_playbook_generator.get_ccc_version(), "2.3.7.9"
@@ -1534,17 +1931,35 @@ def main():
 
     # Get the state parameter from the provided parameters
     state = ccc_sda_extranet_policies_playbook_generator.params.get("state")
-
+    ccc_sda_extranet_policies_playbook_generator.log(
+        "Validating requested state '{0}' against "
+        "supported states: {1}".format(
+            state, ccc_sda_extranet_policies_playbook_generator.supported_states
+        ),
+        "DEBUG",
+    )
     # Check if the state is valid
     if state not in ccc_sda_extranet_policies_playbook_generator.supported_states:
         ccc_sda_extranet_policies_playbook_generator.status = "invalid"
         ccc_sda_extranet_policies_playbook_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_sda_extranet_policies_playbook_generator.check_recturn_status()
+        ccc_sda_extranet_policies_playbook_generator.check_return_status()
+    ccc_sda_extranet_policies_playbook_generator.log(
+        "State '{0}' validated successfully".format(
+            state
+        ),
+        "INFO",
+    )
 
     # Validate the input parameters and check the return statusk
     ccc_sda_extranet_policies_playbook_generator.validate_input().check_return_status()
+    # Validate input configuration
+    ccc_sda_extranet_policies_playbook_generator.log(
+        "Starting validation of input configuration "
+        "parameters from playbook",
+        "DEBUG",
+    )
     config = ccc_sda_extranet_policies_playbook_generator.validated_config
     if len(config) == 1 and config[0].get("component_specific_filters") is None and not config[0].get("generate_all_configurations"):
         ccc_sda_extranet_policies_playbook_generator.msg = (
@@ -1558,7 +1973,13 @@ def main():
                 }
             }
         ]
-
+    ccc_sda_extranet_policies_playbook_generator.log(
+        "Processing {0} validated configuration(s) "
+        "for state '{1}'".format(
+            len(ccc_sda_extranet_policies_playbook_generator.validated_config), state
+        ),
+        "INFO",
+    )
     # Iterate over the validated configuration parameters
     for config in ccc_sda_extranet_policies_playbook_generator.validated_config:
         ccc_sda_extranet_policies_playbook_generator.reset_values()
@@ -1568,6 +1989,14 @@ def main():
         ccc_sda_extranet_policies_playbook_generator.get_diff_state_apply[
             state
         ]().check_return_status()
+    
+    ccc_sda_extranet_policies_playbook_generator.log(
+        "All {0} configuration(s) processed "
+        "successfully. Exiting module.".format(
+            len(ccc_sda_extranet_policies_playbook_generator.validated_config)
+        ),
+        "INFO",
+    )
 
     module.exit_json(**ccc_sda_extranet_policies_playbook_generator.result)
 
