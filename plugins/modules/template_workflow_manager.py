@@ -3102,7 +3102,7 @@ class Template(NetworkProfileFunctions):
                     "Validating Jinja2 template syntax for file: {0}".format(
                         template_content_file_path
                     ),
-                    "INFO"
+                    "DEBUG"
                 )
                 try:
                     from jinja2 import Environment, TemplateSyntaxError
@@ -3122,7 +3122,7 @@ class Template(NetworkProfileFunctions):
                         "Jinja2 template validation successful for file: {0}".format(
                             template_content_file_path
                         ),
-                        "INFO"
+                        "DEBUG"
                     )
                 except TemplateSyntaxError as e:
                     self.msg = (
