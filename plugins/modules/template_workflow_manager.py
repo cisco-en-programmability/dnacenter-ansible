@@ -3640,26 +3640,28 @@ class Template(NetworkProfileFunctions):
                 profile_category, str(e)), "ERROR")
             return []
 
-    def _process_individual_profile(self, profile_name, template_name, project_name):
+    def _process_individual_profile(self, profile_name, template_name, template_id):
         """
         Processes an individual profile to determine its assignment status.
 
         Parameters:
             profile_name (str): Name of the profile to process.
             template_name (str): Name of the template to check assignment against.
-            project_name (str): Name of the project to check assignment against.
+            template_id (str): UUID of the template to check assignment against.
 
         Returns:
             dict: Profile information including assignment status.
         """
-        self.log("Processing individual profile: '{0}' for template: '{1}' in project: '{2}'".format(
-            profile_name, template_name, project_name), "DEBUG")
+        self.log("Processing individual profile: '{0}' for template: '{1}' (ID: {2})".format(
+            profile_name, template_name, template_id), "DEBUG")
 
         profile_info = {
             "profile_name": profile_name,
             "template_name": template_name,
-            "project_name": project_name
+            "template_id": template_id
         }
+        self.log("Created profile_info with template_id '{0}' for profile '{1}'".format(
+            template_id, profile_name), "DEBUG")
 
         # Validate profile existence
         if not self.value_exists(self.have["profile_list"], "name", profile_name):
@@ -3685,9 +3687,13 @@ class Template(NetworkProfileFunctions):
             profile_name, profile_id), "DEBUG")
 
         # Check template assignment
+        self.log("Checking assignment status for profile '{0}' against template ID '{1}'".format(
+            profile_name, template_id), "DEBUG")
         assignment_status = self._check_profile_template_assignment(
-            profile_name, profile_id, template_name, project_name)
+            profile_name, profile_id, template_id)
         profile_info["profile_status"] = assignment_status
+        self.log("Assignment status determined for profile '{0}': '{1}'".format(
+            profile_name, assignment_status), "INFO")
 
         if assignment_status == "already assigned":
             self.profile_exists.append(profile_name)
@@ -3698,22 +3704,21 @@ class Template(NetworkProfileFunctions):
             profile_name, assignment_status), "DEBUG")
         return profile_info
 
-    def _check_profile_template_assignment(self, profile_name, profile_id, template_name, project_name):
+    def _check_profile_template_assignment(self, profile_name, profile_id, template_id):
         """
-        Checks if a profile is assigned to the specified template in the specified project.
+        Checks if a profile is assigned to the specified template.
 
         Parameters:
             profile_name (str): Name of the profile.
             profile_id (str): ID of the profile.
-            template_name (str): Name of the template.
-            project_name (str): Name of the project.
+            template_id (str): UUID of the template to check assignment against.
 
         Returns:
             str: Assignment status ('Not Assigned' or 'already assigned').
         """
 
-        self.log("Checking template assignment for profile '{0}' (ID: {1}) against template '{2}' in project '{3}'".format(
-            profile_name, profile_id, template_name, project_name), "DEBUG")
+        self.log("Checking template assignment for profile '{0}' (ID: {1}) against template ID '{2}'".format(
+            profile_name, profile_id, template_id), "DEBUG")
 
         try:
             template_details = self.get_templates_for_profile(profile_id)
@@ -3726,43 +3731,24 @@ class Template(NetworkProfileFunctions):
             self.log("Found {0} template(s) assigned to profile '{1}'".format(
                 len(template_details), profile_name), "DEBUG")
 
-            # Check if the specific template from the specific project is assigned
-            # Need to check both template name AND project name to handle same template names in different projects
+            # Check if the specific template (by ID) is assigned
+            # Using template ID ensures uniqueness even across projects with same template names
             for template in template_details:
-                template_id = template.get("id")
-                template_name_from_api = template.get("name")
-                template_project_name = template.get("projectName")
+                assigned_template_id = template.get("id")
+                assigned_template_name = template.get("name")
+                assigned_project_name = template.get("projectName")
 
                 self.log("Checking assigned template: name='{0}', projectName='{1}', id='{2}'".format(
-                    template_name_from_api, template_project_name, template_id), "DEBUG")
+                    assigned_template_name, assigned_project_name, assigned_template_id), "DEBUG")
 
-                # If projectName is available, check both name and project
-                if template_project_name:
-                    if template_name_from_api == template_name and template_project_name == project_name:
-                        self.log("Profile '{0}' is already assigned to template '{1}' in project '{2}' (exact match with projectName)".format(
-                            profile_name, template_name, project_name), "INFO")
-                        return "already assigned"
-                else:
-                    # If projectName is not available, fetch template details to get project information
-                    if template_id and template_name_from_api == template_name:
-                        self.log("Template name matches but projectName not available in profile API response. Fetching template details for ID '{0}'".format(
-                            template_id), "DEBUG")
-                        try:
-                            template_full_details = self.get_template({"templateId": template_id})
-                            if template_full_details:
-                                full_project_name = template_full_details.get("projectName")
-                                self.log("Retrieved projectName '{0}' from template details".format(full_project_name), "DEBUG")
-                                if full_project_name == project_name:
-                                    self.log("Profile '{0}' is already assigned to template '{1}' in project '{2}' (verified via template details API)".format(
-                                        profile_name, template_name, project_name), "INFO")
-                                    return "already assigned"
-                            else:
-                                self.log("Failed to retrieve template details for ID '{0}' to verify project name".format(template_id), "WARNING")
-                        except Exception as e:
-                            self.log("Error fetching template details for ID '{0}': {1}".format(template_id, str(e)), "WARNING")
+                # Compare template IDs for exact match
+                if assigned_template_id == template_id:
+                    self.log("Profile '{0}' is already assigned to template ID '{1}' (name: '{2}')".format(
+                        profile_name, template_id, assigned_template_name), "INFO")
+                    return "already assigned"
 
-            self.log("Profile '{0}' is not assigned to template '{1}' in project '{2}' (may be assigned to other templates/projects)".format(
-                profile_name, template_name, project_name), "INFO")
+            self.log("Profile '{0}' is not assigned to template ID '{1}' (may be assigned to other templates)".format(
+                profile_name, template_id), "INFO")
             return "Not Assigned"
 
         except Exception as e:
@@ -3770,7 +3756,7 @@ class Template(NetworkProfileFunctions):
                 profile_name, str(e)), "ERROR")
             return "Not Assigned"
 
-    def get_profile_details(self, device_type, input_profiles, template_name, project_name):
+    def get_profile_details(self, device_type, input_profiles, template_name, template_id):
         """
         Retrieves profile details and assignment status for given profile names from Cisco Catalyst Center.
 
@@ -3778,7 +3764,7 @@ class Template(NetworkProfileFunctions):
             device_type (str) - The type of device for which to retrieve profile details.
             input_profiles (list) - List of profile names to retrieve details for.
             template_name (str) - The name of the template for which to retrieve profile details.
-            project_name (str) - The name of the project for which to retrieve profile details.
+            template_id (str) - The UUID of the template for which to retrieve profile details.
 
         Returns:
             list: A list of dictionaries containing profile information including:
@@ -3786,7 +3772,7 @@ class Template(NetworkProfileFunctions):
                 - profile_id (str): UUID of the profile
                 - profile_status (str): Assignment status ('Not Assigned' or 'already assigned')
                 - template_name (str): Name of the template
-                - project_name (str): Name of the project
+                - template_id (str): UUID of the template
 
         Description:
             This function retrieves comprehensive profile information from Cisco Catalyst Center and determines
@@ -3813,13 +3799,13 @@ class Template(NetworkProfileFunctions):
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-        if not project_name:
-            self.msg = "Project name is required but not provided for profile details collection"
+        if not template_id:
+            self.msg = "Template ID is required but not provided for profile details collection"
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-        self.log("Collecting profile information for device type '{0}', profiles: {1}, template: '{2}', project: '{3}'".format(
-            device_type, input_profiles, template_name, project_name), "INFO")
+        self.log("Collecting profile information for device type '{0}', profiles: {1}, template: '{2}' (ID: {3})".format(
+            device_type, input_profiles, template_name, template_id), "INFO")
 
         # Initialize profile storage
         self.have["profile"] = []
@@ -3839,7 +3825,7 @@ class Template(NetworkProfileFunctions):
         # Process each input profile
         processed_profiles = []
         for profile_name in input_profiles:
-            profile_info = self._process_individual_profile(profile_name, template_name, project_name)
+            profile_info = self._process_individual_profile(profile_name, template_name, template_id)
             processed_profiles.append(profile_info)
 
         self.log("Profile details collection completed successfully. Processed {0} profile(s): {1}".format(
@@ -3876,18 +3862,32 @@ class Template(NetworkProfileFunctions):
             if profile_names and template_name and device_types:
                 self.log("Initiating profile assignment collection for template profile management", "DEBUG")
 
-                if device_types:
-                    parsed_current_profile = []
-                    for each_type in device_types:
-                        each_family = each_type.get("product_family")
-                        parsed_current_profile.extend(
-                            self.get_profile_details(each_family,
-                                                     profile_names,
-                                                     template_name,
-                                                     project_name)
-                        )
+                # Get template ID for accurate profile assignment tracking
+                # Only proceed with profile collection if template exists
+                template_id = self.have_template.get("id") if self.have_template else None
+                self.log("Retrieved template_id from have_template: {0}".format(
+                    template_id if template_id else "None (template does not exist)"), "DEBUG")
 
-                have["current_profile"] = self.deduplicate_list_of_dict(parsed_current_profile)
+                if template_id:
+                    self.log("Template ID '{0}' found for template '{1}'. Proceeding with profile assignment collection.".format(
+                        template_id, template_name), "DEBUG")
+
+                    if device_types:
+                        parsed_current_profile = []
+                        for each_type in device_types:
+                            each_family = each_type.get("product_family")
+                            parsed_current_profile.extend(
+                                self.get_profile_details(each_family,
+                                                         profile_names,
+                                                         template_name,
+                                                         template_id)
+                            )
+
+                    have["current_profile"] = self.deduplicate_list_of_dict(parsed_current_profile)
+                else:
+                    self.log("Template '{0}' does not exist yet. Profile assignment will be handled after template creation.".format(
+                        template_name), "INFO")
+                    have["current_profile"] = []
 
         project_config = config.get("projects", [])
         if project_config and isinstance(project_config, list):
@@ -5011,19 +5011,39 @@ class Template(NetworkProfileFunctions):
 
             self.log("Initiating profile assignment and detachment processing for template '{0}'".format(
                 name), "DEBUG")
+
+            # If template was just created, we need to collect profile information now
             current_profiles = self.have.get("current_profile", [])
+            if not current_profiles and configuration_templates.get("profile_names"):
+                self.log("Template was newly created. Collecting profile information for assignment.", "INFO")
+                self.log("Using template_id '{0}' for newly created template '{1}'".format(
+                    template_id, name), "DEBUG")
+                profile_names = configuration_templates.get("profile_names")
+                device_types = configuration_templates.get("device_types")
+
+                if profile_names and device_types:
+                    parsed_current_profile = []
+                    for each_type in device_types:
+                        each_family = each_type.get("product_family")
+                        parsed_current_profile.extend(
+                            self.get_profile_details(each_family,
+                                                     profile_names,
+                                                     name,
+                                                     template_id)
+                        )
+                    current_profiles = self.deduplicate_list_of_dict(parsed_current_profile)
+                    self.log("Collected {0} profile(s) for newly created template '{1}' (ID: {2})".format(
+                        len(current_profiles), name, template_id), "INFO")
+
             self.log("Processing {0} profile(s) for template '{1}'.".format(
                 len(current_profiles), name), "INFO")
-
-            # Get project_name for assignment tracking
-            project_name = configuration_templates.get("project_name")
 
             for profile_index, each_profile in enumerate(current_profiles):
                 # Extract profile information once per iteration
                 each_profile_name = each_profile.get("profile_name")
                 each_profile_id = each_profile.get("profile_id")
                 profile_template_name = each_profile.get("template_name")
-                profile_project_name = each_profile.get("project_name")
+                profile_template_id = each_profile.get("template_id")
                 profile_status = each_profile.get("profile_status")
 
                 # Skip profiles not associated with the current template
@@ -5032,20 +5052,21 @@ class Template(NetworkProfileFunctions):
                         each_profile_name, name, profile_template_name), "DEBUG")
                     continue
 
-                self.log("Processing profile '{0}' (index {1}) with status '{2}' for template '{3}'".format(
-                    each_profile_name, profile_index, profile_status, name), "DEBUG")
+                self.log("Processing profile '{0}' (index {1}) with status '{2}' for template '{3}' (ID: {4})".format(
+                    each_profile_name, profile_index, profile_status, name, template_id), "DEBUG")
 
-                # Create a unique key for this profile assignment to prevent duplicates across config iterations
-                assignment_key = (name, profile_project_name, each_profile_name)
+                # Create a unique key using template_id for this profile assignment
+                # This prevents duplicates across config iterations and handles templates with same name in different projects
+                assignment_key = (template_id, each_profile_name)
                 self.log("Generated assignment key for profile '{0}': {1}".format(each_profile_name, assignment_key), "DEBUG")
-                # Check if this profile+template+project combination has already been processed
+                # Check if this profile+template combination has already been processed
                 if assignment_key in self.processed_profile_assignments:
                     self.log(
-                        "Profile '{0}' for template '{1}' in project '{2}' already processed in a previous config entry "
+                        "Profile '{0}' for template ID '{1}' (name: '{2}') already processed in a previous config entry "
                         "- skipping to avoid duplicate assignment".format(
                             each_profile_name,
-                            name,
-                            profile_project_name
+                            template_id,
+                            name
                         ),
                         "INFO")
                     continue
@@ -5068,6 +5089,8 @@ class Template(NetworkProfileFunctions):
                             self.profile_assigned.append(each_profile_name)
                             # Mark this assignment as processed
                             self.processed_profile_assignments.add(assignment_key)
+                            self.log("Marked assignment key {0} as processed in tracking set".format(
+                                assignment_key), "DEBUG")
                         else:
                             error_msg = "Failed to attach profile '{0}' to template '{1}' - API response indicates failure".format(
                                 each_profile_name, name)
@@ -5086,6 +5109,8 @@ class Template(NetworkProfileFunctions):
                         each_profile_name, name), "DEBUG")
                     # Mark this assignment as processed to avoid duplicate attempts in subsequent iterations
                     self.processed_profile_assignments.add(assignment_key)
+                    self.log("Marked pre-existing assignment key {0} as processed in tracking set".format(
+                        assignment_key), "DEBUG")
 
                 # Case 3: Unexpected scenario
                 else:
@@ -5101,6 +5126,8 @@ class Template(NetworkProfileFunctions):
                                                              getattr(self, 'profile_assigned', [])), "INFO")
             self.log("  - Assignment failures: {0} {1}".format(total_assignment_failures,
                                                                getattr(self, 'no_profile_assigned', [])), "INFO")
+            self.log("  - Total entries in processed_profile_assignments tracking set: {0}".format(
+                len(self.processed_profile_assignments)), "DEBUG")
 
             self.log("Completed profile assignment and processing for template '{0}'".format(name), "INFO")
 
