@@ -510,7 +510,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             return self
 
         self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        self.validate_minimum_requirements(self.config, require_global_filters=True)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -797,7 +797,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "role": {
                 "type": "str",
                 "source_key": "role",
-                "transform": lambda x: x if x else None
+                "transform": lambda x: None
             },
             
             # CLI Transport (ssh/telnet)
@@ -1065,117 +1065,118 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Built provision_wired_device configs: {0} devices".format(len(provision_devices)), "INFO")
         return provision_devices
 
-    def fetch_device_license_summary(self):
+    def fetch_sda_provision_device(self, device_ip):
         """
-        Fetch device license summary which includes site information.
+        Fetch SDA provision device information for a specific device IP.
+        Uses the business SDA provision-device endpoint to check if device is provisioned.
+        
+        Args:
+            device_ip (str): Device management IP address
         
         Returns:
-            list: List of license summary dictionaries containing device IP and site
+            dict: Response containing device provisioning status and site, or None if error/not provisioned
         """
         try:
-            self.log("Fetching device license summary for site information", "INFO")
+            self.log("Fetching SDA provision status for device IP: {0}".format(device_ip), "DEBUG")
             response = self.dnac._exec(
-                family="licenses",
-                function="device_license_summary",
+                family="sda",
+                function="get_provisioned_wired_device",
                 params={
-                    "limit": 500,
-                    "page_number": 1,
-                    "order": "asc"
+                    "device_management_ip_address": device_ip
                 }
             )
             
-            if response and isinstance(response, list):
-                license_summaries = response
-                self.log("Retrieved {0} license summaries".format(len(license_summaries)), "INFO")
-                return license_summaries
-            elif response and isinstance(response, dict) and "response" in response:
-                license_summaries = response.get("response", [])
-                self.log("Retrieved {0} license summaries".format(len(license_summaries)), "INFO")
-                return license_summaries
+            self.log("SDA provision response for {0}: {1}".format(device_ip, response), "DEBUG")
+            
+            if response and isinstance(response, dict):
+                status = response.get("status", "").lower()
+                
+                # Check if device is provisioned (success status)
+                if status == "success":
+                    self.log("Device {0} is provisioned to site".format(device_ip), "INFO")
+                    return response
+                else:
+                    # Device not provisioned
+                    description = response.get("description", "")
+                    self.log("Device {0} not provisioned: {1}".format(device_ip, description), "INFO")
+                    return None
             else:
-                self.log("No license summary data returned", "WARNING")
-                return []
+                self.log("Invalid response for device {0}".format(device_ip), "WARNING")
+                return None
                 
         except Exception as e:
-            self.log("Error fetching device license summary: {0}".format(str(e)), "WARNING")
-            return []
+            self.log("Error fetching SDA provision status for device {0}: {1}".format(device_ip, str(e)), "DEBUG")
+            return None
 
-    def build_provision_wired_device_from_license_summary(self, device_configs):
+    def build_provision_wired_device_from_sda_endpoint(self, device_configs):
         """
-        Build provision_wired_device configuration from license summary data.
-        Creates a separate config entry with devices and their site information.
-        Only includes device IPs that are present in the filtered device_configs.
+        Build provision_wired_device configuration from SDA provision-device endpoint.
+        Queries each device IP individually to check provisioning status and site assignment.
+        Only includes devices that are successfully provisioned to a site.
         
         Args:
             device_configs (list): List of filtered device configurations with ip_address_list
         
         Returns:
-            dict: Configuration dictionary with provision_wired_device from license summary
+            dict: Configuration dictionary with provision_wired_device only for provisioned devices
         """
-        self.log("Building provision_wired_device config from license summary", "INFO")
-        
-        # Fetch license summary data
-        license_summaries = self.fetch_device_license_summary()
-        
-        if not license_summaries:
-            self.log("No license summary data available for provisioning config", "WARNING")
-            return {}
+        self.log("Building provision_wired_device config from SDA provision-device endpoint", "INFO")
         
         # Collect all filtered device IPs from device_configs
-        filtered_device_ips = set()
+        filtered_device_ips = []
         for config in device_configs:
             if isinstance(config, dict) and "ip_address_list" in config:
                 ip_list = config.get("ip_address_list", [])
                 if isinstance(ip_list, list):
-                    filtered_device_ips.update(ip_list)
+                    filtered_device_ips.extend(ip_list)
         
-        self.log("Filtering provision devices to only include {0} filtered device IPs".format(
-            len(filtered_device_ips)
-        ), "INFO")
+        self.log("Checking provisioning status for {0} device IPs".format(len(filtered_device_ips)), "INFO")
         
         provision_devices = []
         
-        for device_license in license_summaries:
+        for device_ip in filtered_device_ips:
             try:
-                device_ip = device_license.get("ip_address")
-                site_name = device_license.get("site") or "Global"
+                # Query SDA provision-device endpoint for this device
+                provision_response = self.fetch_sda_provision_device(device_ip)
                 
-                if not device_ip:
-                    self.log("Skipping device: no IP address in license summary", "DEBUG")
+                if provision_response:
+                    # Device is provisioned - extract information
+                    device_mgmt_ip = provision_response.get("deviceManagementIpAddress")
+                    site_name_hierarchy = provision_response.get("siteNameHierarchy")
+                    status = provision_response.get("status")
+                    description = provision_response.get("description")
+                    
+                    # Build provision device entry from SDA response
+                    provision_entry = {
+                        "device_ip": device_mgmt_ip,
+                        "site_name": site_name_hierarchy,
+                        "resync_retry_count": 200,
+                        "resync_retry_interval": 2
+                    }
+                    
+                    provision_devices.append(provision_entry)
+                    self.log("Added provision config from SDA endpoint - IP: {0}, Site: {1}, Status: {2}".format(
+                        device_mgmt_ip, site_name_hierarchy, status
+                    ), "DEBUG")
+                else:
+                    # Device not provisioned - skip it
+                    self.log("Skipping device {0}: not provisioned or error occurred".format(device_ip), "INFO")
                     continue
-                
-                # Only include devices that are in the filtered device_configs
-                if device_ip not in filtered_device_ips:
-                    self.log("Skipping device {0}: not in filtered device list".format(device_ip), "DEBUG")
-                    continue
-                
-                # Build provision device entry from license summary
-                provision_entry = {
-                    "device_ip": device_ip,
-                    "site_name": site_name,
-                    "resync_retry_count": 200,
-                    "resync_retry_interval": 2
-                }
-                
-                provision_devices.append(provision_entry)
-                self.log("Added provision config from license summary - IP: {0}, Site: {1}".format(
-                    device_ip, site_name
-                ), "DEBUG")
-                
+                    
             except Exception as e:
-                self.log("Error processing license summary for device: {0}".format(str(e)), "ERROR")
+                self.log("Error processing device {0} for provisioning config: {1}".format(device_ip, str(e)), "ERROR")
                 continue
         
         if provision_devices:
             provision_config = {
                 "provision_wired_device": provision_devices
             }
-            self.log("Built provision config with {0} devices from license summary".format(
+            self.log("Built provision config with {0} provisioned devices from SDA endpoint".format(
                 len(provision_devices)
             ), "INFO")
             return provision_config
         else:
-            self.log("No provision devices built from license summary", "WARNING")
+            self.log("No provisioned devices found via SDA endpoint", "WARNING")
             return {}
 
     def get_device_ids_by_ip(self, device_ips):
@@ -1452,40 +1453,14 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     interface_name, device_ip
                                 ), "DEBUG")
                         else:
-                            # If no interfaces found, create a minimal config
-                            self.log("No interfaces found for device {0}, creating minimal config".format(device_ip), "DEBUG")
-                            minimal_config = {
-                                "deployment_mode": "Deploy",
-                                "clear_mac_address_table": False
-                            }
-                            config_hash = str(sorted(minimal_config.items()))
-                            
-                            if config_hash not in interface_configs_by_hash:
-                                interface_configs_by_hash[config_hash] = {
-                                    "ip_address_list": [],
-                                    "update_interface_details": minimal_config
-                                }
-                            
-                            if device_ip not in interface_configs_by_hash[config_hash]["ip_address_list"]:
-                                interface_configs_by_hash[config_hash]["ip_address_list"].append(device_ip)
+                            # If no interfaces found, skip this device
+                            self.log("No interfaces found for device {0}, skipping".format(device_ip), "DEBUG")
                                 
                 except Exception as e:
                     self.log("Error fetching interface details for device {0}: {1}".format(device_ip, str(e)), "DEBUG")
-                    # Create minimal config as fallback
-                    minimal_config = {
-                        "deployment_mode": "Deploy",
-                        "clear_mac_address_table": False
-                    }
-                    config_hash = str(sorted(minimal_config.items()))
-                    
-                    if config_hash not in interface_configs_by_hash:
-                        interface_configs_by_hash[config_hash] = {
-                            "ip_address_list": [],
-                            "update_interface_details": minimal_config
-                        }
-                    
-                    if device_ip not in interface_configs_by_hash[config_hash]["ip_address_list"]:
-                        interface_configs_by_hash[config_hash]["ip_address_list"].append(device_ip)
+                    # Skip device on error
+                    self.log("Skipping device {0} due to error".format(device_ip), "WARNING")
+                    continue
             
             # Convert grouped configs to list
             update_interface_configs = list(interface_configs_by_hash.values())
@@ -1587,6 +1562,12 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 if component_specific_filters:
                     self.log("Applying component-specific filters: {0}".format(component_specific_filters), "DEBUG")
                     device_response = self.apply_component_specific_filters(device_response, component_specific_filters)
+                    
+                    # Check if filtering failed (returns None on validation error)
+                    if device_response is None:
+                        self.log("Component filter validation failed", "ERROR")
+                        return []
+                    
                     self.log("After component filtering: {0} devices remain".format(len(device_response)), "INFO")
                 else:
                     self.log("No component-specific filters to apply", "DEBUG")
@@ -1603,16 +1584,16 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 self.log("Devices transformed successfully: {0} configurations".format(len(transformed_devices)), "INFO")
                 
-                # Step 4: Add separate provision_wired_device config from license summary
-                self.log("Building separate provision_wired_device config from license summary", "INFO")
-                license_provision_config = self.build_provision_wired_device_from_license_summary(transformed_devices)
+                # Step 4: Add separate provision_wired_device config from SDA endpoint
+                self.log("Building separate provision_wired_device config from SDA endpoint", "INFO")
+                license_provision_config = self.build_provision_wired_device_from_sda_endpoint(transformed_devices)
                 
-                if license_provision_config:
+                if license_provision_config and "provision_wired_device" in license_provision_config:
                     # Add provision config as a separate entry below the device configs
                     transformed_devices.append(license_provision_config)
                     self.log("Added separate provision_wired_device config to output", "INFO")
                 else:
-                    self.log("No provision config built from license summary", "DEBUG")
+                    self.log("No provisioned devices found from SDA endpoint", "DEBUG")
                 
                 return transformed_devices
 
@@ -1707,6 +1688,30 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "Components list determined: {0}".format(components_list), "DEBUG"
         )
 
+        # Auto-include device_details if only filter-only components are specified
+        # Filter-only components like provision_device need device_details to work
+        components_list = list(components_list) if not isinstance(components_list, list) else components_list
+        has_filter_only = False
+        has_data_fetching = False
+        
+        for component in components_list:
+            network_element = module_supported_network_elements.get(component)
+            if network_element:
+                if network_element.get("is_filter_only"):
+                    has_filter_only = True
+                else:
+                    has_data_fetching = True
+        
+        # If only filter-only components are specified, auto-add device_details
+        if has_filter_only and not has_data_fetching:
+            if "device_details" not in components_list:
+                self.log("Auto-including device_details as it's required by filter-only components", "INFO")
+                components_list = ["device_details"] + list(components_list)
+
+        self.log(
+            "Final components list after dependency check: {0}".format(components_list), "DEBUG"
+        )
+
         final_list = []
         for component in components_list:
             network_element = module_supported_network_elements.get(component)
@@ -1739,6 +1744,13 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log(
                     "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
                 )
+                
+                # Check if operation failed (validation error occurred)
+                if self.status == "failed":
+                    self.log("Component processing failed due to validation error", "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                
                 # Details is already a list with one consolidated config dict
                 # Extend instead of append to flatten the structure
                 if details:
@@ -1884,6 +1896,21 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Added third document with {0} auto-generated interface configs".format(len(auto_interface_configs)), "DEBUG")
         
         self.log("Final dictionaries created: {0} config sections".format(len(dicts_to_write)), "DEBUG")
+
+        # Check if there's any data to write
+        if not dicts_to_write:
+            self.log("No data found to generate YAML configuration", "WARNING")
+            self.msg = {
+                "YAML config generation Task completed for module '{0}' - No data found.".format(
+                    self.module_name
+                ): {
+                    "reason": "No devices matching the provided filters were found in Cisco Catalyst Center",
+                    "file_path": file_path,
+                    "status": "NO_DATA_TO_GENERATE"
+                }
+            }
+            self.set_operation_result("success", False, self.msg, "WARNING")
+            return self
 
         self.log("Writing final dictionaries to file: {0}".format(file_path), "INFO")
         write_result = self.write_dicts_to_yaml(dicts_to_write, file_path)
@@ -2315,6 +2342,21 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 filter_idx + 1, device_type, device_role, snmp_version, cli_transport
             ), "DEBUG")
 
+            # Validate role filter if provided
+            if device_role:
+                valid_roles = ["ACCESS", "CORE", "DISTRIBUTION", "BORDER ROUTER", "UNKNOWN"]
+                role_filter_list = device_role if isinstance(device_role, list) else [device_role]
+                
+                for role_value in role_filter_list:
+                    if role_value.upper() not in [r.upper() for r in valid_roles]:
+                        error_msg = "Invalid role '{0}' in component_specific_filters. Valid roles are: {1}".format(
+                            role_value, ", ".join(valid_roles)
+                        )
+                        self.log(error_msg, "ERROR")
+                        self.msg = error_msg
+                        self.status = "failed"
+                        return None
+
             # If no actual filter values provided in this set, skip it
             if not any([device_type, device_role, snmp_version, cli_transport]):
                 self.log("Filter set {0} has no filter values, skipping".format(filter_idx + 1), "DEBUG")
@@ -2363,6 +2405,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                             ), "DEBUG")
                             device_matched = False
                     # Compare roles (case-insensitive) - check if device role matches ANY in the filter list
+                    # Note: Role values are already validated to be in the allowed choices
                     elif any(device_role_value.upper() == r.upper() for r in role_filter_list):
                         self.log("Device {0}: role MATCH ({1}) - matches one of {2}".format(
                             device_hostname, device_role_value, role_filter_list

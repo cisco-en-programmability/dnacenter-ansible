@@ -66,8 +66,8 @@
             file_path: "inventory_specific_ips.yml"
             global_filters:
               ip_address_list:
-                - "206.1.2.1"
-                - "205.1.2.67"
+                - 172.27.248.223
+                - 204.1.2.3
             component_specific_filters:
               components_list: ["device_details"]
 
@@ -159,8 +159,8 @@
             file_path: "/tmp/inventory_by_mac.yml"
             global_filters:
               mac_address_list:
-                - "00:1A:2B:3C:4D:5E"
-                - "AA:BB:CC:DD:EE:FF"
+                - "00:1e:f6:a3:0e:ff"
+                - "00:1e:e5:bf:9f:ff"
             component_specific_filters:
               components_list: ["device_details"]
       tags: [scenario5, mac_address_filter]

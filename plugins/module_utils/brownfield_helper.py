@@ -540,7 +540,7 @@ class BrownFieldHelper:
 
         self.log("Completed validation of invalid parameters in configuration entries.", "DEBUG")
 
-    def validate_minimum_requirements(self, config_list):
+    def validate_minimum_requirements(self, config_list, require_global_filters=False):
         """
         Validate minimum requirements for each configuration entry in a list.
 
@@ -581,15 +581,18 @@ class BrownFieldHelper:
                 continue  # No further validation needed
 
             if component_specific_filters is None or "components_list" not in component_specific_filters:
+                global_filter_msg = ""
+                if require_global_filters:
+                    global_filter_msg = "'global filters' or "
                 if has_generate_all_config_flag:
                     self.msg = (
-                        f"Validation Error in entry {idx}: 'component_specific_filters' must be provided "
+                        f"Validation Error in entry {idx}: {global_filter_msg}'component_specific_filters' must be provided "
                         f"with 'components_list' key when 'generate_all_configurations' is set to False."
                     )
                 else:
                     self.msg = (
-                        f"Validation Error in entry {idx}: Either 'generate_all_configurations' must be provided as True"
-                        f" or 'component_specific_filters' must be provided with 'components_list' key."
+                        f"Validation Error in entry {idx}: 'generate_all_configurations' must be provided as True"
+                        f" or {global_filter_msg}'component_specific_filters' must be provided with 'components_list' key."
                     )
                 self.fail_and_exit(self.msg)
 
