@@ -5019,7 +5019,10 @@ class Template(NetworkProfileFunctions):
                 self.log("Using template_id '{0}' for newly created template '{1}'".format(
                     template_id, name), "DEBUG")
                 profile_names = configuration_templates.get("profile_names")
+                self.log("Profile names specified for assignment: {0}".format(profile_names), "DEBUG")
+
                 device_types = configuration_templates.get("device_types")
+                self.log("Device types specified for profile assignment: {0}".format(device_types), "DEBUG")
 
                 if profile_names and device_types:
                     parsed_current_profile = []
