@@ -16,7 +16,7 @@
 #   Archit Soni <soni.archit03@gmail.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_tags_playbook_generator`.
+#   Unit tests for the Ansible module `tags_playbook_config_generator`.
 #   These tests cover YAML playbook generation for tags and tag memberships,
 #   including various filter scenarios and validation logic using mocked
 #   Catalyst Center responses.
@@ -31,15 +31,15 @@ __version__ = "1.0.0"
 
 from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import (
-    brownfield_tags_playbook_generator,
+    tags_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
+class TestDnacTagsPlaybookConfigGenerator(TestDnacModule):
 
-    module = brownfield_tags_playbook_generator
-    test_data = loadPlaybookData("brownfield_tags_playbook_generator")
+    module = tags_playbook_config_generator
+    test_data = loadPlaybookData("tags_playbook_config_generator")
 
     playbook_config_generate_all_configurations_case_1 = test_data.get(
         "generate_all_configurations_case_1"
@@ -49,7 +49,7 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
     )
 
     def setUp(self):
-        super(TestDnacBrownfieldTagsPlaybookGenerator, self).setUp()
+        super(TestDnacTagsPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
@@ -63,13 +63,13 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacBrownfieldTagsPlaybookGenerator, self).tearDown()
+        super(TestDnacTagsPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield_tags_playbook_generator tests.
+        Load fixtures for tags_playbook_config_generator tests.
         """
         if "test_generate_all_configurations_case_1" in self._testMethodName:
 
