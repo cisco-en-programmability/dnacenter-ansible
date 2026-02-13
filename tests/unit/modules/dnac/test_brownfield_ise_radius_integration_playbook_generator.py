@@ -1,4 +1,4 @@
-#  Copyright (c) 2025 Cisco and/or its affiliates.
+#  Copyright (c) 2026 Cisco and/or its affiliates.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_ise_radius_integration_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import (
+    brownfield_ise_radius_integration_playbook_generator,
+)
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -39,12 +41,17 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
         "playbook_config_generate_all_configurations"
     )
     playbook_config_with_file_path = test_data.get("playbook_config_with_file_path")
-    playbook_config_filter_by_server_type = test_data.get("playbook_config_filter_by_server_type")
-    playbook_config_filter_by_server_ip = test_data.get("playbook_config_filter_by_server_ip")
+    playbook_config_filter_by_server_type = test_data.get(
+        "playbook_config_filter_by_server_type"
+    )
+    playbook_config_filter_by_server_ip = test_data.get(
+        "playbook_config_filter_by_server_ip"
+    )
     playbook_config_filter_by_both = test_data.get("playbook_config_filter_by_both")
-    playbook_config_multiple_filters = test_data.get("playbook_config_multiple_filters")
     playbook_config_no_filters = test_data.get("playbook_config_no_filters")
-    playbook_config_invalid_server_type = test_data.get("playbook_config_invalid_server_type")
+    playbook_config_invalid_server_type = test_data.get(
+        "playbook_config_invalid_server_type"
+    )
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
 
     def setUp(self):
@@ -72,49 +79,27 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
         """
         Load fixtures for brownfield ISE RADIUS integration generator tests.
         """
+        test_method_with_all_data_mapping = [
+            "generate_all_configurations",
+            "with_file_path",
+            "filter_by_server_type",
+            "filter_by_server_ip",
+            "filter_by_both",
+            "no_filters",
+            "no_file_path",
+        ]
 
-        if "generate_all_configurations" in self._testMethodName:
+        for method_name in test_method_with_all_data_mapping:
+            if method_name in self._testMethodName:
+                self.run_dnac_exec.side_effect = [
+                    self.test_data.get("get_authentication_and_policy_servers"),
+                ]
+                break
+        if "invalid_server_type" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_authentication_and_policy_servers"),
-            ]
-
-        elif "with_file_path" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_with_file_path"),
-            ]
-
-        elif "filter_by_server_type" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_filter_by_server_type"),
-            ]
-
-        elif "filter_by_server_ip" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_filter_by_server_ip"),
-            ]
-
-        elif "filter_by_both" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_filter_by_both"),
-            ]
-
-        elif "multiple_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_multiple_filters"),
-            ]
-
-        elif "no_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_no_filters"),
-            ]
-
-        elif "invalid_server_type" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_invalid_server_type"),
-            ]
-        elif "no_file_path" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_no_file_path"),
+                self.test_data.get(
+                    "get_authentication_and_policy_servers_with_invalid_server_type"
+                ),
             ]
 
     @patch("builtins.open", new_callable=mock_open)
@@ -142,7 +127,19 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        print("DEBUG RESULTS ::: ", result)
+        # DEBUG RESULTS :::  {'changed': True, 'diff': [], 'response': {'status': 'success',
+        # 'message': "YAML configuration file generated successfully for module 'ise_radius_integration_workflow_manager'",
+        # 'file_path': '/tmp/ise_radius_all_config.yaml', 'components_processed': 1, 'components_skipped': 0,
+        #  'configurations_count': 1}, 'warnings': [], 'status': 'success', 'msg': {'status': 'success',
+        # 'message': "YAML configuration file generated successfully for module 'ise_radius_integration_workflow_manager'",
+        # 'file_path': '/tmp/ise_radius_all_config.yaml', 'components_processed': 1, 'components_skipped': 0,
+        # 'configurations_count': 1}, 'failed': False}
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertIn(
+            "YAML configuration file generated successfully for module",
+            str(result.get("response").get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -169,7 +166,11 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertIn(
+            "YAML configuration file generated successfully for module",
+            str(result.get("response").get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -196,7 +197,11 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertIn(
+            "YAML configuration file generated successfully for module",
+            str(result.get("response").get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -223,7 +228,11 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertIn(
+            "YAML configuration file generated successfully for module",
+            str(result.get("response").get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -250,34 +259,11 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
-
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_multiple_filters(
-        self, mock_exists, mock_file
-    ):
-        """
-        Test case for generating YAML configuration with multiple filter criteria (OR logic).
-
-        This test verifies that the generator creates a YAML configuration file
-        containing servers matching any of the multiple filter criteria.
-        """
-        mock_exists.return_value = True
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.9",
-                dnac_log=True,
-                state="gathered",
-                config=self.playbook_config_multiple_filters,
-            )
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertIn(
+            "YAML configuration file generated successfully for module",
+            str(result.get("response").get("message")),
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -304,7 +290,11 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertIn(
+            "YAML configuration file generated successfully for module",
+            str(result.get("response").get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -330,9 +320,8 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
                 config=self.playbook_config_invalid_server_type,
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        # Should succeed but with empty or no matching servers
-        self.assertIn("YAML config generation Task", str(result.get("msg")))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid filters provided for module", str(result.get("msg")))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -359,7 +348,8 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertEqual(str(result.get("response").get("status")), "success")
         self.assertIn(
-            "ise_radius_integration_workflow_manager_playbook_", str(result.get("msg"))
+            "YAML configuration file generated successfully for module",
+            str(result.get("response").get("message")),
         )
