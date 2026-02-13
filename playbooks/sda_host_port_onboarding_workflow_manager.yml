@@ -4,7 +4,7 @@
   gather_facts: false
 
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
 
   vars:
     dnac_login: &dnac_login

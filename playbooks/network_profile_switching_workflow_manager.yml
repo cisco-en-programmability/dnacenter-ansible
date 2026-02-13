@@ -4,7 +4,7 @@
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Create network profile for switch
       cisco.dnac.network_profile_switching_workflow_manager:
