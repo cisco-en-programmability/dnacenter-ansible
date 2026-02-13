@@ -16,7 +16,7 @@
 #   Archit Soni <soni.archit03@gmail.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_tags_playbook_generator`.
+#   Unit tests for the Ansible module `tags_playbook_config_generator`.
 #   These tests cover YAML playbook generation for tags and tag memberships,
 #   including various filter scenarios and validation logic using mocked
 #   Catalyst Center responses.
@@ -31,22 +31,25 @@ __version__ = "1.0.0"
 
 from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import (
-    brownfield_tags_playbook_generator,
+    tags_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
+class TestDnacTagsPlaybookConfigGenerator(TestDnacModule):
 
-    module = brownfield_tags_playbook_generator
-    test_data = loadPlaybookData("brownfield_tags_playbook_generator")
+    module = tags_playbook_config_generator
+    test_data = loadPlaybookData("tags_playbook_config_generator")
 
     playbook_config_generate_all_configurations_case_1 = test_data.get(
         "generate_all_configurations_case_1"
     )
+    playbook_config_missing_filters_with_generate_all_false = test_data.get(
+        "missing_filters_with_generate_all_false"
+    )
 
     def setUp(self):
-        super(TestDnacBrownfieldTagsPlaybookGenerator, self).setUp()
+        super(TestDnacTagsPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
@@ -60,13 +63,13 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacBrownfieldTagsPlaybookGenerator, self).tearDown()
+        super(TestDnacTagsPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield_tags_playbook_generator tests.
+        Load fixtures for tags_playbook_config_generator tests.
         """
         if "test_generate_all_configurations_case_1" in self._testMethodName:
 
@@ -146,5 +149,35 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "YAML configuration file generated successfully for module 'tags_workflow_manager'",
+            str(result.get("msg")),
+        )
+
+    def test_missing_filters_with_generate_all_false(self):
+        """
+        Test Case: Validation failure when generate_all_configurations is False without component_specific_filters.
+        This test verifies that the module properly validates and rejects configurations where
+        generate_all_configurations is explicitly set to False but component_specific_filters
+        is not provided. This should result in a validation error.
+
+        Expected behavior:
+        - Module should fail with an error message requiring component_specific_filters
+        - Error message should clearly state the requirement
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                dnac_log_level="DEBUG",
+                config=self.playbook_config_missing_filters_with_generate_all_false,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "component_specific_filters must be provided with components_list key",
             str(result.get("msg")),
         )
