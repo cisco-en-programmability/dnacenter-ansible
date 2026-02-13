@@ -107,11 +107,11 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are "device_details" and "provision_device".
+            - Valid values are "device_details", "provision_device", and "interface_details".
             - If not specified, all components are included.
             type: list
             elements: str
-            choices: ["device_details", "provision_device"]
+            choices: ["device_details", "provision_device", "interface_details"]
           device_details:
             description:
             - Specific filters for device_details component.
@@ -539,6 +539,10 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "provision_device": {
                     "filters": ["site_name"],
                     "is_filter_only": True,  # This component only filters existing provision data, doesn't fetch new data
+                },
+                "interface_details": {
+                    "filters": [],
+                    "is_filter_only": True,  # This component only controls interface details output, doesn't fetch new data
                 }
             },
             "global_filters": {
@@ -790,7 +794,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "type": {
                 "type": "str",
                 "source_key": "type",
-                "transform": lambda x: x if x else "NETWORK_DEVICE"
+                "transform": lambda x: x if x else None
             },
             
             # Device Role
@@ -877,6 +881,31 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "transform": lambda x: x if x else "v2"
             },
             
+            # HTTP Parameters (for specific device types)
+            "http_username": {
+                "type": "str",
+                "source_key": "httpUserName",
+                "transform": lambda x: x if x else "{{ item.http_username }}"
+            },
+            
+            "http_password": {
+                "type": "str",
+                "source_key": "httpPassword",
+                "transform": lambda x: x if x else "{{ item.http_password }}"
+            },
+            
+            "http_port": {
+                "type": "str",
+                "source_key": "httpPort",
+                "transform": lambda x: str(x) if x else "{{ item.http_port }}"
+            },
+            
+            "http_secure": {
+                "type": "bool",
+                "source_key": "httpSecure",
+                "transform": lambda x: x if x is not None else "{{ item.http_secure }}"
+            },
+            
             # Credential fields - NOT available from API (security reasons)
             # These must be provided by user in vars_files
             "username": {
@@ -961,19 +990,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "deployment_mode": {"default": "Deploy", "type": "str"},
                 "clear_mac_address_table": {"default": False, "type": "bool"},
                 "admin_status": {"type": "str"},
-            },
-            
-            "export_device_list": {
-                "type": "dict",
-                "source_key": None,
-                "transform": lambda x: x if x else None  # Template variable from vars_files
-            },
-            
-            # Export device details limit
-            "export_device_details_limit": {
-                "type": "int",
-                "source_key": None,
-                "transform": lambda x: 500  # Default limit for export operations
             }
         })
 
@@ -1585,13 +1601,37 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Devices transformed successfully: {0} configurations".format(len(transformed_devices)), "INFO")
                 
                 # Step 4: Add separate provision_wired_device config from SDA endpoint
-                self.log("Building separate provision_wired_device config from SDA endpoint", "INFO")
-                license_provision_config = self.build_provision_wired_device_from_sda_endpoint(transformed_devices)
+                # Build provision config applying global filters (but independent of device_details component filters)
+                self.log("Building separate provision_wired_device config from SDA endpoint (applying global filters)", "INFO")
+                
+                # Fetch devices respecting global filters for provision config
+                if global_filters and any(global_filters.values()):
+                    # Apply same global filters as device_details
+                    self.log("Applying global filters to provision device fetch", "INFO")
+                    result = self.process_global_filters(global_filters)
+                    device_ip_to_id_mapping = result.get("device_ip_to_id_mapping", {})
+                    
+                    if device_ip_to_id_mapping:
+                        all_devices_for_provision = list(device_ip_to_id_mapping.values())
+                    else:
+                        all_devices_for_provision = self.fetch_all_devices(reason="fallback for provision filtering")
+                else:
+                    # No global filters - fetch all devices
+                    all_devices_for_provision = self.fetch_all_devices(reason="no global filters for provision")
+                
+                if all_devices_for_provision:
+                    # Transform all devices for provision config
+                    all_transformed_devices = self.transform_device_to_playbook_format(
+                        reverse_mapping_spec, all_devices_for_provision
+                    )
+                    license_provision_config = self.build_provision_wired_device_from_sda_endpoint(all_transformed_devices)
+                else:
+                    license_provision_config = None
                 
                 if license_provision_config and "provision_wired_device" in license_provision_config:
                     # Add provision config as a separate entry below the device configs
                     transformed_devices.append(license_provision_config)
-                    self.log("Added separate provision_wired_device config to output", "INFO")
+                    self.log("Added separate provision_wired_device config to output (built with global filters)", "INFO")
                 else:
                     self.log("No provisioned devices found from SDA endpoint", "DEBUG")
                 
@@ -1684,36 +1724,31 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "components_list", module_supported_network_elements.keys()
         )
 
+        # Convert to list if needed
+        components_list = list(components_list) if not isinstance(components_list, list) else components_list
+
         self.log(
-            "Components list determined: {0}".format(components_list), "DEBUG"
+            "Components list determined (independent): {0}".format(components_list), "DEBUG"
         )
 
-        # Auto-include device_details if only filter-only components are specified
-        # Filter-only components like provision_device need device_details to work
-        components_list = list(components_list) if not isinstance(components_list, list) else components_list
-        has_filter_only = False
-        has_data_fetching = False
+        # For filter-only components (provision_device, interface_details), we need device_details data
+        # So we fetch device_details internally if any filter-only component is requested
+        components_to_fetch = list(components_list)
+        has_filter_only = any(
+            module_supported_network_elements.get(c, {}).get("is_filter_only", False)
+            for c in components_list
+        )
         
-        for component in components_list:
-            network_element = module_supported_network_elements.get(component)
-            if network_element:
-                if network_element.get("is_filter_only"):
-                    has_filter_only = True
-                else:
-                    has_data_fetching = True
-        
-        # If only filter-only components are specified, auto-add device_details
-        if has_filter_only and not has_data_fetching:
-            if "device_details" not in components_list:
-                self.log("Auto-including device_details as it's required by filter-only components", "INFO")
-                components_list = ["device_details"] + list(components_list)
+        if has_filter_only and "device_details" not in components_to_fetch:
+            self.log("Adding device_details to fetch list (required by filter-only components)", "DEBUG")
+            components_to_fetch = ["device_details"] + components_to_fetch
 
         self.log(
-            "Final components list after dependency check: {0}".format(components_list), "DEBUG"
+            "Components to fetch internally: {0}".format(components_to_fetch), "DEBUG"
         )
 
         final_list = []
-        for component in components_list:
+        for component in components_to_fetch:
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
@@ -1783,17 +1818,16 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             len(device_configs), "yes" if provision_config else "no"), "DEBUG")
         
         # Filter provision_wired_device by site_name if provision_device component is specified
-        # Note: provision_wired_device was already built from devices filtered by device_details criteria (role, type, etc.)
-        # This site_name filter further narrows down the results to match BOTH criteria
+        # Each component filter is INDEPENDENT - provision_device filter only affects provision output
         if provision_config and "provision_device" in components_list:
             provision_device_filters = component_specific_filters.get("provision_device", {})
             site_name_filter = provision_device_filters.get("site_name")
             
             if site_name_filter:
-                self.log("Applying provision_device filter (site_name) on top of device_details filters (role, type, etc.)", "INFO")
-                self.log("Filtering by site_name: {0}".format(site_name_filter), "INFO")
+                self.log("Applying provision_device site_name filter (independent of device_details filter)", "INFO")
+                self.log("Filtering provision config by site_name: {0}".format(site_name_filter), "INFO")
                 
-                # Filter provision_wired_device
+                # Filter provision_wired_device - this does NOT affect device_configs
                 provision_wired_devices = provision_config.get("provision_wired_device", [])
                 filtered_provision_devices = [
                     device for device in provision_wired_devices
@@ -1802,28 +1836,9 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Provision devices before site_name filter: {0}, after filter: {1}".format(
                     len(provision_wired_devices), len(filtered_provision_devices)), "INFO")
                 provision_config["provision_wired_device"] = filtered_provision_devices
-                
-                # Also filter device_configs by the same site - extract IPs that belong to the filtered site
-                filtered_site_ips = {device.get("device_ip") for device in filtered_provision_devices}
-                filtered_device_configs = []
-                
-                for config in device_configs:
-                    if isinstance(config, dict) and "ip_address_list" in config:
-                        # Filter IP list to only include IPs that belong to the filtered site
-                        original_ips = config.get("ip_address_list", [])
-                        filtered_ips = [ip for ip in original_ips if ip in filtered_site_ips]
-                        
-                        if filtered_ips:
-                            config["ip_address_list"] = filtered_ips
-                            filtered_device_configs.append(config)
-                            self.log("Device config filtered - original IPs: {0}, filtered IPs: {1}".format(
-                                original_ips, filtered_ips), "DEBUG")
-                    else:
-                        filtered_device_configs.append(config)
-                
-                device_configs = filtered_device_configs
-                self.log("Device configs after site_name filter: {0}".format(len(device_configs)), "INFO")
-                self.log("Final device configs match BOTH device_details criteria AND provision_device site_name criteria", "DEBUG")
+        
+        # device_configs remains unchanged - it's filtered independently by device_details criteria only
+        self.log("Device configs (filtered by device_details only): {0}".format(len(device_configs)), "INFO")
         
         # Check if update_interface_details is specified in yaml_config_generator
         update_interface_config = yaml_config_generator.get("update_interface_details")
@@ -1860,26 +1875,66 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Create the list of dictionaries to output (may be one, two, or three configs)
         dicts_to_write = []
         
-        if device_configs:
+        # Determine which components to include based on generate_all_configurations or components_list
+        # Each component is independent - only include what user explicitly requested
+        include_device_details = self.generate_all_configurations or "device_details" in components_list
+        include_provision_device = self.generate_all_configurations or "provision_device" in components_list
+        include_interface_details = self.generate_all_configurations or "interface_details" in components_list
+        
+        self.log("Component inclusion (independent) - device_details: {0}, provision_device: {1}, interface_details: {2}".format(
+            include_device_details, include_provision_device, include_interface_details), "INFO")
+        
+        # First document: device details
+        if include_device_details and device_configs:
             dicts_to_write.append({"config for adding network devices": device_configs})
             self.log("Added device configs section with {0} configs".format(len(device_configs)), "DEBUG")
         
-        # When device configs are available, auto-fetch and add interface details
+        # When device configs are available and interface_details is requested, auto-fetch interface details
+        # For independent filtering, fetch from ALL devices respecting global filters
         auto_interface_configs = []
-        if device_configs:
-            self.log("Auto-generating interface details from all devices", "INFO")
-            auto_interface_configs = self.build_update_interface_details_from_all_devices(device_configs)
-            if auto_interface_configs:
-                self.log("Generated {0} interface detail configs from all devices".format(
-                    len(auto_interface_configs)
-                ), "INFO")
+        if include_interface_details:
+            self.log("Auto-generating interface details from devices (applying global filters)", "INFO")
+            
+            # Fetch devices respecting global filters for interface details
+            if global_filters and any(global_filters.values()):
+                # Apply same global filters as device_details
+                self.log("Applying global filters to interface details fetch", "INFO")
+                result = self.process_global_filters(global_filters)
+                device_ip_to_id_mapping = result.get("device_ip_to_id_mapping", {})
+                
+                if device_ip_to_id_mapping:
+                    all_devices_for_interfaces = list(device_ip_to_id_mapping.values())
+                else:
+                    all_devices_for_interfaces = self.fetch_all_devices(reason="fallback for interface filtering")
+            else:
+                # No global filters - fetch all devices
+                all_devices_for_interfaces = self.fetch_all_devices(reason="no global filters for interface")
+            
+            if all_devices_for_interfaces:
+                # Transform all devices to get IP addresses
+                reverse_mapping_spec = self.inventory_get_device_reverse_mapping()
+                all_transformed_for_interfaces = self.transform_device_to_playbook_format(
+                    reverse_mapping_spec, all_devices_for_interfaces
+                )
+                auto_interface_configs = self.build_update_interface_details_from_all_devices(all_transformed_for_interfaces)
+                if auto_interface_configs:
+                    self.log("Generated {0} interface detail configs (with global filters)".format(
+                        len(auto_interface_configs)
+                    ), "INFO")
+            else:
+                self.log("No devices found for interface details generation", "WARNING")
         
         # Second document with provision_wired_device and/or manual update_interface_details
         second_doc_config = []
         
-        if provision_config:
-            second_doc_config.append(provision_config)
-            self.log("Added provision_wired_device config section", "DEBUG")
+        if include_provision_device and provision_config:
+            # Only add if there are actual devices in the provision config
+            provision_devices = provision_config.get("provision_wired_device", [])
+            if provision_devices:
+                second_doc_config.append(provision_config)
+                self.log("Added provision_wired_device config section with {0} devices".format(len(provision_devices)), "DEBUG")
+            else:
+                self.log("Skipping empty provision_wired_device config (no devices after filtering)", "DEBUG")
         
         # Add manually specified update_interface_details if provided
         if update_config_output:
@@ -1891,7 +1946,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Added second document with {0} config sections".format(len(second_doc_config)), "DEBUG")
         
         # Third document with auto-generated interface details
-        if auto_interface_configs:
+        if include_interface_details and auto_interface_configs:
             dicts_to_write.append({"config for updating interface details": auto_interface_configs})
             self.log("Added third document with {0} auto-generated interface configs".format(len(auto_interface_configs)), "DEBUG")
         
