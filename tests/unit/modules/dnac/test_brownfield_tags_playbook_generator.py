@@ -44,6 +44,9 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
     playbook_config_generate_all_configurations_case_1 = test_data.get(
         "generate_all_configurations_case_1"
     )
+    playbook_config_missing_filters_with_generate_all_false = test_data.get(
+        "missing_filters_with_generate_all_false"
+    )
 
     def setUp(self):
         super(TestDnacBrownfieldTagsPlaybookGenerator, self).setUp()
@@ -146,5 +149,35 @@ class TestDnacBrownfieldTagsPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "YAML configuration file generated successfully for module 'tags_workflow_manager'",
+            str(result.get("msg")),
+        )
+
+    def test_missing_filters_with_generate_all_false(self):
+        """
+        Test Case: Validation failure when generate_all_configurations is False without component_specific_filters.
+        This test verifies that the module properly validates and rejects configurations where
+        generate_all_configurations is explicitly set to False but component_specific_filters
+        is not provided. This should result in a validation error.
+
+        Expected behavior:
+        - Module should fail with an error message requiring component_specific_filters
+        - Error message should clearly state the requirement
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                dnac_log_level="DEBUG",
+                config=self.playbook_config_missing_filters_with_generate_all_false,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "component_specific_filters must be provided with components_list key",
             str(result.get("msg")),
         )

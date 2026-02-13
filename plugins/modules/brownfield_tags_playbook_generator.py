@@ -2143,11 +2143,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if generate_all:
-            self.log(
-                "Auto-discovery mode enabled - will process all devices and all features",
-                "INFO",
-            )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
         file_path = yaml_config_generator.get("file_path")
@@ -2179,6 +2174,19 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Set empty filters to retrieve everything
             component_specific_filters = {}
         else:
+            # Checking if generate_all_configurations is False but filters are missing or empty, and logging a warning
+            if (
+                not yaml_config_generator.get("component_specific_filters")
+                and "generate_all_configurations" in yaml_config_generator
+                and not yaml_config_generator["generate_all_configurations"]
+            ):
+                self.msg = (
+                    "component_specific_filters must be provided with components_list key "
+                    "when generate_all_configurations is set to False."
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
             # Use provided filters or default to empty
             component_specific_filters = (
                 yaml_config_generator.get("component_specific_filters") or {}
