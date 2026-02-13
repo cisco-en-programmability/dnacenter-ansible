@@ -21,7 +21,6 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - generate_all_configurations: true
 
@@ -47,7 +46,6 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           -
             component_specific_filters:
@@ -75,7 +73,6 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           -
             component_specific_filters:
@@ -103,7 +100,6 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           -
             component_specific_filters:
@@ -131,7 +127,6 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           -
             component_specific_filters:
@@ -162,7 +157,6 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config_verify: true
         config:
           - file_path: "/tmp/catc_tags.yaml"
             component_specific_filters:
