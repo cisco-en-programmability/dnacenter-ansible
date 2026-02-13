@@ -57,11 +57,6 @@ options:
           a default file name "tags_workflow_manager_playbook_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
         - For example, "tags_workflow_manager_playbook_2026-01-24_12-33-20.yml".
         type: str
-      global_filters:
-        description:
-        - Global filters to apply when generating the YAML configuration file.
-        - These filters apply to all components unless overridden by component-specific filters.
-        type: dict
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
@@ -534,7 +529,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
         }
 
         # Validate params
@@ -580,7 +574,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         - api_function (str): API function name for retrieving tag members
                         - api_family (str): API family identifier
                         - get_function_name (method): Method to get tag membership configuration
-                - global_filters (list): List of global filters (currently empty)
 
         Description:
             The method constructs a schema dictionary that defines how tag and tag membership
@@ -606,7 +599,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "get_function_name": self.get_tag_membership_configuration,
                 },
             },
-            "global_filters": [],
         }
 
         network_elements = list(schema["network_elements"].keys())
@@ -2136,7 +2128,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Contains file_path, and component_specific_filters.
 
         Returns:
             self: The current instance with the operation result and message updated.
@@ -2178,11 +2170,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
                 "INFO",
             )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
             if yaml_config_generator.get("component_specific_filters"):
                 self.log(
                     "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
@@ -2190,11 +2177,9 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
             # Set empty filters to retrieve everything
-            global_filters = {}
             component_specific_filters = {}
         else:
             # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = (
                 yaml_config_generator.get("component_specific_filters") or {}
             )
