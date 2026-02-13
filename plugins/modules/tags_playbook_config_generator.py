@@ -11,7 +11,7 @@ __author__ = "Archit Soni, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_tags_playbook_generator
+module: tags_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'tags_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the
@@ -54,8 +54,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name "tags_workflow_manager_playbook_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "tags_workflow_manager_playbook_2026-01-24_12-33-20.yml".
+          a default file name "tags_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "tags_playbook_config_2026-01-24_12-33-20.yml".
         type: str
       component_specific_filters:
         description:
@@ -132,7 +132,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Generate all tag configurations from Cisco Catalyst Center
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -157,7 +157,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Generate all tag configurations to a specific file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -183,7 +183,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export all tag definitions to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -210,7 +210,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export all tag memberships to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -237,7 +237,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export tags and tag memberships to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -264,7 +264,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export specific tags to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -294,7 +294,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export memberships for specific tags
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -324,7 +324,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Generate multiple brownfield tag configurations
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -557,7 +557,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         functions for each network element type.
 
         Parameters:
-            self (object): An instance of the BrownfieldTagsPlaybookGenerator class.
+            self (object): An instance of the TagsPlaybookGenerator class.
 
         Returns:
             dict: A dictionary containing the workflow filters schema with the following structure:
@@ -2429,7 +2429,7 @@ def main():
     ):
         ccc_tags_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for brownfield_tags_playbook_generator Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for tags_playbook_config_generator Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_tags_playbook_generator.get_ccc_version()
             )
         )

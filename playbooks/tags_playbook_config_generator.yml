@@ -8,7 +8,7 @@
   connection: local
   tasks:
     - name: Generate all tag configurations from Cisco Catalyst Center
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -33,7 +33,7 @@
   connection: local
   tasks:
     - name: Export all tag definitions to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -60,7 +60,7 @@
   connection: local
   tasks:
     - name: Export all tag memberships to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -87,7 +87,7 @@
   connection: local
   tasks:
     - name: Export tags and tag memberships to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -114,7 +114,7 @@
   connection: local
   tasks:
     - name: Export specific tags to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -144,7 +144,7 @@
   connection: local
   tasks:
     - name: Export memberships for specific tags
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
