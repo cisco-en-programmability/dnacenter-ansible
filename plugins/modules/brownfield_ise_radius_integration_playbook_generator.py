@@ -70,7 +70,7 @@ options:
             - List of components to include in the YAML configuration file.
             - Valid value is C(authentication_policy_server).
             - If omitted, all components are included.
-            - Example: C(["authentication_policy_server"])
+            - 'Example: C(["authentication_policy_server"])'
             type: list
             elements: str
             choices: ["authentication_policy_server"]
