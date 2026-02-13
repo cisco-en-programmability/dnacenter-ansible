@@ -1162,7 +1162,9 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
             fabric_vlan_temp_spec, final_fabric_vlans
         )
         modified_fabric_vlans_details = {}
-        modified_fabric_vlans_details['fabric_vlan'] = vlans_details
+
+        if vlans_details:
+            modified_fabric_vlans_details['fabric_vlan'] = vlans_details
 
         self.log(
             "Completed retrieving fabric vlan(s): {0}".format(
@@ -1292,7 +1294,9 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
             virtual_network_temp_spec, final_virtual_networks
         )
         modified_virtual_networks_details = {}
-        modified_virtual_networks_details['virtual_networks'] = vn_details
+
+        if vn_details:
+            modified_virtual_networks_details['virtual_networks'] = vn_details
 
         self.log(
             "Completed retrieving virtual network(s): {0}".format(
@@ -1433,7 +1437,9 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         modified_anycast_gateways_details = {}
-        modified_anycast_gateways_details["anycast_gateways"] = anycast_gateways_details
+
+        if anycast_gateways_details:
+            modified_anycast_gateways_details["anycast_gateways"] = anycast_gateways_details
 
         self.log(
             "Completed retrieving anycast gateway(s): {0}".format(
