@@ -127,14 +127,6 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print("DEBUG RESULTS ::: ", result)
-        # DEBUG RESULTS :::  {'changed': True, 'diff': [], 'response': {'status': 'success',
-        # 'message': "YAML configuration file generated successfully for module 'ise_radius_integration_workflow_manager'",
-        # 'file_path': '/tmp/ise_radius_all_config.yaml', 'components_processed': 1, 'components_skipped': 0,
-        #  'configurations_count': 1}, 'warnings': [], 'status': 'success', 'msg': {'status': 'success',
-        # 'message': "YAML configuration file generated successfully for module 'ise_radius_integration_workflow_manager'",
-        # 'file_path': '/tmp/ise_radius_all_config.yaml', 'components_processed': 1, 'components_skipped': 0,
-        # 'configurations_count': 1}, 'failed': False}
         self.assertEqual(str(result.get("response").get("status")), "success")
         self.assertIn(
             "YAML configuration file generated successfully for module",
