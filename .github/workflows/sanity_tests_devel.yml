@@ -75,9 +75,12 @@ jobs:
             changed_files=$(cat changed_files.txt)
             lintable_files=""
             for file in $changed_files; do
-              # Check if the file belongs to the plugins/modules or playbooks directory
-              if [[ $file == playbooks/* ]]; then
-                lintable_files="$lintable_files $file"
+              # Check if the file belongs to the playbooks directory and has .yml or .yaml extension
+              if [[ $file == playbooks/*.yml || $file == playbooks/*.yaml ]]; then
+                # Verify the file exists before adding it
+                if [ -f "$file" ]; then
+                  lintable_files="$lintable_files $file"
+                fi
               fi
             done
 

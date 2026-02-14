@@ -2,7 +2,7 @@
 - name: Download Device Cmd Runner Output
   hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   vars:
     dnac_login: &dnac_login
       dnac_host: "{{ dnac_host }}"

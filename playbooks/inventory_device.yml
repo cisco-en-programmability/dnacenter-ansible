@@ -5,7 +5,7 @@
   gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_inventory.yml"
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Add/Update/Resync/Delete the devices in Cisco DNA Center Inventory.
       cisco.dnac.inventory_intent:
