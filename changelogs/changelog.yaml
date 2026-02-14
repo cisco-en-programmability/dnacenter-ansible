@@ -1942,3 +1942,10 @@ releases:
         - wireless_settings_certificate_renewal_profiles - new module to manage wireless certificate renewal profiles
         - wireless_settings_certificate_renewal_profiles_info - new module to retrieve wireless certificate renewal profiles information
         - wireless_settings_certificate_renewal_profiles_count_info - new module to retrieve wireless certificate renewal profiles count
+
+  6.47.0:
+    release_date: "2026-02-13"
+    changes:
+      release_summary: Code changes to align with Red Hat standards and ansible-lint compliance
+      minor_changes:
+        - Code formatting and ansible-lint compliance updates for Red Hat standards
