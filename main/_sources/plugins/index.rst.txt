@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.46.0
+Collection version 6.47.0
 
 .. contents::
    :local:
@@ -617,7 +617,7 @@ Modules
 * :ref:`network_device_by_ip_info module <ansible_collections.cisco.dnac.network_device_by_ip_info_module>` -- Information module for Network Device By Ip
 * :ref:`network_device_by_serial_number_info module <ansible_collections.cisco.dnac.network_device_by_serial_number_info_module>` -- Information module for Network Device By Serial Number
 * :ref:`network_device_chassis_details_info module <ansible_collections.cisco.dnac.network_device_chassis_details_info_module>` -- Information module for Network Device Chassis Details
-* :ref:`network_device_config__info module <ansible_collections.cisco.dnac.network_device_config__info_module>` -- Information module for Network Device Config
+* :ref:`network_device_config_archive_info module <ansible_collections.cisco.dnac.network_device_config_archive_info_module>` -- Information module for Network Device Config
 * :ref:`network_device_config_count_info module <ansible_collections.cisco.dnac.network_device_config_count_info_module>` -- Information module for Network Device Config Count
 * :ref:`network_device_config_files_count_info module <ansible_collections.cisco.dnac.network_device_config_files_count_info_module>` -- Information module for Network Device Config Files Count
 * :ref:`network_device_config_files_id_download_masked module <ansible_collections.cisco.dnac.network_device_config_files_id_download_masked_module>` -- Resource module for Network Device Config Files Id Download Masked
@@ -1728,7 +1728,7 @@ Modules
     network_device_by_ip_info_module
     network_device_by_serial_number_info_module
     network_device_chassis_details_info_module
-    network_device_config__info_module
+    network_device_config_archive_info_module
     network_device_config_count_info_module
     network_device_config_files_count_info_module
     network_device_config_files_id_download_masked_module
