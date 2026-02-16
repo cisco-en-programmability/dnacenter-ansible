@@ -367,6 +367,19 @@ class BrownFieldHelper:
                                 )
                             )
 
+                    # Validate choices for strings
+                    if expected_type == "str" and "choices" in filter_spec:
+                        valid_choices = filter_spec["choices"]
+                        if filter_value not in valid_choices:
+                            invalid_filters.append(
+                                "Component '{0}' filter '{1}' has invalid value: '{2}'. Valid choices: {3}".format(
+                                    component_name,
+                                    filter_name,
+                                    filter_value,
+                                    valid_choices,
+                                )
+                            )
+
                     # Validate nested dict options and apply dynamic validation
                     if expected_type == "dict" and "options" in filter_spec:
                         nested_options = filter_spec["options"]
@@ -510,7 +523,10 @@ class BrownFieldHelper:
             valid_params (dict_keys): Valid parameter keys for the module.
         """
 
-        self.log("Starting validation of invalid parameters in configuration entries.", "DEBUG")
+        self.log(
+            "Starting validation of invalid parameters in configuration entries.",
+            "DEBUG",
+        )
 
         if not isinstance(config_list, list):
             self.msg = (
@@ -524,7 +540,9 @@ class BrownFieldHelper:
             self.msg = "No valid parameters provided for validation. Please provide valid parameters."
             self.fail_and_exit(self.msg)
 
-        self.log(f"Processing validation for {len(config_list)} configuration(s).", "DEBUG")
+        self.log(
+            f"Processing validation for {len(config_list)} configuration(s).", "DEBUG"
+        )
         for idx, config in enumerate(config_list, start=1):
             self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
 
@@ -538,7 +556,10 @@ class BrownFieldHelper:
 
             self.log(f"Entry {idx}: No invalid parameters found.", "DEBUG")
 
-        self.log("Completed validation of invalid parameters in configuration entries.", "DEBUG")
+        self.log(
+            "Completed validation of invalid parameters in configuration entries.",
+            "DEBUG",
+        )
 
     def validate_minimum_requirements(self, config_list):
         """
@@ -553,7 +574,10 @@ class BrownFieldHelper:
             config_list : list of config dictionaries to validate.
         """
 
-        self.log("Starting validation of minimum requirements for configuration entries.", "DEBUG")
+        self.log(
+            "Starting validation of minimum requirements for configuration entries.",
+            "DEBUG",
+        )
 
         if not isinstance(config_list, list):
             self.msg = (
@@ -562,25 +586,30 @@ class BrownFieldHelper:
             )
             self.fail_and_exit(self.msg)
 
-        self.log(f"Processing validation for {len(config_list)} configuration(s).", "DEBUG")
+        self.log(
+            f"Processing validation for {len(config_list)} configuration(s).", "DEBUG"
+        )
 
         for idx, config in enumerate(config_list, start=1):
             self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
 
             has_generate_all_config_flag = "generate_all_configurations" in config
-            generate_all_configurations = config.get("generate_all_configurations", False)
+            generate_all_configurations = config.get(
+                "generate_all_configurations", False
+            )
             component_specific_filters = config.get("component_specific_filters")
-            global_filters = config.get("global_filters", False)
 
             if has_generate_all_config_flag and generate_all_configurations:
-                self.log(f"Entry {idx}: generate_all_configurations=True, skipping filters check.", "DEBUG")
+                self.log(
+                    f"Entry {idx}: generate_all_configurations=True, skipping filters check.",
+                    "DEBUG",
+                )
                 continue  # No further validation needed
 
-            if global_filters and isinstance(global_filters, dict) and len(global_filters) > 0:
-                self.log(f"Entry {idx}: global_filters provided, skipping filters check.", "DEBUG")
-                continue  # No further validation needed
-
-            if component_specific_filters is None or "components_list" not in component_specific_filters:
+            if (
+                component_specific_filters is None
+                or "components_list" not in component_specific_filters
+            ):
                 if has_generate_all_config_flag:
                     self.msg = (
                         f"Validation Error in entry {idx}: 'component_specific_filters' must be provided "
@@ -595,7 +624,195 @@ class BrownFieldHelper:
 
             self.log(f"Entry {idx}: Passed minimum requirements validation.", "DEBUG")
 
-        self.log("Completed validation of minimum requirements for configuration entries.", "DEBUG")
+        self.log(
+            "Completed validation of minimum requirements for configuration entries.",
+            "DEBUG",
+        )
+
+    def validate_minimum_requirement_for_global_filters(self, config_list):
+        """
+        Validates minimum requirements for configuration entries using global filters.
+
+        This function enforces business logic validation rules for brownfield modules that
+        support global_filters-based configuration extraction. It ensures each configuration
+        entry provides either generate_all_configurations mode OR valid global_filters,
+        preventing invalid configuration states that would result in no-op or ambiguous
+        behavior during playbook generation.
+
+        Args:
+            config_list (list[dict]): List of configuration dictionaries to validate. Each entry
+                                     should contain one or more of:
+                - generate_all_configurations (bool, optional): Complete discovery mode flag
+                - global_filters (dict, optional): Filter criteria for targeted extraction
+                - component_specific_filters (dict, optional): Component-level filters (ignored)
+
+        Returns:
+            None (validation passes) or calls fail_and_exit() on validation errors
+
+        Validation Rules:
+            Rule 1 (Auto-Discovery Mode):
+                - If 'generate_all_configurations' exists AND equals True
+                - Skip all filter validation (auto-discovery mode)
+                - Continue to next configuration entry
+
+            Rule 2 (Global Filters Mode):
+                - If 'global_filters' exists AND is non-empty dict
+                - Skip validation (filters provided for targeted extraction)
+                - Continue to next configuration entry
+
+            Rule 3 (Invalid Configuration):
+                - If neither Rule 1 nor Rule 2 satisfied
+                - Configuration is INVALID (missing required parameters)
+                - Call fail_and_exit() with detailed error message
+
+        Configuration Modes:
+            Auto-Discovery Mode (generate_all_configurations=True):
+                - Discovers ALL entities in Catalyst Center
+                - Ignores any provided global_filters
+                - Suitable for complete brownfield inventory extraction
+                - Example: Extract all APs, sites, devices without filtering
+
+            Targeted Extraction Mode (global_filters provided):
+                - Filters entities by specific criteria
+                - Supports site, hostname, MAC, ID-based filtering
+                - Suitable for selective brownfield extraction
+                - Example: Extract only APs in specific sites
+
+            Invalid Mode (neither provided):
+                - Missing both generate_all and global_filters
+                - Cannot determine extraction scope
+                - Validation FAILS with error message
+
+        Error Messages:
+            Format: "Validation Error in entry {idx}: Either 'generate_all_configurations'
+                    must be provided as True or 'global_filters' must be provided"
+
+            Provides clear guidance on required parameters:
+                - Option 1: Set generate_all_configurations=True
+                - Option 2: Provide valid global_filters dictionary
+
+        Input Validation:
+            - config_list must be list type (not dict, str, etc.)
+            - Invalid type triggers immediate fail_and_exit()
+            - Error message specifies expected type vs. actual type
+
+        Global Filters Validation:
+            - Must be dictionary type (not list, str, etc.)
+            - Must contain at least one key-value pair (len > 0)
+            - Empty dict {} considered invalid (no filter criteria)
+            - None or False considered invalid (no filters)
+
+        Integration Points:
+            - Called after basic schema validation (validate_list_of_dicts)
+            - Called before params validation (validate_params)
+            - Ensures configuration is actionable before API calls
+            - Prevents ambiguous configuration states
+
+        Notes:
+            - This function is for global_filters-based modules only
+            - For component_specific_filters modules, use validate_minimum_requirements()
+            - generate_all_configurations takes precedence over filters
+            - Empty global_filters dict is considered invalid (no criteria)
+            - Function name includes "global_filters" to distinguish from component validation
+        """
+        self.log(
+            "Starting minimum requirements validation for configuration entries using "
+            "global_filters mode. This validation ensures each configuration provides either "
+            "'generate_all_configurations=True' for complete discovery OR 'global_filters' "
+            f"dictionary for targeted extraction. Module: '{self.module_name}'",
+            "DEBUG"
+        )
+
+        # Validate input type
+        if not isinstance(config_list, list):
+            self.msg = (
+                "Invalid input type for validate_minimum_requirement_for_global_filters(): "
+                f"Expected list of configuration entries, but got {type(config_list).__name__}. "
+                "Configuration must be provided as a list of dictionaries, even if only one "
+                f"configuration entry exists. Example: [{{...config...}}]. Module: "
+                f"'{self.module_name}'"
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            f"Input type validation passed. Received list with {len(config_list)} configuration "
+            "entry/entries to validate. Beginning per-entry validation loop to check minimum "
+            "requirements for each configuration.",
+            "DEBUG"
+        )
+
+        # Validate each configuration entry
+        for idx, config in enumerate(config_list, start=1):
+            self.log(
+                f"Validating configuration entry {idx}/{len(config_list)} for minimum requirements. "
+                f"Entry contains {len(config.keys()) if isinstance(config, dict) else 0} parameter(s). "
+                f"Configuration: {config}",
+                "DEBUG"
+            )
+
+            # Extract configuration flags and filters
+            has_generate_all_config_flag = "generate_all_configurations" in config
+            generate_all_configurations = config.get("generate_all_configurations", False)
+            component_specific_filters = config.get("component_specific_filters")
+            global_filters = config.get("global_filters", False)
+
+            self.log(
+                f"Entry {idx}/{len(config_list)}: Extracted configuration parameters - "
+                f"has_generate_all_flag: {has_generate_all_config_flag}, "
+                f"generate_all_value: {generate_all_configurations}, "
+                f"has_component_filters: {bool(component_specific_filters)}, "
+                f"has_global_filters: {bool(global_filters)}, "
+                f"global_filters_type: {type(global_filters).__name__}",
+                "DEBUG"
+            )
+
+            # Rule 1: Check for auto-discovery mode (generate_all_configurations=True)
+            if has_generate_all_config_flag and generate_all_configurations:
+                self.log(
+                    f"Entry {idx}/{len(config_list)}: Auto-discovery mode detected "
+                    "(generate_all_configurations=True). This mode will discover ALL entities "
+                    "in Cisco Catalyst Center without applying any filter criteria. Skipping "
+                    "global_filters validation check as filters are not required in auto-discovery "
+                    "mode. Configuration is VALID.",
+                    "DEBUG"
+                )
+                continue  # No further validation needed for auto-discovery mode
+
+            # Rule 2: Check for targeted extraction mode (global_filters provided)
+            if global_filters and isinstance(global_filters, dict) and len(global_filters) > 0:
+                self.log(
+                    f"Entry {idx}/{len(config_list)}: Targeted extraction mode detected "
+                    f"(global_filters provided). Found {len(global_filters)} filter type(s): "
+                    f"{list(global_filters.keys())}. This mode will apply hierarchical filter "
+                    "matching to extract specific entities from Catalyst Center inventory. "
+                    "Skipping generate_all_configurations check as valid filters provided. "
+                    "Configuration is VALID.",
+                    "DEBUG"
+                )
+                continue  # No further validation needed for targeted extraction mode
+
+            # Rule 3: Invalid configuration - neither auto-discovery nor filters provided
+            self.msg = (
+                f"Minimum requirements validation FAILED for configuration entry {idx}/{len(config_list)}. "
+                "Configuration must provide EITHER 'generate_all_configurations=True' for complete "
+                "brownfield discovery OR 'global_filters' dictionary for targeted extraction. "
+                f"Current configuration state: generate_all_configurations={generate_all_configurations}, "
+                f"global_filters={'empty/invalid' if not global_filters else 'provided but empty dict'}. "
+                "Required actions: (1) Set 'generate_all_configurations: true' to extract all entities, "
+                f"OR (2) Provide 'global_filters' dictionary with at least one filter type."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        # All configuration entries passed validation
+        self.log(
+            f"Completed minimum requirements validation for all {len(config_list)} configuration "
+            "entry/entries. All configurations passed validation checks - each provides either "
+            "'generate_all_configurations=True' or valid 'global_filters' dictionary. Module can "
+            f"proceed with brownfield playbook generation workflow. Module: '{self.module_name}'",
+            "DEBUG"
+        )
 
     def yaml_config_generator(self, yaml_config_generator):
         """
@@ -620,26 +837,42 @@ class BrownFieldHelper:
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
-            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode enabled - will process all devices and all features",
+                "INFO",
+            )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            self.log(
+                "No file_path provided by user, generating default filename", "DEBUG"
+            )
             file_path = self.generate_filename()
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        self.log(
+            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+        )
 
         self.log("Initializing filter dictionaries", "DEBUG")
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
+                "INFO",
+            )
             if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
+                    "WARNING",
+                )
             if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
+                self.log(
+                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
+                    "WARNING",
+                )
 
             # Set empty filters to retrieve everything
             global_filters = {}
@@ -647,10 +880,14 @@ class BrownFieldHelper:
         else:
             # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            component_specific_filters = (
+                yaml_config_generator.get("component_specific_filters") or {}
+            )
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
+        module_supported_network_elements = self.module_schema.get(
+            "network_elements", {}
+        )
 
         self.log("Determining components list for processing", "DEBUG")
         components_list = component_specific_filters.get(
@@ -659,12 +896,17 @@ class BrownFieldHelper:
 
         # If components_list is empty, default to all supported components
         if not components_list:
-            self.log("No components specified; processing all supported components.", "DEBUG")
+            self.log(
+                "No components specified; processing all supported components.", "DEBUG"
+            )
             components_list = list(module_supported_network_elements.keys())
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
-        self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
+        self.log(
+            "Initializing final configuration list and operation summary tracking",
+            "DEBUG",
+        )
         final_config_list = []
         processed_count = 0
         skipped_count = 0
@@ -674,7 +916,9 @@ class BrownFieldHelper:
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
-                    "Component {0} not supported by module, skipping processing".format(component),
+                    "Component {0} not supported by module, skipping processing".format(
+                        component
+                    ),
                     "WARNING",
                 )
                 skipped_count += 1
@@ -682,13 +926,17 @@ class BrownFieldHelper:
 
             filters = {
                 "global_filters": global_filters,
-                "component_specific_filters": component_specific_filters.get(component, [])
+                "component_specific_filters": component_specific_filters.get(
+                    component, []
+                ),
             }
             operation_func = network_element.get("get_function_name")
             if not callable(operation_func):
                 self.log(
-                    "No retrieval function defined for component: {0}".format(component),
-                    "ERROR"
+                    "No retrieval function defined for component: {0}".format(
+                        component
+                    ),
+                    "ERROR",
                 )
                 skipped_count += 1
                 continue
@@ -697,13 +945,13 @@ class BrownFieldHelper:
             # Validate retrieval success
             if not component_data:
                 self.log(
-                    "No data retrieved for component: {0}".format(component),
-                    "DEBUG"
+                    "No data retrieved for component: {0}".format(component), "DEBUG"
                 )
                 continue
 
             self.log(
-                "Details retrieved for {0}: {1}".format(component, component_data), "DEBUG"
+                "Details retrieved for {0}: {1}".format(component, component_data),
+                "DEBUG",
             )
             processed_count += 1
             final_config_list.append(component_data)
@@ -713,25 +961,29 @@ class BrownFieldHelper:
                 "No configurations retrieved. Processed: {0}, Skipped: {1}, Components: {2}".format(
                     processed_count, skipped_count, components_list
                 ),
-                "WARNING"
+                "WARNING",
             )
             self.msg = {
                 "status": "ok",
                 "message": (
                     "No configurations found for module '{0}'. Verify filters and component availability. "
-                    "Components attempted: {1}".format(self.module_name, components_list)
+                    "Components attempted: {1}".format(
+                        self.module_name, components_list
+                    )
                 ),
                 "components_attempted": len(components_list),
                 "components_processed": processed_count,
-                "components_skipped": skipped_count
+                "components_skipped": skipped_count,
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
 
         yaml_config_dict = {"config": final_config_list}
         self.log(
-            "Final config dictionary created: {0}".format(self.pprint(yaml_config_dict)),
-            "DEBUG"
+            "Final config dictionary created: {0}".format(
+                self.pprint(yaml_config_dict)
+            ),
+            "DEBUG",
         )
 
         if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
@@ -743,15 +995,18 @@ class BrownFieldHelper:
                 "file_path": file_path,
                 "components_processed": processed_count,
                 "components_skipped": skipped_count,
-                "configurations_count": len(final_config_list)
+                "configurations_count": len(final_config_list),
             }
             self.set_operation_result("success", True, self.msg, "INFO")
 
             self.log(
                 "YAML configuration generation completed. File: {0}, Components: {1}/{2}, Configs: {3}".format(
-                    file_path, processed_count, len(components_list), len(final_config_list)
+                    file_path,
+                    processed_count,
+                    len(components_list),
+                    len(final_config_list),
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.msg = {
@@ -778,7 +1033,11 @@ class BrownFieldHelper:
         self.log("Timestamp successfully generated: {0}".format(timestamp), "DEBUG")
 
         # Construct the filename
-        filename = "{0}_playbook_{1}.yml".format(self.module_name, timestamp)
+        self.module_name_prefix = self.module_name.split("_workflow_manager")[0]
+
+        filename = "{0}_playbook_config_{1}.yml".format(
+            self.module_name_prefix, timestamp
+        )
         self.log("Filename successfully constructed: {0}".format(filename), "DEBUG")
 
         self.log(
@@ -1644,7 +1903,7 @@ class BrownFieldHelper:
                 "Filtered site ID to name hierarchy mapping: {0}".format(
                     filtered_mapping
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return filtered_mapping
 
@@ -2020,15 +2279,15 @@ class BrownFieldHelper:
             "Starting transformation of {0} API response items using {1} mapping rules to convert "
             "Catalyst Center format to Ansible playbook format".format(
                 len(data_list) if data_list else 0,
-                len(reverse_mapping_spec) if reverse_mapping_spec else 0
+                len(reverse_mapping_spec) if reverse_mapping_spec else 0,
             ),
-            "DEBUG"
+            "DEBUG",
         )
         if not reverse_mapping_spec:
             self.log(
                 "Reverse mapping specification is empty or None, cannot perform transformation. "
                 "Returning empty list.",
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -2036,7 +2295,7 @@ class BrownFieldHelper:
             self.log(
                 "Invalid reverse mapping specification - expected dict or OrderedDict, got {0}. "
                 "Returning empty list.".format(type(reverse_mapping_spec).__name__),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -2044,7 +2303,7 @@ class BrownFieldHelper:
             self.log(
                 "Data list is empty or None, no API response data to transform. "
                 "Returning empty list.",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -2053,7 +2312,7 @@ class BrownFieldHelper:
                 "Invalid data_list - expected list, got {0}. Attempting to wrap in list.".format(
                     type(data_list).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             data_list = [data_list]
 
@@ -2061,7 +2320,7 @@ class BrownFieldHelper:
             "Input validation successful - processing {0} data items with {1} mapping rules".format(
                 len(data_list), len(reverse_mapping_spec)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         transformed_data = []
@@ -2071,7 +2330,7 @@ class BrownFieldHelper:
         for item_index, data_item in enumerate(data_list):
             self.log(
                 "Processing data item {0}/{1}".format(item_index + 1, len(data_list)),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(data_item, dict):
@@ -2079,7 +2338,7 @@ class BrownFieldHelper:
                     "Skipping invalid data item at index {0} - expected dict, got {1}".format(
                         item_index, type(data_item).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 items_failed += 1
                 continue
@@ -2095,8 +2354,10 @@ class BrownFieldHelper:
                     if not isinstance(mapping_rule, dict):
                         self.log(
                             "Invalid mapping rule for field '{0}' - expected dict, got {1}. "
-                            "Skipping field.".format(target_key, type(mapping_rule).__name__),
-                            "WARNING"
+                            "Skipping field.".format(
+                                target_key, type(mapping_rule).__name__
+                            ),
+                            "WARNING",
                         )
                         fields_failed += 1
                         continue
@@ -2108,11 +2369,15 @@ class BrownFieldHelper:
                     value = None
 
                     # Case 1: Transform function without source_key (uses entire data_item)
-                    if source_key is None and transform_func and callable(transform_func):
+                    if (
+                        source_key is None
+                        and transform_func
+                        and callable(transform_func)
+                    ):
                         self.log(
                             "Applying custom transformation for field '{0}' using transform function "
                             "on entire data item".format(target_key),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         try:
@@ -2121,13 +2386,15 @@ class BrownFieldHelper:
                                 "Transform function succeeded for field '{0}', result type: {1}".format(
                                     target_key, type(value).__name__
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                         except Exception as transform_error:
                             self.log(
                                 "Transform function failed for field '{0}': {1}. "
-                                "Setting value to None.".format(target_key, str(transform_error)),
-                                "WARNING"
+                                "Setting value to None.".format(
+                                    target_key, str(transform_error)
+                                ),
+                                "WARNING",
                             )
                             value = None
                             fields_failed += 1
@@ -2138,7 +2405,7 @@ class BrownFieldHelper:
                             "Extracting value for field '{0}' from source path '{1}'".format(
                                 target_key, source_key
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         value = self._extract_nested_value(data_item, source_key)
@@ -2148,16 +2415,20 @@ class BrownFieldHelper:
                                 "Required field '{0}' has no value at source path '{1}'".format(
                                     target_key, source_key
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                         # Apply transformation function if specified and value exists
-                        if transform_func and callable(transform_func) and value is not None:
+                        if (
+                            transform_func
+                            and callable(transform_func)
+                            and value is not None
+                        ):
                             self.log(
                                 "Applying custom transformation to extracted value for field '{0}'".format(
                                     target_key
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                             try:
@@ -2165,15 +2436,19 @@ class BrownFieldHelper:
                                 value = transform_func(value)
                                 self.log(
                                     "Transform function succeeded for field '{0}': {1} -> {2}".format(
-                                        target_key, type(original_value).__name__, type(value).__name__
+                                        target_key,
+                                        type(original_value).__name__,
+                                        type(value).__name__,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             except Exception as transform_error:
                                 self.log(
                                     "Transform function failed for field '{0}': {1}. "
-                                    "Using original extracted value.".format(target_key, str(transform_error)),
-                                    "WARNING"
+                                    "Using original extracted value.".format(
+                                        target_key, str(transform_error)
+                                    ),
+                                    "WARNING",
                                 )
                                 fields_failed += 1
 
@@ -2182,7 +2457,7 @@ class BrownFieldHelper:
                         self.log(
                             "Skipping field '{0}' - no source_key or transform function provided "
                             "in mapping rule".format(target_key),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -2192,7 +2467,9 @@ class BrownFieldHelper:
                         sanitized_value = self._sanitize_value(value, expected_type)
 
                         # Only add non-None values or explicitly include None for optional fields
-                        if sanitized_value is not None or (is_optional and value is None):
+                        if sanitized_value is not None or (
+                            is_optional and value is None
+                        ):
                             transformed_item[target_key] = sanitized_value
                             fields_processed += 1
 
@@ -2200,14 +2477,16 @@ class BrownFieldHelper:
                                 "Successfully transformed field '{0}': type={1}, optional={2}".format(
                                     target_key, expected_type, is_optional
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                     except Exception as sanitize_error:
                         self.log(
                             "Value sanitization failed for field '{0}' (expected type: {1}): {2}. "
-                            "Skipping field.".format(target_key, expected_type, str(sanitize_error)),
-                            "WARNING"
+                            "Skipping field.".format(
+                                target_key, expected_type, str(sanitize_error)
+                            ),
+                            "WARNING",
                         )
                         fields_failed += 1
                         continue
@@ -2217,7 +2496,7 @@ class BrownFieldHelper:
                         "Unexpected error transforming field '{0}': {1}. Skipping field.".format(
                             target_key, str(field_error)
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     fields_failed += 1
                     continue
@@ -2232,13 +2511,13 @@ class BrownFieldHelper:
                     "{3} fields failed".format(
                         item_index + 1, len(data_list), fields_processed, fields_failed
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     "Data item {0}/{1} resulted in empty transformation - all fields were skipped "
                     "or failed".format(item_index + 1, len(data_list)),
-                    "WARNING"
+                    "WARNING",
                 )
                 items_failed += 1
 
@@ -2254,7 +2533,7 @@ class BrownFieldHelper:
                 "total output: {2} configuration objects".format(
                     items_processed, items_failed, len(transformed_data)
                 ),
-                "INFO"
+                "INFO",
             )
 
         return transformed_data
@@ -2285,22 +2564,22 @@ class BrownFieldHelper:
         self.log(
             "Extracting nested value from dictionary structure using dot-notation "
             "path traversal for brownfield configuration transformation",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Extraction parameters - Key path: '{0}', Data type: {1}".format(
                 key_path if key_path else "None",
-                type(data_item).__name__ if data_item is not None else "None"
+                type(data_item).__name__ if data_item is not None else "None",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not key_path:
             self.log(
                 "Key path is empty or None, cannot extract value from nested structure. "
                 "Returning None.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -2310,7 +2589,7 @@ class BrownFieldHelper:
                 "Cannot perform dot-notation traversal. Returning None.".format(
                     type(key_path).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -2319,7 +2598,7 @@ class BrownFieldHelper:
             self.log(
                 "Data item is empty or None for key path '{0}', cannot navigate "
                 "nested structure. Returning None.".format(key_path),
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -2329,11 +2608,11 @@ class BrownFieldHelper:
                 "navigate nested structure. Returning None.".format(
                     type(data_item).__name__, key_path
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
-        keys = key_path.split('.')
+        keys = key_path.split(".")
         value = data_item
 
         # Traverse the nested structure
@@ -2343,7 +2622,7 @@ class BrownFieldHelper:
                 "Traversal step {0}/{1}: Attempting to access key '{2}' in {3}".format(
                     index, len(keys), key, type(value).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Validate current value is a dictionary before accessing key
@@ -2351,10 +2630,13 @@ class BrownFieldHelper:
                 self.log(
                     "Cannot traverse further at step {0}/{1} - current value at key "
                     "'{2}' is {3}, not dict. Path: '{4}'. Returning None.".format(
-                        index, len(keys), keys[index - 2] if index > 1 else "root",
-                        type(value).__name__, key_path
+                        index,
+                        len(keys),
+                        keys[index - 2] if index > 1 else "root",
+                        type(value).__name__,
+                        key_path,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return None
 
@@ -2367,7 +2649,7 @@ class BrownFieldHelper:
                     "retrieved value type: {3}".format(
                         index, len(keys), key, type(value).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 # Key not found - log available keys for debugging
@@ -2375,12 +2657,12 @@ class BrownFieldHelper:
 
                 # Limit displayed keys to first 10 for readability
                 keys_display = (
-                    available_keys[:10] if len(available_keys) > 10
-                    else available_keys
+                    available_keys[:10] if len(available_keys) > 10 else available_keys
                 )
                 more_indicator = (
                     " (and {0} more)".format(len(available_keys) - 10)
-                    if len(available_keys) > 10 else ""
+                    if len(available_keys) > 10
+                    else ""
                 )
 
                 self.log(
@@ -2389,7 +2671,7 @@ class BrownFieldHelper:
                     "Returning None.".format(
                         index, len(keys), key, key_path, keys_display, more_indicator
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return None
 
@@ -2398,7 +2680,7 @@ class BrownFieldHelper:
             "traversed {1} level(s), retrieved value type: {2}".format(
                 key_path, len(keys), type(value).__name__
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return value
@@ -2477,10 +2759,9 @@ class BrownFieldHelper:
         self.log(
             "Sanitizing value for YAML output compatibility: value_type='{0}', "
             "input_type={1}".format(
-                value_type,
-                type(value).__name__ if value is not None else "None"
+                value_type, type(value).__name__ if value is not None else "None"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # =====================================
@@ -2491,7 +2772,7 @@ class BrownFieldHelper:
                 "Input value is None, returning type-appropriate empty value for type '{0}'".format(
                     value_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Return type-specific default values for None
@@ -2519,7 +2800,7 @@ class BrownFieldHelper:
                 "Processing list type conversion for value type: {0}".format(
                     type(value).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Already a list - return as-is
@@ -2528,7 +2809,7 @@ class BrownFieldHelper:
                     "Value is already a list with {0} element(s), returning unchanged".format(
                         len(value)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return value
 
@@ -2538,7 +2819,7 @@ class BrownFieldHelper:
                     "Wrapping non-list value (type: {0}) into single-element list".format(
                         type(value).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return [value]
             else:
@@ -2547,7 +2828,7 @@ class BrownFieldHelper:
                     "Value is falsy (type: {0}), returning empty list".format(
                         type(value).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return []
 
@@ -2559,7 +2840,7 @@ class BrownFieldHelper:
                 "Processing string type conversion for value type: {0}".format(
                     type(value).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Boolean to lowercase string conversion
@@ -2569,7 +2850,7 @@ class BrownFieldHelper:
                     "Converted boolean {0} to lowercase string: '{1}'".format(
                         value, result
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return result
 
@@ -2580,7 +2861,7 @@ class BrownFieldHelper:
                     "Converted numeric value {0} (type: {1}) to string: '{2}'".format(
                         value, type(value).__name__, result
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return result
 
@@ -2590,7 +2871,7 @@ class BrownFieldHelper:
                     "Value is already a string (length: {0}), returning unchanged".format(
                         len(value)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return value
 
@@ -2602,7 +2883,7 @@ class BrownFieldHelper:
                         "Converted value of type {0} to string using str() conversion".format(
                             type(value).__name__
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     return result
                 except Exception as e:
@@ -2611,7 +2892,7 @@ class BrownFieldHelper:
                         "Returning empty string as fallback.".format(
                             type(value).__name__, str(e)
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     return ""
 
@@ -2623,7 +2904,7 @@ class BrownFieldHelper:
                 "Processing integer type conversion for value type: {0}".format(
                     type(value).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Already an integer
@@ -2638,7 +2919,7 @@ class BrownFieldHelper:
                     "Successfully converted value from type {0} to integer: {1}".format(
                         type(value).__name__, result
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return result
             except (ValueError, TypeError) as e:
@@ -2647,7 +2928,7 @@ class BrownFieldHelper:
                     "Returning 0 as fallback.".format(
                         value, type(value).__name__, str(e)
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return 0
 
@@ -2659,7 +2940,7 @@ class BrownFieldHelper:
                 "Processing boolean type conversion for value type: {0}".format(
                     type(value).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Already a boolean
@@ -2672,18 +2953,17 @@ class BrownFieldHelper:
                 value_lower = value.lower().strip()
 
                 # True values
-                if value_lower in ('true', 'yes', 'on', '1', 'enabled'):
+                if value_lower in ("true", "yes", "on", "1", "enabled"):
                     self.log(
-                        "Converted string '{0}' to boolean: True".format(value),
-                        "DEBUG"
+                        "Converted string '{0}' to boolean: True".format(value), "DEBUG"
                     )
                     return True
 
                 # False values
-                elif value_lower in ('false', 'no', 'off', '0', 'disabled', ''):
+                elif value_lower in ("false", "no", "off", "0", "disabled", ""):
                     self.log(
                         "Converted string '{0}' to boolean: False".format(value),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     return False
 
@@ -2692,7 +2972,7 @@ class BrownFieldHelper:
                     self.log(
                         "Ambiguous string value '{0}' for boolean conversion, "
                         "using Python bool() evaluation".format(value),
-                        "WARNING"
+                        "WARNING",
                     )
                     result = bool(value)
                     return result
@@ -2701,10 +2981,8 @@ class BrownFieldHelper:
             elif isinstance(value, (int, float)):
                 result = bool(value)
                 self.log(
-                    "Converted numeric value {0} to boolean: {1}".format(
-                        value, result
-                    ),
-                    "DEBUG"
+                    "Converted numeric value {0} to boolean: {1}".format(value, result),
+                    "DEBUG",
                 )
                 return result
 
@@ -2715,7 +2993,7 @@ class BrownFieldHelper:
                     "Converted value of type {0} to boolean using Python bool(): {1}".format(
                         type(value).__name__, result
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return result
 
@@ -2727,7 +3005,7 @@ class BrownFieldHelper:
                 "Processing dictionary type validation for value type: {0}".format(
                     type(value).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if isinstance(value, dict):
@@ -2735,7 +3013,7 @@ class BrownFieldHelper:
                     "Value is already a dict with {0} key(s), returning unchanged".format(
                         len(value)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return value
             else:
@@ -2743,7 +3021,7 @@ class BrownFieldHelper:
                     "Value is not a dict (type: {0}), returning empty dict as fallback".format(
                         type(value).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return {}
 
@@ -2754,7 +3032,7 @@ class BrownFieldHelper:
             "Unknown or unhandled value_type '{0}', returning value unchanged (type: {1})".format(
                 value_type, type(value).__name__
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Exit log with result summary
@@ -2765,11 +3043,9 @@ class BrownFieldHelper:
         self.log(
             "Sanitization completed: target_type='{0}', result_type={1}, "
             "value_preview={2}".format(
-                value_type,
-                type(value).__name__,
-                result_preview
+                value_type, type(value).__name__, result_preview
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return value

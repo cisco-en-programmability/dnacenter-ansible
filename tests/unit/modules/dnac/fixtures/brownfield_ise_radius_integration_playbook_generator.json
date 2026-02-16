@@ -1,0 +1,140 @@
+{
+  "get_authentication_and_policy_servers": {
+    "response": [
+      {
+        "ipAddress": "10.197.156.10",
+        "sharedSecret": "***",
+        "protocol": "RADIUS",
+        "encryptionScheme": "KEYWRAP",
+        "encryptionKey": "***",
+        "messageKey": "***",
+        "authenticationPort": 1812,
+        "accountingPort": 1813,
+        "retries": 3,
+        "timeoutSeconds": 4,
+        "role": "PRIMARY_SERVER",
+        "pxgridEnabled": true,
+        "useDnacCertForPxgrid": false,
+        "ciscoIseDtos": [
+          {
+            "type": "ISE",
+            "userName": "admin",
+            "password": "***",
+            "fqdn": "ise-server1.example.com",
+            "ipAddress": "10.197.156.10",
+            "description": "Primary ISE Server",
+            "sshKey": "***"
+          }
+        ],
+        "trustedServer": true,
+        "iseIntegrationWaitTime": 20
+      },
+      {
+        "ipAddress": "10.197.156.20",
+        "sharedSecret": "***",
+        "protocol": "RADIUS",
+        "encryptionScheme": "KEYWRAP",
+        "encryptionKey": "***",
+        "messageKey": "***",
+        "authenticationPort": 1812,
+        "accountingPort": 1813,
+        "retries": 3,
+        "timeoutSeconds": 4,
+        "role": "SECONDARY_SERVER",
+        "pxgridEnabled": false,
+        "useDnacCertForPxgrid": false,
+        "ciscoIseDtos": [],
+        "trustedServer": false,
+        "iseIntegrationWaitTime": 20
+      }
+    ]
+  },
+  "get_authentication_and_policy_servers_with_invalid_server_type": {
+    "response": [
+    ]
+  },
+  "playbook_config_generate_all_configurations": [
+    {
+      "generate_all_configurations": true,
+      "file_path": "/tmp/ise_radius_all_config.yaml"
+    }
+  ],
+  "playbook_config_with_file_path": [
+    {
+      "file_path": "/tmp/custom_ise_config.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "authentication_policy_server"
+        ]
+      }
+    }
+  ],
+  "playbook_config_filter_by_server_type": [
+    {
+      "file_path": "/tmp/ise_servers_only.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "authentication_policy_server"
+        ],
+        "authentication_policy_server": {
+          "server_type": "ISE"
+        }
+      }
+    }
+  ],
+  "playbook_config_filter_by_server_ip": [
+    {
+      "file_path": "/tmp/specific_server.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "authentication_policy_server"
+        ],
+        "authentication_policy_server": {
+          "server_ip_address": "10.197.156.10"
+        }
+      }
+    }
+  ],
+  "playbook_config_filter_by_both": [
+    {
+      "file_path": "/tmp/ise_server_by_ip.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "authentication_policy_server"
+        ],
+        "authentication_policy_server": {
+          "server_type": "ISE",
+          "server_ip_address": "10.197.156.10"
+        }
+      }
+    }
+  ],
+  "playbook_config_no_filters": [
+    {
+      "file_path": "/tmp/no_filters.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "authentication_policy_server"
+        ]
+      }
+    }
+  ],
+  "playbook_config_invalid_server_type": [
+    {
+      "file_path": "/tmp/invalid_type.yaml",
+      "component_specific_filters": {
+        "components_list": [
+          "authentication_policy_server"
+        ],
+        "authentication_policy_server": {
+          "server_type": "INVALID_TYPE"
+        }
+      }
+    }
+  ],
+  "playbook_config_no_file_path": [
+    {
+      "generate_all_configurations": true
+    }
+  ]
+}
