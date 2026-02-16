@@ -1374,10 +1374,6 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                self.status = "failed"
-                self.result["response"] = {"message": self.msg}
-                self.result["msg"] = self.msg
-                return self 
 
         # If generate_all_configurations or no components specified, process all
         if self.generate_all_configurations or not components_list:
