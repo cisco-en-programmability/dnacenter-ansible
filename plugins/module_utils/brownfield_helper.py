@@ -598,22 +598,10 @@ class BrownFieldHelper:
                 "generate_all_configurations", False
             )
             component_specific_filters = config.get("component_specific_filters")
-            global_filters = config.get("global_filters", False)
 
             if has_generate_all_config_flag and generate_all_configurations:
                 self.log(
                     f"Entry {idx}: generate_all_configurations=True, skipping filters check.",
-                    "DEBUG",
-                )
-                continue  # No further validation needed
-
-            if (
-                global_filters
-                and isinstance(global_filters, dict)
-                and len(global_filters) > 0
-            ):
-                self.log(
-                    f"Entry {idx}: global_filters provided, skipping filters check.",
                     "DEBUG",
                 )
                 continue  # No further validation needed
@@ -639,6 +627,191 @@ class BrownFieldHelper:
         self.log(
             "Completed validation of minimum requirements for configuration entries.",
             "DEBUG",
+        )
+
+    def validate_minimum_requirement_for_global_filters(self, config_list):
+        """
+        Validates minimum requirements for configuration entries using global filters.
+
+        This function enforces business logic validation rules for brownfield modules that
+        support global_filters-based configuration extraction. It ensures each configuration
+        entry provides either generate_all_configurations mode OR valid global_filters,
+        preventing invalid configuration states that would result in no-op or ambiguous
+        behavior during playbook generation.
+
+        Args:
+            config_list (list[dict]): List of configuration dictionaries to validate. Each entry
+                                     should contain one or more of:
+                - generate_all_configurations (bool, optional): Complete discovery mode flag
+                - global_filters (dict, optional): Filter criteria for targeted extraction
+                - component_specific_filters (dict, optional): Component-level filters (ignored)
+
+        Returns:
+            None (validation passes) or calls fail_and_exit() on validation errors
+
+        Validation Rules:
+            Rule 1 (Auto-Discovery Mode):
+                - If 'generate_all_configurations' exists AND equals True
+                - Skip all filter validation (auto-discovery mode)
+                - Continue to next configuration entry
+
+            Rule 2 (Global Filters Mode):
+                - If 'global_filters' exists AND is non-empty dict
+                - Skip validation (filters provided for targeted extraction)
+                - Continue to next configuration entry
+
+            Rule 3 (Invalid Configuration):
+                - If neither Rule 1 nor Rule 2 satisfied
+                - Configuration is INVALID (missing required parameters)
+                - Call fail_and_exit() with detailed error message
+
+        Configuration Modes:
+            Auto-Discovery Mode (generate_all_configurations=True):
+                - Discovers ALL entities in Catalyst Center
+                - Ignores any provided global_filters
+                - Suitable for complete brownfield inventory extraction
+                - Example: Extract all APs, sites, devices without filtering
+
+            Targeted Extraction Mode (global_filters provided):
+                - Filters entities by specific criteria
+                - Supports site, hostname, MAC, ID-based filtering
+                - Suitable for selective brownfield extraction
+                - Example: Extract only APs in specific sites
+
+            Invalid Mode (neither provided):
+                - Missing both generate_all and global_filters
+                - Cannot determine extraction scope
+                - Validation FAILS with error message
+
+        Error Messages:
+            Format: "Validation Error in entry {idx}: Either 'generate_all_configurations'
+                    must be provided as True or 'global_filters' must be provided"
+
+            Provides clear guidance on required parameters:
+                - Option 1: Set generate_all_configurations=True
+                - Option 2: Provide valid global_filters dictionary
+
+        Input Validation:
+            - config_list must be list type (not dict, str, etc.)
+            - Invalid type triggers immediate fail_and_exit()
+            - Error message specifies expected type vs. actual type
+
+        Global Filters Validation:
+            - Must be dictionary type (not list, str, etc.)
+            - Must contain at least one key-value pair (len > 0)
+            - Empty dict {} considered invalid (no filter criteria)
+            - None or False considered invalid (no filters)
+
+        Integration Points:
+            - Called after basic schema validation (validate_list_of_dicts)
+            - Called before params validation (validate_params)
+            - Ensures configuration is actionable before API calls
+            - Prevents ambiguous configuration states
+
+        Notes:
+            - This function is for global_filters-based modules only
+            - For component_specific_filters modules, use validate_minimum_requirements()
+            - generate_all_configurations takes precedence over filters
+            - Empty global_filters dict is considered invalid (no criteria)
+            - Function name includes "global_filters" to distinguish from component validation
+        """
+        self.log(
+            "Starting minimum requirements validation for configuration entries using "
+            "global_filters mode. This validation ensures each configuration provides either "
+            "'generate_all_configurations=True' for complete discovery OR 'global_filters' "
+            f"dictionary for targeted extraction. Module: '{self.module_name}'",
+            "DEBUG"
+        )
+
+        # Validate input type
+        if not isinstance(config_list, list):
+            self.msg = (
+                "Invalid input type for validate_minimum_requirement_for_global_filters(): "
+                f"Expected list of configuration entries, but got {type(config_list).__name__}. "
+                "Configuration must be provided as a list of dictionaries, even if only one "
+                f"configuration entry exists. Example: [{{...config...}}]. Module: "
+                f"'{self.module_name}'"
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            f"Input type validation passed. Received list with {len(config_list)} configuration "
+            "entry/entries to validate. Beginning per-entry validation loop to check minimum "
+            "requirements for each configuration.",
+            "DEBUG"
+        )
+
+        # Validate each configuration entry
+        for idx, config in enumerate(config_list, start=1):
+            self.log(
+                f"Validating configuration entry {idx}/{len(config_list)} for minimum requirements. "
+                f"Entry contains {len(config.keys()) if isinstance(config, dict) else 0} parameter(s). "
+                f"Configuration: {config}",
+                "DEBUG"
+            )
+
+            # Extract configuration flags and filters
+            has_generate_all_config_flag = "generate_all_configurations" in config
+            generate_all_configurations = config.get("generate_all_configurations", False)
+            component_specific_filters = config.get("component_specific_filters")
+            global_filters = config.get("global_filters", False)
+
+            self.log(
+                f"Entry {idx}/{len(config_list)}: Extracted configuration parameters - "
+                f"has_generate_all_flag: {has_generate_all_config_flag}, "
+                f"generate_all_value: {generate_all_configurations}, "
+                f"has_component_filters: {bool(component_specific_filters)}, "
+                f"has_global_filters: {bool(global_filters)}, "
+                f"global_filters_type: {type(global_filters).__name__}",
+                "DEBUG"
+            )
+
+            # Rule 1: Check for auto-discovery mode (generate_all_configurations=True)
+            if has_generate_all_config_flag and generate_all_configurations:
+                self.log(
+                    f"Entry {idx}/{len(config_list)}: Auto-discovery mode detected "
+                    "(generate_all_configurations=True). This mode will discover ALL entities "
+                    "in Cisco Catalyst Center without applying any filter criteria. Skipping "
+                    "global_filters validation check as filters are not required in auto-discovery "
+                    "mode. Configuration is VALID.",
+                    "DEBUG"
+                )
+                continue  # No further validation needed for auto-discovery mode
+
+            # Rule 2: Check for targeted extraction mode (global_filters provided)
+            if global_filters and isinstance(global_filters, dict) and len(global_filters) > 0:
+                self.log(
+                    f"Entry {idx}/{len(config_list)}: Targeted extraction mode detected "
+                    f"(global_filters provided). Found {len(global_filters)} filter type(s): "
+                    f"{list(global_filters.keys())}. This mode will apply hierarchical filter "
+                    "matching to extract specific entities from Catalyst Center inventory. "
+                    "Skipping generate_all_configurations check as valid filters provided. "
+                    "Configuration is VALID.",
+                    "DEBUG"
+                )
+                continue  # No further validation needed for targeted extraction mode
+
+            # Rule 3: Invalid configuration - neither auto-discovery nor filters provided
+            self.msg = (
+                f"Minimum requirements validation FAILED for configuration entry {idx}/{len(config_list)}. "
+                "Configuration must provide EITHER 'generate_all_configurations=True' for complete "
+                "brownfield discovery OR 'global_filters' dictionary for targeted extraction. "
+                f"Current configuration state: generate_all_configurations={generate_all_configurations}, "
+                f"global_filters={'empty/invalid' if not global_filters else 'provided but empty dict'}. "
+                "Required actions: (1) Set 'generate_all_configurations: true' to extract all entities, "
+                f"OR (2) Provide 'global_filters' dictionary with at least one filter type."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        # All configuration entries passed validation
+        self.log(
+            f"Completed minimum requirements validation for all {len(config_list)} configuration "
+            "entry/entries. All configurations passed validation checks - each provides either "
+            "'generate_all_configurations=True' or valid 'global_filters' dictionary. Module can "
+            f"proceed with brownfield playbook generation workflow. Module: '{self.module_name}'",
+            "DEBUG"
         )
 
     def yaml_config_generator(self, yaml_config_generator):
