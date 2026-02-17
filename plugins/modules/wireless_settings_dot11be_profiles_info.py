@@ -7,15 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_dot11be_profiles_info
-short_description: Information module for Wireless Settings
-  Dot11be Profiles
+short_description: Information module for Wireless Settings Dot11be Profiles
 description:
   - Get all Wireless Settings Dot11be Profiles.
   - Get Wireless Settings Dot11be Profiles by id.
-  - This API allows the user to get 802.11be Profile
-    by ID.
-  - This API allows the user to get 802.11be Profiles
-    configured under Wireless Settings.
+  - This API allows the user to get 802.11be Profile by ID.
+  - This API allows the user to get 802.11be Profiles configured under Wireless Settings.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,16 +24,13 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Default is 500 if not
-        specified. Maximum allowed limit is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
+        Maximum allowed limit is 500.
+    type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page, the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page, the first record is numbered 1.
+    type: int
   profileName:
     description:
       - ProfileName query parameter. Profile Name.
@@ -66,18 +60,14 @@ options:
       - Id path parameter. 802.11be Profile ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      Get80211beProfileByID
-    description: Complete reference of the Get80211beProfileByID
-      API.
+  - name: Cisco DNA Center documentation for Wireless Get80211beProfileByID
+    description: Complete reference of the Get80211beProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless
-      Get80211beProfiles
-    description: Complete reference of the Get80211beProfiles
-      API.
+  - name: Cisco DNA Center documentation for Wireless Get80211beProfiles
+    description: Complete reference of the Get80211beProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles
 notes:
   - SDK Method used are
@@ -137,7 +127,13 @@ dnac_response:
         "muMimoDownLink": true,
         "muMimoUpLink": true,
         "ofdmaMultiRu": true,
-        "default": true
+        "default": true,
+        "mloGroup": {
+          "primary24GhzEnable": true,
+          "primary5GhzEnable": true,
+          "secondary5GhzEnable": true,
+          "primary6GhzEnable": true
+        }
       },
       "version": "string"
     }

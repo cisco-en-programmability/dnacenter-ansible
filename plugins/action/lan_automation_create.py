@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -69,21 +68,8 @@ class ActionModule(ActionBase):
             raise AnsibleActionFail(errors)
 
     def get_object(self, params):
-        payload = params.get("payload")
-
-        # Transform payload if it's a list of dictionaries
-        if isinstance(payload, list) and all(
-            isinstance(item, dict) for item in payload
-        ):
-            # Check if we need to merge (format from Ansible playbook with each param as separate item)
-            if len(payload) > 1:
-                merged_dict = {}
-                for item in payload:
-                    merged_dict.update(item)
-                payload = [merged_dict]
-
         new_object = dict(
-            payload=payload,
+            payload=params.get("payload"),
         )
         return new_object
 

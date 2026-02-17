@@ -7,18 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_trend_analytics_id
-short_description: Resource module for Network Devices
-  Trend Analytics Id
+short_description: Resource module for Network Devices Trend Analytics Id
 description:
-  - Manage operation create of the resource Network
-    Devices Trend Analytics Id. - > The Trend analytics
-    data for the network Device in the specified time
-    range. The data is grouped based on the trend time
-    Interval, other input parameters like attribute
-    and aggregate attributes. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Network Devices Trend Analytics Id. - > The Trend analytics data for the network
+    Device in the specified time range. The data is grouped based on the trend time Interval, other input parameters like
+    attribute and aggregate attributes. For detailed information about the usage of the API, please refer to the Open API
+    specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -26,8 +20,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Network Devices Trend Analytics Id's
-      aggregateAttributes.
+    description: Network Devices Trend Analytics Id's aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -45,8 +38,7 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Network Devices Trend Analytics Id's
-      filters.
+    description: Network Devices Trend Analytics Id's filters.
     elements: dict
     suboptions:
       filters:
@@ -63,7 +55,7 @@ options:
         description: Operator.
         type: str
       value:
-        description: Value.
+        description: Network Devices Trend Analytics Id's value.
         type: dict
     type: list
   groupBy:
@@ -74,8 +66,7 @@ options:
     description: Id path parameter. The device Uuid.
     type: str
   page:
-    description: Network Devices Trend Analytics Id's
-      page.
+    description: Network Devices Trend Analytics Id's page.
     suboptions:
       limit:
         description: Limit.
@@ -94,13 +85,11 @@ options:
     description: Trend Interval In Minutes.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRange
-    description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRange
-      API.
+  - name: Cisco DNA Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRange
+    description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRange API.
     link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range
 notes:
   - SDK Method used are

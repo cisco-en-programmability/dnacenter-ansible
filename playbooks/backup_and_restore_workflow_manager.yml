@@ -5,7 +5,7 @@
   gather_facts: false
 
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
     - "backup_secrets.yml"
 
   vars:

@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_interface_poe_info
-short_description: Information module for Network Device
-  Interface Poe
+short_description: Information module for Network Device Interface Poe
 description:
-  - Get all Network Device Interface Poe. - > Returns
-    POE interface details for the device, where deviceuuid
-    is mandatory & accepts comma seperated interface
-    names which is optional and returns information
-    for that particular interfaces where operStatus
-    = operationalStatus .
+  - Get all Network Device Interface Poe. - > Returns POE interface details for the device, where deviceuuid is mandatory
+    & accepts comma seperated interface names which is optional and returns information for that particular interfaces where
+    operStatus = operationalStatus .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -30,17 +26,14 @@ options:
     type: str
   interfaceNameList:
     description:
-      - InterfaceNameList query parameter. Comma seperated
-        interface names.
+      - InterfaceNameList query parameter. Comma seperated interface names.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      ReturnsPOEInterfaceDetailsForTheDevice
-    description: Complete reference of the ReturnsPOEInterfaceDetailsForTheDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices ReturnsPOEInterfaceDetailsForTheDevice
+    description: Complete reference of the ReturnsPOEInterfaceDetailsForTheDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device
 notes:
   - SDK Method used are

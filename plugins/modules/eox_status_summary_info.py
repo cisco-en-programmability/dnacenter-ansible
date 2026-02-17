@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: eox_status_summary_info
-short_description: Information module for Eox Status
-  Summary
+short_description: Information module for Eox Status Summary
 description:
   - Get all Eox Status Summary.
   - Retrieves EoX summary for all devices in the network.
@@ -21,12 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for EoX GetEoXSummary
-    description: Complete reference of the GetEoXSummary
-      API.
+    description: Complete reference of the GetEoXSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-summary
 notes:
   - SDK Method used are

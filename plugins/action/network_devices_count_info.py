@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -44,11 +43,8 @@ argument_spec.update(
         maintenanceMode=dict(type="bool"),
         softwareVersion=dict(type="str"),
         healthScore=dict(type="str"),
-        fabricSiteId=dict(type="str"),
-        l2Vn=dict(type="str"),
-        l3Vn=dict(type="str"),
-        transitNetworkId=dict(type="str"),
-        fabricRole=dict(type="str"),
+        view=dict(type="str"),
+        attribute=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -105,11 +101,8 @@ class ActionModule(ActionBase):
             maintenance_mode=params.get("maintenanceMode"),
             software_version=params.get("softwareVersion"),
             health_score=params.get("healthScore"),
-            fabric_site_id=params.get("fabricSiteId"),
-            l2_vn=params.get("l2Vn"),
-            l3_vn=params.get("l3Vn"),
-            transit_network_id=params.get("transitNetworkId"),
-            fabric_role=params.get("fabricRole"),
+            view=params.get("view"),
+            attribute=params.get("attribute"),
             headers=params.get("headers"),
         )
         return new_object

@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -56,9 +55,9 @@ argument_spec.update(
         snmpPrivPassphrase=dict(type="str"),
         snmpPrivProtocol=dict(type="str"),
         snmpROCommunity=dict(type="str"),
-        snmpRoCommunityDesc=dict(type="str"),
-        snmpRwCommunity=dict(type="str"),
-        snmpRwCommunityDesc=dict(type="str"),
+        snmpROCommunityDesc=dict(type="str"),
+        snmpRWCommunity=dict(type="str"),
+        snmpRWCommunityDesc=dict(type="str"),
         snmpUserName=dict(type="str"),
         snmpVersion=dict(type="str"),
         timeout=dict(type="int"),
@@ -72,6 +71,11 @@ argument_spec.update(
         numDevices=dict(type="int"),
         parentDiscoveryId=dict(type="str"),
         retryCount=dict(type="int"),
+        snmpRoCommunity=dict(type="str"),
+        snmpRoCommunityDesc=dict(type="str"),
+        snmpRwCommunity=dict(type="str"),
+        snmpRwCommunityDesc=dict(type="str"),
+        timeOut=dict(type="int"),
         updateMgmtIp=dict(type="bool"),
     )
 )
@@ -110,9 +114,9 @@ class Discovery(object):
             snmpPrivPassphrase=params.get("snmpPrivPassphrase"),
             snmpPrivProtocol=params.get("snmpPrivProtocol"),
             snmpROCommunity=params.get("snmpROCommunity"),
-            snmpRoCommunityDesc=params.get("snmpRoCommunityDesc"),
-            snmpRwCommunity=params.get("snmpRwCommunity"),
-            snmpRwCommunityDesc=params.get("snmpRwCommunityDesc"),
+            snmpROCommunityDesc=params.get("snmpROCommunityDesc"),
+            snmpRWCommunity=params.get("snmpRWCommunity"),
+            snmpRWCommunityDesc=params.get("snmpRWCommunityDesc"),
             snmpUserName=params.get("snmpUserName"),
             snmpVersion=params.get("snmpVersion"),
             timeout=params.get("timeout"),
@@ -126,6 +130,11 @@ class Discovery(object):
             numDevices=params.get("numDevices"),
             parentDiscoveryId=params.get("parentDiscoveryId"),
             retryCount=params.get("retryCount"),
+            snmpRoCommunity=params.get("snmpRoCommunity"),
+            snmpRoCommunityDesc=params.get("snmpRoCommunityDesc"),
+            snmpRwCommunity=params.get("snmpRwCommunity"),
+            snmpRwCommunityDesc=params.get("snmpRwCommunityDesc"),
+            timeOut=params.get("timeOut"),
             updateMgmtIp=params.get("updateMgmtIp"),
         )
 
@@ -166,12 +175,12 @@ class Discovery(object):
         )
         new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
         new_object_params["snmpROCommunity"] = self.new_object.get("snmpROCommunity")
-        new_object_params["snmpRoCommunityDesc"] = self.new_object.get(
-            "snmpRoCommunityDesc"
+        new_object_params["snmpROCommunityDesc"] = self.new_object.get(
+            "snmpROCommunityDesc"
         )
-        new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
-        new_object_params["snmpRwCommunityDesc"] = self.new_object.get(
-            "snmpRwCommunityDesc"
+        new_object_params["snmpRWCommunity"] = self.new_object.get("snmpRWCommunity")
+        new_object_params["snmpRWCommunityDesc"] = self.new_object.get(
+            "snmpRWCommunityDesc"
         )
         new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
         new_object_params["snmpVersion"] = self.new_object.get("snmpVersion")
@@ -255,7 +264,7 @@ class Discovery(object):
             "snmpRwCommunityDesc"
         )
         new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
-        new_object_params["timeout"] = self.new_object.get("timeout")
+        new_object_params["timeOut"] = self.new_object.get("timeOut")
         new_object_params["updateMgmtIp"] = self.new_object.get("updateMgmtIp")
         new_object_params["userNameList"] = self.convert_list_string(
             self.new_object.get("userNameList")
@@ -334,9 +343,9 @@ class Discovery(object):
             ("snmpPrivPassphrase", "snmpPrivPassphrase"),
             ("snmpPrivProtocol", "snmpPrivProtocol"),
             ("snmpROCommunity", "snmpROCommunity"),
-            ("snmpRoCommunityDesc", "snmpRoCommunityDesc"),
-            ("snmpRwCommunity", "snmpRwCommunity"),
-            ("snmpRwCommunityDesc", "snmpRwCommunityDesc"),
+            ("snmpROCommunityDesc", "snmpROCommunityDesc"),
+            ("snmpRWCommunity", "snmpRWCommunity"),
+            ("snmpRWCommunityDesc", "snmpRWCommunityDesc"),
             ("snmpUserName", "snmpUserName"),
             ("snmpVersion", "snmpVersion"),
             ("timeout", "timeout"),
@@ -350,6 +359,11 @@ class Discovery(object):
             ("numDevices", "numDevices"),
             ("parentDiscoveryId", "parentDiscoveryId"),
             ("retryCount", "retryCount"),
+            ("snmpRoCommunity", "snmpRoCommunity"),
+            ("snmpRoCommunityDesc", "snmpRoCommunityDesc"),
+            ("snmpRwCommunity", "snmpRwCommunity"),
+            ("snmpRwCommunityDesc", "snmpRwCommunityDesc"),
+            ("timeOut", "timeOut"),
             ("updateMgmtIp", "updateMgmtIp"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
@@ -451,7 +465,7 @@ class ActionModule(ActionBase):
         response = None
 
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -464,7 +478,7 @@ class ActionModule(ActionBase):
                 dnac.object_created()
 
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

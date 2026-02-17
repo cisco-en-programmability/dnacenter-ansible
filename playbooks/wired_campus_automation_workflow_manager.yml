@@ -27,7 +27,7 @@
   hosts: dnac_servers
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   vars:
     # DNA Center connection parameters
     dnac_host: "{{ ansible_host }}"
