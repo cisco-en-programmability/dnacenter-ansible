@@ -11,7 +11,7 @@ __author__ = "Archit Soni, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_tags_playbook_generator
+module: tags_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'tags_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the
@@ -54,14 +54,9 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name "tags_workflow_manager_playbook_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "tags_workflow_manager_playbook_2026-01-24_12-33-20.yml".
+          a default file name "tags_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "tags_playbook_config_2026-01-24_12-33-20.yml".
         type: str
-      global_filters:
-        description:
-        - Global filters to apply when generating the YAML configuration file.
-        - These filters apply to all components unless overridden by component-specific filters.
-        type: dict
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
@@ -137,7 +132,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Generate all tag configurations from Cisco Catalyst Center
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -162,7 +157,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Generate all tag configurations to a specific file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -188,7 +183,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export all tag definitions to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -215,7 +210,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export all tag memberships to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -242,7 +237,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export tags and tag memberships to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -269,7 +264,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export specific tags to YAML file
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -299,7 +294,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Export memberships for specific tags
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -329,7 +324,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Generate multiple brownfield tag configurations
-      cisco.dnac.brownfield_tags_playbook_generator:
+      cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -534,7 +529,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
         }
 
         # Validate params
@@ -563,7 +557,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         functions for each network element type.
 
         Parameters:
-            self (object): An instance of the BrownfieldTagsPlaybookGenerator class.
+            self (object): An instance of the TagsPlaybookGenerator class.
 
         Returns:
             dict: A dictionary containing the workflow filters schema with the following structure:
@@ -580,7 +574,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         - api_function (str): API function name for retrieving tag members
                         - api_family (str): API family identifier
                         - get_function_name (method): Method to get tag membership configuration
-                - global_filters (list): List of global filters (currently empty)
 
         Description:
             The method constructs a schema dictionary that defines how tag and tag membership
@@ -606,7 +599,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "get_function_name": self.get_tag_membership_configuration,
                 },
             },
-            "global_filters": [],
         }
 
         network_elements = list(schema["network_elements"].keys())
@@ -2136,7 +2128,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Contains file_path, and component_specific_filters.
 
         Returns:
             self: The current instance with the operation result and message updated.
@@ -2151,11 +2143,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if generate_all:
-            self.log(
-                "Auto-discovery mode enabled - will process all devices and all features",
-                "INFO",
-            )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
         file_path = yaml_config_generator.get("file_path")
@@ -2178,11 +2165,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
                 "INFO",
             )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
             if yaml_config_generator.get("component_specific_filters"):
                 self.log(
                     "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
@@ -2190,11 +2172,22 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
             # Set empty filters to retrieve everything
-            global_filters = {}
             component_specific_filters = {}
         else:
+            # Checking if generate_all_configurations is False but filters are missing or empty, and logging a warning
+            if (
+                not yaml_config_generator.get("component_specific_filters")
+                and "generate_all_configurations" in yaml_config_generator
+                and not yaml_config_generator["generate_all_configurations"]
+            ):
+                self.msg = (
+                    "component_specific_filters must be provided with components_list key "
+                    "when generate_all_configurations is set to False."
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
             # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = (
                 yaml_config_generator.get("component_specific_filters") or {}
             )
@@ -2436,7 +2429,7 @@ def main():
     ):
         ccc_tags_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for brownfield_tags_playbook_generator Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for tags_playbook_config_generator Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_tags_playbook_generator.get_ccc_version()
             )
         )
