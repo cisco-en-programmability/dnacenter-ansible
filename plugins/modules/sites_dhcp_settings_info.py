@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sites_dhcp_settings_info
-short_description: Information module for Sites Dhcp
-  Settings
+short_description: Information module for Sites Dhcp Settings
 description:
-  - Get all Sites Dhcp Settings. - > Retrieve DHCP settings
-    for a site; `null` values indicate that the setting
-    will be inherited from the parent site; empty objects
-    `{}` indicate that the setting is unset at a site.
+  - Get all Sites Dhcp Settings. - > Retrieve DHCP settings for a site; `null` values indicate that the setting will be inherited
+    from the parent site; empty objects `{}` indicate that the setting is unset at a site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,21 +26,16 @@ options:
   _inherited:
     description:
       - >
-        _inherited query parameter. Include settings
-        explicitly set for this site and settings inherited
-        from sites higher in the site hierarchy; when
-        `false`, `null` values indicate that the site
-        inherits that setting from the parent site or
-        a site higher in the site hierarchy.
+        _inherited query parameter. Include settings explicitly set for this site and settings inherited from
+        sites higher in the site hierarchy; when `false`, `null` values indicate that the site inherits that
+        setting from the parent site or a site higher in the site hierarchy.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings RetrieveDHCPSettingsForASite
-    description: Complete reference of the RetrieveDHCPSettingsForASite
-      API.
+  - name: Cisco DNA Center documentation for Network Settings RetrieveDHCPSettingsForASite
+    description: Complete reference of the RetrieveDHCPSettingsForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-dhcp-settings-for-a-site
 notes:
   - SDK Method used are
@@ -76,7 +68,7 @@ dnac_response:
   sample: >
     {
       "response": {
-        "dhcp": {
+        "ntp": {
           "servers": [
             "string"
           ],

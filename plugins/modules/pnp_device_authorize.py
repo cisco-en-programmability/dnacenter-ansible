@@ -9,11 +9,8 @@ DOCUMENTATION = r"""
 module: pnp_device_authorize
 short_description: Resource module for Pnp Device Authorize
 description:
-  - Manage operation create of the resource Pnp Device
-    Authorize.
-  - Authorizes one of more devices. A device can only
-    be authorized if Authorization is set in Device
-    Settings.
+  - Manage operation create of the resource Pnp Device Authorize.
+  - Authorizes one of more devices. A device can only be authorized if Authorization is set in Device Settings.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,13 +21,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) AuthorizeDevice
-    description: Complete reference of the AuthorizeDevice
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AuthorizeDevice
+    description: Complete reference of the AuthorizeDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!authorize-device
 notes:
   - SDK Method used are

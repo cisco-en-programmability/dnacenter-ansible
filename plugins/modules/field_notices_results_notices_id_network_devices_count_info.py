@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_results_notices_id_network_devices_count_info
-short_description: Information module for Field Notices
-  Results Notices Id Network Devices Count
+short_description: Information module for Field Notices Results Notices Id Network Devices Count
 description:
-  - Get all Field Notices Results Notices Id Network
-    Devices Count.
-  - Get count of field notice network devices for the
-    notice.
+  - Get all Field Notices Results Notices Id Network Devices Count.
+  - Get count of field notice network devices for the notice.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -28,24 +25,20 @@ options:
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network
-        device.
+      - NetworkDeviceId query parameter. Id of the network device.
     type: str
   scanStatus:
     description:
       - >
-        ScanStatus query parameter. Status of the scan
-        on the network device. Available values NOT_SCANNED,
+        ScanStatus query parameter. Status of the scan on the network device. Available values NOT_SCANNED,
         IN_PROGRESS, SUCCESS, FAILED.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfFieldNoticeNetworkDevicesForTheNotice
-    description: Complete reference of the GetCountOfFieldNoticeNetworkDevicesForTheNotice
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfFieldNoticeNetworkDevicesForTheNotice
+    description: Complete reference of the GetCountOfFieldNoticeNetworkDevicesForTheNotice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-field-notice-network-devices-for-the-notice
 notes:
   - SDK Method used are
@@ -56,8 +49,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Field Notices Results Notices Id Network
-    Devices Count
+- name: Get all Field Notices Results Notices Id Network Devices Count
   cisco.dnac.field_notices_results_notices_id_network_devices_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

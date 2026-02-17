@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -29,8 +28,9 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        deviceCredentialId=dict(type="str"),
         siteId=dict(type="str"),
+        deviceCredentialId=dict(type="str"),
+        configureDevice=dict(type="bool"),
     )
 )
 
@@ -71,8 +71,9 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            deviceCredentialId=params.get("deviceCredentialId"),
             siteId=params.get("siteId"),
+            deviceCredentialId=params.get("deviceCredentialId"),
+            configureDevice=params.get("configureDevice"),
         )
         return new_object
 

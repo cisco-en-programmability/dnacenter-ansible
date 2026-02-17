@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: credential_to_site_by_siteid_create_v2
-short_description: Resource module for Credential To
-  Site By Siteid Create V2
+short_description: Resource module for Credential To Site By Siteid Create V2
 description:
-  - Manage operation create of the resource Credential
-    To Site By Siteid Create V2.
+  - Manage operation create of the resource Credential To Site By Siteid Create V2.
   - API to assign Device Credential to a site.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -28,8 +26,7 @@ options:
     description: HTTP(S) Write Credential Id.
     type: str
   siteId:
-    description: SiteId path parameter. Site Id to assign
-      credential.
+    description: SiteId path parameter. Site Id to assign credential.
     type: str
   snmpV2ReadId:
     description: SNMPv2c Read Credential Id.
@@ -41,13 +38,11 @@ options:
     description: SNMPv3 Credential Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings AssignDeviceCredentialToSiteV2
-    description: Complete reference of the AssignDeviceCredentialToSiteV2
-      API.
+  - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
+    description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
 notes:
   - SDK Method used are

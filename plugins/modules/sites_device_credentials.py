@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: sites_device_credentials
-short_description: Resource module for Sites Device
-  Credentials
+short_description: Resource module for Sites Device Credentials
 description:
-  - Manage operation update of the resource Sites Device
-    Credentials. - > Updates device credential settings
-    for a site; `null` values indicate that the setting
-    will be inherited from the parent site; empty objects
-    `{}` indicate that the credential is unset, and
-    that no credential of that type will be used for
-    the site.
+  - Manage operation update of the resource Sites Device Credentials. - > Updates device credential settings for a site; `null`
+    values indicate that the setting will be inherited from the parent site; empty objects `{}` indicate that the credential
+    is unset, and that no credential of that type will be used for the site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,8 +39,7 @@ options:
         type: str
     type: dict
   id:
-    description: Id path parameter. Site Id, retrievable
-      from the `id` attribute in `/dna/intent/api/v1/sites`.
+    description: Id path parameter. Site Id, retrievable from the `id` attribute in `/dna/intent/api/v1/sites`.
     type: str
   snmpv2cReadCredentialsId:
     description: Sites Device Credentials's snmpv2cReadCredentialsId.
@@ -69,13 +63,11 @@ options:
         type: str
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings UpdateDeviceCredentialSettingsForASite
-    description: Complete reference of the UpdateDeviceCredentialSettingsForASite
-      API.
+  - name: Cisco DNA Center documentation for Network Settings UpdateDeviceCredentialSettingsForASite
+    description: Complete reference of the UpdateDeviceCredentialSettingsForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!update-device-credential-settings-for-a-site
 notes:
   - SDK Method used are
@@ -119,8 +111,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

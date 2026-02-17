@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -33,6 +32,7 @@ argument_spec.update(
         limit=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
+        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -78,6 +78,7 @@ class ActionModule(ActionBase):
             limit=params.get("limit"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
+            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -92,11 +93,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="network_settings",
-            function="retrieves_global_ip_address_pools",
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = dnac.exec(
+                family="network_settings",
+                function="retrieves_a_global_ip_address_pool",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="network_settings",
+                function="retrieves_global_ip_address_pools",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result

@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_query
-short_description: Resource module for Site Kpi Summaries
-  Query
+short_description: Resource module for Site Kpi Summaries Query
 description:
-  - Manage operation create of the resource Site Kpi
-    Summaries Query. - > Returns site analytics for
-    all child sites of given parent site. For detailed
-    information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    SiteKpiSummaries-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Site Kpi Summaries Query. - > Returns site analytics for all child sites of given
+    parent site. For detailed information about the usage of the API, please refer to the Open API specification document
+    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -74,12 +69,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFilters
-    description: Complete reference of the GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFilters
-      API.
+    description: Complete reference of the GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-the-child-sites-of-given-parent-site-and-other-filters
 notes:
   - SDK Method used are

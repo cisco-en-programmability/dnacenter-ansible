@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_provision_access_point
-short_description: Resource module for Wireless Provision
-  Access Point
+short_description: Resource module for Wireless Provision Access Point
 description:
-  - Manage operation create of the resource Wireless
-    Provision Access Point.
+  - Manage operation create of the resource Wireless Provision Access Point.
   - Access Point Provision and ReProvision.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -46,17 +44,15 @@ options:
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      APProvisionConnectivity
-    description: Complete reference of the APProvisionConnectivity
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
+  - name: Cisco DNA Center documentation for Wireless APProvision
+    description: Complete reference of the APProvision API.
+    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
 notes:
   - SDK Method used are
-    wireless.Wireless.ap_provision_connectivity,
+    wireless.Wireless.ap_provision,
   - Paths used are
     post /dna/intent/api/v1/wireless/ap-provision,
 """
