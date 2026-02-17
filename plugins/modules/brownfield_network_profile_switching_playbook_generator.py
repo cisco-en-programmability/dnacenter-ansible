@@ -1396,6 +1396,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
             total_templates_checked = 0
             matched_templates = 0
+            unmatched_templates = []
 
             for template_index, template in enumerate(day_n_templates, start=1):
                 self.log(
@@ -1488,7 +1489,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         f"{len(day_n_templates)}: '{template}'. "
                         "No profiles contain this template assignment.")
                     self.log(self.msg, "WARNING")
-                    self.fail_and_exit(self.msg)
+                    unmatched_templates.append(template)
                 else:
                     self.log(
                         f"Template {template_index}/{len(day_n_templates)}: '{template}' matched "
@@ -1496,8 +1497,17 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "INFO")
                     matched_templates += 1
 
-                unique_data = {d["profile_name"]: d for d in final_list}.values()
-                final_list = list(unique_data)
+            if unmatched_templates:
+                self.msg = (
+                        f"The following {len(unmatched_templates)} requested template(s) did not match "
+                        f"any profiles: {unmatched_templates}. Please verify that these templates are "
+                        "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
 
             self.log(
                 "Completed day_n_template_list filtering. Profile configurations collected: {0}. "
@@ -1520,6 +1530,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
             total_sites_checked = 0
             matched_sites = 0
+            unmatched_sites = []
 
             for site_index, site in enumerate(site_list, start=1):
                 self.log(
@@ -1614,7 +1625,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         f"{len(site_list)}: '{site}'. "
                         "No profiles contain this site assignment.")
                     self.log(self.msg, "WARNING")
-                    self.fail_and_exit(self.msg)
+                    unmatched_sites.append(site)
                 else:
                     matched_sites += 1
                     self.log(
@@ -1622,8 +1633,17 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         f"with {matched_profiles} profile(s).",
                         "INFO")
 
-                unique_data = {d["profile_name"]: d for d in final_list}.values()
-                final_list = list(unique_data)
+            if unmatched_sites:
+                self.msg = (
+                        f"The following {len(unmatched_sites)} requested site(s) did not match "
+                        f"any profiles: {unmatched_sites}. Please verify that these sites are "
+                        "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
 
             self.log(
                 "Completed site_list filtering. Profile configurations collected: {0}. "
