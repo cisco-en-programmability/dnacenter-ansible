@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: application_sets_info
-short_description: Information module for Application
-  Sets
+short_description: Information module for Application Sets
 description:
   - Get all Application Sets.
   - Get appllication-sets by offset/limit or by name.
@@ -33,13 +32,11 @@ options:
       - Name query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplicationSets
-    description: Complete reference of the GetApplicationSets
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationSets
+    description: Complete reference of the GetApplicationSets API.
     link: https://developer.cisco.com/docs/dna-center/#!get-application-sets
 notes:
   - SDK Method used are

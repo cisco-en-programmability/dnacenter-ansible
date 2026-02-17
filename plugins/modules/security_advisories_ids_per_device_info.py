@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_ids_per_device_info
-short_description: Information module for Security Advisories
-  Ids Per Device
+short_description: Information module for Security Advisories Ids Per Device
 description:
   - Get Security Advisories Ids Per Device by id.
   - Retrieves advisory device details for a device.
@@ -25,13 +24,11 @@ options:
       - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Security
-      Advisories GetAdvisoryDeviceDetail
-    description: Complete reference of the GetAdvisoryDeviceDetail
-      API.
+  - name: Cisco DNA Center documentation for Security Advisories GetAdvisoryDeviceDetail
+    description: Complete reference of the GetAdvisoryDeviceDetail API.
     link: https://developer.cisco.com/docs/dna-center/#!get-advisory-device-detail
 notes:
   - SDK Method used are

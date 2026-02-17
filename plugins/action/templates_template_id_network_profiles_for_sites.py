@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -34,14 +33,15 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        state=dict(type="str", default="present", choices=["present"]),
+        state=dict(type="str", default="present", choices=["present", "absent"]),
         profileId=dict(type="str"),
         templateId=dict(type="str"),
     )
 )
 
 required_if = [
-    ("state", "present", ["templateId"], True),
+    ("state", "present", ["profileId", "templateId"], True),
+    ("state", "absent", ["profileId", "templateId"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -54,6 +54,7 @@ class TemplatesTemplateIdNetworkProfilesForSites(object):
         self.new_object = dict(
             profileId=params.get("profileId"),
             template_id=params.get("templateId"),
+            profile_id=params.get("profileId"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -69,6 +70,12 @@ class TemplatesTemplateIdNetworkProfilesForSites(object):
         new_object_params["templateId"] = self.new_object.get("templateId")
         return new_object_params
 
+    def delete_by_id_params(self):
+        new_object_params = {}
+        new_object_params["template_id"] = self.new_object.get("template_id")
+        new_object_params["profile_id"] = self.new_object.get("profile_id")
+        return new_object_params
+
     def get_object_by_name(self, name):
         result = None
         # NOTE: Does not have a get by name method, using get all
@@ -79,8 +86,8 @@ class TemplatesTemplateIdNetworkProfilesForSites(object):
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
-                if "object" in items:
-                    items = items.get("object")
+                if "response" in items:
+                    items = items.get("response")
             result = get_dict_result(items, "name", name)
         except Exception:
             result = None
@@ -96,6 +103,7 @@ class TemplatesTemplateIdNetworkProfilesForSites(object):
         id_exists = False
         name_exists = False
         o_id = self.new_object.get("id")
+        o_id = o_id or self.new_object.get("profile_id")
         name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
@@ -105,12 +113,14 @@ class TemplatesTemplateIdNetworkProfilesForSites(object):
             name_exists = prev_obj is not None and isinstance(prev_obj, dict)
         if name_exists:
             _id = prev_obj.get("id")
+            _id = _id or prev_obj.get("profileId")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
                     "The 'id' and 'name' params don't refer to the same object"
                 )
             if _id:
                 self.new_object.update(dict(id=_id))
+                self.new_object.update(dict(profile_id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -120,6 +130,7 @@ class TemplatesTemplateIdNetworkProfilesForSites(object):
         obj_params = [
             ("profileId", "profileId"),
             ("templateId", "template_id"),
+            ("profileId", "profile_id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
@@ -136,6 +147,26 @@ class TemplatesTemplateIdNetworkProfilesForSites(object):
             function="attach_network_profile_to_a_day_n_cli_template",
             params=self.create_params(),
             op_modifies=True,
+        )
+        return result
+
+    def delete(self):
+        id = self.new_object.get("id")
+        id = id or self.new_object.get("profile_id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+                id_ = id_ or prev_obj_name.get("profileId")
+            if id_:
+                self.new_object.update(dict(profile_id=id_))
+        result = self.dnac.exec(
+            family="configuration_templates",
+            function="detach_a_network_profile_from_a_day_n_cli_template",
+            params=self.delete_by_id_params(),
         )
         return result
 
@@ -182,7 +213,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = prev_obj
@@ -193,6 +224,13 @@ class ActionModule(ActionBase):
             else:
                 response = obj.create()
                 dnac.object_created()
+        elif state == "absent":
+            obj_exists, prev_obj = obj.exists()
+            if obj_exists:
+                response = obj.delete()
+                dnac.object_deleted()
+            else:
+                dnac.object_already_absent()
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

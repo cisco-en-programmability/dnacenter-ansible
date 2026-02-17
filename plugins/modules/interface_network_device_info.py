@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: interface_network_device_info
-short_description: Information module for Interface
-  Network Device
+short_description: Information module for Interface Network Device
 description:
   - Get Interface Network Device by id.
   - Returns list of interfaces by specified device.
@@ -25,13 +24,11 @@ options:
       - DeviceId path parameter. Device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetInterfaceInfoById
-    description: Complete reference of the GetInterfaceInfoById
-      API.
+  - name: Cisco DNA Center documentation for Devices GetInterfaceInfoById
+    description: Complete reference of the GetInterfaceInfoById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interface-info-by-id
 notes:
   - SDK Method used are

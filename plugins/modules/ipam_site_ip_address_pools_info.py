@@ -7,12 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: ipam_site_ip_address_pools_info
-short_description: Information module for Ipam Site
-  Ip Address Pools
+short_description: Information module for Ipam Site Ip Address Pools
 description:
   - Get all Ipam Site Ip Address Pools.
-  - Retrieves IP address subpools, which reserve address
-    space from a global pool or global pools .
+  - Get Ipam Site Ip Address Pools by id.
+  - Retrieves IP address subpools, which reserve address space from a global pool or global pools . - > Retrieves an IP address
+    subpool, which reserves address space from a global pool or global pools for a particular site.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,50 +23,47 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page; the minimum is 1, and
-        the maximum is 500.
+      - Limit query parameter. The number of records to show for this page; the minimum is 1, and the maximum is 500.
     type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-      - Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response.
+      - Order query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
   siteId:
     description:
       - >
-        SiteId query parameter. The `id` of the site
-        for which to retrieve IP address subpools. Only
-        subpools whose `siteId` exactly matches will
-        be fetched, parent or child site matches will
-        not be included.
+        SiteId query parameter. The `id` of the site for which to retrieve IP address subpools. Only subpools
+        whose `siteId` exactly matches will be fetched, parent or child site matches will not be included.
+    type: str
+  id:
+    description:
+      - Id path parameter. The `id` of the IP address subpool to retrieve.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings RetrievesIPAddressSubpools
-    description: Complete reference of the RetrievesIPAddressSubpools
-      API.
+  - name: Cisco DNA Center documentation for Network Settings RetrievesAnIPAddressSubpool
+    description: Complete reference of the RetrievesAnIPAddressSubpool API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-an-ip-address-subpool
+  - name: Cisco DNA Center documentation for Network Settings RetrievesIPAddressSubpools
+    description: Complete reference of the RetrievesIPAddressSubpools API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-ip-address-subpools
 notes:
   - SDK Method used are
+    network_settings.NetworkSettings.retrieves_an_ip_address_subpool,
     network_settings.NetworkSettings.retrieves_ip_address_subpools,
   - Paths used are
     get /dna/intent/api/v1/ipam/siteIpAddressPools,
+    get /dna/intent/api/v1/ipam/siteIpAddressPools/{id},
 """
 
 EXAMPLES = r"""
@@ -87,6 +84,18 @@ EXAMPLES = r"""
     order: string
     siteId: string
   register: result
+- name: Get Ipam Site Ip Address Pools by id
+  cisco.dnac.ipam_site_ip_address_pools_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
@@ -95,49 +104,51 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "ipV4AddressSpace": {
-            "subnet": "string",
-            "prefixLength": 0,
-            "gatewayIpAddress": "string",
-            "dhcpServers": [
-              "string"
-            ],
-            "dnsServers": [
-              "string"
-            ],
-            "totalAddresses": "string",
-            "unassignableAddresses": "string",
-            "assignedAddresses": "string",
-            "defaultAssignedAddresses": "string",
-            "slaacSupport": true,
-            "globalPoolId": "string"
-          },
-          "ipV6AddressSpace": {
-            "subnet": "string",
-            "prefixLength": 0,
-            "gatewayIpAddress": "string",
-            "dhcpServers": [
-              "string"
-            ],
-            "dnsServers": [
-              "string"
-            ],
-            "totalAddresses": "string",
-            "unassignableAddresses": "string",
-            "assignedAddresses": "string",
-            "defaultAssignedAddresses": "string",
-            "slaacSupport": true,
-            "globalPoolId": "string"
-          },
-          "name": "string",
-          "poolType": "string",
-          "siteId": "string",
-          "siteName": "string"
-        }
-      ],
+      "response": {
+        "id": "string",
+        "ipV4AddressSpace": {
+          "subnet": "string",
+          "prefixLength": 0,
+          "gatewayIpAddress": "string",
+          "dhcpServers": [
+            "string"
+          ],
+          "dnsServers": [
+            "string"
+          ],
+          "totalAddresses": "string",
+          "unassignableAddresses": "string",
+          "assignedAddresses": "string",
+          "defaultAssignedAddresses": "string",
+          "slaacSupport": true,
+          "globalPoolId": "string",
+          "overlapping": true,
+          "addressSpaceId": "string"
+        },
+        "ipV6AddressSpace": {
+          "subnet": "string",
+          "prefixLength": 0,
+          "gatewayIpAddress": "string",
+          "dhcpServers": [
+            "string"
+          ],
+          "dnsServers": [
+            "string"
+          ],
+          "totalAddresses": "string",
+          "unassignableAddresses": "string",
+          "assignedAddresses": "string",
+          "defaultAssignedAddresses": "string",
+          "slaacSupport": true,
+          "globalPoolId": "string",
+          "overlapping": true,
+          "addressSpaceId": "string"
+        },
+        "name": "string",
+        "poolType": "string",
+        "siteId": "string",
+        "siteName": "string"
+      },
       "version": "string"
     }
 """

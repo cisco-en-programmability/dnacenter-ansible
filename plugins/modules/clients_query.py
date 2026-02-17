@@ -9,12 +9,9 @@ DOCUMENTATION = r"""
 module: clients_query
 short_description: Resource module for Clients Query
 description:
-  - Manage operation create of the resource Clients
-    Query. - > Retrieves the list of clients by applying
-    complex filters while also supporting aggregate
-    attributes. For detailed information about the usage
-    of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Clients Query. - > Retrieves the list of clients by applying complex filters while
+    also supporting aggregate attributes. For detailed information about the usage of the API, please refer to the Open API
+    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     clients1-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -85,11 +82,10 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients
-      RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributes
+  - name: Cisco DNA Center documentation for Clients RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributes
     description: Complete reference of the RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributes
       API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-by-applying-complex-filters-while-also-supporting-aggregate-attributes

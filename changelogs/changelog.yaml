@@ -1829,3 +1829,123 @@ releases:
         - Changes in user_role_workflow_manager module
         - Changes in wireless_design_workflow_manager module
         - Added 'template_content_file_path'  attribute in template_workflow_manager module
+
+  6.45.0:
+    release_date: "2026-02-03"
+    changes:
+      release_summary: Enhancements in workflow manager modules
+      minor_changes:
+        - Changes in accesspoint_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in network_profile_wireless_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in wireless_design_workflow_manager module
+        - Added '802_11_be_profiles'  attribute in wireless_design_workflow_manager module
+
+  6.46.0:
+    release_date: "2026-02-04"
+    changes:
+      release_summary: Introduced compatibility with Cisco Catalyst Center version 3.1.6.0
+      minor_changes:
+        - cisco.dnac collection - SDK updated to dnacentersdk 2.11.0 with support for Cisco Catalyst Center 3.1.6.0
+        - cisco.dnac collection - New service system_software_upgrade added for Catalyst Center 3.1.6.0
+        # User and Roles
+        - access_groups - new module to manage access groups
+        - access_groups_info - new module to retrieve access groups information
+        - access_groups_count_info - new module to retrieve access groups count
+        - roles_v2 - new module to manage roles (v2)
+        - roles_v2_info - new module to retrieve roles information (v2)
+        - roles_permissions_info - new module to retrieve roles permissions
+        # Clients
+        - client_enrichment_details_v2_info - new module to retrieve client enrichment details (v2)
+        # Compliance
+        - compliance_network_devices_detail_policys_info - new module to retrieve compliance policies for network devices
+        - compliance_network_devices_detail_policys_violations_info - new module to retrieve compliance policy violations for network devices
+        - compliance_policys - new module to manage compliance policies
+        - compliance_policys_info - new module to retrieve compliance policies information
+        - compliance_policys_count_info - new module to retrieve compliance policies count
+        - compliance_policys_rules - new module to manage compliance policy rules
+        - compliance_policys_rules_info - new module to retrieve compliance policy rules information
+        - compliance_policys_rules_count_info - new module to retrieve compliance policy rules count
+        - compliance_policys_rules_conditions - new module to manage compliance policy rule conditions
+        - compliance_policys_rules_conditions_info - new module to retrieve compliance policy rule conditions information
+        - compliance_policys_rules_conditions_count_info - new module to retrieve compliance policy rule conditions count
+        - compliance_policys_rules_variables - new module to manage compliance policy rule variables
+        - compliance_policys_rules_variables_info - new module to retrieve compliance policy rule variables information
+        - compliance_policys_rules_variables_count_info - new module to retrieve compliance policy rule variables count
+        - compliance_policys_site_assignments - new module to manage compliance policy site assignments
+        - compliance_policys_site_assignments_info - new module to retrieve compliance policy site assignments information
+        - compliance_policys_sites_rules_variables - new module to manage compliance policy site rule variables
+        - compliance_policys_sites_rules_variables_info - new module to retrieve compliance policy site rule variables information
+        # Devices
+        - device_enrichment_details_v2_info - new module to retrieve device enrichment details (v2)
+        - discoverys - new module to manage device discoveries
+        - discoverys_info - new module to retrieve device discoveries information
+        - discoverys_count_info - new module to retrieve device discoveries count
+        - discoverys_jobs - new module to manage discovery jobs
+        - discoverys_jobs_info - new module to retrieve discovery jobs information
+        - discoverys_jobs_count_info - new module to retrieve discovery jobs count
+        - discoverys_jobs_summarys_info - new module to retrieve discovery jobs summaries
+        - discoverys_jobs_discovered_network_devices_info - new module to retrieve discovered network devices from discovery jobs
+        - discoverys_jobs_discovered_network_devices_count_info - new module to retrieve discovered network devices count
+        - discoverys_jobs_stop_create - new module to stop discovery jobs
+        - filter_group_associations - new module to manage filter group associations
+        - filter_group_associations_info - new module to retrieve filter group associations information
+        - filter_group_aassociations_delete - new module to delete filter group associations
+        - filter_groups - new module to manage filter groups
+        - filter_groups_info - new module to retrieve filter groups information
+        - network_devices_create - new module to create network devices
+        - network_devices_update - new module to update network devices
+        - network_devices_update_create - new module to trigger network device updates
+        - network_devices_export_credentials_create - new module to export network device credentials
+        - network_devices_validate_device_create - new module to validate network devices
+        # Network Settings
+        - global_credentials - new module to manage global credentials
+        - global_credentials_info - new module to retrieve global credentials information
+        - global_credentials_count_info - new module to retrieve global credentials count
+        # Software Image Management (SWIM)
+        - images_delete - new module to delete software images
+        - product_series_count_info - new module to retrieve product series count
+        # Industrial Configuration
+        - iot_fabric_rep_rings_delete - new module to delete IoT fabric REP rings
+        - iot_non_fabric_rep_rings_delete - new module to delete IoT non-fabric REP rings
+        # Issues
+        - issue_enrichment_details_info - new module to retrieve issue enrichment details
+        # System Software Upgrade
+        - download_software_release_create - new module to download software releases
+        - download_software_release_update - new module to update software release downloads
+        - download_software_release_delete - new module to delete software release downloads
+        - install_optional_packages_create - new module to install optional packages
+        - installed_release_info - new module to retrieve installed release information
+        - releases_info - new module to retrieve available releases information
+        - releases_release_summary_info - new module to retrieve release summary
+        - software_management_executions_info - new module to retrieve software management execution details
+        - uninstall_optional_packages_create - new module to uninstall optional packages
+        - upgrade_software_release_create - new module to upgrade software releases
+        # SDA
+        - sda_layer3_virtual_networks_delete - new module to delete SDA layer 3 virtual networks
+        - sda_transit_networks_delete - new module to delete SDA transit networks
+        # Sites
+        - site_update - new module to update sites
+        - site_delete - new module to delete sites
+        # Users
+        - user_enrichment_details_v2_info - new module to retrieve user enrichment details (v2)
+        # Wireless
+        - wireless_controllers_certificate_renewal_create - new module to trigger wireless controller certificate renewal
+        - wireless_controllers_site_tags_info - new module to retrieve wireless controller site tags
+        - wireless_profiles_policy_tags_info - new module to retrieve wireless profile policy tags
+        - wireless_settings_certificate_renewal_profiles - new module to manage wireless certificate renewal profiles
+        - wireless_settings_certificate_renewal_profiles_info - new module to retrieve wireless certificate renewal profiles information
+        - wireless_settings_certificate_renewal_profiles_count_info - new module to retrieve wireless certificate renewal profiles count
+
+  6.47.0:
+    release_date: "2026-02-13"
+    changes:
+      release_summary: Code changes to align with Red Hat standards and ansible-lint compliance
+      minor_changes:
+        - Code formatting and ansible-lint compliance updates for Red Hat standards

@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_site_tags_count_info
-short_description: Information module for Wireless Profiles
-  Id Site Tags Count
+short_description: Information module for Wireless Profiles Id Site Tags Count
 description:
-  - Get all Wireless Profiles Id Site Tags Count. -
-    > This endpoint retrieves the total count of `Site
-    Tags` associated with a specific `Wireless Profile`.This
-    API requires the `id` of the `Wireless Profile`
-    to be provided as a path parameter.
+  - Get all Wireless Profiles Id Site Tags Count. - > This endpoint retrieves the total count of `Site Tags` associated with
+    a specific `Wireless Profile`.This API requires the `id` of the `Wireless Profile` to be provided as a path parameter.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -28,13 +24,11 @@ options:
       - Id path parameter. Wireless profile id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      RetrieveTheCountOfSiteTagsForAWirelessProfile
-    description: Complete reference of the RetrieveTheCountOfSiteTagsForAWirelessProfile
-      API.
+  - name: Cisco DNA Center documentation for Wireless RetrieveTheCountOfSiteTagsForAWirelessProfile
+    description: Complete reference of the RetrieveTheCountOfSiteTagsForAWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-site-tags-for-a-wireless-profile
 notes:
   - SDK Method used are

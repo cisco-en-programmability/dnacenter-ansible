@@ -7,32 +7,25 @@
 DOCUMENTATION = r"""
 ---
 module: tags_interfaces_members_associations_bulk
-short_description: Resource module for Tags Interfaces
-  Members Associations Bulk
+short_description: Resource module for Tags Interfaces Members Associations Bulk
 description:
-  - Manage operation update of the resource Tags Interfaces
-    Members Associations Bulk. - > Updates the tags
-    associated with the interfaces. A tag is a user-defined
-    or system-defined construct to group resources.
-    When an interface is tagged, it is called a member
-    of the tag. A tag can be created by using this POST
-    `/dna/intent/api/v1/tag` API.
+  - Manage operation update of the resource Tags Interfaces Members Associations Bulk. - > Updates the tags associated with
+    the interfaces. A tag is a user-defined or system-defined construct to group resources. When an interface is tagged, it
+    is called a member of the tag. A tag can be created by using this POST `/dna/intent/api/v1/tag` API.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Tags Interfaces Members Associations
-      Bulk's payload.
+    description: Tags Interfaces Members Associations Bulk's payload.
     elements: dict
     suboptions:
       id:
         description: Interface id.
         type: str
       tags:
-        description: Tags Interfaces Members Associations
-          Bulk's tags.
+        description: Tags Interfaces Members Associations Bulk's tags.
         elements: dict
         suboptions:
           id:
@@ -41,12 +34,11 @@ options:
         type: list
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag UpdateTagsAssociatedWithTheInterfaces
-    description: Complete reference of the UpdateTagsAssociatedWithTheInterfaces
-      API.
+    description: Complete reference of the UpdateTagsAssociatedWithTheInterfaces API.
     link: https://developer.cisco.com/docs/dna-center/#!update-tags-associated-with-the-interfaces
 notes:
   - SDK Method used are
