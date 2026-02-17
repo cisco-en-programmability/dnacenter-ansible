@@ -7,51 +7,40 @@
 DOCUMENTATION = r"""
 ---
 module: security_rogue_additional_details_count
-short_description: Resource module for Security Rogue
-  Additional Details Count
+short_description: Resource module for Security Rogue Additional Details Count
 description:
-  - Manage operation create of the resource Security
-    Rogue Additional Details Count.
-  - This API returns the count for the Rogue Additional
-    Details.
+  - Manage operation create of the resource Security Rogue Additional Details Count.
+  - This API returns the count for the Rogue Additional Details.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   endTime:
-    description: This is the epoch end time in milliseconds
-      upto which data need to be fetched. Default value
-      is current time.
+    description: This is the epoch end time in milliseconds upto which data need to be fetched. Default value is current time.
     type: float
   siteId:
-    description: Filter Rogues by location. Site IDs
-      information can be fetched from "Get Site" API.
+    description: Filter Rogues by location. Site IDs information can be fetched from "Get Site" API.
     elements: str
     type: list
   startTime:
-    description: This is the epoch start time in milliseconds
-      from which data need to be fetched. Default value
-      is 24 hours earlier to endTime.
+    description: This is the epoch start time in milliseconds from which data need to be fetched. Default value is 24 hours
+      earlier to endTime.
     type: float
   threatLevel:
-    description: This information can be fetched from
-      "Get Threat Levels" API.
+    description: This information can be fetched from "Get Threat Levels" API.
     elements: str
     type: list
   threatType:
-    description: This information can be fetched from
-      "Get Threat Types" API.
+    description: This information can be fetched from "Get Threat Types" API.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      RogueAdditionalDetailCount
-    description: Complete reference of the RogueAdditionalDetailCount
-      API.
+  - name: Cisco DNA Center documentation for Devices RogueAdditionalDetailCount
+    description: Complete reference of the RogueAdditionalDetailCount API.
     link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-detail-count
 notes:
   - SDK Method used are

@@ -43,7 +43,7 @@ options:
         description:
           - Informs the SDK which version of Cisco DNA Center to use.
         type: str
-        default: 2.3.7.6
+        default: 3.1.6.0
     dnac_debug:
         description:
           - Flag for Cisco DNA Center SDK to enable debugging.
