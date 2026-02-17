@@ -1555,7 +1555,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                         )
 
                 if profiles_matched == 0:
-                    self.msg = (f"No profiles matched SSID filter '{given_ssid}' after checking all profiles. "
+                    self.msg = (
+                        f"No profiles matched SSID filter '{given_ssid}' after checking all profiles. "
                         "This SSID may not be associated with any profiles.")
                     self.log(self.msg, "WARNING")
                     unmatched_ssids.append(given_ssid)
