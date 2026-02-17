@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_accounts_info
-short_description: Information module for Pnp Virtual
-  Accounts
+short_description: Information module for Pnp Virtual Accounts
 description:
   - Get all Pnp Virtual Accounts.
-  - Returns list of virtual accounts associated with
-    the specified smart account.
+  - Returns list of virtual accounts associated with the specified smart account.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - Domain path parameter. Smart Account Domain.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetVirtualAccountList
-    description: Complete reference of the GetVirtualAccountList
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetVirtualAccountList
+    description: Complete reference of the GetVirtualAccountList API.
     link: https://developer.cisco.com/docs/dna-center/#!get-virtual-account-list
 notes:
   - SDK Method used are

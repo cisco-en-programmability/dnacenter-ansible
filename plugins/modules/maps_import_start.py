@@ -9,23 +9,20 @@ DOCUMENTATION = r"""
 module: maps_import_start
 short_description: Resource module for Maps Import Start
 description:
-  - Manage operation create of the resource Maps Import
-    Start. - > Initiates a map archive import of a tar.gz
-    file. The archive must consist of one xmlDir/MapsImportExport.xml
-    map descriptor file, and 1 or more images for the
-    map areas nested under /images folder.
+  - Manage operation create of the resource Maps Import Start. - > Initiates a map archive import of a tar.gz file. The archive
+    must consist of one xmlDir/MapsImportExport.xml map descriptor file, and 1 or more images for the map areas nested under
+    /images folder.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites ImportMapArchiveStartImport
-    description: Complete reference of the ImportMapArchiveStartImport
-      API.
+    description: Complete reference of the ImportMapArchiveStartImport API.
     link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-start-import
 notes:
   - SDK Method used are

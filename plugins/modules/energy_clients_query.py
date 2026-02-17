@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: energy_clients_query
-short_description: Resource module for Energy Clients
-  Query
+short_description: Resource module for Energy Clients Query
 description:
-  - Manage operation create of the resource Energy Clients
-    Query. - > Retrieves a list of client devices along
-    with their energy data for a specified time range,
-    based on the filters provided in the request body.
-    For detailed information about the usage of the
-    API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-
+  - Manage operation create of the resource Energy Clients Query. - > Retrieves a list of client devices along with their
+    energy data for a specified time range, based on the filters provided in the request body. For detailed information about
+    the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
     specs/blob/main/Assurance/CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -99,13 +94,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients
-      QueryClientsEnergy
-    description: Complete reference of the QueryClientsEnergy
-      API.
+  - name: Cisco DNA Center documentation for Clients QueryClientsEnergy
+    description: Complete reference of the QueryClientsEnergy API.
     link: https://developer.cisco.com/docs/dna-center/#!query-clients-energy
 notes:
   - SDK Method used are

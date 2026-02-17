@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: license_device_license_summary_info
-short_description: Information module for License Device
-  License Summary
+short_description: Information module for License Device License Summary
 description:
   - Get all License Device License Summary.
   - Show license summary of devices.
@@ -22,8 +21,7 @@ options:
     type: dict
   page_number:
     description:
-      - Page_number query parameter. Page number of
-        response.
+      - Page_number query parameter. Page number of response.
     type: float
   order:
     description:
@@ -35,8 +33,7 @@ options:
     type: str
   dna_level:
     description:
-      - Dna_level query parameter. Device Cisco DNA
-        license level.
+      - Dna_level query parameter. Device Cisco DNA license level.
     type: str
   device_type:
     description:
@@ -45,38 +42,31 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. Specifies the maximum
-        number of device license summaries to return
-        per page. Must be an integer between 1 and 500,
-        inclusive.
-    type: float
+        Limit query parameter. Specifies the maximum number of device license summaries to return per page. Must
+        be an integer between 1 and 500, inclusive.
+    type: int
   registration_status:
     description:
-      - Registration_status query parameter. Smart license
-        registration status of device.
+      - Registration_status query parameter. Smart license registration status of device.
     type: str
   virtual_account_name:
     description:
-      - Virtual_account_name query parameter. Name of
-        virtual account.
+      - Virtual_account_name query parameter. Name of virtual account.
     type: str
   smart_account_id:
     description:
-      - Smart_account_id query parameter. Id of smart
-        account.
+      - Smart_account_id query parameter. Id of smart account.
     type: float
   device_uuid:
     description:
       - Device_uuid query parameter. Id of device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      DeviceLicenseSummary
-    description: Complete reference of the DeviceLicenseSummary
-      API.
+  - name: Cisco DNA Center documentation for Licenses DeviceLicenseSummary
+    description: Complete reference of the DeviceLicenseSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!device-license-summary
 notes:
   - SDK Method used are

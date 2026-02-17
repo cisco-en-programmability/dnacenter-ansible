@@ -27,7 +27,7 @@
   hosts: dnac_servers
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   vars:
     # Common login anchor for reuse
     dnac_login: &dnac_login

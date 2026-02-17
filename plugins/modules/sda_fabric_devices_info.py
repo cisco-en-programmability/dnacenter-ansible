@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_info
-short_description: Information module for Sda Fabric
-  Devices
+short_description: Information module for Sda Fabric Devices
 description:
   - Get all Sda Fabric Devices.
-  - Returns a list of fabric devices that match the
-    provided query parameters.
+  - Returns a list of fabric devices that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,41 +21,34 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric this
-        device belongs to.
+      - FabricId query parameter. ID of the fabric this device belongs to.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        ID of the fabric device.
+      - NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
   deviceRoles:
     description:
       - >
-        DeviceRoles query parameter. Device roles of
-        the fabric device. Allowed values are CONTROL_PLANE_NODE,
-        EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE,
-        EXTENDED_NODE.
+        DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE,
+        EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE, EXTENDED_NODE.
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
+      - Offset query parameter. Starting record for pagination.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetFabricDevices
-    description: Complete reference of the GetFabricDevices
-      API.
+    description: Complete reference of the GetFabricDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices
 notes:
   - SDK Method used are
@@ -95,22 +86,18 @@ dnac_response:
       "response": [
         {
           "id": "string",
-          "networkDeviceId": "string",
-          "fabricId": "string",
-          "deviceRoles": [
-            "string"
-          ],
-          "borderDeviceSettings": {
-            "borderTypes": [
+          "name": "string",
+          "siteId": "string",
+          "type": "string",
+          "ipTransitSettings": {
+            "routingProtocolName": "string",
+            "autonomousSystemNumber": "string"
+          },
+          "sdaTransitSettings": {
+            "isMulticastOverTransitEnabled": true,
+            "controlPlaneNetworkDeviceIds": [
               "string"
-            ],
-            "layer3Settings": {
-              "localAutonomousSystemNumber": "string",
-              "isDefaultExit": true,
-              "importExternalRoutes": true,
-              "borderPriority": 0,
-              "prependAutonomousSystemCount": 0
-            }
+            ]
           }
         }
       ],

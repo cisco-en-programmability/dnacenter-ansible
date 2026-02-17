@@ -7,15 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: lan_automation_log_info
-short_description: Information module for Lan Automation
-  Log
+short_description: Information module for Lan Automation Log
 description:
   - Get all Lan Automation Log.
   - Get Lan Automation Log by id.
-  - Invoke this API to get the LAN Automation session
-    logs based on the given LAN Automation session id.
-  - Invoke this API to get the LAN Automation session
-    logs.
+  - Invoke this API to get the LAN Automation session logs based on the given LAN Automation session id.
+  - Invoke this API to get the LAN Automation session logs.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,32 +23,25 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. Starting index of the
-        LAN Automation session. Minimum value is 1.
+      - Offset query parameter. Starting index of the LAN Automation session. Minimum value is 1.
     type: int
   limit:
     description:
-      - Limit query parameter. Number of LAN Automation
-        sessions to be retrieved. Limit value can range
-        between 1 to 10.
+      - Limit query parameter. Number of LAN Automation sessions to be retrieved. Limit value can range between 1 to 10.
     type: int
   id:
     description:
       - Id path parameter. LAN Automation session identifier.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation
-      LANAutomationLog
-    description: Complete reference of the LANAutomationLog
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationLog
+    description: Complete reference of the LANAutomationLog API.
     link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log
-  - name: Cisco DNA Center documentation for LAN Automation
-      LANAutomationLogById
-    description: Complete reference of the LANAutomationLogById
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogById
+    description: Complete reference of the LANAutomationLogById API.
     link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-by-id
 notes:
   - SDK Method used are

@@ -21,35 +21,30 @@ options:
     type: dict
   siteId:
     description:
-      - SiteId path parameter. Site id to retrieve device
-        associated with the site.
+      - SiteId path parameter. Site id to retrieve device associated with the site.
     type: str
   offset:
     description:
       - Offset query parameter. Offset/starting row.
-    type: float
+    type: int
   limit:
     description:
-      - Limit query parameter. Number of sites to be
-        retrieved.
-    type: float
+      - Limit query parameter. Number of sites to be retrieved.
+    type: int
   deviceFamily:
     description:
-      - DeviceFamily query parameter. Device family
-        name.
+      - DeviceFamily query parameter. Device family name.
     type: str
   serialNumber:
     description:
-      - SerialNumber query parameter. Device serial
-        number.
+      - SerialNumber query parameter. Device serial number.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetMembership
-    description: Complete reference of the GetMembership
-      API.
+    description: Complete reference of the GetMembership API.
     link: https://developer.cisco.com/docs/dna-center/#!get-membership
 notes:
   - SDK Method used are
@@ -86,14 +81,14 @@ dnac_response:
     {
       "site": {
         "response": [
-          {}
+          "string"
         ],
         "version": "string"
       },
       "device": [
         {
           "response": [
-            {}
+            "string"
           ],
           "version": "string",
           "siteId": "string"

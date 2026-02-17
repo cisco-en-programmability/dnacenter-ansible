@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: discovery_range_info
-short_description: Information module for Discovery
-  Range
+short_description: Information module for Discovery Range
 description:
   - Get all Discovery Range.
   - Returns the discoveries by specified range.
@@ -22,22 +21,18 @@ options:
     type: dict
   startIndex:
     description:
-      - StartIndex path parameter. Starting index for
-        the records.
+      - StartIndex path parameter. Starting index for the records.
     type: int
   recordsToReturn:
     description:
-      - RecordsToReturn path parameter. Number of records
-        to fetch from the starting index.
+      - RecordsToReturn path parameter. Number of records to fetch from the starting index.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      GetDiscoveriesByRange
-    description: Complete reference of the GetDiscoveriesByRange
-      API.
+  - name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRange
+    description: Complete reference of the GetDiscoveriesByRange API.
     link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range
 notes:
   - SDK Method used are
@@ -128,7 +123,7 @@ dnac_response:
           "snmpRwCommunity": "string",
           "snmpRwCommunityDesc": "string",
           "snmpUserName": "string",
-          "timeout": 0,
+          "timeOut": 0,
           "updateMgmtIp": true,
           "userNameList": "string"
         }
