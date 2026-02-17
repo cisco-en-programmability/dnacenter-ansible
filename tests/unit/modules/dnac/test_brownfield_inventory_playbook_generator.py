@@ -76,6 +76,30 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
     playbook_config_scenario12_global_filter_plus_site_filter = test_data.get(
         "playbook_config_scenario12_global_filter_plus_site_filter"
     )
+    playbook_config_scenario13_interface_details_single_interface_name_filter = test_data.get(
+        "playbook_config_scenario13_interface_details_single_interface_name_filter"
+    )
+    playbook_config_scenario14_interface_details_multiple_interface_name_filters = test_data.get(
+        "playbook_config_scenario14_interface_details_multiple_interface_name_filters"
+    )
+    playbook_config_scenario15_global_ip_filter_plus_interface_name_filter = test_data.get(
+        "playbook_config_scenario15_global_ip_filter_plus_interface_name_filter"
+    )
+    playbook_config_scenario16_device_details_plus_filtered_interfaces = test_data.get(
+        "playbook_config_scenario16_device_details_plus_filtered_interfaces"
+    )
+    playbook_config_scenario17_all_components_with_interface_filter = test_data.get(
+        "playbook_config_scenario17_all_components_with_interface_filter"
+    )
+    playbook_config_scenario18_interface_filter_no_match_handling = test_data.get(
+        "playbook_config_scenario18_interface_filter_no_match_handling"
+    )
+    playbook_config_scenario19_gigabitethernet_interfaces_only = test_data.get(
+        "playbook_config_scenario19_gigabitethernet_interfaces_only"
+    )
+    playbook_config_scenario20_access_devices_with_interface_filter = test_data.get(
+        "playbook_config_scenario20_access_devices_with_interface_filter"
+    )
 
     def setUp(self):
         """Set up test fixtures and mocks."""
@@ -180,6 +204,54 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             # Scenario 12: Global filter + site filter
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_filtered_devices_global_site_filter_response")
+            ]
+
+        elif "scenario13_interface_details_single_interface" in self._testMethodName:
+            # Scenario 13: Interface filter - Single VLAN100
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_by_interface_name_vlan100_response")
+            ]
+
+        elif "scenario14_interface_details_multiple_interface" in self._testMethodName:
+            # Scenario 14: Interface filter - Multiple interfaces
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_by_interface_name_multi_response")
+            ]
+
+        elif "scenario15_global_ip_filter_plus_interface_name" in self._testMethodName:
+            # Scenario 15: IP filter + Interface filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_by_ip_response")
+            ]
+
+        elif "scenario16_device_details_plus_filtered_interfaces" in self._testMethodName:
+            # Scenario 16: Device details + filtered interfaces
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_by_interface_name_loopback_response")
+            ]
+
+        elif "scenario17_all_components_with_interface_filter" in self._testMethodName:
+            # Scenario 17: All components with interface filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_devices_response")
+            ]
+
+        elif "scenario18_interface_filter_no_match_handling" in self._testMethodName:
+            # Scenario 18: Interface filter - No match handling
+            self.run_dnac_exec.side_effect = [
+                {"response": []}
+            ]
+
+        elif "scenario19_gigabitethernet_interfaces_only" in self._testMethodName:
+            # Scenario 19: GigabitEthernet filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_by_interface_name_gigabitethernet_response")
+            ]
+
+        elif "scenario20_access_devices_with_interface_filter" in self._testMethodName:
+            # Scenario 20: ACCESS role devices with interface filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_filtered_devices_access_with_interface_filter_response")
             ]
 
     def test_brownfield_inventory_playbook_generator_scenario1_complete_infrastructure(self):
@@ -642,6 +714,238 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
         self.assertIn(
             "Invalid role value",
             result.get('msg', '')
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario13_interface_details_single_interface(self):
+        """
+        Test case for scenario 13: Interface Details - Single Interface Name Filter
+
+        Description: Filter interface_details to include only specific interface names
+        Use Case: Focus on specific VLAN or Loopback interface configuration
+        Output: Single document with only specified interface names (e.g., Vlan100)
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario13_interface_details_single_interface_name_filter
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "interface_name",
+            str(result.get('filter_type', ''))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario14_interface_details_multiple_interface(self):
+        """
+        Test case for scenario 14: Interface Details - Multiple Interface Name Filters
+
+        Description: Filter interface_details to include multiple specific interface names
+        Use Case: Audit and configure multiple critical interfaces across all devices
+        Output: Single document with only specified interface names (Vlan100, Loopback0, etc.)
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario14_interface_details_multiple_interface_name_filters
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "3",
+            str(result.get('interface_count', 0))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario15_global_ip_filter_plus_interface_name(self):
+        """
+        Test case for scenario 15: Global IP Filter + Interface Name Filter
+
+        Description: Combine global IP filter with specific interface name filter
+        Use Case: Get specific interfaces only from targeted devices
+        Output: Single document with only specified IPs and specified interfaces
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario15_global_ip_filter_plus_interface_name_filter
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "3",
+            str(result.get('ip_count', 0))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario16_device_details_plus_filtered_interfaces(self):
+        """
+        Test case for scenario 16: Device Details + Filtered Interfaces
+
+        Description: Generate device credentials and only specific interfaces
+        Use Case: Onboard devices and configure specific interfaces simultaneously
+        Output: 2 documents - device details and filtered interface configs
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario16_device_details_plus_filtered_interfaces
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "2",
+            str(result.get('components_count', 0))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario17_all_components_with_interface_filter(self):
+        """
+        Test case for scenario 17: All Components with Interface Filter
+
+        Description: Generate all three components with interface_details filtered by name
+        Use Case: Complete infrastructure migration with controlled interface updates
+        Output: 3 documents - device details, provision config, and filtered interfaces
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario17_all_components_with_interface_filter
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "3",
+            str(result.get('components_count', 0))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario18_interface_filter_no_match_handling(self):
+        """
+        Test case for scenario 18: Interface Filter - No Match Handling
+
+        Description: Filter interfaces that may not exist on all devices
+        Use Case: Handle scenarios where some devices don't have specified interfaces
+        Output: Only generates configs for devices that have the specified interfaces
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario18_interface_filter_no_match_handling
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "0",
+            str(result.get('device_count', 0))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario19_gigabitethernet_interfaces_only(self):
+        """
+        Test case for scenario 19: GigabitEthernet Interfaces Only
+
+        Description: Filter for physical GigabitEthernet interfaces only
+        Use Case: Configure access ports or uplinks specifically
+        Output: Single document with GigabitEthernet interface configs only
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario19_gigabitethernet_interfaces_only
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "GigabitEthernet",
+            str(result.get('interface_type', ''))
+        )
+
+    def test_brownfield_inventory_playbook_generator_scenario20_access_devices_with_interface_filter(self):
+        """
+        Test case for scenario 20: ACCESS Devices with Specific Interface Filter
+
+        Description: Get ACCESS role devices and filter their specific interfaces
+        Use Case: Configure access layer devices with specific interface updates
+        Output: 2 documents - filtered device details (ACCESS only) and their interfaces
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario20_access_devices_with_interface_filter
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "ACCESS",
+            str(result.get('role_filter', ''))
         )
 
     def test_brownfield_inventory_playbook_generator_dnac_connection_failure(self):

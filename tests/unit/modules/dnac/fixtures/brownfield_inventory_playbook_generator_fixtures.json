@@ -343,7 +343,7 @@
   "playbook_config_scenario1_complete_infrastructure_generate_all_device_configurations": [
     {
       "generate_all_configurations": true,
-      "file_path": "/tmp/inventory_all_devices_complete.yml"
+      "file_path": "inventory_all_devices_complete.yml"
     }
   ],
   "playbook_config_scenario2_specific_devices_by_ip_address_list": [
@@ -366,7 +366,7 @@
   "playbook_config_scenario3_devices_by_hostname_list": [
     {
       "generate_all_configurations": false,
-      "file_path": "/tmp/inventory_by_hostname.yml",
+      "file_path": "inventory_device_details_only.yml",
       "global_filters": {
         "hostname_list": [
           "evpn-app-c9k-27",
@@ -384,7 +384,7 @@
   "playbook_config_scenario4_devices_by_serial_number_list": [
     {
       "generate_all_configurations": false,
-      "file_path": "/tmp/inventory_by_serial.yml",
+      "file_path": "inventory_provision_only.yml",
       "global_filters": {
         "serial_number_list": [
           "9ODWZQTV7RY",
@@ -402,7 +402,7 @@
   "playbook_config_scenario5_devices_by_mac_address_list": [
     {
       "generate_all_configurations": false,
-      "file_path": "/tmp/inventory_by_mac.yml",
+      "file_path": "inventory_interface_only.yml",
       "global_filters": {
         "mac_address_list": [
           "00:1A:2B:3C:4D:5E",
@@ -418,7 +418,7 @@
   ],
   "playbook_config_scenario6_devices_by_role_access": [
     {
-      "file_path": "/tmp/inventory_access_role_devices.yml",
+      "file_path": "inventory_independent_filters.yml",
       "component_specific_filters": {
         "components_list": [
           "device_details"
@@ -431,7 +431,7 @@
   ],
   "playbook_config_scenario7_devices_by_role_core": [
     {
-      "file_path": "/tmp/inventory_core_role_devices.yml",
+      "file_path": "inventory_global_component_filters.yml",
       "component_specific_filters": {
         "components_list": [
           "device_details"
@@ -444,7 +444,7 @@
   ],
   "playbook_config_scenario8_combined_filters_multiple_criteria": [
     {
-      "file_path": "/tmp/inventory_combined_filters.yml",
+      "file_path": "inventory_access_role.yml",
       "global_filters": {
         "ip_address_list": [
           "204.1.2.2",
@@ -463,18 +463,18 @@
   ],
   "playbook_config_scenario9_multiple_device_groups": [
     {
-      "file_path": "/tmp/inventory_group_access.yml",
+      "file_path": "inventory_multi_role.yml",
       "component_specific_filters": {
         "components_list": [
           "device_details"
         ],
         "device_details": {
-          "role": "ACCESS"
+          "role": ["ACCESS", "BORDER ROUTER", "CORE"]
         }
       }
     },
     {
-      "file_path": "/tmp/inventory_group_core.yml",
+      "file_path": "inventory_device_provision.yml",
       "component_specific_filters": {
         "components_list": [
           "device_details"
@@ -488,7 +488,7 @@
   "playbook_config_scenario10_provision_devices_by_site_with_role_filter": [
     {
       "generate_all_configurations": false,
-      "file_path": "/tmp/inventory_site_provision.yml",
+      "file_path": "inventory_site_bangalore_bld1.yml",
       "component_specific_filters": {
         "components_list": [
           "device_details",
@@ -506,7 +506,7 @@
   "playbook_config_scenario11_multiple_roles": [
     {
       "generate_all_configurations": false,
-      "file_path": "/tmp/inventory_multi_role.yml",
+      "file_path": "inventory_site_bangalore_bld2.yml",
       "component_specific_filters": {
         "components_list": [
           "device_details"
@@ -523,7 +523,7 @@
   "playbook_config_scenario12_global_filter_plus_site_filter": [
     {
       "generate_all_configurations": false,
-      "file_path": "/tmp/inventory_global_site_filter.yml",
+      "file_path": "inventory_playbook_config_2026-02-18_03-37-45.yml",
       "global_filters": {
         "ip_address_list": [
           "205.1.2.67",
@@ -539,5 +539,336 @@
         }
       }
     }
-  ]
+  ],
+  "playbook_config_scenario13_interface_details_single_interface_name_filter": [
+    {
+      "file_path": "inventory_interface_vlan100_only.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "interface_details"
+        ],
+        "interface_details": {
+          "interface_name": [
+            "Vlan100"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario14_interface_details_multiple_interface_name_filters": [
+    {
+      "file_path": "inventory_interface_multi_filter.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "interface_details"
+        ],
+        "interface_details": {
+          "interface_name": [
+            "Vlan100",
+            "Vlan111",
+            "Loopback0"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario15_global_ip_filter_plus_interface_name_filter": [
+    {
+      "file_path": "inventory_ip_interface_filter.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "100.1.1.61",
+          "172.27.248.223",
+          "205.1.2.67"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "interface_details"
+        ],
+        "interface_details": {
+          "interface_name": [
+            "Vlan100",
+            "Loopback0",
+            "GigabitEthernet0/0"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario16_device_details_plus_filtered_interfaces": [
+    {
+      "file_path": "inventory_device_filtered_interfaces.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "172.27.248.223",
+          "205.1.2.67"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "interface_details"
+        ],
+        "interface_details": {
+          "interface_name": [
+            "Loopback0",
+            "Vlan100"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario17_all_components_with_interface_filter": [
+    {
+      "file_path": "inventory_all_filtered_interfaces.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "172.27.248.223",
+          "205.1.2.67"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "provision_device",
+          "interface_details"
+        ],
+        "provision_device": {
+          "site_name": "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+        },
+        "interface_details": {
+          "interface_name": [
+            "Loopback0"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario18_interface_filter_no_match_handling": [
+    {
+      "file_path": "inventory_interface_no_match.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "172.27.248.223",
+          "172.27.248.224",
+          "172.27.248.82"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "interface_details"
+        ],
+        "interface_details": {
+          "interface_name": [
+            "TenGigabitEthernet1/1/1"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario19_gigabitethernet_interfaces_only": [
+    {
+      "file_path": "inventory_gigabitethernet_only.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "interface_details"
+        ],
+        "interface_details": {
+          "interface_name": [
+            "GigabitEthernet0/0",
+            "GigabitEthernet1/0/11",
+            "GigabitEthernet1/0/12"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario20_access_devices_with_interface_filter": [
+    {
+      "file_path": "inventory_access_devices_interface_filter.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "interface_details"
+        ],
+        "device_details": {
+          "role": "ACCESS"
+        },
+        "interface_details": {
+          "interface_name": [
+            "GigabitEthernet0/0",
+            "GigabitEthernet0/1"
+          ]
+        }
+      }
+    }
+  ],
+  "get_filtered_devices_by_interface_name_vlan100_response": {
+    "response": [
+      {
+        "id": "device-002",
+        "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+        "managementIpAddress": "205.1.2.67",
+        "role": "ACCESS",
+        "interfaces": [
+          {
+            "name": "Vlan100",
+            "description": "Management VLAN",
+            "ipv4Address": "205.1.2.67"
+          }
+        ]
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "role": "ACCESS",
+        "interfaces": [
+          {
+            "name": "Vlan100",
+            "description": "Access VLAN",
+            "ipv4Address": "172.27.248.224"
+          }
+        ]
+      }
+    ]
+  },
+  "get_filtered_devices_by_interface_name_multi_response": {
+    "response": [
+      {
+        "id": "device-001",
+        "hostname": "evpn-app-c9k-27",
+        "managementIpAddress": "206.1.2.1",
+        "role": "BORDER ROUTER",
+        "interfaces": [
+          {
+            "name": "Vlan100",
+            "description": "Border VLAN",
+            "ipv4Address": "206.1.2.1"
+          },
+          {
+            "name": "Loopback0",
+            "description": "Loopback Interface",
+            "ipv4Address": "206.1.2.100"
+          }
+        ]
+      },
+      {
+        "id": "device-002",
+        "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+        "managementIpAddress": "205.1.2.67",
+        "role": "ACCESS",
+        "interfaces": [
+          {
+            "name": "Vlan100",
+            "description": "Access VLAN",
+            "ipv4Address": "205.1.2.67"
+          }
+        ]
+      }
+    ]
+  },
+  "get_filtered_devices_by_interface_name_loopback_response": {
+    "response": [
+      {
+        "id": "device-001",
+        "hostname": "evpn-app-c9k-27",
+        "managementIpAddress": "206.1.2.1",
+        "role": "BORDER ROUTER",
+        "interfaces": [
+          {
+            "name": "Loopback0",
+            "description": "Loopback Interface",
+            "ipv4Address": "206.1.2.100"
+          }
+        ]
+      },
+      {
+        "id": "device-004",
+        "hostname": "core-router-01",
+        "managementIpAddress": "210.1.1.1",
+        "role": "CORE",
+        "interfaces": [
+          {
+            "name": "Loopback0",
+            "description": "Loopback Interface",
+            "ipv4Address": "210.1.1.100"
+          }
+        ]
+      }
+    ]
+  },
+  "get_filtered_devices_by_interface_name_gigabitethernet_response": {
+    "response": [
+      {
+        "id": "device-002",
+        "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+        "managementIpAddress": "205.1.2.67",
+        "role": "ACCESS",
+        "interfaces": [
+          {
+            "name": "GigabitEthernet0/0",
+            "description": "Uplink Interface",
+            "ipv4Address": "205.1.2.67"
+          }
+        ]
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "role": "ACCESS",
+        "interfaces": [
+          {
+            "name": "GigabitEthernet0/0",
+            "description": "Uplink Interface",
+            "ipv4Address": "172.27.248.224"
+          }
+        ]
+      }
+    ]
+  },
+  "get_filtered_devices_access_with_interface_filter_response": {
+    "response": [
+      {
+        "id": "device-002",
+        "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+        "managementIpAddress": "205.1.2.67",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch",
+        "interfaces": [
+          {
+            "name": "GigabitEthernet0/0",
+            "description": "Port 1",
+            "adminStatus": "UP"
+          },
+          {
+            "name": "GigabitEthernet0/1",
+            "description": "Port 2",
+            "adminStatus": "UP"
+          }
+        ]
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "role": "ACCESS",
+        "type": "Cisco Catalyst 9300 Switch",
+        "interfaces": [
+          {
+            "name": "GigabitEthernet0/0",
+            "description": "Port 1",
+            "adminStatus": "UP"
+          },
+          {
+            "name": "GigabitEthernet0/1",
+            "description": "Port 2",
+            "adminStatus": "UP"
+          }
+        ]
+      }
+    ]
+  }
 }
