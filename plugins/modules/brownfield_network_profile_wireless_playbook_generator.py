@@ -1347,7 +1347,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "DEBUG"
             )
 
-            day_m_template_matches = 0
+            day_n_template_matches = 0
             unmatched_day_n_templates = []
             for template_index, given_template in enumerate(day_n_templates, start=1):
                 self.log(
@@ -1395,10 +1395,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     self.log(self.msg, "WARNING")
                     unmatched_day_n_templates.append(given_template)
                 else:
-                    day_m_template_matches += 1
+                    day_n_template_matches += 1
                     self.log(
                         f"Day-N template filter '{given_template}' matched {profiles_matched} profile(s). "
-                        f"Total Day-N template filters matched so far: {day_m_template_matches}. "
+                        f"Total Day-N template filters matched so far: {day_n_template_matches}. "
                         f"Configurations collected so far: {len(final_list)}.",
                         "DEBUG"
                     )
@@ -1413,7 +1413,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 self.fail_and_exit(self.msg)
 
             self.log(
-                f"Day-N template list filtering completed. Matched {day_m_template_matches} "
+                f"Day-N template list filtering completed. Matched {day_n_template_matches} "
                 f"profile(s) from {len(day_n_templates)} "
                 f"template filter(s). Final configurations collected: "
                 f"{len(final_list)}. Skipping remaining "
