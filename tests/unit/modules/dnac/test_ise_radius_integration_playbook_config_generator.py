@@ -17,24 +17,24 @@
 #   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_ise_radius_integration_playbook_generator`.
-#   These tests cover various scenarios for generating YAML configuration files from brownfield
-#   ISE RADIUS authentication server configurations in Cisco Catalyst Center.
+#   Unit tests for the Ansible module `ise_radius_integration_playbook_config_generator`.
+#   These tests cover various scenarios for generating YAML configuration files
+#   for ISE RADIUS authentication server configurations in Cisco Catalyst Center.
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
 from ansible_collections.cisco.dnac.plugins.modules import (
-    brownfield_ise_radius_integration_playbook_generator,
+    ise_radius_integration_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
+class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
 
-    module = brownfield_ise_radius_integration_playbook_generator
-    test_data = loadPlaybookData("brownfield_ise_radius_integration_playbook_generator")
+    module = ise_radius_integration_playbook_config_generator
+    test_data = loadPlaybookData("ise_radius_integration_playbook_config_generator")
 
     # Load all playbook configurations
     playbook_config_generate_all_configurations = test_data.get(
@@ -55,7 +55,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
 
     def setUp(self):
-        super(TestBrownfieldIseRadiusIntegrationGenerator, self).setUp()
+        super(TestIseRadiusIntegrationPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
@@ -71,13 +71,13 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldIseRadiusIntegrationGenerator, self).tearDown()
+        super(TestIseRadiusIntegrationPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield ISE RADIUS integration generator tests.
+        Load fixtures for ISE RADIUS integration generator tests.
         """
         test_method_with_all_data_mapping = [
             "generate_all_configurations",
@@ -104,7 +104,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_generate_all_configurations(
+    def test_ise_radius_integration_playbook_config_generator_generate_all_configurations(
         self, mock_exists, mock_file
     ):
         """
@@ -135,7 +135,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_with_file_path(
+    def test_ise_radius_integration_playbook_config_generator_with_file_path(
         self, mock_exists, mock_file
     ):
         """
@@ -166,7 +166,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_filter_by_server_type(
+    def test_ise_radius_integration_playbook_config_generator_filter_by_server_type(
         self, mock_exists, mock_file
     ):
         """
@@ -197,7 +197,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_filter_by_server_ip(
+    def test_ise_radius_integration_playbook_config_generator_filter_by_server_ip(
         self, mock_exists, mock_file
     ):
         """
@@ -228,7 +228,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_filter_by_both(
+    def test_ise_radius_integration_playbook_config_generator_filter_by_both(
         self, mock_exists, mock_file
     ):
         """
@@ -259,7 +259,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_no_filters(
+    def test_ise_radius_integration_playbook_config_generator_no_filters(
         self, mock_exists, mock_file
     ):
         """
@@ -290,7 +290,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_invalid_server_type(
+    def test_ise_radius_integration_playbook_config_generator_invalid_server_type(
         self, mock_exists, mock_file
     ):
         """
@@ -317,7 +317,7 @@ class TestBrownfieldIseRadiusIntegrationGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_ise_radius_integration_playbook_generator_no_file_path(
+    def test_ise_radius_integration_playbook_config_generator_no_file_path(
         self, mock_exists, mock_file
     ):
         """
