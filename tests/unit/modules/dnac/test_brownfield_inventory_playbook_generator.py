@@ -25,7 +25,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import brownfield_inventory_playbook_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
