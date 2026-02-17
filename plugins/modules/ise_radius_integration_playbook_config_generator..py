@@ -11,7 +11,7 @@ __author__ = "Jeet Ram, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_ise_radius_integration_playbook_generator
+module: ise_radius_integration_playbook_config generator
 short_description: Generate YAML configurations playbook for 'ise_radius_integration_workflow_manager' module.
 description:
   - Generates a YAML playbook for Authentication and Policy Servers that can
@@ -1044,7 +1044,7 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes YAML configuration file generation for brownfield ISE Radius Integration workflow.
+        Executes YAML configuration file generation for ISE Radius Integration workflow.
 
         Processes the desired state parameters prepared by get_want() and generates a
         YAML configuration file containing network element details from Catalyst Center.
@@ -1145,7 +1145,7 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 def main():
     """
-    Main entry point for the brownfield ISE RADIUS integration playbook generator module.
+    Main entry point for the ISE RADIUS integration playbook generator module.
 
     Orchestrates the module execution workflow by:
     1. Defining and validating module argument specifications.
@@ -1190,59 +1190,57 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_brownfield_ise_radius_integration_playbook_generator = (
+    ccc_ise_radius_integration_playbook_config_generator = (
         IseRadiusIntegrationPlaybookGenerator(module)
     )
     if (
-        ccc_brownfield_ise_radius_integration_playbook_generator.compare_dnac_versions(
-            ccc_brownfield_ise_radius_integration_playbook_generator.get_ccc_version(),
+        ccc_ise_radius_integration_playbook_config_generator.compare_dnac_versions(
+            ccc_ise_radius_integration_playbook_config_generator.get_ccc_version(),
             "2.3.7.9",
         )
         < 0
     ):
-        ccc_brownfield_ise_radius_integration_playbook_generator.msg = (
+        ccc_ise_radius_integration_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for IseRadiusIntegrationPlaybookGenerator Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_brownfield_ise_radius_integration_playbook_generator.get_ccc_version()
+                ccc_ise_radius_integration_playbook_config_generator.get_ccc_version()
             )
         )
-        ccc_brownfield_ise_radius_integration_playbook_generator.set_operation_result(
+        ccc_ise_radius_integration_playbook_config_generator.set_operation_result(
             "failed",
             False,
-            ccc_brownfield_ise_radius_integration_playbook_generator.msg,
+            ccc_ise_radius_integration_playbook_config_generator.msg,
             "ERROR",
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_brownfield_ise_radius_integration_playbook_generator.params.get("state")
+    state = ccc_ise_radius_integration_playbook_config_generator.params.get("state")
     # Check if the state is valid
     if (
         state
-        not in ccc_brownfield_ise_radius_integration_playbook_generator.supported_states
+        not in ccc_ise_radius_integration_playbook_config_generator.supported_states
     ):
-        ccc_brownfield_ise_radius_integration_playbook_generator.status = "invalid"
-        ccc_brownfield_ise_radius_integration_playbook_generator.msg = (
+        ccc_ise_radius_integration_playbook_config_generator.status = "invalid"
+        ccc_ise_radius_integration_playbook_config_generator.msg = (
             "State {0} is invalid".format(state)
         )
-        ccc_brownfield_ise_radius_integration_playbook_generator.check_return_status()
+        ccc_ise_radius_integration_playbook_config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
-    ccc_brownfield_ise_radius_integration_playbook_generator.validate_input().check_return_status()
+    ccc_ise_radius_integration_playbook_config_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
-    for (
-        config
-    ) in ccc_brownfield_ise_radius_integration_playbook_generator.validated_config:
-        ccc_brownfield_ise_radius_integration_playbook_generator.reset_values()
+    for config in ccc_ise_radius_integration_playbook_config_generator.validated_config:
+        ccc_ise_radius_integration_playbook_config_generator.reset_values()
 
-        ccc_brownfield_ise_radius_integration_playbook_generator.get_want(
+        ccc_ise_radius_integration_playbook_config_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_brownfield_ise_radius_integration_playbook_generator.get_diff_state_apply[
+        ccc_ise_radius_integration_playbook_config_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    module.exit_json(**ccc_brownfield_ise_radius_integration_playbook_generator.result)
+    module.exit_json(**ccc_ise_radius_integration_playbook_config_generator.result)
 
 
 if __name__ == "__main__":
