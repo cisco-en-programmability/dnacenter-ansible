@@ -165,10 +165,18 @@ notes:
     - devices.Devices.get_network_device_by_ip
     - devices.Devices.get_device_by_ip
     - licenses.Licenses.device_license_summary
-- API Endpoints used are GET /dna/intent/api/v2/devices (list all devices), GET /dna/intent/api/v2/network-device (get network device info), GET /dna/intent/api/v1/interface/ip-address/{ipAddress} (get interfaces for device IP), and GET /dna/intent/api/v1/licenses/device/summary (get device license and site info).
-- Device Consolidation: Devices are grouped and consolidated by their configuration hash. All interfaces from devices with identical configurations are grouped under a single device entry. This reduces redundancy when multiple physical devices share the same configuration.
-- Component Independence: Each component (device_details, provision_device, interface_details) is filtered independently. Global filters apply to all components unless overridden by component-specific filters. Interface details are automatically fetched based on matched device IPs.
-- Interface Discovery: Interfaces are discovered using the IP-to-interface API endpoint. Interface names can be optionally filtered using the interface_name parameter. When no interfaces match the filter criteria, no interface_details output is generated.
+- API Endpoints used are GET /dna/intent/api/v2/devices (list all devices), GET /dna/intent/api/v2/network-device
+  (get network device info), GET /dna/intent/api/v1/interface/ip-address/{ipAddress} (get interfaces for device IP),
+  and GET /dna/intent/api/v1/licenses/device/summary (get device license and site info).
+- 'Device Consolidation: Devices are grouped and consolidated by their configuration hash. All interfaces from devices
+  with identical configurations are grouped under a single device entry. This reduces redundancy when multiple physical
+  devices share the same configuration.'
+- 'Component Independence: Each component (device_details, provision_device, interface_details) is filtered
+  independently. Global filters apply to all components unless overridden by component-specific filters. Interface
+  details are automatically fetched based on matched device IPs.'
+- 'Interface Discovery: Interfaces are discovered using the IP-to-interface API endpoint. Interface names can be
+  optionally filtered using the interface_name parameter. When no interfaces match the filter criteria, no
+  interface_details output is generated.'
 seealso:
 - module: cisco.dnac.inventory_workflow_manager
   description: Module for managing inventory configurations in Cisco Catalyst Center.
