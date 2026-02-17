@@ -11,7 +11,7 @@ __author__ = "Jeet Ram, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: ise_radius_integration_playbook_config generator
+module: ise_radius_integration_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'ise_radius_integration_workflow_manager' module.
 description:
   - Generates a YAML playbook for Authentication and Policy Servers that can
