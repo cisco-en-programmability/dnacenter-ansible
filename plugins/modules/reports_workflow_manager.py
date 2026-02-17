@@ -562,7 +562,7 @@ Network Device Compliance                        N/A                            
 Configuration Archive                           N/A                                 configChangeType, family, DeviceType
 EoX Data                                        N/A                                 DeviceType, Location
 All Data (swim)                                 N/A                                 Location, DeviceFamily, DeviceRole
-All Data Version 2.0 (swim)                     N/A                                 Location, DeviceFamily, DeviceRole
+All Data Version 2.0 (swim)                     N/A                                 Location1, DeviceFamily, DeviceRole
 Busiest Client                                 Location, TimeRange                  Location, clientMacAddress, DeviceType, SSID, Band, SortBy, Limit, TimeRange
 Client Detail                                  Location, TimeRange                  Location, clientMacAddress, DeviceType, SSID, Band, TimeRange
 Client Session                                 Location, TimeRange                  Location, clientMacAddress, SSID, Band, TimeRange
@@ -1165,7 +1165,7 @@ To verify this information, search the code for:
       - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
     Required Filters: None - All filters are optional
     Field Groups: Not applicable for Executive Summary
-    Supported Formats: CSV, PDF, JSON
+    Supported Formats: PDF
 
 2. SECURITY ADVISORIES VIEW GROUP:
     --------------------------------
@@ -1199,7 +1199,7 @@ To verify this information, search the code for:
                   softwareVersion, upTime, partNumber, site, numberofUsers,
                   numberofethernetports, timeSinceCodeUpgrade, licenseDnaLevel,
                   networkLicense, fabricRole
-    Supported Formats: CSV, PDF, TDE, JSON
+    Supported Formats: CSV, PDF, TDE
 
     3.2 View Name: "All Data Version 2.0"
     Allowed Filters:
@@ -1214,7 +1214,7 @@ To verify this information, search the code for:
                   managementIpAddress, communicationState, softwareVersion,
                   upTime, platformId, siteHierarchy, clientCount, portCount,
                   completionTime, dnaLevel, networkLicense, uxLevel, fabricRole
-    Supported Formats: CSV, PDF, TDE, JSON
+    Supported Formats: CSV, PDF, TDE
 
     3.3 View Name: "Port Reclaim View"
     Allowed Filters:
@@ -1225,7 +1225,7 @@ To verify this information, search the code for:
       - PortReclaimFieldGroup:
          Fields: rownum, hostname, family, type, managementIpAddress, portname,
                   description, macAddress, adminStatus, status, lastInput, lastOutput
-    Supported Formats: CSV, TDE
+    Supported Formats: CSV, TDE, JSON
 
 4. ROGUE AND AWIPS VIEW GROUP:
     ----------------------------
@@ -1323,7 +1323,7 @@ To verify this information, search the code for:
                   radioUtil_max, txUtilPct_max, rxUtilPct_max, radioIntf_max,
                   radioClientCount_max, radioClientCount_avg, txBytes_sum,
                   rxBytes_sum, radioAirQualMax_max, txUtil_avg, rxUtil_avg
-    Supported Formats: CSV
+    Supported Formats: CSV, JSON and TDE
 
     5.4 View Name: "AP RRM Events"
     Allowed Filters:
@@ -1340,7 +1340,7 @@ To verify this information, search the code for:
                   slotId, wlcName, frequency, eventType, prevChannels, currChannels,
                   prevPower, currPower, oldWidthValue, newWidthValue, reasonType,
                   lastFailureReason, dcaReasonCode, location
-    Supported Formats: CSV
+    Supported Formats: CSV, TDE and JSON
 
     5.5 View Name: "Worst Interferers"
     Allowed Filters:
@@ -1354,7 +1354,7 @@ To verify this information, search the code for:
       - worstInterferers:
          Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
                   affectedChannels, apName, slot, band, siteHierarchy, discoveredTime
-    Supported Formats: CSV, PDF
+    Supported Formats: TDE, JSON and CSV
 
 6. NETWORK DEVICES VIEW GROUP:
     ----------------------------
@@ -1367,12 +1367,12 @@ To verify this information, search the code for:
       - SortBy (SINGLE_SELECT_ARRAY): Result sorting options
       - Limit (SINGLE_SELECT_ARRAY): Result count limits
       - TimeRange (TIME_RANGE): Performance monitoring period
-    Required Filters: [REQUIRED] Location, DeviceFamily, DeviceRole, SortBy, Limit, TimeRange
+    Required Filters: [REQUIRED] Location, SortBy, Limit, TimeRange
     Field Groups:
       - Device_Health_Details:
          Fields: deviceName, ipAddr, deviceFamily, deviceRole, deviceModel,
                   minCPU, maxCPU, avgCPU, minMemory, maxMemory, avgMemory
-    Supported Formats: CSV, PDF
+    Supported Formats: CSV, TDE, JSON
 
     6.2 View Name: "Energy Management"
     Allowed Filters:
@@ -1396,7 +1396,7 @@ To verify this information, search the code for:
       - response:
          Fields: nwDeviceFamily, nwDeviceRole, nwDeviceName, managementIpAddr,
                   siteHierarchy, softwareVersion, availability
-    Supported Formats: CSV, PDF
+    Supported Formats: CSV, TDE, JSON
 
     6.4 View Name: "Network Interface Utilization"
     Allowed Filters:
@@ -1411,7 +1411,7 @@ To verify this information, search the code for:
          Fields: deviceName, managementIpAddress, location, interfaceName,
                   minTx, maxTx, avgTx, txErrors, txPacketDrops, minRx, maxRx,
                   avgRx, rxErrors, rxPacketDrops
-    Supported Formats: CSV, PDF
+    Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
     6.5 View Name: "PoE"
     Allowed Filters:
@@ -1423,7 +1423,7 @@ To verify this information, search the code for:
                   powerConsumed, powerConsumedPercentage, poeUsedPortCount,
                   fastPoeEnabledCount, perpetualPoeEnabledCount,
                   PolicePoeEnabledCount, poeOperPriorityHighCount
-    Supported Formats: CSV, PDF
+    Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
     6.6 View Name: "Port Capacity"
     Allowed Filters:
@@ -1436,7 +1436,7 @@ To verify this information, search the code for:
       - Port Capacity:
          Fields: deviceIp, deviceName, location, deviceFamily, deviceRole,
                   connectedPorts, freePorts, downPorts, totalPorts, usagePercentage
-    Supported Formats: CSV, PDF
+    Supported Formats: CSV, Tableau Data Extract (TDE)
 
     6.7 View Name: "Transmit Power Change Count"
     Allowed Filters:
@@ -1448,7 +1448,7 @@ To verify this information, search the code for:
       - response:
          Fields: apName, apMac, slotId, frequency, upCount, downCount,
                   totalChangeCount, powerRange, location
-    Supported Formats: CSV, PDF
+    Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
     6.8 View Name: "Channel Change Count"
     Allowed Filters:
@@ -1472,7 +1472,7 @@ To verify this information, search the code for:
       - VLAN Details:
          Fields: ipAddress, deviceName, location, deviceFamily, deviceType,
                   vlanId, vlanName, interfacename, adminStatus, operStatus
-    Supported Formats: CSV, PDF
+    Supported Formats: CSV, TDE
 
 7. AUDIT LOG VIEW GROUP:
     ----------------------
@@ -1572,7 +1572,7 @@ To verify this information, search the code for:
                     location, serialNumber, currentVersion, codeUpgradeDate,
                     priorUpgradeDate, currentSMU, currentSMUUpgradeDate,
                     upgradeFailureReason
-     Supported Formats: CSV, PDF, TDE
+     Supported Formats: CSV, TDE, JSON
 
 12. CLIENT VIEW GROUP:
      ------------------
@@ -1704,14 +1704,7 @@ To verify this information, search the code for:
      ---------------------
 
      13.1 View Name: "AireOS Controllers Licenses"
-     Allowed Filters:
-        - Location (MULTI_SELECT_TREE): Network location hierarchy
-        - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
-        - DeviceType (MULTI_SELECT): Device type classifications
-        - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
-        - Band (MULTI_SELECT): Radio frequency bands
-        - TimeRange (TIME_RANGE): License analysis period
-     Required Filters: None - All filters are optional
+     No filters are supported for this view
      Field Groups:
         - virtual_assignment_devices
      Supported Formats: CSV, PDF
