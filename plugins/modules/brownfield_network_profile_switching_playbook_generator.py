@@ -1499,9 +1499,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
             if unmatched_templates:
                 self.msg = (
-                        f"The following {len(unmatched_templates)} requested template(s) did not match "
-                        f"any profiles: {unmatched_templates}. Please verify that these templates are "
-                        "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
+                    f"The following {len(unmatched_templates)} requested template(s) did not match "
+                    f"any profiles: {unmatched_templates}. Please verify that these templates are "
+                    "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
                 )
                 self.log(self.msg, "WARNING")
                 self.fail_and_exit(self.msg)
@@ -1635,9 +1635,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
             if unmatched_sites:
                 self.msg = (
-                        f"The following {len(unmatched_sites)} requested site(s) did not match "
-                        f"any profiles: {unmatched_sites}. Please verify that these sites are "
-                        "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
+                    f"The following {len(unmatched_sites)} requested site(s) did not match "
+                    f"any profiles: {unmatched_sites}. Please verify that these sites are "
+                    "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
                 )
                 self.log(self.msg, "WARNING")
                 self.fail_and_exit(self.msg)
