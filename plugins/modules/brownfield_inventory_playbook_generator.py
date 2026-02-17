@@ -21,13 +21,14 @@ description:
   such as device credentials, management IP addresses, device types, and other device-specific
   attributes configured on the Cisco Catalyst Center.
 - Automatically generates provision_wired_device configurations by mapping devices to their assigned sites.
-- Devices with type 'NETWORK_DEVICE' are automatically excluded from all generated configurations.
+- Automatically fetches and configures interface details for discovered devices using the Catalyst Center API.
+- Only devices with manageable software versions are included in generated configurations.
 version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Mridul Saurabh (@msaurabh)
-- Madhan Sankaranarayanan (@madhansansel)
+- Madhan Sankaranarayanan (@madsanka)
 options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
@@ -51,7 +52,7 @@ options:
           - When enabled, the config parameter becomes optional and will use default values if not provided.
           - A default filename will be generated automatically if file_path is not specified.
           - This is useful for complete brownfield infrastructure discovery and documentation.
-          - Note - Devices with type 'NETWORK_DEVICE' are excluded from output.
+          - Note - Only devices with manageable software versions are included in the output.
         type: bool
         required: false
         default: false
@@ -139,58 +140,23 @@ options:
                 - Filter provision devices by site name.
                 - Example: "Global/India/Telangana/Hyderabad/BLD_1"
                 type: str
-      update_interface_details:
-        description:
-        - Configuration for updating interface details on devices.
-        - When provided, the module will fetch actual interface details from the specified devices
-          and generate update_interface_details configuration.
-        - Uses the API analysis to retrieve device IDs and interface information.
-        - Optional - only include if you want to generate interface update configurations.
-        type: dict
-        suboptions:
-          device_ips:
+          interface_details:
             description:
-            - List of device management IP addresses for which to fetch and configure interface details.
-            - The module will lookup device IDs for these IPs and fetch interface information.
-            - For example, ["204.1.2.2", "204.1.2.3"]
-            type: list
-            elements: str
-            required: true
-          interface_name:
-            description:
-            - List of interface names to update.
-            - For example, ["GigabitEthernet1/0/11", "FortyGigabitEthernet1/1/1"]
-            type: list
-            elements: str
-            required: true
-          description:
-            description:
-            - Description text to assign to the interfaces.
-            type: str
-          admin_status:
-            description:
-            - Administrative status for interfaces (UP, DOWN, RESTART).
-            type: str
-            choices: [UP, DOWN, RESTART]
-          vlan_id:
-            description:
-            - VLAN ID to assign to the interfaces.
-            type: int
-          voice_vlan_id:
-            description:
-            - Voice VLAN ID to assign to the interfaces.
-            type: int
-          deployment_mode:
-            description:
-            - Deployment mode (Deploy or Undeploy).
-            type: str
-            choices: [Deploy, Undeploy]
-            default: Deploy
-          clear_mac_address_table:
-            description:
-            - Whether to clear MAC address table on the interfaces (only for ACCESS devices).
-            type: bool
-            default: false
+            - Component selector for auto-generated interface_details.
+            - Filters interface configurations based on device IP addresses and interface names.
+            - Interfaces are automatically discovered from matched devices using Catalyst Center API.
+            type: dict
+            suboptions:
+              interface_name:
+                description:
+                - Filter interfaces by name (optional).
+                - Can be a single interface name string or a list of interface names.
+                - When specified, only interfaces with matching names will be included.
+                - Matches use 'OR' logic; any interface matching any name in the list is included.
+                - Common interface names include 'Vlan100', 'Loopback0', 'GigabitEthernet1/0/1', 'FortyGigabitEthernet1/1/1'.
+                - If not specified, all discovered interfaces for matched devices are included.
+                - Example: interface_name="Vlan100" or interface_name=["Vlan100", "Loopback0", "GigabitEthernet1/0/1"]
+                type: [str, list]
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
@@ -198,16 +164,25 @@ notes:
 - SDK Methods used are
     - devices.Devices.get_device_list
     - devices.Devices.get_network_device_by_ip
-    - devices.Devices.get_interface_details
+    - devices.Devices.get_device_by_ip
     - licenses.Licenses.device_license_summary
-- Paths used are
-    - GET /dna/intent/api/v2/devices
-    - GET /dna/intent/api/v2/network-device
-    - GET /dna/intent/api/v2/interface/network-device/{id}/interface-name
-    - GET /dna/intent/api/v1/licenses/device/summary
-- Devices with type 'NETWORK_DEVICE' are automatically excluded from all generated configurations.
-- A separate provision_wired_device configuration is generated below the device configs using site information from device_license_summary.
-- The update_interface_details configuration fetches actual interface details from devices using the API analysis workflow.
+- API Endpoints used are
+    - GET /dna/intent/api/v2/devices (list all devices)
+    - GET /dna/intent/api/v2/network-device (get network device info)
+    - GET /dna/intent/api/v1/interface/ip-address/{ipAddress} (get interfaces for device IP)
+    - GET /dna/intent/api/v1/licenses/device/summary (get device license and site info)
+- Device Consolidation:
+    - Devices are grouped and consolidated by their configuration hash.
+    - All interfaces from devices with identical configurations are grouped under a single device entry.
+    - This reduces redundancy when multiple physical devices share the same configuration.
+- Component Independence:
+    - Each component (device_details, provision_device, interface_details) is filtered independently.
+    - Global filters apply to all components unless overridden by component-specific filters.
+    - Interface details are automatically fetched based on matched device IPs.
+- Interface Discovery:
+    - Interfaces are discovered using the IP-to-interface API endpoint.
+    - Interface names can be optionally filtered using the interface_name parameter.
+    - When no interfaces match the filter criteria, no interface_details output is generated.
 seealso:
 - module: cisco.dnac.inventory_workflow_manager
   description: Module for managing inventory configurations in Cisco Catalyst Center.
@@ -363,7 +338,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
         file_path: "./inventory_with_provisioning.yml"
 
-- name: Generate inventory playbook with update_interface_details configuration
+- name: Generate inventory playbook with interface filtering
   cisco.dnac.brownfield_inventory_playbook_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
@@ -374,20 +349,57 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - update_interface_details:
-          device_ips:
-            - "204.1.2.2"
-            - "204.1.2.3"
-          interface_name:
-            - "GigabitEthernet1/0/11"
-            - "FortyGigabitEthernet1/1/1"
-          description: "Updated by automation"
-          admin_status: "UP"
-          vlan_id: 100
-          voice_vlan_id: 150
-          deployment_mode: "Deploy"
-          clear_mac_address_table: false
-        file_path: "./inventory_update_interfaces.yml"
+      - global_filters:
+          ip_address_list:
+            - "10.195.225.40"
+            - "10.195.225.42"
+        component_specific_filters:
+          interface_details:
+            interface_name:
+              - "Vlan100"
+              - "GigabitEthernet1/0/1"
+        file_path: "./inventory_interface_filtered.yml"
+
+- name: Generate inventory playbook for specific interface on single device
+  cisco.dnac.brownfield_inventory_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    config:
+      - global_filters:
+          ip_address_list:
+            - "10.195.225.40"
+        component_specific_filters:
+          interface_details:
+            interface_name: "Loopback0"
+        file_path: "./inventory_loopback_interface.yml"
+
+- name: Generate complete inventory with all components and interface filter
+  cisco.dnac.brownfield_inventory_playbook_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    config:
+      - component_specific_filters:
+          components_list: ["device_details", "provision_device", "interface_details"]
+          device_details:
+            role: "ACCESS"
+          interface_details:
+            interface_name:
+              - "GigabitEthernet1/0/1"
+              - "GigabitEthernet1/0/2"
+              - "GigabitEthernet1/0/3"
+        file_path: "./inventory_access_with_interfaces.yml"
 """
 RETURN = r"""
 # Case_1: Success Scenario
@@ -541,7 +553,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "is_filter_only": True,  # This component only filters existing provision data, doesn't fetch new data
                 },
                 "interface_details": {
-                    "filters": [],
+                    "filters": ["interface_name"],
                     "is_filter_only": True,  # This component only controls interface details output, doesn't fetch new data
                 }
             },
@@ -1195,176 +1207,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("No provisioned devices found via SDA endpoint", "WARNING")
             return {}
 
-    def get_device_ids_by_ip(self, device_ips):
-        """
-        Get device IDs for a list of device IP addresses.
-        Uses API #1: get_device_list by managementIpAddress
-        
-        Args:
-            device_ips (list): List of management IP addresses
-            
-        Returns:
-            dict: Mapping of IP address to device ID
-        """
-        self.log("Fetching device IDs for {0} IP addresses".format(len(device_ips)), "INFO")
-        ip_to_id_map = {}
-        
-        try:
-            for device_ip in device_ips:
-                try:
-                    response = self.dnac._exec(
-                        family="devices",
-                        function="get_device_list",
-                        op_modifies=False,
-                        params={"managementIpAddress": device_ip}
-                    )
-                    
-                    self.log("Device lookup response for IP {0}: {1}".format(
-                        device_ip, "received" if response else "empty"
-                    ), "DEBUG")
-                    
-                    if response and "response" in response:
-                        devices = response.get("response", [])
-                        if devices and len(devices) > 0:
-                            device_id = devices[0].get("id")
-                            ip_to_id_map[device_ip] = device_id
-                            self.log("Mapped IP {0} to device ID {1}".format(device_ip, device_id), "DEBUG")
-                        else:
-                            self.log("No device found for IP {0}".format(device_ip), "WARNING")
-                    else:
-                        self.log("Invalid response for IP {0}".format(device_ip), "WARNING")
-                        
-                except Exception as e:
-                    self.log("Error fetching device ID for IP {0}: {1}".format(device_ip, str(e)), "WARNING")
-                    continue
-            
-            self.log("Fetched device IDs for {0} IP addresses".format(len(ip_to_id_map)), "INFO")
-            return ip_to_id_map
-            
-        except Exception as e:
-            self.log("Error in get_device_ids_by_ip: {0}".format(str(e)), "ERROR")
-            return {}
-
-    def get_interface_details_for_device(self, device_id, interface_name):
-        """
-        Get interface details for a specific device and interface name.
-        Uses API #2: get_interface_details
-        
-        Args:
-            device_id (str): Device UUID
-            interface_name (str): Interface name (e.g., "GigabitEthernet0/0/1")
-            
-        Returns:
-            dict: Interface details including id, adminStatus, voiceVlan, vlanId, description
-        """
-        try:
-            self.log("Fetching interface details for device {0}, interface {1}".format(
-                device_id, interface_name
-            ), "DEBUG")
-            
-            response = self.dnac._exec(
-                family="devices",
-                function="get_interface_details",
-                op_modifies=False,
-                params={
-                    "device_id": device_id,
-                    "name": interface_name
-                }
-            )
-            
-            self.log("Interface details response: {0}".format("received" if response else "empty"), "DEBUG")
-            
-            if response and "response" in response:
-                interface_info = response.get("response")
-                self.log("Successfully retrieved interface {0} details".format(interface_name), "DEBUG")
-                return interface_info
-            else:
-                self.log("No interface details found for {0}".format(interface_name), "WARNING")
-                return None
-                
-        except Exception as e:
-            self.log("Error fetching interface details: {0}".format(str(e)), "WARNING")
-            return None
-
-    def build_update_interface_details_config(self, device_ips, interface_details_params):
-        """
-        Build update_interface_details configuration by fetching actual interface details
-        from Catalyst Center API for specified device IPs and interfaces.
-        
-        Args:
-            device_ips (list): List of device IP addresses
-            interface_details_params (dict): Update parameters including interface_name, description, etc.
-            
-        Returns:
-            dict: Configuration dictionary with ip_address_list and nested update_interface_details
-        """
-        self.log("Building update_interface_details config for {0} devices".format(
-            len(device_ips)
-        ), "INFO")
-        
-        try:
-            # Step 1: Get device IDs from IP addresses (API #1)
-            ip_to_id_map = self.get_device_ids_by_ip(device_ips)
-            
-            if not ip_to_id_map:
-                self.log("No device IDs found for provided IPs", "WARNING")
-                return {}
-            
-            self.log("Successfully mapped {0} IPs to device IDs".format(len(ip_to_id_map)), "INFO")
-            
-            # Step 2: Fetch interface details for each device (API #2)
-            interface_names = interface_details_params.get("interface_name", [])
-            if not isinstance(interface_names, list):
-                interface_names = [interface_names]
-            
-            self.log("Fetching interface details for {0} interfaces".format(len(interface_names)), "INFO")
-            
-            fetched_interfaces = {}
-            for device_ip, device_id in ip_to_id_map.items():
-                fetched_interfaces[device_ip] = {}
-                
-                for interface_name in interface_names:
-                    interface_info = self.get_interface_details_for_device(device_id, interface_name)
-                    if interface_info:
-                        fetched_interfaces[device_ip][interface_name] = interface_info
-                        self.log("Fetched interface {0} for device {1}".format(
-                            interface_name, device_ip
-                        ), "DEBUG")
-                    else:
-                        self.log("Could not fetch interface {0} for device {1}".format(
-                            interface_name, device_ip
-                        ), "WARNING")
-            
-            # Step 3: Build update configuration in the format required by inventory_workflow_manager
-            # Build nested update_interface_details structure
-            update_interface_details = {
-                "description": interface_details_params.get("description", ""),
-                "admin_status": interface_details_params.get("admin_status"),
-                "vlan_id": interface_details_params.get("vlan_id"),
-                "voice_vlan_id": interface_details_params.get("voice_vlan_id"),
-                "interface_name": interface_names,
-                "deployment_mode": interface_details_params.get("deployment_mode", "Deploy"),
-                "clear_mac_address_table": interface_details_params.get("clear_mac_address_table", False)
-            }
-            
-            # Remove None values for cleaner YAML output
-            update_interface_details = {k: v for k, v in update_interface_details.items() if v is not None and v != ""}
-            
-            # Build final config structure matching provision_wired_device format
-            update_config = {
-                "ip_address_list": device_ips,
-                "update_interface_details": update_interface_details,
-                "_fetched_interface_details": fetched_interfaces
-            }
-            
-            self.log("Built update_interface_details config successfully", "INFO")
-            return update_config
-            
-        except Exception as e:
-            self.log("Error building update_interface_details config: {0}".format(str(e)), "ERROR")
-            return {}
-
-    def build_update_interface_details_from_all_devices(self, device_configs):
+    def build_update_interface_details_from_all_devices(self, device_configs, interface_name_filter=None):
         """
         Fetch interface details from all devices in device_configs and consolidate
         into separate update_interface_details configs grouped by interface configuration.
@@ -1372,6 +1215,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         
         Args:
             device_configs (list): List of device configuration dicts with ip_address_list
+            interface_name_filter (list): Optional list of interface names to include. If specified, only these interfaces are included.
             
         Returns:
             list: List of update_interface_details configs with consolidated IP addresses
@@ -1438,6 +1282,13 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 voice_vlan_id = interface.get("voiceVlan")
                                 
                                 if not interface_name:
+                                    continue
+                                
+                                # Apply interface_name filter if specified
+                                if interface_name_filter and interface_name not in interface_name_filter:
+                                    self.log("Skipping interface {0} on device {1}: not in filter list {2}".format(
+                                        interface_name, device_ip, interface_name_filter
+                                    ), "DEBUG")
                                     continue
                                 
                                 # Build interface config with all required fields
@@ -1840,38 +1691,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # device_configs remains unchanged - it's filtered independently by device_details criteria only
         self.log("Device configs (filtered by device_details only): {0}".format(len(device_configs)), "INFO")
         
-        # Check if update_interface_details is specified in yaml_config_generator
-        update_interface_config = yaml_config_generator.get("update_interface_details")
-        update_config_output = None
-        if update_interface_config:
-            self.log("Update interface details configuration provided: {0}".format(
-                update_interface_config
-            ), "INFO")
-            
-            device_ips = update_interface_config.get("device_ips", [])
-            if device_ips:
-                # Build update interface config by fetching actual interface details from API
-                update_config = self.build_update_interface_details_config(
-                    device_ips,
-                    update_interface_config
-                )
-                
-                if update_config:
-                    # Remove internal fetched details before writing to YAML
-                    if "_fetched_interface_details" in update_config:
-                        fetched_details = update_config.pop("_fetched_interface_details")
-                        self.log("Fetched interface details for {0} devices: {1}".format(
-                            len(fetched_details), list(fetched_details.keys())
-                        ), "DEBUG")
-                    
-                    # Store update config directly - it will be added to second_doc_config list
-                    update_config_output = update_config
-                    self.log("Prepared update_interface_details config for output", "INFO")
-                else:
-                    self.log("Failed to build update_interface_details config", "WARNING")
-            else:
-                self.log("No device_ips provided for update_interface_details", "WARNING")
-        
         # Create the list of dictionaries to output (may be one, two, or three configs)
         dicts_to_write = []
         
@@ -1886,7 +1705,10 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         
         # First document: device details
         if include_device_details and device_configs:
-            dicts_to_write.append({"config for adding network devices": device_configs})
+            dicts_to_write.append({
+                "_comment": "config for adding network devices:",
+                "data": device_configs
+            })
             self.log("Added device configs section with {0} configs".format(len(device_configs)), "DEBUG")
         
         # When device configs are available and interface_details is requested, auto-fetch interface details
@@ -1916,7 +1738,19 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 all_transformed_for_interfaces = self.transform_device_to_playbook_format(
                     reverse_mapping_spec, all_devices_for_interfaces
                 )
-                auto_interface_configs = self.build_update_interface_details_from_all_devices(all_transformed_for_interfaces)
+                # Extract interface_name filter if specified in component_specific_filters
+                interface_name_filter = None
+                if component_specific_filters and "interface_details" in component_specific_filters:
+                    interface_details_filter = component_specific_filters.get("interface_details", {})
+                    if isinstance(interface_details_filter, dict):
+                        interface_name_filter = interface_details_filter.get("interface_name")
+                        if interface_name_filter and not isinstance(interface_name_filter, list):
+                            interface_name_filter = [interface_name_filter]
+                
+                auto_interface_configs = self.build_update_interface_details_from_all_devices(
+                    all_transformed_for_interfaces,
+                    interface_name_filter=interface_name_filter
+                )
                 if auto_interface_configs:
                     self.log("Generated {0} interface detail configs (with global filters)".format(
                         len(auto_interface_configs)
@@ -1924,7 +1758,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             else:
                 self.log("No devices found for interface details generation", "WARNING")
         
-        # Second document with provision_wired_device and/or manual update_interface_details
+        # Second document with provision_wired_device configuration
         second_doc_config = []
         
         if include_provision_device and provision_config:
@@ -1936,18 +1770,19 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             else:
                 self.log("Skipping empty provision_wired_device config (no devices after filtering)", "DEBUG")
         
-        # Add manually specified update_interface_details if provided
-        if update_config_output:
-            second_doc_config.append(update_config_output)
-            self.log("Added manually specified update_interface_details config", "DEBUG")
-        
         if second_doc_config:
-            dicts_to_write.append({"config for provisioning wired device": second_doc_config})
+            dicts_to_write.append({
+                "_comment": "config for provisioning wired device:",
+                "data": second_doc_config
+            })
             self.log("Added second document with {0} config sections".format(len(second_doc_config)), "DEBUG")
         
         # Third document with auto-generated interface details
         if include_interface_details and auto_interface_configs:
-            dicts_to_write.append({"config for updating interface details": auto_interface_configs})
+            dicts_to_write.append({
+                "_comment": "config for updating interface details:",
+                "data": auto_interface_configs
+            })
             self.log("Added third document with {0} auto-generated interface configs".format(len(auto_interface_configs)), "DEBUG")
         
         self.log("Final dictionaries created: {0} config sections".format(len(dicts_to_write)), "DEBUG")
@@ -1991,6 +1826,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Writes multiple dictionaries as separate YAML documents to a file.
         Each dictionary becomes a separate YAML document separated by ---.
         Adds blank lines before top-level config items for better readability.
+        Supports _comment key for adding comments before YAML sections.
         
         Args:
             dicts_list (list): List of dictionaries to write as separate YAML documents.
@@ -2012,8 +1848,25 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             all_yaml_content = "---\n"
             
             for idx, data_dict in enumerate(dicts_list):
+                # Extract and remove comment if present
+                comment = None
+                actual_data = data_dict
+                
+                if "_comment" in data_dict:
+                    comment = data_dict["_comment"]
+                    # If using _comment + data structure, extract the data
+                    if "data" in data_dict:
+                        actual_data = data_dict["data"]
+                    else:
+                        # Remove _comment from dict
+                        actual_data = {k: v for k, v in data_dict.items() if k != "_comment"}
+                
+                # Add comment as YAML comment before the section
+                if comment:
+                    all_yaml_content += "# {0}\n".format(comment)
+                
                 yaml_content = yaml.dump(
-                    data_dict,
+                    actual_data,
                     Dumper=dumper,
                     default_flow_style=False,
                     indent=2,

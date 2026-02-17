@@ -370,3 +370,243 @@
             component_specific_filters:
               components_list: ["device_details"]
       tags: [scenario12, default_path]
+
+    # ===================================================================================
+    # SCENARIO 13: Interface Details with Single Interface Name Filter
+    # ===================================================================================
+    # Description: Filter interface_details to include only specific interface names
+    # Use Case: Focus on specific VLAN or Loopback interface configuration
+    # Output: Single document with only specified interface names (e.g., Vlan100)
+    # ===================================================================================
+    - name: "SCENARIO 13: Interface Details - Single Interface Filter (Vlan100)"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_interface_vlan100_only.yml"
+            component_specific_filters:
+              components_list: ["interface_details"]
+              interface_details:
+                interface_name: ["Vlan100"]
+      tags: [scenario13, interface_single_filter]
+
+    # ===================================================================================
+    # SCENARIO 14: Interface Details with Multiple Interface Name Filters
+    # ===================================================================================
+    # Description: Filter interface_details to include multiple specific interface names
+    # Use Case: Audit and configure multiple critical interfaces across all devices
+    # Output: Single document with only specified interface names (Vlan100, Loopback0, etc.)
+    # ===================================================================================
+    - name: "SCENARIO 14: Interface Details - Multiple Interface Filters"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_interface_multi_filter.yml"
+            component_specific_filters:
+              components_list: ["interface_details"]
+              interface_details:
+                interface_name: ["Vlan100", "Vlan111", "Loopback0"]
+      tags: [scenario14, interface_multi_filter]
+
+    # ===================================================================================
+    # SCENARIO 15: Global IP Filter + Interface Name Filter
+    # ===================================================================================
+    # Description: Combine global IP filter with specific interface name filter
+    # Use Case: Get specific interfaces only from targeted devices
+    # Output: Single document with only specified IPs and specified interfaces
+    # Note: If device doesn't have the specified interface, no config generated for it
+    # ===================================================================================
+    - name: "SCENARIO 15: Global IP + Interface Name Filter"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_ip_interface_filter.yml"
+            global_filters:
+              ip_address_list:
+                - "100.1.1.61"
+                - "172.27.248.223"
+                - "205.1.2.67"
+            component_specific_filters:
+              components_list: ["interface_details"]
+              interface_details:
+                interface_name: ["Vlan100", "Loopback0", "GigabitEthernet0/0"]
+      tags: [scenario15, ip_interface_filter]
+
+    # ===================================================================================
+    # SCENARIO 16: Device Details + Interface Details with Interface Filter
+    # ===================================================================================
+    # Description: Generate device credentials and only specific interfaces
+    # Use Case: Onboard devices and configure specific interfaces simultaneously
+    # Output: 2 documents - device details and filtered interface configs
+    # ===================================================================================
+    - name: "SCENARIO 16: Device Details + Filtered Interfaces"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_device_filtered_interfaces.yml"
+            global_filters:
+              ip_address_list:
+                - "172.27.248.223"
+                - "205.1.2.67"
+            component_specific_filters:
+              components_list: ["device_details", "interface_details"]
+              interface_details:
+                interface_name: ["Loopback0", "Vlan100"]
+      tags: [scenario16, device_filtered_interface]
+
+    # ===================================================================================
+    # SCENARIO 17: All Components with Interface Filter
+    # ===================================================================================
+    # Description: Generate all three components with interface_details filtered by name
+    # Use Case: Complete infrastructure migration with controlled interface updates
+    # Output: 3 documents - device details, provision config, and filtered interfaces
+    # ===================================================================================
+    - name: "SCENARIO 17: All Components - Device + Provision + Filtered Interfaces"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_all_filtered_interfaces.yml"
+            global_filters:
+              ip_address_list:
+                - "172.27.248.223"
+                - "205.1.2.67"
+            component_specific_filters:
+              components_list: ["device_details", "provision_device", "interface_details"]
+              provision_device:
+                site_name: "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+              interface_details:
+                interface_name: ["Loopback0"]
+      tags: [scenario17, all_components_filtered]
+
+    # ===================================================================================
+    # SCENARIO 18: Interface Filter with No Matching Interfaces
+    # ===================================================================================
+    # Description: Filter interfaces that may not exist on all devices
+    # Use Case: Handle scenarios where some devices don't have specified interfaces
+    # Output: Only generates configs for devices that have the specified interfaces
+    # Note: No file created if no devices have matching interfaces
+    # ===================================================================================
+    - name: "SCENARIO 18: Interface Filter - No Match Handling"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_interface_no_match.yml"
+            global_filters:
+              ip_address_list:
+                - "172.27.248.223"
+                - "172.27.248.224"
+                - "172.27.248.82"
+            component_specific_filters:
+              components_list: ["interface_details"]
+              interface_details:
+                interface_name: ["TenGigabitEthernet1/1/1"]  # Might not exist on all devices
+      tags: [scenario18, interface_no_match]
+
+    # ===================================================================================
+    # SCENARIO 19: GigabitEthernet Interface Filter
+    # ===================================================================================
+    # Description: Filter for physical GigabitEthernet interfaces only
+    # Use Case: Configure access ports or uplinks specifically
+    # Output: Single document with GigabitEthernet interface configs only
+    # ===================================================================================
+    - name: "SCENARIO 19: GigabitEthernet Interfaces Only"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_gigabitethernet_only.yml"
+            component_specific_filters:
+              components_list: ["interface_details"]
+              interface_details:
+                interface_name: ["GigabitEthernet0/0", "GigabitEthernet1/0/11", "GigabitEthernet1/0/12"]
+      tags: [scenario19, gigabitethernet_only]
+
+    # ===================================================================================
+    # SCENARIO 20: Role-Based Devices with Interface Filter
+    # ===================================================================================
+    # Description: Get ACCESS role devices and filter their specific interfaces
+    # Use Case: Configure access layer devices with specific interface updates
+    # Output: 2 documents - filtered device details (ACCESS only) and their interfaces
+    # ===================================================================================
+    - name: "SCENARIO 20: ACCESS Devices with Specific Interface Filter"
+      cisco.dnac.brownfield_inventory_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_access_devices_interface_filter.yml"
+            component_specific_filters:
+              components_list: ["device_details", "interface_details"]
+              device_details:
+                role: "ACCESS"
+              interface_details:
+                interface_name: ["GigabitEthernet0/0", "GigabitEthernet0/1"]
+      tags: [scenario20, access_devices_interface]
