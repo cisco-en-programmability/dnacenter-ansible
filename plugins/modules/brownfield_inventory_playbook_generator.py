@@ -2253,6 +2253,15 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     else:
                         transformed_value = api_value
 
+                    # Skip null/empty values for optional nested structures in device info
+                    if playbook_key in [
+                        "add_user_defined_field",
+                        "provision_wired_device",
+                        "update_interface_details",
+                    ]:
+                        if transformed_value is None or transformed_value == [] or transformed_value == {}:
+                            continue
+
                     # Add to device configuration
                     device_config[playbook_key] = transformed_value
 
