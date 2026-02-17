@@ -125,8 +125,8 @@ options:
                 - Filter devices by network role.
                 - Can be a single role string or a list of roles (matches any in the list).
                 - Valid values are ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
-                - Examples: role="ACCESS" or role=["ACCESS", "CORE"]
-                type: [str, list]
+                - 'Example: role="ACCESS" for single role or role=["ACCESS", "CORE"] for multiple roles.'
+                type: str
                 choices: [ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN]
           provision_device:
             description:
@@ -137,8 +137,7 @@ options:
             suboptions:
               site_name:
                 description:
-                - Filter provision devices by site name.
-                - Example: "Global/India/Telangana/Hyderabad/BLD_1"
+                - Filter provision devices by site name (e.g., Global/India/Telangana/Hyderabad/BLD_1).
                 type: str
           interface_details:
             description:
@@ -153,10 +152,10 @@ options:
                 - Can be a single interface name string or a list of interface names.
                 - When specified, only interfaces with matching names will be included.
                 - Matches use 'OR' logic; any interface matching any name in the list is included.
-                - Common interface names include 'Vlan100', 'Loopback0', 'GigabitEthernet1/0/1', 'FortyGigabitEthernet1/1/1'.
+                - Common interface names include Vlan100, Loopback0, GigabitEthernet1/0/1, or FortyGigabitEthernet1/1/1.
                 - If not specified, all discovered interfaces for matched devices are included.
-                - Example: interface_name="Vlan100" or interface_name=["Vlan100", "Loopback0", "GigabitEthernet1/0/1"]
-                type: [str, list]
+                - 'Example: interface_name="Vlan100" for single or interface_name=["Vlan100", "Loopback0"] for multiple.'
+                type: str
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
@@ -166,23 +165,10 @@ notes:
     - devices.Devices.get_network_device_by_ip
     - devices.Devices.get_device_by_ip
     - licenses.Licenses.device_license_summary
-- API Endpoints used are
-    - GET /dna/intent/api/v2/devices (list all devices)
-    - GET /dna/intent/api/v2/network-device (get network device info)
-    - GET /dna/intent/api/v1/interface/ip-address/{ipAddress} (get interfaces for device IP)
-    - GET /dna/intent/api/v1/licenses/device/summary (get device license and site info)
-- Device Consolidation:
-    - Devices are grouped and consolidated by their configuration hash.
-    - All interfaces from devices with identical configurations are grouped under a single device entry.
-    - This reduces redundancy when multiple physical devices share the same configuration.
-- Component Independence:
-    - Each component (device_details, provision_device, interface_details) is filtered independently.
-    - Global filters apply to all components unless overridden by component-specific filters.
-    - Interface details are automatically fetched based on matched device IPs.
-- Interface Discovery:
-    - Interfaces are discovered using the IP-to-interface API endpoint.
-    - Interface names can be optionally filtered using the interface_name parameter.
-    - When no interfaces match the filter criteria, no interface_details output is generated.
+- API Endpoints used are GET /dna/intent/api/v2/devices (list all devices), GET /dna/intent/api/v2/network-device (get network device info), GET /dna/intent/api/v1/interface/ip-address/{ipAddress} (get interfaces for device IP), and GET /dna/intent/api/v1/licenses/device/summary (get device license and site info).
+- Device Consolidation: Devices are grouped and consolidated by their configuration hash. All interfaces from devices with identical configurations are grouped under a single device entry. This reduces redundancy when multiple physical devices share the same configuration.
+- Component Independence: Each component (device_details, provision_device, interface_details) is filtered independently. Global filters apply to all components unless overridden by component-specific filters. Interface details are automatically fetched based on matched device IPs.
+- Interface Discovery: Interfaces are discovered using the IP-to-interface API endpoint. Interface names can be optionally filtered using the interface_name parameter. When no interfaces match the filter criteria, no interface_details output is generated.
 seealso:
 - module: cisco.dnac.inventory_workflow_manager
   description: Module for managing inventory configurations in Cisco Catalyst Center.
@@ -801,123 +787,123 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "source_key": "managementIpAddress",
                 "transform": lambda x: [x] if x else []
             },
-            
+
             # Device Type (required)
             "type": {
                 "type": "str",
                 "source_key": "type",
                 "transform": lambda x: x if x else None
             },
-            
+
             # Device Role
             "role": {
                 "type": "str",
                 "source_key": "role",
                 "transform": lambda x: None
             },
-            
+
             # CLI Transport (ssh/telnet)
             "cli_transport": {
                 "type": "str",
                 "source_key": "cliTransport",
                 "transform": lambda x: x.lower() if x else "ssh"
             },
-            
+
             # NETCONF Port
             "netconf_port": {
                 "type": "str",
                 "source_key": "netconfPort",
                 "transform": lambda x: str(x) if x else "830"
             },
-            
+
             # SNMP Mode
             "snmp_mode": {
                 "type": "str",
                 "source_key": "snmpVersion",
                 "transform": lambda x: x if x else "{{ item.snmp_mode }}"
             },
-            
+
             # SNMP Read-Only Community (for v2/v2c)
             "snmp_ro_community": {
                 "type": "str",
                 "source_key": "snmpRoCommunity",
                 "transform": lambda x: x if x else "{{ item.snmp_ro_community }}"
             },
-            
+
             # SNMP Read-Write Community (for v2/v2c)
             "snmp_rw_community": {
                 "type": "str",
                 "source_key": "snmpRwCommunity",
                 "transform": lambda x: x if x else "{{ item.snmp_rw_community }}"
             },
-            
+
             # SNMP Username (for v3)
             "snmp_username": {
                 "type": "str",
                 "source_key": "snmpUsername",
                 "transform": lambda x: x if x else "{{ item.snmp_username }}"
             },
-            
+
             # SNMP Auth Protocol (for v3)
             "snmp_auth_protocol": {
                 "type": "str",
                 "source_key": "snmpAuthProtocol",
                 "transform": lambda x: x if x else "{{ item.snmp_auth_protocol }}"
             },
-            
+
             # SNMP Privacy Protocol (for v3)
             "snmp_priv_protocol": {
                 "type": "str",
                 "source_key": "snmpPrivProtocol",
                 "transform": lambda x: x if x else "{{ item.snmp_priv_protocol }}"
             },
-            
+
             # SNMP Retry Count
             "snmp_retry": {
                 "type": "int",
                 "source_key": "snmpRetry",
                 "transform": lambda x: int(x) if x else 3
             },
-            
+
             # SNMP Timeout
             "snmp_timeout": {
                 "type": "int",
                 "source_key": "snmpTimeout",
                 "transform": lambda x: int(x) if x else 5
             },
-            
+
             # SNMP Version (alternate field name)
             "snmp_version": {
                 "type": "str",
                 "source_key": "snmpVersion",
                 "transform": lambda x: x if x else "v2"
             },
-            
+
             # HTTP Parameters (for specific device types)
             "http_username": {
                 "type": "str",
                 "source_key": "httpUserName",
                 "transform": lambda x: x if x else "{{ item.http_username }}"
             },
-            
+
             "http_password": {
                 "type": "str",
                 "source_key": "httpPassword",
                 "transform": lambda x: x if x else "{{ item.http_password }}"
             },
-            
+
             "http_port": {
                 "type": "str",
                 "source_key": "httpPort",
                 "transform": lambda x: str(x) if x else "{{ item.http_port }}"
             },
-            
+
             "http_secure": {
                 "type": "bool",
                 "source_key": "httpSecure",
                 "transform": lambda x: x if x is not None else "{{ item.http_secure }}"
             },
-            
+
             # Credential fields - NOT available from API (security reasons)
             # These must be provided by user in vars_files
             "username": {
@@ -925,56 +911,56 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "source_key": None,
                 "transform": lambda x: "{{ item.username }}"  # Template variable from vars_files
             },
-            
+
             "password": {
                 "type": "str",
                 "source_key": None,
                 "transform": lambda x: "{{ item.password }}"  # Template variable from vars_files
             },
-            
+
             "enable_password": {
                 "type": "str",
                 "source_key": None,
                 "transform": lambda x: "{{ item.enable_password }}"  # Template variable from vars_files
             },
-            
+
             "snmp_auth_passphrase": {
                 "type": "str",
                 "source_key": None,
                 "transform": lambda x: "{{ item.snmp_auth_passphrase }}"  # Template variable from vars_files
             },
-            
+
             "snmp_priv_passphrase": {
                 "type": "str",
                 "source_key": None,
                 "transform": lambda x: "{{ item.snmp_priv_passphrase }}"  # Template variable from vars_files
             },
-            
+
             # Device operation flags
             "credential_update": {
                 "type": "bool",
                 "source_key": None,
                 "transform": lambda x: "{{ item.credential_update }}"  # Template variable from vars_files
             },
-            
+
             "clean_config": {
                 "type": "bool",
                 "source_key": None,
                 "transform": lambda x: False  # Default to False
             },
-            
+
             "device_resync": {
                 "type": "bool",
                 "source_key": None,
                 "transform": lambda x: False  # Default to False
             },
-            
+
             "reboot_device": {
                 "type": "bool",
                 "source_key": None,
                 "transform": lambda x: False  # Default to False
             },
-            
+
             # Complex nested structures - user must provide in vars_files
             "add_user_defined_field": {
                 "type": "list",
@@ -983,7 +969,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "description": {"type": "str"},
                 "value": {"type": "str"},
             },
-            
+
             "provision_wired_device": {
                 "type": "list",
                 "elements": "dict",
@@ -992,7 +978,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "resync_retry_count": {"default": 200, "type": "int"},
                 "resync_retry_interval": {"default": 2, "type": "int"},
             },
-            
+
             "update_interface_details": {
                 "type": "dict",
                 "description": {"type": "str"},
@@ -1008,10 +994,10 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
     def fetch_device_site_mapping(self, device_id):
         """
         Fetch site assignment for a specific device.
-        
+
         Args:
             device_id (str): Device UUID
-            
+
         Returns:
             str: Site name path (e.g., "Global/USA/San Francisco/BGL_18") or empty string if not assigned
         """
@@ -1025,7 +1011,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
             self.log("Site assignment response for device {0}: {1}".format(device_id, response), "INFO")
-            
+
             if response and response.get("response"):
                 site_info = response.get("response", {})
                 site_name_path = site_info.get("groupNameHierarchy") or site_info.get("site")
@@ -1038,7 +1024,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             else:
                 self.log("No site info found for device: {0}".format(device_id), "DEBUG")
                 return ""
-                
+
         except Exception as e:
             self.log("Error fetching site for device {0}: {1}".format(device_id, str(e)), "WARNING")
             return ""
@@ -1046,35 +1032,35 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
     def build_provision_wired_device_config(self, device_list):
         """
         Build provision_wired_device configuration from device list.
-        
+
         Args:
             device_list (list): List of device dictionaries from API
-            
+
         Returns:
             list: List of provision_wired_device configuration dictionaries
         """
         self.log("Building provision_wired_device config for {0} devices".format(len(device_list)), "INFO")
-        
+
         provision_devices = []
-        
+
         for device in device_list:
             try:
                 device_ip = device.get("managementIpAddress") or device.get("ipAddress")
                 device_id = device.get("id") or device.get("instanceUuid")
                 device_hostname = device.get("hostname", "Unknown")
-                
+
                 if not device_ip:
                     self.log("Skipping device {0}: no management IP".format(device_hostname), "DEBUG")
                     continue
-                
+
                 # Fetch site assignment for this device
                 site_name = self.fetch_device_site_mapping(device_id)
-                
+
                 # If no site assigned, use placeholder
                 if not site_name:
                     site_name = "Global/{{ site_name }}"
                     self.log("Device {0}: using placeholder for site_name".format(device_ip), "DEBUG")
-                
+
                 # Build provision device entry
                 provision_entry = {
                     "device_ip": device_ip,
@@ -1082,14 +1068,14 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "resync_retry_count": 200,
                     "resync_retry_interval": 2
                 }
-                
+
                 provision_devices.append(provision_entry)
                 self.log("Added provision config for device {0} ({1})".format(device_ip, device_hostname), "DEBUG")
-                
+
             except Exception as e:
                 self.log("Error building provision config for device: {0}".format(str(e)), "ERROR")
                 continue
-        
+
         self.log("Built provision_wired_device configs: {0} devices".format(len(provision_devices)), "INFO")
         return provision_devices
 
@@ -1097,10 +1083,10 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Fetch SDA provision device information for a specific device IP.
         Uses the business SDA provision-device endpoint to check if device is provisioned.
-        
+
         Args:
             device_ip (str): Device management IP address
-        
+
         Returns:
             dict: Response containing device provisioning status and site, or None if error/not provisioned
         """
@@ -1113,12 +1099,12 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "device_management_ip_address": device_ip
                 }
             )
-            
+
             self.log("SDA provision response for {0}: {1}".format(device_ip, response), "DEBUG")
-            
+
             if response and isinstance(response, dict):
                 status = response.get("status", "").lower()
-                
+
                 # Check if device is provisioned (success status)
                 if status == "success":
                     self.log("Device {0} is provisioned to site".format(device_ip), "INFO")
@@ -1131,7 +1117,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             else:
                 self.log("Invalid response for device {0}".format(device_ip), "WARNING")
                 return None
-                
+
         except Exception as e:
             self.log("Error fetching SDA provision status for device {0}: {1}".format(device_ip, str(e)), "DEBUG")
             return None
@@ -1141,15 +1127,15 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Build provision_wired_device configuration from SDA provision-device endpoint.
         Queries each device IP individually to check provisioning status and site assignment.
         Only includes devices that are successfully provisioned to a site.
-        
+
         Args:
             device_configs (list): List of filtered device configurations with ip_address_list
-        
+
         Returns:
             dict: Configuration dictionary with provision_wired_device only for provisioned devices
         """
         self.log("Building provision_wired_device config from SDA provision-device endpoint", "INFO")
-        
+
         # Collect all filtered device IPs from device_configs
         filtered_device_ips = []
         for config in device_configs:
@@ -1157,23 +1143,23 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ip_list = config.get("ip_address_list", [])
                 if isinstance(ip_list, list):
                     filtered_device_ips.extend(ip_list)
-        
+
         self.log("Checking provisioning status for {0} device IPs".format(len(filtered_device_ips)), "INFO")
-        
+
         provision_devices = []
-        
+
         for device_ip in filtered_device_ips:
             try:
                 # Query SDA provision-device endpoint for this device
                 provision_response = self.fetch_sda_provision_device(device_ip)
-                
+
                 if provision_response:
                     # Device is provisioned - extract information
                     device_mgmt_ip = provision_response.get("deviceManagementIpAddress")
                     site_name_hierarchy = provision_response.get("siteNameHierarchy")
                     status = provision_response.get("status")
                     description = provision_response.get("description")
-                    
+
                     # Build provision device entry from SDA response
                     provision_entry = {
                         "device_ip": device_mgmt_ip,
@@ -1181,7 +1167,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "resync_retry_count": 200,
                         "resync_retry_interval": 2
                     }
-                    
+
                     provision_devices.append(provision_entry)
                     self.log("Added provision config from SDA endpoint - IP: {0}, Site: {1}, Status: {2}".format(
                         device_mgmt_ip, site_name_hierarchy, status
@@ -1190,11 +1176,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     # Device not provisioned - skip it
                     self.log("Skipping device {0}: not provisioned or error occurred".format(device_ip), "INFO")
                     continue
-                    
+
             except Exception as e:
                 self.log("Error processing device {0} for provisioning config: {1}".format(device_ip, str(e)), "ERROR")
                 continue
-        
+
         if provision_devices:
             provision_config = {
                 "provision_wired_device": provision_devices
@@ -1212,21 +1198,21 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Fetch interface details from all devices in device_configs and consolidate
         into separate update_interface_details configs grouped by interface configuration.
         Uses get_interface_by_ip endpoint to fetch actual interface information.
-        
+
         Args:
             device_configs (list): List of device configuration dicts with ip_address_list
             interface_name_filter (list): Optional list of interface names to include. If specified, only these interfaces are included.
-            
+
         Returns:
             list: List of update_interface_details configs with consolidated IP addresses
         """
         self.log("Building update_interface_details configs from all devices", "INFO")
-        
+
         try:
             if not device_configs:
                 self.log("No device configs provided", "WARNING")
                 return []
-            
+
             # Collect all IPs from device configs
             all_device_ips = []
             for config in device_configs:
@@ -1234,19 +1220,19 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ip_list = config.get("ip_address_list", [])
                     if isinstance(ip_list, list):
                         all_device_ips.extend(ip_list)
-            
+
             self.log("Collected {0} device IPs for interface detail fetching".format(len(all_device_ips)), "INFO")
-            
+
             if not all_device_ips:
                 return []
-            
+
             # Fetch interface details for all devices and group by configuration
             interface_configs_by_hash = {}  # Group configs by their hash for consolidation
-            
+
             for device_ip in all_device_ips:
                 try:
                     self.log("Fetching interface details for device {0} using get_interface_by_ip".format(device_ip), "DEBUG")
-                    
+
                     # Call get_interface_by_ip endpoint - returns all interfaces for the device IP
                     # API: /dna/intent/api/v1/interface/ip-address/{ipAddress}
                     interface_response = self.dnac._exec(
@@ -1254,20 +1240,20 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                         function="get_interface_by_ip",
                         params={"ip_address": device_ip}
                     )
-                    
+
                     if interface_response and isinstance(interface_response, dict):
                         interfaces = interface_response.get("response", [])
                         if not isinstance(interfaces, list):
                             interfaces = [interfaces]
-                        
+
                         self.log("Found {0} interfaces for device {1}".format(len(interfaces), device_ip), "DEBUG")
-                        
+
                         if interfaces:
                             # Process each interface and create configs
                             for interface in interfaces:
                                 if not isinstance(interface, dict):
                                     continue
-                                
+
                                 # Map API response fields to our config format
                                 # Field mapping from API response schema:
                                 # name -> interface_name
@@ -1280,17 +1266,17 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 admin_status = interface.get("adminStatus") or ""
                                 vlan_id = interface.get("vlanId") or interface.get("nativeVlanId")
                                 voice_vlan_id = interface.get("voiceVlan")
-                                
+
                                 if not interface_name:
                                     continue
-                                
+
                                 # Apply interface_name filter if specified
                                 if interface_name_filter and interface_name not in interface_name_filter:
                                     self.log("Skipping interface {0} on device {1}: not in filter list {2}".format(
                                         interface_name, device_ip, interface_name_filter
                                     ), "DEBUG")
                                     continue
-                                
+
                                 # Build interface config with all required fields
                                 interface_config = {
                                     "description": interface_description,
@@ -1301,43 +1287,43 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     "deployment_mode": "Deploy",
                                     "clear_mac_address_table": False
                                 }
-                                
+
                                 # Keep all fields including null/empty values as requested
                                 # Create a hash of the config to group similar configs
                                 config_hash = str(sorted(interface_config.items()))
-                                
+
                                 if config_hash not in interface_configs_by_hash:
                                     interface_configs_by_hash[config_hash] = {
                                         "ip_address_list": [],
                                         "update_interface_details": interface_config
                                     }
-                                
+
                                 # Add device IP to this config group if not already present
                                 if device_ip not in interface_configs_by_hash[config_hash]["ip_address_list"]:
                                     interface_configs_by_hash[config_hash]["ip_address_list"].append(device_ip)
-                                
+
                                 self.log("Processed interface {0} for device {1}".format(
                                     interface_name, device_ip
                                 ), "DEBUG")
                         else:
                             # If no interfaces found, skip this device
                             self.log("No interfaces found for device {0}, skipping".format(device_ip), "DEBUG")
-                                
+
                 except Exception as e:
                     self.log("Error fetching interface details for device {0}: {1}".format(device_ip, str(e)), "DEBUG")
                     # Skip device on error
                     self.log("Skipping device {0} due to error".format(device_ip), "WARNING")
                     continue
-            
+
             # Convert grouped configs to list
             update_interface_configs = list(interface_configs_by_hash.values())
-            
+
             self.log("Created {0} update_interface_details config sections from all devices".format(
                 len(update_interface_configs)
             ), "INFO")
-            
+
             return update_interface_configs
-            
+
         except Exception as e:
             self.log("Error building update_interface_details from all devices: {0}".format(str(e)), "ERROR")
             return []
@@ -1429,12 +1415,12 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 if component_specific_filters:
                     self.log("Applying component-specific filters: {0}".format(component_specific_filters), "DEBUG")
                     device_response = self.apply_component_specific_filters(device_response, component_specific_filters)
-                    
+
                     # Check if filtering failed (returns None on validation error)
                     if device_response is None:
                         self.log("Component filter validation failed", "ERROR")
                         return []
-                    
+
                     self.log("After component filtering: {0} devices remain".format(len(device_response)), "INFO")
                 else:
                     self.log("No component-specific filters to apply", "DEBUG")
@@ -1450,18 +1436,18 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 self.log("Devices transformed successfully: {0} configurations".format(len(transformed_devices)), "INFO")
-                
+
                 # Step 4: Add separate provision_wired_device config from SDA endpoint
                 # Build provision config applying global filters (but independent of device_details component filters)
                 self.log("Building separate provision_wired_device config from SDA endpoint (applying global filters)", "INFO")
-                
+
                 # Fetch devices respecting global filters for provision config
                 if global_filters and any(global_filters.values()):
                     # Apply same global filters as device_details
                     self.log("Applying global filters to provision device fetch", "INFO")
                     result = self.process_global_filters(global_filters)
                     device_ip_to_id_mapping = result.get("device_ip_to_id_mapping", {})
-                    
+
                     if device_ip_to_id_mapping:
                         all_devices_for_provision = list(device_ip_to_id_mapping.values())
                     else:
@@ -1469,7 +1455,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 else:
                     # No global filters - fetch all devices
                     all_devices_for_provision = self.fetch_all_devices(reason="no global filters for provision")
-                
+
                 if all_devices_for_provision:
                     # Transform all devices for provision config
                     all_transformed_devices = self.transform_device_to_playbook_format(
@@ -1478,14 +1464,14 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     license_provision_config = self.build_provision_wired_device_from_sda_endpoint(all_transformed_devices)
                 else:
                     license_provision_config = None
-                
+
                 if license_provision_config and "provision_wired_device" in license_provision_config:
                     # Add provision config as a separate entry below the device configs
                     transformed_devices.append(license_provision_config)
                     self.log("Added separate provision_wired_device config to output (built with global filters)", "INFO")
                 else:
                     self.log("No provisioned devices found from SDA endpoint", "DEBUG")
-                
+
                 return transformed_devices
 
         except Exception as e:
@@ -1589,7 +1575,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             module_supported_network_elements.get(c, {}).get("is_filter_only", False)
             for c in components_list
         )
-        
+
         if has_filter_only and "device_details" not in components_to_fetch:
             self.log("Adding device_details to fetch list (required by filter-only components)", "DEBUG")
             components_to_fetch = ["device_details"] + components_to_fetch
@@ -1630,13 +1616,13 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log(
                     "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
                 )
-                
+
                 # Check if operation failed (validation error occurred)
                 if self.status == "failed":
                     self.log("Component processing failed due to validation error", "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
-                
+
                 # Details is already a list with one consolidated config dict
                 # Extend instead of append to flatten the structure
                 if details:
@@ -1652,9 +1638,9 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Separate provision_wired_device config from device configs
         device_configs = []
         provision_config = None
-        
+
         self.log("Separating configs from final_list with {0} total items".format(len(final_list)), "DEBUG")
-        
+
         for idx, config in enumerate(final_list):
             self.log("Config {0}: keys = {1}".format(idx, list(config.keys()) if isinstance(config, dict) else type(config)), "DEBUG")
             # Check if this is the main provision_wired_device config (not the null field in device configs)
@@ -1664,20 +1650,20 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             else:
                 device_configs.append(config)
                 self.log("Added device config at index {0}".format(idx), "DEBUG")
-        
+
         self.log("Separated configs - Device configs: {0}, Provision config: {1}".format(
             len(device_configs), "yes" if provision_config else "no"), "DEBUG")
-        
+
         # Filter provision_wired_device by site_name if provision_device component is specified
         # Each component filter is INDEPENDENT - provision_device filter only affects provision output
         if provision_config and "provision_device" in components_list:
             provision_device_filters = component_specific_filters.get("provision_device", {})
             site_name_filter = provision_device_filters.get("site_name")
-            
+
             if site_name_filter:
                 self.log("Applying provision_device site_name filter (independent of device_details filter)", "INFO")
                 self.log("Filtering provision config by site_name: {0}".format(site_name_filter), "INFO")
-                
+
                 # Filter provision_wired_device - this does NOT affect device_configs
                 provision_wired_devices = provision_config.get("provision_wired_device", [])
                 filtered_provision_devices = [
@@ -1687,22 +1673,22 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Provision devices before site_name filter: {0}, after filter: {1}".format(
                     len(provision_wired_devices), len(filtered_provision_devices)), "INFO")
                 provision_config["provision_wired_device"] = filtered_provision_devices
-        
+
         # device_configs remains unchanged - it's filtered independently by device_details criteria only
         self.log("Device configs (filtered by device_details only): {0}".format(len(device_configs)), "INFO")
-        
+
         # Create the list of dictionaries to output (may be one, two, or three configs)
         dicts_to_write = []
-        
+
         # Determine which components to include based on generate_all_configurations or components_list
         # Each component is independent - only include what user explicitly requested
         include_device_details = self.generate_all_configurations or "device_details" in components_list
         include_provision_device = self.generate_all_configurations or "provision_device" in components_list
         include_interface_details = self.generate_all_configurations or "interface_details" in components_list
-        
+
         self.log("Component inclusion (independent) - device_details: {0}, provision_device: {1}, interface_details: {2}".format(
             include_device_details, include_provision_device, include_interface_details), "INFO")
-        
+
         # First document: device details
         if include_device_details and device_configs:
             dicts_to_write.append({
@@ -1710,20 +1696,20 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "data": device_configs
             })
             self.log("Added device configs section with {0} configs".format(len(device_configs)), "DEBUG")
-        
+
         # When device configs are available and interface_details is requested, auto-fetch interface details
         # For independent filtering, fetch from ALL devices respecting global filters
         auto_interface_configs = []
         if include_interface_details:
             self.log("Auto-generating interface details from devices (applying global filters)", "INFO")
-            
+
             # Fetch devices respecting global filters for interface details
             if global_filters and any(global_filters.values()):
                 # Apply same global filters as device_details
                 self.log("Applying global filters to interface details fetch", "INFO")
                 result = self.process_global_filters(global_filters)
                 device_ip_to_id_mapping = result.get("device_ip_to_id_mapping", {})
-                
+
                 if device_ip_to_id_mapping:
                     all_devices_for_interfaces = list(device_ip_to_id_mapping.values())
                 else:
@@ -1731,7 +1717,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             else:
                 # No global filters - fetch all devices
                 all_devices_for_interfaces = self.fetch_all_devices(reason="no global filters for interface")
-            
+
             if all_devices_for_interfaces:
                 # Transform all devices to get IP addresses
                 reverse_mapping_spec = self.inventory_get_device_reverse_mapping()
@@ -1746,7 +1732,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                         interface_name_filter = interface_details_filter.get("interface_name")
                         if interface_name_filter and not isinstance(interface_name_filter, list):
                             interface_name_filter = [interface_name_filter]
-                
+
                 auto_interface_configs = self.build_update_interface_details_from_all_devices(
                     all_transformed_for_interfaces,
                     interface_name_filter=interface_name_filter
@@ -1757,10 +1743,10 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ), "INFO")
             else:
                 self.log("No devices found for interface details generation", "WARNING")
-        
+
         # Second document with provision_wired_device configuration
         second_doc_config = []
-        
+
         if include_provision_device and provision_config:
             # Only add if there are actual devices in the provision config
             provision_devices = provision_config.get("provision_wired_device", [])
@@ -1769,14 +1755,14 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Added provision_wired_device config section with {0} devices".format(len(provision_devices)), "DEBUG")
             else:
                 self.log("Skipping empty provision_wired_device config (no devices after filtering)", "DEBUG")
-        
+
         if second_doc_config:
             dicts_to_write.append({
                 "_comment": "config for provisioning wired device:",
                 "data": second_doc_config
             })
             self.log("Added second document with {0} config sections".format(len(second_doc_config)), "DEBUG")
-        
+
         # Third document with auto-generated interface details
         if include_interface_details and auto_interface_configs:
             dicts_to_write.append({
@@ -1784,7 +1770,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "data": auto_interface_configs
             })
             self.log("Added third document with {0} auto-generated interface configs".format(len(auto_interface_configs)), "DEBUG")
-        
+
         self.log("Final dictionaries created: {0} config sections".format(len(dicts_to_write)), "DEBUG")
 
         # Check if there's any data to write
@@ -1827,7 +1813,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Each dictionary becomes a separate YAML document separated by ---.
         Adds blank lines before top-level config items for better readability.
         Supports _comment key for adding comments before YAML sections.
-        
+
         Args:
             dicts_list (list): List of dictionaries to write as separate YAML documents.
             file_path (str): The path where the YAML file will be written.
@@ -1844,14 +1830,14 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         try:
             self.log("Starting conversion of dictionaries to YAML format.", "INFO")
-            
+
             all_yaml_content = "---\n"
-            
+
             for idx, data_dict in enumerate(dicts_list):
                 # Extract and remove comment if present
                 comment = None
                 actual_data = data_dict
-                
+
                 if "_comment" in data_dict:
                     comment = data_dict["_comment"]
                     # If using _comment + data structure, extract the data
@@ -1860,11 +1846,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     else:
                         # Remove _comment from dict
                         actual_data = {k: v for k, v in data_dict.items() if k != "_comment"}
-                
+
                 # Add comment as YAML comment before the section
                 if comment:
                     all_yaml_content += "# {0}\n".format(comment)
-                
+
                 yaml_content = yaml.dump(
                     actual_data,
                     Dumper=dumper,
@@ -1873,11 +1859,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     allow_unicode=True,
                     sort_keys=False,
                 )
-                
+
                 # Post-process to add blank lines only before top-level list items (config items)
                 lines = yaml_content.split('\n')
                 result_lines = []
-                
+
                 for i, line in enumerate(lines):
                     # Check if this line starts a top-level list item (no leading whitespace before -)
                     if line.startswith('- ') and i > 0:
@@ -1886,14 +1872,14 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                             # Add a blank line before this top-level list item
                             result_lines.append('')
                     result_lines.append(line)
-                
+
                 yaml_content = '\n'.join(result_lines)
                 all_yaml_content += yaml_content
-                
+
                 # Add document separator before next document (if not the last one)
                 if idx < len(dicts_list) - 1:
                     all_yaml_content += "\n---\n"
-            
+
             self.log("Dictionaries successfully converted to YAML format.", "DEBUG")
 
             # Ensure the directory exists
@@ -1920,7 +1906,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Override: Converts a dictionary to YAML format and writes it to a specified file path.
         Adds blank lines before top-level config items (no indentation) for better readability.
-        
+
         Args:
             data_dict (dict): The dictionary to convert to YAML format.
             file_path (str): The path where the YAML file will be written.
@@ -1946,12 +1932,12 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 sort_keys=False,
             )
             yaml_content = "---\n" + yaml_content
-            
+
             # Post-process to add blank lines only before top-level list items (config items)
             # Top-level items have no indentation (start with - at column 0)
             lines = yaml_content.split('\n')
             result_lines = []
-            
+
             for i, line in enumerate(lines):
                 # Check if this line starts a top-level list item (no leading whitespace before -)
                 if line.startswith('- ') and i > 0:
@@ -1960,7 +1946,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                         # Add a blank line before this top-level list item
                         result_lines.append('')
                 result_lines.append(line)
-            
+
             yaml_content = '\n'.join(result_lines)
             self.log("Dictionary successfully converted to YAML format with blank lines before config items.", "DEBUG")
 
@@ -2132,7 +2118,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Second pass: Consolidate devices with matching attributes
         self.log("Starting consolidation of {0} transformed devices".format(len(transformed_devices)), "INFO")
-        
+
         # Create a dictionary to group devices by their non-ip_address attributes
         consolidated_configs = {}
 
@@ -2144,20 +2130,20 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     # Convert value to string for key creation
                     value = device_config[key]
                     config_key_parts.append("{0}={1}".format(key, str(value)))
-            
+
             config_key = "|".join(config_key_parts)
-            
+
             # If this config key doesn't exist, create it
             if config_key not in consolidated_configs:
                 consolidated_configs[config_key] = device_config.copy()
                 # Initialize ip_address_list as empty if not present
                 if 'ip_address_list' not in consolidated_configs[config_key]:
                     consolidated_configs[config_key]['ip_address_list'] = []
-            
+
             # Merge IP addresses
             current_ips = consolidated_configs[config_key].get('ip_address_list', [])
             device_ips = device_config.get('ip_address_list', [])
-            
+
             if isinstance(device_ips, list):
                 for ip in device_ips:
                     if ip and ip not in current_ips:
@@ -2165,12 +2151,12 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             elif device_ips:
                 if device_ips not in current_ips:
                     current_ips.append(device_ips)
-            
+
             consolidated_configs[config_key]['ip_address_list'] = current_ips
 
         # Convert back to list format
         consolidated_list = list(consolidated_configs.values())
-        
+
         self.log("Consolidation complete. Created {0} consolidated configurations from {1} devices".format(
             len(consolidated_list), len(transformed_devices)
         ), "INFO")
@@ -2263,7 +2249,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             if device_role:
                 valid_roles = ["ACCESS", "CORE", "DISTRIBUTION", "BORDER ROUTER", "UNKNOWN"]
                 role_filter_list = device_role if isinstance(device_role, list) else [device_role]
-                
+
                 for role_value in role_filter_list:
                     if role_value.upper() not in [r.upper() for r in valid_roles]:
                         error_msg = "Invalid role '{0}' in component_specific_filters. Valid roles are: {1}".format(
