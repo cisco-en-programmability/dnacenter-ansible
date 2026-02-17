@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_linecard_details_info
-short_description: Information module for Network Device
-  Linecard Details
+short_description: Information module for Network Device Linecard Details
 description:
   - Get all Network Device Linecard Details.
-  - Get line card detail for a given deviceuuid. Response
-    will contain serial no, part no, switch no and slot
-    no.
+  - Get line card detail for a given deviceuuid. Response will contain serial no, part no, switch no and slot no.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,13 +24,11 @@ options:
       - DeviceUuid path parameter. Instanceuuid of device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetLinecardDetails
-    description: Complete reference of the GetLinecardDetails
-      API.
+  - name: Cisco DNA Center documentation for Devices GetLinecardDetails
+    description: Complete reference of the GetLinecardDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-linecard-details
 notes:
   - SDK Method used are

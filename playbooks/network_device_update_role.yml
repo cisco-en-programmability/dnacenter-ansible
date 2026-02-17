@@ -2,7 +2,7 @@
 - name: Network device update role
   hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   tasks:
     - name: Update Network Device Role

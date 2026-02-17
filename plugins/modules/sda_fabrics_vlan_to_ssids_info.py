@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabrics_vlan_to_ssids_info
-short_description: Information module for Sda Fabrics
-  Vlan To Ssids
+short_description: Information module for Sda Fabrics Vlan To Ssids
 description:
   - Get all Sda Fabrics Vlan To Ssids.
-  - It will return all vlan to SSID mapping across all
-    the fabric site.
+  - It will return all vlan to SSID mapping across all the fabric site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +22,19 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. Return only this many
-        IP Pool to SSID Mapping. Default is 500 if not
-        specified. Maximum allowed limit is 500.
+        Limit query parameter. Return only this many IP Pool to SSID Mapping. Default is 500 if not specified.
+        Maximum allowed limit is 500.
     type: int
   offset:
     description:
-      - Offset query parameter. Number of records to
-        skip for pagination.
+      - Offset query parameter. Number of records to skip for pagination.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless ReturnsAllTheFabricSitesThatHaveVLANToSSIDMapping
-    description: Complete reference of the ReturnsAllTheFabricSitesThatHaveVLANToSSIDMapping
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless ReturnsAllTheFabricSitesThatHaveVLANToSSIDMapping
+    description: Complete reference of the ReturnsAllTheFabricSitesThatHaveVLANToSSIDMapping API.
     link: https://developer.cisco.com/docs/dna-center/#!returns-all-the-fabric-sites-that-have-vlan-to-ssid-mapping
 notes:
   - SDK Method used are

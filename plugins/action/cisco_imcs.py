@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -34,11 +33,12 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        state=dict(type="str", default="present", choices=["present"]),
+        state=dict(type="str", default="present", choices=["present", "absent"]),
         nodeId=dict(type="str"),
         ipAddress=dict(type="str"),
         username=dict(type="str"),
         password=dict(type="str", no_log=True),
+        id=dict(type="str"),
     )
 )
 
@@ -56,6 +56,7 @@ class CiscoImcs(object):
             ipAddress=params.get("ipAddress"),
             username=params.get("username"),
             password=params.get("password"),
+            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -70,13 +71,26 @@ class CiscoImcs(object):
         new_object_params["password"] = self.new_object.get("password")
         return new_object_params
 
+    def delete_by_id_params(self):
+        new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        return new_object_params
+
+    def update_by_id_params(self):
+        new_object_params = {}
+        new_object_params["ipAddress"] = self.new_object.get("ipAddress")
+        new_object_params["username"] = self.new_object.get("username")
+        new_object_params["password"] = self.new_object.get("password")
+        new_object_params["id"] = self.new_object.get("id")
+        return new_object_params
+
     def get_object_by_name(self, name):
         result = None
-        # NOTE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
-                family="cisco_i_m_c",
-                function="retrieves_cisco_i_m_c_configurations_for_catalyst_center_nodes",
+                family="cisco_imc",
+                function="retrieves_cisco_imc_configurations_for_catalyst_center_nodes",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -89,13 +103,24 @@ class CiscoImcs(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="cisco_imc",
+                function="retrieves_the_cisco_imc_configuration_for_a_catalyst_center_node",
+                params={"id": id},
+            )
+            if isinstance(items, dict):
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
-        prev_obj = None
         id_exists = False
         name_exists = False
+        prev_obj = None
         o_id = self.new_object.get("id")
         name = self.new_object.get("name")
         if o_id:
@@ -112,6 +137,8 @@ class CiscoImcs(object):
                 )
             if _id:
                 self.new_object.update(dict(id=_id))
+            if _id:
+                prev_obj = self.get_object_by_id(_id)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -122,8 +149,9 @@ class CiscoImcs(object):
             ("nodeId", "nodeId"),
             ("ipAddress", "ipAddress"),
             ("username", "username"),
+            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not dnac_compare_equality(
@@ -134,10 +162,47 @@ class CiscoImcs(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="cisco_i_m_c",
-            function="adds_cisco_i_m_c_configuration_to_a_catalyst_center_node",
+            family="cisco_imc",
+            function="adds_cisco_imc_configuration_to_a_catalyst_center_node",
             params=self.create_params(),
             op_modifies=True,
+        )
+        return result
+
+    def update(self):
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+            if id_:
+                self.new_object.update(dict(id=id_))
+        result = self.dnac.exec(
+            family="cisco_imc",
+            function="updates_the_cisco_imc_configuration_for_a_catalyst_center_node",
+            params=self.update_by_id_params(),
+            op_modifies=True,
+        )
+        return result
+
+    def delete(self):
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+            if id_:
+                self.new_object.update(dict(id=id_))
+        result = self.dnac.exec(
+            family="cisco_imc",
+            function="deletes_the_cisco_imc_configuration_for_a_catalyst_center_node",
+            params=self.delete_by_id_params(),
         )
         return result
 
@@ -183,18 +248,27 @@ class ActionModule(ActionBase):
         state = self._task.args.get("state")
 
         response = None
+
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
-                    response = prev_obj
-                    dnac.object_present_and_different()
+                    response = obj.update()
+                    dnac.object_updated()
                 else:
                     response = prev_obj
                     dnac.object_already_present()
             else:
                 response = obj.create()
                 dnac.object_created()
+
+        elif state == "absent":
+            obj_exists, prev_obj = obj.exists()
+            if obj_exists:
+                response = obj.delete()
+                dnac.object_deleted()
+            else:
+                dnac.object_already_absent()
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

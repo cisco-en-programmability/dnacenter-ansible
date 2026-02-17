@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: application_policy_application_set
-short_description: Resource module for Application Policy
-  Application Set
+short_description: Resource module for Application Policy Application Set
 description:
-  - Manage operations create and delete of the resource
-    Application Policy Application Set.
+  - Manage operations create and delete of the resource Application Policy Application Set.
   - Create new custom application set/s.
   - Delete existing custom application set by id.
 version_added: '6.14.0'
@@ -20,12 +18,10 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Id of custom application
-      set to delete.
+    description: Id path parameter. Id of custom application set to delete.
     type: str
   payload:
-    description: Application Policy Application Set's
-      payload.
+    description: Application Policy Application Set's payload.
     elements: dict
     suboptions:
       defaultBusinessRelevance:
@@ -35,37 +31,30 @@ options:
         description: Application Set name.
         type: str
       namespace:
-        description: Namespace, should be set to scalablegroup
-          application.
+        description: Namespace, should be set to scalablegroup application.
         type: str
       qualifier:
         description: Qualifier, should be set to application.
         type: str
       scalableGroupExternalHandle:
-        description: Scalable group external handle,
-          should be set to application set name.
+        description: Scalable group external handle, should be set to application set name.
         type: str
       scalableGroupType:
-        description: Scalable group type, should be
-          set to APPLICATION_GROUP.
+        description: Scalable group type, should be set to APPLICATION_GROUP.
         type: str
       type:
         description: Type, should be set to scalablegroup.
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy CreateApplicationSetsV2
-    description: Complete reference of the CreateApplicationSetsV2
-      API.
+  - name: Cisco DNA Center documentation for Application Policy CreateApplicationSetsV2
+    description: Complete reference of the CreateApplicationSetsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!create-application-sets-v-2
-  - name: Cisco DNA Center documentation for Application
-      Policy DeleteApplicationSetV2
-    description: Complete reference of the DeleteApplicationSetV2
-      API.
+  - name: Cisco DNA Center documentation for Application Policy DeleteApplicationSetV2
+    description: Complete reference of the DeleteApplicationSetV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-application-set-v-2
 notes:
   - SDK Method used are

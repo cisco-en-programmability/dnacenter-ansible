@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignments_count_info
-short_description: Information module for Sda Port Assignments
-  Count
+short_description: Information module for Sda Port Assignments Count
 description:
   - Get all Sda Port Assignments Count.
-  - Returns the count of port assignments that match
-    the provided query parameters.
+  - Returns the count of port assignments that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,36 +21,30 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the
-        device is assigned to.
+      - FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        ID of the port assignment.
+      - NetworkDeviceId query parameter. Network device ID of the port assignment.
     type: str
   interfaceName:
     description:
-      - InterfaceName query parameter. Interface name
-        of the port assignment.
+      - InterfaceName query parameter. Interface name of the port assignment.
     type: str
   dataVlanName:
     description:
-      - DataVlanName query parameter. Data VLAN name
-        of the port assignment.
+      - DataVlanName query parameter. Data VLAN name of the port assignment.
     type: str
   voiceVlanName:
     description:
-      - VoiceVlanName query parameter. Voice VLAN name
-        of the port assignment.
+      - VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetPortAssignmentCount
-    description: Complete reference of the GetPortAssignmentCount
-      API.
+    description: Complete reference of the GetPortAssignmentCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-count
 notes:
   - SDK Method used are
