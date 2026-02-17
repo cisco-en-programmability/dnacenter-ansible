@@ -55,8 +55,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(ise_radius_integration_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+          a default file name  C(<module_name>_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(ise_radius_integration_playbook_config_2026-01-24_12-33-20.yml).
         type: str
       component_specific_filters:
         description:
@@ -106,7 +106,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate YAML Configuration with File Path specified for all components
-  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
+  cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -121,7 +121,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate YAML Configuration for all components with File Path specified
-  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
+  cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -137,7 +137,7 @@ EXAMPLES = r"""
         file_path: "/tmp/ise_radius_integration_config.yaml"
 
 - name: Generate YAML Configuration for mentioned components without File Path specified
-  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
+  cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -154,7 +154,7 @@ EXAMPLES = r"""
           components_list: ["authentication_policy_server"]
 
 - name: Generate YAML Configuration for mentioned components with component and specific server_type filter
-  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
+  cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -173,7 +173,7 @@ EXAMPLES = r"""
             server_type: "ISE"
 
 - name: Generate YAML Configuration for mentioned components with component and specific server_ip_address filter
-  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
+  cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -192,7 +192,7 @@ EXAMPLES = r"""
             server_ip_address: 10.197.156.10
 
 - name: Generate YAML Configuration for mentioned components with component and specific server_type and server_ip_address filter
-  cisco.dnac.brownfield_ise_radius_integration_playbook_generator:
+  cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -280,7 +280,7 @@ else:
     OrderedDumper = None
 
 
-class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
+class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
     Generates YAML playbook files for ISE RADIUS integration brownfield deployments.
 
@@ -513,6 +513,16 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             "Starting transformation of server_type from ISE RADIUS integration details.",
             "DEBUG",
         )
+        if not isinstance(ise_radius_integration_details, dict):
+            self.log(
+                "Invalid details payload type; expected dict but received {0}".format(
+                    type(ise_radius_integration_details).__name__
+                ),
+                "ERROR",
+            )
+            self.log("Returning server type: None due to invalid input.", "DEBUG")
+            return None
+
         cisco_ise_dtos = ise_radius_integration_details.get("ciscoIseDtos")
         self.log(
             "Retrieved cisco_ise_dtos for server_type extraction: {0}".format(
@@ -535,16 +545,38 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             "DEBUG",
         )
 
-        for idx, cisco_ise_dto in enumerate(cisco_ise_dtos):
+        for idx, cisco_ise_dto in enumerate(cisco_ise_dtos, start=1):
+            self.log(
+                "Inspecting cisco_ise_dto entry; index={0}, value={1}".format(
+                    idx, cisco_ise_dto
+                ),
+                "DEBUG",
+            )
+
+            if not isinstance(cisco_ise_dto, dict):
+                self.log(
+                    "Skipping entry due to invalid type; index={0}, type={1}".format(
+                        idx, type(cisco_ise_dto).__name__
+                    ),
+                    "WARNING",
+                )
+                continue
             server_type = cisco_ise_dto.get("type")
             if server_type:
                 self.log(
-                    "Found server_type in entry {0}: {1}".format(idx, server_type),
+                    "Server type identified; index={0}, server_type={1}".format(
+                        idx, server_type
+                    ),
                     "DEBUG",
                 )
                 break
 
-        self.log("Returning server_type: {0}".format(server_type), "DEBUG")
+            self.log(
+                "Server type not present in entry; continuing scan. index={0}".format(
+                    idx
+                ),
+                "DEBUG",
+            )
         return server_type
 
     def ise_radius_integration_reverse_mapping_temp_spec_function(self):
@@ -686,7 +718,7 @@ class BrownfieldIseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper
             "DEBUG",
         )
 
-        for idx, each_server_resp in enumerate(auth_server_details):
+        for idx, each_server_resp in enumerate(auth_server_details, start=1):
             self.log(
                 "Evaluating server entry {0}/{1}: {2}".format(
                     idx,
@@ -1159,7 +1191,7 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
     ccc_brownfield_ise_radius_integration_playbook_generator = (
-        BrownfieldIseRadiusIntegrationPlaybookGenerator(module)
+        IseRadiusIntegrationPlaybookGenerator(module)
     )
     if (
         ccc_brownfield_ise_radius_integration_playbook_generator.compare_dnac_versions(
@@ -1170,7 +1202,7 @@ def main():
     ):
         ccc_brownfield_ise_radius_integration_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for BrownfieldIseRadiusIntegrationPlaybookGenerator Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for IseRadiusIntegrationPlaybookGenerator Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_brownfield_ise_radius_integration_playbook_generator.get_ccc_version()
             )
         )
