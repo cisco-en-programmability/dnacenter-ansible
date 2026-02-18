@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate YAML Configuration for NFS server details for storing backups
-      cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+      cisco.dnac.backup_and_restore_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

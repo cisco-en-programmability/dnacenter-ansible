@@ -14,7 +14,7 @@ __author__ = "Priyadharshini B, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_backup_and_restore_playbook_generator
+module: backup_and_restore_playbook_config_generator
 short_description: Generate YAML playbook for 'backup_and_restore_workflow_manager' module.
 description:
   - Generates YAML configurations compatible with the
@@ -159,7 +159,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate YAML Configuration with both NFS and backup storage configurations
-  cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+  cisco.dnac.backup_and_restore_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -178,7 +178,7 @@ EXAMPLES = r"""
             - "backup_storage_configuration"
 
 - name: Generate YAML for NFS-type backup storage only filtering by server_type
-  cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+  cisco.dnac.backup_and_restore_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -197,7 +197,7 @@ EXAMPLES = r"""
             - server_type: "NFS"
 
 - name: Generate YAML for specific NFS server using exact match on server_ip and source_path
-  cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+  cisco.dnac.backup_and_restore_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -217,7 +217,7 @@ EXAMPLES = r"""
               source_path: "/home/nfsshare/backups/TB30"
 
 - name: Generate YAML for all configurations without filtering useful for complete system documentation
-  cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+  cisco.dnac.backup_and_restore_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -233,7 +233,7 @@ EXAMPLES = r"""
         generate_all_configurations: true
 
 - name: Generate YAML Configuration for multiple NFS servers (each must have both server_ip and source_path)
-  cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+  cisco.dnac.backup_and_restore_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -255,7 +255,7 @@ EXAMPLES = r"""
               source_path: "/home/nfsshare/backups/TB31"
 
 - name: Generate YAML Configuration for Physical Disk backup storage only
-  cisco.dnac.brownfield_backup_and_restore_playbook_generator:
+  cisco.dnac.backup_and_restore_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -455,7 +455,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         supported_states (list): Valid states for module operation (['gathered'])
         module_schema (dict): Component mapping with API details and specifications
         module_name (str): Reference module name for generated playbooks
-        validated_config (list): Validated input configuration parameters
+        validated_config (list): Validated input configuration parameters if successful.
         want (dict): Desired state configuration for processing
         result (dict): Execution results with status and response data
 
@@ -3008,6 +3008,7 @@ def main():
             "DEBUG"
         )
 
+        # Check if generate_all_configurations is explicitly set to True
         if config_item.get("generate_all_configurations"):
             ccc_backup_restore_playbook_generator.log(
                 "Configuration item {0}: generate_all_configurations=True detected. Setting default "
@@ -3063,7 +3064,7 @@ def main():
             )
         else:
             ccc_backup_restore_playbook_generator.log(
-                "Configuration item {0}: component_specific_filters already provided in normal mode - "
+                "Configuration item {0}: component_specific_filters already properly configured - "
                 "using existing filters: {1}".format(
                     config_index, config_item.get("component_specific_filters")
                 ),
