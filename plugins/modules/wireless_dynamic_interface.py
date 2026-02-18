@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_dynamic_interface
-short_description: Resource module for Wireless Dynamic
-  Interface
+short_description: Resource module for Wireless Dynamic Interface
 description:
-  - Manage operations create and delete of the resource
-    Wireless Dynamic Interface.
+  - Manage operations create and delete of the resource Wireless Dynamic Interface.
   - API to create or update an dynamic interface.
   - Delete a dynamic interface.
 version_added: '3.1.0'
@@ -23,25 +21,20 @@ options:
     description: Additional headers.
     type: dict
   interfaceName:
-    description: InterfaceName query parameter. Valid
-      interface-name to be deleted.
+    description: InterfaceName query parameter. Valid interface-name to be deleted.
     type: str
   vlanId:
     description: Vlan Id.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      CreateUpdateDynamicInterface
-    description: Complete reference of the CreateUpdateDynamicInterface
-      API.
+  - name: Cisco DNA Center documentation for Wireless CreateUpdateDynamicInterface
+    description: Complete reference of the CreateUpdateDynamicInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!create-update-dynamic-interface
-  - name: Cisco DNA Center documentation for Wireless
-      DeleteDynamicInterface
-    description: Complete reference of the DeleteDynamicInterface
-      API.
+  - name: Cisco DNA Center documentation for Wireless DeleteDynamicInterface
+    description: Complete reference of the DeleteDynamicInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-dynamic-interface
 notes:
   - SDK Method used are
@@ -76,6 +69,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    headers: '{{my_headers | from_json}}'
     interfaceName: string
     vlanId: 0
 """

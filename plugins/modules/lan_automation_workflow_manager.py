@@ -5780,7 +5780,7 @@ class LanAutomation(DnacBase):
         lan_auto_params = {
             key: lan_automation_params[key]
             for key in included_keys
-            if key in lan_automation_params
+            if key in lan_automation_params and lan_automation_params[key] is not None
         }
 
         if lan_auto_params:

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_meraki_organization_info
-short_description: Information module for Network Device
-  Meraki Organization
+short_description: Information module for Network Device Meraki Organization
 description:
   - Get all Network Device Meraki Organization.
   - Returns list of organizations for meraki dashboard.
@@ -25,13 +24,11 @@ options:
       - Id path parameter. Device Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetOrganizationListForMeraki
-    description: Complete reference of the GetOrganizationListForMeraki
-      API.
+  - name: Cisco DNA Center documentation for Devices GetOrganizationListForMeraki
+    description: Complete reference of the GetOrganizationListForMeraki API.
     link: https://developer.cisco.com/docs/dna-center/#!get-organization-list-for-meraki
 notes:
   - SDK Method used are

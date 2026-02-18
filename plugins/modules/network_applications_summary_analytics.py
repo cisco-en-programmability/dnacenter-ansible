@@ -7,20 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: network_applications_summary_analytics
-short_description: Resource module for Network Applications
-  Summary Analytics
+short_description: Resource module for Network Applications Summary Analytics
 description:
-  - Manage operation create of the resource Network
-    Applications Summary Analytics. - > Retrieves summary
-    analytics data related to network applications while
-    applying complex filtering, aggregate functions,
-    and grouping. This API facilitates obtaining consolidated
-    insights into the performance and status of the
-    network applications. If startTime and endTime are
-    not provided, the API defaults to the last 24 hours.
-    For detailed information about the usage of the
-    API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Network Applications Summary Analytics. - > Retrieves summary analytics data related
+    to network applications while applying complex filtering, aggregate functions, and grouping. This API facilitates obtaining
+    consolidated insights into the performance and status of the network applications. If startTime and endTime are not provided,
+    the API defaults to the last 24 hours. For detailed information about the usage of the API, please refer to the Open API
+    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     NetworkApplications-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -28,8 +21,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Network Applications Summary Analytics's
-      aggregateAttributes.
+    description: Network Applications Summary Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -47,8 +39,7 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Network Applications Summary Analytics's
-      filters.
+    description: Network Applications Summary Analytics's filters.
     elements: dict
     suboptions:
       key:
@@ -65,8 +56,7 @@ options:
     description: Additional headers.
     type: dict
   page:
-    description: Network Applications Summary Analytics's
-      page.
+    description: Network Applications Summary Analytics's page.
     suboptions:
       cursor:
         description: Cursor.
@@ -78,8 +68,7 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Network Applications Summary Analytics's
-          sortBy.
+        description: Network Applications Summary Analytics's sortBy.
         elements: dict
         suboptions:
           function:
@@ -101,11 +90,10 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Applications
-      RetrievesSummaryAnalyticsDataRelatedToNetworkApplicationsAlongWithHealthMetrics
+  - name: Cisco DNA Center documentation for Applications RetrievesSummaryAnalyticsDataRelatedToNetworkApplicationsAlongWithHealthMetrics
     description: Complete reference of the RetrievesSummaryAnalyticsDataRelatedToNetworkApplicationsAlongWithHealthMetrics
       API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-analytics-data-related-to-network-applications-along-with-health-metrics
