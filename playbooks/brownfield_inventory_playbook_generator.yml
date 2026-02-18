@@ -784,5 +784,5 @@
             component_specific_filters:
               components_list: ["user_defined_fields"]
       register: scenario26_result
-      failed_when: false  # Don't fail the playbook - we expect this to fail
+      failed_when: false  # Don't fail the playbook - we expect this test case to fail
       tags: [scenario26, invalid_udf_global_filter]
