@@ -17,14 +17,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_discovery_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import discovery_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_discovery_playbook_generator
-    test_data = loadPlaybookData("brownfield_discovery_playbook_generator")
+    module = discovery_playbook_config_generator
+    test_data = loadPlaybookData("discovery_playbook_config_generator")
     playbook_config_generate_all = test_data.get("playbook_config_generate_all")
     playbook_config_specific_names = test_data.get("playbook_config_specific_names")
     playbook_config_by_type = test_data.get("playbook_config_by_type")
@@ -141,7 +141,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
-    def test_brownfield_discovery_playbook_generator_generate_all_configurations(self):
+    def test_discovery_playbook_config_generator_generate_all_configurations(self):
         """
         Test case for brownfield discovery playbook generator when generating all configurations.
 
@@ -163,7 +163,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_discovery_name_filter(self):
+    def test_discovery_playbook_config_generator_discovery_name_filter(self):
         """
         Test case for generating configurations filtered by discovery name.
 
@@ -185,7 +185,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_discovery_type_filter(self):
+    def test_discovery_playbook_config_generator_discovery_type_filter(self):
         """
         Test case for generating configurations filtered by discovery type.
 
@@ -208,7 +208,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_component_filters(self):
+    def test_discovery_playbook_config_generator_component_filters(self):
         """
         Test case for generating configurations with component-specific filters.
 
@@ -231,7 +231,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_empty_discoveries_response(self):
+    def test_discovery_playbook_config_generator_empty_discoveries_response(self):
         """
         Test case for handling empty discoveries response.
 
@@ -261,7 +261,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_api_exception_handling(self):
+    def test_discovery_playbook_config_generator_api_exception_handling(self):
         """
         Test case for API exception handling.
 
@@ -283,7 +283,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         # The module gracefully handles API errors and reports no discoveries found
         self.assertIn('No discoveries found', result.get('msg'))
 
-    def test_brownfield_discovery_playbook_generator_credential_mapping(self):
+    def test_discovery_playbook_config_generator_credential_mapping(self):
         """
         Test case for credential ID to name mapping functionality.
 
@@ -306,7 +306,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_invalid_state(self):
+    def test_discovery_playbook_config_generator_invalid_state(self):
         """
         Test case for invalid state parameter.
 
@@ -327,7 +327,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn('value of state must be one of: gathered', result.get('msg'))
 
-    def test_brownfield_discovery_playbook_generator_missing_config(self):
+    def test_discovery_playbook_config_generator_missing_config(self):
         """
         Test case for missing config parameter.
 
@@ -348,7 +348,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn('Configuration is required', result.get('msg'))
 
-    def test_brownfield_discovery_playbook_generator_file_path_specified(self):
+    def test_discovery_playbook_config_generator_file_path_specified(self):
         """
         Test case for specifying custom file path.
 
@@ -371,7 +371,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_no_global_filters(self):
+    def test_discovery_playbook_config_generator_no_global_filters(self):
         """
         Test case for generating configurations without global filters.
 
@@ -400,7 +400,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_successful_generation(self):
+    def test_discovery_playbook_config_generator_successful_generation(self):
         """
         Test case for successful playbook generation.
 
@@ -430,7 +430,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_config_verify_false(self):
+    def test_discovery_playbook_config_generator_config_verify_false(self):
         """
         Test case with config_verify set to False.
 
@@ -453,7 +453,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_debug_logging(self):
+    def test_discovery_playbook_config_generator_debug_logging(self):
         """
         Test case for debug logging functionality.
 
@@ -477,7 +477,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_unsupported_state(self):
+    def test_discovery_playbook_config_generator_unsupported_state(self):
         """
         Test case for unsupported state parameter.
 
@@ -501,7 +501,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         msg = result.get('msg', '')
         self.assertIn('must be one of', msg.lower())
 
-    def test_brownfield_discovery_playbook_generator_v2_api_fallback(self):
+    def test_discovery_playbook_config_generator_v2_api_fallback(self):
         """
         Test case for V2 API fallback when V1 credentials API fails.
 
@@ -525,7 +525,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_credential_api_failure(self):
+    def test_discovery_playbook_config_generator_credential_api_failure(self):
         """
         Test case for handling credential API failures.
 
@@ -549,7 +549,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_complex_credential_mapping(self):
+    def test_discovery_playbook_config_generator_complex_credential_mapping(self):
         """
         Test case for complex credential mapping with various types.
 
@@ -582,7 +582,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_file_operations(self):
+    def test_discovery_playbook_config_generator_file_operations(self):
         """
         Test case for file operations with custom paths.
 
@@ -611,7 +611,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_advanced_status_filtering(self):
+    def test_discovery_playbook_config_generator_advanced_status_filtering(self):
         """
         Test case for advanced discovery status filtering.
 
@@ -641,7 +641,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_empty_credential_id_handling(self):
+    def test_discovery_playbook_config_generator_empty_credential_id_handling(self):
         """
         Test case for handling empty or None credential IDs.
 
@@ -672,7 +672,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_credential_not_found(self):
+    def test_discovery_playbook_config_generator_credential_not_found(self):
         """
         Test case for handling credentials not found in lookup table.
 
@@ -704,7 +704,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_unknown_credential_type(self):
+    def test_discovery_playbook_config_generator_unknown_credential_type(self):
         """
         Test case for handling unknown credential types.
 
@@ -736,7 +736,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_malformed_api_response(self):
+    def test_discovery_playbook_config_generator_malformed_api_response(self):
         """
         Test case for handling malformed API responses.
 
@@ -760,7 +760,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_mixed_discovery_types(self):
+    def test_discovery_playbook_config_generator_mixed_discovery_types(self):
         """
         Test case for handling mixed discovery types in single request.
 
@@ -793,7 +793,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_credential_transform_edge_cases(self):
+    def test_discovery_playbook_config_generator_credential_transform_edge_cases(self):
         """
         Test case for credential transformation edge cases.
 
@@ -828,7 +828,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_api_error_conditions(self):
+    def test_discovery_playbook_config_generator_api_error_conditions(self):
         """
         Test case for API error conditions and recovery.
 
@@ -861,7 +861,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
-    def test_brownfield_discovery_playbook_generator_comprehensive_filtering(self):
+    def test_discovery_playbook_config_generator_comprehensive_filtering(self):
         """
         Test case for comprehensive filtering with all options.
 
