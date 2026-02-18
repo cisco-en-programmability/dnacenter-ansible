@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate YAML Configuration for user and role details
-      cisco.dnac.brownfield_user_role_playbook_generator:
+      cisco.dnac.user_role_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

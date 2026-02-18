@@ -11,7 +11,7 @@ __author__ = "Priyadharshini B, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_user_role_playbook_generator
+module: user_role_playbook_config_generator
 short_description: Generate YAML playbook for user and role management.
 description:
 - Generates YAML configurations compatible with the
@@ -224,7 +224,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -240,7 +240,7 @@ EXAMPLES = r"""
         file_path: "/tmp/catc_user_role_config.yaml"
 
 - name: Generate YAML Configuration with specific user components only
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -257,7 +257,7 @@ EXAMPLES = r"""
           components_list: ["user_details"]
 
 - name: Generate YAML Configuration with specific role components only
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -274,7 +274,7 @@ EXAMPLES = r"""
           components_list: ["role_details"]
 
 - name: Generate YAML Configuration for users with username filter
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -293,7 +293,7 @@ EXAMPLES = r"""
             - username: ["testuser1", "testuser2"]
 
 - name: Generate YAML Configuration for roles with role name filter
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -312,7 +312,7 @@ EXAMPLES = r"""
             - role_name: ["Custom-Admin-Role", "Network-Operator-Role"]
 
 - name: Generate YAML Configuration for all components with no filters
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -329,7 +329,7 @@ EXAMPLES = r"""
           components_list: ["user_details", "role_details"]
 
 - name: Generate YAML for users with specific email addresses
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -348,7 +348,7 @@ EXAMPLES = r"""
             - email: ["admin@example.com", "operator@example.com"]
 
 - name: Generate YAML for users with specific role assignments
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -367,7 +367,7 @@ EXAMPLES = r"""
             - role_name: ["SUPER-ADMIN-ROLE", "Custom-Admin-Role"]
 
 - name: Generate YAML with multiple filter criteria (OR logic)
-  cisco.dnac.brownfield_user_role_playbook_generator:
+  cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
