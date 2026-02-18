@@ -10,8 +10,7 @@ module: dnac_packages_info
 short_description: Information module for Dnac Packages
 description:
   - Get all Dnac Packages.
-  - Provides information such as name, version of packages
-    installed on the Catalyst center.
+  - Provides information such as name, version of packages installed on the Catalyst center.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Platform
-      CiscoCatalystCenterPackagesSummary
-    description: Complete reference of the CiscoCatalystCenterPackagesSummary
-      API.
+  - name: Cisco DNA Center documentation for Platform CiscoCatalystCenterPackagesSummary
+    description: Complete reference of the CiscoCatalystCenterPackagesSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-packages-summary
 notes:
   - SDK Method used are

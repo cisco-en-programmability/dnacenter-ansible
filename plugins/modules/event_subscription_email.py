@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_email
-short_description: Resource module for Event Subscription
-  Email
+short_description: Resource module for Event Subscription Email
 description:
-  - Manage operations create and update of the resource
-    Event Subscription Email.
-  - Create Email Subscription Endpoint for list of registered
-    events.
-  - Update Email Subscription Endpoint for list of registered
-    events.
+  - Manage operations create and update of the resource Event Subscription Email.
+  - Create Email Subscription Endpoint for list of registered events.
+  - Update Email Subscription Endpoint for list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -36,8 +32,7 @@ options:
             elements: str
             type: list
           domainsSubdomains:
-            description: Event Subscription Email's
-              domainsSubdomains.
+            description: Event Subscription Email's domainsSubdomains.
             elements: dict
             suboptions:
               domain:
@@ -49,12 +44,12 @@ options:
                 type: list
             type: list
           eventIds:
-            description: Event Ids.
+            description: Event Ids (Comma separated event ids).
             elements: str
             type: list
           severities:
             description: Severities.
-            elements: int
+            elements: str
             type: list
           siteIds:
             description: Site Ids.
@@ -77,34 +72,14 @@ options:
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Email Subscription
-              Details --> pick InstanceId if available).
+            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
-            description: Event Subscription Email's
-              subscriptionDetails.
+            description: Event Subscription Email's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Connector Type (Must be
-                  EMAIL).
+                description: Connector Type (Must be REST).
                 type: str
-              description:
-                description: Description.
-                type: str
-              fromEmailAddress:
-                description: Senders Email Address.
-                type: str
-              name:
-                description: Name.
-                type: str
-              subject:
-                description: Email Subject.
-                type: str
-              toEmailAddresses:
-                description: Recipient's Email Addresses
-                  (Comma separated).
-                elements: str
-                type: list
             type: dict
         type: list
       subscriptionId:
@@ -115,18 +90,14 @@ options:
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      CreateEmailEventSubscription
-    description: Complete reference of the CreateEmailEventSubscription
-      API.
+  - name: Cisco DNA Center documentation for Event Management CreateEmailEventSubscription
+    description: Complete reference of the CreateEmailEventSubscription API.
     link: https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription
-  - name: Cisco DNA Center documentation for Event Management
-      UpdateEmailEventSubscription
-    description: Complete reference of the UpdateEmailEventSubscription
-      API.
+  - name: Cisco DNA Center documentation for Event Management UpdateEmailEventSubscription
+    description: Complete reference of the UpdateEmailEventSubscription API.
     link: https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription
 notes:
   - SDK Method used are
@@ -161,7 +132,7 @@ EXAMPLES = r"""
           eventIds:
             - string
           severities:
-            - 0
+            - string
           siteIds:
             - string
           sources:
@@ -173,12 +144,6 @@ EXAMPLES = r"""
           - instanceId: string
             subscriptionDetails:
               connectorType: string
-              description: string
-              fromEmailAddress: string
-              name: string
-              subject: string
-              toEmailAddresses:
-                - string
         subscriptionId: string
         version: string
 - name: Update all
@@ -203,7 +168,7 @@ EXAMPLES = r"""
           eventIds:
             - string
           severities:
-            - 0
+            - string
           siteIds:
             - string
           sources:
@@ -215,12 +180,6 @@ EXAMPLES = r"""
           - instanceId: string
             subscriptionDetails:
               connectorType: string
-              description: string
-              fromEmailAddress: string
-              name: string
-              subject: string
-              toEmailAddresses:
-                - string
         subscriptionId: string
         version: string
 """

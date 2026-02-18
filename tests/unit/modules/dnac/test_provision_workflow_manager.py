@@ -39,6 +39,7 @@ class TestDnacProvisionWorkflow(TestDnacModule):
     playbook_delete_provision = test_data.get("playbook_delete_provision")
     playbook_enable = test_data.get("playbook_enable")
     playbook_disable = test_data.get("playbook_disable")
+    playbook_delete_non_provision_device = test_data.get("playbook_delete_non_provision_device")
 
     def setUp(self):
         super(TestDnacProvisionWorkflow, self).setUp()
@@ -406,4 +407,29 @@ class TestDnacProvisionWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Application telemetry disabled successfully for 204.1.2.2"
+        )
+
+    def test_provision_workflow_manager_playbook_delete_non_provision_device(self):
+        """
+        Test deletion of a non-provisioned or non-existent device using the playbook workflow.
+
+        Validates that attempting to delete a non-provisioned or non-existent network device
+        from Cisco Catalyst Center using the playbook workflow returns the appropriate status message.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_version="2.3.7.9",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="deleted",
+                config=self.playbook_delete_non_provision_device
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "No provisioning operations were executed for these IPs: 1.1.1.1"
         )
