@@ -11,7 +11,7 @@ __author__ = "Priyadharshini B, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_events_and_notifications_playbook_generator
+module: events_and_notifications_playbook_config_generator
 short_description: Generate YAML playbook for 'events_and_notifications_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the
@@ -66,9 +66,9 @@ options:
         - If not provided, file is saved in current working directory with
           auto-generated filename.
         - Filename format when auto-generated is
-          "<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+          "<module_name>_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
         - Example auto-generated filename
-          "events_and_notifications_workflow_manager_playbook_2025-04-22_21-43-26.yml".
+          "events_and_notifications_playbook_config_2025-04-22_21-43-26.yml".
         - Parent directories are created automatically if they do not exist.
         - File is overwritten if it already exists at the specified path.
         type: str
@@ -288,7 +288,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate YAML Configuration with all events and notifications components
-  cisco.dnac.brownfield_events_and_notifications_playbook_generator:
+  cisco.dnac.events_and_notifications_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -304,7 +304,7 @@ EXAMPLES = r"""
         file_path: "/tmp/catc_events_notifications_config.yaml"
 
 - name: Generate YAML Configuration for destinations only
-  cisco.dnac.brownfield_events_and_notifications_playbook_generator:
+  cisco.dnac.events_and_notifications_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -321,7 +321,7 @@ EXAMPLES = r"""
           components_list: ["webhook_destinations", "email_destinations", "syslog_destinations"]
 
 - name: Generate YAML Configuration for specific webhook destinations
-  cisco.dnac.brownfield_events_and_notifications_playbook_generator:
+  cisco.dnac.events_and_notifications_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -341,7 +341,7 @@ EXAMPLES = r"""
             destination_types: ["webhook"]
 
 - name: Generate YAML Configuration with combined filters
-  cisco.dnac.brownfield_events_and_notifications_playbook_generator:
+  cisco.dnac.events_and_notifications_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

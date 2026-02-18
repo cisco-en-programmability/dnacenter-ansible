@@ -11,7 +11,7 @@ __author__ = "Megha Kandari, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_assurance_issue_playbook_generator
+module: assurance_issue_playbook_config_generator
 short_description: Generate YAML playbook for 'assurance_issue_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the `assurance_issue_workflow_manager`
@@ -57,7 +57,7 @@ options:
       file_path:
         description:
         - Absolute or relative path for the output YAML configuration file.
-        - If not specified, a timestamped filename is auto-generated in the format C(brownfield_assurance_issue_YYYYMMDD_HHMMSS.yml).
+        - If not specified, a timestamped filename is auto-generated in the format C(assurance_issue_playbook_config_YYYYMMDD_HHMMSS.yml).
         - Parent directories are created automatically if they do not exist.
         type: str
         required: false
@@ -112,7 +112,7 @@ notes:
 EXAMPLES = r"""
 # Example 3: Generate YAML Configuration with default file path for all user-defined issues
 - name: Generate YAML Configuration for user-defined issues
-  cisco.dnac.brownfield_assurance_issue_playbook_generator:
+  cisco.dnac.assurance_issue_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -129,7 +129,7 @@ EXAMPLES = r"""
 
 # Example 2: Generate YAML Configuration for all user-defined issue components
 - name: Generate complete user-defined issue configuration
-  cisco.dnac.brownfield_assurance_issue_playbook_generator:
+  cisco.dnac.assurance_issue_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -146,7 +146,7 @@ EXAMPLES = r"""
 
 # Example 3: Filter by specific issue name
 - name: Generate YAML for specific issue by name
-  cisco.dnac.brownfield_assurance_issue_playbook_generator:
+  cisco.dnac.assurance_issue_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -165,7 +165,7 @@ EXAMPLES = r"""
 
 # Example 4: Filter by enabled status
 - name: Generate YAML for only enabled issues
-  cisco.dnac.brownfield_assurance_issue_playbook_generator:
+  cisco.dnac.assurance_issue_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -184,7 +184,7 @@ EXAMPLES = r"""
 
 # Example 5: Filter by name and enabled status
 - name: Generate YAML for specific enabled issue
-  cisco.dnac.brownfield_assurance_issue_playbook_generator:
+  cisco.dnac.assurance_issue_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

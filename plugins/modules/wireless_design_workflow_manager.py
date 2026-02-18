@@ -11225,7 +11225,8 @@ class WirelessDesign(DnacBase):
             design_name = attr.get("design_name")
             new_design_name = attr.get("new_design_name")
             called_station_id = attr.get("called_station_id")
-            called_station_id = called_station_id.upper()
+            if called_station_id is not None:
+                called_station_id = called_station_id.upper()
             self.log("Evaluating AAA Radius Attribute design: {0}".format(design_name), "DEBUG")
             self.log("Requested called_station_id: {0}".format(called_station_id), "DEBUG")
             if new_design_name:

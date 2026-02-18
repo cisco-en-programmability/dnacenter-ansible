@@ -1,5 +1,5 @@
 ---
-- name: Generate brownfield assurance issue configuration from Cisco Catalyst Center
+- name: Generate assurance issue playbook config configuration from Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
@@ -8,7 +8,7 @@
   tasks:
     # Example 1: Generate all configurations automatically
     - name: Generate complete assurance issue configuration
-      cisco.dnac.brownfield_assurance_issue_playbook_generator:
+      cisco.dnac.assurance_issue_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -25,7 +25,7 @@
 
     # Example 2: Generate all components config
     - name: Generate YAML configuration for all commponents
-      cisco.dnac.brownfield_assurance_issue_playbook_generator:
+      cisco.dnac.assurance_issue_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -43,7 +43,7 @@
 
     # Example 3: Generate user-defined issue settings with filters
     - name: Generate YAML configuration for user-defined issues
-      cisco.dnac.brownfield_assurance_issue_playbook_generator:
+      cisco.dnac.assurance_issue_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
