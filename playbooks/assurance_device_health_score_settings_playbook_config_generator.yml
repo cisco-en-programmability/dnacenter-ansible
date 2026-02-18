@@ -1,7 +1,7 @@
 ---
 # Playbook to generate YAML configurations for Assurance Device Health Score Settings
 
-- name: Brownfield Assurance Device Health Score Settings Playbook Generator Examples
+- name: Assurance Device Health Score Settings Playbook Config Generator Examples
   hosts: localhost
   vars_files:
     - "credentials.yml"
@@ -9,7 +9,7 @@
   gather_facts: false
   tasks:
     - name: Generate all device health score settings configurations
-      cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
+      cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

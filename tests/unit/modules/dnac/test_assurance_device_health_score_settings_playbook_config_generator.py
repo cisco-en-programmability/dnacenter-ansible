@@ -72,7 +72,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', '..
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'plugins', 'module_utils'))
 
 # Import the module
-import brownfield_assurance_device_health_score_settings_playbook_generator as test_module
+import assurance_device_health_score_settings_playbook_config_generator as test_module
 
 
 # Simplified test class without dependency on complex test infrastructure
@@ -84,7 +84,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.test_data_path = os.path.join(
             os.path.dirname(__file__),
             'fixtures',
-            'brownfield_assurance_device_health_score_settings_playbook_generator.json'
+            'assurance_device_health_score_settings_playbook_config_generator.json'
         )
 
         if os.path.exists(self.test_data_path):
@@ -100,7 +100,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.mock_patches = []        # Mock AnsibleModule
         mock_ansible_module = patch(
             'ansible_collections.cisco.dnac.plugins.modules.'
-            'brownfield_assurance_device_health_score_settings_playbook_generator.AnsibleModule'
+            'assurance_device_health_score_settings_playbook_config_generator.AnsibleModule'
         )
         self.mock_ansible_module = mock_ansible_module.start()
         self.mock_ansible_module.return_value = get_mock_module()
@@ -129,14 +129,14 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
     def test_module_imports_successfully(self):
         """Test that the module can be imported without errors"""
         try:
-            from ansible_collections.cisco.dnac.plugins.modules import brownfield_assurance_device_health_score_settings_playbook_generator
-            self.assertIsNotNone(brownfield_assurance_device_health_score_settings_playbook_generator)
+            from ansible_collections.cisco.dnac.plugins.modules import assurance_device_health_score_settings_playbook_config_generator
+            self.assertIsNotNone(assurance_device_health_score_settings_playbook_config_generator)
         except ImportError as e:
             self.fail(f"Module import failed: {e}")
 
     def test_module_has_required_documentation(self):
         """Test that module has required documentation attributes"""
-        from ansible_collections.cisco.dnac.plugins.modules import brownfield_assurance_device_health_score_settings_playbook_generator as module
+        from ansible_collections.cisco.dnac.plugins.modules import assurance_device_health_score_settings_playbook_config_generator as module
 
         # Check for required documentation
         self.assertTrue(hasattr(module, 'DOCUMENTATION'))
@@ -149,7 +149,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertIsNotNone(module.RETURN)
 
         # Check documentation contains key information
-        self.assertIn('brownfield_assurance_device_health_score_settings_playbook_generator', module.DOCUMENTATION)
+        self.assertIn('assurance_device_health_score_settings_playbook_config_generator', module.DOCUMENTATION)
         self.assertIn('config', module.DOCUMENTATION)
 
     def test_module_parameter_validation(self):
@@ -178,12 +178,12 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertTrue(isinstance(test_params["config"], list))
 
     @patch('ansible_collections.cisco.dnac.plugins.modules.'
-           'brownfield_assurance_device_health_score_settings_playbook_generator.'
+           'assurance_device_health_score_settings_playbook_config_generator.'
            'AssuranceDeviceHealthScorePlaybookGenerator')
     def test_module_main_function_execution(self, mock_generator_class):
         """Test main function execution flow"""
         from ansible_collections.cisco.dnac.plugins.modules import \
-            brownfield_assurance_device_health_score_settings_playbook_generator as module
+            assurance_device_health_score_settings_playbook_config_generator as module
 
         # Mock the generator class
         mock_generator = MagicMock()
@@ -218,7 +218,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
     def test_class_initialization(self):
         """Test that the main class can be initialized"""
         from ansible_collections.cisco.dnac.plugins.modules.\
-            brownfield_assurance_device_health_score_settings_playbook_generator import \
+            assurance_device_health_score_settings_playbook_config_generator import \
             AssuranceDeviceHealthScorePlaybookGenerator
 
         # Mock the parent class initialization
@@ -245,7 +245,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
     def test_supported_states(self):
         """Test that the module supports the correct states"""
         from ansible_collections.cisco.dnac.plugins.modules.\
-            brownfield_assurance_device_health_score_settings_playbook_generator import \
+            assurance_device_health_score_settings_playbook_config_generator import \
             AssuranceDeviceHealthScorePlaybookGenerator
 
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__'):
@@ -264,7 +264,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
     def test_workflow_elements_schema_method(self):
         """Test that the workflow elements schema method exists"""
         from ansible_collections.cisco.dnac.plugins.modules.\
-            brownfield_assurance_device_health_score_settings_playbook_generator import \
+            assurance_device_health_score_settings_playbook_config_generator import \
             AssuranceDeviceHealthScorePlaybookGenerator
 
         # Test that the method exists in the class
@@ -457,7 +457,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertIn('options:', test_module.DOCUMENTATION)
 
         # Test examples completeness
-        self.assertIn('cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:', test_module.EXAMPLES)
+        self.assertIn('cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:', test_module.EXAMPLES)
         self.assertIn('config:', test_module.EXAMPLES)
 
         # Test return documentation
