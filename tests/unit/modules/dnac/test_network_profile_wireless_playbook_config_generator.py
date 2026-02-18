@@ -41,8 +41,7 @@ class TestNetworkProfileWirelessPlaybookConfigGenerator(TestDnacModule):
     playbook_global_filter_site_base = test_data.get("playbook_global_filter_site_base")
 
     def setUp(self):
-        super(network_profile_wireless_playbook_config_generator, self).setUp()
-
+        super(TestNetworkProfileWirelessPlaybookConfigGenerator, self).setUp()
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
@@ -55,7 +54,7 @@ class TestNetworkProfileWirelessPlaybookConfigGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(network_profile_wireless_playbook_config_generator, self).tearDown()
+        super(TestNetworkProfileWirelessPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
