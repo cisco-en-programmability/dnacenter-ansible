@@ -20,15 +20,15 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_events_and_notifications_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import events_and_notifications_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
+class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_events_and_notifications_playbook_generator
+    module = events_and_notifications_playbook_config_generator
 
-    test_data = loadPlaybookData("brownfield_events_and_notifications_playbook_generator")
+    test_data = loadPlaybookData("events_and_notifications_playbook_config_generator")
 
     playbook_generate_all_configurations = test_data.get("playbook_generate_all_configurations")
     playbook_component_specific_filters = test_data.get("playbook_component_specific_filters")
@@ -36,7 +36,7 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
     playbook_specific_filter = test_data.get("playbook_specific_filter")
 
     def setUp(self):
-        super(TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator, self).setUp()
+        super(TestDnacEventsAndNotificationsPlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -48,7 +48,7 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
     def tearDown(self):
-        super(TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator, self).tearDown()
+        super(TestDnacEventsAndNotificationsPlaybookGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
@@ -86,7 +86,7 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 self.test_data.get("webhook"),
             ]
 
-    def test_brownfield_events_and_notifications_playbook_generate_all_configurations(self):
+    def test_events_and_notifications_playbook_generate_all_configurations(self):
         """
         Test the Events and Notifications Playbook Generator's ability to generate all configurations.
 
@@ -130,7 +130,7 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_events_and_notifications_playbook_component_specific_filters(self):
+    def test_events_and_notifications_playbook_component_specific_filters(self):
         """
         Test the Events and Notifications Playbook Generator's component-specific filtering capability.
 
@@ -165,7 +165,7 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_events_and_notifications_playbook_invalid_filter(self):
+    def test_events_and_notifications_playbook_invalid_filter(self):
         """
         Test the Events and Notifications Playbook Generator's validation of invalid component filters.
 
@@ -196,7 +196,7 @@ class TestDnacBrownfieldEventsAndNotificationsPlaybookGenerator(TestDnacModule):
             "Please remove the invalid components and try again."
         )
 
-    def test_brownfield_events_and_notifications_playbook_specific_filter(self):
+    def test_events_and_notifications_playbook_specific_filter(self):
         """
        Test the Events and Notifications Playbook Generator's specific component filtering functionality.
 
