@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_config_task_info
-short_description: Information module for Network Device
-  Config Task
+short_description: Information module for Network Device Config Task
 description:
   - Get all Network Device Config Task.
-  - Returns a config task result details by specified
-    id.
+  - Returns a config task result details by specified id.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - ParentTaskId query parameter. Task Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Archive GetConfigTaskDetails
-    description: Complete reference of the GetConfigTaskDetails
-      API.
+  - name: Cisco DNA Center documentation for Configuration Archive GetConfigTaskDetails
+    description: Complete reference of the GetConfigTaskDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-config-task-details
 notes:
   - SDK Method used are

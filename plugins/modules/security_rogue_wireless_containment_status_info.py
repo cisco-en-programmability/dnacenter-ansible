@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: security_rogue_wireless_containment_status_info
-short_description: Information module for Security Rogue
-  Wireless-Containment Status
+short_description: Information module for Security Rogue Wireless-Containment Status
 description:
-  - Get Security Rogue Wireless-Containment Status by
-    id. - > Intent API to check the wireless rogue access
-    point containment status. The response includes
-    all the details like containment status, contained
-    by WLC, containment status of each BSSID etc. This
-    API also includes the information of strongest detecting
-    WLC for this rogue access point.
+  - Get Security Rogue Wireless-Containment Status by id. - > Intent API to check the wireless rogue access point containment
+    status. The response includes all the details like containment status, contained by WLC, containment status of each BSSID
+    etc. This API also includes the information of strongest detecting WLC for this rogue access point.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,17 +22,14 @@ options:
     type: dict
   macAddress:
     description:
-      - MacAddress path parameter. MAC Address of the
-        Wireless Rogue AP.
+      - MacAddress path parameter. MAC Address of the Wireless Rogue AP.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      WirelessRogueAPContainmentStatus
-    description: Complete reference of the WirelessRogueAPContainmentStatus
-      API.
+  - name: Cisco DNA Center documentation for Devices WirelessRogueAPContainmentStatus
+    description: Complete reference of the WirelessRogueAPContainmentStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!wireless-rogue-ap-containment-status
 notes:
   - SDK Method used are
@@ -48,9 +40,8 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get Security Rogue Wireless-Containment Status
-    by id
-  cisco.dnac.security_rogue_wireless-containment_status_info:
+- name: Get Security Rogue Wireless-Containment Status by id
+  cisco.dnac.security_rogue_wireless_containment_status_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

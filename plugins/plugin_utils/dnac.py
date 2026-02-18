@@ -166,7 +166,7 @@ def dnac_argument_spec():
             type="bool", fallback=(env_fallback, ["DNAC_VERIFY"]), default=True
         ),
         dnac_version=dict(
-            type="str", fallback=(env_fallback, ["DNAC_VERSION"]), default="2.3.7.6"
+            type="str", fallback=(env_fallback, ["DNAC_VERSION"]), default="3.1.6.0"
         ),
         dnac_debug=dict(
             type="bool", fallback=(env_fallback, ["DNAC_DEBUG"]), default=False

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_sites_count_info
-short_description: Information module for Sda Fabric
-  Sites Count
+short_description: Information module for Sda Fabric Sites Count
 description:
   - Get all Sda Fabric Sites Count.
-  - Returns the count of fabric sites that match the
-    provided query parameters.
+  - Returns the count of fabric sites that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,12 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetFabricSiteCount
-    description: Complete reference of the GetFabricSiteCount
-      API.
+    description: Complete reference of the GetFabricSiteCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-fabric-site-count
 notes:
   - SDK Method used are

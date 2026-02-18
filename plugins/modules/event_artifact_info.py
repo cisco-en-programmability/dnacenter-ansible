@@ -10,8 +10,7 @@ module: event_artifact_info
 short_description: Information module for Event Artifact
 description:
   - Get all Event Artifact.
-  - Gets the list of artifacts based on provided offset
-    and limit.
+  - Gets the list of artifacts based on provided offset and limit.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -46,17 +45,14 @@ options:
     type: str
   search:
     description:
-      - Search query parameter. Findd matches in name,
-        description, eventId, type, category.
+      - Search query parameter. Findd matches in name, description, eventId, type, category.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetEventArtifacts
-    description: Complete reference of the GetEventArtifacts
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetEventArtifacts
+    description: Complete reference of the GetEventArtifacts API.
     link: https://developer.cisco.com/docs/dna-center/#!get-event-artifacts
 notes:
   - SDK Method used are
@@ -125,7 +121,7 @@ dnac_response:
           "additionalDetails": {}
         },
         "eventTemplates": [
-          {}
+          "string"
         ],
         "isTenantAware": true,
         "supportedConnectorTypes": [

@@ -9,11 +9,8 @@ DOCUMENTATION = r"""
 module: sites_dns_settings
 short_description: Resource module for Sites Dns Settings
 description:
-  - Manage operation update of the resource Sites Dns
-    Settings. - > Set DNS settings for a site; `null`
-    values indicate that the setting will be inherited
-    from the parent site; empty objects `{}` indicate
-    that the settings is unset.
+  - Manage operation update of the resource Sites Dns Settings. - > Set DNS settings for a site; `null` values indicate that
+    the setting will be inherited from the parent site; empty objects `{}` indicate that the settings is unset.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,21 +24,18 @@ options:
         elements: str
         type: list
       domainName:
-        description: Network's domain name. Example
-          myCompnay.com.
+        description: Network's domain name. Example myCompnay.com.
         type: str
     type: dict
   id:
     description: Id path parameter. Site Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings SetDNSSettingsForASite
-    description: Complete reference of the SetDNSSettingsForASite
-      API.
+  - name: Cisco DNA Center documentation for Network Settings SetDNSSettingsForASite
+    description: Complete reference of the SetDNSSettingsForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!set-dns-settings-for-a-site
 notes:
   - SDK Method used are
@@ -77,8 +71,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

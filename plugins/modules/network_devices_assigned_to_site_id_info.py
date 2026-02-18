@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_assigned_to_site_id_info
-short_description: Information module for Network Devices
-  Assigned To Site Id
+short_description: Information module for Network Devices Assigned To Site Id
 description:
-  - Get all Network Devices Assigned To Site Id. - >
-    Get site assigned network device. The items in the
-    list are arranged in an order that corresponds with
-    their internal identifiers.
+  - Get all Network Devices Assigned To Site Id. - > Get site assigned network device. The items in the list are arranged
+    in an order that corresponds with their internal identifiers.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,13 +24,11 @@ options:
       - Id path parameter. Network Device Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      GetSiteAssignedNetworkDevice
-    description: Complete reference of the GetSiteAssignedNetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Site Design GetSiteAssignedNetworkDevice
+    description: Complete reference of the GetSiteAssignedNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-assigned-network-device
 notes:
   - SDK Method used are

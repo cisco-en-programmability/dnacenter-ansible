@@ -7,21 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: sensor_test_template_edit
-short_description: Resource module for Sensor Test Template
-  Edit
+short_description: Resource module for Sensor Test Template Edit
 description:
-  - Manage operation update of the resource Sensor Test
-    Template Edit.
-  - Intent API to deploy, schedule, or edit and existing
-    SENSOR test template.
+  - Manage operation update of the resource Sensor Test Template Edit.
+  - Intent API to deploy, schedule, or edit and existing SENSOR test template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   _id:
-    description: The sensor test template unique identifier,
-      generated at test creation time.
+    description: The sensor test template unique identifier, generated at test creation time.
     type: str
   actionInProgress:
     description: Indication of inprogress action.
@@ -41,8 +37,7 @@ options:
         type: int
     type: list
   connection:
-    description: Connection type of test WIRED, WIRELESS,
-      BOTH.
+    description: Connection type of test WIRED, WIRELESS, BOTH.
     type: str
   encryptionMode:
     description: Encryption mode.
@@ -51,9 +46,7 @@ options:
     description: Sensor Test Template Edit's frequency.
     suboptions:
       unit:
-        description: Unit of the time value (NANOSECONDS,
-          MICROSECONDS, MILLISECONDS, SECONDS, MINUTES,
-          HOURS, DAYS).
+        description: Unit of the time value (NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS).
         type: str
       value:
         description: Value of the unit.
@@ -70,8 +63,7 @@ options:
     elements: dict
     suboptions:
       allSensors:
-        description: Use all sensors in the site for
-          test.
+        description: Use all sensors in the site for test.
         type: bool
       customManagementVlan:
         description: Custom Management VLAN.
@@ -94,12 +86,10 @@ options:
         type: str
     type: list
   modelVersion:
-    description: Test template object model version
-      (must be 2).
+    description: Test template object model version (must be 2).
     type: int
   name:
-    description: The sensor test template name, which
-      is the same as in 'templateName'.
+    description: The sensor test template name, which is the same as in 'templateName'.
     type: str
   numAssociatedSensor:
     description: Number of associated sensor.
@@ -115,8 +105,7 @@ options:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK,
-          WPA2_EAP, WEB_AUTH, MAB, DOT1X, OTHER.
+        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
         type: str
       certdownloadurl:
         description: Certificate download URL.
@@ -128,24 +117,20 @@ options:
         description: Certificate password phrase.
         type: str
       certstatus:
-        description: Certificate status INACTIVE or
-          ACTIVE.
+        description: Certificate status INACTIVE or ACTIVE.
         type: str
       certxferprotocol:
-        description: Certificate transfering protocol
-          HTTP or HTTPS.
+        description: Certificate transfering protocol HTTP or HTTPS.
         type: str
       deviceType:
         description: Device Type.
         type: str
       eapMethod:
-        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2,
-          EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP,
-          EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP,
+          EAP-FAST-GTC, EAP-PEAP-GTC.
         type: str
       extWebAuth:
-        description: Indication of using external WEB
-          Auth.
+        description: Indication of using external WEB Auth.
         type: bool
       extWebAuthAccessUrl:
         description: External WEB Auth access URL.
@@ -183,8 +168,7 @@ options:
             type: list
         type: list
       password:
-        description: Password string for onboarding
-          SSID.
+        description: Password string for onboarding SSID.
         type: str
       passwordType:
         description: SSID password type ASCII or HEX.
@@ -193,29 +177,24 @@ options:
         description: Profile name.
         type: str
       psk:
-        description: Password of SSID when passwordType
-          is ASCII.
+        description: Password of SSID when passwordType is ASCII.
         type: str
       qosPolicy:
-        description: QoS policy PlATINUM, GOLD, SILVER,
-          BRONZE.
+        description: QoS policy PlATINUM, GOLD, SILVER, BRONZE.
         type: str
       scep:
-        description: Secure certificate enrollment protocol
-          true or false or null for not applicable.
+        description: Secure certificate enrollment protocol true or false or null for not applicable.
         type: bool
       tests:
         description: Sensor Test Template Edit's tests.
         elements: dict
         suboptions:
           config:
-            description: Sensor Test Template Edit's
-              config.
+            description: Sensor Test Template Edit's config.
             elements: dict
             suboptions:
               direction:
-                description: IPerf direction (UPLOAD,
-                  DOWNLOAD, BOTH).
+                description: IPerf direction (UPLOAD, DOWNLOAD, BOTH).
                 type: str
               domains:
                 description: DNS domain name.
@@ -244,7 +223,7 @@ options:
                 type: str
               numPackets:
                 description: Number of packets.
-                type: int
+                type: str
               password:
                 description: Password.
                 type: str
@@ -261,9 +240,8 @@ options:
                 description: Probe type.
                 type: str
               protocol:
-                description: Protocol used by file transfer,
-                  IPerf, mail server, and radius (TCP,
-                  UDP, FTP, POP3, IMAP, CHAP, PAP).
+                description: Protocol used by file transfer, IPerf, mail server, and radius (TCP, UDP, FTP, POP3, IMAP, CHAP,
+                  PAP).
                 type: str
               proxyPassword:
                 description: Proxy password.
@@ -278,8 +256,7 @@ options:
                 description: Proxy user name.
                 type: str
               server:
-                description: Ping, file transfer, mail,
-                  radius, ssh, or telnet server.
+                description: Ping, file transfer, mail, radius, ssh, or telnet server.
                 type: str
               servers:
                 description: IPerf server list.
@@ -292,8 +269,7 @@ options:
                 description: IPerf start port.
                 type: int
               transferType:
-                description: File transfer type (UPLOAD,
-                  DOWNLOAD, BOTH).
+                description: File transfer type (UPLOAD, DOWNLOAD, BOTH).
                 type: str
               udpBandwidth:
                 description: IPerf UDP bandwidth.
@@ -316,15 +292,13 @@ options:
             type: str
         type: list
       username:
-        description: User name string for onboarding
-          SSID.
+        description: User name string for onboarding SSID.
         type: str
       vlan:
         description: VLAN.
         type: str
       whiteList:
-        description: Indication of being on allowed
-          list.
+        description: Indication of being on allowed list.
         type: bool
     type: list
   radioAsSensorRemoved:
@@ -356,7 +330,7 @@ options:
         description: Host name.
         type: str
       iPerfInfo:
-        description: A string-stringList iPerf information.
+        description: Sensor Test Template Edit's iPerfInfo.
         type: dict
       id:
         description: Sensor ID.
@@ -386,8 +360,7 @@ options:
         description: Service policy.
         type: str
       status:
-        description: Sensor device status UP, DOWN,
-          REBOOT.
+        description: Sensor device status UP, DOWN, REBOOT.
         type: str
       switchMac:
         description: Switch MAC address.
@@ -403,7 +376,7 @@ options:
         elements: str
         type: list
       testMacAddresses:
-        description: A string-string test MAC address.
+        description: Sensor Test Template Edit's testMacAddresses.
         type: dict
       wiredApplicationMessage:
         description: Wired application message.
@@ -429,8 +402,7 @@ options:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK,
-          WPA2_EAP, WEB_AUTH, MAB, DOT1X, OTHER.
+        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
         type: str
       bands:
         description: WIFI bands 2.4GHz or 5GHz.
@@ -445,21 +417,17 @@ options:
         description: Certificate password phrase.
         type: str
       certstatus:
-        description: Certificate status INACTIVE or
-          ACTIVE.
+        description: Certificate status INACTIVE or ACTIVE.
         type: str
       certxferprotocol:
-        description: Certificate transfering protocol
-          HTTP or HTTPS.
+        description: Certificate transfering protocol HTTP or HTTPS.
         type: str
       eapMethod:
-        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2,
-          EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP,
-          EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP,
+          EAP-FAST-GTC, EAP-PEAP-GTC.
         type: str
       extWebAuth:
-        description: Indication of using external WEB
-          Auth.
+        description: Indication of using external WEB Auth.
         type: bool
       extWebAuthAccessUrl:
         description: External WEB Auth access URL.
@@ -506,8 +474,7 @@ options:
         description: Number of Sensors in the test.
         type: int
       password:
-        description: Password string for onboarding
-          SSID.
+        description: Password string for onboarding SSID.
         type: str
       passwordType:
         description: SSID password type ASCII or HEX.
@@ -528,16 +495,13 @@ options:
         description: Proxy server user name.
         type: str
       psk:
-        description: Password of SSID when passwordType
-          is ASCII.
+        description: Password of SSID when passwordType is ASCII.
         type: str
       qosPolicy:
-        description: QoS policy PlATINUM, GOLD, SILVER,
-          BRONZE.
+        description: QoS policy PlATINUM, GOLD, SILVER, BRONZE.
         type: str
       scep:
-        description: Secure certificate enrollment protocol
-          true or false or null for not applicable.
+        description: Secure certificate enrollment protocol true or false or null for not applicable.
         type: bool
       ssid:
         description: The SSID string.
@@ -550,13 +514,11 @@ options:
         elements: dict
         suboptions:
           config:
-            description: Sensor Test Template Edit's
-              config.
+            description: Sensor Test Template Edit's config.
             elements: dict
             suboptions:
               direction:
-                description: IPerf direction (UPLOAD,
-                  DOWNLOAD, BOTH).
+                description: IPerf direction (UPLOAD, DOWNLOAD, BOTH).
                 type: str
               domains:
                 description: DNS domain name.
@@ -585,7 +547,7 @@ options:
                 type: str
               numPackets:
                 description: Number of packets.
-                type: int
+                type: str
               password:
                 description: Password.
                 type: str
@@ -602,9 +564,8 @@ options:
                 description: Probe type.
                 type: str
               protocol:
-                description: Protocol used by file transfer,
-                  IPerf, mail server, and radius (TCP,
-                  UDP, FTP, POP3, IMAP, CHAP, PAP).
+                description: Protocol used by file transfer, IPerf, mail server, and radius (TCP, UDP, FTP, POP3, IMAP, CHAP,
+                  PAP).
                 type: str
               proxyPassword:
                 description: Proxy password.
@@ -619,8 +580,7 @@ options:
                 description: Proxy user name.
                 type: str
               server:
-                description: Ping, file transfer, mail,
-                  radius, ssh, or telnet server.
+                description: Ping, file transfer, mail, radius, ssh, or telnet server.
                 type: str
               servers:
                 description: IPerf server list.
@@ -633,8 +593,7 @@ options:
                 description: IPerf start port.
                 type: int
               transferType:
-                description: File transfer type (UPLOAD,
-                  DOWNLOAD, BOTH).
+                description: File transfer type (UPLOAD, DOWNLOAD, BOTH).
                 type: str
               udpBandwidth:
                 description: IPerf UDP bandwidth.
@@ -660,12 +619,11 @@ options:
         description: Sensor Test Template Edit's thirdParty.
         suboptions:
           selected:
-            description: True the SSID is third party.
+            description: true the SSID is third party.
             type: bool
         type: dict
       username:
-        description: User name string for onboarding
-          SSID.
+        description: User name string for onboarding SSID.
         type: str
       validFrom:
         description: Valid From UTC timestamp.
@@ -674,8 +632,7 @@ options:
         description: Valid To UTC timestamp.
         type: int
       whiteList:
-        description: Indication of being on allowed
-          list.
+        description: Indication of being on allowed list.
         type: bool
       wlanId:
         description: WLAN ID.
@@ -691,29 +648,24 @@ options:
     description: Status of the test (RUNNING, NOTRUNNING).
     type: str
   templateName:
-    description: The test template name that is to be
-      edited.
+    description: The test template name that is to be edited.
     type: str
   testScheduleMode:
-    description: Test schedule mode (ONDEMAND, DEDICATED,
-      SCHEDULED, CONTINUOUS, RUNNOW).
+    description: Test schedule mode (ONDEMAND, DEDICATED, SCHEDULED, CONTINUOUS, RUNNOW).
     type: str
   version:
-    description: The sensor test template version (must
-      be 2).
+    description: The sensor test template version (must be 2).
     type: int
   wlans:
     description: WLANs list.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      EditSensorTestTemplate
-    description: Complete reference of the EditSensorTestTemplate
-      API.
+  - name: Cisco DNA Center documentation for Sensors EditSensorTestTemplate
+    description: Complete reference of the EditSensorTestTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!edit-sensor-test-template
 notes:
   - SDK Method used are
@@ -799,7 +751,7 @@ EXAMPLES = r"""
                 ndtServer: string
                 ndtServerPath: string
                 ndtServerPort: string
-                numPackets: 0
+                numPackets: string
                 password: string
                 passwordPrompt: string
                 pathToDownload: string
@@ -905,7 +857,7 @@ EXAMPLES = r"""
                 ndtServer: string
                 ndtServerPath: string
                 ndtServerPort: string
-                numPackets: 0
+                numPackets: string
                 password: string
                 passwordPrompt: string
                 pathToDownload: string
@@ -1047,7 +999,7 @@ dnac_response:
                     "endPort": 0,
                     "udpBandwidth": 0,
                     "probeType": "string",
-                    "numPackets": 0,
+                    "numPackets": "string",
                     "pathToDownload": "string",
                     "transferType": "string",
                     "sharedSecret": "string",
@@ -1120,7 +1072,7 @@ dnac_response:
                     "endPort": 0,
                     "udpBandwidth": 0,
                     "probeType": "string",
-                    "numPackets": 0,
+                    "numPackets": "string",
                     "pathToDownload": "string",
                     "transferType": "string",
                     "sharedSecret": "string",
