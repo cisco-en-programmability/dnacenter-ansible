@@ -38,7 +38,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
     playbook_all_role_details = test_data.get("playbook_all_role_details")
 
     def setUp(self):
-        super(TestDnacBrownfieldUserRolePlaybookGenerator, self).setUp()
+        super(TestDnacUserRolePlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -50,7 +50,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
     def tearDown(self):
-        super(TestDnacBrownfieldUserRolePlaybookGenerator, self).tearDown()
+        super(TestDnacUserRolePlaybookGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
