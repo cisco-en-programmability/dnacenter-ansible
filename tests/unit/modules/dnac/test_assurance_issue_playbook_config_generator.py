@@ -17,14 +17,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_assurance_issue_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import assurance_issue_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
+class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
 
-    module = brownfield_assurance_issue_playbook_generator
-    test_data = loadPlaybookData("brownfield_assurance_issue_playbook_generator")
+    module = assurance_issue_playbook_config_generator
+    test_data = loadPlaybookData("assurance_issue_playbook_config_generator")
 
     playbook_config_generate_all = test_data.get("playbook_config_generate_all")
     playbook_config_specific_components = test_data.get("playbook_config_specific_components")
@@ -33,7 +33,7 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
     playbook_config_with_file_path = test_data.get("playbook_config_with_file_path")
 
     def setUp(self):
-        super(TestDnacBrownfieldAssuranceIssue, self).setUp()
+        super(TestDnacAssuranceIssuePlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -48,13 +48,13 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacBrownfieldAssuranceIssue, self).tearDown()
+        super(TestDnacAssuranceIssuePlaybookGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield assurance issue tests.
+        Load fixtures for assurance issue playbook generator tests.
         """
         if "generate_all_configurations_success" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -120,9 +120,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_generate_all_configurations_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_generate_all_configurations_success(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator when generate_all_configurations is True.
+        Test case for assurance issue playbook generator when generate_all_configurations is True.
 
         This test case checks the behavior when generate_all_configurations is set to True,
         which should retrieve all user-defined and system issue settings and generate a complete
@@ -158,9 +158,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_specific_components_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_specific_components_success(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator with specific components.
+        Test case for assurance issue playbook generator with specific components.
 
         This test case checks the behavior when specific components are requested
         via component_specific_filters with both user-defined and system issue settings.
@@ -191,9 +191,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_user_defined_only_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_user_defined_only_success(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator with user-defined issues only.
+        Test case for assurance issue playbook generator with user-defined issues only.
 
         This test case checks the behavior when only user-defined issue settings
         are requested with specific filters.
@@ -219,9 +219,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_system_only_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_system_only_success(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator with system issues only.
+        Test case for assurance issue playbook generator with system issues only.
 
         This test case checks the behavior when only system issue settings
         are requested with device type filters.
@@ -247,9 +247,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_with_file_path_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_with_file_path_success(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator with custom file path.
+        Test case for assurance issue playbook generator with custom file path.
 
         This test case checks the behavior when a custom file path is specified
         for the generated YAML configuration.
@@ -280,9 +280,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
         # Verify file was attempted to be written to custom path
         mock_file.assert_called()
 
-    def test_brownfield_assurance_issue_api_error(self):
+    def test_assurance_issue_playbook_generator_api_error(self):
         """
-        Test case for brownfield assurance issue generator when API call fails.
+        Test case for assurance issue playbook generator when API call fails.
 
         This test case checks the behavior when the DNAC API returns an error
         during issue retrieval.
@@ -313,9 +313,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_empty_response(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_empty_response(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator with empty API response.
+        Test case for assurance issue playbook generator with empty API response.
 
         This test case checks the behavior when DNAC returns empty responses
         for issue queries.
@@ -345,9 +345,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_severity_integer_conversion(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_severity_integer_conversion(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator severity integer conversion.
+        Test case for assurance issue playbook generator severity integer conversion.
 
         This test case checks that severity values are properly converted from strings
         to integers in the generated YAML output.
@@ -373,9 +373,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
         # Check operation summary shows failures
         self.assertGreater(result["response"]["operation_summary"]["total_failed_operations"], 0)
 
-    def test_brownfield_assurance_issue_validation_error(self):
+    def test_assurance_issue_playbook_generator_validation_error(self):
         """
-        Test case for brownfield assurance issue generator with invalid configuration.
+        Test case for assurance issue playbook generator with invalid configuration.
 
         This test case checks the behavior when invalid configuration parameters
         are provided.
@@ -405,9 +405,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_file_creation_directory_check(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_file_creation_directory_check(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator directory creation.
+        Test case for assurance issue playbook generator directory creation.
 
         This test case checks that the module properly handles directory creation
         when the output directory doesn't exist.
@@ -448,9 +448,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_operation_summary(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_operation_summary(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator operation summary.
+        Test case for assurance issue playbook generator operation summary.
 
         This test case verifies that operation tracking and summary generation
         works correctly.
@@ -478,9 +478,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
         response = result.get('response', {})
         self.assertIn('operation_summary', response)
 
-    def test_brownfield_assurance_issue_missing_config(self):
+    def test_assurance_issue_playbook_generator_missing_config(self):
         """
-        Test case for brownfield assurance issue generator with missing config.
+        Test case for assurance issue playbook generator with missing config.
 
         This test case checks the behavior when no config is provided.
         """
@@ -506,9 +506,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_default_file_path(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_default_file_path(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator with default file path.
+        Test case for assurance issue playbook generator with default file path.
 
         This test case checks that when no file path is specified, a default
         timestamped filename is generated.
@@ -537,9 +537,9 @@ class TestDnacBrownfieldAssuranceIssue(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_assurance_issue_debug_logging(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_debug_logging(self, mock_exists, mock_file):
         """
-        Test case for brownfield assurance issue generator with debug logging.
+        Test case for assurance issue playbook generator with debug logging.
 
         This test case verifies that debug logging works correctly throughout
         the module execution.
