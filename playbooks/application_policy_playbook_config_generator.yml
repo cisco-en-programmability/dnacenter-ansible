@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate all application policy configurations
-      cisco.dnac.brownfield_application_policy_playbook_generator:
+      cisco.dnac.application_policy_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
