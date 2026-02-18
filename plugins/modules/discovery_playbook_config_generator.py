@@ -206,7 +206,6 @@ EXAMPLES = r"""
           discovery_type_list:
             - "CDP"
             - "LLDP"
-
 """
 
 RETURN = r"""
@@ -1526,7 +1525,6 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Filter by discovery names (highest priority)
         discovery_name_list = global_filters.get('discovery_name_list', [])
         discovery_type_list = global_filters.get('discovery_type_list', [])
-        
         if discovery_name_list:
             self.log(f"Filtering by discovery names: {discovery_name_list}", "DEBUG")
             filtered_discoveries = [
@@ -1537,7 +1535,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Log which discoveries were found by name
             found_names = [d.get('name') for d in filtered_discoveries]
             self.log(f"Found discoveries by name: {found_names}", "DEBUG")
-            
+
         # Filter by discovery types (only if names not provided)
         elif discovery_type_list:
             self.log(f"Filtering by discovery types: {discovery_type_list}", "DEBUG")
