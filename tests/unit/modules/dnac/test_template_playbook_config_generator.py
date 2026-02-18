@@ -17,21 +17,21 @@
 #   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_template_playbook_generator`.
-#   These tests cover various scenarios for generating YAML playbooks from brownfield
+#   Unit tests for the Ansible module `template_playbook_config_generator`.
+#   These tests cover various scenarios for generating YAML playbooks from playbook generator.
 #   template projects and configuration templates in Cisco Catalyst Center.
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_template_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import template_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
-    module = brownfield_template_playbook_generator
-    test_data = loadPlaybookData("brownfield_template_config_generator")
+class TestTemplatePlaybookConfigGenerator(TestDnacModule):
+    module = template_playbook_config_generator
+    test_data = loadPlaybookData("template_playbook_config_generator")
 
     playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
     playbook_config_template_projects_by_name_single = test_data.get("playbook_config_template_projects_by_name_single")
@@ -48,7 +48,7 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
     playbook_invalid_template_details = test_data.get("playbook_invalid_template_details")
 
     def setUp(self):
-        super(TestBrownfieldTemplateConfigGenerator, self).setUp()
+        super(TestTemplatePlaybookConfigGenerator, self).setUp()
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
@@ -60,13 +60,13 @@ class TestBrownfieldTemplateConfigGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldTemplateConfigGenerator, self).tearDown()
+        super(TestTemplatePlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield template config generator tests.
+        Load fixtures for template playbook config generator tests.
         """
 
         if "generate_all_configurations" in self._testMethodName:
