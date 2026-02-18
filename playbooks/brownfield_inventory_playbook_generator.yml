@@ -786,5 +786,3 @@
       register: scenario26_result
       failed_when: false  # Don't fail the playbook - we expect this to fail
       tags: [scenario26, invalid_udf_global_filter]
-
-    
