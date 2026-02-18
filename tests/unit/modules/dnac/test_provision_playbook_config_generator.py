@@ -20,20 +20,20 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_provision_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import provision_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldProvisionPlaybookGenerator(TestDnacModule):
+class TestDnacProvisionPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_provision_playbook_generator
+    module = provision_playbook_config_generator
 
-    test_data = loadPlaybookData("brownfield_provision_playbook_generator")
+    test_data = loadPlaybookData("provision_playbook_config_generator")
 
     playbook_global_filters = test_data.get("playbook_global_filters")
 
     def setUp(self):
-        super(TestDnacBrownfieldProvisionPlaybookGenerator, self).setUp()
+        super(TestDnacProvisionPlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -45,7 +45,7 @@ class TestDnacBrownfieldProvisionPlaybookGenerator(TestDnacModule):
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
     def tearDown(self):
-        super(TestDnacBrownfieldProvisionPlaybookGenerator, self).tearDown()
+        super(TestDnacProvisionPlaybookGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
@@ -148,7 +148,7 @@ class TestDnacBrownfieldProvisionPlaybookGenerator(TestDnacModule):
                 self.test_data.get("response88"),
             ]
 
-    def test_brownfield_provision_playbook_generator_playbook_global_filters(self):
+    def test_provision_playbook_config_generator_playbook_global_filters(self):
         """
         Test the Application Policy Workflow Manager's profile creation process.
 

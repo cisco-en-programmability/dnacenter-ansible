@@ -587,7 +587,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         )
 
         try:
-            self.validate_minimum_requirements(self.config)
+            self.validate_minimum_requirement_for_global_filters(self.config)
             self.log(
                 "Minimum requirements validation passed. Configuration has either "
                 "generate_all_configurations or valid global_filters.",
@@ -971,16 +971,14 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                         self.log(f"Wireless profile not found: {profile}", "WARNING")
 
                 if non_existing_profiles:
-                    self.log(
-                        f"Profile name validation failed. {len(non_existing_profiles)} "
-                        "profile(s) not found in "
-                        f"Catalyst Center: {non_existing_profiles}. "
-                        f"Total profiles requested: {len(profile_names)}, Found: {len(filtered_profiles)}. "
-                        "Generating error message and exiting with failure.",
-                        "ERROR"
-                    )
                     not_exist_profile = ", ".join(non_existing_profiles)
-                    self.fail_and_exit(f"Wireless profile(s) '{not_exist_profile}' does not exist in Cisco Catalyst Center.")
+                    self.msg = (
+                        f"Profile name validation failed. {len(non_existing_profiles)} profile(s) not found in "
+                        f"Catalyst Center: {not_exist_profile}. Total profiles requested: {len(profile_names)}, "
+                        f"Found: {len(filtered_profiles)}. Please verify the profile names and try again."
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
 
                 if filtered_profiles:
                     self.log(
@@ -1349,50 +1347,79 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "DEBUG"
             )
 
-            profiles_matched = 0
-
-            for profile_index, (profile_id, templates) in enumerate(
-                self.have.get("wireless_profile_templates", {}).items(), start=1
-            ):
+            day_n_template_matches = 0
+            unmatched_day_n_templates = []
+            for template_index, given_template in enumerate(day_n_templates, start=1):
                 self.log(
-                    f"Checking profile {profile_index}/"
-                    f"{len(self.have.get('wireless_profile_templates', {}))} (ID: "
-                    f"{profile_id}) with {len(templates)} template(s): {templates}. "
-                    "Testing for any template match in day_n_template_list filter.",
+                    f"Processing Day-N template filter {template_index}/{len(day_n_templates)}: '{given_template}'. "
+                    "Iterating through wireless_profile_templates to find profiles containing this template.",
                     "DEBUG"
                 )
 
-                if any(template in templates for template in day_n_templates):
-                    matched_templates = [t for t in templates if t in day_n_templates]
+                profiles_matched = 0
 
+                for profile_index, (profile_id, templates) in enumerate(
+                    self.have.get("wireless_profile_templates", {}).items(), start=1
+                ):
                     self.log(
-                        "Profile ID '{0}' contains matching Day-N template(s): {1}. "
-                        "Calling process_profile_info() to extract complete configuration.".format(
-                            profile_id, matched_templates
-                        ),
+                        f"Checking profile {profile_index}/"
+                        f"{len(self.have.get('wireless_profile_templates', {}))} (ID: "
+                        f"{profile_id}) with {len(templates)} template(s): {templates}. "
+                        "Testing for any template match in day_n_template_list filter.",
                         "DEBUG"
                     )
 
-                    each_profile_config = self.process_profile_info(profile_id, final_list)
-                    profiles_matched += 1
+                    if given_template in templates:
+                        self.log(
+                            f"Profile ID '{profile_id}' contains matching Day-N template(s): {given_template}. "
+                            "Calling process_profile_info() to extract complete configuration.",
+                            "DEBUG"
+                        )
 
+                        each_profile_config = self.process_profile_info(profile_id, final_list)
+                        profiles_matched += 1
+
+                        self.log(
+                            "Profile configuration processed successfully for profile ID '{0}'. "
+                            "Total profiles matched: {1}. Configuration: {2}".format(
+                                profile_id, profiles_matched, each_profile_config
+                            ),
+                            "DEBUG"
+                        )
+
+                if profiles_matched == 0:
+                    self.msg = (
+                        f"No profiles matched Day-N template filter '{given_template}' "
+                        "after checking all profiles. "
+                        "This template may not be associated with any profiles.")
+                    self.log(self.msg, "WARNING")
+                    unmatched_day_n_templates.append(given_template)
+                else:
+                    day_n_template_matches += 1
                     self.log(
-                        "Profile configuration processed successfully for profile ID '{0}'. "
-                        "Total profiles matched: {1}. Configuration: {2}".format(
-                            profile_id, profiles_matched, each_profile_config
-                        ),
+                        f"Day-N template filter '{given_template}' matched {profiles_matched} profile(s). "
+                        f"Total Day-N template filters matched so far: {day_n_template_matches}. "
+                        f"Configurations collected so far: {len(final_list)}.",
                         "DEBUG"
                     )
+
+            if unmatched_day_n_templates:
+                self.msg = (
+                    f"The following Day-N template filter(s) did not match any profiles: "
+                    f"{unmatched_day_n_templates}. Verify these templates exist in Catalyst Center "
+                    "and are associated with profiles."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
 
             self.log(
-                f"Day-N template list filtering completed. Matched {profiles_matched} "
+                f"Day-N template list filtering completed. Matched {day_n_template_matches} "
                 f"profile(s) from {len(day_n_templates)} "
                 f"template filter(s). Final configurations collected: "
                 f"{len(final_list)}. Skipping remaining "
                 "filter types due to hierarchical priority.",
                 "INFO"
             )
-
         elif site_list and isinstance(site_list, list):
             self.log(
                 "Applying THIRD PRIORITY filter: site_list with "
@@ -1403,45 +1430,78 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "DEBUG"
             )
 
-            profiles_matched = 0
-
-            for profile_index, (profile_id, sites) in enumerate(
-                self.have.get("wireless_profile_sites", {}).items(), start=1
-            ):
+            matched_sites = 0
+            unmatched_sites = []
+            for site_index, given_site in enumerate(site_list, start=1):
                 self.log(
-                    f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_sites', {}))} "
-                    f"(ID: {profile_id}) with {len(sites)} site assignment(s): {list(sites.values())}. "
-                    "Testing for any site match in site_list filter.",
+                    f"Processing site filter {site_index}/{len(site_list)}: '{given_site}'. "
+                    "Iterating through wireless_profile_sites to find profiles assigned to this site.",
                     "DEBUG"
                 )
 
-                if any(site in sites.values() for site in site_list):
-                    matched_sites = [s for s in sites.values() if s in site_list]
+                profiles_matched = 0
 
+                for profile_index, (profile_id, sites) in enumerate(
+                    self.have.get("wireless_profile_sites", {}).items(), start=1
+                ):
                     self.log(
-                        f"Profile ID '{profile_id}' assigned to matching site(s): {matched_sites}. Calling "
-                        "process_profile_info() to extract complete configuration.",
+                        f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_sites', {}))} "
+                        f"(ID: {profile_id}) with {len(sites)} site assignment(s): {list(sites.values())}. "
+                        "Testing for any site match in site_list filter.",
                         "DEBUG"
                     )
 
-                    each_profile_config = self.process_profile_info(profile_id, final_list)
-                    profiles_matched += 1
+                    if given_site in sites.values():
+                        self.log(
+                            f"Profile ID '{profile_id}' assigned to matching site(s): {given_site}. Calling "
+                            "process_profile_info() to extract complete configuration.",
+                            "DEBUG"
+                        )
 
+                        each_profile_config = self.process_profile_info(profile_id, final_list)
+                        profiles_matched += 1
+
+                        self.log(
+                            f"Profile configuration processed successfully for profile ID '{profile_id}'. "
+                            f"Total profiles matched: {profiles_matched}. Configuration: {each_profile_config}",
+                            "DEBUG"
+                        )
+
+                if profiles_matched == 0:
+                    self.msg = (
+                        f"No profiles matched site filter '{given_site}' after checking all profiles. "
+                        "This site may not be associated with any profiles.")
+                    self.log(self.msg, "WARNING")
+                    unmatched_sites.append(given_site)
+                else:
+                    matched_sites += 1
                     self.log(
-                        f"Profile configuration processed successfully for profile ID '{profile_id}'. "
-                        f"Total profiles matched: {profiles_matched}. Configuration: {each_profile_config}",
+                        f"Site filter '{given_site}' matched {profiles_matched} profile(s). "
+                        f"Total site filters matched so far: {matched_sites}. "
+                        f"Configurations collected so far: {len(final_list)}.",
                         "DEBUG"
                     )
+
+            if unmatched_sites:
+                self.msg = (
+                    f"The following site filter(s) did not match any profiles: "
+                    f"{unmatched_sites}. Verify these sites exist in Catalyst Center "
+                    "and are associated with profiles."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
 
             self.log(
-                f"Site list filtering completed. Matched {profiles_matched} "
+                f"Site list filtering completed. Matched {matched_sites} "
                 f"profile(s) from {len(site_list)} site "
                 "filter(s). Final configurations collected: "
                 f"{len(final_list)}. Skipping remaining filter "
                 "types due to hierarchical priority.",
                 "INFO"
             )
-
         elif ssid_list and isinstance(ssid_list, list):
             self.log(
                 "Applying FOURTH PRIORITY filter: ssid_list with "
@@ -1452,53 +1512,83 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "DEBUG"
             )
 
-            profiles_matched = 0
-
-            for profile_index, (profile_id, profile_info) in enumerate(
-                self.have.get("wireless_profile_info", {}).items(), start=1
-            ):
-                ssid_details = profile_info.get("ssidDetails", [])
-
+            ssid_matched = 0
+            unmatched_ssids = []
+            for given_ssid in ssid_list:
                 self.log(
-                    f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_info', {}))} "
-                    f"(ID: {profile_id}) with {len(ssid_details)} SSID detail(s). "
-                    "Extracting SSID names for matching against ssid_list filter.",
+                    f"Processing SSID filter '{given_ssid}' against wireless_profile_info. "
+                    f"Iterating through {len(self.have.get('wireless_profile_info', {}))} profiles to find matches.",
                     "DEBUG"
                 )
 
-                if any(ssid.get("ssidName") in ssid_list for ssid in ssid_details):
-                    matched_ssids = [
-                        ssid.get("ssidName") for ssid in ssid_details
-                        if ssid.get("ssidName") in ssid_list
-                    ]
+                profiles_matched = 0
+
+                for profile_index, (profile_id, profile_info) in enumerate(
+                    self.have.get("wireless_profile_info", {}).items(), start=1
+                ):
+                    ssid_details = profile_info.get("ssidDetails", [])
 
                     self.log(
-                        f"Profile ID '{profile_id}' contains matching "
-                        f"SSID(s): {matched_ssids}. Calling "
-                        "process_profile_info() to extract complete configuration.",
+                        f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_info', {}))} "
+                        f"(ID: {profile_id}) with {len(ssid_details)} SSID detail(s). "
+                        "Extracting SSID names for matching against ssid_list filter.",
                         "DEBUG"
                     )
 
-                    each_profile_config = self.process_profile_info(profile_id, final_list)
-                    profiles_matched += 1
+                    if any(ssid.get("ssidName") == given_ssid for ssid in ssid_details):
+                        self.log(
+                            f"Profile ID '{profile_id}' contains matching "
+                            f"SSID(s): {given_ssid}. Calling "
+                            "process_profile_info() to extract complete configuration.",
+                            "DEBUG"
+                        )
 
+                        each_profile_config = self.process_profile_info(profile_id, final_list)
+                        profiles_matched += 1
+
+                        self.log(
+                            "Profile configuration processed successfully "
+                            f"for profile ID '{profile_id}'. "
+                            f"Total profiles matched: {profiles_matched}. "
+                            f"Configuration: {each_profile_config}",
+                            "DEBUG"
+                        )
+
+                if profiles_matched == 0:
+                    self.msg = (
+                        f"No profiles matched SSID filter '{given_ssid}' after checking all profiles. "
+                        "This SSID may not be associated with any profiles.")
+                    self.log(self.msg, "WARNING")
+                    unmatched_ssids.append(given_ssid)
+                else:
+                    ssid_matched += 1
                     self.log(
-                        "Profile configuration processed successfully "
-                        f"for profile ID '{profile_id}'. "
-                        f"Total profiles matched: {profiles_matched}. "
-                        f"Configuration: {each_profile_config}",
+                        f"SSID filter '{given_ssid}' matched {profiles_matched} profile(s). "
+                        f"Total SSID filters matched so far: {ssid_matched}. "
+                        f"Configurations collected so far: {len(final_list)}.",
                         "DEBUG"
                     )
+
+            if unmatched_ssids:
+                self.msg = (
+                    f"The following SSID filter(s) did not match any profiles: "
+                    f"{unmatched_ssids}. Verify these SSIDs exist in Catalyst Center "
+                    "and are associated with profiles."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
 
             self.log(
-                f"SSID list filtering completed. Matched {profiles_matched} "
+                f"SSID list filtering completed. Matched {ssid_matched} "
                 f"profile(s) from {len(ssid_list)} SSID "
                 f"filter(s). Final configurations collected: {len(final_list)}. "
                 "Skipping remaining filter "
                 "types due to hierarchical priority.",
                 "INFO"
             )
-
         elif ap_zone_list and isinstance(ap_zone_list, list):
             self.log(
                 f"Applying FIFTH PRIORITY filter: ap_zone_list with {len(ap_zone_list)} "
@@ -1509,52 +1599,83 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "DEBUG"
             )
 
-            profiles_matched = 0
-
-            for profile_index, (profile_id, profile_info) in enumerate(
-                self.have.get("wireless_profile_info", {}).items(), start=1
-            ):
-                ap_zones = profile_info.get("apZones", [])
-
+            ap_zone_matched = 0
+            unmatched_apzones = []
+            for given_ap_zone in ap_zone_list:
                 self.log(
-                    f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_info', {}))} "
-                    f"(ID: {profile_id}) with {len(ap_zones)} AP zone(s). Extracting "
-                    "AP zone names for matching against ap_zone_list filter.",
+                    f"Processing AP zone filter '{given_ap_zone}' against wireless_profile_info. "
+                    f"Iterating through {len(self.have.get('wireless_profile_info', {}))} "
+                    "profiles to find matches.",
                     "DEBUG"
                 )
+                profiles_matched = 0
 
-                if any(ap_zone.get("apZoneName") in ap_zone_list for ap_zone in ap_zones):
-                    matched_zones = [
-                        zone.get("apZoneName") for zone in ap_zones
-                        if zone.get("apZoneName") in ap_zone_list
-                    ]
+                for profile_index, (profile_id, profile_info) in enumerate(
+                    self.have.get("wireless_profile_info", {}).items(), start=1
+                ):
+                    ap_zones = profile_info.get("apZones", [])
 
                     self.log(
-                        f"Profile ID '{profile_id}' contains matching "
-                        f"AP zone(s): {matched_zones}. Calling "
-                        "process_profile_info() to extract complete configuration.",
+                        f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_info', {}))} "
+                        f"(ID: {profile_id}) with {len(ap_zones)} AP zone(s). Extracting "
+                        "AP zone names for matching against ap_zone_list filter.",
                         "DEBUG"
                     )
 
-                    each_profile_config = self.process_profile_info(profile_id, final_list)
-                    profiles_matched += 1
+                    if any(ap_zone.get("apZoneName") == given_ap_zone for ap_zone in ap_zones):
+                        self.log(
+                            f"Profile ID '{profile_id}' contains matching "
+                            f"AP zone(s): {given_ap_zone}. Calling "
+                            "process_profile_info() to extract complete configuration.",
+                            "DEBUG"
+                        )
 
+                        each_profile_config = self.process_profile_info(profile_id, final_list)
+                        profiles_matched += 1
+
+                        self.log(
+                            f"Profile configuration processed successfully for profile ID '{profile_id}'. "
+                            f"Total profiles matched: {profiles_matched}. "
+                            f"Configuration: {each_profile_config}",
+                            "DEBUG"
+                        )
+
+                if profiles_matched == 0:
+                    self.msg = (
+                        f"No profiles matched AP zone filter '{given_ap_zone}' "
+                        "after checking all profiles. "
+                        "This AP zone may not be associated with any profiles.")
+                    self.log(self.msg, "WARNING")
+                    unmatched_apzones.append(given_ap_zone)
+                else:
+                    ap_zone_matched += 1
                     self.log(
-                        f"Profile configuration processed successfully for profile ID '{profile_id}'. "
-                        f"Total profiles matched: {profiles_matched}. "
-                        f"Configuration: {each_profile_config}",
+                        f"AP zone filter '{given_ap_zone}' matched {profiles_matched} profile(s). "
+                        f"Total AP zone filters matched so far: {ap_zone_matched}. "
+                        f"Configurations collected so far: {len(final_list)}.",
                         "DEBUG"
                     )
+
+            if unmatched_apzones:
+                self.msg = (
+                    f"The following AP zone filter(s) did not match any profiles: "
+                    f"{unmatched_apzones}. Verify these AP zones exist in Catalyst Center "
+                    "and are associated with profiles."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
 
             self.log(
-                f"AP zone list filtering completed. Matched {profiles_matched} "
+                f"AP zone list filtering completed. Matched {ap_zone_matched} "
                 f"profile(s) from {len(ap_zone_list)} AP zone "
                 f"filter(s). Final configurations collected: {len(final_list)}. "
                 "Skipping remaining filter "
                 "types due to hierarchical priority.",
                 "INFO"
             )
-
         elif feature_template_list and isinstance(feature_template_list, list):
             self.log(
                 f"Applying SIXTH PRIORITY filter: feature_template_list "
@@ -1565,55 +1686,86 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "DEBUG"
             )
 
-            profiles_matched = 0
-
-            for profile_index, (profile_id, profile_info) in enumerate(
-                self.have.get("wireless_profile_info", {}).items(), start=1
-            ):
-                feature_templates = profile_info.get("featureTemplates", [])
-
+            matched_feature_templates = 0
+            un_matched_feature_templates = []
+            for template in feature_template_list:
                 self.log(
-                    f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_info', {}))} "
-                    f"(ID: {profile_id}) with {len(feature_templates)} feature template(s). "
-                    "Extracting design names for matching against feature_template_list "
-                    "filter.",
+                    f"Processing feature template filter '{template}' against wireless_profile_info. "
+                    f"Iterating through {len(self.have.get('wireless_profile_info', {}))} profiles to find matches.",
                     "DEBUG"
                 )
 
-                if any(
-                    feature_template.get("designName") in feature_template_list
-                    for feature_template in feature_templates
+                profiles_matched = 0
+
+                for profile_index, (profile_id, profile_info) in enumerate(
+                    self.have.get("wireless_profile_info", {}).items(), start=1
                 ):
-                    matched_templates = [
-                        ft.get("designName") for ft in feature_templates
-                        if ft.get("designName") in feature_template_list
-                    ]
+                    feature_templates = profile_info.get("featureTemplates", [])
 
                     self.log(
-                        f"Profile ID '{profile_id}' contains matching feature "
-                        f"template(s): {matched_templates}. "
-                        "Calling process_profile_info() to extract complete configuration.",
+                        f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_info', {}))} "
+                        f"(ID: {profile_id}) with {len(feature_templates)} feature template(s). "
+                        "Extracting design names for matching against feature_template_list "
+                        "filter.",
                         "DEBUG"
                     )
 
-                    each_profile_config = self.process_profile_info(profile_id, final_list)
-                    profiles_matched += 1
+                    if any(
+                        feature_template.get("designName") == template
+                        for feature_template in feature_templates
+                    ):
+                        self.log(
+                            f"Profile ID '{profile_id}' contains matching feature "
+                            f"template(s): {template}. "
+                            "Calling process_profile_info() to extract complete configuration.",
+                            "DEBUG"
+                        )
 
+                        each_profile_config = self.process_profile_info(profile_id, final_list)
+                        profiles_matched += 1
+
+                        self.log(
+                            f"Profile configuration processed successfully for profile ID '{profile_id}'. "
+                            f"Total profiles matched: {profiles_matched}. "
+                            f"Configuration: {each_profile_config}",
+                            "DEBUG"
+                        )
+
+                if profiles_matched == 0:
+                    self.msg = (
+                        f"No profiles matched feature template filter '{template}' "
+                        "after checking all profiles. "
+                        "This feature template may not be associated with any profiles.")
+                    un_matched_feature_templates.append(template)
+                    self.log(self.msg, "WARNING")
+                else:
+                    matched_feature_templates += 1
                     self.log(
-                        f"Profile configuration processed successfully for profile ID '{profile_id}'. "
-                        f"Total profiles matched: {profiles_matched}. "
-                        f"Configuration: {each_profile_config}",
+                        f"Feature template filter '{template}' matched {profiles_matched} profile(s). "
+                        f"Total feature template filters matched so far: {matched_feature_templates}. "
+                        f"Configurations collected so far: {len(final_list)}.",
                         "DEBUG"
                     )
+
+            if un_matched_feature_templates:
+                self.msg = (
+                    f"The following feature template filter(s) did not match any profiles: "
+                    f"{un_matched_feature_templates}. Verify these templates exist in Catalyst Center "
+                    "and are associated with profiles."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
 
             self.log(
                 "Feature template list filtering completed. Matched "
-                f"{profiles_matched} profile(s) from {len(feature_template_list)} "
+                f"{matched_feature_templates} profile(s) from {len(feature_template_list)} "
                 f"feature template filter(s). Final configurations collected: {len(final_list)}. Skipping "
                 "remaining filter types due to hierarchical priority.",
                 "INFO"
             )
-
         elif additional_interface_list and isinstance(additional_interface_list, list):
             self.log(
                 f"Applying LOWEST PRIORITY filter: additional_interface_list with {len(additional_interface_list)} "
@@ -1624,49 +1776,80 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "DEBUG"
             )
 
-            profiles_matched = 0
+            matched_interfaces = 0
+            unmatched_interfaces = []
 
-            for profile_index, (profile_id, profile_info) in enumerate(
-                self.have.get("wireless_profile_info", {}).items(), start=1
-            ):
-                additional_interfaces = profile_info.get("additionalInterfaces", [])
-
+            for given_interface in additional_interface_list:
                 self.log(
-                    f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_info', {}))} "
-                    f"(ID: {profile_id}) with {len(additional_interfaces)} additional interface(s): "
-                    f"{additional_interfaces}. Testing for any interface match in additional_interface_list "
-                    "filter.",
+                    f"Processing additional interface filter '{given_interface}' "
+                    "against wireless_profile_info. "
+                    f"Iterating through {len(self.have.get('wireless_profile_info', {}))} "
+                    "profiles to find matches.",
                     "DEBUG"
                 )
 
-                if any(
-                    interface in additional_interface_list
-                    for interface in additional_interfaces
+                profiles_matched = 0
+
+                for profile_index, (profile_id, profile_info) in enumerate(
+                    self.have.get("wireless_profile_info", {}).items(), start=1
                 ):
-                    matched_interfaces = [
-                        intf for intf in additional_interfaces
-                        if intf in additional_interface_list
-                    ]
+                    additional_interfaces = profile_info.get("additionalInterfaces", [])
 
                     self.log(
-                        f"Profile ID '{profile_id}' contains matching "
-                        f"additional interface(s): {matched_interfaces}. "
-                        "Calling process_profile_info() to extract complete configuration.",
+                        f"Checking profile {profile_index}/{len(self.have.get('wireless_profile_info', {}))} "
+                        f"(ID: {profile_id}) with {len(additional_interfaces)} additional interface(s): "
+                        f"{additional_interfaces}. Testing for any interface match in additional_interface_list "
+                        "filter.",
                         "DEBUG"
                     )
 
-                    each_profile_config = self.process_profile_info(profile_id, final_list)
-                    profiles_matched += 1
+                    if given_interface in additional_interfaces:
+                        self.log(
+                            f"Profile ID '{profile_id}' contains matching "
+                            f"additional interface(s): {given_interface}. "
+                            "Calling process_profile_info() to extract complete configuration.",
+                            "DEBUG"
+                        )
 
+                        each_profile_config = self.process_profile_info(profile_id, final_list)
+                        profiles_matched += 1
+
+                        self.log(
+                            f"Profile configuration processed successfully for profile ID '{profile_id}'. "
+                            f"Total profiles matched: {profiles_matched}. Configuration: {each_profile_config}",
+                            "DEBUG"
+                        )
+
+                if profiles_matched == 0:
+                    self.msg = (
+                        f"No profiles matched additional interface filter '{given_interface}' after checking all profiles. "
+                        "This interface may not be associated with any profiles.")
+                    unmatched_interfaces.append(given_interface)
+                    self.log(self.msg, "WARNING")
+                else:
+                    matched_interfaces += 1
                     self.log(
-                        f"Profile configuration processed successfully for profile ID '{profile_id}'. "
-                        f"Total profiles matched: {profiles_matched}. Configuration: {each_profile_config}",
+                        f"Additional interface filter '{given_interface}' matched {profiles_matched} profile(s). "
+                        f"Total additional interface filters matched so far: {matched_interfaces}. "
+                        f"Configurations collected so far: {len(final_list)}.",
                         "DEBUG"
                     )
+
+            if unmatched_interfaces:
+                self.msg = (
+                    f"The following additional interface filter(s) did not match any profiles: "
+                    f"{unmatched_interfaces}. Verify these interfaces exist in Catalyst Center "
+                    "and are associated with profiles."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
 
             self.log(
                 "Additional interface list filtering completed. "
-                f"Matched {profiles_matched} profile(s) from "
+                f"Matched {matched_interfaces} profile(s) from "
                 f"{len(additional_interface_list)} interface filter(s). "
                 f"Final configurations collected: {len(final_list)}. All filter "
                 "types processed.",
@@ -3214,87 +3397,88 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "INFO"
             )
 
-        self.log(
-            "Checking for global_filters in configuration for targeted extraction mode. "
-            "Filters enable selective profile collection based on criteria.",
-            "DEBUG"
-        )
-
-        global_filters = config.get("global_filters")
-        if global_filters:
+        else:
             self.log(
-                f"Global filters provided: {global_filters}. Extracting filter criteria for profile "
-                "name list, day-N templates, sites, SSIDs, AP zones, feature templates, "
-                "and additional interfaces.",
+                "Checking for global_filters in configuration for targeted extraction mode. "
+                "Filters enable selective profile collection based on criteria.",
                 "DEBUG"
             )
-            profile_name_list = global_filters.get("profile_name_list", [])
-            day_n_template_list = global_filters.get("day_n_template_list", [])
-            site_list = global_filters.get("site_list", [])
-            ssid_list = global_filters.get("ssid_list", [])
-            ap_zone_list = global_filters.get("ap_zone_list", [])
-            feature_template_list = global_filters.get("feature_template_list", [])
-            additional_interface_list = global_filters.get("additional_interface_list", [])
 
-            if profile_name_list and isinstance(profile_name_list, list):
+            global_filters = config.get("global_filters")
+            if global_filters:
                 self.log(
-                    f"Profile name list filter provided with {len(profile_name_list)} "
-                    f"profile(s): {profile_name_list}. "
-                    "Collecting wireless profile details for specified profiles only.",
-                    "INFO"
-                )
-                self.collect_all_wireless_profile_list(profile_name_list)
-                self.collect_site_and_template_details(self.have.get("wireless_profile_names", []))
-                self.log(
-                    f"Profile name list filtering completed. "
-                    f"Collected {len(self.have.get('wireless_profile_names', []))} matching "
-                    "profile(s).",
+                    f"Global filters provided: {global_filters}. Extracting filter criteria for profile "
+                    "name list, day-N templates, sites, SSIDs, AP zones, feature templates, "
+                    "and additional interfaces.",
                     "DEBUG"
                 )
+                profile_name_list = global_filters.get("profile_name_list", [])
+                day_n_template_list = global_filters.get("day_n_template_list", [])
+                site_list = global_filters.get("site_list", [])
+                ssid_list = global_filters.get("ssid_list", [])
+                ap_zone_list = global_filters.get("ap_zone_list", [])
+                feature_template_list = global_filters.get("feature_template_list", [])
+                additional_interface_list = global_filters.get("additional_interface_list", [])
 
-            if (
-                day_n_template_list and isinstance(day_n_template_list, list) or
-                site_list and isinstance(site_list, list) or
-                ssid_list and isinstance(ssid_list, list) or
-                ap_zone_list and isinstance(ap_zone_list, list) or
-                feature_template_list and isinstance(feature_template_list, list) or
-                additional_interface_list and isinstance(additional_interface_list, list)
-            ):
-                self.log(
-                    "Component-based filters provided (day-N templates, sites, SSIDs, AP "
-                    "zones, feature templates, or additional interfaces). Collecting all "
-                    f"wireless profiles for subsequent filter matching: {global_filters}",
-                    "INFO"
-                )
-                self.collect_all_wireless_profile_list()
-                self.collect_site_and_template_details(self.have.get("wireless_profile_names", []))
-                self.log(
-                    "Component-based filtering preparation completed. "
-                    f"Collected {len(self.have.get('wireless_profile_names', []))} total "
-                    "profile(s) for filter matching in process_global_filters().",
-                    "DEBUG"
-                )
-            else:
-                self.log(
-                    "No global_filters provided in configuration. No additional profile "
-                    "collection performed beyond auto-discovery mode processing.",
-                    "DEBUG"
-                )
+                if profile_name_list and isinstance(profile_name_list, list):
+                    self.log(
+                        f"Profile name list filter provided with {len(profile_name_list)} "
+                        f"profile(s): {profile_name_list}. "
+                        "Collecting wireless profile details for specified profiles only.",
+                        "INFO"
+                    )
+                    self.collect_all_wireless_profile_list(profile_name_list)
+                    self.collect_site_and_template_details(self.have.get("wireless_profile_names", []))
+                    self.log(
+                        f"Profile name list filtering completed. "
+                        f"Collected {len(self.have.get('wireless_profile_names', []))} matching "
+                        "profile(s).",
+                        "DEBUG"
+                    )
 
-        self.log(
-            "Current state (have) retrieval completed successfully. Have dictionary "
-            "contains: wireless_profile_names ({0} entries), wireless_profile_list "
-            "({1} entries), wireless_profile_info ({2} entries), "
-            "wireless_profile_templates ({3} entries), wireless_profile_sites ({4} "
-            "entries).".format(
-                len(self.have.get("wireless_profile_names", [])),
-                len(self.have.get("wireless_profile_list", [])),
-                len(self.have.get("wireless_profile_info", {})),
-                len(self.have.get("wireless_profile_templates", {})),
-                len(self.have.get("wireless_profile_sites", {}))
-            ),
-            "INFO"
-        )
+                if (
+                    day_n_template_list and isinstance(day_n_template_list, list) or
+                    site_list and isinstance(site_list, list) or
+                    ssid_list and isinstance(ssid_list, list) or
+                    ap_zone_list and isinstance(ap_zone_list, list) or
+                    feature_template_list and isinstance(feature_template_list, list) or
+                    additional_interface_list and isinstance(additional_interface_list, list)
+                ):
+                    self.log(
+                        "Component-based filters provided (day-N templates, sites, SSIDs, AP "
+                        "zones, feature templates, or additional interfaces). Collecting all "
+                        f"wireless profiles for subsequent filter matching: {global_filters}",
+                        "INFO"
+                    )
+                    self.collect_all_wireless_profile_list()
+                    self.collect_site_and_template_details(self.have.get("wireless_profile_names", []))
+                    self.log(
+                        "Component-based filtering preparation completed. "
+                        f"Collected {len(self.have.get('wireless_profile_names', []))} total "
+                        "profile(s) for filter matching in process_global_filters().",
+                        "DEBUG"
+                    )
+                else:
+                    self.log(
+                        "No global_filters provided in configuration. No additional profile "
+                        "collection performed beyond auto-discovery mode processing.",
+                        "DEBUG"
+                    )
+
+            self.log(
+                "Current state (have) retrieval completed successfully. Have dictionary "
+                "contains: wireless_profile_names ({0} entries), wireless_profile_list "
+                "({1} entries), wireless_profile_info ({2} entries), "
+                "wireless_profile_templates ({3} entries), wireless_profile_sites ({4} "
+                "entries).".format(
+                    len(self.have.get("wireless_profile_names", [])),
+                    len(self.have.get("wireless_profile_list", [])),
+                    len(self.have.get("wireless_profile_info", {})),
+                    len(self.have.get("wireless_profile_templates", {})),
+                    len(self.have.get("wireless_profile_sites", {}))
+                ),
+                "INFO"
+            )
 
         self.msg = "Successfully retrieved the details from the system"
 
