@@ -1953,7 +1953,7 @@ releases:
   6.47.1:
     release_date: "2026-02-18"
     changes:
-      release_summary: Changes in workflow manager modules
+      release_summary: Changes in workflow manager modules, Documentation enhancements and Ansible Galaxy build configuration updates for the cisco.dnac Ansible Collection
       minor_changes:
         - Changes in device_configs_backup_workflow_manager module
         - Changes in lan_automation_workflow_manager module
@@ -1961,3 +1961,5 @@ releases:
         - Changes in swim_workflow_manager module
         - Changes in template_workflow_manager module
         - Changes in wireless_design_workflow_manager module
+        - Standardized README format and content to match Catalyst Center Ansible collection documentation practices.
+        - Added build_ignore configuration to optimize Ansible Galaxy collection packaging.
