@@ -1,9 +1,9 @@
 ---
 # ===================================================================================================
-# BROWNFIELD DISCOVERY PLAYBOOK GENERATOR - EXAMPLE PLAYBOOK
+#  DISCOVERY PLAYBOOK CONFIG GENERATOR - EXAMPLE PLAYBOOK
 # ===================================================================================================
 
-- name: Catalyst Center Center Brownfield Discovery Playbook Generator Examples
+- name: Catalyst Center Discovery Playbook Config Generator Examples
   hosts: dnac_servers
   gather_facts: false
   connection: local
@@ -28,32 +28,32 @@
     # BASIC DISCOVERY CONFIGURATION GENERATION
     # =============================================================================
 
-    - name: "Generate YAML Configuration for all discovery tasks"
-      cisco.dnac.brownfield_discovery_playbook_generator:
-        <<: *dnac_login
-        state: gathered
-        config:
-          - generate_all_configurations: true
+    # - name: "Generate YAML Configuration for all discovery tasks"
+    #   cisco.dnac.discovery_playbook_config_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - generate_all_configurations: false
 
-    - name: "Generate YAML Configuration with custom file path"
-      cisco.dnac.brownfield_discovery_playbook_generator:
-        <<: *dnac_login
-        state: gathered
-        config:
-          - file_path: "/tmp/complete_discovery_config.yml"
-            generate_all_configurations: true
+    # - name: "Generate YAML Configuration with custom file path"
+    #   cisco.dnac.discovery_playbook_config_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/complete_discovery_config.yml"
+    #         generate_all_configurations: true
 
     # =============================================================================
     # DISCOVERY FILTERING BY NAME
     # =============================================================================
 
     - name: "Generate YAML Configuration for specific discoveries by name"
-      cisco.dnac.brownfield_discovery_playbook_generator:
+      cisco.dnac.discovery_playbook_config_generator:
         <<: *dnac_login
         state: gathered
         config:
-          - file_path: "/tmp/specific_discoveries.yml"
-            global_filters:
+          # - file_path: "/tmp/specific_discoveries.yml"
+          - global_filters:
               discovery_name_list:
                 - Multi Range Discovery
 
@@ -61,12 +61,12 @@
     # DISCOVERY FILTERING BY TYPE
     # =============================================================================
 
-    - name: "Generate YAML Configuration for CDP and LLDP discoveries"
-      cisco.dnac.brownfield_discovery_playbook_generator:
-        <<: *dnac_login
-        state: gathered
-        config:
-          - file_path: "/tmp/cdp_lldp_discoveries.yml"
-            global_filters:
-              discovery_type_list:
-                - RANGE
+    # - name: "Generate YAML Configuration for CDP and LLDP discoveries"
+    #   cisco.dnac.discovery_playbook_config_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/cdp_lldp_discoveries.yml"
+    #         global_filters:
+    #           discovery_type_list:
+    #             - RANGE

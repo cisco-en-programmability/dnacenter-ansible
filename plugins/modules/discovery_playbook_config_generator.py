@@ -11,7 +11,7 @@ __author__ = "Megha Kandari, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_discovery_playbook_generator
+module: discovery_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'discovery_workflow_manager' module.
 description:
 - Generates YAML playbooks compatible with the
@@ -64,7 +64,7 @@ options:
           - This mode discovers all existing discovery configurations in Cisco Catalyst Center.
           - When enabled, the config parameter becomes optional and will use default values if not provided.
           - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield discovery infrastructure documentation.
+          - This is useful for complete discovery playbook configuration infrastructure documentation.
           - Note - This will include all discovery tasks regardless of their current status.
           - When set to False, at least one of 'global_filters' or 'component_specific_filters' must be provided.
         type: bool
@@ -113,38 +113,6 @@ options:
             - CDP
             - LLDP
             - CIDR
-      component_specific_filters:
-        description:
-          - Filters to specify which discovery components and features to include in the YAML configuration file.
-          - Allows granular selection of specific features and their parameters.
-          - If not specified, all supported discovery features will be extracted.
-        type: dict
-        required: false
-        suboptions:
-          components_list:
-            description:
-            - List of components to include in the YAML
-              configuration file.
-            - Currently supports only C(discovery_details)
-              for discovery task configurations.
-            - If not specified, all supported components
-              are included.
-            type: list
-            elements: str
-            choices:
-            - discovery_details
-            required: false
-          include_global_credentials:
-            description:
-            - Whether to include global credential
-              mappings in the generated playbook.
-            - Only applies when include_credentials is
-              C(true).
-            - Discovery-specific credentials are always
-              excluded for security.
-            type: bool
-            required: false
-            default: true
 
 requirements:
 - dnacentersdk >= 2.4.5
@@ -190,7 +158,7 @@ seealso:
 EXAMPLES = r"""
 # Generate YAML configurations for all discovery tasks
 - name: Generate all discovery configurations
-  cisco.dnac.brownfield_discovery_playbook_generator:
+  cisco.dnac.discovery_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -204,7 +172,7 @@ EXAMPLES = r"""
 
 # Generate configurations for specific discovery tasks by name
 - name: Generate specific discovery configurations by name
-  cisco.dnac.brownfield_discovery_playbook_generator:
+  cisco.dnac.discovery_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -223,7 +191,7 @@ EXAMPLES = r"""
 
 # Generate configurations for specific discovery types
 - name: Generate configurations by discovery type
-  cisco.dnac.brownfield_discovery_playbook_generator:
+  cisco.dnac.discovery_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -239,21 +207,6 @@ EXAMPLES = r"""
             - "CDP"
             - "LLDP"
 
-- name: Generate configurations excluding credentials
-  cisco.dnac.brownfield_discovery_playbook_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    state: gathered
-    config:
-      - component_specific_filters:
-          components_list: ["discovery_details"]
-          include_global_credentials: true
 """
 
 RETURN = r"""
@@ -388,7 +341,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             workflow schema for discovery components.
         """
         super().__init__(module)
-        self.module_name = "discovery_playbook_generator"
+        self.module_name = "discovery_playbook_generator_config"
         self.supported_states = ["gathered"]
         self._global_credentials_lookup = None
 
@@ -483,7 +436,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.validate_minimum_requirements(self.config)
+        self.validate_minimum_requirement_for_global_filters(self.config)
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -1459,132 +1412,6 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             }
         })
 
-        # mapping_spec = {
-        #     'discovery_name': {
-        #         'source_path': 'name',
-        #         'default': None
-        #     },
-        #     'discovery_type': {
-        #         'source_path': 'discoveryType',
-        #         'default': None
-        #     },
-        #     'ip_address_list': {
-        #         'source_path': 'ipAddressList',
-        #         'transform': self.transform_ip_address_list,
-        #         'default': []
-        #     },
-        #     'ip_filter_list': {
-        #         'source_path': 'ipFilterList',
-        #         'transform': self.transform_ip_filter_list,
-        #         'default': []
-        #     },
-        #     'global_credentials': {
-        #         'source_path': 'globalCredentialIdList',
-        #         'transform': self.transform_global_credentials_list,
-        #         'default': {}
-        #     },
-        #     'cdp_level': {
-        #         'source_path': 'cdpLevel',
-        #         'default': None
-        #     },
-        #     'lldp_level': {
-        #         'source_path': 'lldpLevel',
-        #         'default': None
-        #     },
-        #     'protocol_order': {
-        #         'source_path': 'protocolOrder',
-        #         'default': None
-        #     },
-        #     'preferred_mgmt_ip_method': {
-        #         'source_path': 'preferredMgmtIPMethod',
-        #         'default': None
-        #     },
-        #     'retry': {
-        #         'source_path': 'retry',
-        #         'default': None
-        #     },
-        #     'timeout': {
-        #         'source_path': 'timeout',
-        #         'default': None
-        #     },
-        #     'enable_password_list': {
-        #         'source_path': 'enablePasswordList',
-        #         'default': []
-        #     },
-        #     'snmp_ro_community': {
-        #         'source_path': 'snmpRoCommunity',
-        #         'default': None
-        #     },
-        #     'snmp_rw_community': {
-        #         'source_path': 'snmpRwCommunity',
-        #         'default': None
-        #     },
-        #     'snmp_ro_community_desc': {
-        #         'source_path': 'snmpRoCommunityDesc',
-        #         'default': None
-        #     },
-        #     'snmp_rw_community_desc': {
-        #         'source_path': 'snmpRwCommunityDesc',
-        #         'default': None
-        #     },
-        #     'snmp_retry': {
-        #         'source_path': 'snmpRetry',
-        #         'default': None
-        #     },
-        #     'snmp_timeout': {
-        #         'source_path': 'snmpTimeout',
-        #         'default': None
-        #     },
-        #     'snmp_user_name': {
-        #         'source_path': 'snmpUserName',
-        #         'default': None
-        #     },
-        #     'snmp_mode': {
-        #         'source_path': 'snmpMode',
-        #         'default': None
-        #     },
-        #     'snmp_auth_protocol': {
-        #         'source_path': 'snmpAuthProtocol',
-        #         'default': None
-        #     },
-        #     'snmp_auth_passphrase': {
-        #         'source_path': 'snmpAuthPassphrase',
-        #         'default': None
-        #     },
-        #     'snmp_priv_protocol': {
-        #         'source_path': 'snmpPrivProtocol',
-        #         'default': None
-        #     },
-        #     'snmp_priv_passphrase': {
-        #         'source_path': 'snmpPrivPassphrase',
-        #         'default': None
-        #     },
-        #     'http_username': {
-        #         'source_path': 'httpUserName',
-        #         'default': None
-        #     },
-        #     'http_password': {
-        #         'source_path': 'httpPassword',
-        #         'default': None
-        #     },
-        #     'http_port': {
-        #         'source_path': 'httpPort',
-        #         'default': None
-        #     },
-        #     'http_secure': {
-        #         'source_path': 'httpSecure',
-        #         'transform': self.transform_to_boolean,
-        #         'default': None
-        #     },
-        #     'netconf_port': {
-        #         'source_path': 'netconfPort',
-        #         'default': None
-        #     }
-        # }
-
-        # self.log(f"Reverse mapping specification created with {len(mapping_spec)} field mappings", "DEBUG")
-        # return mapping_spec
-
     def get_discoveries_data(self, global_filters=None, component_specific_filters=None):
         """
         Retrieve discovery configurations from Cisco Catalyst Center.
@@ -1699,6 +1526,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Filter by discovery names (highest priority)
         discovery_name_list = global_filters.get('discovery_name_list', [])
         discovery_type_list = global_filters.get('discovery_type_list', [])
+        
         if discovery_name_list:
             self.log(f"Filtering by discovery names: {discovery_name_list}", "DEBUG")
             filtered_discoveries = [
@@ -1706,24 +1534,24 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 if discovery.get('name') in discovery_name_list
             ]
             self.log(f"After name filtering: {len(filtered_discoveries)} discoveries", "DEBUG")
+            # Log which discoveries were found by name
+            found_names = [d.get('name') for d in filtered_discoveries]
+            self.log(f"Found discoveries by name: {found_names}", "DEBUG")
+            
+        # Filter by discovery types (only if names not provided)
+        elif discovery_type_list:
+            self.log(f"Filtering by discovery types: {discovery_type_list}", "DEBUG")
+            filtered_discoveries = [
+                discovery for discovery in filtered_discoveries
+                if discovery.get('discoveryType') in discovery_type_list
+            ]
+            self.log(f"After type filtering: {len(filtered_discoveries)} discoveries", "DEBUG")
+            # Log which discoveries were found by type
+            found_types = [d.get('discoveryType') for d in filtered_discoveries]
+            self.log(f"Found discoveries by type: {found_types}", "DEBUG")
 
-        # Filter by discovery types (if names not provided)
-        if discovery_type_list:
-            self.log(f"Filtering by discovery types: {discovery_type_list}", "INFO")
-            filtered = []
-            for idx, discovery in enumerate(discoveries):
-                discovery_type = discovery.get('discoveryType', '')
-                if discovery_type in discovery_type_list:
-                    filtered.append(discovery)
-                    self.log(f"Discovery at index {idx} matched type filter: {discovery_type}", "DEBUG")
-                else:
-                    self.log(f"Discovery at index {idx} did not match type filter: {discovery_type}", "DEBUG")
-
-            self.log(f"Type filter matched {len(filtered)} out of {len(discoveries)} discoveries", "INFO")
-            return filtered
-
-        self.log("No name or type filters specified, returning all discoveries", "DEBUG")
-        return discoveries
+        self.log(f"Final filtered discoveries count: {len(filtered_discoveries)}", "INFO")
+        return filtered_discoveries
 
     def apply_component_filters(self, discoveries, component_specific_filters):
         """
@@ -1871,11 +1699,6 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if credential_types:
             header.append("# - Credential Types: {0}".format(', '.join(sorted(credential_types))))
-
-        header.append("#")
-        header.append("# This configuration is compatible with the 'discovery_workflow_manager' module.")
-        header.append("# Use this playbook to recreate or manage discovery configurations in Catalyst Center.")
-        header.append("#")
 
         result = '\n'.join(header)
         self.log(
@@ -2151,20 +1974,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Build final YAML structure matching discovery_workflow_manager format
         yaml_data = {
-            "config": discovery_details,
-            "operation_summary": {
-                "total_discoveries_processed": len(discoveries_data),
-                "total_components_processed": 1,
-                "total_successful_operations": 1,
-                "total_failed_operations": 0,
-                "component_summary": {
-                    "discovery_details": {
-                        "total_processed": len(discoveries_data),
-                        "total_successful": len(discovery_details),
-                        "total_failed": 0
-                    }
-                }
-            }
+            "config": discovery_details
         }
 
         # Generate header comments
@@ -2186,7 +1996,13 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     } for disc in discoveries_data
                 ],
                 "discoveries_skipped": [],
-                "component_summary": yaml_data["operation_summary"]["component_summary"]
+                "component_summary": {
+                    "discovery_details": {
+                        "total_processed": len(discoveries_data),
+                        "total_successful": len(discovery_details),
+                        "total_failed": 0
+                    }
+                }
             }
             self.msg = "Discovery YAML configuration generated successfully"
             self.status = "success"
@@ -2205,14 +2021,14 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 def main():
     """
-    Main entry point for the Cisco Catalyst Center brownfield discovery playbook generator module.
+    Main entry point for the Cisco Catalyst Center discovery playbook config generator module.
 
     This function serves as the primary execution entry point for the Ansible module,
     orchestrating the complete workflow from parameter collection to YAML playbook
-    generation for brownfield discovery configuration extraction.
+    generation for discovery playbook configuration extraction.
 
     Purpose:
-        Initializes and executes the brownfield discovery playbook generator
+        Initializes and executes the discovery playbook config generator
         workflow to extract existing discovery configurations from Cisco Catalyst Center
         and generate Ansible-compatible YAML playbook files.
 
@@ -2376,12 +2192,12 @@ def main():
     )
 
     # Initialize the DiscoveryPlaybookGenerator object
-    # This creates the main orchestrator for brownfield discovery configuration extraction
+    # This creates the main orchestrator for discovery playbook configuration extraction
     ccc_discovery_playbook_generator = DiscoveryPlaybookGenerator(module)
 
     # Log module initialization after object creation (now logging is available)
     ccc_discovery_playbook_generator.log(
-        "Starting Ansible module execution for brownfield discovery playbook "
+        "Starting Ansible module execution for discovery playbook config "
         "generator at timestamp {0}".format(initialization_timestamp),
         "INFO"
     )
