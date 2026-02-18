@@ -20,15 +20,15 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_user_role_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import user_role_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
+class TestDnacUserRolePlaybookGenerator(TestDnacModule):
 
-    module = brownfield_user_role_playbook_generator
+    module = user_role_playbook_config_generator
 
-    test_data = loadPlaybookData("brownfield_user_role_playbook_generator")
+    test_data = loadPlaybookData("user_role_playbook_config_generator")
 
     playbook_user_role_details = test_data.get("playbook_user_role_details")
     playbook_specific_user_details = test_data.get("playbook_specific_user_details")
@@ -38,7 +38,7 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
     playbook_all_role_details = test_data.get("playbook_all_role_details")
 
     def setUp(self):
-        super(TestDnacBrownfieldUserRolePlaybookGenerator, self).setUp()
+        super(TestDnacUserRolePlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -50,7 +50,7 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
     def tearDown(self):
-        super(TestDnacBrownfieldUserRolePlaybookGenerator, self).tearDown()
+        super(TestDnacUserRolePlaybookGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
@@ -92,7 +92,7 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_roles6"),
             ]
 
-    def test_brownfield_user_role_playbook_generator_playbook_user_role_details(self):
+    def test_user_role_playbook_config_generator_playbook_user_role_details(self):
         """
         Test the User Role Playbook Generator's ability to generate both user and role configurations.
 
@@ -125,7 +125,7 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_user_role_playbook_generator_playbook_specific_user_details(self):
+    def test_user_role_playbook_config_generator_playbook_specific_user_details(self):
         """
         Test the User Role Playbook Generator's ability to generate specific user details.
 
@@ -158,7 +158,7 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_user_role_playbook_generator_playbook_specific_role_details(self):
+    def test_user_role_playbook_config_generator_playbook_specific_role_details(self):
         """
         Test the User Role Playbook Generator's ability to generate specific role details.
 
@@ -191,7 +191,7 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_user_role_playbook_generator_playbook_generate_all_configurations(self):
+    def test_user_role_playbook_config_generator_playbook_generate_all_configurations(self):
         """
         Test the User Role Playbook Generator's ability to generate all configurations.
 
@@ -224,7 +224,7 @@ class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_user_role_playbook_generator_playbook_invalid_components(self):
+    def test_user_role_playbook_config_generator_playbook_invalid_components(self):
         """
         Test the User Role Playbook Generator's handling of invalid components.
 
