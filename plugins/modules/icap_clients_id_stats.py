@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: icap_clients_id_stats
-short_description: Resource module for Icap Clients
-  Id Stats
+short_description: Resource module for Icap Clients Id Stats
 description:
-  - Manage operation create of the resource Icap Clients
-    Id Stats. - > Retrieves the time series statistics
-    of a specific client by applying complex filters.
-    If startTime and endTime are not provided, the API
-    defaults to the last 24 hours. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
+  - Manage operation create of the resource Icap Clients Id Stats. - > Retrieves the time series statistics of a specific
+    client by applying complex filters. If startTime and endTime are not provided, the API defaults to the last 24 hours.
+    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
     programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -44,10 +39,8 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. Id is the client
-      mac address. It can be specified in one of the
-      notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB
-      or 0123.4567.89AB and is case insensitive.
+    description: Id path parameter. Id is the client mac address. It can be specified in one of the notational conventions
+      01 23 45 67 89 AB or 01-23-45-67-89-AB or 0123.4567.89AB and is case insensitive.
     type: str
   page:
     description: Icap Clients Id Stats's page.
@@ -66,13 +59,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime
-    description: Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime
-      API.
+  - name: Cisco DNA Center documentation for Sensors RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime
+    description: Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time
 notes:
   - SDK Method used are

@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_query_count
-short_description: Resource module for Site Kpi Summaries
-  Query Count
+short_description: Resource module for Site Kpi Summaries Query Count
 description:
-  - Manage operation create of the resource Site Kpi
-    Summaries Query Count. - > Returns the total number
-    of site analytics records available for for given
-    set of filters. For detailed information about the
-    usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Site Kpi Summaries Query Count. - > Returns the total number of site analytics
+    records available for for given set of filters. For detailed information about the usage of the API, please refer to the
+    Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -46,12 +42,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetTheTotalNumberOfSiteAnalyticsRecordsAvailableForForGivenSetOfFilters
-    description: Complete reference of the GetTheTotalNumberOfSiteAnalyticsRecordsAvailableForForGivenSetOfFilters
-      API.
+    description: Complete reference of the GetTheTotalNumberOfSiteAnalyticsRecordsAvailableForForGivenSetOfFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-site-analytics-records-available-for-for-given-set-of-filters
 notes:
   - SDK Method used are

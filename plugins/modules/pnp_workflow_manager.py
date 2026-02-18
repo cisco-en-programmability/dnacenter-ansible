@@ -106,10 +106,11 @@ options:
             required: false
             default: false
       site_name:
-        description: Name of the site for which the
-          device will be claimed.
+        description: |
+          Name of the site to which the device will be claimed.
+          This field is optional when only adding devices without claiming them to a site.
         type: str
-        required: false
+        required: true
       project_name:
         description: Name of the project under which
           the template is present.

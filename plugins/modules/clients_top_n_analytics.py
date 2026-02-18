@@ -7,16 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: clients_top_n_analytics
-short_description: Resource module for Clients Topnanalytics
+short_description: Resource module for Clients Top N Analytics
 description:
-  - Manage operation create of the resource Clients
-    Topnanalytics. - > Retrieves the top N analytics
-    data related to clients based on the provided input
-    data. This API facilitates obtaining insights into
-    the top-performing or most impacted clients. For
-    detailed information about the usage of the API,
-    please refer to the Open API specification document
-    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Clients Top N Analytics. - > Retrieves the top N analytics data related to clients
+    based on the provided input data. This API facilitates obtaining insights into the top-performing or most impacted clients.
+    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -89,13 +85,11 @@ options:
     description: Top N.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients
-      RetrievesTheTopNAnalyticsDataRelatedToClients
-    description: Complete reference of the RetrievesTheTopNAnalyticsDataRelatedToClients
-      API.
+  - name: Cisco DNA Center documentation for Clients RetrievesTheTopNAnalyticsDataRelatedToClients
+    description: Complete reference of the RetrievesTheTopNAnalyticsDataRelatedToClients API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients
 notes:
   - SDK Method used are
@@ -107,7 +101,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.dnac.clients_topNAnalytics:
+  cisco.dnac.clients_top_n_analytics:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

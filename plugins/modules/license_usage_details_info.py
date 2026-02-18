@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: license_usage_details_info
-short_description: Information module for License Usage
-  Details
+short_description: Information module for License Usage Details
 description:
   - Get License Usage Details by name.
-  - Get count of purchased and in use Cisco DNA and
-    Network licenses.
+  - Get count of purchased and in use Cisco DNA and Network licenses.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,29 +21,24 @@ options:
     type: dict
   smart_account_id:
     description:
-      - Smart_account_id path parameter. Id of smart
-        account.
+      - Smart_account_id path parameter. Id of smart account.
     type: str
   virtual_account_name:
     description:
       - >
-        Virtual_account_name path parameter. Name of
-        virtual account. Putting "All" will give license
-        term detail for all virtual accounts.
+        Virtual_account_name path parameter. Name of virtual account. Putting "All" will give license term
+        detail for all virtual accounts.
     type: str
   device_type:
     description:
-      - Device_type query parameter. Type of device
-        like router, switch, wireless or ise.
+      - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      LicenseUsageDetails
-    description: Complete reference of the LicenseUsageDetails
-      API.
+  - name: Cisco DNA Center documentation for Licenses LicenseUsageDetails
+    description: Complete reference of the LicenseUsageDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
 notes:
   - SDK Method used are

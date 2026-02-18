@@ -219,7 +219,8 @@ options:
           - Mesh APs create wireless backhaul connections to extend network coverage, while non-mesh APs connect directly to the wired infrastructure.
           - This setting works in conjunction with 'ap_authorization_list_name' for complete AP authorization workflow.
           - Supported from Cisco Catalyst Center release version 2.3.7.6 onwards.
-          type: bool
+        type: bool
+        default: false
       feature_template:
         description: |
           - A dictionary containing feature template configuration for advanced wireless device provisioning.
@@ -228,7 +229,8 @@ options:
           - The specified template must exist in Cisco Catalyst Center before it can be applied during provisioning.
           - Feature templates can include WLAN configurations, security policies, QoS settings, and other wireless controller parameters.
           - Supported from Cisco Catalyst Center release version 3.1.3.0 onwards for wireless controller provisioning.
-        type: dict
+        type: list
+        elements: dict
         required: false
         suboptions:
           design_name:
@@ -281,6 +283,10 @@ options:
               '["radius_server_config", "certificate_settings"]',
               '["qos_policies", "traffic_shaping"]',
               '["mesh_configuration", "ap_group_settings"]']
+      clean_config:
+        description: A flag that indicates whether to clean the configuration during un-provisioning a device.
+        type: bool
+        default: false
       application_telemetry:
         description: |
           - A list of settings for enabling or disabling application telemetry on a group of network devices.
@@ -294,11 +300,13 @@ options:
               telemetry should be enabled or disabled.
             type: list
             elements: str
+            required: true
           telemetry:
             description: |
               - Specifies whether to enable or disable application telemetry on the devices.
             type: str
             choices: ["enable", "disable"]
+            required: true
           wlan_mode:
             description: |
               - Defines the WLAN mode for the device.
@@ -632,6 +640,7 @@ class Provision(DnacBase):
         self.enable_application_telemetry = []
         self.disable_application_telemetry = []
         self.assigned_device_to_site = []
+        self.already_assigned_device_to_site = []
 
     def validate_input(self, state=None):
         """
@@ -2453,6 +2462,23 @@ class Provision(DnacBase):
             to_provisioning = config.get("provisioning", False)
 
             if not to_provisioning and status != "success":
+                is_assigned, current_site = self.is_device_assigned_to_site_v1(network_device_id)
+
+                if is_assigned and current_site == site_name:
+                    self.log(
+                        "Device '{0}' is already assigned to site '{1}'. No action required.".format(
+                            device_ip, site_name
+                        ),
+                        "INFO",
+                    )
+                    success_msg.append(
+                        "Wired Device '{0}' is already assigned to site '{1}'.".format(
+                            device_ip, site_name
+                        )
+                    )
+                    self.already_assigned_device_to_site.append(device_ip)
+                    continue
+
                 self.log(
                     "Provisioning not required; assigning device '{0}' to site '{1}' (site_id: {2}).".format(
                         device_ip, site_name, site_id
@@ -4204,6 +4230,12 @@ class Provision(DnacBase):
             )
             result_msg_list_not_changed.append(msg)
 
+        if self.already_assigned_device_to_site:
+            msg = "Device(s) '{0}' already assigned to site.".format(
+                "', '".join(self.already_assigned_device_to_site)
+            )
+            result_msg_list_not_changed.append(msg)
+
         if self.re_provision_wired_device:
             msg = "Wired device(s) '{0}' re-provisioned successfully.".format(
                 "', '".join(map(str, self.re_provision_wired_device))
@@ -4252,9 +4284,13 @@ class Provision(DnacBase):
             self.result["changed"] = True
             self.msg = " ".join(result_msg_list_changed)
         else:
-            input = self.validated_config
-            ips = [item["management_ip_address"] for item in input]
-            ip_list_str = ", ".join(ips)
+            # Get original config from params to extract IPs
+            original_config = self.params.get("config", [])
+            if isinstance(original_config, list):
+                ips = [item.get("management_ip_address") for item in original_config if isinstance(item, dict) and item.get("management_ip_address")]
+                ip_list_str = ", ".join(ips) if ips else "N/A"
+            else:
+                ip_list_str = "N/A"
 
             self.msg = "No provisioning operations were executed for these IPs: {0}".format(ip_list_str)
             self.set_operation_result(

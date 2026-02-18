@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -29,8 +28,8 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         interfaceName=dict(type="str"),
         vlanId=dict(type="float"),
         id=dict(type="str"),

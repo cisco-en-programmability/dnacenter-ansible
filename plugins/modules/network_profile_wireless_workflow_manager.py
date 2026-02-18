@@ -157,6 +157,7 @@ options:
           Feature templates provide advanced configuration capabilities for wireless infrastructure
           including AAA settings, SSID configurations, CleanAir parameters, and RRM settings.
           These templates enable standardized configuration deployment across wireless network profiles.
+          This feature supported from the Cisco Catalyst Center version 3.1.3 and later.
         type: list
         elements: dict
         required: false
@@ -219,8 +220,7 @@ requirements:
   - python >= 3.9
 notes:
   - SDK Method used are
-    wireless.create_wireless_profile
-    ,
+    wireless.create_wireless_profile,
     wireless.update_application_policy,
     wireless.get_wireless_profile,
     site_design.assign_sites,
@@ -1185,9 +1185,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     )
                     template_has_errors = True
                     self.log("Design type validation failed for '{0}' - not in supported design types".format(design_type), "ERROR")
-            else:
-                errormsg.append("design_type: Design type is missing in feature template configuration.")
-                template_has_errors = True
 
             feature_templates = feature_template_design.get("feature_templates", [])
             if not feature_templates:
@@ -1968,6 +1965,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         try:
             for feature_template_design in feature_template_designs:
                 templates_processed += 1
+                payload_template = {}
 
                 design_type = feature_template_design.get("design_type")
                 feature_templates = feature_template_design.get("feature_templates", [])
@@ -1977,13 +1975,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 if not design_type:
                     self.log("Design type missing in feature template configuration - skipping template", "WARNING")
-                    continue
+                else:
+                    self.log("Design type '{0}' found for feature template configuration".format(
+                        design_type), "DEBUG")
+                    payload_template["type"] = design_type
 
                 if not feature_templates or not isinstance(feature_templates, list):
                     self.log("Feature templates missing or invalid in feature template configuration - skipping template", "WARNING")
                     continue
-
-                payload_template = {"type": design_type}
 
                 # Process each template design within the feature template
                 for feature_template in feature_templates:
@@ -2014,9 +2013,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                         designs_collected += 1
                                         template_detail = {
                                             "design_id": design_id,
-                                            "design_name": feature_template,
-                                            "design_type": design_type
+                                            "design_name": feature_template
                                         }
+
+                                        if design_type:
+                                            template_detail["design_type"] = design_type
 
                                         # Add SSID applicability if specified
                                         applicability_ssids = feature_template_design.get("applicability_ssids")
@@ -2253,55 +2254,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             return False, unmatched_keys
 
         return True, None
-
-    def get_wireless_profile(self, profile_name):
-        """
-        Get wireless profile from the given playbook data and response with
-        wireless profile information with ssid details.
-
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            profile_name (str): A string containing input data to get wireless profile
-                                for given profile name.
-
-        Returns:
-            dict or None: Dict contains wireless profile information, otherwise None.
-
-        Description:
-            This function used to get the wireless profile from the input config.
-        """
-
-        self.log("Get wireless profile for : {0}".format(profile_name), "INFO")
-        try:
-            response = self.dnac._exec(
-                family="wireless",
-                function="get_wireless_profiles",
-                params={"wireless_profile_name": profile_name},
-            )
-            self.log(
-                "Response from 'get_wireless_profiles_v1' API: {0}".format(
-                    self.pprint(response)
-                ),
-                "DEBUG",
-            )
-            if not response:
-                self.log(
-                    "No wireless profile found for: {0}".format(profile_name), "INFO"
-                )
-                return None
-            self.log(
-                "Received the wireless profile response: {0}".format(
-                    self.pprint(response)
-                ),
-                "INFO",
-            )
-            return response.get("response")[0]
-
-        except Exception as e:
-            msg = "An error occurred during get wireless profile: {0}".format(str(e))
-            self.log(msg, "ERROR")
-            self.set_operation_result("failed", False, msg, "ERROR")
-            return None
 
     def get_ssid_details(self, site_id, site_name):
         """

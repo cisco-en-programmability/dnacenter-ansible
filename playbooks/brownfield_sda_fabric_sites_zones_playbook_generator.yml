@@ -1,0 +1,75 @@
+---
+- name: Configure the Fabric sites zones for SDA in Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate the playbook for Fabric Site(s) and Zone(s) for SDA in Cisco Catalyst Center
+      cisco.dnac.brownfield_sda_fabric_sites_zones_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          # ====================================================================================
+          # Scenario 1: Fabric Sites and Zones - Fetch All Configurations
+          # Tests behavior when no filters are provided
+          # ====================================================================================
+          - generate_all_configurations: true
+          # ====================================================================================
+          # Scenario 2: Fabric Sites and Zones - Fetch Specific Configurations
+          # Tests behavior when specific fabric sites and zones are to be fetched
+          # ====================================================================================
+          # - generate_all_configurations: true
+          #   file_path: "/tmp/fb_sites.yaml"
+          # ====================================================================================
+          # Scenario 3: Fabric Sites - Fetch Specific Configurations
+          # Tests behavior when only fabric sites are to be fetched
+          # ====================================================================================
+          # - file_path: "demo.yaml"
+          #   component_specific_filters:
+          #     components_list: ["fabric_sites"]
+          # ====================================================================================
+          # Scenario 4: Fabric Zones - Fetch Specific Configurations
+          # Tests behavior when only fabric zones are to be fetched
+          # ====================================================================================
+          # - file_path: "demo.yaml"
+          #   component_specific_filters:
+          #     components_list: ["fabric_zones"]
+          # ====================================================================================
+          # Scenario 5: Fabric Sites and Zones - Fetch Specific Configurations with Filters
+          # Tests behavior when specific fabric sites and zones are to be fetched with filters
+          # ====================================================================================
+          # - file_path: "demo.yaml"
+          #   component_specific_filters:
+          #     components_list: ["fabric_sites", "fabric_zones"]
+          # ===================================================================================
+          # Scenario 6: Fabric Sites - Fetch Specific Configurations with Filters
+          # Tests behavior when only fabric sites are to be fetched with filters
+          # ===================================================================================
+          # - file_path: "demo.yaml"
+          #   component_specific_filters:
+          #     components_list: ["fabric_sites"]
+          #     fabric_sites:
+          #       - site_name_hierarchy: Global/Site_India/Karnataka/Bangalore
+          # ===================================================================================
+          # Scenario 7: Fabric Sites - Fetch Specific Configurations with multiple Filters
+          # Tests behavior when only fabric sites are to be fetched with multiple filters
+          # ===================================================================================
+          # - file_path: "demo.yml"
+          #   component_specific_filters:
+          #     components_list: ["fabric_sites"]
+          #     fabric_sites:
+          #       - site_name_hierarchy: Global/Site_India/Karnataka/Bangalore
+          #       - site_name_hierarchy: Global/Site_India/Tamil_Nadu/Chennai
+
+      tags:
+        - fabric_sites_zones_testing
