@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate YAML Configuration for Return Material Authorization(RMA)
-      cisco.dnac.brownfield_rma_playbook_generator:
+      cisco.dnac.rma_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

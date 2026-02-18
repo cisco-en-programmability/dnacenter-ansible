@@ -20,15 +20,15 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_rma_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import rma_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacRmaPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_rma_playbook_generator
+    module = rma_playbook_config_generator
 
-    test_data = loadPlaybookData("brownfield_rma_playbook_generator")
+    test_data = loadPlaybookData("rma_playbook_config_generator")
 
     playbook_generate_all_configurations = test_data.get("playbook_generate_all_configurations")
     playbook_component_filters = test_data.get("playbook_component_filters")
@@ -96,7 +96,7 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
         elif "playbook_negative_scenario1" in self._testMethodName:
             pass
 
-    def test_brownfield_rma_playbook_generator_playbook_generate_all_configurations(self):
+    def test_rma_playbook_config_generator_playbook_generate_all_configurations(self):
         """
         Test the Brownfield RMA Workflow Manager's playbook generation process.
 
@@ -129,7 +129,7 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_rma_playbook_generator_playbook_component_filters(self):
+    def test_rma_playbook_config_generator_playbook_component_filters(self):
         """
         Test the Brownfield RMA Workflow Manager's playbook generation process.
 
@@ -162,7 +162,7 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_rma_playbook_generator_playbook_specifc_filters(self):
+    def test_rma_playbook_config_generator_playbook_specifc_filters(self):
         """
         Test the Brownfield RMA Workflow Manager's playbook generation process.
 
@@ -195,7 +195,7 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_rma_playbook_generator_playbook_no_device_found(self):
+    def test_rma_playbook_config_generator_playbook_no_device_found(self):
         """
         Test the Brownfield RMA Workflow Manager's playbook generation process.
 
@@ -231,7 +231,7 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_rma_playbook_generator_playbook_component_specific_filters1(self):
+    def test_rma_playbook_config_generator_playbook_component_specific_filters1(self):
         """
         Test the Brownfield RMA Workflow Manager's playbook generation process.
 
@@ -264,7 +264,7 @@ class TestDnacRmaPlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_brownfield_rma_playbook_generator_playbook_negative_scenario1(self):
+    def test_rma_playbook_config_generator_playbook_negative_scenario1(self):
         """
         Test the Brownfield RMA Workflow Manager's playbook generation process.
 
