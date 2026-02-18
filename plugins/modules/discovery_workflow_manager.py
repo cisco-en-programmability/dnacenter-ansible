@@ -932,7 +932,7 @@ class Discovery(DnacBase):
 
     def handle_global_credentials(self, response=None):
         """
-        Method to convert values for create_params API when global paramters
+        Method to convert values for create_params API when global parameters
         are passed as input.
 
         Parameters:
@@ -1324,7 +1324,7 @@ class Discovery(DnacBase):
 
     def handle_discovery_specific_credentials(self, new_object_params=None):
         """
-        Method to convert values for create_params API when discovery specific paramters
+        Method to convert values for create_params API when discovery specific parameters
         are passed as input.
 
         Parameters:
@@ -2110,7 +2110,7 @@ class Discovery(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of Discovery in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of Discovery in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
