@@ -11,7 +11,7 @@ __author__ = "Abhishek Maheshwari, Sunil Shatagopa, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_sda_fabric_sites_zones_playbook_generator
+module: sda_fabric_sites_zones_playbook_config_generator
 short_description: Generate YAML playbook for C(sda_fabric_sites_zones_workflow_manager) module.
 description:
 - Generates YAML configurations compatible with the C(sda_fabric_sites_zones_workflow_manager)
@@ -45,7 +45,8 @@ options:
       generate_all_configurations:
         description:
         - When set to C(true), the module generates all the configurations which includes fabric sites, fabric zones
-          present in the Cisco Catalyst Center, ignoring any provided filters.
+          present in the Cisco Catalyst Center, ignoring any provided filters. It will first print all the fabric sites,
+          followed by the fabric zones
         - When enabled, the config parameter becomes optional and will use default values if not provided.
         - A default filename will be generated automatically if file_path is not specified.
         - When set to false, the module uses provided filters to generate a targeted YAML configuration.
@@ -122,7 +123,7 @@ seealso:
 EXAMPLES = r"""
 - name: Auto-generate YAML Configuration for all components which
      includes fabric sites and fabric zones.
-  cisco.dnac.brownfield_sda_fabric_sites_zones_playbook_generator:
+  cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -137,7 +138,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_sda_fabric_sites_zones_playbook_generator:
+  cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -153,7 +154,7 @@ EXAMPLES = r"""
         file_path: "tmp/catc_sda_fabric_sites_zones_config.yml"
 
 - name: Generate YAML Configuration with specific fabric sites components only
-  cisco.dnac.brownfield_sda_fabric_sites_zones_playbook_generator:
+  cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -171,7 +172,7 @@ EXAMPLES = r"""
 
 - name: Generate YAML Configuration with specific fabric sites components only
      using site_name_hierarchy filter
-  cisco.dnac.brownfield_sda_fabric_sites_zones_playbook_generator:
+  cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -190,7 +191,7 @@ EXAMPLES = r"""
             - site_name_hierarchy: "Global/USA/California/San Jose"
 
 - name: Generate YAML Configuration with specific fabric zones components only
-  cisco.dnac.brownfield_sda_fabric_sites_zones_playbook_generator:
+  cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -208,7 +209,7 @@ EXAMPLES = r"""
 
 - name: Generate YAML Configuration with specific fabric zones components only
      using site_name_hierarchy filter
-  cisco.dnac.brownfield_sda_fabric_sites_zones_playbook_generator:
+  cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -227,7 +228,7 @@ EXAMPLES = r"""
             - site_name_hierarchy: "Global/USA/California/San Jose"
 
 - name: Generate YAML Configuration for all components
-  cisco.dnac.brownfield_sda_fabric_sites_zones_playbook_generator:
+  cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -256,7 +257,7 @@ response_1:
             "components_processed": 2,
             "components_skipped": 0,
             "configurations_count": 2,
-            "file_path": "tmp/fb_sites.yml",
+            "file_path": "sda_fabric_sites_zones_playbook_config_2026-02-18_15-27-16.yml",
             "message": "YAML configuration file generated successfully for module 'sda_fabric_sites_zones_workflow_manager'",
             "status": "success"
         },
@@ -264,7 +265,7 @@ response_1:
             "components_processed": 2,
             "components_skipped": 0,
             "configurations_count": 2,
-            "file_path": "tmp/fb_sites.yml",
+            "file_path": "sda_fabric_sites_zones_playbook_config_2026-02-18_15-27-16.yml",
             "message": "YAML configuration file generated successfully for module 'sda_fabric_sites_zones_workflow_manager'",
             "status": "success"
         },
@@ -316,7 +317,7 @@ else:
     OrderedDumper = None
 
 
-class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
+class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -971,7 +972,7 @@ class BrownFieldFabricSiteZonePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes YAML configuration file generation for brownfield sda fabric sites zones workflow.
+        Executes YAML configuration file generation for sda fabric sites zones workflow.
 
         Processes the desired state parameters prepared by get_want() and generates a
         YAML configuration file containing network element details from Catalyst Center.
@@ -1075,48 +1076,48 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_brownfield_fabric_sites_zones_playbook_generator = BrownFieldFabricSiteZonePlaybookGenerator(module)
+    ccc_fabric_sites_zones_playbook_generator = FabricSiteZonePlaybookConfigGenerator(module)
     if (
-        ccc_brownfield_fabric_sites_zones_playbook_generator.compare_dnac_versions(
-            ccc_brownfield_fabric_sites_zones_playbook_generator.get_ccc_version(), "2.3.7.9"
+        ccc_fabric_sites_zones_playbook_generator.compare_dnac_versions(
+            ccc_fabric_sites_zones_playbook_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_brownfield_fabric_sites_zones_playbook_generator.msg = (
+        ccc_fabric_sites_zones_playbook_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for FABRIC SITES ZONES Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_brownfield_fabric_sites_zones_playbook_generator.get_ccc_version()
+                ccc_fabric_sites_zones_playbook_generator.get_ccc_version()
             )
         )
-        ccc_brownfield_fabric_sites_zones_playbook_generator.set_operation_result(
-            "failed", False, ccc_brownfield_fabric_sites_zones_playbook_generator.msg, "ERROR"
+        ccc_fabric_sites_zones_playbook_generator.set_operation_result(
+            "failed", False, ccc_fabric_sites_zones_playbook_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_brownfield_fabric_sites_zones_playbook_generator.params.get("state")
+    state = ccc_fabric_sites_zones_playbook_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_brownfield_fabric_sites_zones_playbook_generator.supported_states:
-        ccc_brownfield_fabric_sites_zones_playbook_generator.status = "invalid"
-        ccc_brownfield_fabric_sites_zones_playbook_generator.msg = "State {0} is invalid".format(
+    if state not in ccc_fabric_sites_zones_playbook_generator.supported_states:
+        ccc_fabric_sites_zones_playbook_generator.status = "invalid"
+        ccc_fabric_sites_zones_playbook_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_brownfield_fabric_sites_zones_playbook_generator.check_return_status()
+        ccc_fabric_sites_zones_playbook_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
-    ccc_brownfield_fabric_sites_zones_playbook_generator.validate_input().check_return_status()
+    ccc_fabric_sites_zones_playbook_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
-    for config in ccc_brownfield_fabric_sites_zones_playbook_generator.validated_config:
-        ccc_brownfield_fabric_sites_zones_playbook_generator.reset_values()
-        ccc_brownfield_fabric_sites_zones_playbook_generator.get_want(
+    for config in ccc_fabric_sites_zones_playbook_generator.validated_config:
+        ccc_fabric_sites_zones_playbook_generator.reset_values()
+        ccc_fabric_sites_zones_playbook_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_brownfield_fabric_sites_zones_playbook_generator.get_diff_state_apply[
+        ccc_fabric_sites_zones_playbook_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    module.exit_json(**ccc_brownfield_fabric_sites_zones_playbook_generator.result)
+    module.exit_json(**ccc_fabric_sites_zones_playbook_generator.result)
 
 
 if __name__ == "__main__":
