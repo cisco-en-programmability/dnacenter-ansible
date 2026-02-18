@@ -696,7 +696,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 function="get_provisioned_devices",
                 op_modifies=False,
             )
-            self.log("Recived API response: {0}".format(response), "DEBUG")
+            self.log("Received API response: {0}".format(response), "DEBUG")
             sda_devices = response.get("response", [])
             self.log("Retrieved {0} devices from SDA provisioned devices API".format(len(sda_devices)), "INFO")
 
@@ -706,7 +706,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 function="get_device_list",
                 op_modifies=False,
             )
-            self.log("Recived API response: {0}".format(all_devices_response), "DEBUG")
+            self.log("Received API response: {0}".format(all_devices_response), "DEBUG")
             all_devices = all_devices_response.get("response", [])
 
             wireless_controllers_found = []
@@ -726,7 +726,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         op_modifies=False,
                         params={"search_by": device_id, "identifier": "uuid"},
                     )
-                    self.log("Recived API response: {0}".format(device_detail_response), "DEBUG")
+                    self.log("Received API response: {0}".format(device_detail_response), "DEBUG")
                     device_info = device_detail_response.get("response", {})
                     device_family = device_info.get("nwDeviceFamily")
 
@@ -738,7 +738,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 op_modifies=False,
                                 params={"device_management_ip_address": management_ip}
                             )
-                            self.log("Recived API response: {0}".format(provision_response), "DEBUG")
+                            self.log("Received API response: {0}".format(provision_response), "DEBUG")
                             if provision_response.get("status") == "success":
                                 mock_device = {
                                     "networkDeviceId": device_id,
@@ -999,7 +999,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     op_modifies=False,
                     params={"search_by": device_id, "identifier": "uuid"},
                 )
-                self.log("Recived API response: {0}".format(response), "DEBUG")
+                self.log("Received API response: {0}".format(response), "DEBUG")
                 device_info = response.get("response", {})
                 location = device_info.get("location")
                 site_hierarchy_graph_id = device_info.get("siteHierarchyGraphId")
@@ -1041,7 +1041,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         op_modifies=False,
                         params={"device_management_ip_address": management_ip}
                     )
-                    self.log("Recived API response: {0}".format(provision_response), "DEBUG")
+                    self.log("Received API response: {0}".format(provision_response), "DEBUG")
                     provision_site_hierarchy = provision_response.get("siteNameHierarchy")
                     if provision_site_hierarchy:
                         self.log("Got site hierarchy from provision status: {0}".format(provision_site_hierarchy), "DEBUG")
@@ -1079,7 +1079,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"search_by": device_id, "identifier": "uuid"},
             )
-            self.log("Recived API response: {0}".format(response), "DEBUG")
+            self.log("Received API response: {0}".format(response), "DEBUG")
             device_info = response.get("response", {})
             # FIXED: Use nwDeviceFamily instead of family
             device_family = device_info.get("nwDeviceFamily")
@@ -1122,7 +1122,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"search_by": device_id, "identifier": "uuid"},
             )
-            self.log("Recived API response: {0}".format(response), "error")
+            self.log("Received API response: {0}".format(response), "error")
             device_info = response.get("response", {})
             self.log("Device information extracted: {0}".format(device_info), "DEBUG")
 
@@ -1165,7 +1165,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"network_device_id": device_id},
             )
-            self.log("Recived API response: {0}".format(primary_response), "DEBUG")
+            self.log("Received API response: {0}".format(primary_response), "DEBUG")
 
             # FIXED: Handle the response structure correctly
             if "response" in primary_response:
@@ -1380,7 +1380,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 function="get_provisioned_devices",
                 op_modifies=False,
             )
-            self.log("Recived API response: {0}".format(response))
+            self.log("Received API response: {0}".format(response))
             sda_devices = response.get("response", [])
             self.log("Retrieved {0} devices from SDA provisioned devices API".format(len(sda_devices)), "INFO")
 
@@ -1393,7 +1393,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 function="get_device_list",
                 op_modifies=False,
             )
-            self.log("Recived API response: {0}".format(all_devices_response), "DEBUG")
+            self.log("Received API response: {0}".format(all_devices_response), "DEBUG")
             all_devices = all_devices_response.get("response", [])
 
             wireless_controllers_found = []
@@ -1415,7 +1415,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         op_modifies=False,
                         params={"search_by": device_id, "identifier": "uuid"},
                     )
-                    self.log("Recived API response: {0}".format(device_detail_response), "DEBUG")
+                    self.log("Received API response: {0}".format(device_detail_response), "DEBUG")
                     device_info = device_detail_response.get("response", {})
                     device_family = device_info.get("nwDeviceFamily")
                     device_name = device_info.get("nwDeviceName")
@@ -1432,7 +1432,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 op_modifies=False,
                                 params={"device_management_ip_address": management_ip}
                             )
-                            self.log("Recived API response: {0}".format(provision_response), "DEBUG")
+                            self.log("Received API response: {0}".format(provision_response), "DEBUG")
                             if provision_response.get("status") == "success":
                                 self.log("Wireless controller {0} IS provisioned - adding to device list".format(management_ip), "INFO")
 
@@ -1583,7 +1583,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 function="get_device_list",
                 op_modifies=False,
             )
-            self.log("Recived API response: {0}".format(response), "DEBUG")
+            self.log("Received API response: {0}".format(response), "DEBUG")
             all_devices = response.get("response", [])
             self.log("STEP 1: Retrieved {0} total devices from Catalyst Center".format(len(all_devices)), "INFO")
 
@@ -1598,7 +1598,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     function="get_provisioned_devices",
                     op_modifies=False,
                 )
-                self.log("Recived API response: {0}".format(provisioned_response), "DEBUG")
+                self.log("Received API response: {0}".format(provisioned_response), "DEBUG")
                 provisioned_devices = provisioned_response.get("response", [])
                 provisioned_device_ids = {device.get("networkDeviceId") for device in provisioned_devices}
 
@@ -1619,7 +1619,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                             op_modifies=False,
                             params={"search_by": device_id, "identifier": "uuid"},
                         )
-                        self.log("Recived API response: {0}".format(device_detail_response), "DEBUG")
+                        self.log("Received API response: {0}".format(device_detail_response), "DEBUG")
                         device_info = device_detail_response.get("response", {})
                         device_family = device_info.get("nwDeviceFamily")
 
@@ -1632,7 +1632,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                                     op_modifies=False,
                                     params={"device_management_ip_address": management_ip}
                                 )
-                                self.log("Recived API response: {0}".format(provision_response), "DEBUG")
+                                self.log("Received API response: {0}".format(provision_response), "DEBUG")
                                 if provision_response.get("status") == "success":
                                     # This wireless controller is provisioned, exclude it
                                     provisioned_device_ids.add(device_id)
@@ -1682,7 +1682,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         op_modifies=False,
                         params={"search_by": device_id, "identifier": "uuid"},
                     )
-                    self.log("Recived API response: {0}".format(device_detail_response), "DEBUG")
+                    self.log("Received API response: {0}".format(device_detail_response), "DEBUG")
                     device_info = device_detail_response.get("response", {})
                     device_family = device_info.get("nwDeviceFamily")
                     device_type = device_info.get("nwDeviceType")
@@ -2004,7 +2004,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"search_by": uuid, "identifier": "uuid"},
             )
-            self.log("Recived API response: {0}".format(site_response), "DEBUG")
+            self.log("Received API response: {0}".format(site_response), "DEBUG")
 
             device_info = site_response.get("response", {})
 

@@ -2094,7 +2094,7 @@ class Swim(DnacBase):
                         )
                         device_response_ids.append(item["instanceUuid"])
                 except Exception as e:
-                    self.msg = "An exception occured while fetching the device uuids from Cisco Catalyst Center: {0}".format(
+                    self.msg = "An exception occurred while fetching the device uuids from Cisco Catalyst Center: {0}".format(
                         str(e)
                     )
                     self.log(self.msg, "ERROR")
