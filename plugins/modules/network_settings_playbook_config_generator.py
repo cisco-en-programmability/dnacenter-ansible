@@ -412,7 +412,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"[{self.module_schema}] Initializing module",
             level="INFO"
         )
-        self.module_name = "network_settings_playbook_config"
+        self.module_name = "network_settings"
 
         # Initialize class-level variables to track successes and failures
         self.operation_successes = []
