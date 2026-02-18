@@ -156,6 +156,23 @@ options:
                 - If not specified, all discovered interfaces for matched devices are included.
                 - 'Example: interface_name="Vlan100" for single or interface_name=["Vlan100", "Loopback0"] for multiple.'
                 type: str
+          user_defined_fields:
+            description:
+            - Component selector for user-defined fields (UDF).
+            - Fetches user-defined field definitions from Catalyst Center.
+            - Cannot be used together with global_filters (global filters use IP-based device selection).
+            - Optionally filter by user-defined field name.
+            type: dict
+            suboptions:
+              udf_name:
+                description:
+                - Filter user-defined fields by name (optional).
+                - Can be a single UDF name string or a list of UDF names.
+                - When specified, only UDFs with matching names will be included.
+                - Matches use 'OR' logic; any UDF matching any name in the list is included.
+                - If not specified, all user-defined fields are included.
+                - 'Example: udf_name="Cisco Switches" for single or udf_name=["Cisco Switches", "Test123"] for multiple.'
+                type: str
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
@@ -549,6 +566,13 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "interface_details": {
                     "filters": ["interface_name"],
                     "is_filter_only": True,  # This component only controls interface details output, doesn't fetch new data
+                },
+                "user_defined_fields": {
+                    "filters": ["udf_name"],
+                    "api_function": "get_all_user_defined_fields",
+                    "api_family": "devices",
+                    "reverse_mapping_function": self.inventory_get_user_defined_fields_reverse_mapping,
+                    "get_function_name": self.get_user_defined_fields_details,
                 }
             },
             "global_filters": {
@@ -807,7 +831,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "role": {
                 "type": "str",
                 "source_key": "role",
-                "transform": lambda x: None
+                "transform": lambda x: x if x else None
             },
 
             # CLI Transport (ssh/telnet)
@@ -1036,6 +1060,123 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         except Exception as e:
             self.log("Error fetching site for device {0}: {1}".format(device_id, str(e)), "WARNING")
             return ""
+
+    def fetch_user_defined_fields(self, udf_filter=None):
+        """
+        Fetch user-defined fields from Cisco Catalyst Center API.
+
+        Args:
+            udf_filter (str or list): Optional filter by UDF name(s)
+
+        Returns:
+            list: List of user-defined field dictionaries with name, description, and value fields
+        """
+        self.log("Fetching user-defined fields{0}".format(
+            " with filter: {0}".format(udf_filter) if udf_filter else ""
+        ), "INFO")
+
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function="get_all_user_defined_fields",
+                op_modifies=False,
+                params={}
+            )
+
+            if response and "response" in response:
+                udfs = response.get("response", [])
+                self.log("Retrieved {0} user-defined fields from API".format(len(udfs)), "INFO")
+
+                # Transform UDF response: keep only name and description, add value: null
+                transformed_udfs = []
+                for udf in udfs:
+                    transformed_udf = {
+                        "name": udf.get("name", ""),
+                        "description": udf.get("description", ""),
+                        "value": None
+                    }
+                    transformed_udfs.append(transformed_udf)
+
+                # Apply filter if provided
+                if udf_filter:
+                    filter_list = udf_filter if isinstance(udf_filter, list) else [udf_filter]
+                    filtered_udfs = [udf for udf in transformed_udfs if udf.get("name") in filter_list]
+                    self.log("Filtered to {0} user-defined fields matching names: {1}".format(
+                        len(filtered_udfs), filter_list
+                    ), "INFO")
+                    return filtered_udfs
+                else:
+                    return transformed_udfs
+
+            else:
+                self.log("No user-defined fields returned from API", "WARNING")
+                return []
+
+        except Exception as e:
+            self.log("Error fetching user-defined fields: {0}".format(str(e)), "ERROR")
+            return []
+
+    def inventory_get_user_defined_fields_reverse_mapping(self):
+        """
+        Returns reverse mapping specification for user-defined fields.
+        Transforms API response from Catalyst Center to inventory_workflow_manager format.
+        Maps UDF attributes from API response to playbook configuration structure.
+        """
+        return OrderedDict({
+            "name": {
+                "type": "str",
+                "source_key": "name",
+                "transform": lambda x: x if x else ""
+            },
+            "description": {
+                "type": "str",
+                "source_key": "description",
+                "transform": lambda x: x if x else ""
+            },
+            "value": {
+                "type": "str",
+                "source_key": "value",
+                "transform": lambda x: x if x else None
+            }
+        })
+
+    def get_user_defined_fields_details(self, network_element, filters):
+        """
+        Retrieves user-defined fields from Cisco Catalyst Center API.
+        Processes the response and transforms it to inventory_workflow_manager format.
+        UDF component is independent and cannot be used with global_filters.
+        """
+        self.log("Starting get_user_defined_fields_details", "INFO")
+
+        try:
+            component_specific_filters = filters.get("component_specific_filters", {})
+            udf_name_filter = component_specific_filters.get("udf_name")
+
+            self.log("UDF component-specific filters: {0}".format(component_specific_filters), "DEBUG")
+
+            # Fetch user-defined fields from API with optional filter
+            udf_response = self.fetch_user_defined_fields(udf_filter=udf_name_filter)
+
+            self.log("Retrieved {0} user-defined fields".format(len(udf_response)), "INFO")
+
+            if not udf_response:
+                self.log("No user-defined fields found", "WARNING")
+                return []
+
+            # Build the UDF configuration dictionary
+            udf_config = {
+                "user_defined_fields": udf_response
+            }
+
+            # Return as a list containing the configuration
+            self.log("Built user_defined_fields config with {0} UDFs".format(len(udf_response)), "INFO")
+            return [udf_config]
+
+        except Exception as e:
+            self.log("Error in get_user_defined_fields_details: {0}".format(str(e)), "ERROR")
+            import traceback
+            self.log("Traceback: {0}".format(traceback.format_exc()), "DEBUG")
+            return []
 
     def build_provision_wired_device_config(self, device_list):
         """
@@ -1552,17 +1693,9 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        self.log("Retrieving module-supported network elements", "DEBUG")
+        # First, extract components_list to check if user_defined_fields is requested
         module_supported_network_elements = self.module_schema.get(
             "network_elements", {}
-        )
-
-        self.log(
-            "Retrieved {0} supported network elements: {1}".format(
-                len(module_supported_network_elements),
-                list(module_supported_network_elements.keys()),
-            ),
-            "DEBUG",
         )
 
         components_list = component_specific_filters.get(
@@ -1571,6 +1704,37 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Convert to list if needed
         components_list = list(components_list) if not isinstance(components_list, list) else components_list
+
+        # Validate user_defined_fields constraint: cannot be used with global_filters
+        has_user_defined_fields = "user_defined_fields" in components_list
+        has_global_filters = any(global_filters.values())
+
+        if has_user_defined_fields and has_global_filters:
+            self.log(
+                "ERROR: user_defined_fields component cannot be used together with global_filters",
+                "ERROR"
+            )
+            self.msg = {
+                "YAML config generation Task failed for module '{0}'.".format(
+                    self.module_name
+                ): {
+                    "reason": "user_defined_fields component cannot be used together with global_filters "
+                              "(mutually exclusive - global filters are IP-based device filtering)",
+                    "status": "INVALID_FILTER_COMBINATION"
+                }
+            }
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        self.log("Retrieving module-supported network elements", "DEBUG")
+
+        self.log(
+            "Retrieved {0} supported network elements: {1}".format(
+                len(module_supported_network_elements),
+                list(module_supported_network_elements.keys()),
+            ),
+            "DEBUG",
+        )
 
         self.log(
             "Components list determined (independent): {0}".format(components_list), "DEBUG"
@@ -1604,8 +1768,9 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Skip provision_device in this loop as it's a filter-only component
             # It will be handled after provision_wired_device is built
-            if network_element.get("is_filter_only"):
-                self.log("Skipping filter-only component: {0}".format(component), "DEBUG")
+            # Also skip user_defined_fields as it's an independent component processed separately
+            if network_element.get("is_filter_only") or component == "user_defined_fields":
+                self.log("Skipping filter-only or independent component: {0}".format(component), "DEBUG")
                 continue
 
             # Create filters dictionary properly with both global and component-specific filters
@@ -1778,6 +1943,41 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "data": auto_interface_configs
             })
             self.log("Added third document with {0} auto-generated interface configs".format(len(auto_interface_configs)), "DEBUG")
+
+        # Fourth document with user-defined fields (independent component)
+        include_user_defined_fields = self.generate_all_configurations or "user_defined_fields" in components_list
+        user_defined_fields_config = []
+
+        if include_user_defined_fields:
+            self.log("Processing user_defined_fields component (independent of global filters)", "INFO")
+
+            # Get UDF filters
+            udf_filters = {
+                "global_filters": {},  # UDFs cannot use global_filters (constraint already validated)
+                "component_specific_filters": component_specific_filters.get("user_defined_fields", {}),
+                "generate_all_configurations": self.generate_all_configurations
+            }
+
+            # Call get_user_defined_fields_details to fetch and transform UDFs
+            network_element = module_supported_network_elements.get("user_defined_fields")
+            if network_element:
+                udf_details = self.get_user_defined_fields_details(network_element, udf_filters)
+                if udf_details:
+                    user_defined_fields_config = udf_details
+                    self.log("Retrieved user_defined_fields config with {0} UDF entries".format(
+                        len(udf_details[0].get("user_defined_fields", []))
+                    ), "INFO")
+                else:
+                    self.log("No user_defined_fields data retrieved", "DEBUG")
+            else:
+                self.log("user_defined_fields network element not found in schema", "WARNING")
+
+        if user_defined_fields_config:
+            dicts_to_write.append({
+                "_comment": "User defined fields:",
+                "data": user_defined_fields_config
+            })
+            self.log("Added fourth document with user-defined fields config", "DEBUG")
 
         self.log("Final dictionaries created: {0} config sections".format(len(dicts_to_write)), "DEBUG")
 
