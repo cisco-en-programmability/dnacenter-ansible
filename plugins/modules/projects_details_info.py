@@ -25,8 +25,7 @@ options:
     type: str
   name:
     description:
-      - Name query parameter. Name of project to be
-        searched.
+      - Name query parameter. Name of project to be searched.
     type: str
   offset:
     description:
@@ -34,23 +33,18 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page;The minimum is 1, and
-        the maximum is 500.
-    type: float
+      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: int
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (dsc).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (dsc).
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetProjectsDetailsV2
-    description: Complete reference of the GetProjectsDetailsV2
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetProjectsDetailsV2
+    description: Complete reference of the GetProjectsDetailsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-projects-details-v-2
 notes:
   - SDK Method used are

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: topology_layer_2_info
-short_description: Information module for Topology Layer
-  2
+short_description: Information module for Topology Layer 2
 description:
   - Get Topology Layer 2 by id.
-  - Returns Layer 2 network topology by specified VLAN
-    ID.
+  - Returns Layer 2 network topology by specified VLAN ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,17 +21,14 @@ options:
     type: dict
   vlanID:
     description:
-      - VlanID path parameter. Vlan Name for e.g Vlan1,
-        Vlan23 etc.
+      - VlanID path parameter. Vlan Name for e.g Vlan1, Vlan23 etc.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Topology
-      GetTopologyDetails
-    description: Complete reference of the GetTopologyDetails
-      API.
+  - name: Cisco DNA Center documentation for Topology GetTopologyDetails
+    description: Complete reference of the GetTopologyDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-topology-details
 notes:
   - SDK Method used are

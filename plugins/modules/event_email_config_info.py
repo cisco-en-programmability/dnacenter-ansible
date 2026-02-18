@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: event_email_config_info
-short_description: Information module for Event Email
-  Config
+short_description: Information module for Event Email Config
 description:
   - Get all Event Email Config.
   - Get Email Destination.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetEmailDestination
-    description: Complete reference of the GetEmailDestination
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetEmailDestination
+    description: Complete reference of the GetEmailDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!get-email-destination
 notes:
   - SDK Method used are

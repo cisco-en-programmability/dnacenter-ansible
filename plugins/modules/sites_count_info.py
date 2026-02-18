@@ -24,13 +24,11 @@ options:
       - Name query parameter. Site name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      GetSitesCount
-    description: Complete reference of the GetSitesCount
-      API.
+  - name: Cisco DNA Center documentation for Site Design GetSitesCount
+    description: Complete reference of the GetSitesCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-sites-count
 notes:
   - SDK Method used are
@@ -58,15 +56,12 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "response": {
-          "count": 0
-        },
-        "version": "string"
-      }
-    ]
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

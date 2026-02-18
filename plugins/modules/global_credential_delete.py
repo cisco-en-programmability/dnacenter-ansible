@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: global_credential_delete
-short_description: Resource module for Global Credential
-  Delete
+short_description: Resource module for Global Credential Delete
 description:
-  - Manage operation delete of the resource Global Credential
-    Delete.
+  - Manage operation delete of the resource Global Credential Delete.
   - Deletes global credential for the given ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -19,17 +17,14 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   globalCredentialId:
-    description: GlobalCredentialId path parameter.
-      ID of global-credential.
+    description: GlobalCredentialId path parameter. ID of global-credential.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      DeleteGlobalCredentialsById
-    description: Complete reference of the DeleteGlobalCredentialsById
-      API.
+  - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialsById
+    description: Complete reference of the DeleteGlobalCredentialsById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-global-credentials-by-id
 notes:
   - SDK Method used are
