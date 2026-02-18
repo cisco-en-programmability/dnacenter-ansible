@@ -20,14 +20,14 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_backup_and_restore_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import backup_and_restore_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
 
-    module = brownfield_backup_and_restore_playbook_generator
-    test_data = loadPlaybookData("brownfield_backup_and_restore_playbook_generator")
+    module = backup_and_restore_playbook_config_generator
+    test_data = loadPlaybookData("backup_and_restore_playbook_config_generator")
 
     playbook_nfs_configuration_details = test_data.get("playbook_nfs_configuration_details")
     playbook_backup_configuration_details = test_data.get("playbook_backup_configuration_details")
@@ -87,7 +87,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
         elif "playbook_negative_scenario2" in self._testMethodName:
             pass
 
-    def test_backup_and_restore_workflow_manager_playbook_nfs_configuration_details(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_nfs_configuration_details(self):
         """
         Test case for creating a scheduled backup in Cisco Catalyst Center.
         Verifies that the workflow manager correctly creates and schedules
@@ -119,7 +119,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_backup_configuration_details(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_backup_configuration_details(self):
         """
         Test case for creating a scheduled backup in Cisco Catalyst Center.
         Verifies that the workflow manager correctly creates and schedules
@@ -151,7 +151,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_specific_nfs_backup_configuration_details(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_specific_nfs_backup_configuration_details(self):
         """
         Test case for creating a scheduled backup in Cisco Catalyst Center.
         Verifies that the workflow manager correctly creates and schedules
@@ -183,7 +183,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_generate_all_configuration(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_generate_all_configuration(self):
         """
         Test case for creating a scheduled backup in Cisco Catalyst Center.
         Verifies that the workflow manager correctly creates and schedules
@@ -215,7 +215,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
             }
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_negative_scenario_lower_version(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_negative_scenario_lower_version(self):
         """
         Test case for creating a scheduled backup in Cisco Catalyst Center.
         Verifies that the workflow manager correctly creates and schedules
@@ -243,7 +243,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
             "settings from the Catalyst Center"
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_negative_scenario2(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_negative_scenario2(self):
         """
         Test case for creating a scheduled backup in Cisco Catalyst Center.
         Verifies that the workflow manager correctly creates and schedules
