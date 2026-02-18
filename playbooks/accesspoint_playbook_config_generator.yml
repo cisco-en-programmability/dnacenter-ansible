@@ -8,7 +8,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate Access Point configuration workflow playbook
-      cisco.dnac.brownfield_accesspoint_playbook_generator:
+      cisco.dnac.accesspoint_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -25,13 +25,13 @@
           # ========================================================================================
           # Scenario 1: Generate all all Access Point configurations
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_workflow_playbook.yml"
+          - file_path: "tmp/accesspoint_workflow_playbook.yml"
             generate_all_configurations: true
 
           # ========================================================================================
           # Scenario 2: Generate Access Point provision configurations based on Site list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_workflow_playbook_site_base.yml"
+          - file_path: "tmp/accesspoint_workflow_playbook_site_base.yml"
             global_filters:
               site_list:
                 - Global/USA/SAN JOSE/SJ_BLD23/FLOOR1
@@ -41,7 +41,7 @@
           # ========================================================================================
           # Scenario 3: Generate Access Point provision based on hostname list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_workflow_playbook_hostname_base.yml"
+          - file_path: "tmp/accesspoint_workflow_playbook_hostname_base.yml"
             global_filters:
               provision_hostname_list:
                 - Cisco_9120AXE_IP4-01-Test2
@@ -50,7 +50,7 @@
           # ========================================================================================
           # Scenario 4: Generate Access Point configurations based on hostname list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_workflow_playbook_apconfig_base.yml"
+          - file_path: "tmp/accesspoint_workflow_playbook_apconfig_base.yml"
             global_filters:
               accesspoint_config_list:
                 - Test_AP
@@ -59,7 +59,7 @@
           # ========================================================================================
           # Scenario 5: Generate Access Point provision configurations based on access point hostname filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_workflow_playbook_accesspoint_host_provision_base.yml"
+          - file_path: "tmp/accesspoint_workflow_playbook_host_provision_base.yml"
             global_filters:
               accesspoint_provision_config_list:
                 - AP687D.B402.1614-AP-Test6
@@ -68,7 +68,7 @@
           # ========================================================================================
           # Scenario 6: Generate access point configurations based on mac address list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_workflow_playbook_mac_address_base.yml"
+          - file_path: "tmp/accesspoint_workflow_playbook_mac_address_base.yml"
             global_filters:
               accesspoint_provision_config_mac_list:
                 - a4:88:73:d0:53:60
