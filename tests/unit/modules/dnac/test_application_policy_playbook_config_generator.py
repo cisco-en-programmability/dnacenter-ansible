@@ -20,14 +20,14 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_application_policy_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import application_policy_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_application_policy_playbook_generator
-    test_data = loadPlaybookData("brownfield_application_policy_playbook_generator")
+    module = application_policy_playbook_config_generator
+    test_data = loadPlaybookData("application_policy_playbook_config_generator")
 
     playbook_queuing_profile = test_data.get("playbook_queuing_profile")
     playbook_application_policy = test_data.get("playbook_application_policy")
@@ -157,7 +157,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get("response"),
+            result.get("msg"),
             "YAML config generation succeeded for module 'application_policy_workflow_manager'."
         )
 
@@ -182,7 +182,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get("response"),
+            result.get("msg"),
             "YAML config generation succeeded for module 'application_policy_workflow_manager'."
         )
 
@@ -207,7 +207,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get("response"),
+            result.get("msg"),
             "YAML config generation succeeded for module 'application_policy_workflow_manager'."
         )
 
@@ -232,6 +232,6 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get("response"),
+            result.get("msg"),
             "YAML config generation succeeded for module 'application_policy_workflow_manager'."
         )

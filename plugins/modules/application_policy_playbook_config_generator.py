@@ -11,7 +11,7 @@ __author__ = "Syed Khadeer Ahmed, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_application_policy_playbook_generator
+module: application_policy_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'application_policy_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the 'application_policy_workflow_manager'
@@ -116,7 +116,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Generate all application policy configurations
-  cisco.dnac.brownfield_application_policy_playbook_generator:
+  cisco.dnac.application_policy_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -131,7 +131,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate configurations with custom file path
-  cisco.dnac.brownfield_application_policy_playbook_generator:
+  cisco.dnac.application_policy_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -146,7 +146,7 @@ EXAMPLES = r"""
       - file_path: "/tmp/app_policy_config.yml"
 
 - name: Generate specific queuing profiles
-  cisco.dnac.brownfield_application_policy_playbook_generator:
+  cisco.dnac.application_policy_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -165,7 +165,7 @@ EXAMPLES = r"""
             profile_names_list: ["Enterprise-QoS-Profile", "Wireless-QoS"]
 
 - name: Generate specific application policies
-  cisco.dnac.brownfield_application_policy_playbook_generator:
+  cisco.dnac.application_policy_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -184,7 +184,7 @@ EXAMPLES = r"""
             policy_names_list: ["wired_traffic_policy"]
 
 - name: Generate both queuing profiles and policies with filters
-  cisco.dnac.brownfield_application_policy_playbook_generator:
+  cisco.dnac.application_policy_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -301,7 +301,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         if not self.config:
-            self.msg = "config parameter is required for brownfield_application_policy_playbook_generator module"
+            self.msg = "config parameter is required for application_policy_playbook_config_generator module"
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -5200,7 +5200,7 @@ def main():
 
     # Log module initialization after object creation (now logging is available)
     ccc_app_policy_generator.log(
-        "========== Starting brownfield_application_policy_playbook_generator module ==========",
+        "========== Starting application_policy_playbook_config_generator module ==========",
         "INFO"
     )
 
