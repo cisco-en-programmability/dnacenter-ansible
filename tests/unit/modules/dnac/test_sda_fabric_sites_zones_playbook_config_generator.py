@@ -17,22 +17,22 @@
 #   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_sda_fabric_sites_zones_config_generator`.
-#   These tests cover various scenarios for generating YAML configuration files from brownfield
+#   Unit tests for the Ansible module `sda_fabric_sites_zones_playbook_config_generator`.
+#   These tests cover various scenarios for generating YAML configuration files from playbook config generator
 #   SDA fabric sites and zones configurations in Cisco Catalyst Center.
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_sda_fabric_sites_zones_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import sda_fabric_sites_zones_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
+class TestFabricSitesZonesPlaybookConfigGenerator(TestDnacModule):
 
-    module = brownfield_sda_fabric_sites_zones_playbook_generator
-    test_data = loadPlaybookData("brownfield_sda_fabric_sites_zones_playbook_generator")
+    module = sda_fabric_sites_zones_playbook_config_generator
+    test_data = loadPlaybookData("sda_fabric_sites_zones_playbook_config_generator")
 
     # Load all playbook configurations
     playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
@@ -48,7 +48,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
 
     def setUp(self):
-        super(TestBrownfieldFabricSitesZonesGenerator, self).setUp()
+        super(TestFabricSitesZonesPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -63,13 +63,13 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldFabricSitesZonesGenerator, self).tearDown()
+        super(TestFabricSitesZonesPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield fabric sites and zones generator tests.
+        Load fixtures for fabric sites and zones playbook config generator tests.
         """
 
         if "generate_all_configurations" in self._testMethodName:
@@ -158,7 +158,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_generate_all_configurations(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_generate_all_configurations(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for all fabric sites and zones.
 
@@ -183,7 +183,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_fetch_specific_configurations(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_fetch_specific_configurations(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with specific file path.
 
@@ -208,7 +208,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_fabric_sites_only(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_only(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with only fabric sites.
 
@@ -233,7 +233,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_fabric_zones_only(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_only(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with only fabric zones.
 
@@ -258,7 +258,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_fabric_sites_and_zones(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_and_zones(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with both fabric sites and zones.
 
@@ -283,7 +283,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_fabric_sites_with_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_with_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with fabric sites filtered by site hierarchy.
 
@@ -308,7 +308,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_fabric_sites_with_multiple_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_with_multiple_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with multiple fabric sites filters.
 
@@ -333,7 +333,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_fabric_zones_with_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_with_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with fabric zones filtered by site hierarchy.
 
@@ -358,7 +358,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_fabric_zones_with_multiple_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_with_multiple_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with multiple fabric zones filters.
 
@@ -383,7 +383,7 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_no_file_path(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration without specifying file_path.
 
@@ -405,11 +405,11 @@ class TestBrownfieldFabricSitesZonesGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
-        self.assertIn("sda_fabric_sites_zones_workflow_manager_playbook", str(result.get('msg')))
+        self.assertIn("sda_fabric_sites_zones_playbook_config", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_sites_zones_config_generator_empty_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_sites_zones_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with empty component-specific filters.
 
