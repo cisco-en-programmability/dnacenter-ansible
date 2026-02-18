@@ -24,7 +24,7 @@ from ansible_collections.cisco.dnac.plugins.modules import user_role_playbook_co
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldUserRolePlaybookGenerator(TestDnacModule):
+class TestDnacUserRolePlaybookGenerator(TestDnacModule):
 
     module = user_role_playbook_config_generator
 
