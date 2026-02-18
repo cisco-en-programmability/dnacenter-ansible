@@ -17,22 +17,22 @@
 #   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_sda_fabric_virtual_networks_playbook_generator`.
-#   These tests cover various scenarios for generating YAML playbooks from brownfield
+#   Unit tests for the Ansible module `sda_fabric_virtual_networks_playbook_config_generator`.
+#   These tests cover various scenarios for generating YAML playbooks from playbook generator.
 #   SDA fabric configurations including fabric VLANs, virtual networks, and anycast gateways.
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_sda_fabric_virtual_networks_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import sda_fabric_virtual_networks_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
+class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
 
-    module = brownfield_sda_fabric_virtual_networks_playbook_generator
-    test_data = loadPlaybookData("brownfield_sda_fabric_virtual_networks_playbook_generator")
+    module = sda_fabric_virtual_networks_playbook_config_generator
+    test_data = loadPlaybookData("sda_fabric_virtual_networks_playbook_config_generator")
 
     # Load all playbook configurations
     playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
@@ -56,7 +56,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
 
     def setUp(self):
-        super(TestBrownfieldFabricVirtualNetworksGenerator, self).setUp()
+        super(TestFabricVirtualNetworksPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -71,13 +71,13 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldFabricVirtualNetworksGenerator, self).tearDown()
+        super(TestFabricVirtualNetworksPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield fabric virtual networks generator tests.
+        Load fixtures for fabric virtual networks playbook config generator tests.
         """
 
         if "generate_all_configurations" in self._testMethodName:
@@ -280,9 +280,9 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_generate_all_configurations(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_generate_all_configurations(self, mock_exists, mock_file):
         """
-        Test case for brownfield fabric virtual networks generator when generating all configurations.
+        Test case for fabric virtual networks playbook config generator when generating all configurations.
 
         This test case checks the behavior when generate_all_configurations is set to True,
         which should retrieve all fabric VLANs, virtual networks, and anycast gateways and
@@ -306,7 +306,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_fabric_vlan_by_vlan_name_single(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_single(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for a single fabric VLAN by VLAN name.
 
@@ -331,7 +331,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_fabric_vlan_by_vlan_name_multiple(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_multiple(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for multiple fabric VLANs by VLAN names.
 
@@ -356,7 +356,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_fabric_vlan_by_vlan_id_single(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_id_single(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for a single fabric VLAN by VLAN ID.
 
@@ -381,7 +381,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_fabric_vlan_by_vlan_id_multiple(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_id_multiple(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for multiple fabric VLANs by VLAN IDs.
 
@@ -406,7 +406,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_fabric_vlan_by_vlan_name_and_id(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_and_id(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for fabric VLANs by both VLAN name and ID.
 
@@ -429,7 +429,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_fabric_vlan_by_vlan_id_large_values(self):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_id_large_values(self):
         """
         Test case for validating invalid VLAN ID values.
 
@@ -453,7 +453,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_virtual_networks_by_vn_name_single(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_virtual_networks_by_vn_name_single(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for a single virtual network by VN name.
 
@@ -478,7 +478,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_virtual_networks_by_vn_name_multiple(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_virtual_networks_by_vn_name_multiple(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for multiple virtual networks by VN names.
 
@@ -503,7 +503,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_anycast_gateways_by_vn_name(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vn_name(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for anycast gateways by VN name.
 
@@ -528,7 +528,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_anycast_gateways_by_ip_pool_name(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_ip_pool_name(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for anycast gateways by IP pool name.
 
@@ -553,7 +553,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_anycast_gateways_by_vlan_id(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_id(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for anycast gateways by VLAN ID.
 
@@ -578,7 +578,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_anycast_gateways_by_vlan_name(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_name(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for anycast gateways by VLAN name.
 
@@ -603,7 +603,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_anycast_gateways_by_vlan_name_and_id(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_name_and_id(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for anycast gateways by VLAN name and ID.
 
@@ -628,7 +628,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_anycast_gateways_all_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_all_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for anycast gateways with all filters.
 
@@ -653,7 +653,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_multiple_components(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_multiple_components(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for multiple component types.
 
@@ -678,7 +678,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_all_components(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_all_components(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for all components.
 
@@ -703,7 +703,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_empty_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with empty component filters.
 
@@ -728,7 +728,7 @@ class TestBrownfieldFabricVirtualNetworksGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_virtual_networks_config_generator_no_file_path(self, mock_exists, mock_file):
+    def test_sda_fabric_virtual_networks_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration without specifying file path.
 
