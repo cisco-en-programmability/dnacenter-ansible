@@ -10,9 +10,7 @@ module: discovery_info
 short_description: Information module for Discovery
 description:
   - Get Discovery by id.
-  - Returns discovery by Discovery ID. Discovery ID
-    can be obtained using the "Get Discoveries by range"
-    API.
+  - Returns discovery by Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - Id path parameter. Discovery ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      GetDiscoveryById
-    description: Complete reference of the GetDiscoveryById
-      API.
+  - name: Cisco DNA Center documentation for Discovery GetDiscoveryById
+    description: Complete reference of the GetDiscoveryById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id
 notes:
   - SDK Method used are
@@ -121,7 +117,7 @@ dnac_response:
         "snmpRwCommunity": "string",
         "snmpRwCommunityDesc": "string",
         "snmpUserName": "string",
-        "timeout": 0,
+        "timeOut": 0,
         "updateMgmtIp": true,
         "userNameList": "string"
       },

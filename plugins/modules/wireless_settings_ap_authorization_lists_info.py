@@ -7,15 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ap_authorization_lists_info
-short_description: Information module for Wireless Settings
-  Ap Authorization Lists
+short_description: Information module for Wireless Settings Ap Authorization Lists
 description:
   - Get all Wireless Settings Ap Authorization Lists.
-    - > Retrieves the AP Authorization Lists that are
-    created in the Catalyst Centre network Design for
-    wireless. If an AP Authorization List name is given
-    as query parameter, then returns respective AP Authorization
-    List details including Local and/or Remote authorization.
+  - Get Wireless Settings Ap Authorization Lists by id. - > Retrieves the AP Authorization Lists that are created in the Catalyst
+    Centre network Design for wireless. If an AP Authorization List name is given as query parameter, then returns respective
+    AP Authorization List details including Local and/or Remote authorization. - > This API allows the user to get an AP Authorization
+    List by AP Authorization List ID that captured in wireless settings design.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,38 +25,40 @@ options:
   apAuthorizationListName:
     description:
       - >
-        ApAuthorizationListName query parameter. Employ
-        this query parameter to obtain the details of
-        the AP Authorization List corresponding to the
-        provided apAuthorizationListName.
+        ApAuthorizationListName query parameter. Employ this query parameter to obtain the details of the AP
+        Authorization List corresponding to the provided apAuthorizationListName.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page. The first record is numbered
-        1.
-    type: str
+      - Offset query parameter. The first record to show for this page. The first record is numbered 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Default is 500 if not
-        specified. Maximum allowed limit is 500.
+        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
+        Maximum allowed limit is 500.
+    type: int
+  id:
+    description:
+      - Id path parameter. AP Authorization List ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAPAuthorizationLists
-    description: Complete reference of the GetAPAuthorizationLists
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAPAuthorizationListByID
+    description: Complete reference of the GetAPAuthorizationListByID API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-list-by-id
+  - name: Cisco DNA Center documentation for Wireless GetAPAuthorizationLists
+    description: Complete reference of the GetAPAuthorizationLists API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-lists
 notes:
   - SDK Method used are
+    wireless.Wireless.get_ap_authorization_list_by_id,
     wireless.Wireless.get_ap_authorization_lists,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
+    get /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
 """
 
 EXAMPLES = r"""
@@ -74,8 +74,20 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     apAuthorizationListName: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
+  register: result
+- name: Get Wireless Settings Ap Authorization Lists by id
+  cisco.dnac.wireless_settings_ap_authorization_lists_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
   register: result
 """
 RETURN = r"""

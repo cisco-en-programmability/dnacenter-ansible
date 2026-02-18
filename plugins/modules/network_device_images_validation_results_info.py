@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_validation_results_info
-short_description: Information module for Network Device
-  Images Validation Results
+short_description: Information module for Network Device Images Validation Results
 description:
-  - Get all Network Device Images Validation Results.
-    - > This API provides a comprehensive overview of
-    the outcomes from various tests and assessments
-    defined by system and custom validations related
-    to network device images. These results are essential
-    for identifying potential issues, verifying configurations,
-    and ensuring that the network meets the requirement
+  - Get all Network Device Images Validation Results. - > This API provides a comprehensive overview of the outcomes from
+    various tests and assessments defined by system and custom validations related to network device images. These results
+    are essential for identifying potential issues, verifying configurations, and ensuring that the network meets the requirement
     for image update.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -28,66 +23,54 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        identifier.
+      - NetworkDeviceId query parameter. Network device identifier.
     type: str
   id:
     description:
-      - Id query parameter. Unique identifier of network
-        device validation task.
+      - Id query parameter. Unique identifier of network device validation task.
     type: str
   operationType:
     description:
       - >
-        OperationType query parameter. The operation
-        type, as part of which this validation will
-        get triggered. Available values DISTRIBUTION,
-        ACTIVATION, READINESS_CHECK.
+        OperationType query parameter. The operation type, as part of which this validation will get triggered.
+        Available values DISTRIBUTION, ACTIVATION, READINESS_CHECK.
     type: str
   status:
     description:
-      - Status query parameter. Status of the validation
-        result. SUCCESS, FAILED, IN_PROGRESS, WARNING.
+      - Status query parameter. Status of the validation result. SUCCESS, FAILED, IN_PROGRESS, WARNING.
     type: str
   type:
     description:
-      - Type query parameter. Type of the validation.
-        Available values PRE_VALIDATION, POST_VALIDATION.
+      - Type query parameter. Type of the validation. Available values PRE_VALIDATION, POST_VALIDATION.
     type: str
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
       - >
-        Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response. Available values asc, desc.
+        Order query parameter. Whether ascending or descending order should be used to sort the response.
+        Available values asc, desc.
     type: str
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. The minimum and maximum
-        values are 1 and 500, respectively.
+        Limit query parameter. The number of records to show for this page. The minimum and maximum values are 1
+        and 500, respectively.
     type: int
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. The minimum value is 1.
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. The
+        minimum value is 1.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) NetworkDeviceImageUpdateValidationResults
-    description: Complete reference of the NetworkDeviceImageUpdateValidationResults
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) NetworkDeviceImageUpdateValidationResults
+    description: Complete reference of the NetworkDeviceImageUpdateValidationResults API.
     link: https://developer.cisco.com/docs/dna-center/#!network-device-image-update-validation-results
 notes:
   - SDK Method used are

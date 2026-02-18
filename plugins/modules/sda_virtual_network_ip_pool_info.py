@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_virtual_network_ip_pool_info
-short_description: Information module for Sda Virtual
-  Network Ip Pool
+short_description: Information module for Sda Virtual Network Ip Pool
 description:
   - Get all Sda Virtual Network Ip Pool.
   - Get IP Pool from SDA Virtual Network.
@@ -33,18 +32,15 @@ options:
     version_added: "4.0.0"
     description:
       - >
-        IpPoolName query parameter. IpPoolName. Note
-        Use vlanName as a value for this parameter if
-        same ip pool is assigned to multiple virtual
-        networks (e.g.. IpPoolName=vlan1021).
+        IpPoolName query parameter. IpPoolName. Note Use vlanName as a value for this parameter if same ip pool
+        is assigned to multiple virtual networks (e.g.. IpPoolName=vlan1021).
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetIPPoolFromSDAVirtualNetwork
-    description: Complete reference of the GetIPPoolFromSDAVirtualNetwork
-      API.
+    description: Complete reference of the GetIPPoolFromSDAVirtualNetwork API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ip-pool-from-sda-virtual-network
 notes:
   - SDK Method used are

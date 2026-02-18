@@ -1,0 +1,81 @@
+{
+    "playbook_nfs_configuration_details": [
+        {
+            "component_specific_filters": {
+                "components_list": [
+                    "nfs_configuration"
+                ]
+            },
+            "file_path": "/Users/priyadharshini/Downloads/configuration_details_info"
+        }
+    ],
+    "nfs_server_details": {"version": "2.0", "response": [{"id": "11b94935-dd37-49b1-b609-46905944ac60", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB29"}, "status": {"destinationPath": "/data/external/nfs-1ae4253f-136b-51e6-aef0-efcb678950d6", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}, {"id": "1d75ce3b-9ff3-48cd-bfd1-630a5f06e720", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB23"}, "status": {"destinationPath": "/data/external/nfs-086061ac-e99a-52d1-ac1a-3ca805da35b1", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "1e3aa6cb-a153-431f-9194-1d5a9b51ce25", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB18"}, "status": {"destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "2c69fd8b-4ca9-4343-a93b-97600f0250b4", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB24"}, "status": {"destinationPath": "/data/external/nfs-2b4a348d-f4b3-5214-926d-5b96b44c4068", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "10.195.189.95", "serverType": "NFS", "sourcePath": "/data/nfsshare/iac"}, "status": {"destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "b606e58f-a611-4daf-bf17-a98680a8fa76", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB19"}, "status": {"destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}]},
+
+
+    "playbook_backup_configuration_details": [
+        {
+            "component_specific_filters": {
+                "components_list": [
+                    "backup_storage_configuration"
+                ]
+            },
+            "file_path": "/Users/priyadharshini/Downloads/configuration_details_info"
+        }
+    ],
+    "get_backup_configuration_details": {"version": "2.0", "response": {"type": "NFS", "dataRetention": 3, "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff", "id": "ff131865-4f07-43f6-a320-71540b24b37d", "isEncryptionPassPhraseAvailable": true}},
+    "get_nfs_server_details": {"version": "2.0", "response": [{"id": "11b94935-dd37-49b1-b609-46905944ac60", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB29"}, "status": {"destinationPath": "/data/external/nfs-1ae4253f-136b-51e6-aef0-efcb678950d6", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}, {"id": "1d75ce3b-9ff3-48cd-bfd1-630a5f06e720", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB23"}, "status": {"destinationPath": "/data/external/nfs-086061ac-e99a-52d1-ac1a-3ca805da35b1", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "1e3aa6cb-a153-431f-9194-1d5a9b51ce25", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB18"}, "status": {"destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "2c69fd8b-4ca9-4343-a93b-97600f0250b4", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB24"}, "status": {"destinationPath": "/data/external/nfs-2b4a348d-f4b3-5214-926d-5b96b44c4068", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "10.195.189.95", "serverType": "NFS", "sourcePath": "/data/nfsshare/iac"}, "status": {"destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "b606e58f-a611-4daf-bf17-a98680a8fa76", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB19"}, "status": {"destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}]},
+
+    "playbook_specific_nfs_backup_configuration_details": [
+        {
+            "component_specific_filters": {
+                "backup_storage_configuration": [
+                    {
+                        "server_type": "NFS"
+                    }
+                ],
+                "components_list": [
+                    "nfs_configuration",
+                    "backup_storage_configuration"
+                ],
+                "nfs_configuration": [
+                    {
+                        "server_ip": "172.27.17.90",
+                        "source_path": "/home/nfsshare/backups/TB19"
+                    }
+                ]
+            },
+            "file_path": "/Users/priyadharshini/Downloads/configuration_details_info"
+        }
+    ],
+    "get_nfs_server_details1": {"version": "2.0", "response": [{"id": "11b94935-dd37-49b1-b609-46905944ac60", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB29"}, "status": {"destinationPath": "/data/external/nfs-1ae4253f-136b-51e6-aef0-efcb678950d6", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}, {"id": "1d75ce3b-9ff3-48cd-bfd1-630a5f06e720", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB23"}, "status": {"destinationPath": "/data/external/nfs-086061ac-e99a-52d1-ac1a-3ca805da35b1", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "1e3aa6cb-a153-431f-9194-1d5a9b51ce25", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB18"}, "status": {"destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "2c69fd8b-4ca9-4343-a93b-97600f0250b4", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB24"}, "status": {"destinationPath": "/data/external/nfs-2b4a348d-f4b3-5214-926d-5b96b44c4068", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "10.195.189.95", "serverType": "NFS", "sourcePath": "/data/nfsshare/iac"}, "status": {"destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "b606e58f-a611-4daf-bf17-a98680a8fa76", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB19"}, "status": {"destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}]},
+    "get_backup_configuration_details1": {"version": "2.0", "response": {"type": "NFS", "dataRetention": 3, "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff", "id": "ff131865-4f07-43f6-a320-71540b24b37d", "isEncryptionPassPhraseAvailable": true}},
+
+    "playbook_generate_all_configuration": [
+        {
+            "file_path": "/Users/priyadharshini/Downloads/configuration_details_info1",
+            "generate_all_configurations": true
+        }
+    ],
+    "get_nfs_details": {"version": "2.0", "response": [{"id": "11b94935-dd37-49b1-b609-46905944ac60", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB29"}, "status": {"destinationPath": "/data/external/nfs-1ae4253f-136b-51e6-aef0-efcb678950d6", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}, {"id": "1d75ce3b-9ff3-48cd-bfd1-630a5f06e720", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB23"}, "status": {"destinationPath": "/data/external/nfs-086061ac-e99a-52d1-ac1a-3ca805da35b1", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "1e3aa6cb-a153-431f-9194-1d5a9b51ce25", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB18"}, "status": {"destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "2c69fd8b-4ca9-4343-a93b-97600f0250b4", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB24"}, "status": {"destinationPath": "/data/external/nfs-2b4a348d-f4b3-5214-926d-5b96b44c4068", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "10.195.189.95", "serverType": "NFS", "sourcePath": "/data/nfsshare/iac"}, "status": {"destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "b606e58f-a611-4daf-bf17-a98680a8fa76", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB19"}, "status": {"destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}]},    
+    "get_backup_configuration_details2": {"version": "2.0", "response": {"type": "NFS", "dataRetention": 3, "mountPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff", "id": "ff131865-4f07-43f6-a320-71540b24b37d", "isEncryptionPassPhraseAvailable": true}},   
+    "get_all_n_f_s_configurations": {"version": "2.0", "response": [{"id": "11b94935-dd37-49b1-b609-46905944ac60", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB29"}, "status": {"destinationPath": "/data/external/nfs-1ae4253f-136b-51e6-aef0-efcb678950d6", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}, {"id": "1d75ce3b-9ff3-48cd-bfd1-630a5f06e720", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB23"}, "status": {"destinationPath": "/data/external/nfs-086061ac-e99a-52d1-ac1a-3ca805da35b1", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "1e3aa6cb-a153-431f-9194-1d5a9b51ce25", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB18"}, "status": {"destinationPath": "/data/external/nfs-013c9812-7359-57bb-88b0-53d01e4122ff", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "2c69fd8b-4ca9-4343-a93b-97600f0250b4", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB24"}, "status": {"destinationPath": "/data/external/nfs-2b4a348d-f4b3-5214-926d-5b96b44c4068", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "9aa86409-69ff-4e5c-8a7b-68b8d40fa142", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "10.195.189.95", "serverType": "NFS", "sourcePath": "/data/nfsshare/iac"}, "status": {"destinationPath": "/data/external/nfs-13fdd4b5-e0bf-54a3-92a1-e296ecda3e0c", "state": "Healthy", "subResourceState": "", "unhealthyNodes": null}}, {"id": "b606e58f-a611-4daf-bf17-a98680a8fa76", "spec": {"nfsPort": 2049, "nfsVersion": "nfs4", "portMapperPort": 111, "server": "172.27.17.90", "serverType": "NFS", "sourcePath": "/home/nfsshare/backups/TB19"}, "status": {"destinationPath": "/data/external/nfs-0e1cfb41-59f4-52d8-9895-f5c784d5596e", "state": "UnHealthy", "subResourceState": "10.22.40.214=NFS mount point could not be mounted on the node", "unhealthyNodes": ["10.22.40.214"]}}]},
+
+    "playbook_negative_scenario_lower_version":  [
+        {
+            "file_path": "/Users/priyadharshini/Downloads/configuration_details_info1",
+            "generate_all_configurations": true
+        }
+    ],
+
+    "playbook_negative_scenario2": [
+        {
+            "component_specific_filters": {
+                "components_list": [
+                    "nfs_configurations",
+                    "backup_storage_configuration"
+                ]
+            },
+            "file_path": "/Users/priyadharshini/Downloads/configuration_details_info"
+        }
+    ]
+}
