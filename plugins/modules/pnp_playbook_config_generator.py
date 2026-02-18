@@ -95,7 +95,7 @@ __author__ = "Syed Khadeer Ahmed, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_pnp_playbook_generator
+module: pnp_playbook_config_generator
 short_description: Generate YAML playbook for PnP workflow with device information
 description:
 - Generates YAML configurations compatible with the pnp_workflow_manager module
@@ -302,7 +302,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Generate basic device info for all PnP devices
-  cisco.dnac.brownfield_pnp_playbook_generator:
+  cisco.dnac.pnp_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -317,7 +317,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate device info with custom file path
-  cisco.dnac.brownfield_pnp_playbook_generator:
+  cisco.dnac.pnp_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -334,7 +334,7 @@ EXAMPLES = r"""
           components_list: ["device_info"]
 
 - name: Generate device info for unclaimed devices only
-  cisco.dnac.brownfield_pnp_playbook_generator:
+  cisco.dnac.pnp_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -353,7 +353,7 @@ EXAMPLES = r"""
           device_state: ["Unclaimed"]
 
 - name: Generate device info for switches only
-  cisco.dnac.brownfield_pnp_playbook_generator:
+  cisco.dnac.pnp_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -372,7 +372,7 @@ EXAMPLES = r"""
           device_family: ["Switches and Hubs"]
 
 - name: Generate device info for devices at specific site
-  cisco.dnac.brownfield_pnp_playbook_generator:
+  cisco.dnac.pnp_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -391,7 +391,7 @@ EXAMPLES = r"""
           site_name: "Global/USA/San Francisco"
 
 - name: Generate device info for provisioned wireless controllers
-  cisco.dnac.brownfield_pnp_playbook_generator:
+  cisco.dnac.pnp_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
