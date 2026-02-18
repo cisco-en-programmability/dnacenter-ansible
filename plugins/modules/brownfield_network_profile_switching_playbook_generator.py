@@ -947,7 +947,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "ERROR"
             )
             not_exist_profile = ", ".join(non_existing_profiles)
-            self.fail_and_exit(
+            self.msg = (
                 "Switch profile(s) '{0}' do not exist in Cisco Catalyst Center. "
                 "Total missing profiles: {1}/{2} requested. Please verify profile "
                 "names are spelled correctly (case-sensitive exact match required) "
@@ -958,6 +958,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     len(profile_names)
                 )
             )
+            self.fail_and_exit(self.msg)
 
         if filtered_profiles:
             self.log(
@@ -1393,28 +1394,47 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "INFO"
             )
 
-            matched_profiles = 0
             total_templates_checked = 0
+            matched_templates = 0
+            unmatched_templates = []
 
-            for profile_index, (profile_id, templates) in enumerate(
-                self.have.get("switch_profile_templates", {}).items(), start=1
-            ):
-                total_templates_checked += 1
+            for template_index, template in enumerate(day_n_templates, start=1):
                 self.log(
-                    "Checking profile {0}/{1} (UUID: {2}) for template matches. Profile has "
-                    "{3} template(s): {4}. Matching against requested templates: {5}".format(
-                        profile_index, len(self.have.get("switch_profile_templates", {})),
-                        profile_id, len(templates), templates, day_n_templates
+                    "Processing requested template {0}/{1}: '{2}' for profile matching. "
+                    "Iterating through profiles to find matches based on template assignments.".format(
+                        template_index, len(day_n_templates), template
                     ),
                     "DEBUG"
                 )
-                if any(template in templates for template in day_n_templates):
-                    matched_profiles += 1
+                total_templates_checked += 1
+                matched_profiles = 0
+
+                for profile_index, (profile_id, templates) in enumerate(
+                    self.have.get("switch_profile_templates", {}).items(), start=1
+                ):
                     self.log(
-                        "Profile {0}/{1} (UUID: {2}) matched! Found at least one requested "
-                        "template. Extracting complete profile metadata.".format(
+                        "Checking profile {0}/{1} (UUID: {2}) for template matches. Profile has "
+                        "{3} template(s): {4}. Matching against requested templates: {5}".format(
                             profile_index, len(self.have.get("switch_profile_templates", {})),
-                            profile_id
+                            profile_id, len(templates), templates, day_n_templates
+                        ),
+                        "DEBUG"
+                    )
+                    if template not in templates:
+                        self.log(
+                            "Profile {0}/{1} (UUID: {2}) did NOT match. None of the requested "
+                            "templates found in profile's template list. Skipping profile.".format(
+                                profile_index, len(self.have.get("switch_profile_templates", {})),
+                                profile_id
+                            ),
+                            "DEBUG"
+                        )
+                        continue
+
+                    self.log(
+                        "Template {0}/{1} (Template: {2}) matched! Found. "
+                        "Extracting complete profile metadata.".format(
+                            template_index, len(day_n_templates), template
                         ),
                         "DEBUG"
                     )
@@ -1432,6 +1452,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         )
                         continue
 
+                    matched_profiles += 1
                     each_profile_config = {}
                     each_profile_config["profile_name"] = profile_name
                     each_profile_config["day_n_templates"] = templates
@@ -1461,23 +1482,42 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                             "DEBUG"
                         )
                     final_list.append(each_profile_config)
+
+                if matched_profiles == 0:
+                    self.msg = (
+                        f"No profiles matched the requested template {template_index}/"
+                        f"{len(day_n_templates)}: '{template}'. "
+                        "No profiles contain this template assignment.")
+                    self.log(self.msg, "WARNING")
+                    unmatched_templates.append(template)
                 else:
                     self.log(
-                        "Profile {0}/{1} (UUID: {2}) did NOT match. None of the requested "
-                        "templates found in profile's template list. Skipping profile.".format(
-                            profile_index, len(self.have.get("switch_profile_templates", {})),
-                            profile_id
-                        ),
-                        "DEBUG"
-                    )
+                        f"Template {template_index}/{len(day_n_templates)}: '{template}' matched "
+                        f"with {matched_profiles} profile(s).",
+                        "INFO")
+                    matched_templates += 1
+
+            if unmatched_templates:
+                self.msg = (
+                    f"The following {len(unmatched_templates)} requested template(s) did not match "
+                    f"any profiles: {unmatched_templates}. Please verify that these templates are "
+                    "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
+
             self.log(
                 "Completed day_n_template_list filtering. Profile configurations collected: {0}. "
                 "Statistics - Total profiles checked: {1}, Profiles matched: {2}. "
                 "Configuration structure: {3}".format(
-                    len(final_list), total_templates_checked, matched_profiles, final_list
+                    len(final_list), total_templates_checked, matched_templates, final_list
                 ),
                 "INFO"
             )
+
         elif site_list and isinstance(site_list, list):
             self.log(
                 "Filtering switch profiles based on site_list (LOWEST PRIORITY, neither "
@@ -1488,29 +1528,48 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "INFO"
             )
 
-            matched_profiles = 0
             total_sites_checked = 0
+            matched_sites = 0
+            unmatched_sites = []
 
-            for profile_index, (profile_id, sites) in enumerate(
-                self.have.get("switch_profile_sites", {}).items(), start=1
-            ):
-                total_sites_checked += 1
+            for site_index, site in enumerate(site_list, start=1):
                 self.log(
-                    "Checking profile {0}/{1} (UUID: {2}) for site matches. Profile has {3} "
-                    "site(s): {4}. Matching against requested sites: {5}".format(
-                        profile_index, len(self.have.get("switch_profile_sites", {})),
-                        profile_id, len(sites), list(sites.values()), site_list
+                    "Processing requested site {0}/{1}: '{2}' for profile matching. Iterating "
+                    "through profiles to find matches based on site assignments.".format(
+                        site_index, len(site_list), site
                     ),
                     "DEBUG"
                 )
+                total_sites_checked += 1
+                matched_profiles = 0
 
-                if any(site in sites.values() for site in site_list):
-                    matched_profiles += 1
+                for profile_index, (profile_id, sites) in enumerate(
+                    self.have.get("switch_profile_sites", {}).items(), start=1
+                ):
                     self.log(
-                        "Profile {0}/{1} (UUID: {2}) matched! Found at least one requested "
-                        "site assignment. Extracting complete profile metadata.".format(
+                        "Checking profile {0}/{1} (UUID: {2}) for site matches. Profile has {3} "
+                        "site(s): {4}. Matching against requested sites: {5}".format(
                             profile_index, len(self.have.get("switch_profile_sites", {})),
-                            profile_id
+                            profile_id, len(sites), list(sites.values()), site_list
+                        ),
+                        "DEBUG"
+                    )
+
+                    if site not in sites.values():
+                        self.log(
+                            "Profile {0}/{1} (Site Name: {2}) did NOT match. None of the requested sites "
+                            "found in profile's site assignment list. Skipping profile.".format(
+                                profile_index, len(self.have.get("switch_profile_sites", {})),
+                                site
+                            ),
+                            "DEBUG"
+                        )
+                        continue
+
+                    self.log(
+                        f"Site {site_index}/{len(site_list)} (Site Name: {site}) matched! Found "
+                        "site assignment. Extracting complete profile metadata.".format(
+                            site_index, len(site_list), site
                         ),
                         "DEBUG"
                     )
@@ -1528,6 +1587,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         )
                         continue
 
+                    matched_profiles += 1
                     each_profile_config = {}
                     each_profile_config["profile_name"] = profile_name
                     self.log(
@@ -1558,11 +1618,38 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
                     each_profile_config["site_names"] = list(sites.values())
                     final_list.append(each_profile_config)
+
+                if matched_profiles == 0:
+                    self.msg = (
+                        f"No profiles matched the requested site {site_index}/"
+                        f"{len(site_list)}: '{site}'. "
+                        "No profiles contain this site assignment.")
+                    self.log(self.msg, "WARNING")
+                    unmatched_sites.append(site)
+                else:
+                    matched_sites += 1
+                    self.log(
+                        f"Site {site_index}/{len(site_list)}: '{site}' matched "
+                        f"with {matched_profiles} profile(s).",
+                        "INFO")
+
+            if unmatched_sites:
+                self.msg = (
+                    f"The following {len(unmatched_sites)} requested site(s) did not match "
+                    f"any profiles: {unmatched_sites}. Please verify that these sites are "
+                    "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
+                )
+                self.log(self.msg, "WARNING")
+                self.fail_and_exit(self.msg)
+
+            unique_data = {d["profile_name"]: d for d in final_list}.values()
+            final_list = list(unique_data)
+
             self.log(
                 "Completed site_list filtering. Profile configurations collected: {0}. "
-                "Statistics - Total profiles checked: {1}, Profiles matched: {2}. "
+                "Statistics - Total profiles checked: {1}, Sites matched: {2}. "
                 "Configuration structure: {3}".format(
-                    len(final_list), total_sites_checked, matched_profiles, final_list
+                    len(final_list), total_sites_checked, matched_sites, final_list
                 ),
                 "INFO"
             )
