@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: energy_summary_analytics
-short_description: Resource module for Energy Summary
-  Analytics
+short_description: Resource module for Energy Summary Analytics
 description:
-  - Manage operation create of the resource Energy Summary
-    Analytics. - > Retrieve the summary analytics data
-    related to device energy consumption for all devices,
-    including network devices and clients assigned to
-    specific sites. For detailed information about the
-    usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-
+  - Manage operation create of the resource Energy Summary Analytics. - > Retrieve the summary analytics data related to device
+    energy consumption for all devices, including network devices and clients assigned to specific sites. For detailed information
+    about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
     api-specs/blob/main/Assurance/CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -99,13 +94,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Know Your
-      Network GetEnergySummaryAnalytics
-    description: Complete reference of the GetEnergySummaryAnalytics
-      API.
+  - name: Cisco DNA Center documentation for Know Your Network GetEnergySummaryAnalytics
+    description: Complete reference of the GetEnergySummaryAnalytics API.
     link: https://developer.cisco.com/docs/dna-center/#!get-energy-summary-analytics
 notes:
   - SDK Method used are

@@ -2358,7 +2358,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
             return self
 
-        final_dict = config_list
+        final_dict = {"config": config_list}
         self.log(
             "Prepared final dictionary for YAML serialization. Dictionary contains {0} component item(s) "
             "with total {1} configuration(s). Structure: {2}. This data will be written to YAML file at "

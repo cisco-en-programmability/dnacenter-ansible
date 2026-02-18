@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: backup_nfs_configurations_info
-short_description: Information module for Backup Nfs
-  Configurations
+short_description: Information module for Backup Nfs Configurations
 description:
   - Get all Backup Nfs Configurations.
   - This api is used to get all the configured NFS.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Backup
-      GetAllNFSConfigurations
-    description: Complete reference of the GetAllNFSConfigurations
-      API.
+  - name: Cisco DNA Center documentation for Backup GetAllNFSConfigurations
+    description: Complete reference of the GetAllNFSConfigurations API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-nfs-configurations
 notes:
   - SDK Method used are
@@ -60,8 +57,22 @@ dnac_response:
       "response": [
         {
           "id": "string",
-          "spec": {},
-          "status": {}
+          "spec": {
+            "nfsPort": 0,
+            "nfsVersion": "string",
+            "portMapperPort": 0,
+            "server": "string",
+            "serverType": "string",
+            "sourcePath": "string"
+          },
+          "status": {
+            "destinationPath": "string",
+            "state": "string",
+            "subResourceState": "string",
+            "unhealthyNodes": [
+              "string"
+            ]
+          }
         }
       ],
       "version": "string"

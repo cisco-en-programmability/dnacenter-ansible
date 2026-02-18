@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_count_info
-short_description: Information module for Sda Fabric
-  Devices Count
+short_description: Information module for Sda Fabric Devices Count
 description:
   - Get all Sda Fabric Devices Count.
-  - Returns the count of fabric devices that match the
-    provided query parameters.
+  - Returns the count of fabric devices that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,29 +21,24 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric this
-        device belongs to.
+      - FabricId query parameter. ID of the fabric this device belongs to.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        ID of the fabric device.
+      - NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
   deviceRoles:
     description:
       - >
-        DeviceRoles query parameter. Device roles of
-        the fabric device. Allowed values are CONTROL_PLANE_NODE,
-        EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE,
-        EXTENDED_NODE.
+        DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE,
+        EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE, EXTENDED_NODE.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetFabricDevicesCount
-    description: Complete reference of the GetFabricDevicesCount
-      API.
+    description: Complete reference of the GetFabricDevicesCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-count
 notes:
   - SDK Method used are

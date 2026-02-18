@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sda_fabric_zones
 short_description: Resource module for Sda Fabric Zones
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Fabric Zones.
+  - Manage operations create, update and delete of the resource Sda Fabric Zones.
   - Adds a fabric zone based on user input.
   - Deletes a fabric zone based on id.
   - Updates a fabric zone based on user input.
@@ -20,41 +19,31 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of the fabric
-      zone.
+    description: Id path parameter. ID of the fabric zone.
     type: str
   payload:
     description: Sda Fabric Zones's payload.
     elements: dict
     suboptions:
       authenticationProfileName:
-        description: Authentication profile used for
-          this fabric.
-        type: str
-      id:
-        description: ID of the fabric zone (updating
-          this field is not allowed).
+        description: Authentication profile used for this fabric.
         type: str
       siteId:
-        description: ID of the network hierarchy (updating
-          this field is not allowed).
+        description: ID of the network hierarchy.
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddFabricZone
-    description: Complete reference of the AddFabricZone
-      API.
+    description: Complete reference of the AddFabricZone API.
     link: https://developer.cisco.com/docs/dna-center/#!add-fabric-zone
   - name: Cisco DNA Center documentation for SDA DeleteFabricZoneById
-    description: Complete reference of the DeleteFabricZoneById
-      API.
+    description: Complete reference of the DeleteFabricZoneById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id
   - name: Cisco DNA Center documentation for SDA UpdateFabricZone
-    description: Complete reference of the UpdateFabricZone
-      API.
+    description: Complete reference of the UpdateFabricZone API.
     link: https://developer.cisco.com/docs/dna-center/#!update-fabric-zone
 notes:
   - SDK Method used are
@@ -69,6 +58,19 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Create
+  cisco.dnac.sda_fabric_zones:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    payload:
+      - authenticationProfileName: string
+        siteId: string
 - name: Update all
   cisco.dnac.sda_fabric_zones:
     dnac_host: "{{dnac_host}}"
@@ -82,19 +84,6 @@ EXAMPLES = r"""
     payload:
       - authenticationProfileName: string
         id: string
-        siteId: string
-- name: Create
-  cisco.dnac.sda_fabric_zones:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: present
-    payload:
-      - authenticationProfileName: string
         siteId: string
 - name: Delete by id
   cisco.dnac.sda_fabric_zones:

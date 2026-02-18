@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbooks for Assurance Issue Operations in Cisco Catalyst Center."""
@@ -20,7 +20,7 @@ description:
 - The YAML configurations generated represent the user-defined issue definitions
   configured on the Cisco Catalyst Center.
 - Supports extraction of User-Defined Issue Definitions configurations.
-version_added: 6.20.0
+version_added: 6.45.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
@@ -57,7 +57,7 @@ options:
       file_path:
         description:
         - Absolute or relative path for the output YAML configuration file.
-        - If not specified, a timestamped filename is auto-generated in the format C(brownfield_template_YYYYMMDD_HHMMSS.yml).
+        - If not specified, a timestamped filename is auto-generated in the format C(brownfield_assurance_issue_YYYYMMDD_HHMMSS.yml).
         - Parent directories are created automatically if they do not exist.
         type: str
         required: false
@@ -373,6 +373,31 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
+
+        allowed_keys = set(temp_spec.keys())
+
+        # Validate that only allowed keys are present in the configuration
+        for config_item in self.config:
+            if not isinstance(config_item, dict):
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Check for invalid keys
+            config_keys = set(config_item.keys())
+            invalid_keys = config_keys - allowed_keys
+
+            if invalid_keys:
+                self.msg = (
+                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Only the following parameters are allowed: {1}. "
+                    "Please remove the invalid parameters and try again.".format(
+                        list(invalid_keys), list(allowed_keys)
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.validate_minimum_requirements(self.config)
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -1334,6 +1359,21 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Get component filters with safe access
         component_filters = config.get("component_specific_filters", {}) or {}
         components_list = component_filters.get("components_list", [])
+
+        # Validate components_list to check for unexpected components
+        if components_list:
+            expected_components = ["assurance_user_defined_issue_settings"]
+            unexpected_components = [comp for comp in components_list if comp not in expected_components]
+            if unexpected_components:
+                self.msg = (
+                    "Invalid components found in components_list: {0}. "
+                    "Only the following components are supported: {1}. "
+                    "Please remove the invalid components and try again.".format(
+                        unexpected_components, expected_components
+                    )
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # If generate_all_configurations or no components specified, process all
         if self.generate_all_configurations or not components_list:

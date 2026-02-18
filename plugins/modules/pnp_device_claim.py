@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: pnp_device_claim
 short_description: Resource module for Pnp Device Claim
 description:
-  - Manage operation create of the resource Pnp Device
-    Claim.
+  - Manage operation create of the resource Pnp Device Claim.
   - Claims one of more devices with specified workflow.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -18,8 +17,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   authorizationNeeded:
-    description: Flag to enable/disable PnP device authorization.
-      (true means enable).
+    description: Flag to enable/disable PnP device authorization. (true means enable).
     type: bool
   configFileUrl:
     description: Pnp Device Claim's configFileUrl.
@@ -82,13 +80,11 @@ options:
     description: Pnp Device Claim's workflowId.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) ClaimDevice
-    description: Complete reference of the ClaimDevice
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDevice
+    description: Complete reference of the ClaimDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!claim-device
 notes:
   - SDK Method used are
@@ -136,7 +132,7 @@ dnac_response:
   sample: >
     {
       "jsonArrayResponse": [
-        {}
+        "string"
       ],
       "jsonResponse": {},
       "message": "string",

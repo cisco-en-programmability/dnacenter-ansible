@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: energy_sites_query_count
-short_description: Resource module for Energy Sites
-  Query Count
+short_description: Resource module for Energy Sites Query Count
 description:
-  - Manage operation create of the resource Energy Sites
-    Query Count. - > Submits a request to retrieve the
-    total count of sites that provide energy data, filtered
-    according to the specified query parameters. For
-    detailed information about the usage of the API,
-    please refer to the Open API specification document
-    - https //github.com/cisco-en-programmability/catalyst-center-api-
+  - Manage operation create of the resource Energy Sites Query Count. - > Submits a request to retrieve the total count of
+    sites that provide energy data, filtered according to the specified query parameters. For detailed information about the
+    usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
     specs/blob/main/Assurance/CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -64,6 +59,9 @@ options:
         description: Logical Operator.
         type: str
     type: list
+  headers:
+    description: Additional headers.
+    type: dict
   page:
     description: Energy Sites Query Count's page.
     suboptions:
@@ -92,22 +90,19 @@ options:
     description: Start Time.
     type: int
   taskId:
-    description: TaskId query parameter. Used to retrieve
-      asynchronously processed & stored data. When this
-      parameter is used, the rest of the request params
-      will be ignored.
+    description: TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is used,
+      the rest of the request params will be ignored.
     type: str
   views:
     description: Views.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites SubmitRequestToCountSitesEnergyFromQuery
-    description: Complete reference of the SubmitRequestToCountSitesEnergyFromQuery
-      API.
+    description: Complete reference of the SubmitRequestToCountSitesEnergyFromQuery API.
     link: https://developer.cisco.com/docs/dna-center/#!submit-request-to-count-sites-energy-from-query
 notes:
   - SDK Method used are
@@ -141,6 +136,7 @@ EXAMPLES = r"""
             value:
               - string
         logicalOperator: string
+    headers: '{{my_headers | from_json}}'
     page:
       limit: 0
       offset: 0
