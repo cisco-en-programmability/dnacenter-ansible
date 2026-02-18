@@ -11,7 +11,7 @@ __author__ = ["Priyadharshini B", "Madhan Sankaranarayanan"]
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_rma_playbook_generator
+module: rma_playbook_config_generator
 short_description: Generate YAML playbooks for RMA device replacement
   workflows from existing configurations.
 description:
@@ -188,7 +188,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate YAML Configuration for all RMA device replacement workflows
-  cisco.dnac.brownfield_rma_playbook_generator:
+  cisco.dnac.rma_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -204,7 +204,7 @@ EXAMPLES = r"""
         generate_all_configurations: true
 
 - name: Generate YAML Configuration for specific device replacement workflows
-  cisco.dnac.brownfield_rma_playbook_generator:
+  cisco.dnac.rma_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -224,7 +224,7 @@ EXAMPLES = r"""
             - replacement_status: "READY-FOR-REPLACEMENT"
 
 - name: Generate YAML Configuration for device replacement workflows by replacement device
-  cisco.dnac.brownfield_rma_playbook_generator:
+  cisco.dnac.rma_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
