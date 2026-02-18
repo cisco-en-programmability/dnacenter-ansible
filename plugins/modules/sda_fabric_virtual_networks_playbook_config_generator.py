@@ -11,7 +11,7 @@ __author__ = "Abhishek Maheshwari, Sunil Shatagopa, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_sda_fabric_virtual_networks_playbook_generator
+module: sda_fabric_virtual_networks_playbook_config_generator
 short_description: Generate YAML playbook for C(sda_fabric_virtual_networks_workflow_manager) module.
 description:
 - Generates YAML configurations compatible with the C(sda_fabric_virtual_networks_workflow_manager)
@@ -48,7 +48,7 @@ options:
             and anycast gateways present in the Cisco Catalyst Center, ignoring any provided filters.
           - When enabled, the config parameter becomes optional and will use default values if not provided.
           - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
+          - This is useful for complete playbook configuration infrastructure discovery and documentation.
           - When set to false, the module uses provided filters to generate a targeted YAML configuration.
         type: bool
         required: false
@@ -158,7 +158,7 @@ seealso:
 EXAMPLES = r"""
 - name: Auto-generate YAML Configuration for all components which
      includes fabric vlans, virtual networks and anycast gateways.
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -173,7 +173,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -189,7 +189,7 @@ EXAMPLES = r"""
         file_path: "/tmp/all_config.yml"
 
 - name: Generate YAML Configuration with specific fabric vlan components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -206,7 +206,7 @@ EXAMPLES = r"""
           components_list: ["fabric_vlan"]
 
 - name: Generate YAML Configuration with specific virtual networks components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -223,7 +223,7 @@ EXAMPLES = r"""
           components_list: ["virtual_networks"]
 
 - name: Generate YAML Configuration with specific anycast gateways components only
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -240,7 +240,7 @@ EXAMPLES = r"""
           components_list: ["anycast_gateways"]
 
 - name: Generate YAML Configuration for fabric vlans with vlan name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -260,7 +260,7 @@ EXAMPLES = r"""
             - vlan_name: "vlan_2"
 
 - name: Generate YAML Configuration for fabric vlans and virtual networks with multiple filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -283,7 +283,7 @@ EXAMPLES = r"""
             - vn_name: "vn_2"
 
 - name: Generate YAML Configuration for all components with no filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -300,7 +300,7 @@ EXAMPLES = r"""
           components_list: ["fabric_vlan", "virtual_networks", "anycast_gateways"]
 
 - name: Generate YAML Configuration for fabric vlans with VLAN IDs filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -320,7 +320,7 @@ EXAMPLES = r"""
             - vlan_id: 1038
 
 - name: Generate YAML Configuration for fabric vlans with both VLAN name and ID filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -342,7 +342,7 @@ EXAMPLES = r"""
               vlan_id: 1038
 
 - name: Generate YAML Configuration for virtual networks with specific VN names
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -362,7 +362,7 @@ EXAMPLES = r"""
             - vn_name: "VN3"
 
 - name: Generate YAML Configuration for anycast gateways with VN name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -382,7 +382,7 @@ EXAMPLES = r"""
             - vn_name: "Chennai_VN3"
 
 - name: Generate YAML Configuration for anycast gateways with IP pool name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -402,7 +402,7 @@ EXAMPLES = r"""
             - ip_pool_name: "Chennai-VN1-Pool2"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN ID and IP pool filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -423,7 +423,7 @@ EXAMPLES = r"""
             - ip_pool_name: "Chennai-VN1-Pool2"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN name filter
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -443,7 +443,7 @@ EXAMPLES = r"""
             - vlan_name: "Chennai-VN7-Pool1"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN name and ID combination
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -465,7 +465,7 @@ EXAMPLES = r"""
               vlan_id: 1033
 
 - name: Generate YAML Configuration for anycast gateways with comprehensive filters
-  cisco.dnac.brownfield_sda_fabric_virtual_networks_playbook_generator:
+  cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -500,12 +500,23 @@ response_1:
   type: dict
   sample: >
     {
-      "response":
-        {
-          "response": String,
-          "version": String
+      "msg": {
+            "components_processed": 3,
+            "components_skipped": 0,
+            "configurations_count": 3,
+            "file_path": "sda_fabric_virtual_networks_playbook_config_2026-02-18_15-56-19.yml",
+            "message": "YAML configuration file generated successfully for module 'sda_fabric_virtual_networks_workflow_manager'",
+            "status": "success"
         },
-      "msg": String
+        "response": {
+            "components_processed": 3,
+            "components_skipped": 0,
+            "configurations_count": 3,
+            "file_path": "sda_fabric_virtual_networks_playbook_config_2026-02-18_15-56-19.yml",
+            "message": "YAML configuration file generated successfully for module 'sda_fabric_virtual_networks_workflow_manager'",
+            "status": "success"
+        },
+        "status": "success"
     }
 # Case_2: Error Scenario
 response_2:
@@ -537,7 +548,7 @@ import time
 from collections import OrderedDict
 
 
-class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
+class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -1451,7 +1462,7 @@ class VirtualNetworksPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes YAML configuration file generation for brownfield sda fabric virtual networks workflow.
+        Executes YAML configuration file generation for sda fabric virtual networks workflow.
 
         Processes the desired state parameters prepared by get_want() and generates a
         YAML configuration file containing network element details from Catalyst Center.
@@ -1555,48 +1566,48 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_virtual_networks_playbook_generator = VirtualNetworksPlaybookGenerator(module)
+    ccc_virtual_networks_playbook_config_generator = VirtualNetworksPlaybookConfigGenerator(module)
     if (
-        ccc_virtual_networks_playbook_generator.compare_dnac_versions(
-            ccc_virtual_networks_playbook_generator.get_ccc_version(), "2.3.7.9"
+        ccc_virtual_networks_playbook_config_generator.compare_dnac_versions(
+            ccc_virtual_networks_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_virtual_networks_playbook_generator.msg = (
+        ccc_virtual_networks_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for SDA FABRIC VIRTUAL NETWORKS Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_virtual_networks_playbook_generator.get_ccc_version()
+                ccc_virtual_networks_playbook_config_generator.get_ccc_version()
             )
         )
-        ccc_virtual_networks_playbook_generator.set_operation_result(
-            "failed", False, ccc_virtual_networks_playbook_generator.msg, "ERROR"
+        ccc_virtual_networks_playbook_config_generator.set_operation_result(
+            "failed", False, ccc_virtual_networks_playbook_config_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_virtual_networks_playbook_generator.params.get("state")
+    state = ccc_virtual_networks_playbook_config_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_virtual_networks_playbook_generator.supported_states:
-        ccc_virtual_networks_playbook_generator.status = "invalid"
-        ccc_virtual_networks_playbook_generator.msg = "State {0} is invalid".format(
+    if state not in ccc_virtual_networks_playbook_config_generator.supported_states:
+        ccc_virtual_networks_playbook_config_generator.status = "invalid"
+        ccc_virtual_networks_playbook_config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_virtual_networks_playbook_generator.check_return_status()
+        ccc_virtual_networks_playbook_config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
-    ccc_virtual_networks_playbook_generator.validate_input().check_return_status()
+    ccc_virtual_networks_playbook_config_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
-    for config in ccc_virtual_networks_playbook_generator.validated_config:
-        ccc_virtual_networks_playbook_generator.reset_values()
-        ccc_virtual_networks_playbook_generator.get_want(
+    for config in ccc_virtual_networks_playbook_config_generator.validated_config:
+        ccc_virtual_networks_playbook_config_generator.reset_values()
+        ccc_virtual_networks_playbook_config_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_virtual_networks_playbook_generator.get_diff_state_apply[
+        ccc_virtual_networks_playbook_config_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    module.exit_json(**ccc_virtual_networks_playbook_generator.result)
+    module.exit_json(**ccc_virtual_networks_playbook_config_generator.result)
 
 
 if __name__ == "__main__":
