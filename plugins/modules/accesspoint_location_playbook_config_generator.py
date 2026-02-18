@@ -2098,9 +2098,11 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
 
-            if (int(ap_position.get("position", {}).get("x")) < 0 or
+            if (
+                int(ap_position.get("position", {}).get("x")) < 0 or
                 int(ap_position.get("position", {}).get("y")) < 0 or
-                int(ap_position.get("position", {}).get("z")) < 0):
+                int(ap_position.get("position", {}).get("z")) < 0
+            ):
                 self.log(
                     f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has un-positioned coordinates: "
                     f"x={ap_position.get('position', {}).get('x')}, "
