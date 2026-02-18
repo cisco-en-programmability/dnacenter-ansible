@@ -17,23 +17,23 @@
 #   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_network_settings_playbook_generator`.
-#   These tests cover various scenarios for generating YAML playbooks from brownfield
-#   network settings configurations including global pools, reserve pools, network management settings,
+#   Unit tests for the Ansible module `network_settings_playbook_config_generator`.
+#   These tests cover various scenarios for generating YAML playbooks from network
+#   settings configurations including global pools, reserve pools, network management settings,
 #   device controllability settings, and AAA settings.
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_network_settings_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import network_settings_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
+class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_network_settings_playbook_generator
-    test_data = loadPlaybookData("brownfield_network_settings_playbook_genration")
+    module = network_settings_playbook_config_generator
+    test_data = loadPlaybookData("network_settings_playbook_config_generation")
 
     # Load all playbook configurations
     playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
@@ -55,7 +55,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
 
     def setUp(self):
-        super(TestBrownfieldNetworkSettingsGenerator, self).setUp()
+        super(TestNetworkSettingsPlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -70,13 +70,13 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldNetworkSettingsGenerator, self).tearDown()
+        super(TestNetworkSettingsPlaybookGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield network settings generator tests.
+        Load fixtures for network settings playbook config generator tests.
         """
 
         if "generate_all_configurations" in self._testMethodName:
@@ -197,9 +197,9 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_generate_all_configurations(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_generate_all_configurations(self, mock_exists, mock_file):
         """
-        Test case for brownfield network settings generator when generating all configurations.
+        Test case for network settings playbook config generator when generating all configurations.
 
         This test case checks the behavior when generate_all_configurations is set to True,
         which should retrieve all global pools, reserve pools, network management, device
@@ -223,7 +223,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_global_pools_single(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_global_pools_single(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for a single global pool by pool name.
 
@@ -248,7 +248,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_global_pools_multiple(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_global_pools_multiple(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for multiple global pools by pool names.
 
@@ -273,7 +273,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_reserve_pools_by_site_single(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_reserve_pools_by_site_single(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for reserve pools filtered by a single site.
 
@@ -298,7 +298,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_reserve_pools_by_pool_name(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_reserve_pools_by_pool_name(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for reserve pools filtered by pool names.
 
@@ -323,7 +323,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_network_management_by_site(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_network_management_by_site(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for network management settings filtered by sites.
 
@@ -348,7 +348,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_device_controllability_by_site(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_device_controllability_by_site(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for device controllability settings filtered by sites.
 
@@ -373,7 +373,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_aaa_settings_by_network(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_aaa_settings_by_network(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for AAA settings filtered by network type.
 
@@ -398,7 +398,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_aaa_settings_by_server_type(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_aaa_settings_by_server_type(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for AAA settings filtered by server types.
 
@@ -423,7 +423,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_global_filters_by_site(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_global_filters_by_site(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration using global filters by site names.
 
@@ -448,7 +448,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_global_filters_by_pool_name(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_global_filters_by_pool_name(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration using global filters by pool names.
 
@@ -473,7 +473,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_global_filters_by_pool_type(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_global_filters_by_pool_type(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration using global filters by pool types.
 
@@ -498,7 +498,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_multiple_components(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_multiple_components(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for multiple network settings components.
 
@@ -523,7 +523,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_all_components(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_all_components(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for all network settings components.
 
@@ -548,7 +548,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_combined_filters(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_combined_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration using combined global and component filters.
 
@@ -573,7 +573,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_empty_filters(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with minimal filters.
 
@@ -598,7 +598,7 @@ class TestBrownfieldNetworkSettingsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_settings_playbook_generator_no_file_path(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration without specifying a file path.
 
