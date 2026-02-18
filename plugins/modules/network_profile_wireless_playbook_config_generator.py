@@ -11,7 +11,7 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: network_profile_wireless_playbook_configgenerator
+module: network_profile_wireless_playbook_config_generator
 short_description: >-
   Generate YAML configurations playbook for
   'network_profile_wireless_workflow_manager' module.
