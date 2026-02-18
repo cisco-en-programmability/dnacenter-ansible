@@ -20,15 +20,15 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_pnp_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import pnp_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_pnp_playbook_generator
+    module = pnp_playbook_config_generator
 
-    test_data = loadPlaybookData("brownfield_pnp_playbook_generator")
+    test_data = loadPlaybookData("pnp_playbook_config_generator")
 
     playbook_pnp_generate_all_configurations = test_data.get("playbook_pnp_generate_all_configurations")
     playbook_component_global_specific_filter = test_data.get("playbook_component_global_specific_filter")
