@@ -8,7 +8,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate Network Wireless Profiles workflow playbook
-      cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+      cisco.dnac.network_profile_wireless_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -25,13 +25,13 @@
           # ========================================================================================
           # Scenario 1: Generate all all wireless profile configurations
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_wireless_workflow_playbook.yml"
+          - file_path: "tmp/network_profile_wireless_workflow_playbook.yml"
             generate_all_configurations: true
 
           # ========================================================================================
           # Scenario 2: Generate wireless profile configurations based on profile name list filter
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_wireless_workflow_playbook_profilebase.yml"
+          - file_path: "tmp/network_profile_wireless_workflow_playbook_profilebase.yml"
             global_filters:
               profile_name_list:
                 - Enterprise_Wireless_Profile
@@ -40,7 +40,7 @@
           # ========================================================================================
           # Scenario 3: Generate wireless profile configurations based on ssid list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_wireless_workflow_playbook_ssidbase.yml"
+          - file_path: "tmp/network_profile_wireless_workflow_playbook_ssidbase.yml"
             global_filters:
               ssid_list:
                 - GUEST
@@ -49,7 +49,7 @@
           # ========================================================================================
           # Scenario 4: Generate wireless profile configurations based on ap zone list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_wireless_workflow_playbook_apzonebase.yml"
+          - file_path: "tmp/network_profile_wireless_workflow_playbook_apzonebase.yml"
             global_filters:
               ap_zone_list:
                 - AP_Zone_North
@@ -58,7 +58,7 @@
           # ========================================================================================
           # Scenario 5: Generate wireless profile configurations based on feature template list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_wireless_workflow_playbook_feature_template_base.yml"
+          - file_path: "tmp/network_profile_wireless_workflow_playbook_feature_template_base.yml"
             global_filters:
               feature_template_list:
                 - Default AAA_Radius_Attributes_Configuration
@@ -67,7 +67,7 @@
           # ========================================================================================
           # Scenario 6: Generate wireless profile configurations based on day n template list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_wireless_workflow_playbook_templatebase.yml"
+          - file_path: "tmp/network_profile_wireless_workflow_playbook_templatebase.yml"
             global_filters:
               day_n_template_list:
                 - Ans Wireless DayN 1
@@ -75,7 +75,7 @@
           # ========================================================================================
           # Scenario 7: Generate wireless profile configurations based on interface list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_wireless_workflow_playbook_interfacebase.yml"
+          - file_path: "tmp/network_profile_wireless_workflow_playbook_interfacebase.yml"
             global_filters:
               additional_interface_list:
                 - VLAN_22
@@ -83,7 +83,7 @@
           # ========================================================================================
           # Scenario 8: Generate wireless profile configurations based on site list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_wireless_workflow_playbook_sitebase.yml"
+          - file_path: "tmp/network_profile_wireless_workflow_playbook_sitebase.yml"
             global_filters:
               site_list:
                 - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1

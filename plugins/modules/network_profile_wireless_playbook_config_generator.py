@@ -11,7 +11,7 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_network_profile_wireless_playbook_generator
+module: network_profile_wireless_playbook_config_generator
 short_description: >-
   Generate YAML configurations playbook for
   'network_profile_wireless_workflow_manager' module.
@@ -20,8 +20,8 @@ description:
     'network_profile_wireless_workflow_manager' module, reducing
     the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
-  - Supports complete brownfield infrastructure discovery by
-    collecting all wireless profiles from Cisco Catalyst Center.
+  - Supports complete network wireless profile by
+    collecting all wireless profiles config from Cisco Catalyst Center.
   - Enables targeted extraction using filters (profile names,
     Day-N templates, site hierarchies, SSIDs, AP zones, feature
     templates, or additional interfaces).
@@ -42,7 +42,7 @@ options:
   config:
     description:
       - A list of filters for generating YAML playbook compatible
-        with the 'brownfield_network_profile_wireless_playbook_generator'
+        with the 'network_profile_wireless_playbook_config_generator'
         module.
       - Filters specify which components to include in the YAML
         configuration file.
@@ -64,8 +64,8 @@ options:
             and will use default values if not provided.
           - A default filename will be generated automatically
             if file_path is not specified.
-          - This is useful for complete brownfield infrastructure
-            discovery and documentation.
+          - This is useful for complete network wireless profile
+            and documentation.
           - Any provided global_filters will be IGNORED in this
             mode.
         type: bool
@@ -76,9 +76,9 @@ options:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current
             working directory with a default file name
-            'network_profile_wireless_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'.
+            C(<module_name>playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
           - For example,
-            'network_profile_wireless_workflow_manager_playbook_2025-11-12_21-43-26.yml'.
+            'network_profile_wireless_playbook_config_2025-11-12_21-43-26.yml'.
           - Supports both absolute and relative file paths.
         type: str
       global_filters:
@@ -222,7 +222,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Auto-generate YAML Configuration for all Wireless Profiles
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -237,7 +237,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration with custom file path
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -253,7 +253,7 @@ EXAMPLES = r"""
         generate_all_configurations: true
 
 - name: Generate YAML Configuration with default file path for given wireless profiles
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -269,7 +269,7 @@ EXAMPLES = r"""
           profile_name_list: ["Campus_Wireless_Profile", "Enterprise_Wireless_Profile"]
 
 - name: Generate YAML Configuration with default file path based on Day-N templates filters
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -285,7 +285,7 @@ EXAMPLES = r"""
           day_n_template_list: ["Periodic_Config_Audit", "Security_Compliance_Check"]
 
 - name: Generate YAML Configuration with default file path based on site list filters
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -301,7 +301,7 @@ EXAMPLES = r"""
           site_list: ["Global/India/Chennai/Main_Office", "Global/USA/San_Francisco/Regional_HQ"]
 
 - name: Generate YAML Configuration with default file path based on ssid list filters
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -317,7 +317,7 @@ EXAMPLES = r"""
           ssid_list: ["SSID1", "SSID2"]
 
 - name: Generate YAML Configuration with default file path based on ap zone list filters
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -333,7 +333,7 @@ EXAMPLES = r"""
           ap_zone_list: ["AP_Zone1", "AP_Zone2"]
 
 - name: Generate YAML Configuration with default file path based on feature template list filters
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -349,7 +349,7 @@ EXAMPLES = r"""
           feature_template_list: ["Default AAA_Radius_Attributes_Configuration", "Default CleanAir 6GHz Design"]
 
 - name: Generate YAML Configuration with default file path based on additional interface list filters
-  cisco.dnac.brownfield_network_profile_wireless_playbook_generator:
+  cisco.dnac.network_profile_wireless_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -379,14 +379,14 @@ response_1:
         "YAML config generation Task succeeded for module
          'network_profile_wireless_workflow_manager'.": {
             "file_path":
-             "tmp/brownfield_network_profile_wireless_workflow_playbook_templatebase.yml"
+             "tmp/network_profile_wireless_workflow_playbook_templatebase.yml"
           }
         },
       "msg": {
         "YAML config generation Task succeeded for module
          'network_profile_wireless_workflow_manager'.": {
             "file_path":
-             "tmp/brownfield_network_profile_wireless_workflow_playbook_templatebase.yml"
+             "tmp/network_profile_wireless_workflow_playbook_templatebase.yml"
           }
         }
     }
@@ -471,7 +471,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         This function performs comprehensive validation of input configuration parameters
         by checking parameter presence, validating against expected schema specification,
         verifying allowed keys to prevent invalid parameters, ensuring minimum requirements
-        for brownfield playbook generation, and setting validated configuration for
+        for wireless profile playbook generation, and setting validated configuration for
         downstream processing workflows.
 
         Returns:
@@ -2194,7 +2194,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates YAML configuration file for wireless profile brownfield workflow.
+        Generates YAML configuration file for network wireless profile config generator.
 
         This function orchestrates complete YAML playbook generation by determining
         output file path (user-provided or auto-generated), processing auto-discovery
@@ -2228,8 +2228,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     - Operation result set via set_operation_result()
         """
         self.log(
-            "Starting YAML configuration generation workflow for wireless profile "
-            "brownfield playbook. Workflow includes file path determination, "
+            "Starting YAML configuration generation workflow for network wireless profile "
+            "playbook. Workflow includes file path determination, "
             "auto-discovery mode processing, profile configuration collection, "
             "component parsing, and YAML file writing with header comments.",
             "DEBUG"
@@ -2242,7 +2242,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "Auto-discovery mode enabled (generate_all_configurations=True). Will "
                 "extract all wireless profiles with CLI templates, site assignments, "
                 "SSIDs, AP zones, feature templates, and additional interfaces without "
-                "filter restrictions for complete brownfield inventory.",
+                "filter restrictions for complete network wireless profile configuration.",
                 "INFO"
             )
         else:
@@ -3158,7 +3158,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         wireless interfaces endpoint with interface name parameter, extracting VLAN ID
         from first matching interface in paginated response, handling cases where
         interface not found or API response invalid, and logging interface details for
-        brownfield configuration documentation in YAML generation workflow.
+        network wireless profile configuration documentation in YAML generation workflow.
 
         Args:
             interface (str): Interface name to resolve VLAN ID for matching against
@@ -3251,8 +3251,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                             profile_name_list, day_n_template_list, site_list,
                             ssid_list, ap_zone_list, feature_template_list,
                             additional_interface_list
-            state (str): Desired state for operation, must be 'gathered' for brownfield
-                        configuration extraction workflow.
+            state (str): Desired state for operation, must be 'gathered' to construct parameters for
+                         network wireless profile configuration extraction workflow.
 
         Returns:
             object: Self instance with updated attributes:
@@ -3264,7 +3264,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         self.log(
             "Starting desired state parameter construction for API calls with state "
             f"'{state}'. Workflow includes configuration validation, filter processing, and "
-            "yaml_config_generator parameter preparation for wireless profile brownfield "
+            "yaml_config_generator parameter preparation for network wireless profile config "
             "extraction.",
             "DEBUG"
         )
@@ -3363,7 +3363,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             self.log(
                 "Auto-discovery mode enabled (generate_all_configurations=True). "
                 "Collecting all wireless profile details without filter restrictions for "
-                "complete brownfield inventory extraction.",
+                "complete network wireless profile configuration extraction.",
                 "INFO"
             )
             self.collect_all_wireless_profile_list()
@@ -3647,14 +3647,13 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
 def main():
     """
-    Main entry point for the Cisco Catalyst Center brownfield network profile wireless playbook generator module.
+    Main entry point for the Cisco Catalyst Center network wireless profile playbook generator module.
 
     This function serves as the primary execution entry point for the Ansible module,
     orchestrating the complete workflow from parameter collection to YAML playbook
-    generation for brownfield network profile wireless.
-
+    generation for network wireless profile playbook configuration.
     Purpose:
-        Initializes and executes the brownfield network profile wireless playbook generator
+        Initializes and executes the network wireless profile playbook generator
         workflow to extract existing network configurations from Cisco Catalyst Center
         and generate Ansible-compatible YAML playbook files.
 
@@ -3832,12 +3831,12 @@ def main():
     )
 
     # Initialize the NetworkProfileWirelessPlaybookGenerator object
-    # This creates the main orchestrator for brownfield network profile wireless extraction
+    # This creates the main orchestrator for network profile wireless config extraction
     ccc_network_profile_wireless_playbook_generator = NetworkProfileWirelessPlaybookGenerator(module)
 
     # Log module initialization after object creation (now logging is available)
     ccc_network_profile_wireless_playbook_generator.log(
-        "Starting Ansible module execution for brownfield network profile wireless playbook "
+        "Starting Ansible module execution for network profile wireless playbook config"
         "generator at timestamp {0}".format(initialization_timestamp),
         "INFO"
     )
