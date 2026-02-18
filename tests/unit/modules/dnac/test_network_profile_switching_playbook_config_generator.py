@@ -17,8 +17,8 @@
 #   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_network_profile_switching_playbook_generator`.
-#   These tests cover various scenarios for generating YAML playbooks from brownfield
+#   Unit tests for the Ansible module `network_profile_switching_playbook_config_generator`.
+#   These tests cover various scenarios for generating YAML playbooks from
 #   network profile switching configurations in Cisco DNA Center.
 
 # Make coding more python3-ish
@@ -26,14 +26,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_network_profile_switching_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import network_profile_switching_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
+class TestNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_network_profile_switching_playbook_generator
-    test_data = loadPlaybookData("brownfield_network_profile_switching_playbook_generator")
+    module = network_profile_switching_playbook_config_generator
+    test_data = loadPlaybookData("network_profile_switching_playbook_config_generator")
 
     # Load all playbook configurations
     playbook_config_generate_all_profile = test_data.get("playbook_config_generate_all_profile")
@@ -42,7 +42,7 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
     playbook_global_filter_site_base = test_data.get("playbook_global_filter_site_base")
 
     def setUp(self):
-        super(TestBrownfieldNetworkProfileSwitchingPlaybookGenerator, self).setUp()
+        super(TestNetworkProfileSwitchingPlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -56,13 +56,13 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldNetworkProfileSwitchingPlaybookGenerator, self).tearDown()
+        super(TestNetworkProfileSwitchingPlaybookGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield network profile switching playbook generator tests.
+        Load fixtures for network profile switching playbook config generator tests.
         """
         if "generate_all_configurations" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -104,9 +104,9 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_switch_profile_generate_all_configurations(self, mock_exists, mock_file):
+    def test_network_switch_profile_generate_all_configurations(self, mock_exists, mock_file):
         """
-        Test case for brownfield network switch profile generator when generating all profiles.
+        Test case for network switch profile generator when generating all profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
         which should retrieve all switch profile with Day N template and Feature template
         and generate a complete YAML playbook profile file.
@@ -129,9 +129,9 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_switch_profile_generate_global_filter(self, mock_exists, mock_file):
+    def test_network_switch_profile_generate_global_filter(self, mock_exists, mock_file):
         """
-        Test case for brownfield network switch profile generator when global filter profiles.
+        Test case for network switch profile generator when global filter profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
         which should retrieve all switch profile with Day N template and Feature template
         and generate a complete YAML playbook profile file.
@@ -154,9 +154,9 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_switch_profile_generate_filter_template_base(self, mock_exists, mock_file):
+    def test_network_switch_profile_generate_filter_template_base(self, mock_exists, mock_file):
         """
-        Test case for brownfield network switch profile generator when global filter profiles.
+        Test case for network switch profile generator when global filter profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
         which should retrieve all switch profile with Day N template and Feature template
         and generate a complete YAML playbook profile file.
@@ -179,9 +179,9 @@ class TestBrownfieldNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_network_switch_profile_generate_filter_site_base(self, mock_exists, mock_file):
+    def test_network_switch_profile_generate_filter_site_base(self, mock_exists, mock_file):
         """
-        Test case for brownfield network switch profile generator when global filter profiles.
+        Test case for network switch profile generator when global filter profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
         which should retrieve all switch profile with Day N template and Feature template
         and generate a complete YAML playbook profile file.

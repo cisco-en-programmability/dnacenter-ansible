@@ -10,7 +10,7 @@ __metaclass__ = type
 __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
-module: brownfield_network_profile_switching_playbook_generator
+module: network_profile_switching_playbook_config_generator
 short_description: >-
   Generate YAML configurations playbook for
   'network_profile_switching_workflow_manager' module.
@@ -19,7 +19,7 @@ description:
     'network_profile_switching_workflow_manager' module, reducing
     the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
-  - Supports complete brownfield infrastructure discovery by
+  - Supports complete infrastructure discovery by
     collecting all switch profiles from Cisco Catalyst Center.
   - Enables targeted extraction using filters (profile names,
     Day-N templates, or site hierarchies).
@@ -40,7 +40,7 @@ options:
   config:
     description:
       - A list of filters for generating YAML playbook compatible
-        with the 'brownfield_network_profile_switching_playbook_generator'
+        with the 'network_profile_switching_playbook_config_generator'
         module.
       - Filters specify which components to include in the YAML
         configuration file.
@@ -62,8 +62,8 @@ options:
             and will use default values if not provided.
           - A default filename will be generated automatically
             if file_path is not specified.
-          - This is useful for complete brownfield infrastructure
-            discovery and documentation.
+          - This is useful for complete network profile switching
+            and documentation.
           - Any provided global_filters will be IGNORED in this
             mode.
         type: bool
@@ -74,9 +74,9 @@ options:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current
             working directory with a default file name
-            'network_profile_switching_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'.
+            C(<module_name>playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
           - For example,
-            'network_profile_switching_workflow_manager_playbook_2025-11-12_21-43-26.yml'.
+            'network_profile_switching_playbook_config_2025-11-12_21-43-26.yml'.
           - Supports both absolute and relative file paths.
         type: str
       global_filters:
@@ -98,8 +98,6 @@ options:
             description:
               - List of switch profile names to extract
                 configurations from.
-              - HIGHEST PRIORITY - Used first if provided with
-                valid data.
               - Switch Profile names must match those registered
                 in Catalyst Center.
               - Case-sensitive and must be exact matches.
@@ -113,8 +111,6 @@ options:
           day_n_template_list:
             description:
               - List of Day-N templates to filter switch profiles.
-              - MEDIUM PRIORITY - Only used if profile_name_list
-                is not provided.
               - Retrieves all switch profiles containing any of
                 the specified templates.
               - Case-sensitive and must be exact matches.
@@ -128,9 +124,6 @@ options:
           site_list:
             description:
               - List of site hierarchies to filter switch profiles.
-              - LOWEST PRIORITY - Only used if neither
-                profile_name_list nor day_n_template_list are
-                provided.
               - Retrieves all switch profiles assigned to any of
                 the specified sites.
               - Case-sensitive and must be exact matches.
@@ -166,7 +159,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Auto-generate YAML Configuration for all Switch Profiles
-  cisco.dnac.brownfield_network_profile_switching_playbook_generator:
+  cisco.dnac.network_profile_switching_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -181,7 +174,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration with custom file path
-  cisco.dnac.brownfield_network_profile_switching_playbook_generator:
+  cisco.dnac.network_profile_switching_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -197,7 +190,7 @@ EXAMPLES = r"""
         generate_all_configurations: true
 
 - name: Generate YAML Configuration with default file path for given switch profiles
-  cisco.dnac.brownfield_network_profile_switching_playbook_generator:
+  cisco.dnac.network_profile_switching_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -213,7 +206,7 @@ EXAMPLES = r"""
           profile_name_list: ["Campus_Switch_Profile", "Enterprise_Switch_Profile"]
 
 - name: Generate YAML Configuration with default file path based on Day-N templates filters
-  cisco.dnac.brownfield_network_profile_switching_playbook_generator:
+  cisco.dnac.network_profile_switching_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -229,7 +222,7 @@ EXAMPLES = r"""
           day_n_template_list: ["Periodic_Config_Audit", "Security_Compliance_Check"]
 
 - name: Generate YAML Configuration with default file path based on site list filters
-  cisco.dnac.brownfield_network_profile_switching_playbook_generator:
+  cisco.dnac.network_profile_switching_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -245,7 +238,7 @@ EXAMPLES = r"""
           site_list: ["Global/India/Chennai/Main_Office", "Global/USA/San_Francisco/Regional_HQ"]
 
 - name: Generate YAML Configuration with default file path based on site and Day-N templates list filters
-  cisco.dnac.brownfield_network_profile_switching_playbook_generator:
+  cisco.dnac.network_profile_switching_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -276,14 +269,14 @@ response_1:
         "YAML config generation Task succeeded for module
          'network_profile_switching_workflow_manager'.": {
             "file_path":
-             "tmp/brownfield_network_profile_switching_workflow_playbook_templatebase.yml"
+             "tmp/network_profile_switching_workflow_playbook_templatebase.yml"
           }
         },
       "msg": {
         "YAML config generation Task succeeded for module
          'network_profile_switching_workflow_manager'.": {
             "file_path":
-             "tmp/brownfield_network_profile_switching_workflow_playbook_templatebase.yml"
+             "tmp/network_profile_switching_workflow_playbook_templatebase.yml"
           }
         }
     }
@@ -355,7 +348,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
-        self.module_name = "network_profile_switching_workflow_manager"
+        self.module_name = "network_profile_switching"
         self.module_schema = self.get_workflow_elements_schema()
         self.log("Initialized NetworkProfileSwitchingPlaybookGenerator class instance.", "DEBUG")
         self.log(self.pprint(self.module_schema), "DEBUG")
@@ -749,7 +742,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "API call parameters - profile_type: 'Switching', offset: {1} "
                 "(starting index), limit: {2} (max profiles per page), remaining "
                 "timeout: {3} seconds. This request targets switching network profiles "
-                "for brownfield playbook generation.".format(
+                "for playbook config generation.".format(
                     page_number, offset, limit, resync_retry_count
                 ),
                 "DEBUG"
@@ -1730,7 +1723,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Operational mode: GENERATE ALL CONFIGURATIONS enabled (generate_all_configurations=True). "
                 "This mode will retrieve complete switch profile catalog from Catalyst Center "
                 "including all CLI templates and site assignments, ignoring any provided filters. "
-                "Use this mode for comprehensive brownfield infrastructure discovery.",
+                "Use this mode for comprehensive network switch profile generation.",
                 "INFO"
             )
         else:
@@ -2157,8 +2150,8 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             self.log("Generate all configurations mode ENABLED (generate_all_configurations=True). "
                      "Initiating complete switch profile catalog collection from Cisco Catalyst Center "
                      "without applying any filters. This mode retrieves ALL switch profiles including "
-                     "complete CLI template and site assignment metadata for comprehensive brownfield "
-                     "infrastructure discovery and documentation.", "INFO")
+                     "complete CLI template and site assignment metadata for comprehensive "
+                     "network profile switching and documentation.", "INFO")
 
             self.log(
                 "Calling collect_all_switch_profile_list() without profile name filters to "
@@ -2505,14 +2498,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
 def main():
     """
-    Main entry point for the Cisco Catalyst Center brownfield network profile switching playbook generator module.
+    Main entry point for the Cisco Catalyst Center network profile switching playbook configgenerator module.
 
     This function serves as the primary execution entry point for the Ansible module,
     orchestrating the complete workflow from parameter collection to YAML playbook
-    generation for brownfield network profile switching.
+    generation for network profile switching playbook config generator.
 
     Purpose:
-        Initializes and executes the brownfield network profile switching playbook generator
+        Initializes and executes the network profile switching playbook config generator
         workflow to extract existing network configurations from Cisco Catalyst Center
         and generate Ansible-compatible YAML playbook files.
 
@@ -2688,12 +2681,12 @@ def main():
     )
 
     # Initialize the NetworkProfileSwitchingPlaybookGenerator object
-    # This creates the main orchestrator for brownfield network profile switching extraction
+    # This creates the main orchestrator for network profile switching extraction
     ccc_network_profile_switching_playbook_generator = NetworkProfileSwitchingPlaybookGenerator(module)
 
     # Log module initialization after object creation (now logging is available)
     ccc_network_profile_switching_playbook_generator.log(
-        "Starting Ansible module execution for brownfield network profile switching playbook "
+        "Starting Ansible module execution for network profile switching playbook config "
         "generator at timestamp {0}".format(initialization_timestamp),
         "INFO"
     )
