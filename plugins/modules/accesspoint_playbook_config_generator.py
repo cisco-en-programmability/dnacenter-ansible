@@ -596,7 +596,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            self.validate_minimum_requirements(self.config)
+            self.validate_minimum_requirement_for_global_filters(self.config)
             self.log(
                 "Minimum requirements validation passed. Configuration has either "
                 "generate_all_configurations or valid global_filters.",
