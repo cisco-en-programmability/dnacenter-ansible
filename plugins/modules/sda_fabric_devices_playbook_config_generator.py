@@ -361,9 +361,9 @@ response_2:
   type: dict
   sample: >
     {
-      "response": "Invalid filters provided for module 'sda_fabric_devices_workflow_manager': 
+      "response": "Invalid filters provided for module 'sda_fabric_devices_workflow_manager':
         [\"Filter 'fabric_roles' not valid for component 'fabric_devices'\"]",
-      "msg": "Invalid filters provided for module 'sda_fabric_devices_workflow_manager': 
+      "msg": "Invalid filters provided for module 'sda_fabric_devices_workflow_manager':
         [\"Filter 'fabric_roles' not valid for component 'fabric_devices'\"]"
     }
 """
