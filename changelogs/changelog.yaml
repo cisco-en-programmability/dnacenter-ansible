@@ -1950,7 +1950,7 @@ releases:
       minor_changes:
         - Code formatting and ansible-lint compliance updates for Red Hat standards
 
-  6.47.1:
+  6.48.0:
     release_date: "2026-02-18"
     changes:
       release_summary: Changes in workflow manager modules, Documentation enhancements and Ansible Galaxy build configuration updates for the cisco.dnac Ansible Collection
