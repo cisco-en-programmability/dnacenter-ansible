@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate the playbook for template projects and templates in Cisco Catalyst Center
-      cisco.dnac.brownfield_template_playbook_generator:
+      cisco.dnac.template_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -150,4 +150,4 @@
       register: result
 
       tags:
-        - brownfield_templates_generator_testing
+        - templates_playbook_config_generator_testing

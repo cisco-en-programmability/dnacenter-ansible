@@ -11,7 +11,7 @@ __author__ = "Sunil Shatagopa, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_template_playbook_generator
+module: template_playbook_config_generator
 short_description: Generate YAML playbook for C(template_workflow_manager) module.
 description:
 - Generates YAML configurations compatible with the C(template_workflow_manager)
@@ -46,7 +46,7 @@ options:
           in the Cisco Catalyst Center, ignoring any provided filters.
         - When enabled, the config parameter becomes optional and will use default values if not provided.
         - A default filename will be generated automatically if file_path is not specified.
-        - This is useful for complete brownfield infrastructure discovery and documentation.
+        - This is useful for complete playbook configuration infrastructure discovery and documentation.
         - When set to false, the module uses provided filters to generate a targeted YAML configuration.
         - IMPORTANT NOTE - When generate_all_configurations is enabled, it will only retrieve committed templates.
           It does not include uncommitted templates. To include uncommitted templates, set generate_all_configurations to false
@@ -129,7 +129,7 @@ seealso:
 EXAMPLES = r"""
 - name: Auto-generate YAML Configuration for all components which
      includes template projects and configuration templates.
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -144,7 +144,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -160,7 +160,7 @@ EXAMPLES = r"""
         file_path: "tmp/catc_templates_config.yml"
 
 - name: Generate YAML Configuration with specific template projects only
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -177,7 +177,7 @@ EXAMPLES = r"""
           components_list: ["projects"]
 
 - name: Generate YAML Configuration with specific configuration templates only
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -194,7 +194,7 @@ EXAMPLES = r"""
           components_list: ["configuration_templates"]
 
 - name: Generate YAML Configuration for projects with project name filter
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -214,7 +214,7 @@ EXAMPLES = r"""
             - name: "Project_B"
 
 - name: Generate YAML Configuration for templates with template name filter
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -234,7 +234,7 @@ EXAMPLES = r"""
             - template_name: "Template_2"
 
 - name: Generate YAML Configuration for templates with project name filter
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -254,7 +254,7 @@ EXAMPLES = r"""
             - project_name: "Project_B"
 
 - name: Generate YAML Configuration for templates with uncommitted filter
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -273,7 +273,7 @@ EXAMPLES = r"""
             - include_uncommitted: true
 
 - name: Generate YAML Configuration for templates with template name and project name
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -293,7 +293,7 @@ EXAMPLES = r"""
               template_name: "Template_1"
 
 - name: Generate YAML Configuration for templates with comprehensive filters
-  cisco.dnac.brownfield_template_playbook_generator:
+  cisco.dnac.template_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -395,7 +395,7 @@ else:
     OrderedDumper = None
 
 
-class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
+class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for templates deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -1246,7 +1246,7 @@ class TemplatePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes YAML configuration file generation for brownfield template workflow.
+        Executes YAML configuration file generation for template workflow.
 
         Processes the desired state parameters prepared by get_want() and generates a
         YAML configuration file containing network element details from Catalyst Center.
@@ -1350,48 +1350,48 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_template_playbook_generator = TemplatePlaybookGenerator(module)
+    ccc_template_playbook_config_generator = TemplatePlaybookConfigGenerator(module)
     if (
-        ccc_template_playbook_generator.compare_dnac_versions(
-            ccc_template_playbook_generator.get_ccc_version(), "2.3.7.9"
+        ccc_template_playbook_config_generator.compare_dnac_versions(
+            ccc_template_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_template_playbook_generator.msg = (
+        ccc_template_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for TEMPLATE Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_template_playbook_generator.get_ccc_version()
+                ccc_template_playbook_config_generator.get_ccc_version()
             )
         )
-        ccc_template_playbook_generator.set_operation_result(
-            "failed", False, ccc_template_playbook_generator.msg, "ERROR"
+        ccc_template_playbook_config_generator.set_operation_result(
+            "failed", False, ccc_template_playbook_config_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_template_playbook_generator.params.get("state")
+    state = ccc_template_playbook_config_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_template_playbook_generator.supported_states:
-        ccc_template_playbook_generator.status = "invalid"
-        ccc_template_playbook_generator.msg = "State {0} is invalid".format(
+    if state not in ccc_template_playbook_config_generator.supported_states:
+        ccc_template_playbook_config_generator.status = "invalid"
+        ccc_template_playbook_config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_template_playbook_generator.check_return_status()
+        ccc_template_playbook_config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
-    ccc_template_playbook_generator.validate_input().check_return_status()
+    ccc_template_playbook_config_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
-    for config in ccc_template_playbook_generator.validated_config:
-        ccc_template_playbook_generator.reset_values()
-        ccc_template_playbook_generator.get_want(
+    for config in ccc_template_playbook_config_generator.validated_config:
+        ccc_template_playbook_config_generator.reset_values()
+        ccc_template_playbook_config_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_template_playbook_generator.get_diff_state_apply[
+        ccc_template_playbook_config_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    module.exit_json(**ccc_template_playbook_generator.result)
+    module.exit_json(**ccc_template_playbook_config_generator.result)
 
 
 if __name__ == "__main__":
