@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate provision workflow playbook from brownfield devices
-      cisco.dnac.brownfield_provision_playbook_generator:
+      cisco.dnac.provision_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

@@ -11,7 +11,7 @@ __author__ = "Syed Khadeer Ahmed, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_provision_playbook_generator
+module: provision_playbook_config_generator
 short_description: Generate YAML playbook for 'provision_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the `provision_workflow_manager`
@@ -46,7 +46,7 @@ options:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
             a default file name <module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml.
-          - For example, provision_workflow_manager_playbook_2026-01-24_12-33-20.yml.
+          - For example, provision_playbook_config_2026-01-24_12-33-20.yml.
         type: str
       generate_all_configurations:
         description:
@@ -151,7 +151,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -166,7 +166,7 @@ EXAMPLES = r"""
       - file_path: "/tmp/catc_provision_config.yaml"
 
 - name: Generate YAML Configuration for ALL provisioned devices (ignores all filters)
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -182,7 +182,7 @@ EXAMPLES = r"""
         generate_all_configurations: true
 
 - name: Generate YAML Configuration with specific wired devices filter
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -199,7 +199,7 @@ EXAMPLES = r"""
           components_list: ["wired"]
 
 - name: Generate YAML Configuration for devices with IP address filter (global)
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -218,7 +218,7 @@ EXAMPLES = r"""
             - "204.192.12.201"
 
 - name: Generate YAML Configuration for wired devices with multiple site filters
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -239,7 +239,7 @@ EXAMPLES = r"""
                 - "Global/USA/San Jose/SJ_BLD20"
 
 - name: Generate YAML Configuration for all wired devices
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -256,7 +256,7 @@ EXAMPLES = r"""
           components_list: ["wired"]
 
 - name: Generate YAML Configuration for wireless devices only
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -273,7 +273,7 @@ EXAMPLES = r"""
           components_list: ["wireless"]
 
 - name: Generate YAML Configuration for both wired and wireless devices
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -290,7 +290,7 @@ EXAMPLES = r"""
           components_list: ["wired", "wireless"]
 
 - name: Generate YAML Configuration for wireless devices with specific site filter
-  cisco.dnac.brownfield_provision_playbook_generator:
+  cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
