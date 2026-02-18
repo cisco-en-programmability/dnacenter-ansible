@@ -16,7 +16,7 @@
 #   Archit Soni <soni.archit03@gmail.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_sda_fabric_devices_playbook_generator`.
+#   Unit tests for the Ansible module `sda_fabric_devices_playbook_config_generator`.
 #   These tests cover YAML playbook generation for SDA fabric devices configurations,
 #   including various filter scenarios and validation logic using mocked
 #   Catalyst Center responses.
@@ -31,15 +31,15 @@ __version__ = "1.0.0"
 
 from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import (
-    brownfield_sda_fabric_devices_playbook_generator,
+    sda_fabric_devices_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_sda_fabric_devices_playbook_generator
-    test_data = loadPlaybookData("brownfield_sda_fabric_devices_playbook_generator")
+    module = sda_fabric_devices_playbook_config_generator
+    test_data = loadPlaybookData("sda_fabric_devices_playbook_config_generator")
 
     playbook_config_generate_all_configurations_case_1 = test_data.get(
         "generate_all_configurations_case_1"
@@ -90,7 +90,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield_sda_fabric_devices_playbook_generator tests.
+        Load fixtures for sda_fabric_devices_playbook_config_generator tests.
         """
         if "test_generate_all_configurations_case_1" in self._testMethodName:
             # API call sequence for generate_all_configurations:
