@@ -18,7 +18,7 @@ __author__ = "Megha Kandari, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_assurance_device_health_score_settings_playbook_generator
+module: assurance_device_health_score_settings_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'assurance_device_health_score_settings_workflow_manager' module.
 description:
   - Generates YAML configuration playbooks compatible with the
@@ -101,8 +101,8 @@ options:
           will be saved.
         - If not provided, the module generates a default filename in the current
           working directory with the format
-          C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - Example default filename C(assurance_device_health_score_settings_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+          C(<module_name>_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - Example default filename C(assurance_device_health_score_settings_playbook_config_generator_2026-01-24_12-33-20.yml).
         - The directory path will be created automatically if it does not exist.
         - Supports both absolute paths (C(/tmp/config.yml)) and relative paths
           (C(./configs/health_score.yml)).
@@ -226,7 +226,7 @@ seealso:
 EXAMPLES = r"""
 
 - name: Generate YAML Configuration for all device health score settings
-  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
+  cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -241,7 +241,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate YAML Configuration with custom file path
-  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
+  cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -256,7 +256,7 @@ EXAMPLES = r"""
       - file_path: "/tmp/assurance_health_score_settings.yml"
 
 - name: Generate YAML Configuration for all device health score components
-  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
+  cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -273,7 +273,7 @@ EXAMPLES = r"""
           components_list: ["device_health_score_settings"]
 
 - name: Generate YAML Configuration for specific device families
-  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
+  cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -292,7 +292,7 @@ EXAMPLES = r"""
             device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
 
 - name: Generate YAML Configuration using legacy filter format
-  cisco.dnac.brownfield_assurance_device_health_score_settings_playbook_generator:
+  cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -665,7 +665,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
-        self.module_name = "assurance_device_health_score_settings_workflow_manager"
+        self.module_name = "assurance_device_health_score_settings_playbook_config_generator"
 
         # Initialize class-level variables to track successes and failures
         self.operation_successes = []
@@ -2865,12 +2865,12 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         Generates default filename with module name and timestamp for YAML output.
 
         This function creates a timestamped filename following the pattern
-        module_name_playbook_YYYY-MM-DD_HH-MM-SS.yml for unique identification
+        module_name_YYYY-MM-DD_HH-MM-SS.yml for unique identification
         when file_path is not provided in playbook configuration.
 
         Returns:
             str: Generated filename with format
-                assurance_device_health_score_settings_workflow_manager_playbook_2026-01-24_12-33-20.yml
+                assurance_device_health_score_settings_playbook_config_generator_2026-01-24_12-33-20.yml
         """
         self.log(
             "Generating default filename for YAML configuration file. Using module "
@@ -2886,7 +2886,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "filename component.".format(timestamp.strftime("%Y-%m-%d %H:%M:%S")),
             "DEBUG"
         )
-        filename = "{0}_playbook_{1}.yml".format(
+        filename = "{0}_{1}.yml".format(
             self.module_name,
             timestamp.strftime("%Y-%m-%d_%H-%M-%S")
         )
