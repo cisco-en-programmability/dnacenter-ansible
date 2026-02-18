@@ -1,6 +1,6 @@
 ---
 # ==============================================================================
-# BROWNFIELD NETWORK SETTINGS PLAYBOOK GENERATOR - EXAMPLES
+# NETWORK SETTINGS PLAYBOOK CONFIG GENERATOR - EXAMPLES
 # ==============================================================================
 
 # Example 1: Auto-discovery (Extract all available network settings)
@@ -12,7 +12,7 @@
   connection: local
   tasks:
     - name: Auto-discover all network settings
-      cisco.dnac.brownfield_network_settings_playbook_generator:
+      cisco.dnac.network_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -27,7 +27,7 @@
           - generate_all_configurations: true
 
     - name: Auto-discover all network settings
-      cisco.dnac.brownfield_network_settings_playbook_generator:
+      cisco.dnac.network_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -52,7 +52,7 @@
   tasks:
     # Task 1: Global Pool Details Only
     - name: Extract global pool configurations
-      cisco.dnac.brownfield_network_settings_playbook_generator:
+      cisco.dnac.network_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -72,7 +72,7 @@
 
     # Task 2: Reserve Pool Details Only
     - name: Extract reserve pool configurations
-      cisco.dnac.brownfield_network_settings_playbook_generator:
+      cisco.dnac.network_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -91,7 +91,7 @@
 
     # Task 3: Network Management Settings Only
     - name: Extract network management configurations
-      cisco.dnac.brownfield_network_settings_playbook_generator:
+      cisco.dnac.network_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -110,7 +110,7 @@
 
     # Task 4: Device Controllability Settings Only
     - name: Extract device controllability configurations
-      cisco.dnac.brownfield_network_settings_playbook_generator:
+      cisco.dnac.network_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -135,7 +135,7 @@
   connection: local
   tasks:
     - name: Extract multiple network setting components
-      cisco.dnac.brownfield_network_settings_playbook_generator:
+      cisco.dnac.network_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -163,7 +163,7 @@
   connection: local
   tasks:
     - name: Generate multiple configuration files
-      cisco.dnac.brownfield_network_settings_playbook_generator:
+      cisco.dnac.network_settings_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

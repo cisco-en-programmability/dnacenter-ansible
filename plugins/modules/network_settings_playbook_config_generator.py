@@ -11,7 +11,7 @@ __author__ = "Megha Kandari, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_network_settings_playbook_generator
+module: network_settings_playbook_config_generator
 short_description: Generate YAML playbook for 'network_settings_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the `network_settings_workflow_manager`
@@ -51,7 +51,7 @@ options:
         - This mode discovers all configured network settings in Cisco Catalyst Center and extracts all supported configurations.
         - When enabled, the config parameter becomes optional and will use default values if not provided.
         - A default filename will be generated automatically if file_path is not specified.
-        - This is useful for complete brownfield network settings discovery and documentation.
+        - This is useful for complete network settings playbook config generator discovery and documentation.
         - Includes Global IP Pools, Reserve IP Pools, Network Management, Device Controllability, and AAA Settings.
         type: bool
         required: false
@@ -60,8 +60,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(discovery_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+          a default file name C(<module_name>playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(network_settings_playbook_config_2026-01-24_12-33-20.yml).
         type: str
         required: false
       component_specific_filters:
@@ -168,7 +168,7 @@ notes:
 EXAMPLES = r"""
 # Generate YAML Configuration with default file path
 - name: Generate YAML Configuration with default file path
-  cisco.dnac.brownfield_network_settings_playbook_generator:
+  cisco.dnac.network_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -184,7 +184,7 @@ EXAMPLES = r"""
           components_list: ["global_pool_details"]
 
 - name: Generate YAML Configuration for specific sites
-  cisco.dnac.brownfield_network_settings_playbook_generator:
+  cisco.dnac.network_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -201,7 +201,7 @@ EXAMPLES = r"""
           components_list: ["reserve_pool_details"]
 
 - name: Generate YAML Configuration using explicit components list
-  cisco.dnac.brownfield_network_settings_playbook_generator:
+  cisco.dnac.network_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -218,7 +218,7 @@ EXAMPLES = r"""
           components_list: ["network_management_details"]
 
 - name: Generate YAML Configuration for global pools with no filters
-  cisco.dnac.brownfield_network_settings_playbook_generator:
+  cisco.dnac.network_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -235,7 +235,7 @@ EXAMPLES = r"""
           components_list: ["device_controllability_details"]
 
 - name: Generate YAML Configuration for reserve pools using site hierarchy
-  cisco.dnac.brownfield_network_settings_playbook_generator:
+  cisco.dnac.network_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -412,7 +412,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"[{self.module_schema}] Initializing module",
             level="INFO"
         )
-        self.module_name = "network_settings_workflow_manager"
+        self.module_name = "network_settings"
 
         # Initialize class-level variables to track successes and failures
         self.operation_successes = []
@@ -430,7 +430,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the brownfield network settings playbook.
+        Validates the input configuration parameters for the network settings playbook config generator.
 
         This method performs comprehensive validation of all module configuration parameters
         including global filters, component-specific filters, file paths, and authentication
@@ -2107,7 +2107,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         hierarchy filter. Supports both exact site matches and hierarchical traversal.
 
         Purpose:
-            Facilitates brownfield network settings discovery by allowing users to specify
+            Facilitates network settings playbook config generator discovery by allowing users to specify
             a parent site hierarchy (e.g., "Global/USA") and automatically discovering all
             child sites underneath (e.g., "Global/USA/California", "Global/USA/New York").
             This eliminates the need to manually list every site when extracting reserve
@@ -2322,7 +2322,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Purpose:
             Normalizes diverse site identifier formats from Catalyst Center API responses
             into standardized hierarchical site names suitable for Ansible YAML configuration.
-            Supports brownfield network settings discovery by providing reliable site
+            Supports network settings playbook config generator discovery by providing reliable site
             location mapping across different API response structures.
 
         Args:
@@ -2558,7 +2558,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log(
             "Resetting operation tracking variables to prepare clean state for new "
-            "brownfield network settings discovery operation",
+            "network settings playbook config generator discovery operation",
             "DEBUG"
         )
 
@@ -2680,8 +2680,8 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Record a successful operation for site/component processing in operation tracking.
 
         This method adds a successful operation entry to the tracking system, recording
-        which site and component were successfully processed during brownfield network
-        settings extraction. Used for generating comprehensive operation summaries.
+        which site and component were successfully processed during network settings playbook config generator
+        extraction. Used for generating comprehensive operation summaries.
 
         Args:
             site_name (str): Full hierarchical site name that was successfully processed.
@@ -2730,7 +2730,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Record a failed operation for site/component processing in operation tracking.
 
         This method adds a failed operation entry to the tracking system, recording
-        which site and component failed during brownfield network settings extraction
+        which site and component failed during network settings playbook config generator extraction
         along with detailed error information for troubleshooting.
 
         Args:
@@ -3391,7 +3391,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Purpose:
             Provides centralized network management settings retrieval with site-based
-            filtering, component aggregation, and transformation for brownfield network
+            filtering, component aggregation, and transformation for network settings playbook config
             discovery workflows.
 
         Workflow:
@@ -6781,7 +6781,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         This method implements an optimized retrieval strategy for reserve pools that
         automatically chooses between bulk API calls (single request) and site-specific
         queries based on filter requirements, significantly improving performance for
-        brownfield network settings discovery.
+        network settings playbook config generator discovery.
 
         Args:
             network_element (dict): A dictionary containing the API family and function for retrieving reserve pools.
@@ -7723,7 +7723,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Retrieve DHCP (Dynamic Host Configuration Protocol) server settings for a specific site.
 
         This method retrieves DHCP server configuration from Catalyst Center for a specified
-        site, enabling brownfield network settings discovery for the network_settings_workflow_manager
+        site, enabling network settings playbook config generator discovery for the network_settings_workflow_manager
         module. DHCP settings control automatic IP address assignment for network devices.
 
         Parameters:
@@ -7736,7 +7736,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log(
             "Starting DHCP server settings retrieval for site '{0}' (ID: {1}) to extract "
-            "DHCP configuration for brownfield network settings discovery".format(
+            "DHCP configuration for network settings playbook config generator discovery".format(
                 site_name, site_id
             ),
             "DEBUG"
@@ -7997,7 +7997,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Retrieve DNS (Domain Name System) server settings for a specific site.
 
         Extracts DNS server configuration from Catalyst Center for a specified
-        site, enabling brownfield network settings discovery for the
+        site, enabling network settings playbook config generator discovery for the
         network_settings_workflow_manager module. DNS settings control domain
         name resolution and server addressing for network operations.
         Parameters:
@@ -8010,7 +8010,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log(
             "Starting DNS server settings retrieval for site '{0}' (ID: {1}) to "
-            "extract DNS configuration for brownfield network settings discovery"
+            "extract DNS configuration for network settings playbook config generator discovery"
             .format(site_name, site_id),
             "DEBUG"
         )
@@ -8262,7 +8262,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def get_telemetry_settings_for_site(self, site_name, site_id):
         """
         Extracts comprehensive telemetry configuration from Catalyst Center for a
-        specified site, enabling brownfield network settings discovery for the
+        specified site, enabling network settings playbook config generator discovery for the
         network_settings_workflow_manager module. Telemetry settings control network
         monitoring, application visibility, and data collection capabilities.
 
@@ -8277,7 +8277,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log(
             "Starting telemetry settings retrieval for site '{0}' (ID: {1}) to "
             "extract NetFlow, SNMP, syslog, and data collection configuration for "
-            "brownfield network settings discovery".format(site_name, site_id),
+            "network settings playbook config generator discovery".format(site_name, site_id),
             "DEBUG"
         )
 
@@ -8605,14 +8605,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Retrieve timezone settings for a specific site from Catalyst Center.
 
-        Extracts timezone configuration to enable brownfield network settings
+        Extracts timezone configuration to enable network settings playbook config generator
         discovery for the network_settings_workflow_manager module. Timezone
         settings control time synchronization and scheduling for network
         operations.
 
         Purpose:
             Extracts timezone configuration from Catalyst Center to enable
-            brownfield network settings discovery and YAML playbook generation
+            network settings playbook config generator discovery and YAML playbook generation
             for network management operations.
 
         Args:
@@ -8639,7 +8639,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log(
             "Starting timezone settings retrieval for site '{0}' (ID: {1}) to "
-            "extract timezone configuration for brownfield network settings "
+            "extract timezone configuration for network settings playbook config generator "
             "discovery".format(site_name, site_id),
             "DEBUG"
         )
@@ -8898,13 +8898,13 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Retrieve Message of the Day (MOTD) banner settings for a specific site from
         Catalyst Center.
 
-        Extracts banner configuration to enable brownfield network settings discovery
+        Extracts banner configuration to enable network settings playbook config generator discovery
         for the network_settings_workflow_manager module. Banner settings control the
         message displayed to users when logging into network devices.
 
         Purpose:
             Extracts banner/MOTD configuration from Catalyst Center to enable
-            brownfield network settings discovery and YAML playbook generation for
+            network settings playbook config generator discovery and YAML playbook generation for
             network management operations.
 
         Args:
@@ -9234,7 +9234,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Purpose:
             Extracts device controllability configuration from Catalyst Center to
-            enable brownfield network settings discovery and YAML playbook generation
+            enable network settings playbook config generator discovery and YAML playbook generation
             for network management operations.
 
         Important Notes:
@@ -9277,7 +9277,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log(
             "Starting device controllability settings retrieval from Catalyst Center "
-            "to extract global device management configuration for brownfield network "
+            "to extract global device management configuration for network settings playbook config generator  "
             "settings discovery",
             "DEBUG"
         )
@@ -9465,7 +9465,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Generate YAML playbook configuration file for network_settings_workflow_manager module.
 
-        Orchestrates the complete brownfield network settings extraction workflow by:
+        Orchestrates the complete network settings playbook config generator extraction workflow by:
         1. Processing configuration parameters and filters
         2. Iterating through requested network components
         3. Executing component-specific retrieval functions
@@ -9956,8 +9956,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "WARNING"
                 )
 
-            # Add component details to final list (preserve structure)
-            final_list.append(details)
+            # Add component details to final list (preserve structure, exclude operation_summary)
+            # Create a clean version without operation_summary for YAML output
+            clean_details = {}
+            for key, value in details.items():
+                if key != "operation_summary":
+                    clean_details[key] = value
+
+            final_list.append(clean_details)
 
             self.log(
                 "Successfully added component '{0}' to final configuration list "
@@ -10148,7 +10154,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Execute the network settings gathering workflow to collect brownfield configurations.
 
-        This method orchestrates the complete brownfield network settings extraction workflow
+        This method orchestrates the complete network settings playbook config generator extraction workflow
         by coordinating YAML configuration generation operations based on user-provided
         parameters and filters. It serves as the main execution entry point for the 'gathered'
         state operation.
@@ -10169,7 +10175,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             8. Log completion with performance metrics
         """
         self.log(
-            "Starting brownfield network settings gathering workflow for state 'gathered' "
+            "Starting network settings playbook config generator gathering workflow for state 'gathered' "
             "to extract existing configurations from Cisco Catalyst Center and generate "
             "Ansible-compatible YAML playbooks",
             "DEBUG"
@@ -10403,14 +10409,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 def main():
     """
-    Main entry point for the Cisco Catalyst Center brownfield network settings playbook generator module.
+    Main entry point for the Cisco Catalyst Center network settings playbook config generator generator module.
 
     This function serves as the primary execution entry point for the Ansible module,
     orchestrating the complete workflow from parameter collection to YAML playbook
-    generation for brownfield network settings extraction.
+    generation for network settings playbook config generator extraction.
 
     Purpose:
-        Initializes and executes the brownfield network settings playbook generator
+        Initializes and executes the network settings playbook config generator generator
         workflow to extract existing network configurations from Cisco Catalyst Center
         and generate Ansible-compatible YAML playbook files.
 
@@ -10587,12 +10593,12 @@ def main():
     )
 
     # Initialize the NetworkSettingsPlaybookGenerator object
-    # This creates the main orchestrator for brownfield network settings extraction
+    # This creates the main orchestrator for network settings playbook config generator extraction
     ccc_network_settings_playbook_generator = NetworkSettingsPlaybookGenerator(module)
 
     # Log module initialization after object creation (now logging is available)
     ccc_network_settings_playbook_generator.log(
-        "Starting Ansible module execution for brownfield network settings playbook "
+        "Starting Ansible module execution for network settings playbook config generator "
         "generator at timestamp {0}".format(initialization_timestamp),
         "INFO"
     )
