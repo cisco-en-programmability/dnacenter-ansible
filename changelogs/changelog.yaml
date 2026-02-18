@@ -1949,3 +1949,15 @@ releases:
       release_summary: Code changes to align with Red Hat standards and ansible-lint compliance
       minor_changes:
         - Code formatting and ansible-lint compliance updates for Red Hat standards
+
+  6.47.1:
+    release_date: "2026-02-18"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in device_configs_backup_workflow_manager module
+        - Changes in lan_automation_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in wireless_design_workflow_manager module
