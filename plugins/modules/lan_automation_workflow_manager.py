@@ -72,10 +72,12 @@ options:
         type: dict
         suboptions:
           discovered_device_site_name_hierarchy:
-            description: Site hierarchy where the discovered
-              devices will be placed.
+            description: |
+              - Site hierarchy where the discovered
+                devices will be placed.
+              - Required only in merged state.
             type: str
-            required: true
+            required: false
           primary_device_management_ip_address:
             description: Management IP address of the
               primary or seed device in the LAN Automation
@@ -88,18 +90,22 @@ options:
             type: str
             required: false
           primary_device_interface_names:
-            description: A list of interface names on
-              the primary device to be used for LAN
-              automation.
+            description: |
+              - A list of interface names on
+                the primary device to be used for LAN
+                automation.
+              - Required only in merged state.
             type: list
             elements: str
-            required: true
+            required: false
           ip_pools:
-            description: A list of IP pools used during
-              the LAN Automation session.
+            description: |
+              - A list of IP pools used during
+                the LAN Automation session.
+              - Required only in merged state.
             type: list
             elements: dict
-            required: true
+            required: false
             suboptions:
               ip_pool_name:
                 description: Name of the IP pool.
@@ -1041,7 +1047,7 @@ class LanAutomation(DnacBase):
                 "elements": "dict",
                 "discovered_device_site_name_hierarchy": {
                     "type": "str",
-                    "required": True,
+                    "required": False,
                 },
                 "primary_device_management_ip_address": {
                     "type": "str",
@@ -1049,7 +1055,7 @@ class LanAutomation(DnacBase):
                 },
                 "primary_device_interface_names": {
                     "type": "list",
-                    "required": True,
+                    "required": False,
                     "elements": "str",
                 },
                 "peer_device_management_ip_address": {
@@ -1058,7 +1064,7 @@ class LanAutomation(DnacBase):
                 },
                 "ip_pools": {
                     "type": "list",
-                    "required": True,
+                    "required": False,
                     "elements": "dict",
                     "ip_pool_name": {"type": "str", "required": True},
                     "ip_pool_role": {
