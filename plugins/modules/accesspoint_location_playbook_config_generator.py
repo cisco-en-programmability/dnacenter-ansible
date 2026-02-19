@@ -11,7 +11,7 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_accesspoint_location_playbook_generator
+module: accesspoint_location_playbook_config_generator
 short_description: >-
   Generate YAML configurations playbook for
   'accesspoint_location_workflow_manager' module.
@@ -20,7 +20,7 @@ description:
     'accesspoint_location_workflow_manager' module, reducing
     the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
-  - Supports complete brownfield infrastructure discovery by
+  - Supports complete planned accesspoint location config by
     collecting all access point locations from Cisco Catalyst Center.
   - Enables targeted extraction using filters (site hierarchies,
     planned access points, real access points, AP models, or MAC addresses).
@@ -41,7 +41,7 @@ options:
   config:
     description:
       - A list of filters for generating YAML playbook compatible
-        with the 'brownfield_accesspoint_location_playbook_generator'
+        with the 'accesspoint_location_playbook_config_generator'
         module.
       - Filters specify which components to include in the YAML
         configuration file.
@@ -63,8 +63,8 @@ options:
             and will use default values if not provided.
           - A default filename will be generated automatically
             if file_path is not specified.
-          - This is useful for complete brownfield infrastructure
-            discovery and documentation.
+          - This is useful for complete planned accesspoint location
+            and documentation.
           - Any provided global_filters will be IGNORED in this
             mode.
         type: bool
@@ -75,9 +75,9 @@ options:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current
             working directory with a default file name
-            'accesspoint_location_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'.
+            C(<module_name>playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
           - For example,
-            'accesspoint_location_workflow_manager_playbook_2025-04-22_21-43-26.yml'.
+            'accesspoint_location_playbook_config_2025-04-22_21-43-26.yml'.
           - Supports both absolute and relative file paths.
         type: str
       global_filters:
@@ -191,7 +191,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Auto-generate YAML Configuration for all Access Point Location from all floor
-  cisco.dnac.brownfield_accesspoint_location_playbook_generator:
+  cisco.dnac.accesspoint_location_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -206,7 +206,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration for all Access Point Location with custom file path
-  cisco.dnac.brownfield_accesspoint_location_playbook_generator:
+  cisco.dnac.accesspoint_location_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -218,11 +218,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook.yml"
+      - file_path: "tmp/accesspoint_location_playbook_config.yml"
         generate_all_configurations: true
 
 - name: Generate YAML Configuration with file path based on site list filters
-  cisco.dnac.brownfield_accesspoint_location_playbook_generator:
+  cisco.dnac.accesspoint_location_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -234,14 +234,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook_site_base.yml"
+      - file_path: "tmp/accesspoint_location_playbook_config_site_base.yml"
         global_filters:
           site_list:
             - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
             - Global/USA/SAN JOSE/SJ_BLD20/FLOOR2
 
 - name: Generate YAML Configuration with file path based on planned access point list
-  cisco.dnac.brownfield_accesspoint_location_playbook_generator:
+  cisco.dnac.accesspoint_location_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -259,7 +259,7 @@ EXAMPLES = r"""
             - test_ap2_location
 
 - name: Generate YAML Configuration with file path based on real access point list
-  cisco.dnac.brownfield_accesspoint_location_playbook_generator:
+  cisco.dnac.accesspoint_location_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -277,7 +277,7 @@ EXAMPLES = r"""
             - AP687D.B402.1614-AP-Test6
 
 - name: Generate YAML Configuration with default file path based on access point model list
-  cisco.dnac.brownfield_accesspoint_location_playbook_generator:
+  cisco.dnac.accesspoint_location_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -295,7 +295,7 @@ EXAMPLES = r"""
             - AP9130E
 
 - name: Generate YAML Configuration with default file path based on MAC Address list
-  cisco.dnac.brownfield_accesspoint_location_playbook_generator:
+  cisco.dnac.accesspoint_location_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -327,14 +327,14 @@ response_1:
         "YAML config generation Task succeeded for module
          'accesspoint_location_workflow_manager'.": {
             "file_path":
-             "tmp/brownfield_accesspoint_location_workflow_playbook_templatebase.yml"
+             "tmp/accesspoint_location_workflow_playbook_templatebase.yml"
           }
         },
       "msg": {
         "YAML config generation Task succeeded for module
          'accesspoint_location_workflow_manager'.": {
             "file_path":
-             "tmp/brownfield_accesspoint_location_workflow_playbook_templatebase.yml"
+             "tmp/accesspoint_location_workflow_playbook_templatebase.yml"
           }
         }
     }
@@ -424,7 +424,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         This function performs comprehensive validation of input configuration parameters
         by checking parameter presence, validating against expected schema specification,
         verifying allowed keys to prevent invalid parameters, ensuring minimum requirements
-        for brownfield playbook generation, and setting validated configuration for
+        for access point location playbook generation, and setting validated configuration for
         downstream processing workflows.
 
         Args:
@@ -550,7 +550,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            self.validate_minimum_requirements(self.config)
+            self.validate_minimum_requirement_for_global_filters(self.config)
             self.log(
                 "Minimum requirements validation passed. Configuration has either "
                 "generate_all_configurations or valid global_filters.",
@@ -711,7 +711,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_params(self, config):
         """
-        Validates individual configuration parameters for brownfield access point location generation.
+        Validates individual configuration parameters for access point location playbook generation.
 
         This function performs detailed validation of configuration parameters required for
         YAML playbook generation, including mode flags, file paths, and global filter structures.
@@ -1029,7 +1029,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Initiating complete access point location collection from Cisco Catalyst Center "
                 "without applying any filters. This mode retrieves ALL AP positions (planned and "
                 "real) including complete position coordinates, radio configurations, and floor "
-                "assignments for comprehensive brownfield infrastructure discovery and documentation.",
+                "assignments for comprehensive access point location config and documentation.",
                 "INFO"
             )
 
@@ -2098,6 +2098,20 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
 
+            if (
+                int(ap_position.get("position", {}).get("x")) < 0 or
+                int(ap_position.get("position", {}).get("y")) < 0 or
+                int(ap_position.get("position", {}).get("z")) < 0
+            ):
+                self.log(
+                    f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has un-positioned coordinates: "
+                    f"x={ap_position.get('position', {}).get('x')}, "
+                    f"y={ap_position.get('position', {}).get('y')}, "
+                    f"z={ap_position.get('position', {}).get('z')}. Skipping this AP.",
+                    "WARNING"
+                )
+                continue
+
             # Extract core AP position data
             parsed_data = {
                 "accesspoint_name": ap_position.get("name"),
@@ -2225,7 +2239,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         4. Organizing data into multiple collections for different use cases
 
         The function populates self.have with five distinct data structures to support
-        various filtering and YAML generation scenarios in brownfield infrastructure
+        various filtering and YAML generation scenarios in access point location
         documentation workflows.
 
         Args:
@@ -2525,7 +2539,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         This function orchestrates the complete YAML playbook generation process by
         extracting parameters from the validated want dictionary, calling the
         yaml_config_generator function, and validating operation status. It coordinates
-        data collection, filtering, and YAML file creation for brownfield AP location
+        data collection, filtering, and YAML file creation for access point location
         documentation and automation.
 
         Args:
@@ -2741,7 +2755,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Operational mode: GENERATE ALL CONFIGURATIONS enabled (generate_all_configurations=True). "
                 "This mode will retrieve complete AP location inventory from Catalyst Center including "
                 "all planned and real AP positions on all floors, ignoring any provided filters. Use this "
-                "mode for comprehensive brownfield infrastructure discovery and documentation.",
+                "mode for comprehensive access point location configuration and documentation.",
                 "INFO"
             )
         else:
@@ -3577,7 +3591,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 def main():
     """
-    Main entry point for the Ansible brownfield access point location playbook generator module.
+    Main entry point for the Ansible access point location playbook generator module.
 
     This function serves as the primary orchestrator for generating YAML playbooks that capture
     the current state of access point location assignments in Cisco Catalyst Center. It performs
@@ -3692,7 +3706,7 @@ def main():
                 "changed": False,
                 "response": {
                     "YAML config generation Task succeeded for module 'accesspoint_location_workflow_manager'.": {
-                        "file_path": "/path/to/brownfield_accesspoint_location_workflow_playbook.yml"
+                        "file_path": "/path/to/accesspoint_location_workflow_playbook.yml"
                     }
                 },
                 "msg": "YAML configuration playbook generation completed successfully"
@@ -3733,8 +3747,8 @@ def main():
 
         Typical Ansible playbook usage:
         ```yaml
-        - name: Generate brownfield access point location playbook
-          brownfield_accesspoint_location_playbook_generator:
+        - name: Generate access point location playbook
+          cisco.dnac.accesspoint_location_playbook_config_generator:
             dnac_host: "{{ dnac_host }}"
             dnac_username: "{{ dnac_username }}"
             dnac_password: "{{ dnac_password }}"
