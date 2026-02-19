@@ -17,22 +17,22 @@
 #   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_sda_fabric_transits_playbook_generator`.
-#   These tests cover various scenarios for generating YAML playbooks from brownfield
+#   Unit tests for the Ansible module `sda_fabric_transits_playbook_config_generator`.
+#   These tests cover various scenarios for generating YAML playbooks from playbook config generator.
 #   SDA fabric transit configurations including IP-based, SDA LISP BGP, and SDA LISP Pub/Sub transits.
 
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_sda_fabric_transits_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import sda_fabric_transits_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
+class TestSdaFabricTransitsPlaybookConfigGenerator(TestDnacModule):
 
-    module = brownfield_sda_fabric_transits_playbook_generator
-    test_data = loadPlaybookData("brownfield_sda_fabric_transits_playbook_generator")
+    module = sda_fabric_transits_playbook_config_generator
+    test_data = loadPlaybookData("sda_fabric_transits_playbook_config_generator")
 
     # Load all playbook configurations
     playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
@@ -50,7 +50,7 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
 
     def setUp(self):
-        super(TestBrownfieldFabricTransitsGenerator, self).setUp()
+        super(TestSdaFabricTransitsPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -65,13 +65,13 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldFabricTransitsGenerator, self).tearDown()
+        super(TestSdaFabricTransitsPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield fabric transits generator tests.
+        Load fixtures for fabric transits playbook config generator tests.
         """
 
         if "generate_all_configurations" in self._testMethodName:
@@ -188,7 +188,7 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_generate_all_configurations(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_generate_all_configurations(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for all fabric transits.
 
@@ -209,11 +209,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_component_specific_filters_only(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_component_specific_filters_only(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with component-specific filters.
 
@@ -234,11 +234,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_transit_type_ip_based_single(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_transit_type_ip_based_single(self, mock_exists, mock_file):
         """
         Test case for filtering fabric transits by IP_BASED_TRANSIT type.
 
@@ -259,11 +259,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_transit_type_ip_based_multiple(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_transit_type_ip_based_multiple(self, mock_exists, mock_file):
         """
         Test case for filtering multiple IP-based fabric transits.
 
@@ -284,11 +284,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_transit_name_single(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_transit_name_single(self, mock_exists, mock_file):
         """
         Test case for filtering fabric transits by name.
 
@@ -309,11 +309,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_transit_name_multiple(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_transit_name_multiple(self, mock_exists, mock_file):
         """
         Test case for filtering multiple fabric transits by name.
 
@@ -334,11 +334,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_transit_name_and_type(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_transit_name_and_type(self, mock_exists, mock_file):
         """
         Test case for filtering fabric transits by both name and type.
 
@@ -359,11 +359,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_transit_type_sda_lisp_pub_sub_single(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_transit_type_sda_lisp_pub_sub_single(self, mock_exists, mock_file):
         """
         Test case for filtering fabric transits by SDA_LISP_PUB_SUB_TRANSIT type.
 
@@ -384,11 +384,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_transit_type_sda_lisp_bgp_single(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_transit_type_sda_lisp_bgp_single(self, mock_exists, mock_file):
         """
         Test case for filtering fabric transits by SDA_LISP_BGP_TRANSIT type.
 
@@ -409,11 +409,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_all_transit_types(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_all_transit_types(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration for all transit types.
 
@@ -434,11 +434,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_mixed_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_mixed_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with mixed filters.
 
@@ -459,11 +459,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_empty_filters(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with empty filters.
 
@@ -484,11 +484,11 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_sda_fabric_transits_config_generator_no_file_path(self, mock_exists, mock_file):
+    def test_sda_fabric_transits_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration without specifying file_path.
 
@@ -509,5 +509,5 @@ class TestBrownfieldFabricTransitsGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
-        self.assertIn("sda_fabric_transits_workflow_manager_playbook_", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn("sda_fabric_transits_playbook_config", str(result.get('msg')))
