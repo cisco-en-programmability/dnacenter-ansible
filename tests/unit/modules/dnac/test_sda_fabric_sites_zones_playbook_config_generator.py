@@ -443,10 +443,10 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestDnacModule):
     @patch('os.path.exists')
     def test_sda_fabric_sites_zones_playbook_config_generator_invalid_site_name(self, mock_exists, mock_file):
         """
-        Test case for generating YAML configuration with empty component-specific filters.
+        Test case for generating YAML configuration with invalid site name filters for fabric sites.
 
-        This test verifies that the generator retrieves all fabric sites and zones
-        when component-specific filters are empty.
+        This test verifies that the generator skips invalid site name hierarchy instead of failing the module
+        when invalid site name hierarchy filter provided in fabric sites component.
         """
         mock_exists.return_value = True
 
