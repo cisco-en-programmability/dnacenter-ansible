@@ -10,10 +10,10 @@
 # ===================================================================================================
 
 - name: Cisco DNA Center Brownfield Wired Campus Automation Playbook Generator Examples
-  hosts: dnac_servers
+  hosts: localhost
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - "vars/credentials.yml"
   vars:
     # DNA Center connection parameters
     dnac_login: &dnac_login
@@ -34,32 +34,32 @@
     # COMPLETE INFRASTRUCTURE CONFIGURATION GENERATION
     # =============================================================================
 
-    - name: "EXAMPLE: Auto-generate YAML Configuration for all devices and features"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
-        <<: *dnac_login
-        state: merged
-        config:
-          - generate_all_configurations: true
-      register: result_generate_all
-      tags: [generate_all, complete]
+    # - name: "EXAMPLE: Auto-generate YAML Configuration for all devices and features"
+    #   cisco.dnac.wired_campus_automation_playbook_config_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - generate_all_configurations: true
+    #   register: result_generate_all
+    #   tags: [generate_all, complete]
 
-    - name: "EXAMPLE: Auto-generate YAML Configuration with custom file path"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
-        <<: *dnac_login
-        state: merged
-        config:
-          - file_path: "/tmp/complete_infrastructure_config.yml"
-      register: result_custom_path
-      tags: [generate_all, custom_path]
+    # - name: "EXAMPLE: Auto-generate YAML Configuration with custom file path"
+    #   cisco.dnac.wired_campus_automation_playbook_config_generator:
+    #     <<: *dnac_login
+    #     state: gathered
+    #     config:
+    #       - file_path: "/tmp/complete_infrastructure_config.yml"
+    #   register: result_custom_path
+    #   tags: [generate_all, custom_path]
 
     # =============================================================================
     # DEVICE FILTERING BY IP ADDRESS
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration with specific devices by IP address"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/wired_campus_automation_config.yml"
             global_filters:
@@ -68,9 +68,9 @@
       tags: [device_filtering, ip_address]
 
     - name: "EXAMPLE: Generate configuration for single device by IP"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/single_device_config.yml"
             global_filters:
@@ -83,9 +83,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration with specific devices by hostname"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/hostname_based_config.yml"
             global_filters:
@@ -94,9 +94,9 @@
       tags: [device_filtering, hostname]
 
     - name: "EXAMPLE: Generate configuration for core switches only"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/core_switches_config.yml"
             global_filters:
@@ -109,9 +109,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration with specific devices by serial number"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/serial_based_config.yml"
             global_filters:
@@ -124,9 +124,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration with mixed device identification (AND logic)"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/mixed_device_filter_config.yml"
             global_filters:
@@ -141,9 +141,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration using explicit components list"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/layer2_only_config.yml"
             global_filters:
@@ -154,9 +154,9 @@
       tags: [component_filtering, layer2_only]
 
     - name: "EXAMPLE: Generate YAML Configuration with components list and specific features"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/layer2_specific_features_config.yml"
             global_filters:
@@ -169,9 +169,9 @@
       tags: [component_filtering, specific_features]
 
     - name: "EXAMPLE: Generate YAML Configuration for all features using components list"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/all_layer2_features_config.yml"
             global_filters:
@@ -186,9 +186,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Auto-generate YAML Configuration for specific features only"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/security_only_config.yml"
             component_specific_filters:
@@ -198,9 +198,9 @@
       tags: [feature_filtering, security]
 
     - name: "EXAMPLE: Generate YAML Configuration for specific layer2 features only"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/protocol_features_config.yml"
             global_filters:
@@ -216,9 +216,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration for VLANs only"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/vlans_only_config.yml"
             global_filters:
@@ -230,9 +230,9 @@
       tags: [vlan_filtering, vlans_only]
 
     - name: "EXAMPLE: Generate YAML Configuration for specific VLANs"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/specific_vlans_config.yml"
             global_filters:
@@ -246,9 +246,9 @@
       tags: [vlan_filtering, specific_vlans]
 
     - name: "EXAMPLE: Generate YAML Configuration for production VLANs"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/production_vlans_config.yml"
             global_filters:
@@ -266,9 +266,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration for specific interfaces"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/specific_interfaces_config.yml"
             global_filters:
@@ -285,9 +285,9 @@
       tags: [interface_filtering, specific_ports]
 
     - name: "EXAMPLE: Generate configuration for uplink interfaces only"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/uplink_interfaces_config.yml"
             global_filters:
@@ -309,9 +309,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration for protocol features"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/protocol_features_config.yml"
             global_filters:
@@ -323,9 +323,9 @@
       tags: [protocol_filtering, discovery_protocols]
 
     - name: "EXAMPLE: Generate configuration for STP features only"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/stp_only_config.yml"
             global_filters:
@@ -341,9 +341,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration for security features"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/security_features_config.yml"
             global_filters:
@@ -355,9 +355,9 @@
       tags: [security_filtering, security_features]
 
     - name: "EXAMPLE: Generate configuration for authentication features only"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/authentication_config.yml"
             global_filters:
@@ -373,9 +373,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration with comprehensive filtering"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/comprehensive_filtered_config.yml"
             global_filters:
@@ -394,9 +394,9 @@
       tags: [comprehensive, multi_filter]
 
     - name: "EXAMPLE: Generate YAML Configuration with all available components (future-proof)"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/all_components_config.yml"
             global_filters:
@@ -424,9 +424,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate YAML Configuration with default file path"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - global_filters:
               ip_address_list: ["192.168.1.10"]
@@ -434,9 +434,9 @@
       tags: [default_settings, default_path]
 
     - name: "EXAMPLE: Generate configuration for lab environment with defaults"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - global_filters:
               hostname_list: ["lab-switch-01.test.com", "lab-switch-02.test.com"]
@@ -448,9 +448,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate configuration for campus distribution layer"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/distribution_layer_config.yml"
             global_filters:
@@ -464,9 +464,9 @@
       tags: [campus_network, distribution]
 
     - name: "EXAMPLE: Generate configuration for access layer switches"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/access_layer_config.yml"
             global_filters:
@@ -486,9 +486,9 @@
       tags: [campus_network, access_layer]
 
     - name: "EXAMPLE: Generate configuration for specific building infrastructure"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/building_a_config.yml"
             global_filters:
@@ -509,9 +509,9 @@
     # =============================================================================
 
     - name: "EXAMPLE: Generate audit configuration for compliance review"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/compliance_audit_config.yml"
             global_filters:
@@ -527,9 +527,9 @@
       tags: [maintenance, audit, compliance]
 
     - name: "EXAMPLE: Generate backup configuration for disaster recovery"
-      cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+      cisco.dnac.wired_campus_automation_playbook_config_generator:
         <<: *dnac_login
-        state: merged
+        state: gathered
         config:
           - file_path: "/tmp/dr_backup_config.yml"
             global_filters:
