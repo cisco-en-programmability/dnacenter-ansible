@@ -448,7 +448,7 @@
 
     "playbook_global_filter_apconfig_base": [
         {
-            "file_path": "tmp/brownfield_accesspoint_workflow_playbook_apconfig_base.yml",
+            "file_path": "tmp/accesspoint_workflow_playbook_apconfig_base.yml",
             "global_filters": {
                 "accesspoint_config_list": [
                     "AP3C41.0EFE.21D8",
@@ -460,7 +460,7 @@
 
     "playbook_global_filter_provision_base": [
         {
-            "file_path": "tmp/brownfield_accesspoint_workflow_playbook_hostname_provision_base.yml",
+            "file_path": "tmp/accesspoint_workflow_playbook_hostname_provision_base.yml",
             "global_filters": {
                 "provision_hostname_list": [
                     "AP3C41.0EFE.21D8",
@@ -472,7 +472,7 @@
 
     "playbook_global_filter_site_base": [
         {
-            "file_path": "tmp/brownfield_accesspoint_workflow_playbook_site_base.yml",
+            "file_path": "tmp/accesspoint_workflow_playbook_site_base.yml",
             "global_filters": {
                 "site_list": [
                     "Global/USA/SAN JOSE/SJ_BLD23/FLOOR2",
@@ -484,7 +484,7 @@
 
     "playbook_global_filter_hostname_base": [
         {
-            "file_path": "tmp/brownfield_accesspoint_workflow_playbook_accesspoint_host_provision_base.yml",
+            "file_path": "tmp/accesspoint_workflow_playbook_accesspoint_host_provision_base.yml",
             "global_filters": {
                 "accesspoint_provision_config_list": [
                     "AP3C41.0EFE.21D8",
@@ -496,7 +496,7 @@
 
     "playbook_global_filter_mac_base": [
         {
-            "file_path": "tmp/brownfield_accesspoint_workflow_playbook_mac_address_base.yml",
+            "file_path": "tmp/accesspoint_workflow_playbook_mac_address_base.yml",
             "global_filters": {
                 "accesspoint_provision_config_mac_list": [
                     "14:16:9d:2e:a5:60",

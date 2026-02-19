@@ -8,7 +8,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate Access Point Location workflow playbook
-      cisco.dnac.brownfield_accesspoint_location_playbook_generator:
+      cisco.dnac.accesspoint_location_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -25,13 +25,13 @@
           # ========================================================================================
           # Scenario 1: Generate all all Access Point Location position configurations
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook.yml"
+          - file_path: "tmp/accesspoint_location_workflow_playbook.yml"
             generate_all_configurations: true
 
           # ========================================================================================
           # Scenario 2: Generate Access Point Location configurations based on Site list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook_site_base.yml"
+          - file_path: "tmp/accesspoint_location_workflow_playbook_site_base.yml"
             global_filters:
               site_list:
                 - Global/USA/SAN JOSE/SJ_BLD23/FLOOR1
@@ -41,7 +41,7 @@
           # ========================================================================================
           # Scenario 3: Generate Access Point Location configurations based on Planned AP list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook_PAP_base.yml"
+          - file_path: "tmp/accesspoint_location_workflow_playbook_PAP_base.yml"
             global_filters:
               planned_accesspoint_list:
                 - ap_test_auto-1
@@ -50,7 +50,7 @@
           # ========================================================================================
           # Scenario 4: Generate Access Point Location configurations based on Real ap list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook_real_ap_base.yml"
+          - file_path: "tmp/accesspoint_location_workflow_playbook_real_ap_base.yml"
             global_filters:
               real_accesspoint_list:
                 - AP687D.B402.1614-AP-Test6
@@ -59,7 +59,7 @@
           # ========================================================================================
           # Scenario 5: Generate Access Point Location configurations based on accesspoint model filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook_accesspoint_model_base.yml"
+          - file_path: "tmp/accesspoint_location_workflow_playbook_accesspoint_model_base.yml"
             global_filters:
               accesspoint_model_list:
                 - AP9120E
@@ -68,7 +68,7 @@
           # ========================================================================================
           # Scenario 6: Generate accesspoint location configurations based on mac address list filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_accesspoint_location_workflow_playbook_mac_address_base.yml"
+          - file_path: "tmp/accesspoint_location_workflow_playbook_mac_address_base.yml"
             global_filters:
               mac_address_list:
                 - cc:6e:2a:e1:02:40

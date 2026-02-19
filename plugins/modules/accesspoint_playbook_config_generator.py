@@ -11,7 +11,7 @@ __author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_accesspoint_playbook_generator
+module: accesspoint_playbook_config_generator
 short_description: >-
   Generate YAML configurations playbook for
   'accesspoint_workflow_manager' module.
@@ -20,7 +20,7 @@ description:
     'accesspoint_workflow_manager' module, reducing
     the effort required to manually create Ansible playbooks and
     enabling programmatic modifications.
-  - Supports complete brownfield infrastructure discovery by
+  - Supports complete access point playbook config generation by
     collecting all access point configurations from Cisco Catalyst Center.
   - Enables targeted extraction using filters (site hierarchies,
     provisioned hostnames, AP configurations, or MAC addresses).
@@ -41,7 +41,7 @@ options:
   config:
     description:
       - A list of filters for generating YAML playbook compatible
-        with the 'brownfield_accesspoint_playbook_generator'
+        with the 'accesspoint_playbook_config_generator'
         module.
       - Filters specify which components to include in the YAML
         configuration file.
@@ -63,8 +63,8 @@ options:
             and will use default values if not provided.
           - A default filename will be generated automatically
             if file_path is not specified.
-          - This is useful for complete brownfield infrastructure
-            discovery and documentation.
+          - This is useful for complete access point playbook config
+            generation and documentation.
           - Any provided global_filters will be IGNORED in this
             mode.
         type: bool
@@ -75,9 +75,9 @@ options:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current
             working directory with a default file name
-            'accesspoint_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'.
+            C(<module_name>playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
           - For example,
-            'accesspoint_workflow_manager_playbook_2025-04-22_21-43-26.yml'.
+            'accesspoint_playbook_config_2025-04-22_21-43-26.yml'.
           - Supports both absolute and relative file paths.
         type: str
       global_filters:
@@ -200,7 +200,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Auto-generate YAML Configuration for all Access Point provision and configuration
-  cisco.dnac.brownfield_accesspoint_playbook_generator:
+  cisco.dnac.accesspoint_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -215,7 +215,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration for all Access Point provision and configuration with custom file path
-  cisco.dnac.brownfield_accesspoint_playbook_generator:
+  cisco.dnac.accesspoint_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -227,11 +227,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "tmp/brownfield_accesspoint_workflow_playbook.yml"
+      - file_path: "tmp/accesspoint_workflow_playbook.yml"
         generate_all_configurations: true
 
 - name: Generate YAML Configuration with file path based on site list filters
-  cisco.dnac.brownfield_accesspoint_playbook_generator:
+  cisco.dnac.accesspoint_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -243,14 +243,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "tmp/brownfield_accesspoint_workflow_playbook_site_base.yml"
+      - file_path: "tmp/accesspoint_workflow_playbook_site_base.yml"
         global_filters:
           site_list:
             - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
             - Global/USA/SAN JOSE/SJ_BLD20/FLOOR2
 
 - name: Generate YAML provision config with file path based on hostname list filters
-  cisco.dnac.brownfield_accesspoint_playbook_generator:
+  cisco.dnac.accesspoint_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -268,7 +268,7 @@ EXAMPLES = r"""
             - test_ap_2
 
 - name: Generate YAML Configuration with file path based on hostname list
-  cisco.dnac.brownfield_accesspoint_playbook_generator:
+  cisco.dnac.accesspoint_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -286,7 +286,7 @@ EXAMPLES = r"""
             - Test_ap_2
 
 - name: Generate YAML provision and configuration with default file path based on hostname list
-  cisco.dnac.brownfield_accesspoint_playbook_generator:
+  cisco.dnac.accesspoint_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -304,7 +304,7 @@ EXAMPLES = r"""
             - Test_ap_2
 
 - name: Generate YAML accesspoint provision Configuration based on MAC Address list
-  cisco.dnac.brownfield_accesspoint_playbook_generator:
+  cisco.dnac.accesspoint_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -336,14 +336,14 @@ response_1:
         "YAML config generation Task succeeded for module
          'accesspoint_workflow_manager'.": {
             "file_path":
-             "tmp/brownfield_accesspoint_workflow_playbook_templatebase.yml"
+             "tmp/accesspoint_workflow_playbook_templatebase.yml"
           }
         },
       "msg": {
         "YAML config generation Task succeeded for module
          'accesspoint_workflow_manager'.": {
             "file_path":
-             "tmp/brownfield_accesspoint_workflow_playbook_templatebase.yml"
+             "tmp/accesspoint_workflow_playbook_templatebase.yml"
           }
         }
     }
@@ -428,7 +428,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the brownfield access point playbook.
+        Validates the input configuration parameters for the access point playbook config generator.
 
         This function performs comprehensive validation of playbook configuration parameters,
         ensuring all inputs meet schema requirements, type constraints, and business logic
@@ -493,7 +493,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             - At least one filter must have values when global_filters provided
         """
         self.log(
-            "Starting comprehensive input validation for brownfield access point playbook "
+            "Starting comprehensive input validation for access point playbook config generator "
             "configuration. Validation will check parameter structure, types, and business "
             "logic constraints before proceeding with AP configuration extraction workflow.",
             "INFO"
@@ -596,7 +596,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            self.validate_minimum_requirements(self.config)
+            self.validate_minimum_requirement_for_global_filters(self.config)
             self.log(
                 "Minimum requirements validation passed. Configuration has either "
                 "generate_all_configurations or valid global_filters.",
@@ -735,7 +735,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_params(self, config):
         """
-        Validates individual configuration parameters for brownfield access point generation.
+        Validates individual configuration parameters for access point playbook config generator.
 
         This function performs detailed validation of configuration parameters including
         file path validation and directory creation. It ensures the output file path is
@@ -870,7 +870,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
         Prepares desired state parameters for access point configuration extraction workflow.
 
         This function processes validated configuration data and constructs the 'want' state
-        dictionary that drives the brownfield access point playbook generation workflow. It
+        dictionary that drives the access point playbook config generator workflow. It
         validates parameters, organizes configuration data, and prepares API call parameters
         based on the specified operational state.
 
@@ -879,7 +879,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
                           - file_path (str, optional): Custom YAML output path
                           - generate_all_configurations (bool, optional): Auto-generate mode flag
                           - global_filters (dict, optional): Filter criteria for targeted extraction
-            state (str): Desired operational state ("gathered" for brownfield extraction)
+            state (str): Desired operational state ("gathered" for config extraction)
 
         Returns:
             object: Self instance with updated attributes:
@@ -1023,7 +1023,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             Generate All Mode (generate_all_configurations=true):
                 - Retrieves ALL access points from Catalyst Center
                 - No filtering applied
-                - Discovers complete brownfield infrastructure
+                - Discovers complete wireless access point
                 - Ignores any provided global_filters
 
             Filtered Mode (global_filters provided):
@@ -1106,7 +1106,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log(
                 "Generate all configurations mode detected (generate_all_configurations=True). "
                 "Will retrieve ALL access points from Catalyst Center without applying any filters. "
-                "This mode discovers complete brownfield infrastructure. Any provided global_filters "
+                "This mode discovers complete wireless access point configurations. Any provided global_filters "
                 "will be IGNORED.",
                 "INFO"
             )
@@ -1257,7 +1257,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             "global_filters structure with five filter types: site_list, provision_hostname_list, "
             "accesspoint_config_list, accesspoint_provision_config_list, and "
             "accesspoint_provision_config_mac_list. All filters are optional list[str] types "
-            "enabling flexible AP filtering for brownfield playbook generation.",
+            "enabling flexible AP filtering for playbook config generation.",
             "DEBUG"
         )
 
@@ -1401,7 +1401,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "This indicates either: (1) No Unified APs are registered in Catalyst Center, "
                 "(2) API permissions insufficient to query device inventory, or (3) Device "
                 "family filter 'Unified AP' returned empty results. Verify APs are onboarded "
-                "to Catalyst Center before running brownfield playbook generation."
+                "to Catalyst Center before running access point playbook config generation."
             )
             self.log(self.msg, "WARNING")
             self.status = "success"
@@ -1717,8 +1717,8 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "loop completion. The device collection is empty. This indicates either: (1) No "
                 "access points are onboarded to Catalyst Center, (2) API permissions insufficient "
                 "to query device inventory, or (3) Family filter 'Unified AP' returned no matches. "
-                "Verify access points are registered in Catalyst Center before running brownfield "
-                "playbook generation.",
+                "Verify access points are registered in Catalyst Center before running access point "
+                "playbook config generation.",
                 "WARNING"
             )
 
@@ -2252,12 +2252,12 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Orchestrates brownfield access point configuration gathering and YAML playbook generation.
+        Orchestrates access point playbook config generation.
 
         This function serves as the main workflow orchestrator for the 'gathered' state operation,
         coordinating the execution of YAML configuration generation from existing Catalyst Center
         AP configurations. It manages operation timing, parameter validation, function dispatch,
-        and result aggregation for the brownfield playbook generation workflow.
+        and result aggregation for the playbook config generation workflow.
 
         Args:
             None (uses self.want for operation parameters)
@@ -2290,15 +2290,15 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             - Exceptions: Propagated to caller (main() function)
 
         Notes:
-            - Only "gathered" state currently implemented (brownfield extraction)
+            - Only "gathered" state currently implemented (access point config extraction)
             - Operations list extensible for future state implementations
             - Timing logged at DEBUG level for performance monitoring
             - Empty operations list valid (no-op scenario)
             - check_return_status() may raise exceptions on critical failures
         """
         self.log(
-            "Starting comprehensive brownfield access point configuration gathering and YAML "
-            "playbook generation workflow. This operation will orchestrate YAML config generation "
+            "Starting comprehensive access point configuration gathering and YAML "
+            "playbook config generation workflow. This operation will orchestrate YAML config generation "
             "from existing Catalyst Center AP configurations, including parameter validation, "
             "function dispatch, and result aggregation. Workflow execution time will be tracked "
             "for performance monitoring.",
@@ -2308,7 +2308,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
         start_time = time.time()
         self.log(
             f"Workflow start time recorded: {start_time}. Beginning 'get_diff_gathered' operation "
-            "to process brownfield AP configuration extraction and YAML generation.",
+            "to process access point configuration extraction and YAML generation.",
             "DEBUG"
         )
 
@@ -2428,7 +2428,6 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             Generate All Mode (generate_all_configurations=True):
                 - Retrieves ALL AP configurations from self.have
                 - No filtering applied, ignores global_filters if provided
-                - Discovers complete brownfield infrastructure
                 - Logs warning if global_filters provided (filters ignored)
 
             Filtered Mode (global_filters provided):
@@ -2466,7 +2465,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             "Starting comprehensive YAML playbook generation workflow for access point "
             f"configurations. Input parameters: {yaml_config_generator}. This operation will "
             "process filters, aggregate AP configurations, and generate Ansible-compatible YAML "
-            "playbook file for brownfield infrastructure automation.",
+            "playbook file for access point playbook config automation.",
             "DEBUG"
         )
 
@@ -2476,7 +2475,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log(
                 "Generate all configurations mode enabled (generate_all_configurations=True). Will "
                 "collect ALL access point configurations from Cisco Catalyst Center without applying "
-                "any filter criteria. This mode performs complete brownfield infrastructure discovery.",
+                "any filter criteria. This mode performs complete access point configuration extraction.",
                 "INFO"
             )
 
@@ -3210,14 +3209,14 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 def main():
     """
-    Main entry point for the Cisco Catalyst Center brownfield access point playbook generator module.
+    Main entry point for the Cisco Catalyst Center access point playbook config generator module.
 
     This function serves as the primary execution entry point for the Ansible module,
     orchestrating the complete workflow from parameter collection to YAML playbook
-    generation for brownfield access point configurations.
+    generation for access point configurations.
 
     Purpose:
-        Initializes and executes the brownfield access point playbook generator
+        Initializes and executes the access point playbook config generator
         workflow to extract existing AP configurations from Cisco Catalyst Center
         and generate Ansible-compatible YAML playbook files.
 
@@ -3395,12 +3394,12 @@ def main():
     )
 
     # Initialize the AccessPointPlaybookGenerator object
-    # This creates the main orchestrator for brownfield AP configuration extraction
+    # This creates the main orchestrator for access point configuration extraction
     ccc_accesspoint_playbook_generator = AccessPointPlaybookGenerator(module)
 
     # Log module initialization after object creation (now logging is available)
     ccc_accesspoint_playbook_generator.log(
-        f"Starting Ansible module execution for brownfield access point playbook "
+        f"Starting Ansible module execution for access point playbook config "
         f"generator at timestamp {initialization_timestamp}",
         "INFO"
     )
