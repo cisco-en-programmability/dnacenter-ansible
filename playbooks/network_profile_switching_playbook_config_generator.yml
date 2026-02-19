@@ -8,7 +8,7 @@
     - "credentials.yml"
   tasks:
     - name: Generate Network Switch Profiles workflow playbook
-      cisco.dnac.brownfield_network_profile_switching_playbook_generator:
+      cisco.dnac.network_profile_switching_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -25,13 +25,13 @@
           # ========================================================================================
           # Scenario 1: Generate all all switch profile configurations
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook.yml"
+          - file_path: "tmp/network_profile_switching_workflow_playbook.yml"
             generate_all_configurations: true
 
           # ========================================================================================
           # Scenario 2: Generate switch profile configurations based on profile name global filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_profilebase.yml"
+          - file_path: "tmp/network_profile_switching_workflow_playbook_profilebase.yml"
             global_filters:
               profile_name_list:
                 - Enterprise_Switching_Profile
@@ -40,7 +40,7 @@
           # ========================================================================================
           # Scenario 3: Generate switch profile configurations based on template name global filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_templatebase.yml"
+          - file_path: "tmp/network_profile_switching_workflow_playbook_templatebase.yml"
             global_filters:
               day_n_template_list:
                 - evpn_l2vn_anycast_template
@@ -48,7 +48,7 @@
           # ========================================================================================
           # Scenario 4: Generate switch profile configurations based on site name global filters
           # ========================================================================================
-          - file_path: "tmp/brownfield_network_profile_switching_workflow_playbook_sitebase.yml"
+          - file_path: "tmp/network_profile_switching_workflow_playbook_sitebase.yml"
             global_filters:
               site_list:
                 - Global/USA/SAN JOSE/SJ_BLD21/FLOOR1
