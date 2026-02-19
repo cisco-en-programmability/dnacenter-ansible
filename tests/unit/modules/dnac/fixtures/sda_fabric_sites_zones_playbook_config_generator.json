@@ -217,6 +217,23 @@
       ]
     }
   ],
+  "playbook_config_invalid_site_name": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "fabric_sites"
+        ],
+        "fabric_sites": [
+          {
+            "site_name_hierarchy": "Global/Invalid_Site",
+            "fabric_type": "fabric_site",
+            "authentication_profile": "No Authentication",
+            "is_pub_sub_enabled": false
+          }
+        ]
+      }
+    }
+  ],
   "get_site_details": {
     "response": [
       {

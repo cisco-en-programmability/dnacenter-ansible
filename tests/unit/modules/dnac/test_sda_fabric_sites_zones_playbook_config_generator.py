@@ -46,6 +46,7 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestDnacModule):
     playbook_config_fabric_zones_with_multiple_filters = test_data.get("playbook_config_fabric_zones_with_multiple_filters")
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
+    playbook_config_invalid_site_name = test_data.get("playbook_config_invalid_site_name")
 
     def setUp(self):
         super(TestFabricSitesZonesPlaybookConfigGenerator, self).setUp()
@@ -92,6 +93,12 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_site_details"),
+            ]
+
+        elif "invalid_site_name" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_fabric_site_details"),
+                self.test_data.get("get_empty_fabric_site_details")
             ]
 
         elif "fabric_zones_only" in self._testMethodName:
@@ -431,3 +438,29 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_sda_fabric_sites_zones_playbook_config_generator_invalid_site_name(self, mock_exists, mock_file):
+        """
+        Test case for generating YAML configuration with invalid site name filters for fabric sites.
+
+        This test verifies that the generator skips invalid site name hierarchy instead of failing the module
+        when invalid site name hierarchy filter provided in fabric sites component.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config=self.playbook_config_invalid_site_name
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual("ok", str(result.get('msg').get('status')))
+        self.assertIn("No configurations found for module", str(result.get('msg').get('message')))
