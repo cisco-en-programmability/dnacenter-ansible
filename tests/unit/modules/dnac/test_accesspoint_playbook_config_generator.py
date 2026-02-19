@@ -17,8 +17,8 @@
 #   Madhan Sankaranarayanan <madhansansel@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_accesspoint_playbook_generator`.
-#   These tests cover various scenarios for generating YAML playbooks from brownfield
+#   Unit tests for the Ansible module `accesspoint_playbook_config_generator`.
+#   These tests cover various scenarios for generating YAML playbooks from
 #   access point configurations in Cisco DNA Center.
 
 # Make coding more python3-ish
@@ -26,16 +26,16 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_accesspoint_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import accesspoint_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
+class TestAccesspointPlaybookConfigGenerator(TestDnacModule):
     """
     Docstring for TestBrownfieldAccesspointLocationPlaybookGenerator
     """
-    module = brownfield_accesspoint_playbook_generator
-    test_data = loadPlaybookData("brownfield_accesspoint_playbook_generator")
+    module = accesspoint_playbook_config_generator
+    test_data = loadPlaybookData("accesspoint_playbook_config_generator")
 
     # Load all playbook configurations
     playbook_config_generate_all_config = test_data.get("playbook_config_generate_all_config")
@@ -46,7 +46,7 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
     playbook_global_filter_mac_base = test_data.get("playbook_global_filter_mac_base")
 
     def setUp(self):
-        super(TestBrownfieldAccesspointPlaybookGenerator, self).setUp()
+        super(TestAccesspointPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -60,13 +60,13 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldAccesspointPlaybookGenerator, self).tearDown()
+        super(TestAccesspointPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield accesspoint configuration playbook generator tests.
+        Load fixtures for accesspoint playbook config generator tests.
         """
         for each_filter_type in ["generate_all_configurations",
                                  "generate_global_filter_apconfig",
@@ -84,9 +84,9 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_accesspoint_playbook_generate_all_configurations(self, mock_exists, mock_file):
+    def test_accesspoint_playbook_generate_all_configurations(self, mock_exists, mock_file):
         """
-        Test case for brownfield accesspoint playbook generator when generating all profiles.
+        Test case for accesspoint playbook config generator when generating all profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
         which should retrieve all access point configuration with Provision access points
         and generate a complete YAML playbook profile file.
@@ -110,9 +110,9 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_accesspoint_playbook_generate_global_filter_apconfig(self, mock_exists, mock_file):
+    def test_accesspoint_playbook_generate_global_filter_apconfig(self, mock_exists, mock_file):
         """
-        Test case for the brownfield access point playbook generator when the global
+        Test case for the access point playbook config generator when the global
         filter is based on real access points.
 
         This test case verifies the behavior when the global filter is set to True.
@@ -138,9 +138,9 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_accesspoint_playbook_generate_global_filter_provision(self, mock_exists, mock_file):
+    def test_accesspoint_playbook_generate_global_filter_provision(self, mock_exists, mock_file):
         """
-        Test case for the brownfield access point playbook generator when the global
+        Test case for the access point playbook config generator when the global
         filter is based on planned access points.
 
         This test case verifies the behavior when the global filter is set to True.
@@ -165,9 +165,9 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_accesspoint_playbook_generate_global_filter_site(self, mock_exists, mock_file):
+    def test_accesspoint_playbook_generate_global_filter_site(self, mock_exists, mock_file):
         """
-        Test case for the brownfield access point generator when the global
+        Test case for the access point playbook config generator when the global
         filter is based on floors.
 
         This test case verifies the behavior when the global filter is set to True.
@@ -193,9 +193,9 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_accesspoint_playbook_generate_global_filter_provision_config(self, mock_exists, mock_file):
+    def test_accesspoint_playbook_generate_global_filter_provision_config(self, mock_exists, mock_file):
         """
-        Test case for the brownfield access point playbook generator when the global
+        Test case for the access point playbook config generator when the global
         filter is based on access point models.
 
         This test case verifies the behavior when the global filter is set to True.
@@ -221,9 +221,9 @@ class TestBrownfieldAccesspointPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_brownfield_accesspoint_playbook_generate_global_filter_mac(self, mock_exists, mock_file):
+    def test_accesspoint_playbook_generate_global_filter_mac(self, mock_exists, mock_file):
         """
-        Test case for the brownfield access point playbook generator when the global
+        Test case for the access point playbook config generator when the global
         filter is based on access point mac address.
 
         This test case verifies the behavior when the global filter is set to True.
