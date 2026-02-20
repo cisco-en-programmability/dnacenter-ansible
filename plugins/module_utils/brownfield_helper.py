@@ -1589,7 +1589,7 @@ class BrownFieldHelper:
         )
 
         return site_name_hierarchy
-    
+
     def get_fabric_site_id_name_mapping(self):
         """
         Returns a mapping of fabric site 'id' (fabric_site_id) to site name hierarchy.
