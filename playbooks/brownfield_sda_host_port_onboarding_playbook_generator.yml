@@ -37,7 +37,7 @@
           - generate_all_configurations: true
             file_path: "host_onboarding_playbook.yml"
 
-    - name : Generate YAML Configuration with specific component port assignments filters
+    - name: Generate YAML Configuration with specific component port assignments filters
       cisco.dnac.brownfield_sda_host_port_onboarding_playbook_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"

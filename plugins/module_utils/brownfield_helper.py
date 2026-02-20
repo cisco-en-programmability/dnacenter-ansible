@@ -1589,6 +1589,44 @@ class BrownFieldHelper:
         )
 
         return site_name_hierarchy
+    
+    def get_fabric_site_id_name_mapping(self):
+        """
+        Returns a mapping of fabric site 'id' (fabric_site_id) to site name hierarchy.
+        Example: {"085089aa-5077-440c-bf98-3028f87ce067": "Global/USA/NYC", ...}
+        """
+        self.log("Calling 'get_fabric_sites' from SDA API to retrieve fabric sites.", "DEBUG")
+        try:
+            response = self.dnac._exec(
+                family="sda",
+                function="get_fabric_sites",
+                op_modifies=False,
+                params={}
+            )
+            fabric_sites = response.get("response", [])
+            self.log(f"Retrieved {len(fabric_sites)} fabric sites.", "DEBUG")
+            # Build mapping of fabric_site_id (id) to siteId
+            fabric_id_to_site_id = {
+                site.get("id"): site.get("siteId")
+                for site in fabric_sites
+                if site.get("id") and site.get("siteId")
+            }
+            if not fabric_id_to_site_id:
+                self.log("No fabric site IDs or siteIds found in fabric sites response.", "WARNING")
+                return {}
+            # Get mapping of siteId to nameHierarchy
+            site_id_name_mapping = self.get_site_id_name_mapping(list(fabric_id_to_site_id.values()))
+            # Build final mapping: fabric_site_id -> site name
+            fabric_id_to_name = {
+                fabric_id: site_id_name_mapping.get(site_id)
+                for fabric_id, site_id in fabric_id_to_site_id.items()
+                if site_id in site_id_name_mapping
+            }
+            self.log(f"Fabric site ID to name mapping: {fabric_id_to_name}", "DEBUG")
+            return fabric_id_to_name
+        except Exception as e:
+            self.log(f"Error retrieving fabric site ID-name mapping: {e}", "ERROR")
+            return {}
 
     def get_site_id_name_mapping(self, site_id_list=None):
         """
