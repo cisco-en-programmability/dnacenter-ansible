@@ -55,8 +55,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(sda_fabric_transits_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+          a default file name  C(sda_fabric_transits_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml).
         type: str
       component_specific_filters:
         description:
@@ -231,7 +231,7 @@ response_1:
             "components_processed": 1,
             "components_skipped": 0,
             "configurations_count": 1,
-            "file_path": "sda_fabric_transits_playbook_config_2026-02-19_15-00-13.yml",
+            "file_path": "sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml",
             "message": "YAML configuration file generated successfully for module 'sda_fabric_transits_workflow_manager'",
             "status": "success"
         },
@@ -239,7 +239,7 @@ response_1:
             "components_processed": 1,
             "components_skipped": 0,
             "configurations_count": 1,
-            "file_path": "sda_fabric_transits_playbook_config_2026-02-19_15-00-13.yml",
+            "file_path": "sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml",
             "message": "YAML configuration file generated successfully for module 'sda_fabric_transits_workflow_manager'",
             "status": "success"
         },
