@@ -5748,15 +5748,7 @@ class Template(NetworkProfileFunctions):
         )
         target_info_list = []
         template_dict = {}
-        template_parameters = deploy_temp_details.get("template_parameters")
-        if not template_parameters:
-            self.msg = (
-                "It appears that no template parameters were provided in the playbook. Unfortunately, this "
-                "means we cannot proceed with deploying template '{0}' to the devices."
-            ).format(template_name)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+        template_parameters = deploy_temp_details.get("template_parameters", [])
 
         for param in template_parameters:
             name = param["param_name"]
