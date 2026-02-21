@@ -58,8 +58,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(template_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+          a default file name  C(template_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(template_playbook_config_2026-02-20_13-34-58.yml).
         type: str
       component_specific_filters:
         description:
@@ -325,16 +325,16 @@ response_1:
         "msg": {
             "components_processed": 2,
             "components_skipped": 0,
-            "configurations_count": 23,
-            "file_path": "template_workflow_manager_playbook_2026-01-24_13-46-54.yml",
+            "configurations_count": 25,
+            "file_path": "template_playbook_config_2026-02-20_13-34-58.yml",
             "message": "YAML configuration file generated successfully for module 'template_workflow_manager'",
             "status": "success"
         },
         "response": {
             "components_processed": 2,
             "components_skipped": 0,
-            "configurations_count": 23,
-            "file_path": "template_workflow_manager_playbook_2026-01-24_13-46-54.yml",
+            "configurations_count": 25,
+            "file_path": "template_playbook_config_2026-02-20_13-34-58.yml",
             "message": "YAML configuration file generated successfully for module 'template_workflow_manager'",
             "status": "success"
         },
