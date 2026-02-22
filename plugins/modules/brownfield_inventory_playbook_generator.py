@@ -5,6 +5,7 @@
 
 """Ansible module to generate YAML configurations for Wired Campus Automation Module."""
 from __future__ import absolute_import, division, print_function
+from operator import index
 
 __metaclass__ = type
 __author__ = "Mridul Saurabh, Madhan Sankaranarayanan"
@@ -12,17 +13,14 @@ __author__ = "Mridul Saurabh, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: brownfield_inventory_playbook_generator
-short_description: Generate YAML configurations playbook for 'inventory_workflow_manager' module.
+short_description: Generate YAML playbook input for 'inventory_workflow_manager' module.
 description:
-- Generates YAML configurations compatible with the 'inventory_workflow_manager'
-  module, reducing the effort required to manually create Ansible playbooks and
-  enabling programmatic modifications.
-- The YAML configurations generated represent the network device inventory configurations
-  such as device credentials, management IP addresses, device types, and other device-specific
-  attributes configured on the Cisco Catalyst Center.
-- Automatically generates provision_wired_device configurations by mapping devices to their assigned sites.
-- Automatically fetches and configures interface details for discovered devices using the Catalyst Center API.
-- Only devices with manageable software versions are included in generated configurations.
+- Generates YAML input files for C(cisco.dnac.inventory_workflow_manager).
+- Supports independent component generation for device details, SDA provisioning,
+  interface details, and user-defined fields.
+- Supports global device filters by IP, hostname, serial number, and MAC address.
+- In non-auto mode, provide C(component_specific_filters.components_list) to
+  control which component sections are generated.
 version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
@@ -112,13 +110,26 @@ options:
             - If not specified, all components are included.
             type: list
             elements: str
-            choices: ["device_details", "provision_device", "interface_details"]
+            choices:
+            - device_details
+            - provision_device
+            - interface_details
+            - user_defined_field
           device_details:
             description:
-            - Specific filters for device_details component.
-            - These filters apply after global filters to further refine device selection.
-            - Supports both single filter dict and list of filter dicts with OR logic.
-            type: dict
+            - Filters for device configuration generation.
+            - Accepts a dict or a list of dicts.
+            - List behavior: OR between dict entries.
+            - Dict behavior: AND between filter keys.
+            - Supported keys:
+            - C(type): NETWORK_DEVICE, COMPUTE_DEVICE,
+              MERAKI_DASHBOARD, THIRD_PARTY_DEVICE,
+              FIREPOWER_MANAGEMENT_SYSTEM.
+            - C(role): ACCESS, CORE, DISTRIBUTION, BORDER ROUTER,
+              UNKNOWN.
+            - C(snmp_version): v2, v2c, v3.
+            - C(cli_transport): ssh or telnet.
+            type: raw
             suboptions:
               role:
                 description:
@@ -330,8 +341,8 @@ EXAMPLES = r"""
     state: gathered
     config:
       - component_specific_filters:
-          components_list: ["inventory_workflow_manager"]
-          inventory_workflow_manager:
+          components_list: ["device_details"]
+          device_details:
             - role: "ACCESS"
         file_path: "./inventory_access_role_devices.yml"
 
@@ -490,7 +501,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_filters_schema()
-        # self.site_id_name_dict = self.get_site_id_name_mapping()
         self.module_name = "inventory_workflow_manager"
         self.generate_all_configurations = False  # Initialize the attribute
 
@@ -549,8 +559,9 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: A dictionary representing the schema for workflow filters.
         """
-        self.log("Inside get_workflow_filters_schema function.", "DEBUG")
-        return {
+        self.log("Building workflow filter schema for inventory generation.", "DEBUG")
+
+        schema = {
             "network_elements": {
                 "device_details": {
                     "filters": ["ip_address", "hostname", "serial_number", "role"],
@@ -561,11 +572,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
                 "provision_device": {
                     "filters": ["site_name"],
-                    "is_filter_only": True,  # This component only filters existing provision data, doesn't fetch new data
+                    "is_filter_only": True,
                 },
                 "interface_details": {
                     "filters": ["interface_name"],
-                    "is_filter_only": True,  # This component only controls interface details output, doesn't fetch new data
+                    "is_filter_only": True,
                 },
                 "user_defined_fields": {
                     "filters": ["udf_name"],
@@ -595,35 +606,82 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
             },
             "component_specific_filters": {
+                "components_list": {
+                    "type": "list",
+                    "required": False,
+                    "elements": "str",
+                    "choices": [
+                        "device_details",
+                        "provision_device",
+                        "interface_details",
+                        "user_defined_fields",
+                    ],
+                },
                 "device_details": {
                     "type": {
                         "type": "str",
                         "required": False,
-                        "choices": ["NETWORK_DEVICE", "COMPUTE_DEVICE", "MERAKI_DASHBOARD",
-                                    "THIRD_PARTY_DEVICE", "FIREPOWER_MANAGEMENT_SYSTEM"]
+                        "choices": [
+                            "NETWORK_DEVICE",
+                            "COMPUTE_DEVICE",
+                            "MERAKI_DASHBOARD",
+                            "THIRD_PARTY_DEVICE",
+                            "FIREPOWER_MANAGEMENT_SYSTEM",
+                        ],
                     },
                     "role": {
                         "type": "str",
                         "required": False,
-                        "choices": ["ACCESS", "CORE", "DISTRIBUTION", "BORDER ROUTER", "UNKNOWN"]
+                        "choices": [
+                            "ACCESS",
+                            "CORE",
+                            "DISTRIBUTION",
+                            "BORDER ROUTER",
+                            "UNKNOWN",
+                        ],
                     },
                     "snmp_version": {
                         "type": "str",
                         "required": False,
-                        "choices": ["v2", "v2c", "v3"]
+                        "choices": ["v2", "v2c", "v3"],
                     },
                     "cli_transport": {
                         "type": "str",
                         "required": False,
-                        "choices": ["ssh", "telnet", "SSH", "TELNET"]
-                    }
-                }
-            }
+                        "choices": ["ssh", "telnet", "SSH", "TELNET"],
+                    },
+                },
+                "interface_details": {
+                    "interface_name": {
+                        "type": "list",
+                        "required": False,
+                        "elements": "str",
+                    },
+                },
+                "user_defined_fields": {
+                    "udf_name": {
+                        "type": "list",
+                        "required": False,
+                        "elements": "str",
+                    },
+                },
+            },
         }
 
+        self.log(
+            "Workflow filter schema built with components: {0}".format(
+                list(schema.get("network_elements", {}).keys())
+            ),
+            "DEBUG",
+        )
+
+        return schema
+    
     def fetch_all_devices(self, reason=""):
         """
-        Fetch all devices from Cisco Catalyst Center API.
+        Fetch all devices from Cisco Catalyst Center API with pagination support.
+        Handles large device inventories (500+ devices) by paginating through results.
+        Deduplicates devices by UUID to prevent duplicate entries.
 
         Args:
             reason (str): Optional reason for fetching all devices (for logging)
@@ -631,179 +689,634 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of all device dictionaries from API
         """
-        self.log("Fetching all devices from Catalyst Center{0}".format(
-            " - {0}".format(reason) if reason else ""
-        ), "INFO")
+        self.log(
+            "Starting device inventory retrieval for playbook generation. "
+            "Reason: {0}".format(reason if reason else "not provided"),
+            "INFO",
+        )
+
+        all_devices = []
+        seen_device_ids = set()
+        offset = 1
+        limit = 500
+        page_number = 1
 
         try:
-            response = self.dnac._exec(
-                family="devices",
-                function="get_device_list",
-                op_modifies=False,
-                params={}
-            )
+            while True:
+                request_params = {"offset": offset, "limit": limit}
+                self.log(
+                    "Requesting device inventory page {0} with offset={1}, limit={2}".format(
+                        page_number, offset, limit
+                    ),
+                    "DEBUG",
+                )
 
-            if response and "response" in response:
-                devices = response.get("response", [])
-                self.log("Retrieved {0} devices from get_device_list".format(len(devices)), "INFO")
+                response = self.dnac._exec(
+                    family="devices",
+                    function="get_device_list",
+                    op_modifies=False,
+                    params=request_params,
+                )
 
-                if devices:
-                    self.log("Sample device fields from API: {0}".format(list(devices[0].keys())), "INFO")
-                    self.log("Sample device full data: {0}".format(devices[0]), "DEBUG")
+                if not isinstance(response, dict):
+                    self.msg = (
+                        "Invalid device inventory response type: expected dict, got {0}".format(
+                            type(response).__name__
+                        )
+                    )
+                    self.status = "failed"
+                    self.log(self.msg, "ERROR")
+                    return []
 
-                return devices
+                page_devices = response.get("response", [])
+                if page_devices is None:
+                    page_devices = []
+
+                if isinstance(page_devices, dict):
+                    page_devices = [page_devices]
+                elif not isinstance(page_devices, list):
+                    self.msg = (
+                        "Invalid device inventory payload type under 'response': "
+                        "expected list or dict, got {0}".format(type(page_devices).__name__)
+                    )
+                    self.status = "failed"
+                    self.log(self.msg, "ERROR")
+                    return []
+
+                if not page_devices:
+                    self.log(
+                        "No additional devices returned from API. Pagination complete at page {0}.".format(
+                            page_number
+                        ),
+                        "DEBUG",
+                    )
+                    break
+
+                added_count = 0
+                for device in page_devices:
+                    if not isinstance(device, dict):
+                        continue
+
+                    device_id = device.get("id") or device.get("instanceUuid")
+                    if device_id and device_id in seen_device_ids:
+                        continue
+
+                    if device_id:
+                        seen_device_ids.add(device_id)
+
+                    all_devices.append(device)
+                    added_count += 1
+
+                self.log(
+                    "Processed page {0}: received={1}, added={2}, cumulative_total={3}".format(
+                        page_number, len(page_devices), added_count, len(all_devices)
+                    ),
+                    "INFO",
+                )
+
+                if len(page_devices) < limit:
+                    self.log(
+                        "Last page detected because returned records are fewer than the page limit.",
+                        "DEBUG",
+                    )
+                    break
+
+                offset += limit
+                page_number += 1
+
+            if all_devices:
+                sample_fields = sorted(all_devices[0].keys())
+                self.log(
+                    "Completed device inventory retrieval. Total devices collected: {0}".format(
+                        len(all_devices)
+                    ),
+                    "INFO",
+                )
+                self.log(
+                    "Sample fields available in retrieved device payload: {0}".format(
+                        sample_fields
+                    ),
+                    "DEBUG",
+                )
             else:
-                self.log("No devices returned from get_device_list", "WARNING")
-                return []
+                self.log(
+                    "Completed device inventory retrieval with no devices returned.",
+                    "WARNING",
+                )
+
+            return all_devices
 
         except Exception as e:
-            self.log("Error fetching all devices: {0}".format(str(e)), "ERROR")
+            self.msg = "Failed to retrieve device inventory from Catalyst Center: {0}".format(
+                str(e)
+            )
+            self.status = "failed"
+            self.log(self.msg, "ERROR")
             return []
 
     def process_global_filters(self, global_filters):
         """
-        Process global filters to retrieve device information from Cisco Catalyst Center.
+        Retrieve device details for the provided global filters.
 
         Args:
-            global_filters (dict): Dictionary containing ip_address_list, hostname_list, serial_number_list, or mac_address_list
+            global_filters (dict): Filter dictionary with optional keys:
+                ip_address_list, hostname_list, serial_number_list, mac_address_list.
 
         Returns:
-            dict: Dictionary containing device_ip_to_id_mapping with device details
+            dict: {"device_ip_to_id_mapping": {<device_ip>: <device_info_dict>}}
         """
-        self.log("Starting process_global_filters with filters: {0}".format(global_filters), "DEBUG")
+        self.log(
+            "Collecting device inventory using global filter input: {0}".format(global_filters),
+            "DEBUG",
+        )
 
         device_ip_to_id_mapping = {}
+        lookup_errors = 0
+
+        def normalize_filter_values(filter_name):
+            """Normalize filter values to a unique, non-empty string list."""
+            raw_value = (global_filters or {}).get(filter_name)
+
+            if raw_value is None:
+                return []
+
+            if isinstance(raw_value, str):
+                raw_value = [raw_value]
+
+            if not isinstance(raw_value, list):
+                self.log(
+                    "Skipping filter '{0}' because the value type is invalid: {1}".format(
+                        filter_name, type(raw_value).__name__
+                    ),
+                    "WARNING",
+                )
+                return []
+
+            normalized = []
+            for item in raw_value:
+                if not isinstance(item, str):
+                    self.log(
+                        "Ignoring non-string value in filter '{0}': {1}".format(
+                            filter_name, item
+                        ),
+                        "WARNING",
+                    )
+                    continue
+                item = item.strip()
+                if item:
+                    normalized.append(item)
+
+            return list(dict.fromkeys(normalized))
+
+        def add_device_to_mapping(device_info, filter_name, filter_value):
+            """Add or refresh a device entry in the IP-to-device mapping."""
+            if not isinstance(device_info, dict):
+                return
+
+            device_ip = device_info.get("managementIpAddress") or device_info.get("ipAddress")
+            if not device_ip:
+                self.log(
+                    "Skipping device from {0}='{1}' because management IP is missing".format(
+                        filter_name, filter_value
+                    ),
+                    "WARNING",
+                )
+                return
+
+            existing_device = device_ip_to_id_mapping.get(device_ip)
+            if existing_device is None:
+                device_ip_to_id_mapping[device_ip] = device_info
+                self.log(
+                    "Added device '{0}' from {1}='{2}'".format(
+                        device_ip, filter_name, filter_value
+                    ),
+                    "DEBUG",
+                )
+                return
+
+            existing_keys = len(existing_device.keys()) if isinstance(existing_device, dict) else 0
+            current_keys = len(device_info.keys())
+            if current_keys > existing_keys:
+                device_ip_to_id_mapping[device_ip] = device_info
+                self.log(
+                    "Refreshed device '{0}' with richer payload from {1}='{2}'".format(
+                        device_ip, filter_name, filter_value
+                    ),
+                    "DEBUG",
+                )
+
+        def fetch_devices_by_query(param_key, param_value, filter_name):
+            """
+            Fetch devices from get_device_list with pagination for one filter value.
+            """
+            nonlocal lookup_errors
+            offset = 1
+            limit = 500
+            page_number = 1
+
+            while True:
+                request_params = {param_key: param_value, "offset": offset, "limit": limit}
+                self.log(
+                    "Querying devices for {0}='{1}', page={2}, offset={3}, limit={4}".format(
+                        filter_name, param_value, page_number, offset, limit
+                    ),
+                    "DEBUG",
+                )
+
+                try:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function="get_device_list",
+                        op_modifies=False,
+                        params=request_params,
+                    )
+                except Exception as error:
+                    lookup_errors += 1
+                    self.log(
+                        "Device lookup failed for {0}='{1}': {2}".format(
+                            filter_name, param_value, str(error)
+                        ),
+                        "ERROR",
+                    )
+                    return
+
+                if not isinstance(response, dict):
+                    lookup_errors += 1
+                    self.log(
+                        "Skipping {0}='{1}' because API response type is invalid: {2}".format(
+                            filter_name, param_value, type(response).__name__
+                        ),
+                        "WARNING",
+                    )
+                    return
+
+                records = response.get("response", [])
+                if records is None:
+                    records = []
+                elif isinstance(records, dict):
+                    records = [records]
+                elif not isinstance(records, list):
+                    lookup_errors += 1
+                    self.log(
+                        "Skipping {0}='{1}' because response payload type is invalid: {2}".format(
+                            filter_name, param_value, type(records).__name__
+                        ),
+                        "WARNING",
+                    )
+                    return
+
+                if not records:
+                    self.log(
+                        "No additional devices found for {0}='{1}'".format(
+                            filter_name, param_value
+                        ),
+                        "DEBUG",
+                    )
+                    return
+
+                for device_info in records:
+                    add_device_to_mapping(device_info, filter_name, param_value)
+
+                if len(records) < limit:
+                    return
+
+                offset += limit
+                page_number += 1
 
         try:
-            # Extract filter lists
-            ip_address_list = global_filters.get("ip_address_list", [])
-            hostname_list = global_filters.get("hostname_list", [])
-            serial_number_list = global_filters.get("serial_number_list", [])
-            mac_address_list = global_filters.get("mac_address_list", [])
+            ip_address_list = normalize_filter_values("ip_address_list")
+            hostname_list = normalize_filter_values("hostname_list")
+            serial_number_list = normalize_filter_values("serial_number_list")
+            mac_address_list = normalize_filter_values("mac_address_list")
 
             self.log(
-                "Extracted filters - IPs: {0}, Hostnames: {1}, Serials: {2}, MACs: {3}".format(
-                    len(ip_address_list), len(hostname_list), len(serial_number_list), len(mac_address_list)
+                "Prepared filter counts for inventory lookup: ips={0}, hostnames={1}, "
+                "serials={2}, macs={3}".format(
+                    len(ip_address_list),
+                    len(hostname_list),
+                    len(serial_number_list),
+                    len(mac_address_list),
                 ),
                 "INFO",
             )
 
-            # If no filters provided, return empty mapping
-            # The calling function will handle retrieving all devices
-            if not ip_address_list and not hostname_list and not serial_number_list and not mac_address_list:
-                self.log("No specific filters provided", "DEBUG")
+            if (
+                not ip_address_list
+                and not hostname_list
+                and not serial_number_list
+                and not mac_address_list
+            ):
+                self.log(
+                    "No valid global filters provided. Returning empty device mapping.",
+                    "DEBUG",
+                )
                 return {"device_ip_to_id_mapping": {}}
 
-            # Process IP address filters
-            if ip_address_list:
-                self.log("Processing {0} IP addresses".format(len(ip_address_list)), "INFO")
-                for ip_address in ip_address_list:
-                    try:
-                        self.log("Fetching device details for IP: {0}".format(ip_address), "DEBUG")
-                        response = self.dnac._exec(
-                            family="devices",
-                            function="get_network_device_by_ip",
-                            params={"ip_address": ip_address}
-                        )
+            for ip_address in ip_address_list:
+                self.log(
+                    "Looking up device details for management IP '{0}'".format(ip_address),
+                    "DEBUG",
+                )
+                try:
+                    response = self.dnac._exec(
+                        family="devices",
+                        function="get_network_device_by_ip",
+                        op_modifies=False,
+                        params={"ip_address": ip_address},
+                    )
+                except Exception as error:
+                    lookup_errors += 1
+                    self.log(
+                        "Management IP lookup failed for '{0}': {1}".format(
+                            ip_address, str(error)
+                        ),
+                        "ERROR",
+                    )
+                    continue
 
-                        if response and response.get("response"):
-                            device_info = response["response"]
-                            device_ip = device_info.get("managementIpAddress") or device_info.get("ipAddress")
-                            if device_ip:
-                                device_ip_to_id_mapping[device_ip] = device_info
-                                self.log("Added device with IP: {0}".format(device_ip), "DEBUG")
-                        else:
-                            self.log("No device found for IP: {0}".format(ip_address), "WARNING")
+                if not isinstance(response, dict):
+                    lookup_errors += 1
+                    self.log(
+                        "Skipping IP '{0}' because API response type is invalid: {1}".format(
+                            ip_address, type(response).__name__
+                        ),
+                        "WARNING",
+                    )
+                    continue
 
-                    except Exception as e:
-                        self.log("Error fetching device by IP {0}: {1}".format(ip_address, str(e)), "ERROR")
+                device_payload = response.get("response")
+                if isinstance(device_payload, list):
+                    for device_info in device_payload:
+                        add_device_to_mapping(device_info, "ip_address_list", ip_address)
+                elif isinstance(device_payload, dict):
+                    add_device_to_mapping(device_payload, "ip_address_list", ip_address)
+                else:
+                    self.log(
+                        "No device found for management IP '{0}'".format(ip_address),
+                        "WARNING",
+                    )
 
-            # Process hostname filters
-            if hostname_list:
-                self.log("Processing {0} hostnames".format(len(hostname_list)), "INFO")
-                for hostname in hostname_list:
-                    try:
-                        self.log("Fetching device details for hostname: {0}".format(hostname), "DEBUG")
-                        response = self.dnac._exec(
-                            family="devices",
-                            function="get_device_list",
-                            params={"hostname": hostname}
-                        )
+            for hostname in hostname_list:
+                fetch_devices_by_query("hostname", hostname, "hostname_list")
 
-                        if response and response.get("response"):
-                            devices = response["response"]
-                            for device_info in devices:
-                                device_ip = device_info.get("managementIpAddress") or device_info.get("ipAddress")
-                                if device_ip:
-                                    device_ip_to_id_mapping[device_ip] = device_info
-                                    self.log("Added device with hostname: {0}, IP: {1}".format(hostname, device_ip), "DEBUG")
-                        else:
-                            self.log("No device found for hostname: {0}".format(hostname), "WARNING")
+            for serial_number in serial_number_list:
+                fetch_devices_by_query("serialNumber", serial_number, "serial_number_list")
 
-                    except Exception as e:
-                        self.log("Error fetching device by hostname {0}: {1}".format(hostname, str(e)), "ERROR")
-
-            # Process serial number filters
-            if serial_number_list:
-                self.log("Processing {0} serial numbers".format(len(serial_number_list)), "INFO")
-                for serial_number in serial_number_list:
-                    try:
-                        self.log("Fetching device details for serial: {0}".format(serial_number), "DEBUG")
-                        response = self.dnac._exec(
-                            family="devices",
-                            function="get_device_list",
-                            params={"serial_number": serial_number}
-                        )
-
-                        if response and response.get("response"):
-                            devices = response["response"]
-                            for device_info in devices:
-                                device_ip = device_info.get("managementIpAddress") or device_info.get("ipAddress")
-                                if device_ip:
-                                    device_ip_to_id_mapping[device_ip] = device_info
-                                    self.log("Added device with serial: {0}, IP: {1}".format(serial_number, device_ip), "DEBUG")
-                        else:
-                            self.log("No device found for serial number: {0}".format(serial_number), "WARNING")
-
-                    except Exception as e:
-                        self.log("Error fetching device by serial {0}: {1}".format(serial_number, str(e)), "ERROR")
-
-            # Process MAC address filters
-            if mac_address_list:
-                self.log("Processing {0} MAC addresses".format(len(mac_address_list)), "INFO")
-                for mac_address in mac_address_list:
-                    try:
-                        self.log("Fetching device details for MAC: {0}".format(mac_address), "DEBUG")
-                        response = self.dnac._exec(
-                            family="devices",
-                            function="get_device_list",
-                            params={"macAddress": mac_address}
-                        )
-
-                        if response and response.get("response"):
-                            devices = response["response"]
-                            for device_info in devices:
-                                device_ip = device_info.get("managementIpAddress") or device_info.get("ipAddress")
-                                if device_ip:
-                                    device_ip_to_id_mapping[device_ip] = device_info
-                                    self.log("Added device with MAC: {0}, IP: {1}".format(mac_address, device_ip), "DEBUG")
-                        else:
-                            self.log("No device found for MAC address: {0}".format(mac_address), "WARNING")
-
-                    except Exception as e:
-                        self.log("Error fetching device by MAC {0}: {1}".format(mac_address, str(e)), "ERROR")
+            for mac_address in mac_address_list:
+                fetch_devices_by_query("macAddress", mac_address, "mac_address_list")
 
             self.log(
-                "Completed process_global_filters. Found {0} unique devices".format(
-                    len(device_ip_to_id_mapping)
-                ),
+                "Completed inventory lookup using global filters. Matched devices={0}, "
+                "lookup_errors={1}".format(len(device_ip_to_id_mapping), lookup_errors),
                 "INFO",
             )
+
             return {"device_ip_to_id_mapping": device_ip_to_id_mapping}
 
-        except Exception as e:
-            self.log("Error in process_global_filters: {0}".format(str(e)), "ERROR")
+        except Exception as error:
+            self.log(
+                "Global filter processing failed unexpectedly: {0}".format(str(error)),
+                "ERROR",
+            )
             return {"device_ip_to_id_mapping": {}}
+
+    def _get_device_mapping_spec(self):
+        """
+        Build and return the device field mapping specification.
+        Defines transformation rules for mapping Catalyst Center API device fields
+        to inventory_workflow_manager playbook format.
+
+        Returns:
+            OrderedDict: Mapping specification with field definitions and transform functions
+        """
+        # Valid enumeration values
+        valid_device_types = {
+            "NETWORK_DEVICE",
+            "COMPUTE_DEVICE",
+            "MERAKI_DASHBOARD",
+            "THIRD_PARTY_DEVICE",
+            "FIREPOWER_MANAGEMENT_SYSTEM",
+        }
+        valid_snmp_modes = {"NOAUTHNOPRIV", "AUTHNOPRIV", "AUTHPRIV"}
+
+        # Helper transformation functions
+        def parse_int(value, default):
+            try:
+                return int(value)
+            except (TypeError, ValueError):
+                return default
+
+        def normalize_device_type(value):
+            if isinstance(value, str):
+                normalized = value.strip().upper()
+                if normalized in valid_device_types:
+                    return normalized
+            return "NETWORK_DEVICE"
+
+        def normalize_cli_transport(value):
+            if not value:
+                return "ssh"
+            normalized = str(value).strip().lower()
+            return normalized if normalized in {"ssh", "telnet"} else "ssh"
+
+        def normalize_snmp_version(value):
+            if not value:
+                return "v2"
+            normalized = str(value).strip().lower()
+            if normalized in {"v2", "v2c"}:
+                return "v2"
+            if normalized == "v3":
+                return "v3"
+            return "v2"
+
+        def normalize_snmp_mode(value):
+            if isinstance(value, str):
+                normalized = value.strip().upper()
+                if normalized in valid_snmp_modes:
+                    return normalized
+            return "{{ item.snmp_mode }}"
+
+        def value_or_template(value, template):
+            return value if value not in (None, "") else template
+
+        def normalize_bool(value, default=False):
+            if isinstance(value, bool):
+                return value
+            if isinstance(value, str):
+                lowered = value.strip().lower()
+                if lowered in {"true", "yes", "1"}:
+                    return True
+                if lowered in {"false", "no", "0"}:
+                    return False
+            return default
+
+        # Device field mapping specification
+        mapping_spec = OrderedDict(
+            {
+                "ip_address_list": {
+                    "type": "list",
+                    "source_key": "managementIpAddress",
+                    "transform": lambda x: [x] if x else [],
+                },
+                "type": {
+                    "type": "str",
+                    "source_key": "type",
+                    "transform": normalize_device_type,
+                },
+                "role": {
+                    "type": "str",
+                    "source_key": "role",
+                    "transform": lambda x: x if x else None,
+                },
+                "cli_transport": {
+                    "type": "str",
+                    "source_key": "cliTransport",
+                    "transform": normalize_cli_transport,
+                },
+                "netconf_port": {
+                    "type": "str",
+                    "source_key": "netconfPort",
+                    "transform": lambda x: str(x) if x not in (None, "") else "830",
+                },
+                "snmp_mode": {
+                    "type": "str",
+                    "source_key": "snmpMode",
+                    "transform": normalize_snmp_mode,
+                },
+                "snmp_ro_community": {
+                    "type": "str",
+                    "source_key": "snmpRoCommunity",
+                    "transform": lambda x: value_or_template(x, "{{ item.snmp_ro_community }}"),
+                },
+                "snmp_rw_community": {
+                    "type": "str",
+                    "source_key": "snmpRwCommunity",
+                    "transform": lambda x: value_or_template(x, "{{ item.snmp_rw_community }}"),
+                },
+                "snmp_username": {
+                    "type": "str",
+                    "source_key": "snmpUsername",
+                    "transform": lambda x: value_or_template(x, "{{ item.snmp_username }}"),
+                },
+                "snmp_auth_protocol": {
+                    "type": "str",
+                    "source_key": "snmpAuthProtocol",
+                    "transform": lambda x: value_or_template(x, "{{ item.snmp_auth_protocol }}"),
+                },
+                "snmp_priv_protocol": {
+                    "type": "str",
+                    "source_key": "snmpPrivProtocol",
+                    "transform": lambda x: value_or_template(x, "{{ item.snmp_priv_protocol }}"),
+                },
+                "snmp_retry": {
+                    "type": "int",
+                    "source_key": "snmpRetry",
+                    "transform": lambda x: parse_int(x, 3),
+                },
+                "snmp_timeout": {
+                    "type": "int",
+                    "source_key": "snmpTimeout",
+                    "transform": lambda x: parse_int(x, 5),
+                },
+                "snmp_version": {
+                    "type": "str",
+                    "source_key": "snmpVersion",
+                    "transform": normalize_snmp_version,
+                },
+                "http_username": {
+                    "type": "str",
+                    "source_key": "httpUserName",
+                    "transform": lambda x: value_or_template(x, "{{ item.http_username }}"),
+                },
+                "http_password": {
+                    "type": "str",
+                    "source_key": "httpPassword",
+                    "transform": lambda x: value_or_template(x, "{{ item.http_password }}"),
+                },
+                "http_port": {
+                    "type": "str",
+                    "source_key": "httpPort",
+                    "transform": lambda x: str(x) if x not in (None, "") else "{{ item.http_port }}",
+                },
+                "http_secure": {
+                    "type": "bool",
+                    "source_key": "httpSecure",
+                    "transform": lambda x: normalize_bool(x, default=False),
+                },
+                "username": {
+                    "type": "str",
+                    "source_key": None,
+                    "transform": lambda x: "{{ item.username }}",
+                },
+                "password": {
+                    "type": "str",
+                    "source_key": None,
+                    "transform": lambda x: "{{ item.password }}",
+                },
+                "enable_password": {
+                    "type": "str",
+                    "source_key": None,
+                    "transform": lambda x: "{{ item.enable_password }}",
+                },
+                "snmp_auth_passphrase": {
+                    "type": "str",
+                    "source_key": None,
+                    "transform": lambda x: "{{ item.snmp_auth_passphrase }}",
+                },
+                "snmp_priv_passphrase": {
+                    "type": "str",
+                    "source_key": None,
+                    "transform": lambda x: "{{ item.snmp_priv_passphrase }}",
+                },
+                "credential_update": {
+                    "type": "bool",
+                    "source_key": None,
+                    "transform": lambda x: False,
+                },
+                "clean_config": {
+                    "type": "bool",
+                    "source_key": None,
+                    "transform": lambda x: False,
+                },
+                "device_resync": {
+                    "type": "bool",
+                    "source_key": None,
+                    "transform": lambda x: False,
+                },
+                "reboot_device": {
+                    "type": "bool",
+                    "source_key": None,
+                    "transform": lambda x: False,
+                },
+                "add_user_defined_field": {
+                    "type": "list",
+                    "elements": "dict",
+                    "name": {"type": "str"},
+                    "description": {"type": "str"},
+                    "value": {"type": "str"},
+                },
+                "provision_wired_device": {
+                    "type": "list",
+                    "elements": "dict",
+                    "device_ip": {"type": "str"},
+                    "site_name": {"type": "str"},
+                    "resync_retry_count": {"default": 200, "type": "int"},
+                    "resync_retry_interval": {"default": 2, "type": "int"},
+                },
+                "update_interface_details": {
+                    "type": "dict",
+                    "description": {"type": "str"},
+                    "vlan_id": {"type": "int"},
+                    "voice_vlan_id": {"type": "int"},
+                    "interface_name": {"type": "list", "elements": "str"},
+                    "deployment_mode": {"default": "Deploy", "type": "str"},
+                    "clear_mac_address_table": {"default": False, "type": "bool"},
+                    "admin_status": {"type": "str"},
+                },
+            }
+        )
+
+        return mapping_spec
 
     def inventory_get_device_reverse_mapping(self):
         """
@@ -812,216 +1325,21 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Maps device attributes from API response to playbook configuration structure.
         Includes only fields needed for inventory_workflow_manager module.
         """
-        return OrderedDict({
-            # Device IP Address (required for inventory_workflow_manager)
-            "ip_address_list": {
-                "type": "list",
-                "source_key": "managementIpAddress",
-                "transform": lambda x: [x] if x else []
-            },
+        self.log(
+            "Preparing reverse mapping rules for device inventory transformation.",
+            "DEBUG",
+        )
 
-            # Device Type (required)
-            "type": {
-                "type": "str",
-                "source_key": "type",
-                "transform": lambda x: x if x else None
-            },
+        mapping_spec = self._get_device_mapping_spec()
 
-            # Device Role
-            "role": {
-                "type": "str",
-                "source_key": "role",
-                "transform": lambda x: x if x else None
-            },
+        self.log(
+            "Prepared reverse mapping rules for {0} device fields.".format(
+                len(mapping_spec)
+            ),
+            "DEBUG",
+        )
 
-            # CLI Transport (ssh/telnet)
-            "cli_transport": {
-                "type": "str",
-                "source_key": "cliTransport",
-                "transform": lambda x: x.lower() if x else "ssh"
-            },
-
-            # NETCONF Port
-            "netconf_port": {
-                "type": "str",
-                "source_key": "netconfPort",
-                "transform": lambda x: str(x) if x else "830"
-            },
-
-            # SNMP Mode
-            "snmp_mode": {
-                "type": "str",
-                "source_key": "snmpVersion",
-                "transform": lambda x: x if x else "{{ item.snmp_mode }}"
-            },
-
-            # SNMP Read-Only Community (for v2/v2c)
-            "snmp_ro_community": {
-                "type": "str",
-                "source_key": "snmpRoCommunity",
-                "transform": lambda x: x if x else "{{ item.snmp_ro_community }}"
-            },
-
-            # SNMP Read-Write Community (for v2/v2c)
-            "snmp_rw_community": {
-                "type": "str",
-                "source_key": "snmpRwCommunity",
-                "transform": lambda x: x if x else "{{ item.snmp_rw_community }}"
-            },
-
-            # SNMP Username (for v3)
-            "snmp_username": {
-                "type": "str",
-                "source_key": "snmpUsername",
-                "transform": lambda x: x if x else "{{ item.snmp_username }}"
-            },
-
-            # SNMP Auth Protocol (for v3)
-            "snmp_auth_protocol": {
-                "type": "str",
-                "source_key": "snmpAuthProtocol",
-                "transform": lambda x: x if x else "{{ item.snmp_auth_protocol }}"
-            },
-
-            # SNMP Privacy Protocol (for v3)
-            "snmp_priv_protocol": {
-                "type": "str",
-                "source_key": "snmpPrivProtocol",
-                "transform": lambda x: x if x else "{{ item.snmp_priv_protocol }}"
-            },
-
-            # SNMP Retry Count
-            "snmp_retry": {
-                "type": "int",
-                "source_key": "snmpRetry",
-                "transform": lambda x: int(x) if x else 3
-            },
-
-            # SNMP Timeout
-            "snmp_timeout": {
-                "type": "int",
-                "source_key": "snmpTimeout",
-                "transform": lambda x: int(x) if x else 5
-            },
-
-            # SNMP Version (alternate field name)
-            "snmp_version": {
-                "type": "str",
-                "source_key": "snmpVersion",
-                "transform": lambda x: x if x else "v2"
-            },
-
-            # HTTP Parameters (for specific device types)
-            "http_username": {
-                "type": "str",
-                "source_key": "httpUserName",
-                "transform": lambda x: x if x else "{{ item.http_username }}"
-            },
-
-            "http_password": {
-                "type": "str",
-                "source_key": "httpPassword",
-                "transform": lambda x: x if x else "{{ item.http_password }}"
-            },
-
-            "http_port": {
-                "type": "str",
-                "source_key": "httpPort",
-                "transform": lambda x: str(x) if x else "{{ item.http_port }}"
-            },
-
-            "http_secure": {
-                "type": "bool",
-                "source_key": "httpSecure",
-                "transform": lambda x: x if x is not None else "{{ item.http_secure }}"
-            },
-
-            # Credential fields - NOT available from API (security reasons)
-            # These must be provided by user in vars_files
-            "username": {
-                "type": "str",
-                "source_key": None,
-                "transform": lambda x: "{{ item.username }}"  # Template variable from vars_files
-            },
-
-            "password": {
-                "type": "str",
-                "source_key": None,
-                "transform": lambda x: "{{ item.password }}"  # Template variable from vars_files
-            },
-
-            "enable_password": {
-                "type": "str",
-                "source_key": None,
-                "transform": lambda x: "{{ item.enable_password }}"  # Template variable from vars_files
-            },
-
-            "snmp_auth_passphrase": {
-                "type": "str",
-                "source_key": None,
-                "transform": lambda x: "{{ item.snmp_auth_passphrase }}"  # Template variable from vars_files
-            },
-
-            "snmp_priv_passphrase": {
-                "type": "str",
-                "source_key": None,
-                "transform": lambda x: "{{ item.snmp_priv_passphrase }}"  # Template variable from vars_files
-            },
-
-            # Device operation flags
-            "credential_update": {
-                "type": "bool",
-                "source_key": None,
-                "transform": lambda x: "{{ item.credential_update }}"  # Template variable from vars_files
-            },
-
-            "clean_config": {
-                "type": "bool",
-                "source_key": None,
-                "transform": lambda x: False  # Default to False
-            },
-
-            "device_resync": {
-                "type": "bool",
-                "source_key": None,
-                "transform": lambda x: False  # Default to False
-            },
-
-            "reboot_device": {
-                "type": "bool",
-                "source_key": None,
-                "transform": lambda x: False  # Default to False
-            },
-
-            # Complex nested structures - user must provide in vars_files
-            "add_user_defined_field": {
-                "type": "list",
-                "elements": "dict",
-                "name": {"type": "str"},
-                "description": {"type": "str"},
-                "value": {"type": "str"},
-            },
-
-            "provision_wired_device": {
-                "type": "list",
-                "elements": "dict",
-                "device_ip": {"type": "str"},
-                "site_name": {"type": "str"},
-                "resync_retry_count": {"default": 200, "type": "int"},
-                "resync_retry_interval": {"default": 2, "type": "int"},
-            },
-
-            "update_interface_details": {
-                "type": "dict",
-                "description": {"type": "str"},
-                "vlan_id": {"type": "int"},
-                "voice_vlan_id": {"type": "int"},
-                "interface_name": {"type": "list", "elements": "str"},
-                "deployment_mode": {"default": "Deploy", "type": "str"},
-                "clear_mac_address_table": {"default": False, "type": "bool"},
-                "admin_status": {"type": "str"},
-            }
-        })
+        return mapping_spec
 
     def fetch_device_site_mapping(self, device_id):
         """
@@ -2269,60 +2587,94 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of consolidated device configurations with merged IP addresses
         """
-        self.log("Starting transformation of {0} devices into CONSOLIDATED configurations".format(
-            len(device_response)
-        ), "INFO")
+
+        # Input validation
+        if not isinstance(reverse_mapping_spec, dict):
+            self.log("Invalid reverse mapping specification. Expected dictionary input.", "ERROR")
+            return []
+
+        if device_response is None:
+            self.log("No device data available for transformation.", "WARNING")
+            return []
+
+        if not isinstance(device_response, list):
+            self.log("Invalid device response format. Expected list input.", "ERROR")
+            return []
+
+        if not device_response:
+            self.log("Empty device list received for transformation.", "INFO")
+            return []
+        
+        self.log(
+            "Transforming {0} devices into consolidated playbook configurations.".format(
+                len(device_response)
+            ),
+            "INFO",
+        )
 
         # First pass: Transform each device to playbook format
         transformed_devices = []
-        for device_index, device in enumerate(device_response):
-            self.log("Processing device {0}/{1}: {2}".format(
-                device_index + 1,
-                len(device_response),
-                device.get('hostname', 'Unknown')
-            ), "DEBUG")
+        optional_nested_keys = ["add_user_defined_field", "provision_wired_device", "update_interface_details"]
+        
+        for device_index, device in enumerate(device_response, start=1):
+            if not isinstance(device, dict):
+                self.log(
+                    "Skipping invalid device payload at index {0}. Expected dictionary.".format(index),
+                    "WARNING",
+                )
+                continue
+            device_name = device.get("hostname") or device.get("managementIpAddress") or "Unknown"
+            self.log(
+                "Preparing playbook fields for device {0}/{1}: {2}".format(
+                    device_index, len(device_response), device_name
+                ),
+                "DEBUG",
+            )
 
             device_config = {}
 
             for playbook_key, mapping_spec in reverse_mapping_spec.items():
+                if not isinstance(mapping_spec, dict):
+                    self.log(
+                        "Skipping key '{0}' due to invalid mapping specification.".format(playbook_key),
+                        "WARNING",
+                    )
+                    continue
+
                 source_key = mapping_spec.get("source_key")
                 transform_func = mapping_spec.get("transform")
 
                 try:
-                    if source_key:
-                        api_value = device.get(source_key)
-                    else:
-                        api_value = None
-
-                    # Apply transformation function
-                    if transform_func and callable(transform_func):
-                        transformed_value = transform_func(api_value)
-                    else:
-                        transformed_value = api_value
-
-                    # Skip null/empty values for optional nested structures in device info
-                    if playbook_key in [
-                        "add_user_defined_field",
-                        "provision_wired_device",
-                        "update_interface_details",
-                    ]:
-                        if transformed_value is None or transformed_value == [] or transformed_value == {}:
-                            continue
-
-                    # Add to device configuration
-                    device_config[playbook_key] = transformed_value
-
+                    api_value = device.get(source_key) if source_key else None
+                    transformed_value = transform_func(api_value) if callable(transform_func) else api_value
                 except Exception as e:
                     self.log(
-                        "Error transforming {0}: {1}".format(playbook_key, str(e)),
-                        "ERROR"
+                        "Failed to transform key '{0}' for device '{1}': {2}".format(
+                            playbook_key, device_name, str(e)
+                        ),
+                        "ERROR",
                     )
-                    device_config[playbook_key] = None
+                    transformed_value = None
+
+                if playbook_key in optional_nested_keys and transformed_value in (None, [], {}):
+                    continue
+
+                device_config[playbook_key] = transformed_value
+
+            # Ensure ip_address_list is present with fallback values
+            if "ip_address_list" not in device_config:
+                fallback_ip = device.get("managementIpAddress") or device.get("ipAddress")
+                device_config["ip_address_list"] = [fallback_ip] if fallback_ip else []
 
             transformed_devices.append(device_config)
+
             self.log("Device {0} ({1}) transformation complete".format(
-                device_index + 1, device.get('hostname', 'Unknown')
+                device_index + 1, device_name
             ), "INFO")
+
+        if not transformed_devices:
+            self.log("No valid devices were transformed into playbook format.", "WARNING")
+            return []    
 
         # Second pass: Consolidate devices with matching attributes
         self.log("Starting consolidation of {0} transformed devices".format(len(transformed_devices)), "INFO")
@@ -2630,19 +2982,6 @@ def main():
 
     # Validate the input parameters and check the return statusk
     ccc_inventory_playbook_generator.validate_input().check_return_status()
-    # config = ccc_inventory_playbook_generator.validated_config
-    # if len(config) == 1 and config[0].get("component_specific_filters") is None:
-    #     ccc_inventory_playbook_generator.msg = (
-    #         "No valid configurations found in the provided parameters."
-    #     )
-    #     ccc_inventory_playbook_generator.validated_config = [
-    #         {
-    #             'component_specific_filters':
-    #             {
-    #                 'components_list': []
-    #             }
-    #         }
-    #     ]
 
     # Iterate over the validated configuration parameters
     for config in ccc_inventory_playbook_generator.validated_config:
