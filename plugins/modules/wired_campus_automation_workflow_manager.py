@@ -7591,7 +7591,7 @@ class WiredCampusAutomation(DnacBase):
         api_params.update(config_params)
 
         self.log(
-            "Final API parameters for udpate intent operation: {0}".format(api_params),
+            "Final API parameters for update intent operation: {0}".format(api_params),
             "DEBUG",
         )
 

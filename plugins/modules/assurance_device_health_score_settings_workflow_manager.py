@@ -382,7 +382,7 @@ EXAMPLES = r"""
 
 
 RETURN = r"""
-#Case 1: Successful updation of health_score
+#Case 1: Successful update of health_score
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always

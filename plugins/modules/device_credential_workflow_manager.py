@@ -871,7 +871,7 @@ EXAMPLES = r"""
             username: HTTP_Write1
 """
 RETURN = r"""
-# Case_1: Successful creation/updation/deletion of global device credentials
+# Case_1: Successful creation/update/deletion of global device credentials
 dnac_response1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -3052,13 +3052,13 @@ class DeviceCredential(DnacBase):
         if not want_update:
             result_global_credential.update(
                 {
-                    "No Updation": {
+                    "No Update": {
                         "response": "No Response",
-                        "msg": "No Updation is available",
+                        "msg": "No Update is available",
                     }
                 }
             )
-            self.msg = "No Updation is available"
+            self.msg = "No Update is available"
             self.status = "success"
             return self
         i = 0
@@ -3073,7 +3073,7 @@ class DeviceCredential(DnacBase):
         ]
         final_response = []
         self.log(
-            "Desired State for global device credentials updation: {0}".format(
+            "Desired State for global device credentials update: {0}".format(
                 want_update
             ),
             "DEBUG",
@@ -3123,7 +3123,7 @@ class DeviceCredential(DnacBase):
         self.log("Global device credential updated successfully", "INFO")
         result_global_credential.update(
             {
-                "Updation": {
+                "Update": {
                     "response": final_response,
                     "msg": "Global Device Credential Updated Successfully",
                 }
