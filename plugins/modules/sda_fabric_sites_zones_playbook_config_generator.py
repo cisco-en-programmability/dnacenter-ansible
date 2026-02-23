@@ -57,8 +57,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(sda_fabric_sites_zones_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+          a default file name  C(sda_fabric_sites_zones_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(sda_fabric_sites_zones_playbook_config_2026-02-20_13-42-45.yml).
         type: str
       component_specific_filters:
         description:
@@ -256,16 +256,16 @@ response_1:
         "msg": {
             "components_processed": 2,
             "components_skipped": 0,
-            "configurations_count": 2,
-            "file_path": "sda_fabric_sites_zones_playbook_config_2026-02-18_15-27-16.yml",
+            "configurations_count": 7,
+            "file_path": "sda_fabric_sites_zones_playbook_config_2026-02-20_13-42-45.yml",
             "message": "YAML configuration file generated successfully for module 'sda_fabric_sites_zones_workflow_manager'",
             "status": "success"
         },
         "response": {
             "components_processed": 2,
             "components_skipped": 0,
-            "configurations_count": 2,
-            "file_path": "sda_fabric_sites_zones_playbook_config_2026-02-18_15-27-16.yml",
+            "configurations_count": 7,
+            "file_path": "sda_fabric_sites_zones_playbook_config_2026-02-20_13-42-45.yml",
             "message": "YAML configuration file generated successfully for module 'sda_fabric_sites_zones_workflow_manager'",
             "status": "success"
         },
@@ -298,23 +298,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
 import time
-try:
-    import yaml
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-    yaml = None
 from collections import OrderedDict
-
-
-if HAS_YAML:
-    class OrderedDumper(yaml.Dumper):
-        def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
-
-    OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
-else:
-    OrderedDumper = None
 
 
 class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
@@ -448,6 +432,51 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         return schema
+
+    def get_site_id(self, site_name):
+        """
+        Retrieve the site ID and check if the site exists in Cisco Catalyst Center based on the provided site name.
+
+        Args:
+            site_name (str): The name or hierarchy of the site to be retrieved.
+
+        Returns:
+            The site ID (str) if the site exists, or None if the site does not exist.
+        """
+        try:
+            response = self.get_site(site_name)
+
+            # Check if the response is empty
+            if response is None:
+                self.log(
+                    "No response from get_site with site_name: {0}".format(site_name),
+                    "DEBUG"
+                )
+                return response
+
+            site_response = response.get("response")
+            if not site_response:
+                self.log(
+                    "No site response found in the response: {0}".format(site_response),
+                    "WARNING"
+                )
+                return site_response
+
+            site_id = site_response[0].get("id")
+            self.log(
+                "Site details retrieved for site '{0}'': {1}. Retrieved site id: {2}."
+                .format(site_name, str(response), site_id),
+                "DEBUG"
+            )
+            return site_id
+
+        except Exception as e:
+            self.log(
+                "An exception occurred while retrieving site details for site '{0}'. Error: {1}"
+                .format(site_name, e),
+                "ERROR"
+            )
+            return None
 
     def transform_fabric_site_name(self, site_details):
         """
@@ -589,15 +618,22 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             for filter_param in component_specific_filters:
                 if "site_name_hierarchy" in filter_param:
                     value = filter_param.get("site_name_hierarchy")
-                    site_exists, site_id = self.get_site_id(value)
-                    if site_exists:
+                    site_id = self.get_site_id(value)
+                    if not site_id:
                         self.log(
-                            "Mapped site name hierarchy '{0}' to site ID '{1}'.".format(
-                                value, site_id
-                            ),
-                            "DEBUG"
+                            "The site '{0}' does not exist in the Catalyst Center, skipping processing."
+                            .format(value),
+                            "WARNING"
                         )
-                        params["siteId"] = site_id
+                        continue
+
+                    self.log(
+                        "Mapped site name hierarchy '{0}' to site ID '{1}'.".format(
+                            value, site_id
+                        ),
+                        "DEBUG"
+                    )
+                    params["siteId"] = site_id
 
                 unsupported_keys = set(filter_param.keys()) - {"site_name_hierarchy"}
                 if unsupported_keys:
@@ -727,15 +763,22 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             for filter_param in component_specific_filters:
                 if "site_name_hierarchy" in filter_param:
                     value = filter_param.get("site_name_hierarchy")
-                    site_exists, site_id = self.get_site_id(value)
-                    if site_exists:
+                    site_id = self.get_site_id(value)
+                    if not site_id:
                         self.log(
-                            "Mapped site name hierarchy '{0}' to site ID '{1}'.".format(
-                                value, site_id
-                            ),
-                            "DEBUG"
+                            "The site '{0}' does not exist in the Catalyst Center, skipping processing."
+                            .format(value),
+                            "WARNING"
                         )
-                        params["siteId"] = site_id
+                        continue
+
+                    self.log(
+                        "Mapped site name hierarchy '{0}' to site ID '{1}'.".format(
+                            value, site_id
+                        ),
+                        "DEBUG"
+                    )
+                    params["siteId"] = site_id
 
                 unsupported_keys = set(filter_param.keys()) - {"site_name_hierarchy"}
                 if unsupported_keys:

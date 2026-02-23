@@ -11,7 +11,7 @@ __author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_wired_campus_automation_playbook_generator
+module: wired_campus_automation_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'wired_campus_automation_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the 'wired_campus_automation_workflow_manager'
@@ -195,7 +195,7 @@ EXAMPLES = r"""
 
 # NOT Recommended for actual use cases due to potential API errors on non-layer2 devices.
 # - name: Auto-generate YAML Configuration for all devices and features
-#   cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+#   cisco.dnac.wired_campus_automation_playbook_config_generator:
 #     dnac_host: "{{dnac_host}}"
 #     dnac_username: "{{dnac_username}}"
 #     dnac_password: "{{dnac_password}}"
@@ -211,7 +211,7 @@ EXAMPLES = r"""
 
 # NOT Recommended for actual use cases due to potential API errors on non-layer2 devices.
 # - name: Auto-generate YAML Configuration with custom file path
-#   cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+#   cisco.dnac.wired_campus_automation_playbook_config_generator:
 #     dnac_host: "{{dnac_host}}"
 #     dnac_username: "{{dnac_username}}"
 #     dnac_password: "{{dnac_password}}"
@@ -226,7 +226,7 @@ EXAMPLES = r"""
 #       - file_path: "/tmp/complete_infrastructure_config.yml"
 
 - name: Generate YAML Configuration with default file path
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -242,7 +242,7 @@ EXAMPLES = r"""
           ip_address_list: ["192.168.1.10"]
 
 - name: Generate YAML Configuration with specific devices by IP address
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -259,7 +259,7 @@ EXAMPLES = r"""
           ip_address_list: ["192.168.1.10", "192.168.1.11", "192.168.1.12"]
 
 - name: Generate YAML Configuration with specific devices by hostname
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -276,7 +276,7 @@ EXAMPLES = r"""
           hostname_list: ["switch01.lab.com", "switch02.lab.com", "core-switch-01"]
 
 - name: Generate YAML Configuration with specific devices by serial number
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -293,7 +293,7 @@ EXAMPLES = r"""
           serial_number_list: ["FCW2140L05Y", "FCW2140L06Z", "9080V0I41J3"]
 
 - name: Generate YAML Configuration with specific devices by hostname
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -310,7 +310,7 @@ EXAMPLES = r"""
           hostname_list: ["switch01.lab.com", "switch02.lab.com", "core-switch-01"]
 
 - name: Generate YAML Configuration with specific devices by serial number
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -327,7 +327,7 @@ EXAMPLES = r"""
           serial_number_list: ["FCW2140L05Y", "FCW2140L06Z", "9080V0I41J3"]
 
 - name: Generate YAML Configuration using explicit components list
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -346,7 +346,7 @@ EXAMPLES = r"""
           components_list: ["layer2_configurations"]
 
 - name: Generate YAML Configuration with components list and specific features
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -367,7 +367,7 @@ EXAMPLES = r"""
             layer2_features: ["vlans", "stp", "cdp"]
 
 - name: Generate YAML Configuration for specific VLANs
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -390,7 +390,7 @@ EXAMPLES = r"""
               vlan_ids_list: ["10", "20", "100", "200"]
 
 - name: Generate YAML Configuration for specific interfaces
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -416,7 +416,7 @@ EXAMPLES = r"""
                 - "TenGigabitEthernet1/0/1"
 
 - name: Generate YAML Configuration with comprehensive filtering
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -443,7 +443,7 @@ EXAMPLES = r"""
                 - "GigabitEthernet1/0/24"
 
 - name: Generate YAML Configuration for specific interfaces
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -467,7 +467,7 @@ EXAMPLES = r"""
               - "TenGigabitEthernet1/0/1"
 
 - name: Generate YAML Configuration with comprehensive filtering
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -492,7 +492,7 @@ EXAMPLES = r"""
               - "GigabitEthernet1/0/24"
 
 - name: Generate YAML Configuration for all features (no component filters)
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -509,7 +509,7 @@ EXAMPLES = r"""
           ip_address_list: ["192.168.1.10"]
 
 - name: Generate YAML Configuration with default file path
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -525,7 +525,7 @@ EXAMPLES = r"""
           ip_address_list: ["192.168.1.10"]
 
 - name: Generate YAML Configuration for protocol features
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -544,7 +544,7 @@ EXAMPLES = r"""
           layer2_features: ["cdp", "lldp", "stp", "vtp"]
 
 - name: Generate YAML Configuration for security features
-  cisco.dnac.brownfield_wired_campus_automation_playbook_generator:
+  cisco.dnac.wired_campus_automation_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
