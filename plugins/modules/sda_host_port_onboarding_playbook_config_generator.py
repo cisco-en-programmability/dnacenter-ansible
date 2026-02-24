@@ -1868,9 +1868,10 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log(
-            "Initializing filter dictionaries from yaml_config_generator parameters. "
-            "Filters determine which components and credentials to extract from "
-            "Catalyst Center.",
+            "Initializing filter extraction from yaml_config_generator parameters. "
+            "Filters control component selection (port_assignments, port_channels, "
+            "wireless_ssids) and fabric site targeting for SDA configuration retrieval. "
+            "Auto-discovery mode override will clear filters if generate_all_configurations=True.",
             "DEBUG"
         )
         if generate_all:
@@ -1892,8 +1893,8 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             if yaml_config_generator.get("component_specific_filters"):
                 self.log(
                     "Warning: component_specific_filters provided ({0}) but will be "
-                    "ignored due to generate_all_configurations=True. All components "
-                    "and credentials will be extracted.".format(
+                    "ignored because generate_all_configurations=True. All supported "
+                    "components and configurations will be extracted.".format(
                         yaml_config_generator.get("component_specific_filters")
                     ),
                     "WARNING"
