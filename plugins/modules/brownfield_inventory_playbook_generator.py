@@ -1351,29 +1351,82 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: Site name path (e.g., "Global/USA/San Francisco/BGL_18") or empty string if not assigned
         """
+        self.log(
+            "Starting site assignment lookup for device_id='{0}'".format(device_id),
+            "DEBUG",
+        )
+
+        if not device_id or not isinstance(device_id, str):
+            self.log(
+                "Skipping site assignment lookup because device_id is invalid: {0}".format(
+                    device_id
+                ),
+                "WARNING",
+            )
+            return ""
+
         try:
-            self.log("Fetching site assignment for device: {0}".format(device_id), "DEBUG")
             response = self.dnac._exec(
                 family="devices",
                 function="get_assigned_site_for_device",
                 params={"device_id": device_id},
-                op_modifies=False
+                op_modifies=False,
             )
 
             self.log("Site assignment response for device {0}: {1}".format(device_id, response), "INFO")
 
-            if response and response.get("response"):
-                site_info = response.get("response", {})
-                site_name_path = site_info.get("groupNameHierarchy") or site_info.get("site")
-                if site_name_path:
-                    self.log("Device {0} assigned to site: {1}".format(device_id, site_name_path), "DEBUG")
-                    return site_name_path
-                else:
-                    self.log("Device {0} has no site assignment".format(device_id), "DEBUG")
-                    return ""
-            else:
-                self.log("No site info found for device: {0}".format(device_id), "DEBUG")
+            if not isinstance(response, dict):
+                self.log(
+                    "Site assignment lookup returned invalid response type for device_id='{0}': {1}".format(
+                        device_id, type(response).__name__
+                    ),
+                    "WARNING",
+                )
                 return ""
+
+            site_info = response.get("response")
+            if not site_info:
+                self.log(
+                    "No site assignment data found for device_id='{0}'".format(device_id),
+                    "DEBUG",
+                )
+                return ""
+
+            if isinstance(site_info, list):
+                site_info = site_info[0] if site_info else {}
+
+            if not isinstance(site_info, dict):
+                self.log(
+                    "Site assignment payload is not a dictionary for device_id='{0}'".format(
+                        device_id
+                    ),
+                    "WARNING",
+                )
+                return ""
+
+            site_name_path = (
+                site_info.get("groupNameHierarchy")
+                or site_info.get("siteNameHierarchy")
+                or site_info.get("nameHierarchy")
+                or site_info.get("site")
+            )
+
+            if site_name_path:
+                self.log(
+                    "Resolved site assignment for device_id='{0}' to '{1}'".format(
+                        device_id, site_name_path
+                    ),
+                    "DEBUG",
+                )
+                return site_name_path
+
+            self.log(
+                "Site assignment response did not contain hierarchy fields for device_id='{0}'".format(
+                    device_id
+                ),
+                "DEBUG",
+            )
+            return ""
 
         except Exception as e:
             self.log("Error fetching site for device {0}: {1}".format(device_id, str(e)), "WARNING")
@@ -1382,6 +1435,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
     def fetch_user_defined_fields(self, udf_filter=None):
         """
         Fetch user-defined fields from Cisco Catalyst Center API.
+        Validates input, optimizes API calls for single filters, and provides comprehensive error handling.
 
         Args:
             udf_filter (str or list): Optional filter by UDF name(s)
@@ -1389,49 +1443,152 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of user-defined field dictionaries with name, description, and value fields
         """
-        self.log("Fetching user-defined fields{0}".format(
-            " with filter: {0}".format(udf_filter) if udf_filter else ""
-        ), "INFO")
+        self.log(
+            "Starting user-defined field retrieval with filter input: {0}".format(udf_filter),
+            "DEBUG",
+        )
+
+        # Validate and normalize filter input
+        filter_names = []
+        if udf_filter is not None:
+            if isinstance(udf_filter, str):
+                if udf_filter.strip():
+                    filter_names = [udf_filter.strip()]
+            elif isinstance(udf_filter, list):
+                for item in udf_filter:
+                    if isinstance(item, str) and item.strip():
+                        filter_names.append(item.strip())
+                    else:
+                        self.log(
+                            "Ignoring invalid user-defined field filter value: {0}".format(item),
+                            "WARNING",
+                        )
+            else:
+                self.msg = (
+                    "Invalid udf_filter type. Expected str or list, got {0}.".format(
+                        type(udf_filter).__name__
+                    )
+                )
+                self.status = "failed"
+                self.log(self.msg, "ERROR")
+                return []
+
+        # Remove duplicates while preserving order
+        filter_names = list(dict.fromkeys(filter_names))
+        filter_name_set = set(filter_names)
 
         try:
+            # Optimize API call: use name parameter for single filter
+            request_params = {}
+            if len(filter_names) == 1:
+                request_params["name"] = filter_names[0]
+                self.log(
+                    "Using API name filter for single UDF: '{0}'".format(filter_names[0]),
+                    "DEBUG",
+                )
+
+            self.log(
+                "Requesting user-defined fields with params: {0}".format(request_params),
+                "DEBUG",
+            )
+
             response = self.dnac._exec(
                 family="devices",
                 function="get_all_user_defined_fields",
                 op_modifies=False,
-                params={}
+                params=request_params,
             )
 
-            if response and "response" in response:
-                udfs = response.get("response", [])
-                self.log("Retrieved {0} user-defined fields from API".format(len(udfs)), "INFO")
-
-                # Transform UDF response: keep only name and description, add value: null
-                transformed_udfs = []
-                for udf in udfs:
-                    transformed_udf = {
-                        "name": udf.get("name", ""),
-                        "description": udf.get("description", ""),
-                        "value": None
-                    }
-                    transformed_udfs.append(transformed_udf)
-
-                # Apply filter if provided
-                if udf_filter:
-                    filter_list = udf_filter if isinstance(udf_filter, list) else [udf_filter]
-                    filtered_udfs = [udf for udf in transformed_udfs if udf.get("name") in filter_list]
-                    self.log("Filtered to {0} user-defined fields matching names: {1}".format(
-                        len(filtered_udfs), filter_list
-                    ), "INFO")
-                    return filtered_udfs
-                else:
-                    return transformed_udfs
-
-            else:
-                self.log("No user-defined fields returned from API", "WARNING")
+            # Validate response structure
+            if not isinstance(response, dict):
+                self.msg = (
+                    "Invalid response type while retrieving user-defined fields: expected dict, got {0}".format(
+                        type(response).__name__
+                    )
+                )
+                self.status = "failed"
+                self.log(self.msg, "ERROR")
                 return []
 
+            if "response" not in response:
+                self.log(
+                    "API response missing 'response' key for user-defined fields",
+                    "WARNING",
+                )
+                return []
+
+            udfs = response.get("response", [])
+            
+            # Validate response payload type
+            if udfs is None:
+                udfs = []
+            elif isinstance(udfs, dict):
+                udfs = [udfs]
+            elif not isinstance(udfs, list):
+                self.msg = (
+                    "Invalid response payload type for user-defined fields: expected list, got {0}".format(
+                        type(udfs).__name__
+                    )
+                )
+                self.status = "failed"
+                self.log(self.msg, "ERROR")
+                return []
+
+            self.log(
+                "Retrieved {0} user-defined field(s) from Catalyst Center API".format(len(udfs)),
+                "INFO",
+            )
+
+            # Transform UDF response: keep only name and description, set value to null
+            transformed_udfs = []
+            for udf in udfs:
+                if not isinstance(udf, dict):
+                    continue
+
+                transformed_udf = {
+                    "name": udf.get("name", ""),
+                    "description": udf.get("description", ""),
+                    "value": None,
+                }
+                transformed_udfs.append(transformed_udf)
+
+            # Apply in-memory filtering for multiple names (API doesn't support multi-name filtering)
+            if filter_names:
+                filtered_udfs = [
+                    udf for udf in transformed_udfs if udf.get("name") in filter_name_set
+                ]
+
+                # Warn about missing filter names
+                matched_names = {udf.get("name") for udf in filtered_udfs if udf.get("name")}
+                missing_names = sorted(filter_name_set - matched_names)
+                if missing_names:
+                    self.log(
+                        "Requested user-defined fields not found: {0}".format(missing_names),
+                        "WARNING",
+                    )
+
+                self.log(
+                    "Filtered to {0} user-defined field(s) matching names: {1}".format(
+                        len(filtered_udfs), filter_names
+                    ),
+                    "INFO",
+                )
+                return filtered_udfs
+            else:
+                self.log(
+                    "Returning all {0} user-defined field(s) (no filter applied)".format(
+                        len(transformed_udfs)
+                    ),
+                    "DEBUG",
+                )
+                return transformed_udfs
+
         except Exception as e:
-            self.log("Error fetching user-defined fields: {0}".format(str(e)), "ERROR")
+            self.msg = "Failed to retrieve user-defined fields from Catalyst Center: {0}".format(
+                str(e)
+            )
+            self.status = "failed"
+            self.log(self.msg, "ERROR")
             return []
 
     def inventory_get_user_defined_fields_reverse_mapping(self):
@@ -1440,6 +1597,11 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Transforms API response from Catalyst Center to inventory_workflow_manager format.
         Maps UDF attributes from API response to playbook configuration structure.
         """
+        self.log(
+            "Preparing mapping rules to transform user-defined field attributes.",
+            "DEBUG",
+        )
+
         return OrderedDict({
             "name": {
                 "type": "str",
@@ -1467,33 +1629,122 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Starting get_user_defined_fields_details", "INFO")
 
         try:
-            component_specific_filters = filters.get("component_specific_filters", {})
-            udf_name_filter = component_specific_filters.get("udf_name")
+            self.log(
+                "Retrieving user-defined field details with request filters: {0}".format(filters),
+                "DEBUG",
+            )
 
-            self.log("UDF component-specific filters: {0}".format(component_specific_filters), "DEBUG")
-
-            # Fetch user-defined fields from API with optional filter
-            udf_response = self.fetch_user_defined_fields(udf_filter=udf_name_filter)
-
-            self.log("Retrieved {0} user-defined fields".format(len(udf_response)), "INFO")
-
-            if not udf_response:
-                self.log("No user-defined fields found", "WARNING")
+            if not isinstance(filters, dict):
+                self.log(
+                    "Skipping user-defined field retrieval because filter payload type is invalid: {0}".format(
+                        type(filters).__name__
+                    ),
+                    "ERROR",
+                )
                 return []
 
-            # Build the UDF configuration dictionary
-            udf_config = {
-                "user_defined_fields": udf_response
-            }
+            component_specific_filters = filters.get("component_specific_filters") or {}
+            if not isinstance(component_specific_filters, dict):
+                self.log(
+                    "Skipping user-defined field retrieval because component filter type is invalid: {0}".format(
+                        type(component_specific_filters).__name__
+                    ),
+                    "ERROR",
+                )
+                return []
 
-            # Return as a list containing the configuration
-            self.log("Built user_defined_fields config with {0} UDFs".format(len(udf_response)), "INFO")
-            return [udf_config]
+            udf_name_filter = component_specific_filters.get("udf_name")
+            if udf_name_filter is not None and not isinstance(udf_name_filter, (str, list)):
+                self.log(
+                    "Ignoring unsupported user-defined field name filter type: {0}. "
+                    "Proceeding without a name filter.".format(type(udf_name_filter).__name__),
+                    "WARNING",
+                )
+                udf_name_filter = None
+
+            if isinstance(network_element, dict):
+                self.log(
+                    "Using user-defined field source configuration: family={0}, function={1}".format(
+                        network_element.get("api_family", "devices"),
+                        network_element.get("api_function", "get_all_user_defined_fields"),
+                    ),
+                    "DEBUG",
+                )
+
+            self.log(
+                "Requesting user-defined fields from Catalyst Center with name filter: {0}".format(
+                    udf_name_filter
+                ),
+                "INFO",
+            )
+            udf_response = self.fetch_user_defined_fields(udf_filter=udf_name_filter)
+
+            if not isinstance(udf_response, list):
+                self.log(
+                    "Received invalid user-defined field payload type: {0}".format(
+                        type(udf_response).__name__
+                    ),
+                    "ERROR",
+                )
+                return []
+
+            cleaned_udfs = []
+            for udf in udf_response:
+                if not isinstance(udf, dict):
+                    self.log(
+                        "Skipping invalid user-defined field record type: {0}".format(
+                            type(udf).__name__
+                        ),
+                        "WARNING",
+                    )
+                    continue
+
+                udf_name = udf.get("name")
+                udf_description = udf.get("description")
+                udf_value = udf.get("value")
+
+                cleaned_udfs.append(
+                    {
+                        "name": str(udf_name).strip() if udf_name is not None else "",
+                        "description": (
+                            str(udf_description).strip() if udf_description is not None else ""
+                        ),
+                        "value": str(udf_value).strip() if udf_value not in (None, "") else None,
+                    }
+                )
+
+            if not cleaned_udfs:
+                self.log(
+                    "No user-defined fields matched the requested criteria.",
+                    "WARNING",
+                )
+                return []
+
+            cleaned_udfs.sort(key=lambda item: item.get("name", "").lower())
+
+            self.log(
+                "Prepared {0} user-defined field entries for playbook output.".format(
+                    len(cleaned_udfs)
+                ),
+                "INFO",
+            )
+            return [{"user_defined_fields": cleaned_udfs}]
 
         except Exception as e:
-            self.log("Error in get_user_defined_fields_details: {0}".format(str(e)), "ERROR")
+            self.log(
+                "User-defined field retrieval failed while processing Catalyst Center data: {0}".format(
+                    str(e)
+                ),
+                "ERROR",
+            )
             import traceback
-            self.log("Traceback: {0}".format(traceback.format_exc()), "DEBUG")
+
+            self.log(
+                "Detailed traceback for user-defined field retrieval failure: {0}".format(
+                    traceback.format_exc()
+                ),
+                "DEBUG",
+            )
             return []
 
     def build_provision_wired_device_config(self, device_list):
@@ -1506,44 +1757,139 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of provision_wired_device configuration dictionaries
         """
-        self.log("Building provision_wired_device config for {0} devices".format(len(device_list)), "INFO")
+        if not isinstance(device_list, list):
+            self.log(
+                "Skipping provisioning entry creation because device input type is invalid: {0}".format(
+                    type(device_list).__name__
+                ),
+                "ERROR",
+            )
+            return []
+
+        self.log(
+            "Preparing provisioning entries from {0} discovered device records.".format(
+                len(device_list)
+            ),
+            "INFO",
+        )
 
         provision_devices = []
+        seen_device_ips = set()
 
-        for device in device_list:
+        skipped_invalid_records = 0
+        skipped_missing_ip = 0
+        skipped_duplicates = 0
+        placeholder_site_count = 0
+        site_lookup_attempts = 0
+
+        for index, device in enumerate(device_list, start=1):
             try:
+                if not isinstance(device, dict):
+                    skipped_invalid_records += 1
+                    self.log(
+                        "Skipping record {0} because device data is not a dictionary.".format(index),
+                        "WARNING",
+                    )
+                    continue
+
                 device_ip = device.get("managementIpAddress") or device.get("ipAddress")
                 device_id = device.get("id") or device.get("instanceUuid")
                 device_hostname = device.get("hostname", "Unknown")
 
+                if isinstance(device_ip, str):
+                    device_ip = device_ip.strip()
+
                 if not device_ip:
-                    self.log("Skipping device {0}: no management IP".format(device_hostname), "DEBUG")
+                    skipped_missing_ip += 1
+                    self.log(
+                        "Skipping device '{0}' in record {1} because management IP is missing.".format(
+                            device_hostname, index
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
-                # Fetch site assignment for this device
-                site_name = self.fetch_device_site_mapping(device_id)
+                if device_ip in seen_device_ips:
+                    skipped_duplicates += 1
+                    self.log(
+                        "Skipping duplicate provisioning entry for device IP '{0}'.".format(device_ip),
+                        "DEBUG",
+                    )
+                    continue
 
-                # If no site assigned, use placeholder
+                seen_device_ips.add(device_ip)
+                site_name = (
+                    device.get("siteNameHierarchy")
+                    or device.get("groupNameHierarchy")
+                    or device.get("nameHierarchy")
+                    or device.get("site")
+                )
+
+                if isinstance(site_name, str):
+                    site_name = site_name.strip()
+                else:
+                    site_name = ""
+
+                if not site_name:
+                    if device_id:
+                        site_lookup_attempts += 1
+                        site_name = self.fetch_device_site_mapping(device_id)
+                        if isinstance(site_name, str):
+                            site_name = site_name.strip()
+                        else:
+                            site_name = ""
+                    else:
+                        self.log(
+                            "Using fallback site placeholder for device IP '{0}' because device ID is missing.".format(
+                                device_ip
+                            ),
+                            "DEBUG",
+                        )
+
                 if not site_name:
                     site_name = "Global/{{ site_name }}"
-                    self.log("Device {0}: using placeholder for site_name".format(device_ip), "DEBUG")
+                    placeholder_site_count += 1
+                    self.log(
+                        "Using fallback site placeholder for device IP '{0}'.".format(device_ip),
+                        "DEBUG",
+                    )
 
-                # Build provision device entry
                 provision_entry = {
                     "device_ip": device_ip,
                     "site_name": site_name,
                     "resync_retry_count": 200,
-                    "resync_retry_interval": 2
+                    "resync_retry_interval": 2,
                 }
 
                 provision_devices.append(provision_entry)
-                self.log("Added provision config for device {0} ({1})".format(device_ip, device_hostname), "DEBUG")
+                self.log(
+                    "Prepared provisioning entry for device IP '{0}' with site '{1}'.".format(
+                        device_ip, site_name
+                    ),
+                    "DEBUG",
+                )
 
             except Exception as e:
-                self.log("Error building provision config for device: {0}".format(str(e)), "ERROR")
-                continue
+                skipped_invalid_records += 1
+                self.log(
+                    "Skipping record {0} while preparing provisioning entries due to processing error: {1}".format(
+                        index, str(e)
+                    ),
+                    "ERROR",
+                )
 
-        self.log("Built provision_wired_device configs: {0} devices".format(len(provision_devices)), "INFO")
+        self.log(
+            "Completed provisioning entry preparation. created={0}, lookups={1}, placeholders={2}, "
+            "skipped_invalid={3}, skipped_missing_ip={4}, skipped_duplicates={5}".format(
+                len(provision_devices),
+                site_lookup_attempts,
+                placeholder_site_count,
+                skipped_invalid_records,
+                skipped_missing_ip,
+                skipped_duplicates,
+            ),
+            "INFO",
+        )
         return provision_devices
 
     def fetch_sda_provision_device(self, device_ip):
@@ -1557,37 +1903,99 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Response containing device provisioning status and site, or None if error/not provisioned
         """
+        self.log(
+            "Checking SDA provisioning state for management IP '{0}'.".format(device_ip),
+            "DEBUG",
+        )
+
+        if not isinstance(device_ip, str) or not device_ip.strip():
+            self.log(
+                "Skipping SDA provisioning lookup because management IP is invalid: {0}".format(
+                    device_ip
+                ),
+                "WARNING",
+            )
+            return None
+
+        device_ip = device_ip.strip()
         try:
-            self.log("Fetching SDA provision status for device IP: {0}".format(device_ip), "DEBUG")
             response = self.dnac._exec(
                 family="sda",
                 function="get_provisioned_wired_device",
-                params={
-                    "device_management_ip_address": device_ip
-                }
+                op_modifies=False,
+                params={"device_management_ip_address": device_ip},
             )
-
-            self.log("SDA provision response for {0}: {1}".format(device_ip, response), "DEBUG")
-
-            if response and isinstance(response, dict):
-                status = response.get("status", "").lower()
-
-                # Check if device is provisioned (success status)
-                if status == "success":
-                    self.log("Device {0} is provisioned to site".format(device_ip), "INFO")
-                    return response
-                else:
-                    # Device not provisioned
-                    description = response.get("description", "")
-                    self.log("Device {0} not provisioned: {1}".format(device_ip, description), "INFO")
-                    return None
-            else:
-                self.log("Invalid response for device {0}".format(device_ip), "WARNING")
-                return None
-
         except Exception as e:
-            self.log("Error fetching SDA provision status for device {0}: {1}".format(device_ip, str(e)), "DEBUG")
+            self.log(
+                "SDA provisioning lookup failed for management IP '{0}': {1}".format(
+                    device_ip, str(e)
+                ),
+                "ERROR",
+            )
             return None
+
+        if not isinstance(response, dict):
+            self.log(
+                "Ignoring SDA provisioning response for management IP '{0}' because response "
+                "type is invalid: {1}".format(device_ip, type(response).__name__),
+                "WARNING",
+            )
+            return None
+
+        self.log(
+            "Received SDA provisioning response keys for management IP '{0}': {1}".format(
+                device_ip, list(response.keys())
+            ),
+            "DEBUG",
+        )
+
+        response_payload = response.get("response")
+        if isinstance(response_payload, dict):
+            payload = response_payload
+        elif isinstance(response_payload, list):
+            payload = response_payload[0] if response_payload else {}
+            if payload and not isinstance(payload, dict):
+                payload = {}
+        else:
+            payload = response
+
+        status_raw = payload.get("status", "")
+        status = str(status_raw).strip().lower()
+        description = payload.get("description", "")
+        provisioned_ip = payload.get("deviceManagementIpAddress") or device_ip
+        site_name_hierarchy = payload.get("siteNameHierarchy")
+
+        if status != "success":
+            self.log(
+                "Device '{0}' is not provisioned in SDA. Status='{1}', description='{2}'.".format(
+                    device_ip, status_raw, description
+                ),
+                "INFO",
+            )
+            return None
+
+        if not site_name_hierarchy:
+            self.log(
+                "Device '{0}' returned success status but site hierarchy is missing. "
+                "Skipping provisioning entry.".format(device_ip),
+                "WARNING",
+            )
+            return None
+
+        normalized_response = {
+            "status": "success",
+            "description": description,
+            "deviceManagementIpAddress": provisioned_ip,
+            "siteNameHierarchy": site_name_hierarchy,
+        }
+
+        self.log(
+            "Device '{0}' is provisioned in SDA at site '{1}'.".format(
+                provisioned_ip, site_name_hierarchy
+            ),
+            "INFO",
+        )
+        return normalized_response
 
     def build_provision_wired_device_from_sda_endpoint(self, device_configs):
         """
@@ -1601,64 +2009,195 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: Configuration dictionary with provision_wired_device only for provisioned devices
         """
-        self.log("Building provision_wired_device config from SDA provision-device endpoint", "INFO")
+        self.log(
+            "Building provision_wired_device configuration from SDA provision-device data.",
+            "INFO",
+        )
 
-        # Collect all filtered device IPs from device_configs
+        if not isinstance(device_configs, list):
+            self.log(
+                "Skipping provisioning build because device_configs type is invalid: {0}".format(
+                    type(device_configs).__name__
+                ),
+                "ERROR",
+            )
+            return {}
+
         filtered_device_ips = []
-        for config in device_configs:
-            if isinstance(config, dict) and "ip_address_list" in config:
-                ip_list = config.get("ip_address_list", [])
-                if isinstance(ip_list, list):
-                    filtered_device_ips.extend(ip_list)
+        invalid_config_entries = 0
+        invalid_ip_values = 0
 
-        self.log("Checking provisioning status for {0} device IPs".format(len(filtered_device_ips)), "INFO")
-
-        provision_devices = []
-
-        for device_ip in filtered_device_ips:
-            try:
-                # Query SDA provision-device endpoint for this device
-                provision_response = self.fetch_sda_provision_device(device_ip)
-
-                if provision_response:
-                    # Device is provisioned - extract information
-                    device_mgmt_ip = provision_response.get("deviceManagementIpAddress")
-                    site_name_hierarchy = provision_response.get("siteNameHierarchy")
-                    status = provision_response.get("status")
-                    description = provision_response.get("description")
-
-                    # Build provision device entry from SDA response
-                    provision_entry = {
-                        "device_ip": device_mgmt_ip,
-                        "site_name": site_name_hierarchy,
-                        "resync_retry_count": 200,
-                        "resync_retry_interval": 2
-                    }
-
-                    provision_devices.append(provision_entry)
-                    self.log("Added provision config from SDA endpoint - IP: {0}, Site: {1}, Status: {2}".format(
-                        device_mgmt_ip, site_name_hierarchy, status
-                    ), "DEBUG")
-                else:
-                    # Device not provisioned - skip it
-                    self.log("Skipping device {0}: not provisioned or error occurred".format(device_ip), "INFO")
-                    continue
-
-            except Exception as e:
-                self.log("Error processing device {0} for provisioning config: {1}".format(device_ip, str(e)), "ERROR")
+        for index, config in enumerate(device_configs, start=1):
+            if not isinstance(config, dict):
+                invalid_config_entries += 1
+                self.log(
+                    "Skipping config entry {0} because it is not a dictionary.".format(index),
+                    "WARNING",
+                )
                 continue
 
-        if provision_devices:
-            provision_config = {
-                "provision_wired_device": provision_devices
-            }
-            self.log("Built provision config with {0} provisioned devices from SDA endpoint".format(
-                len(provision_devices)
-            ), "INFO")
-            return provision_config
-        else:
-            self.log("No provisioned devices found via SDA endpoint", "WARNING")
+            ip_list = config.get("ip_address_list", [])
+            if isinstance(ip_list, str):
+                ip_list = [ip_list]
+
+            if not isinstance(ip_list, list):
+                invalid_config_entries += 1
+                self.log(
+                    "Skipping config entry {0} because ip_address_list type is invalid: {1}".format(
+                        index, type(ip_list).__name__
+                    ),
+                    "WARNING",
+                )
+                continue
+
+            for ip_value in ip_list:
+                if not isinstance(ip_value, str):
+                    invalid_ip_values += 1
+                    self.log(
+                        "Ignoring non-string device IP value in config entry {0}: {1}".format(
+                            index, ip_value
+                        ),
+                        "WARNING",
+                    )
+                    continue
+
+                normalized_ip = ip_value.strip()
+                if not normalized_ip:
+                    invalid_ip_values += 1
+                    self.log(
+                        "Ignoring empty device IP value in config entry {0}.".format(index),
+                        "WARNING",
+                    )
+                    continue
+
+                filtered_device_ips.append(normalized_ip)
+
+        if not filtered_device_ips:
+            self.log(
+                "No valid device IPs found for SDA provisioning lookup.",
+                "WARNING",
+            )
             return {}
+
+        unique_device_ips = []
+        seen_input_ips = set()
+        duplicate_input_ips = 0
+
+        for device_ip in filtered_device_ips:
+            if device_ip in seen_input_ips:
+                duplicate_input_ips += 1
+                continue
+            seen_input_ips.add(device_ip)
+            unique_device_ips.append(device_ip)
+
+        self.log(
+            "Starting SDA provisioning checks for {0} unique device IPs "
+            "(duplicates_removed={1}, invalid_configs={2}, invalid_ip_values={3}).".format(
+                len(unique_device_ips),
+                duplicate_input_ips,
+                invalid_config_entries,
+                invalid_ip_values,
+            ),
+            "INFO",
+        )
+
+        provision_devices = []
+        seen_output_ips = set()
+        not_provisioned_count = 0
+        invalid_response_count = 0
+        duplicate_output_count = 0
+
+        for device_ip in unique_device_ips:
+            try:
+                provision_response = self.fetch_sda_provision_device(device_ip)
+
+                if not provision_response:
+                    not_provisioned_count += 1
+                    self.log(
+                        "Device '{0}' is not provisioned in SDA or lookup returned no data.".format(
+                            device_ip
+                        ),
+                        "INFO",
+                    )
+                    continue
+
+                if not isinstance(provision_response, dict):
+                    invalid_response_count += 1
+                    self.log(
+                        "Skipping device '{0}' due to invalid provisioning response type: {1}".format(
+                            device_ip, type(provision_response).__name__
+                        ),
+                        "WARNING",
+                    )
+                    continue
+
+                device_mgmt_ip = provision_response.get("deviceManagementIpAddress") or device_ip
+                site_name_hierarchy = provision_response.get("siteNameHierarchy")
+                status = provision_response.get("status")
+
+                if not site_name_hierarchy:
+                    invalid_response_count += 1
+                    self.log(
+                        "Skipping device '{0}' because siteNameHierarchy is missing in SDA response.".format(
+                            device_ip
+                        ),
+                        "WARNING",
+                    )
+                    continue
+
+                if device_mgmt_ip in seen_output_ips:
+                    duplicate_output_count += 1
+                    self.log(
+                        "Skipping duplicate provision output entry for device '{0}'.".format(
+                            device_mgmt_ip
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
+                seen_output_ips.add(device_mgmt_ip)
+
+                provision_entry = {
+                    "device_ip": device_mgmt_ip,
+                    "site_name": site_name_hierarchy,
+                    "resync_retry_count": 200,
+                    "resync_retry_interval": 2,
+                }
+
+                provision_devices.append(provision_entry)
+                self.log(
+                    "Prepared provision entry from SDA response: IP='{0}', site='{1}', status='{2}'.".format(
+                        device_mgmt_ip, site_name_hierarchy, status
+                    ),
+                    "DEBUG",
+                )
+
+            except Exception as e:
+                invalid_response_count += 1
+                self.log(
+                    "Error while processing SDA provisioning for device '{0}': {1}".format(
+                        device_ip, str(e)
+                    ),
+                    "ERROR",
+                )
+                continue
+
+        self.log(
+            "Completed SDA provisioning build. provisioned={0}, not_provisioned={1}, "
+            "invalid_response={2}, duplicate_output={3}.".format(
+                len(provision_devices),
+                not_provisioned_count,
+                invalid_response_count,
+                duplicate_output_count,
+            ),
+            "INFO",
+        )
+
+        if not provision_devices:
+            self.log("No provisioned devices found via SDA endpoint.", "WARNING")
+            return {}
+
+        return {"provision_wired_device": provision_devices}
 
     def build_update_interface_details_from_all_devices(self, device_configs, interface_name_filter=None):
         """
@@ -1673,122 +2212,237 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of update_interface_details configs with consolidated IP addresses
         """
-        self.log("Building update_interface_details configs from all devices", "INFO")
+        self.log(
+            "Preparing interface update configurations from discovered devices.",
+            "INFO",
+        )
+
+        if not isinstance(device_configs, list):
+            self.log(
+                "Skipping interface details generation because device_configs type is invalid: {0}".format(
+                    type(device_configs).__name__
+                ),
+                "ERROR",
+            )
+            return []
+        
+        interface_name_filter_set = None
+        if interface_name_filter:
+            if isinstance(interface_name_filter, str):
+                normalized_filter = interface_name_filter.strip()
+                interface_name_filter_set = {normalized_filter} if normalized_filter else set()
+            elif isinstance(interface_name_filter, list):
+                interface_name_filter_set = {
+                    item.strip()
+                    for item in interface_name_filter
+                    if isinstance(item, str) and item.strip()
+                }
+            else:
+                self.log(
+                    "Ignoring interface_name filter because type is invalid: {0}".format(
+                        type(interface_name_filter).__name__
+                    ),
+                    "WARNING",
+                )
+                interface_name_filter_set = None
 
         try:
             if not device_configs:
                 self.log("No device configs provided", "WARNING")
                 return []
 
-            # Collect all IPs from device configs
-            all_device_ips = []
-            for config in device_configs:
-                if isinstance(config, dict) and "ip_address_list" in config:
-                    ip_list = config.get("ip_address_list", [])
-                    if isinstance(ip_list, list):
-                        all_device_ips.extend(ip_list)
+            collected_ips = []
+            for index, config in enumerate(device_configs, start=1):
+                if not isinstance(config, dict):
+                    self.log(
+                        "Skipping config entry {0} because it is not a dictionary.".format(index),
+                        "WARNING",
+                    )
+                    self.log(
+                        "Continuing to next config entry after invalid type at index {0}.".format(index),
+                        "DEBUG",
+                    )
+                    continue
 
-            self.log("Collected {0} device IPs for interface detail fetching".format(len(all_device_ips)), "INFO")
+                ip_list = config.get("ip_address_list", [])
+                if isinstance(ip_list, str):
+                    ip_list = [ip_list]
 
-            if not all_device_ips:
+                if not isinstance(ip_list, list):
+                    self.log(
+                        "Skipping config entry {0} because ip_address_list type is invalid: {1}".format(
+                            index, type(ip_list).__name__
+                        ),
+                        "WARNING",
+                    )
+                    self.log(
+                        "Continuing to next config entry after invalid ip_address_list at index {0}.".format(
+                            index
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
+                for ip in ip_list:
+                    if isinstance(ip, str) and ip.strip():
+                        collected_ips.append(ip.strip())
+
+            if not collected_ips:
+                self.log("No valid device IPs found for interface detail retrieval.", "WARNING")
                 return []
 
-            # Fetch interface details for all devices and group by configuration
-            interface_configs_by_hash = {}  # Group configs by their hash for consolidation
+            unique_device_ips = []
+            seen_ips = set()
+            for ip in collected_ips:
+                if ip in seen_ips:
+                    continue
+                seen_ips.add(ip)
+                unique_device_ips.append(ip)
 
-            for device_ip in all_device_ips:
+            self.log(
+                "Fetching interface details for {0} unique device IPs.".format(len(unique_device_ips)),
+                "INFO",
+            )
+
+            interface_configs_by_hash = {}
+            total_interfaces_seen = 0
+            total_interfaces_included = 0
+            device_errors = 0
+
+            for device_ip in unique_device_ips:
                 try:
-                    self.log("Fetching interface details for device {0} using get_interface_by_ip".format(device_ip), "DEBUG")
-
-                    # Call get_interface_by_ip endpoint - returns all interfaces for the device IP
-                    # API: /dna/intent/api/v1/interface/ip-address/{ipAddress}
                     interface_response = self.dnac._exec(
                         family="devices",
                         function="get_interface_by_ip",
-                        params={"ip_address": device_ip}
+                        op_modifies=False,
+                        params={"ip_address": device_ip},
                     )
-
-                    if interface_response and isinstance(interface_response, dict):
-                        interfaces = interface_response.get("response", [])
-                        if not isinstance(interfaces, list):
-                            interfaces = [interfaces]
-
-                        self.log("Found {0} interfaces for device {1}".format(len(interfaces), device_ip), "DEBUG")
-
-                        if interfaces:
-                            # Process each interface and create configs
-                            for interface in interfaces:
-                                if not isinstance(interface, dict):
-                                    continue
-
-                                # Map API response fields to our config format
-                                # Field mapping from API response schema:
-                                # name -> interface_name
-                                # description -> description
-                                # adminStatus -> admin_status
-                                # vlanId -> vlan_id
-                                # voiceVlan -> voice_vlan_id
-                                interface_name = interface.get("name") or interface.get("portName") or ""
-                                interface_description = interface.get("description") or ""
-                                admin_status = interface.get("adminStatus") or ""
-                                vlan_id = interface.get("vlanId") or interface.get("nativeVlanId")
-                                voice_vlan_id = interface.get("voiceVlan")
-
-                                if not interface_name:
-                                    continue
-
-                                # Apply interface_name filter if specified
-                                if interface_name_filter and interface_name not in interface_name_filter:
-                                    self.log("Skipping interface {0} on device {1}: not in filter list {2}".format(
-                                        interface_name, device_ip, interface_name_filter
-                                    ), "DEBUG")
-                                    continue
-
-                                # Build interface config with all required fields
-                                interface_config = {
-                                    "description": interface_description,
-                                    "admin_status": admin_status,
-                                    "vlan_id": vlan_id,
-                                    "voice_vlan_id": voice_vlan_id,
-                                    "interface_name": [interface_name],
-                                    "deployment_mode": "Deploy",
-                                    "clear_mac_address_table": False
-                                }
-
-                                # Keep all fields including null/empty values as requested
-                                # Create a hash of the config to group similar configs
-                                config_hash = str(sorted(interface_config.items()))
-
-                                if config_hash not in interface_configs_by_hash:
-                                    interface_configs_by_hash[config_hash] = {
-                                        "ip_address_list": [],
-                                        "update_interface_details": interface_config
-                                    }
-
-                                # Add device IP to this config group if not already present
-                                if device_ip not in interface_configs_by_hash[config_hash]["ip_address_list"]:
-                                    interface_configs_by_hash[config_hash]["ip_address_list"].append(device_ip)
-
-                                self.log("Processed interface {0} for device {1}".format(
-                                    interface_name, device_ip
-                                ), "DEBUG")
-                        else:
-                            # If no interfaces found, skip this device
-                            self.log("No interfaces found for device {0}, skipping".format(device_ip), "DEBUG")
-
                 except Exception as e:
-                    self.log("Error fetching interface details for device {0}: {1}".format(device_ip, str(e)), "DEBUG")
-                    # Skip device on error
-                    self.log("Skipping device {0} due to error".format(device_ip), "WARNING")
+                    device_errors += 1
+                    self.log(
+                        "Interface retrieval failed for device '{0}': {1}".format(
+                            device_ip, str(e)
+                        ),
+                        "ERROR",
+                    )
+                    self.log(
+                        "Continuing to next device after interface retrieval failure for '{0}'.".format(
+                            device_ip
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
-            # Convert grouped configs to list
+                if not isinstance(interface_response, dict):
+                    device_errors += 1
+                    self.log(
+                        "Skipping device '{0}' because interface response type is invalid: {1}".format(
+                            device_ip, type(interface_response).__name__
+                        ),
+                        "WARNING",
+                    )
+                    self.log(
+                        "Continuing to next device after invalid interface response for '{0}'.".format(
+                            device_ip
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
+                interfaces = interface_response.get("response", [])
+                if interfaces is None:
+                    interfaces = []
+                elif isinstance(interfaces, dict):
+                    interfaces = [interfaces]
+                elif not isinstance(interfaces, list):
+                    device_errors += 1
+                    self.log(
+                        "Skipping device '{0}' because interface payload type is invalid: {1}".format(
+                            device_ip, type(interfaces).__name__
+                        ),
+                        "WARNING",
+                    )
+                    self.log(
+                        "Continuing to next device after invalid interface payload for '{0}'.".format(
+                            device_ip
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
+                for interface in interfaces:
+                    if not isinstance(interface, dict):
+                        self.log(
+                            "Skipping interface entry because payload is not a dictionary.",
+                            "DEBUG",
+                        )
+                        continue
+
+                    total_interfaces_seen += 1
+
+                    interface_name = interface.get("name") or interface.get("portName") or ""
+                    interface_name = interface_name.strip() if isinstance(interface_name, str) else ""
+                    if not interface_name:
+                        self.log(
+                            "Skipping interface entry on device '{0}' because name is missing.".format(
+                                device_ip
+                            ),
+                            "DEBUG",
+                        )
+                        continue
+
+                    if interface_name_filter_set is not None and interface_name not in interface_name_filter_set:
+                        self.log(
+                            "Skipping interface '{0}' on device '{1}' because it is not in the filter list.".format(
+                                interface_name, device_ip
+                            ),
+                            "DEBUG",
+                        )
+                        continue
+
+                    interface_config = {
+                        "description": interface.get("description") or "",
+                        "admin_status": interface.get("adminStatus") or "",
+                        "vlan_id": interface.get("vlanId") or interface.get("nativeVlanId"),
+                        "voice_vlan_id": interface.get("voiceVlan"),
+                        "interface_name": [interface_name],
+                        "deployment_mode": "Deploy",
+                        "clear_mac_address_table": False,
+                    }
+
+                    config_hash = (
+                        interface_config["description"],
+                        interface_config["admin_status"],
+                        interface_config["vlan_id"],
+                        interface_config["voice_vlan_id"],
+                        interface_name,
+                        interface_config["deployment_mode"],
+                        interface_config["clear_mac_address_table"],
+                    )
+
+                    if config_hash not in interface_configs_by_hash:
+                        interface_configs_by_hash[config_hash] = {
+                            "ip_address_list": [],
+                            "update_interface_details": interface_config,
+                        }
+
+                    if device_ip not in interface_configs_by_hash[config_hash]["ip_address_list"]:
+                        interface_configs_by_hash[config_hash]["ip_address_list"].append(device_ip)
+
+                    total_interfaces_included += 1
+
             update_interface_configs = list(interface_configs_by_hash.values())
 
-            self.log("Created {0} update_interface_details config sections from all devices".format(
-                len(update_interface_configs)
-            ), "INFO")
-
+            self.log(
+                "Interface detail generation completed. groups={0}, interfaces_seen={1}, "
+                "interfaces_included={2}, device_errors={3}".format(
+                    len(update_interface_configs),
+                    total_interfaces_seen,
+                    total_interfaces_included,
+                    device_errors,
+                ),
+                "INFO",
+            )
             return update_interface_configs
 
         except Exception as e:
@@ -1804,8 +2458,13 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not api_value:
             return []
         if isinstance(api_value, list):
-            return api_value
-        return [api_value]
+            return [ip.strip() for ip in api_value if isinstance(ip, str) and ip.strip()]
+
+        if isinstance(api_value, str):
+            api_value = api_value.strip()
+            return [api_value] if api_value else []
+
+        return []
 
     def get_device_details_details(self, network_element, filters):
         """
@@ -1813,14 +2472,40 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Processes the response and transforms it using the reverse mapping specification.
         Captures FULL device response with all available fields.
         """
-        self.log("Starting get_device_details_details", "INFO")
+        self.log("Retrieving device details for inventory playbook generation.", "INFO")
+
+        if not isinstance(filters, dict):
+            self.log(
+                "Skipping device details retrieval because filters type is invalid: {0}".format(
+                    type(filters).__name__
+                ),
+                "ERROR",
+            )
+            return []
 
         try:
             reverse_mapping_spec = self.inventory_get_device_reverse_mapping()
+            global_filters = filters.get("global_filters") or {}
+            component_specific_filters = filters.get("component_specific_filters") or {}
+            generate_all = bool(filters.get("generate_all_configurations", False))
 
-            global_filters = filters.get("global_filters", {})
-            component_specific_filters = filters.get("component_specific_filters", {})
-            generate_all = filters.get("generate_all_configurations", False)
+            if not isinstance(global_filters, dict):
+                self.log(
+                    "Ignoring invalid global_filters type: {0}".format(type(global_filters).__name__),
+                    "WARNING",
+                )
+                global_filters = {}
+
+            if not isinstance(component_specific_filters, (dict, list)):
+                self.log(
+                    "Ignoring invalid component-specific filter type: {0}".format(
+                        type(component_specific_filters).__name__
+                    ),
+                    "WARNING",
+                )
+                component_specific_filters = {}
+
+            has_global_filters = bool(global_filters and any(global_filters.values()))
 
             self.log("Filters received - Global: {0}, Component: {1}, Generate All: {2}".format(
                 global_filters, component_specific_filters, generate_all
@@ -1828,118 +2513,142 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             device_response = []
 
-            # Step 1: Get devices from API with FULL details
-            if generate_all:
-                devices = self.fetch_all_devices(reason="generate_all_configurations enabled")
-                device_response.extend(devices)
-
-            else:
-                self.log("Processing global filters", "INFO")
-                result = self.process_global_filters(global_filters)
-                device_ip_to_id_mapping = result.get("device_ip_to_id_mapping", {})
-
-                if device_ip_to_id_mapping:
-                    self.log("Retrieved {0} devices from global filters".format(len(device_ip_to_id_mapping)), "INFO")
-
-                    # Log the first device to see what fields are available
-                    first_device = list(device_ip_to_id_mapping.values())[0] if device_ip_to_id_mapping else None
-                    if first_device:
-                        self.log("Sample filtered device fields: {0}".format(list(first_device.keys())), "INFO")
-                        self.log("Sample filtered device data: {0}".format(first_device), "DEBUG")
-
-                    for device_ip, device_info in device_ip_to_id_mapping.items():
-                        device_response.append(device_info)
-
+            try:
+                if generate_all:
+                    device_response = self.fetch_all_devices(
+                        reason="generate_all_configurations enabled"
+                    )
+                elif has_global_filters:
+                    filter_result = self.process_global_filters(global_filters)
+                    mapping = {}
+                    if isinstance(filter_result, dict):
+                        mapping = filter_result.get("device_ip_to_id_mapping", {})
+                    if isinstance(mapping, dict):
+                        device_response = list(mapping.values())
+                    self.log(
+                        "Device lookup with global filters returned {0} record(s).".format(
+                            len(device_response)
+                        ),
+                        "INFO",
+                    )
                 else:
-                    # Fallback: fetch all devices when no global filters provided
-                    devices = self.fetch_all_devices(reason="no global filters provided")
-                    device_response.extend(devices)
+                    device_response = self.fetch_all_devices(
+                        reason="no global filters provided"
+                    )
+            except Exception as e:
+                self.log(
+                    "Device retrieval failed: {0}".format(str(e)),
+                    "ERROR",
+                )
+                return []
+
+            if device_response and has_global_filters:
+                first_device = device_response[0]
+                if isinstance(first_device, dict):
+                    self.log(
+                        "Sample filtered device fields: {0}".format(list(first_device.keys())),
+                        "INFO",
+                    )
+                    self.log(
+                        "Sample filtered device data: {0}".format(first_device),
+                        "DEBUG",
+                    )
 
             self.log("Retrieved {0} devices before component filtering".format(len(device_response)), "INFO")
 
-            # ✅ Log what fields are actually available in the device_response
-            if device_response:
-                sample_device = device_response[0]
-                available_fields = list(sample_device.keys())
-                self.log("Available fields in device response: {0}".format(available_fields), "INFO")
-                self.log("Total fields available: {0}".format(len(available_fields)), "INFO")
-
-                # Check which fields from reverse_mapping_spec are missing
-                missing_fields = []
-                for playbook_key, mapping_spec in reverse_mapping_spec.items():
-                    source_key = mapping_spec.get("source_key")
-                    if source_key and source_key not in sample_device:
-                        missing_fields.append(source_key)
-
-                if missing_fields:
-                    self.log("WARNING: {0} fields from reverse_mapping_spec are NOT in API response: {1}".format(
-                        len(missing_fields), missing_fields
-                    ), "WARNING")
-                else:
-                    self.log("All fields from reverse_mapping_spec are present in API response", "INFO")
-
-                # Step 2: Apply component-specific filters (type, role, snmp_version, cli_transport)
-                if component_specific_filters:
-                    self.log("Applying component-specific filters: {0}".format(component_specific_filters), "DEBUG")
-                    device_response = self.apply_component_specific_filters(device_response, component_specific_filters)
-
-                    # Check if filtering failed (returns None on validation error)
-                    if device_response is None:
-                        self.log("Component filter validation failed", "ERROR")
-                        return []
-
-                    self.log("After component filtering: {0} devices remain".format(len(device_response)), "INFO")
-                else:
-                    self.log("No component-specific filters to apply", "DEBUG")
-
-                if not device_response:
-                    self.log("No devices found matching all filters", "WARNING")
-                    return []
-
-                # Step 3: Transform devices to playbook format
-                self.log("Transforming {0} devices to playbook format".format(len(device_response)), "INFO")
-                transformed_devices = self.transform_device_to_playbook_format(
-                    reverse_mapping_spec, device_response
+            if not isinstance(device_response, list):
+                self.log(
+                    "Invalid device response type received: {0}".format(type(device_response).__name__),
+                    "ERROR",
                 )
+                return []
 
-                self.log("Devices transformed successfully: {0} configurations".format(len(transformed_devices)), "INFO")
+            device_response = [d for d in device_response if isinstance(d, dict)]
+            if not device_response:
+                self.log("No device data available after retrieval and normalization.", "WARNING")
+                return []
 
-                # Step 4: Add separate provision_wired_device config from SDA endpoint
-                # Build provision config applying global filters (but independent of device_details component filters)
-                self.log("Building separate provision_wired_device config from SDA endpoint (applying global filters)", "INFO")
+            # ✅ Log what fields are actually available in the device_response
+            sample_device = device_response[0]
+            available_fields = list(sample_device.keys())
+            self.log("Available fields in device response: {0}".format(available_fields), "INFO")
+            self.log("Total fields available: {0}".format(len(available_fields)), "INFO")
 
-                # Fetch devices respecting global filters for provision config
-                if global_filters and any(global_filters.values()):
-                    # Apply same global filters as device_details
-                    self.log("Applying global filters to provision device fetch", "INFO")
-                    result = self.process_global_filters(global_filters)
-                    device_ip_to_id_mapping = result.get("device_ip_to_id_mapping", {})
+            # Check which fields from reverse_mapping_spec are missing
+            missing_fields = []
+            for playbook_key, mapping_spec in reverse_mapping_spec.items():
+                source_key = mapping_spec.get("source_key")
+                if source_key and source_key not in sample_device:
+                    missing_fields.append(source_key)
 
-                    if device_ip_to_id_mapping:
-                        all_devices_for_provision = list(device_ip_to_id_mapping.values())
-                    else:
-                        all_devices_for_provision = self.fetch_all_devices(reason="fallback for provision filtering")
-                else:
-                    # No global filters - fetch all devices
-                    all_devices_for_provision = self.fetch_all_devices(reason="no global filters for provision")
+            if missing_fields:
+                self.log("WARNING: {0} fields from reverse_mapping_spec are NOT in API response: {1}".format(
+                    len(missing_fields), missing_fields
+                ), "WARNING")
+            else:
+                self.log("All fields from reverse_mapping_spec are present in API response", "INFO")
 
-                if all_devices_for_provision:
-                    # Transform all devices for provision config
-                    all_transformed_devices = self.transform_device_to_playbook_format(
-                        reverse_mapping_spec, all_devices_for_provision
+            if component_specific_filters:
+                filtered_devices = self.apply_component_specific_filters(
+                    device_response, component_specific_filters
+                )
+                if filtered_devices is None:
+                    self.log("Component-specific filter validation failed.", "ERROR")
+                    return []
+                device_response = filtered_devices
+
+            if not device_response:
+                self.log("No devices matched requested component-specific filters.", "WARNING")
+                return []
+
+            transformed_devices = self.transform_device_to_playbook_format(
+                reverse_mapping_spec, device_response
+            )
+
+            if not transformed_devices:
+                self.log("No transformed device configurations were generated.", "WARNING")
+                return []
+
+            provision_source_devices = []
+            try:
+                if generate_all or not has_global_filters:
+                    provision_source_devices = self.fetch_all_devices(
+                        reason="building provision_wired_device section"
                     )
-                    license_provision_config = self.build_provision_wired_device_from_sda_endpoint(all_transformed_devices)
                 else:
-                    license_provision_config = None
+                    provision_filter_result = self.process_global_filters(global_filters)
+                    provision_mapping = {}
+                    if isinstance(provision_filter_result, dict):
+                        provision_mapping = provision_filter_result.get("device_ip_to_id_mapping", {})
+                    if isinstance(provision_mapping, dict):
+                        provision_source_devices = list(provision_mapping.values())
+            except Exception as e:
+                self.log(
+                    "Provision source retrieval failed: {0}".format(str(e)),
+                    "ERROR",
+                )
+                provision_source_devices = []
 
-                if license_provision_config and "provision_wired_device" in license_provision_config:
-                    # Add provision config as a separate entry below the device configs
-                    transformed_devices.append(license_provision_config)
-                    self.log("Added separate provision_wired_device config to output (built with global filters)", "INFO")
-                else:
-                    self.log("No provisioned devices found from SDA endpoint", "DEBUG")
+            if provision_source_devices:
+                transformed_for_provision = self.transform_device_to_playbook_format(
+                    reverse_mapping_spec, provision_source_devices
+                )
+                provision_config = self.build_provision_wired_device_from_sda_endpoint(
+                    transformed_for_provision
+                )
+                if (
+                    isinstance(provision_config, dict)
+                    and provision_config.get("provision_wired_device")
+                ):
+                    transformed_devices.append(provision_config)
+                    self.log(
+                        "Appended provision_wired_device section with {0} entries.".format(
+                            len(provision_config.get("provision_wired_device", []))
+                        ),
+                        "INFO",
+                    )
 
-                return transformed_devices
+            return transformed_devices
 
         except Exception as e:
             self.log("Error in get_device_details_details: {0}".format(str(e)), "ERROR")
@@ -1967,78 +2676,116 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        # Check if generate_all_configurations mode is enabled and store as instance attribute
-        # THIS MUST BE DONE FIRST before creating filters
-        self.generate_all_configurations = yaml_config_generator.get("generate_all_configurations", False)
+        if not isinstance(yaml_config_generator, dict):
+            self.msg = {
+                "YAML config generation Task failed for module '{0}'.".format(self.module_name): {
+                    "reason": "Invalid input for configuration generation. Expected a dictionary.",
+                    "status": "INVALID_INPUT",
+                }
+            }
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        self.generate_all_configurations = bool(
+            yaml_config_generator.get("generate_all_configurations", False)
+        )
+
+        file_path = yaml_config_generator.get("file_path") or self.generate_filename()
+        self.log("YAML output file path resolved: {0}".format(file_path), "DEBUG")
+
+        module_supported_network_elements = self.module_schema.get("network_elements", {})
+
         if self.generate_all_configurations:
-            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
-
-        self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
-        if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
-            file_path = self.generate_filename()
-        else:
-            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
-
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
-
-        self.log("Initializing filter dictionaries", "DEBUG")
-        if self.generate_all_configurations:
-            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
-            if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-
-            # Set empty filters to retrieve everything
             global_filters = {}
             component_specific_filters = {}
         else:
-            # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
 
-        self.log(
-            "Global filters determined: {0}".format(global_filters),
-            "DEBUG",
-        )
-        self.log(
-            "Component-specific filters determined: {0}".format(
-                component_specific_filters
-            ),
-            "DEBUG",
-        )
+        if not isinstance(global_filters, dict):
+            self.msg = {
+                "YAML config generation Task failed for module '{0}'.".format(self.module_name): {
+                    "reason": "global_filters must be a dictionary.",
+                    "status": "INVALID_GLOBAL_FILTERS",
+                }
+            }
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        # First, extract components_list to check if user_defined_fields is requested
-        module_supported_network_elements = self.module_schema.get(
-            "network_elements", {}
-        )
+        if not isinstance(component_specific_filters, dict):
+            self.msg = {
+                "YAML config generation Task failed for module '{0}'.".format(self.module_name): {
+                    "reason": "component_specific_filters must be a dictionary.",
+                    "status": "INVALID_COMPONENT_FILTERS",
+                }
+            }
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        components_list = component_specific_filters.get(
-            "components_list", module_supported_network_elements.keys()
-        )
+        # Extract and validate components_list from component_specific_filters
+        # Supports: None (defaults to all), string (single component), or list/tuple/set (multiple components)
+        raw_components_list = component_specific_filters.get("components_list")
+        if raw_components_list is None:
+            # Default: process all supported network elements
+            components_list = list(module_supported_network_elements.keys())
+        elif isinstance(raw_components_list, str):
+            # Single component provided as string
+            components_list = [raw_components_list]
+        elif isinstance(raw_components_list, (list, tuple, set)):
+            # Multiple components provided as iterable
+            components_list = list(raw_components_list)
+        else:
+            # Invalid type - fail fast
+            self.msg = {
+                "YAML config generation Task failed for module '{0}'.".format(self.module_name): {
+                    "reason": "components_list must be a string, list, tuple, or set.",
+                    "status": "INVALID_COMPONENTS_LIST",
+                }
+            }
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        # Convert to list if needed
-        components_list = list(components_list) if not isinstance(components_list, list) else components_list
+        # Normalize components: strip whitespace, remove duplicates, validate types
+        normalized_components = []
+        for component in components_list:
+            if not isinstance(component, str) or not component.strip():
+                self.log("Ignoring invalid component value: {0}".format(component), "WARNING")
+                continue
+            component_name = component.strip()
+            # Preserve order, avoid duplicates
+            if component_name not in normalized_components:
+                normalized_components.append(component_name)
 
-        # Validate user_defined_fields constraint: cannot be used with global_filters
+        # Identify unsupported components and log warnings (non-fatal)
+        unsupported_components = [
+            component
+            for component in normalized_components
+            if component not in module_supported_network_elements
+        ]
+        if unsupported_components:
+            self.log("Ignoring unsupported component(s): {0}".format(unsupported_components), "WARNING")
+
+        # Filter to only include supported components
+        components_list = [
+            component
+            for component in normalized_components
+            if component in module_supported_network_elements
+        ]
+
+        # Validate constraint: user_defined_fields is incompatible with global_filters
+        # user_defined_fields operates independently (no IP-based filtering)
+        # global_filters are IP-based device filters (apply only to device_details)
         has_user_defined_fields = "user_defined_fields" in components_list
-        has_global_filters = any(global_filters.values())
+        has_global_filters = any(bool(value) for value in global_filters.values())
 
         if has_user_defined_fields and has_global_filters:
-            self.log(
-                "ERROR: user_defined_fields component cannot be used together with global_filters",
-                "ERROR"
-            )
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {
-                    "reason": "user_defined_fields component cannot be used together with global_filters "
-                              "(mutually exclusive - global filters are IP-based device filtering)",
-                    "status": "INVALID_FILTER_COMBINATION"
+                "YAML config generation Task failed for module '{0}'.".format(self.module_name): {
+                    "reason": (
+                        "user_defined_fields component cannot be used with global_filters "
+                        "(global filters are IP-based device filtering)."
+                    ),
+                    "status": "INVALID_FILTER_COMBINATION",
                 }
             }
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2061,14 +2808,12 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # For filter-only components (provision_device, interface_details), we need device_details data
         # So we fetch device_details internally if any filter-only component is requested
         components_to_fetch = list(components_list)
-        has_filter_only = any(
-            module_supported_network_elements.get(c, {}).get("is_filter_only", False)
-            for c in components_list
+        has_filter_only_component = any(
+            module_supported_network_elements.get(component, {}).get("is_filter_only", False)
+            for component in components_list
         )
-
-        if has_filter_only and "device_details" not in components_to_fetch:
-            self.log("Adding device_details to fetch list (required by filter-only components)", "DEBUG")
-            components_to_fetch = ["device_details"] + components_to_fetch
+        if has_filter_only_component and "device_details" not in components_to_fetch:
+            components_to_fetch.insert(0, "device_details")
 
         self.log(
             "Components to fetch internally: {0}".format(components_to_fetch), "DEBUG"
@@ -2091,33 +2836,38 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log("Skipping filter-only or independent component: {0}".format(component), "DEBUG")
                 continue
 
-            # Create filters dictionary properly with both global and component-specific filters
-            # Include generate_all_configurations flag in the filters
+            operation_func = network_element.get("get_function_name")
+            if not callable(operation_func):
+                self.log(
+                    "Skipping component '{0}' due to unavailable operation.".format(component),
+                    "WARNING",
+                )
+                continue
+
             filters = {
                 "global_filters": global_filters,
                 "component_specific_filters": component_specific_filters.get(component, {}),
-                "generate_all_configurations": self.generate_all_configurations
+                "generate_all_configurations": self.generate_all_configurations,
             }
 
-            self.log("Processing component {0} with filters: {1}".format(component, filters), "DEBUG")
+            self.log("Collecting data for component '{0}'.".format(component), "INFO")
+            details = operation_func(network_element, filters)
 
-            operation_func = network_element.get("get_function_name")
-            if callable(operation_func):
-                details = operation_func(network_element, filters)
+            if self.status == "failed":
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            if isinstance(details, list):
+                final_list.extend([item for item in details if item])
+            elif isinstance(details, dict):
+                final_list.append(details)
+            elif details is not None:
                 self.log(
-                    "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
+                    "Skipping unexpected response type for component '{0}': {1}".format(
+                        component, type(details).__name__
+                    ),
+                    "WARNING",
                 )
-
-                # Check if operation failed (validation error occurred)
-                if self.status == "failed":
-                    self.log("Component processing failed due to validation error", "ERROR")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                # Details is already a list with one consolidated config dict
-                # Extend instead of append to flatten the structure
-                if details:
-                    final_list.extend(details)
 
         self.log(
             "Completed processing all components. Total configurations: {0}".format(
@@ -2350,76 +3100,86 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         if dumper is None:
             dumper = OrderedDumper
 
+        if not isinstance(dicts_list, list):
+            self.log("YAML write skipped: expected list input for document payload.", "ERROR")
+            return False
+
+        if not dicts_list:
+            self.log("YAML write skipped: no document payload provided.", "WARNING")
+            return False
+
+        if not isinstance(file_path, str) or not file_path.strip():
+            self.log("YAML write skipped: invalid file path provided.", "ERROR")
+            return False
+
         self.log(
-            "Starting to write {0} dictionaries to YAML file at: {1}".format(len(dicts_list), file_path),
-            "DEBUG",
+            "Preparing to write {0} YAML document(s) to {1}.".format(len(dicts_list), file_path),
+            "INFO",
         )
+
         try:
-            self.log("Starting conversion of dictionaries to YAML format.", "INFO")
+            serialized_documents = []
 
-            all_yaml_content = "---\n"
+            for index, section in enumerate(dicts_list, start=1):
+                if not isinstance(section, dict):
+                    self.log(
+                        "Skipping non-dictionary YAML section at index {0}.".format(index),
+                        "WARNING",
+                    )
+                    continue
 
-            for idx, data_dict in enumerate(dicts_list):
-                # Extract and remove comment if present
-                comment = None
-                actual_data = data_dict
+                comment = section.get("_comment")
+                if "data" in section:
+                    payload = section.get("data")
+                else:
+                    payload = {k: v for k, v in section.items() if k != "_comment"}
 
-                if "_comment" in data_dict:
-                    comment = data_dict["_comment"]
-                    # If using _comment + data structure, extract the data
-                    if "data" in data_dict:
-                        actual_data = data_dict["data"]
-                    else:
-                        # Remove _comment from dict
-                        actual_data = {k: v for k, v in data_dict.items() if k != "_comment"}
-
-                # Add comment as YAML comment before the section
-                if comment:
-                    all_yaml_content += "# {0}\n".format(comment)
+                if payload is None:
+                    payload = {}
 
                 yaml_content = yaml.dump(
-                    actual_data,
+                    payload,
                     Dumper=dumper,
                     default_flow_style=False,
                     indent=2,
                     allow_unicode=True,
                     sort_keys=False,
-                )
+                ).rstrip()
 
-                # Post-process to add blank lines only before top-level list items (config items)
-                lines = yaml_content.split('\n')
-                result_lines = []
+                if not yaml_content:
+                    yaml_content = "{}"
 
-                for i, line in enumerate(lines):
-                    # Check if this line starts a top-level list item (no leading whitespace before -)
-                    if line.startswith('- ') and i > 0:
-                        # Check if previous line is not blank
-                        if result_lines and result_lines[-1].strip() != '':
-                            # Add a blank line before this top-level list item
-                            result_lines.append('')
-                    result_lines.append(line)
+                lines = yaml_content.split("\n")
+                formatted_lines = []
+                for line_index, line in enumerate(lines):
+                    if (
+                        line.startswith("- ")
+                        and line_index > 0
+                        and formatted_lines
+                        and formatted_lines[-1].strip() != ""
+                    ):
+                        formatted_lines.append("")
+                    formatted_lines.append(line)
 
-                yaml_content = '\n'.join(result_lines)
-                all_yaml_content += yaml_content
+                yaml_content = "\n".join(formatted_lines)
 
-                # Add document separator before next document (if not the last one)
-                if idx < len(dicts_list) - 1:
-                    all_yaml_content += "\n---\n"
+                if comment:
+                    comment_line = str(comment).splitlines()[0].strip()
+                    serialized_documents.append("# {0}\n{1}".format(comment_line, yaml_content))
+                else:
+                    serialized_documents.append(yaml_content)
 
-            self.log("Dictionaries successfully converted to YAML format.", "DEBUG")
+            if not serialized_documents:
+                self.log("YAML write skipped: no valid documents after normalization.", "WARNING")
+                return False
 
-            # Ensure the directory exists
+            final_yaml = "---\n" + "\n---\n".join(serialized_documents) + "\n"
+
             self.ensure_directory_exists(file_path)
+            with open(file_path, "w", encoding="utf-8") as yaml_file:
+                yaml_file.write(final_yaml)
 
-            self.log(
-                "Preparing to write YAML content to file: {0}".format(file_path), "INFO"
-            )
-            with open(file_path, "w") as yaml_file:
-                yaml_file.write(all_yaml_content)
-
-            self.log(
-                "Successfully written {0} YAML documents to {1}.".format(len(dicts_list), file_path), "INFO"
-            )
+            self.log("YAML documents written successfully to {0}.".format(file_path), "INFO")
             return True
 
         except Exception as e:
@@ -2518,6 +3278,8 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         operations_executed = 0
         operations_skipped = 0
 
+        want_payload = self.want if isinstance(self.want, dict) else {}
+
         # Iterate over operations and process them
         self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
@@ -2529,56 +3291,68 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "DEBUG",
             )
-            params = self.want.get(param_key)
-            if params:
-                self.log(
-                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
-                        index, operation_name
-                    ),
-                    "INFO",
-                )
-
-                try:
-                    operation_func(params).check_return_status()
-                    operations_executed += 1
-                    self.log(
-                        "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
-                    )
-                except Exception as e:
-                    self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
-                    )
-                    self.set_operation_result(
-                        "failed", True,
-                        "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
-                    ).check_return_status()
-
-            else:
+            if param_key not in want_payload:
                 operations_skipped += 1
                 self.log(
-                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
-                        index, operation_name
+                    "Skipping {0}: input section '{1}' not provided.".format(
+                        operation_name, param_key
+                    ),
+                    "DEBUG",
+                )
+                continue
+
+            params = want_payload.get(param_key)
+            if params is None:
+                operations_skipped += 1
+                self.log(
+                    "Skipping {0}: input section '{1}' is null.".format(
+                        operation_name, param_key
                     ),
                     "WARNING",
                 )
+                continue
 
-        end_time = time.time()
+            try:
+                self.log("Running {0} operation.".format(operation_name), "INFO")
+                operation_result = operation_func(params)
+                if hasattr(operation_result, "check_return_status"):
+                    operation_result.check_return_status()
+                operations_executed += 1
+                self.log("{0} operation completed successfully.".format(operation_name), "INFO")
+            except Exception as e:
+                self.log(
+                    "{0} operation failed: {1}".format(operation_name, str(e)),
+                    "ERROR",
+                )
+                self.set_operation_result(
+                    "failed",
+                    False,
+                    "{0} operation failed: {1}".format(operation_name, str(e)),
+                    "ERROR",
+                ).check_return_status()
+
+        elapsed_time = time.time() - start_time
         self.log(
-            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
-                end_time - start_time
+            "Gathered-state workflow completed in {0:.2f} seconds (executed={1}, skipped={2}).".format(
+                elapsed_time, operations_executed, operations_skipped
             ),
-            "DEBUG",
+            "INFO",
         )
+
+        if operations_executed == 0 and operations_skipped > 0 and self.status != "failed":
+            self.set_operation_result(
+                "success",
+                False,
+                "No gathered-state operations were executed for the provided configuration.",
+                "WARNING",
+            )
 
         return self
 
     def transform_device_to_playbook_format(self, reverse_mapping_spec, device_response):
         """
-        Transforms raw device data from Catalyst Center to playbook format using reverse mapping spec.
-        Consolidates devices with matching attributes into single config blocks with merged IP addresses.
+        Transform raw device payload into playbook format and consolidate records
+        with identical non-IP attributes.
 
         Args:
             reverse_mapping_spec (OrderedDict): Mapping specification for transformation
@@ -2587,8 +3361,6 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of consolidated device configurations with merged IP addresses
         """
-
-        # Input validation
         if not isinstance(reverse_mapping_spec, dict):
             self.log("Invalid reverse mapping specification. Expected dictionary input.", "ERROR")
             return []
@@ -2604,7 +3376,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not device_response:
             self.log("Empty device list received for transformation.", "INFO")
             return []
-        
+
         self.log(
             "Transforming {0} devices into consolidated playbook configurations.".format(
                 len(device_response)
@@ -2612,121 +3384,134 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
 
-        # First pass: Transform each device to playbook format
+        def normalize_for_grouping(value):
+            if isinstance(value, dict):
+                return tuple(
+                    (str(key), normalize_for_grouping(val))
+                    for key, val in sorted(value.items(), key=lambda item: str(item[0]))
+                )
+
+            if isinstance(value, list):
+                return tuple(normalize_for_grouping(item) for item in value)
+
+            if isinstance(value, tuple):
+                return tuple(normalize_for_grouping(item) for item in value)
+
+            if isinstance(value, set):
+                normalized_values = [normalize_for_grouping(item) for item in value]
+                return tuple(sorted(normalized_values, key=lambda item: str(item)))
+
+            return value
+
+        optional_nested_keys = {
+            "add_user_defined_field",
+            "provision_wired_device",
+            "update_interface_details",
+        }
+
         transformed_devices = []
-        optional_nested_keys = ["add_user_defined_field", "provision_wired_device", "update_interface_details"]
-        
-        for device_index, device in enumerate(device_response, start=1):
+        total_devices = len(device_response)
+
+        for index, device in enumerate(device_response, start=1):
             if not isinstance(device, dict):
                 self.log(
-                    "Skipping invalid device payload at index {0}. Expected dictionary.".format(index),
+                    "Skipping device record {0} because it is not a dictionary.".format(index),
                     "WARNING",
                 )
                 continue
+
             device_name = device.get("hostname") or device.get("managementIpAddress") or "Unknown"
             self.log(
                 "Preparing playbook fields for device {0}/{1}: {2}".format(
-                    device_index, len(device_response), device_name
+                    index, total_devices, device_name
                 ),
                 "DEBUG",
             )
 
             device_config = {}
-
             for playbook_key, mapping_spec in reverse_mapping_spec.items():
                 if not isinstance(mapping_spec, dict):
-                    self.log(
-                        "Skipping key '{0}' due to invalid mapping specification.".format(playbook_key),
-                        "WARNING",
-                    )
                     continue
 
                 source_key = mapping_spec.get("source_key")
                 transform_func = mapping_spec.get("transform")
 
+                api_value = device.get(source_key) if source_key else None
+
                 try:
-                    api_value = device.get(source_key) if source_key else None
-                    transformed_value = transform_func(api_value) if callable(transform_func) else api_value
+                    transformed_value = (
+                        transform_func(api_value) if callable(transform_func) else api_value
+                    )
                 except Exception as e:
                     self.log(
-                        "Failed to transform key '{0}' for device '{1}': {2}".format(
-                            playbook_key, device_name, str(e)
+                        "Transformation failed for key '{0}' on device index {1}: {2}".format(
+                            playbook_key, index, str(e)
                         ),
                         "ERROR",
                     )
                     transformed_value = None
 
-                if playbook_key in optional_nested_keys and transformed_value in (None, [], {}):
-                    continue
+                if playbook_key in (
+                    "add_user_defined_field",
+                    "provision_wired_device",
+                    "update_interface_details",
+                ):
+                    if transformed_value in (None, [], {}):
+                        continue
 
                 device_config[playbook_key] = transformed_value
 
-            # Ensure ip_address_list is present with fallback values
-            if "ip_address_list" not in device_config:
-                fallback_ip = device.get("managementIpAddress") or device.get("ipAddress")
-                device_config["ip_address_list"] = [fallback_ip] if fallback_ip else []
-
             transformed_devices.append(device_config)
 
-            self.log("Device {0} ({1}) transformation complete".format(
-                device_index + 1, device_name
-            ), "INFO")
-
         if not transformed_devices:
-            self.log("No valid devices were transformed into playbook format.", "WARNING")
-            return []    
+            self.log("No device records were transformed.", "WARNING")
+            return []
 
-        # Second pass: Consolidate devices with matching attributes
-        self.log("Starting consolidation of {0} transformed devices".format(len(transformed_devices)), "INFO")
+        def to_immutable(value):
+            if isinstance(value, dict):
+                return tuple((k, to_immutable(v)) for k, v in sorted(value.items()))
+            if isinstance(value, list):
+                return tuple(to_immutable(v) for v in value)
+            return value
 
-        # Create a dictionary to group devices by their non-ip_address attributes
-        consolidated_configs = {}
-
+        consolidated = {}
         for device_config in transformed_devices:
-            # Create a key from all attributes except ip_address_list
-            config_key_parts = []
-            for key in sorted(device_config.keys()):
-                if key != 'ip_address_list':
-                    # Convert value to string for key creation
-                    value = device_config[key]
-                    config_key_parts.append("{0}={1}".format(key, str(value)))
+            non_ip_payload = {
+                k: v for k, v in device_config.items() if k != "ip_address_list"
+            }
+            signature = to_immutable(non_ip_payload)
 
-            config_key = "|".join(config_key_parts)
+            if signature not in consolidated:
+                consolidated[signature] = device_config.copy()
+                if "ip_address_list" not in consolidated[signature]:
+                    consolidated[signature]["ip_address_list"] = []
 
-            # If this config key doesn't exist, create it
-            if config_key not in consolidated_configs:
-                consolidated_configs[config_key] = device_config.copy()
-                # Initialize ip_address_list as empty if not present
-                if 'ip_address_list' not in consolidated_configs[config_key]:
-                    consolidated_configs[config_key]['ip_address_list'] = []
+            current_ips = consolidated[signature].get("ip_address_list", [])
+            incoming_ips = device_config.get("ip_address_list", [])
 
-            # Merge IP addresses
-            current_ips = consolidated_configs[config_key].get('ip_address_list', [])
-            device_ips = device_config.get('ip_address_list', [])
+            if isinstance(incoming_ips, str):
+                incoming_ips = [incoming_ips]
+            elif not isinstance(incoming_ips, list):
+                incoming_ips = []
 
-            if isinstance(device_ips, list):
-                for ip in device_ips:
-                    if ip and ip not in current_ips:
-                        current_ips.append(ip)
-            elif device_ips:
-                if device_ips not in current_ips:
-                    current_ips.append(device_ips)
+            for ip in incoming_ips:
+                if isinstance(ip, str):
+                    ip = ip.strip()
+                if ip and ip not in current_ips:
+                    current_ips.append(ip)
 
-            consolidated_configs[config_key]['ip_address_list'] = current_ips
+            consolidated[signature]["ip_address_list"] = current_ips
 
-        # Convert back to list format
-        consolidated_list = list(consolidated_configs.values())
+        consolidated_list = list(consolidated.values())
 
-        self.log("Consolidation complete. Created {0} consolidated configurations from {1} devices".format(
-            len(consolidated_list), len(transformed_devices)
-        ), "INFO")
-
-        for idx, config in enumerate(consolidated_list):
-            ip_count = len(config.get('ip_address_list', []))
-            self.log("Consolidated config {0}: {1} IP addresses, {2} attributes".format(
-                idx + 1, ip_count, len(config)
-            ), "INFO")
-
+        self.log(
+            "Transformation completed. raw={0}, transformed={1}, consolidated={2}".format(
+                len(device_response),
+                len(transformed_devices),
+                len(consolidated_list),
+            ),
+            "INFO",
+        )
         return consolidated_list
 
     def apply_component_specific_filters(self, devices, component_filters):
@@ -2747,183 +3532,185 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: Filtered device list
         """
+        if not isinstance(devices, list):
+            self.log(
+                "Cannot apply component filters because devices type is invalid: {0}".format(
+                    type(devices).__name__
+                ),
+                "ERROR",
+            )
+            self.status = "failed"
+            self.msg = "Device filter input is invalid."
+            return None
+
         if not component_filters:
-            self.log("No component filters provided, returning all devices", "INFO")
-            return devices
+            return [d for d in devices if isinstance(d, dict)]
 
-        self.log("Component filters received: {0}".format(component_filters), "DEBUG")
-
-        # Normalize component_filters to a list of filter dicts
-        filter_list = []
-
-        if isinstance(component_filters, list):
-            # Already a list
-            filter_list = component_filters
-            self.log("Component filters is a list with {0} filter set(s)".format(len(filter_list)), "DEBUG")
-        elif isinstance(component_filters, dict):
-            # Convert single dict to list
-            filter_list = [component_filters]
-            self.log("Component filters is a dict, converted to list with 1 filter set", "DEBUG")
+        if isinstance(component_filters, dict):
+            filter_sets = [component_filters]
+        elif isinstance(component_filters, list):
+            filter_sets = [f for f in component_filters if isinstance(f, dict)]
         else:
-            self.log("Component filters is not dict or list, returning all devices", "WARNING")
-            return devices
+            self.log(
+                "Ignoring component filters because type is invalid: {0}".format(
+                    type(component_filters).__name__
+                ),
+                "WARNING",
+            )
+            return [d for d in devices if isinstance(d, dict)]
 
-        if not filter_list:
-            self.log("Component filters list is empty, returning all devices", "INFO")
-            return devices
+        if not filter_sets:
+            return [d for d in devices if isinstance(d, dict)]
+        valid_types = {
+            "NETWORK_DEVICE",
+            "COMPUTE_DEVICE",
+            "MERAKI_DASHBOARD",
+            "THIRD_PARTY_DEVICE",
+            "FIREPOWER_MANAGEMENT_SYSTEM",
+        }
+        valid_roles = {"ACCESS", "CORE", "DISTRIBUTION", "BORDER ROUTER", "UNKNOWN"}
+        valid_snmp_versions = {"v2", "v2c", "v3"}
+        valid_cli_transports = {"ssh", "telnet"}
 
-        # Validate and clean filter list
-        valid_filters = []
-        for idx, filter_item in enumerate(filter_list):
-            if isinstance(filter_item, dict):
-                valid_filters.append(filter_item)
-            else:
-                self.log("Filter item {0} is not a dict, skipping: {1}".format(idx, filter_item), "WARNING")
+        normalized_filters = []
 
-        if not valid_filters:
-            self.log("No valid filter dicts found, returning all devices", "WARNING")
-            return devices
+        for index, raw_filter in enumerate(filter_sets, start=1):
+            unknown_keys = set(raw_filter.keys()) - {
+                "type",
+                "role",
+                "snmp_version",
+                "cli_transport",
+            }
+            if unknown_keys:
+                self.log(
+                    "Ignoring unsupported keys in filter set {0}: {1}".format(
+                        index, sorted(list(unknown_keys))
+                    ),
+                    "WARNING",
+                )
 
-        self.log("Processing {0} filter set(s) with OR logic".format(len(valid_filters)), "INFO")
+            device_type = raw_filter.get("type")
+            device_role = raw_filter.get("role")
+            snmp_version = raw_filter.get("snmp_version")
+            cli_transport = raw_filter.get("cli_transport")
 
-        filtered_devices = []
-        devices_matched_filters = set()  # Track which devices matched any filter
+            if device_type:
+                if not isinstance(device_type, str):
+                    self.status = "failed"
+                    self.msg = "Filter 'type' must be a string."
+                    return None
+                device_type = device_type.strip().upper()
+                if device_type not in valid_types:
+                    self.status = "failed"
+                    self.msg = "Invalid type '{0}' in component_specific_filters.".format(
+                        raw_filter.get("type")
+                    )
+                    return None
 
-        # Process each filter set (OR logic - device matches ANY filter set)
-        for filter_idx, filter_criteria in enumerate(valid_filters):
-            self.log("Processing filter set {0}/{1}: {2}".format(
-                filter_idx + 1, len(valid_filters), filter_criteria
-            ), "INFO")
+            role_values = None
+            if device_role is not None:
+                if isinstance(device_role, str):
+                    role_values = [device_role]
+                elif isinstance(device_role, list):
+                    role_values = device_role
+                else:
+                    self.status = "failed"
+                    self.msg = "Filter 'role' must be a string or list."
+                    return None
 
-            # Extract filter criteria from this filter set
-            device_type = filter_criteria.get("type")
-            device_role = filter_criteria.get("role")
-            snmp_version = filter_criteria.get("snmp_version")
-            cli_transport = filter_criteria.get("cli_transport")
-
-            self.log("Filter set {0} - type: {1}, role: {2}, snmp: {3}, cli: {4}".format(
-                filter_idx + 1, device_type, device_role, snmp_version, cli_transport
-            ), "DEBUG")
-
-            # Validate role filter if provided
-            if device_role:
-                valid_roles = ["ACCESS", "CORE", "DISTRIBUTION", "BORDER ROUTER", "UNKNOWN"]
-                role_filter_list = device_role if isinstance(device_role, list) else [device_role]
-
-                for role_value in role_filter_list:
-                    if role_value.upper() not in [r.upper() for r in valid_roles]:
-                        error_msg = "Invalid role '{0}' in component_specific_filters. Valid roles are: {1}".format(
-                            role_value, ", ".join(valid_roles)
-                        )
-                        self.log(error_msg, "ERROR")
-                        self.msg = error_msg
+                normalized_roles = []
+                for role in role_values:
+                    if not isinstance(role, str):
                         self.status = "failed"
+                        self.msg = "Role filter values must be strings."
                         return None
+                    role_norm = role.strip().upper()
+                    if role_norm not in valid_roles:
+                        self.status = "failed"
+                        self.msg = "Invalid role '{0}' in component_specific_filters.".format(role)
+                        return None
+                    normalized_roles.append(role_norm)
+                role_values = normalized_roles
 
-            # If no actual filter values provided in this set, skip it
-            if not any([device_type, device_role, snmp_version, cli_transport]):
-                self.log("Filter set {0} has no filter values, skipping".format(filter_idx + 1), "DEBUG")
+            if snmp_version:
+                if not isinstance(snmp_version, str):
+                    self.status = "failed"
+                    self.msg = "Filter 'snmp_version' must be a string."
+                    return None
+                snmp_version = snmp_version.strip().lower()
+                if snmp_version not in valid_snmp_versions:
+                    self.status = "failed"
+                    self.msg = "Invalid snmp_version '{0}' in component_specific_filters.".format(
+                        raw_filter.get("snmp_version")
+                    )
+                    return None
+
+            if cli_transport:
+                if not isinstance(cli_transport, str):
+                    self.status = "failed"
+                    self.msg = "Filter 'cli_transport' must be a string."
+                    return None
+                cli_transport = cli_transport.strip().lower()
+                if cli_transport not in valid_cli_transports:
+                    self.status = "failed"
+                    self.msg = "Invalid cli_transport '{0}' in component_specific_filters.".format(
+                        raw_filter.get("cli_transport")
+                    )
+                    return None
+
+            if any([device_type, role_values, snmp_version, cli_transport]):
+                normalized_filters.append(
+                    {
+                        "type": device_type,
+                        "role": role_values,
+                        "snmp_version": snmp_version,
+                        "cli_transport": cli_transport,
+                    }
+                )
+
+        if not normalized_filters:
+            return [d for d in devices if isinstance(d, dict)]
+
+        matched_indexes = set()
+
+        for device_index, device in enumerate(devices):
+            if not isinstance(device, dict):
                 continue
 
-            # Check each device against THIS filter set
-            for device in devices:
-                # Skip if device already matched a previous filter set
-                device_id = device.get("id", device.get("instanceUuid", ""))
-                if device_id in devices_matched_filters:
+            device_type_value = (device.get("type") or "").strip().upper()
+            device_role_value = (device.get("role") or "").strip().upper()
+            device_snmp_value = (device.get("snmpVersion") or "").strip().lower()
+            device_cli_value = (device.get("cliTransport") or "").strip().lower()
+
+            normalized_device_snmp = device_snmp_value.replace("v2c", "v2")
+            normalized_device_role = device_role_value if device_role_value else "UNKNOWN"
+
+            for criteria in normalized_filters:
+                if criteria["type"] and device_type_value != criteria["type"]:
                     continue
 
-                device_hostname = device.get("hostname", "Unknown")
-                device_matched = True
+                if criteria["role"] and normalized_device_role not in criteria["role"]:
+                    continue
 
-                # Check device type (AND logic within filter set)
-                if device_type:
-                    device_type_value = device.get("type")
-                    if not device_type_value or device_type_value.upper() != device_type.upper():
-                        self.log("Device {0}: type MISMATCH (filter: {1}, device: {2})".format(
-                            device_hostname, device_type, device_type_value
-                        ), "DEBUG")
-                        device_matched = False
-                    else:
-                        self.log("Device {0}: type MATCH ({1})".format(device_hostname, device_type_value), "DEBUG")
+                if criteria["snmp_version"]:
+                    expected_snmp = criteria["snmp_version"].replace("v2c", "v2")
+                    if normalized_device_snmp != expected_snmp:
+                        continue
 
-                # Check device role (AND logic within filter set)
-                if device_role and device_matched:
-                    device_role_value = device.get("role")
+                if criteria["cli_transport"] and device_cli_value != criteria["cli_transport"]:
+                    continue
 
-                    self.log("Device {0}: role check - Filter: '{1}', Device: '{2}'".format(
-                        device_hostname, device_role, device_role_value
-                    ), "DEBUG")
+                matched_indexes.add(device_index)
+                break
 
-                    # Normalize device_role to a list for uniform comparison
-                    role_filter_list = device_role if isinstance(device_role, list) else [device_role]
+        filtered_devices = [devices[i] for i in sorted(matched_indexes)]
 
-                    # Handle None or empty role
-                    if not device_role_value or device_role_value == "":
-                        # Check if any filter role is UNKNOWN or empty
-                        if any(r.upper() in ["UNKNOWN", ""] for r in role_filter_list):
-                            self.log("Device {0}: role MATCH - both are UNKNOWN/empty".format(device_hostname), "DEBUG")
-                        else:
-                            self.log("Device {0}: role MISMATCH - device role is None/empty (filter: {1})".format(
-                                device_hostname, role_filter_list
-                            ), "DEBUG")
-                            device_matched = False
-                    # Compare roles (case-insensitive) - check if device role matches ANY in the filter list
-                    # Note: Role values are already validated to be in the allowed choices
-                    elif any(device_role_value.upper() == r.upper() for r in role_filter_list):
-                        self.log("Device {0}: role MATCH ({1}) - matches one of {2}".format(
-                            device_hostname, device_role_value, role_filter_list
-                        ), "DEBUG")
-                    else:
-                        self.log("Device {0}: role MISMATCH (filter: {1}, device: {2})".format(
-                            device_hostname, role_filter_list, device_role_value
-                        ), "DEBUG")
-                        device_matched = False
-
-                # Check SNMP version (AND logic within filter set)
-                if snmp_version and device_matched:
-                    device_snmp = device.get("snmpVersion", "")
-                    normalized_filter = snmp_version.lower().replace("v2c", "v2")
-                    normalized_device = device_snmp.lower().replace("v2c", "v2")
-
-                    if normalized_device == normalized_filter:
-                        self.log("Device {0}: SNMP MATCH ({1})".format(device_hostname, device_snmp), "DEBUG")
-                    else:
-                        self.log("Device {0}: SNMP MISMATCH (filter: {1}, device: {2})".format(
-                            device_hostname, snmp_version, device_snmp
-                        ), "DEBUG")
-                        device_matched = False
-
-                # Check CLI transport (AND logic within filter set)
-                if cli_transport and device_matched:
-                    device_cli = device.get("cliTransport", "")
-                    if device_cli.lower() == cli_transport.lower():
-                        self.log("Device {0}: CLI transport MATCH ({1})".format(device_hostname, device_cli), "DEBUG")
-                    else:
-                        self.log("Device {0}: CLI transport MISMATCH (filter: {1}, device: {2})".format(
-                            device_hostname, cli_transport, device_cli
-                        ), "DEBUG")
-                        device_matched = False
-
-                # If device passed ALL criteria in THIS filter set, mark it as matched
-                if device_matched:
-                    devices_matched_filters.add(device_id)
-                    self.log("Device {0} PASSED filter set {1} criteria".format(
-                        device_hostname, filter_idx + 1
-                    ), "DEBUG")
-
-        # Collect all devices that matched ANY filter set
-        for device in devices:
-            device_id = device.get("id", device.get("instanceUuid", ""))
-            if device_id in devices_matched_filters:
-                filtered_devices.append(device)
-                self.log("Device {0} INCLUDED in result (matched a filter set)".format(
-                    device.get("hostname", "Unknown")
-                ), "INFO")
-
-        self.log("Filtering complete: {0} devices matched from {1} total across {2} filter set(s)".format(
-            len(filtered_devices), len(devices), len(valid_filters)
-        ), "INFO")
-
+        self.log(
+            "Component filtering completed: matched={0}, total={1}, filter_sets={2}".format(
+                len(filtered_devices), len(devices), len(normalized_filters)
+            ),
+            "INFO",
+        )
         return filtered_devices
 
 
