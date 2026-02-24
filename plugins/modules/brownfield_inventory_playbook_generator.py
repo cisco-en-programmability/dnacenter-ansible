@@ -28,11 +28,13 @@ options:
   dnac_port:
     description: Cisco Catalyst Center port number.
     type: str
-    default: '443'
+    default: "443"
+    required: false
   dnac_username:
     description: Cisco Catalyst Center username.
     type: str
     default: admin
+    required: false
   dnac_password:
     description: Cisco Catalyst Center password.
     type: str
@@ -42,48 +44,59 @@ options:
     description: Verify SSL certificate for Cisco Catalyst Center.
     type: bool
     default: true
+    required: false
   dnac_version:
     description: Cisco Catalyst Center version.
     type: str
-    default: 2.2.3.3
+    default: "2.2.3.3"
+    required: false
   dnac_debug:
     description: Enable debug logging.
     type: bool
     default: false
+    required: false
   dnac_log_level:
     description: Log level for module execution.
     type: str
     default: WARNING
+    required: false
   dnac_log_file_path:
     description: Path for debug log file.
     type: str
     default: dnac.log
+    required: false
   dnac_log_append:
     description: Append to log file instead of overwriting.
     type: bool
     default: true
+    required: false
   dnac_log:
     description: Enable logging to file.
     type: bool
     default: false
+    required: false
   validate_response_schema:
     description: Validate response schema from API.
     type: bool
     default: true
+    required: false
   dnac_api_task_timeout:
     description: API task timeout in seconds.
     type: int
     default: 1200
+    required: false
   dnac_task_poll_interval:
     description: Task poll interval in seconds.
     type: int
     default: 2
+    required: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
     choices:
       - gathered
     default: gathered
+    required: false
   config:
     description:
       - A list of filters for generating YAML playbook compatible with the 'inventory_workflow_manager' module.
@@ -726,7 +739,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         return schema
-    
+
     def fetch_all_devices(self, reason=""):
         """
         Fetch all devices from Cisco Catalyst Center API with pagination support.
@@ -1568,7 +1581,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 return []
 
             udfs = response.get("response", [])
-            
+
             # Validate response payload type
             if udfs is None:
                 udfs = []
@@ -2275,7 +2288,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "ERROR",
             )
             return []
-        
+
         interface_name_filter_set = None
         if interface_name_filter:
             if isinstance(interface_name_filter, str):
