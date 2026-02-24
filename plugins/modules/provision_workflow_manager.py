@@ -578,7 +578,7 @@ EXAMPLES = r"""
             excluded_attributes: ["guest_ssid_settings", "bandwidth_limits"]
 """
 RETURN = r"""
-# Case_1: Successful creation/updation/deletion of provision
+# Case_1: Successful creation/update/deletion of provision
 response_1:
   description: A dictionary with details of provision is returned
   returned: always
@@ -640,6 +640,7 @@ class Provision(DnacBase):
         self.enable_application_telemetry = []
         self.disable_application_telemetry = []
         self.assigned_device_to_site = []
+        self.already_assigned_device_to_site = []
 
     def validate_input(self, state=None):
         """
@@ -1351,7 +1352,7 @@ class Provision(DnacBase):
                           of the site.
         Example:
           Post creation of the validated input, it fetches the required
-          paramters and stores it for further processing and calling the
+          parameters and stores it for further processing and calling the
           parameters in other APIs.
         """
 
@@ -1400,7 +1401,7 @@ class Provision(DnacBase):
                           of the interface
         Example:
           Post creation of the validated input, it fetches the required
-          paramters and stores it for further processing and calling the
+          parameters and stores it for further processing and calling the
           parameters in other APIs.
         """
         ip_address = self.validated_config.get("management_ip_address")
@@ -1766,12 +1767,12 @@ class Provision(DnacBase):
             config: validated config passed from the playbook
         Returns:
             The method returns an instance of the class with updated attributes:
-                - self.want: A dictionary of paramters obtained from the playbook
-                - self.msg: A message indicating all the paramters from the playbook are
+                - self.want: A dictionary of parameters obtained from the playbook
+                - self.msg: A message indicating all the parameters from the playbook are
                 collected
                 - self.status: Success
         Example:
-            It stores all the paramters passed from the playbook for further processing
+            It stores all the parameters passed from the playbook for further processing
             before calling the APIs
         """
 
@@ -2461,6 +2462,23 @@ class Provision(DnacBase):
             to_provisioning = config.get("provisioning", False)
 
             if not to_provisioning and status != "success":
+                is_assigned, current_site = self.is_device_assigned_to_site_v1(network_device_id)
+
+                if is_assigned and current_site == site_name:
+                    self.log(
+                        "Device '{0}' is already assigned to site '{1}'. No action required.".format(
+                            device_ip, site_name
+                        ),
+                        "INFO",
+                    )
+                    success_msg.append(
+                        "Wired Device '{0}' is already assigned to site '{1}'.".format(
+                            device_ip, site_name
+                        )
+                    )
+                    self.already_assigned_device_to_site.append(device_ip)
+                    continue
+
                 self.log(
                     "Provisioning not required; assigning device '{0}' to site '{1}' (site_id: {2}).".format(
                         device_ip, site_name, site_id
@@ -3808,7 +3826,7 @@ class Provision(DnacBase):
             the deletion operation.
         Description:
             This function is responsible for removing devices from the Cisco Catalyst Center PnP GUI and
-            raise Exception if any error occured.
+            raise Exception if any error occurred.
         """
         device_ip = self.validated_config["management_ip_address"]
         device_type = self.want.get("device_type")
@@ -3999,7 +4017,7 @@ class Provision(DnacBase):
 
     def verify_diff_merged(self):
         """
-        Verify the merged status(Creation/Updation) of Discovery in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of Discovery in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -4212,6 +4230,12 @@ class Provision(DnacBase):
             )
             result_msg_list_not_changed.append(msg)
 
+        if self.already_assigned_device_to_site:
+            msg = "Device(s) '{0}' already assigned to site.".format(
+                "', '".join(self.already_assigned_device_to_site)
+            )
+            result_msg_list_not_changed.append(msg)
+
         if self.re_provision_wired_device:
             msg = "Wired device(s) '{0}' re-provisioned successfully.".format(
                 "', '".join(map(str, self.re_provision_wired_device))
@@ -4260,9 +4284,13 @@ class Provision(DnacBase):
             self.result["changed"] = True
             self.msg = " ".join(result_msg_list_changed)
         else:
-            input = self.validated_config
-            ips = [item["management_ip_address"] for item in input]
-            ip_list_str = ", ".join(ips)
+            # Get original config from params to extract IPs
+            original_config = self.params.get("config", [])
+            if isinstance(original_config, list):
+                ips = [item.get("management_ip_address") for item in original_config if isinstance(item, dict) and item.get("management_ip_address")]
+                ip_list_str = ", ".join(ips) if ips else "N/A"
+            else:
+                ip_list_str = "N/A"
 
             self.msg = "No provisioning operations were executed for these IPs: {0}".format(ip_list_str)
             self.set_operation_result(

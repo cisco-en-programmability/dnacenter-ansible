@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: device_reboot_apreboot_info
-short_description: Information module for Device Reboot
-  Apreboot
+short_description: Information module for Device Reboot Apreboot
 description:
   - Get all Device Reboot Apreboot.
-  - Users can query the access point reboot status using
-    this intent API.
+  - Users can query the access point reboot status using this intent API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,17 +21,14 @@ options:
     type: dict
   parentTaskId:
     description:
-      - ParentTaskId query parameter. Task id of ap
-        reboot request.
+      - ParentTaskId query parameter. Task id of ap reboot request.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAccessPointRebootTaskResult
-    description: Complete reference of the GetAccessPointRebootTaskResult
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointRebootTaskResult
+    description: Complete reference of the GetAccessPointRebootTaskResult API.
     link: https://developer.cisco.com/docs/dna-center/#!get-access-point-reboot-task-result
 notes:
   - SDK Method used are

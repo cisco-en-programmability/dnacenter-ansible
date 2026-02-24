@@ -2150,7 +2150,6 @@ class Accesspoint(DnacBase):
         """
         Retrieve current access point configuration and site related details from
         Cisco Catalyst Center.
-
         Parameters:
             self (object): An instance of a class for Cisco Catalyst Center interaction.
             input_config (dict): Dictionary containing configuration details.
@@ -2384,7 +2383,7 @@ class Accesspoint(DnacBase):
 
         self.status = "success"
         self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center
-                    and its updation has been verified.""".format(ap_name)
+                    and its update has been verified.""".format(ap_name)
         self.log(self.msg, "INFO")
 
         unmatch_count = 0
@@ -3310,7 +3309,7 @@ class Accesspoint(DnacBase):
             site_name = self.have.get("site_name_hierarchy", self.want.get("site_name"))
             api_response, device_list = self.get_device_ids_from_site(site_name, site_id)
             if current_config.get("id") is not None and current_config.get("id") in device_list:
-                self.log("Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation."
+                self.log("Device with MAC address: {0} found in site: {1} Proceeding with ap_site update."
                          .format(ap_mac_address, site_id), "INFO")
                 return True
             else:
@@ -3597,7 +3596,7 @@ class Accesspoint(DnacBase):
                    "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "channel_width",
                    "radio_type", "radio_band", "dual_radio_mode"),
-            "_6": ("admin_status", "radio_role_assignment", "radio_type",
+            "_7": ("admin_status", "radio_role_assignment", "radio_type",
                    "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "channel_width", "dual_radio_mode", "radio_band"),
             "_3": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
@@ -3639,9 +3638,10 @@ class Accesspoint(DnacBase):
                     temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
                     self.log("Radio type set to: {0}".format(want_radio[dto_key]), "INFO")
                 elif dto_key == "radio_role_assignment":
-                    temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
-                    self.log("Radio Role Assignment set to: {0}".format(want_radio[dto_key]), "INFO")
-                    unmatch_count = unmatch_count + 1
+                    if want_radio.get(dto_key) != current_radio.get(dto_key):
+                        temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
+                        self.log("Radio Role Assignment set to: {0}".format(want_radio[dto_key]), "INFO")
+                        unmatch_count = unmatch_count + 1
                 elif dto_key == "radio_band":
                     temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
                     self.log("Radio band set to: {0}".format(want_radio[dto_key]), "INFO")
@@ -3701,7 +3701,11 @@ class Accesspoint(DnacBase):
                             update_config["apNameNew"] = self.want["ap_name"]
                             update_config["apName"] = current_ap_config.get("ap_name")
                     elif each_key == "is_assigned_site_as_location":
-                        update_config["isAssignedSiteAsLocation"] = self.want["is_assigned_site_as_location"]
+                        if (self.want.get("is_assigned_site_as_location") == "Enabled" and
+                           current_ap_config.get("location") == "default location"):
+                            continue
+                        else:
+                            update_config["isAssignedSiteAsLocation"] = self.want["is_assigned_site_as_location"]
                     elif each_key in ("2.4ghz_radio", "5ghz_radio", "6ghz_radio",
                                       "xor_radio", "tri_radio"):
                         current_radio_dtos = current_ap_config.get("radio_dtos")
@@ -3752,7 +3756,41 @@ class Accesspoint(DnacBase):
 
                 for ctrl_name in ["primary_controller_name", "secondary_controller_name", "tertiary_controller_name"]:
                     if ctrl_name == "primary_controller_name" and self.want.get(ctrl_name):
-                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                        # Extract current and desired values for readability
+                        current_ctrl_name = current_ap_config.get("primary_controller_name")
+                        desired_ctrl_name = self.want.get(ctrl_name)
+                        current_ip = current_ap_config.get("primary_ip_address")
+                        desired_ip = self.want.get("primary_ip_address", {}).get("address")
+                        self.log(f"Current primary controller name: {current_ctrl_name}, Desired primary controller name: {desired_ctrl_name}")
+                        self.log(f"Current primary controller IP: {current_ip}, Desired primary controller IP: {desired_ip}")
+
+                        # Check if controller name matches (either exact match or both indicate inheritance)
+                        ctrl_name_matches = (
+                            current_ctrl_name == desired_ctrl_name or
+                            (current_ctrl_name in ["", None] and desired_ctrl_name == "Inherit from site / Clear")
+                        )
+
+                        # Check if IP address matches (either exact match or both indicate no IP/default)
+                        ip_matches = (
+                            current_ip == desired_ip or
+                            (current_ip == "0.0.0.0" and desired_ip in ["", None])
+                        )
+
+                        # Skip update if both controller name and IP are already in desired state
+                        if ctrl_name_matches and ip_matches:
+                            if update_config.get(ctrl_name) is not None:
+                                self.log(f"Removing redundant key {ctrl_name} from update_config.", "DEBUG")
+                                del update_config[ctrl_name]
+
+                            if self.keymap["primary_ip_address"] in update_config:
+                                del update_config[self.keymap["primary_ip_address"]]
+
+                            if "primaryControllerName" in update_config:
+                                del update_config["primaryControllerName"]
+
+                            self.log("Primary controller configuration matches the desired state. No update needed.", "INFO")
+                            continue
+                        elif self.want.get(ctrl_name) == "Inherit from site / Clear":
                             update_config["primaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["primary_ip_address"]] = {}
                             update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
@@ -3771,7 +3809,39 @@ class Accesspoint(DnacBase):
                             else:
                                 update_config[self.keymap["primary_ip_address"]]["address"] = "0.0.0.0"
                     elif ctrl_name == "secondary_controller_name" and self.want.get(ctrl_name):
-                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                        current_ctrl_name = current_ap_config.get("secondary_controller_name")
+                        desired_ctrl_name = self.want.get(ctrl_name)
+                        current_ip = current_ap_config.get("secondary_ip_address")
+                        desired_ip = self.want.get("secondary_ip_address", {}).get("address")
+                        self.log(f"Current secondary controller name: {current_ctrl_name}, Desired secondary controller name: {desired_ctrl_name}")
+                        self.log(f"Current secondary controller IP: {current_ip}, Desired secondary controller IP: {desired_ip}")
+
+                        # Check if controller name matches (either exact match or both indicate inheritance)
+                        ctrl_name_matches = (
+                            current_ctrl_name == desired_ctrl_name or
+                            (current_ctrl_name in ["", None] and desired_ctrl_name == "Inherit from site / Clear")
+                        )
+
+                        # Check if IP address matches (either exact match or both indicate no IP/default)
+                        ip_matches = (
+                            current_ip == desired_ip or
+                            (current_ip == "0.0.0.0" and desired_ip in ["", None])
+                        )
+
+                        # Skip update if both controller name and IP are already in desired state
+                        if ctrl_name_matches and ip_matches:
+                            if update_config.get(ctrl_name) is not None:
+                                self.log(f"Removing redundant key {ctrl_name} from update_config.", "DEBUG")
+                                del update_config[ctrl_name]
+
+                            if self.keymap["secondary_ip_address"] in update_config:
+                                del update_config[self.keymap["secondary_ip_address"]]
+
+                            if "secondaryControllerName" in update_config:
+                                del update_config["secondaryControllerName"]
+                            self.log("Secondary controller configuration matches the desired state. No update needed.", "INFO")
+                            continue
+                        elif self.want.get(ctrl_name) == "Inherit from site / Clear":
                             update_config["secondaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["secondary_ip_address"]] = {}
                             update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
@@ -3787,7 +3857,39 @@ class Accesspoint(DnacBase):
                             else:
                                 update_config[self.keymap["secondary_ip_address"]]["address"] = "0.0.0.0"
                     elif ctrl_name == "tertiary_controller_name" and self.want.get(ctrl_name):
-                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
+                        current_ctrl_name = current_ap_config.get("tertiary_controller_name")
+                        desired_ctrl_name = self.want.get(ctrl_name)
+                        current_ip = current_ap_config.get("tertiary_ip_address")
+                        desired_ip = self.want.get("tertiary_ip_address", {}).get("address")
+                        self.log(f"Current tertiary controller name: {current_ctrl_name}, Desired tertiary controller name: {desired_ctrl_name}")
+                        self.log(f"Current tertiary controller IP: {current_ip}, Desired tertiary controller IP: {desired_ip}")
+
+                        # Check if controller name matches (either exact match or both indicate inheritance)
+                        ctrl_name_matches = (
+                            current_ctrl_name == desired_ctrl_name or
+                            (current_ctrl_name in ["", None] and desired_ctrl_name == "Inherit from site / Clear")
+                        )
+
+                        # Check if IP address matches (either exact match or both indicate no IP/default)
+                        ip_matches = (
+                            current_ip == desired_ip or
+                            (current_ip == "0.0.0.0" and desired_ip in ["", None])
+                        )
+
+                        # Skip update if both controller name and IP are already in desired state
+                        if ctrl_name_matches and ip_matches:
+                            if update_config.get(ctrl_name) is not None:
+                                self.log(f"Removing redundant key {ctrl_name} from update_config.", "DEBUG")
+                                del update_config[ctrl_name]
+
+                            if self.keymap["tertiary_ip_address"] in update_config:
+                                del update_config[self.keymap["tertiary_ip_address"]]
+
+                            if "tertiaryControllerName" in update_config:
+                                del update_config["tertiaryControllerName"]
+                            self.log("Tertiary controller configuration matches the desired state. No update needed.", "INFO")
+                            continue
+                        elif self.want.get(ctrl_name) == "Inherit from site / Clear":
                             update_config["tertiaryControllerName"] = self.want.get(ctrl_name)
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             update_config[self.keymap["tertiary_ip_address"]]["address"] = "0.0.0.0"
@@ -3802,6 +3904,7 @@ class Accesspoint(DnacBase):
 
                     # remove the controller name if the key is in snake case.
                     if update_config.get(ctrl_name) is not None:
+                        self.log(f"Removing redundant key {ctrl_name} from update_config.", "DEBUG")
                         del update_config[ctrl_name]
 
                 if update_config:
@@ -3812,7 +3915,7 @@ class Accesspoint(DnacBase):
                          .format(self.pprint(update_config)), "INFO")
                 return update_config
 
-            self.log("Playbook AP configuration remain same in current AP configration", "INFO")
+            self.log("Playbook AP configuration remain same in current AP configuration", "INFO")
             return None
 
     def update_ap_configuration(self, ap_config):

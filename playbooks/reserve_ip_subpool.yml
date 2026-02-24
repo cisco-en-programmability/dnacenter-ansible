@@ -2,7 +2,7 @@
 - name: Reserve ip subpool
   hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   vars:
     site: 4b9ece30-ef82-4141-ab37-62b33286195b

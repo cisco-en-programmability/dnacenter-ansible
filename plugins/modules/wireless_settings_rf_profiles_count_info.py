@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_rf_profiles_count_info
-short_description: Information module for Wireless Settings
-  Rf Profiles Count
+short_description: Information module for Wireless Settings Rf Profiles Count
 description:
   - Get all Wireless Settings Rf Profiles Count.
-  - This API allows the user to get count of all RF
-    profiles.
+  - This API allows the user to get count of all RF profiles.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetRFProfilesCount
-    description: Complete reference of the GetRFProfilesCount
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetRFProfilesCount
+    description: Complete reference of the GetRFProfilesCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-rf-profiles-count
 notes:
   - SDK Method used are

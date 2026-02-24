@@ -157,6 +157,7 @@ options:
           Feature templates provide advanced configuration capabilities for wireless infrastructure
           including AAA settings, SSID configurations, CleanAir parameters, and RRM settings.
           These templates enable standardized configuration deployment across wireless network profiles.
+          This feature supported from the Cisco Catalyst Center version 3.1.3 and later.
         type: list
         elements: dict
         required: false
@@ -1184,9 +1185,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     )
                     template_has_errors = True
                     self.log("Design type validation failed for '{0}' - not in supported design types".format(design_type), "ERROR")
-            else:
-                errormsg.append("design_type: Design type is missing in feature template configuration.")
-                template_has_errors = True
 
             feature_templates = feature_template_design.get("feature_templates", [])
             if not feature_templates:
@@ -1967,6 +1965,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         try:
             for feature_template_design in feature_template_designs:
                 templates_processed += 1
+                payload_template = {}
 
                 design_type = feature_template_design.get("design_type")
                 feature_templates = feature_template_design.get("feature_templates", [])
@@ -1976,13 +1975,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 if not design_type:
                     self.log("Design type missing in feature template configuration - skipping template", "WARNING")
-                    continue
+                else:
+                    self.log("Design type '{0}' found for feature template configuration".format(
+                        design_type), "DEBUG")
+                    payload_template["type"] = design_type
 
                 if not feature_templates or not isinstance(feature_templates, list):
                     self.log("Feature templates missing or invalid in feature template configuration - skipping template", "WARNING")
                     continue
-
-                payload_template = {"type": design_type}
 
                 # Process each template design within the feature template
                 for feature_template in feature_templates:
@@ -2013,9 +2013,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                         designs_collected += 1
                                         template_detail = {
                                             "design_id": design_id,
-                                            "design_name": feature_template,
-                                            "design_type": design_type
+                                            "design_name": feature_template
                                         }
+
+                                        if design_type:
+                                            template_detail["design_type"] = design_type
 
                                         # Add SSID applicability if specified
                                         applicability_ssids = feature_template_design.get("applicability_ssids")
@@ -2411,7 +2413,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def parse_input_data_for_payload(self, wireless_data, payload_data):
         """
-        Parse input playbook data to payload for the profile creation and updation.
+        Parse input playbook data to payload for the profile creation and update.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -3369,7 +3371,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of wireless profile in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of wireless profile in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.

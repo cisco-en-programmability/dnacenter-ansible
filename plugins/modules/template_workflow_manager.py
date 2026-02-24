@@ -223,6 +223,14 @@ options:
                   - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
                   - The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
                 type: str
+              validate_jinja2_syntax:
+                description:
+                    - Validates Jinja2 template syntax when template_content_file_path ends with '.j2'.
+                    - Requires jinja2 Python library (pip install jinja2).
+                    - When True, module fails if syntax errors detected with line number and error details.
+                    - When False, skips validation allowing potentially invalid templates to be uploaded.
+                type: bool
+                default: false
               template_params:
                 description: The customization of the
                   contents within the template.
@@ -1116,8 +1124,8 @@ options:
                       - When provided, this field takes precedence over 'template_content'.
                       - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
                         directory (typically the directory where `ansible-playbook` is executed).
-                      - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
-                        variables and logic are evaluated using the provided `template_params` and runtime context.
+                      - For '.j2' files, content is evaluated if validate_jinja2_syntax is set to true, using Jinja templating engine before
+                        being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided `template_params` and runtime context.
                       - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
                         evaluation or interpolation.
                       - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
@@ -2046,7 +2054,7 @@ EXAMPLES = r"""
             - product_family: Switches and Hubs
 
 - name: Create L2VN anycast template in Catalyst Center where
-    template content is stored in a file and its relative path is provided.
+    template content is stored in a file and its relative path is provided. validate_jinja2_syntax is set to true.
   cisco.dnac.template_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
@@ -2064,6 +2072,7 @@ EXAMPLES = r"""
           project_name: "evpn_l2vn_anycast"
           template_name: "evpn_l2vn_anycast_template"
           template_content_file_path: "evpn_templates/evpn_anycast.j2"
+          validate_jinja2_syntax: true
           version_description: "Raw Jinja BGP EVPN L2VN anycast template"
           language: JINJA
           software_type: "IOS-XE"
@@ -2072,7 +2081,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-# Case_1: Successful creation/updation/deletion of template/project
+# Case_1: Successful creation/update/deletion of template/project
 response_1:
   description: A dictionary with versioning details of the template as returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -2146,8 +2155,8 @@ response_6:
   type: dict
   sample: >
     {
-        "msg": "project Wireless_Controller created succesfully",
-        "response": "project Wireless_Controller created succesfully",
+        "msg": "project Wireless_Controller created successfully",
+        "response": "project Wireless_Controller created successfully",
         "status": "success"
     }
 
@@ -2271,6 +2280,9 @@ class Template(NetworkProfileFunctions):
         self.project_created, self.template_committed = [], []
         self.profile_assigned, self.no_profile_assigned, self.profile_exists = [], [], []
         self.profile_detached, self.profile_not_detached, self.profile_already_detached = [], [], []
+        # Global set to track processed profile assignments across all config iterations
+        # Format: set of tuples (template_name, project_name, profile_name)
+        self.processed_profile_assignments = set()
         self.result['response'] = [
             {"configurationTemplate": {"response": {}, "msg": {}}},
             {"export": {"response": {}}},
@@ -2329,6 +2341,7 @@ class Template(NetworkProfileFunctions):
                 "software_version": {"type": "str"},
                 "template_content": {"type": "str"},
                 "template_content_file_path": {"type": "str"},
+                "validate_jinja2_syntax": {"type": "bool", "default": False},
                 "template_params": {"type": "list"},
                 "template_name": {"type": "str"},
                 "new_template_name": {"type": "str"},
@@ -3002,7 +3015,8 @@ class Template(NetworkProfileFunctions):
         """
         Converts template parameter data from playbook format to Cisco Catalyst Center API format with
         comprehensive validation and file handling. Supports both inline template content and file-based
-        template content with proper priority handling and security validation.
+        template content with proper priority handling and security validation. Both content sources are
+        optional; if neither is provided, the playbook will be created without template content.
 
         Parameters:
             params (dict): Playbook details containing template information including:
@@ -3019,26 +3033,24 @@ class Template(NetworkProfileFunctions):
         Description:
             - Validates template content sources with file-first priority pattern
             - Processes file-based template content with security validation
-            - Handles both inline content and file path specifications
+            - Handles both inline content and file path specifications (both optional)
             - Validates required parameters and formats for API compatibility
             - Supports composite template configurations with failure policies
         """
 
         self.log("Template params playbook details: {0}".format(params), "DEBUG")
 
-        # Read template content from file if file path is provided
+        # Read template content from file if file path is provided (both sources optional)
         template_content = params.get("template_content")
         template_content_file_path = params.get("template_content_file_path")
+        validate_jinja2_syntax = params.get("validate_jinja2_syntax")
+
         self.log(
             "Template content sources - file_path: {0}, inline_content: {1}".format(
                 bool(template_content_file_path), bool(template_content)
             ),
             "DEBUG"
         )
-        if not template_content and not template_content_file_path:
-            self.msg = "One of 'template_content' or 'template_content_file_path' must be provided."
-            self.status = "failed"
-            return self.check_return_status()
 
         # Priority 1: template_content_file_path (file-based content)
         if template_content_file_path:
@@ -3087,14 +3099,68 @@ class Template(NetworkProfileFunctions):
                 self.status = "failed"
                 return self.check_return_status()
 
+            # Validate .j2 file content for Jinja2 syntax
+            if validate_jinja2_syntax and str(template_content_file_path).lower().endswith(".j2"):
+                self.log(
+                    "Validating Jinja2 template syntax for file: {0}".format(
+                        template_content_file_path
+                    ),
+                    "DEBUG"
+                )
+                try:
+                    from jinja2 import Environment, TemplateSyntaxError
+                except ImportError:
+                    self.msg = (
+                        "Jinja2 library is required to validate .j2 template files. "
+                        "Install it using: pip install jinja2"
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self.check_return_status()
+
+                try:
+                    env = Environment()
+                    env.parse(template_content)
+                    self.log(
+                        "Jinja2 template validation successful for file: {0}".format(
+                            template_content_file_path
+                        ),
+                        "DEBUG"
+                    )
+                except TemplateSyntaxError as e:
+                    self.msg = (
+                        "Invalid Jinja2 template syntax in file '{0}' at line {1}: {2}".format(
+                            template_content_file_path, e.lineno, e.message
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self.check_return_status()
+                except Exception as e:
+                    self.msg = (
+                        "Failed to validate Jinja2 template from file '{0}': {1}".format(
+                            template_content_file_path, str(e)
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self.check_return_status()
+
         # Priority 2: template_content (inline content) - fallback
-        else:
+        elif template_content:
             self.log(
                 "Using inline template content - length: {0} characters".format(
                     len(template_content)
                 ),
                 "DEBUG"
             )
+        else:
+            # No content provided; proceed without 'templateContent' field
+            self.log(
+                "No template content provided; proceeding with empty template content",
+                "DEBUG"
+            )
+            template_content = ""
 
         temp_params = {
             "tags": self.get_tags(params.get("template_tag")),
@@ -3194,7 +3260,7 @@ class Template(NetworkProfileFunctions):
 
     def get_template(self, config):
         """
-        Get the template needed for updation or creation.
+        Get the template needed for update or creation.
 
         Parameters:
             config (dict) - Playbook details containing Template information.
@@ -3347,7 +3413,7 @@ class Template(NetworkProfileFunctions):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while versioning the template '{0}' in the Cisco Catalyst "
+                "An exception occurred while versioning the template '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(template_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3574,24 +3640,28 @@ class Template(NetworkProfileFunctions):
                 profile_category, str(e)), "ERROR")
             return []
 
-    def _process_individual_profile(self, profile_name, template_name):
+    def _process_individual_profile(self, profile_name, template_name, template_id):
         """
         Processes an individual profile to determine its assignment status.
 
         Parameters:
             profile_name (str): Name of the profile to process.
             template_name (str): Name of the template to check assignment against.
+            template_id (str): UUID of the template to check assignment against.
 
         Returns:
             dict: Profile information including assignment status.
         """
-        self.log("Processing individual profile: '{0}' for template: '{1}'".format(
-            profile_name, template_name), "DEBUG")
+        self.log("Processing individual profile: '{0}' for template: '{1}' (ID: {2})".format(
+            profile_name, template_name, template_id), "DEBUG")
 
         profile_info = {
             "profile_name": profile_name,
-            "template_name": template_name
+            "template_name": template_name,
+            "template_id": template_id
         }
+        self.log("Created profile_info with template_id '{0}' for profile '{1}'".format(
+            template_id, profile_name), "DEBUG")
 
         # Validate profile existence
         if not self.value_exists(self.have["profile_list"], "name", profile_name):
@@ -3617,9 +3687,13 @@ class Template(NetworkProfileFunctions):
             profile_name, profile_id), "DEBUG")
 
         # Check template assignment
+        self.log("Checking assignment status for profile '{0}' against template ID '{1}'".format(
+            profile_name, template_id), "DEBUG")
         assignment_status = self._check_profile_template_assignment(
-            profile_name, profile_id, template_name)
+            profile_name, profile_id, template_id)
         profile_info["profile_status"] = assignment_status
+        self.log("Assignment status determined for profile '{0}': '{1}'".format(
+            profile_name, assignment_status), "INFO")
 
         if assignment_status == "already assigned":
             self.profile_exists.append(profile_name)
@@ -3630,21 +3704,21 @@ class Template(NetworkProfileFunctions):
             profile_name, assignment_status), "DEBUG")
         return profile_info
 
-    def _check_profile_template_assignment(self, profile_name, profile_id, template_name):
+    def _check_profile_template_assignment(self, profile_name, profile_id, template_id):
         """
         Checks if a profile is assigned to the specified template.
 
         Parameters:
             profile_name (str): Name of the profile.
             profile_id (str): ID of the profile.
-            template_name (str): Name of the template.
+            template_id (str): UUID of the template to check assignment against.
 
         Returns:
             str: Assignment status ('Not Assigned' or 'already assigned').
         """
 
-        self.log("Checking template assignment for profile '{0}' (ID: {1}) against template '{2}'".format(
-            profile_name, profile_id, template_name), "DEBUG")
+        self.log("Checking template assignment for profile '{0}' (ID: {1}) against template ID '{2}'".format(
+            profile_name, profile_id, template_id), "DEBUG")
 
         try:
             template_details = self.get_templates_for_profile(profile_id)
@@ -3657,22 +3731,32 @@ class Template(NetworkProfileFunctions):
             self.log("Found {0} template(s) assigned to profile '{1}'".format(
                 len(template_details), profile_name), "DEBUG")
 
-            # Check if the specific template is assigned
-            if self.value_exists(template_details, "name", template_name):
-                self.log("Profile '{0}' is already assigned to template '{1}'".format(
-                    profile_name, template_name), "INFO")
-                return "already assigned"
-            else:
-                self.log("Profile '{0}' is not assigned to template '{1}' (assigned to other templates)".format(
-                    profile_name, template_name), "INFO")
-                return "Not Assigned"
+            # Check if the specific template (by ID) is assigned
+            # Using template ID ensures uniqueness even across projects with same template names
+            for template in template_details:
+                assigned_template_id = template.get("id")
+                assigned_template_name = template.get("name")
+                assigned_project_name = template.get("projectName")
+
+                self.log("Checking assigned template: name='{0}', projectName='{1}', id='{2}'".format(
+                    assigned_template_name, assigned_project_name, assigned_template_id), "DEBUG")
+
+                # Compare template IDs for exact match
+                if assigned_template_id == template_id:
+                    self.log("Profile '{0}' is already assigned to template ID '{1}' (name: '{2}')".format(
+                        profile_name, template_id, assigned_template_name), "INFO")
+                    return "already assigned"
+
+            self.log("Profile '{0}' is not assigned to template ID '{1}' (may be assigned to other templates)".format(
+                profile_name, template_id), "INFO")
+            return "Not Assigned"
 
         except Exception as e:
             self.log("Error checking template assignment for profile '{0}': {1}".format(
                 profile_name, str(e)), "ERROR")
             return "Not Assigned"
 
-    def get_profile_details(self, device_type, input_profiles, template_name):
+    def get_profile_details(self, device_type, input_profiles, template_name, template_id):
         """
         Retrieves profile details and assignment status for given profile names from Cisco Catalyst Center.
 
@@ -3680,6 +3764,7 @@ class Template(NetworkProfileFunctions):
             device_type (str) - The type of device for which to retrieve profile details.
             input_profiles (list) - List of profile names to retrieve details for.
             template_name (str) - The name of the template for which to retrieve profile details.
+            template_id (str) - The UUID of the template for which to retrieve profile details.
 
         Returns:
             list: A list of dictionaries containing profile information including:
@@ -3687,6 +3772,7 @@ class Template(NetworkProfileFunctions):
                 - profile_id (str): UUID of the profile
                 - profile_status (str): Assignment status ('Not Assigned' or 'already assigned')
                 - template_name (str): Name of the template
+                - template_id (str): UUID of the template
 
         Description:
             This function retrieves comprehensive profile information from Cisco Catalyst Center and determines
@@ -3713,8 +3799,13 @@ class Template(NetworkProfileFunctions):
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-        self.log("Collecting profile information for device type '{0}', profiles: {1}, template: '{2}'".format(
-            device_type, input_profiles, template_name), "INFO")
+        if not template_id:
+            self.msg = "Template ID is required but not provided for profile details collection"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log("Collecting profile information for device type '{0}', profiles: {1}, template: '{2}' (ID: {3})".format(
+            device_type, input_profiles, template_name, template_id), "INFO")
 
         # Initialize profile storage
         self.have["profile"] = []
@@ -3734,7 +3825,7 @@ class Template(NetworkProfileFunctions):
         # Process each input profile
         processed_profiles = []
         for profile_name in input_profiles:
-            profile_info = self._process_individual_profile(profile_name, template_name)
+            profile_info = self._process_individual_profile(profile_name, template_name, template_id)
             processed_profiles.append(profile_info)
 
         self.log("Profile details collection completed successfully. Processed {0} profile(s): {1}".format(
@@ -3771,17 +3862,32 @@ class Template(NetworkProfileFunctions):
             if profile_names and template_name and device_types:
                 self.log("Initiating profile assignment collection for template profile management", "DEBUG")
 
-                if device_types:
-                    parsed_current_profile = []
-                    for each_type in device_types:
-                        each_family = each_type.get("product_family")
-                        parsed_current_profile.extend(
-                            self.get_profile_details(each_family,
-                                                     profile_names,
-                                                     template_name)
-                        )
+                # Get template ID for accurate profile assignment tracking
+                # Only proceed with profile collection if template exists
+                template_id = self.have_template.get("id") if self.have_template else None
+                self.log("Retrieved template_id from have_template: {0}".format(
+                    template_id if template_id else "None (template does not exist)"), "DEBUG")
 
-                have["current_profile"] = self.deduplicate_list_of_dict(parsed_current_profile)
+                if template_id:
+                    self.log("Template ID '{0}' found for template '{1}'. Proceeding with profile assignment collection.".format(
+                        template_id, template_name), "DEBUG")
+
+                    if device_types:
+                        parsed_current_profile = []
+                        for each_type in device_types:
+                            each_family = each_type.get("product_family")
+                            parsed_current_profile.extend(
+                                self.get_profile_details(each_family,
+                                                         profile_names,
+                                                         template_name,
+                                                         template_id)
+                            )
+
+                    have["current_profile"] = self.deduplicate_list_of_dict(parsed_current_profile)
+                else:
+                    self.log("Template '{0}' does not exist yet. Profile assignment will be handled after template creation.".format(
+                        template_name), "INFO")
+                    have["current_profile"] = []
 
         project_config = config.get("projects", [])
         if project_config and isinstance(project_config, list):
@@ -4194,10 +4300,10 @@ class Template(NetworkProfileFunctions):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "project(s) {0} created succesfully".format(project_detail.get("name"))
+            success_msg = "project(s) {0} created successfully".format(project_detail.get("name"))
             self.log("Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG")
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            self.log("project(s) {0} created succesfully".format(
+            self.log("project(s) {0} created successfully".format(
                 project_detail.get("name")), "INFO")
             return self
 
@@ -4905,7 +5011,33 @@ class Template(NetworkProfileFunctions):
 
             self.log("Initiating profile assignment and detachment processing for template '{0}'".format(
                 name), "DEBUG")
+
+            # If template was just created, we need to collect profile information now
             current_profiles = self.have.get("current_profile", [])
+            if not current_profiles and configuration_templates.get("profile_names"):
+                self.log("Template was newly created. Collecting profile information for assignment.", "INFO")
+                self.log("Using template_id '{0}' for newly created template '{1}'".format(
+                    template_id, name), "DEBUG")
+                profile_names = configuration_templates.get("profile_names")
+                self.log("Profile names specified for assignment: {0}".format(profile_names), "DEBUG")
+
+                device_types = configuration_templates.get("device_types")
+                self.log("Device types specified for profile assignment: {0}".format(device_types), "DEBUG")
+
+                if profile_names and device_types:
+                    parsed_current_profile = []
+                    for each_type in device_types:
+                        each_family = each_type.get("product_family")
+                        parsed_current_profile.extend(
+                            self.get_profile_details(each_family,
+                                                     profile_names,
+                                                     name,
+                                                     template_id)
+                        )
+                    current_profiles = self.deduplicate_list_of_dict(parsed_current_profile)
+                    self.log("Collected {0} profile(s) for newly created template '{1}' (ID: {2})".format(
+                        len(current_profiles), name, template_id), "INFO")
+
             self.log("Processing {0} profile(s) for template '{1}'.".format(
                 len(current_profiles), name), "INFO")
 
@@ -4914,6 +5046,7 @@ class Template(NetworkProfileFunctions):
                 each_profile_name = each_profile.get("profile_name")
                 each_profile_id = each_profile.get("profile_id")
                 profile_template_name = each_profile.get("template_name")
+                profile_template_id = each_profile.get("template_id")
                 profile_status = each_profile.get("profile_status")
 
                 # Skip profiles not associated with the current template
@@ -4922,8 +5055,24 @@ class Template(NetworkProfileFunctions):
                         each_profile_name, name, profile_template_name), "DEBUG")
                     continue
 
-                self.log("Processing profile '{0}' (index {1}) with status '{2}' for template '{3}'".format(
-                    each_profile_name, profile_index, profile_status, name), "DEBUG")
+                self.log("Processing profile '{0}' (index {1}) with status '{2}' for template '{3}' (ID: {4})".format(
+                    each_profile_name, profile_index, profile_status, name, template_id), "DEBUG")
+
+                # Create a unique key using template_id for this profile assignment
+                # This prevents duplicates across config iterations and handles templates with same name in different projects
+                assignment_key = (template_id, each_profile_name)
+                self.log("Generated assignment key for profile '{0}': {1}".format(each_profile_name, assignment_key), "DEBUG")
+                # Check if this profile+template combination has already been processed
+                if assignment_key in self.processed_profile_assignments:
+                    self.log(
+                        "Profile '{0}' for template ID '{1}' (name: '{2}') already processed in a previous config entry "
+                        "- skipping to avoid duplicate assignment".format(
+                            each_profile_name,
+                            template_id,
+                            name
+                        ),
+                        "INFO")
+                    continue
 
                 # Case 1: Assign profile to template
                 if profile_status == "Not Assigned":
@@ -4941,6 +5090,10 @@ class Template(NetworkProfileFunctions):
                                 each_profile_name, name)
                             self.log(success_msg, "INFO")
                             self.profile_assigned.append(each_profile_name)
+                            # Mark this assignment as processed
+                            self.processed_profile_assignments.add(assignment_key)
+                            self.log("Marked assignment key {0} as processed in tracking set".format(
+                                assignment_key), "DEBUG")
                         else:
                             error_msg = "Failed to attach profile '{0}' to template '{1}' - API response indicates failure".format(
                                 each_profile_name, name)
@@ -4957,6 +5110,10 @@ class Template(NetworkProfileFunctions):
                 elif profile_status == "already assigned":
                     self.log("Profile '{0}' already assigned to template '{1}' - no action required".format(
                         each_profile_name, name), "DEBUG")
+                    # Mark this assignment as processed to avoid duplicate attempts in subsequent iterations
+                    self.processed_profile_assignments.add(assignment_key)
+                    self.log("Marked pre-existing assignment key {0} as processed in tracking set".format(
+                        assignment_key), "DEBUG")
 
                 # Case 3: Unexpected scenario
                 else:
@@ -4972,6 +5129,8 @@ class Template(NetworkProfileFunctions):
                                                              getattr(self, 'profile_assigned', [])), "INFO")
             self.log("  - Assignment failures: {0} {1}".format(total_assignment_failures,
                                                                getattr(self, 'no_profile_assigned', [])), "INFO")
+            self.log("  - Total entries in processed_profile_assignments tracking set: {0}".format(
+                len(self.processed_profile_assignments)), "DEBUG")
 
             self.log("Completed profile assignment and processing for template '{0}'".format(name), "INFO")
 
@@ -6012,7 +6171,7 @@ class Template(NetworkProfileFunctions):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while deploying the template '{0}' to the device(s) {1} "
+                "An exception occurred while deploying the template '{0}' to the device(s) {1} "
                 " in the Cisco Catalyst Center: {2}."
             ).format(template_name, device_ips, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")

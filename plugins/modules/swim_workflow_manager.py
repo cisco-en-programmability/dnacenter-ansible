@@ -97,6 +97,7 @@ options:
                   your local system (Eg "/path/to/your/file").
                   Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
                 type: str
+                required: true
               is_third_party:
                 description: Query parameter to determine
                   if the image is from a third party
@@ -257,6 +258,7 @@ options:
                       list
                     type: list
                     elements: str
+                    required: true
                   is_third_party:
                     description: Flag indicates whether
                       the image is uploaded from a third
@@ -1529,6 +1531,90 @@ class Swim(DnacBase):
 
         return image_exist
 
+    def is_access_point(self, device):
+        """
+        Determine if a device is an Access Point (AP) and should be excluded from SWIM operations.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device (dict): The device information dictionary.
+        Returns:
+            bool: True if the device is an Access Point, False otherwise.
+        Description:
+            Access Points (APs) are not eligible for SWIM (Software Image Management) operations
+            including distribution and activation. This function performs multi-criteria detection
+            by examining:
+            1. Device family (e.g., "Unified AP", "Access Point")
+            2. Device role (e.g., "Access Point", "AP")
+            3. Device series (e.g., contains "Access Point" or "Aironet")
+            4. Device type (e.g., "Unified AP", "Access Point")
+
+            The function uses case-insensitive substring matching to ensure robust detection
+            across different Cisco Catalyst Center versions and device naming conventions.
+        """
+
+        self.log(
+            "Checking if device is an Access Point for SWIM eligibility - "
+            "device_info: {0}".format(device),
+            "DEBUG"
+        )
+
+        if not isinstance(device, dict):
+            self.log(
+                "Device validation failed - expected dict but received {0}, "
+                "treating as non-AP device".format(type(device).__name__),
+                "WARNING"
+            )
+            return False
+
+        def safe_lower(value):
+            return str(value).lower() if value is not None else ""
+
+        family = safe_lower(device.get("family"))
+        if "unified ap" in family or "access point" in family:
+            self.log(
+                "Device identified as Access Point based on family field '{0}' - "
+                "excluding from SWIM operations".format(device.get("family")),
+                "INFO"
+            )
+            return True
+
+        role = safe_lower(device.get("role"))
+        if "access point" in role or role == "ap":
+            self.log(
+                "Device identified as Access Point based on role field '{0}' - "
+                "excluding from SWIM operations".format(device.get("role")),
+                "INFO"
+            )
+            return True
+
+        series = safe_lower(device.get("series"))
+        if "access point" in series or "aironet" in series:
+            self.log(
+                "Device identified as Access Point based on series field '{0}' - "
+                "excluding from SWIM operations".format(device.get("series")),
+                "INFO"
+            )
+            return True
+
+        device_type = safe_lower(device.get("type"))
+        if "unified ap" in device_type or "access point" in device_type:
+            self.log(
+                "Device identified as Access Point based on type field '{0}' - "
+                "excluding from SWIM operations".format(device.get("type")),
+                "INFO"
+            )
+            return True
+
+        self.log(
+            "Device is not an Access Point - eligible for SWIM operations based on "
+            "family: '{0}', role: '{1}', series: '{2}', type: '{3}'".format(
+                device.get("family"), device.get("role"),
+                device.get("series"), device.get("type")
+            ),
+            "DEBUG"
+        )
+        return False
+
     def get_device_id(self, params):
         """
         Retrieve the unique device ID based on the provided parameters.
@@ -1947,6 +2033,18 @@ class Swim(DnacBase):
                         break
 
                     for item in site_response_list:
+                        # Skip Access Points - they are not eligible for SWIM operations
+                        if self.is_access_point(item):
+                            self.log(
+                                "Skipping Access Point device '{0}' (Family: {1}, Role: {2}) - APs are not eligible for SWIM operations.".format(
+                                    item.get("managementIpAddress", "Unknown"),
+                                    item.get("family", "N/A"),
+                                    item.get("role", "N/A")
+                                ),
+                                "INFO",
+                            )
+                            continue
+
                         if item["reachabilityStatus"] != "Reachable":
                             self.log(
                                 """Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
@@ -1966,6 +2064,18 @@ class Swim(DnacBase):
                         site_memberships_ids.append(item["instanceUuid"])
 
                     for item in device_response:
+                        # Skip Access Points - they are not eligible for SWIM operations
+                        if self.is_access_point(item):
+                            self.log(
+                                "Skipping Access Point device '{0}' (Family: {1}, Role: {2}) - APs are not eligible for SWIM operations.".format(
+                                    item.get("managementIpAddress", "Unknown"),
+                                    item.get("family", "N/A"),
+                                    item.get("role", "N/A")
+                                ),
+                                "INFO",
+                            )
+                            continue
+
                         if item["reachabilityStatus"] != "Reachable":
                             self.log(
                                 """Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
@@ -1984,7 +2094,7 @@ class Swim(DnacBase):
                         )
                         device_response_ids.append(item["instanceUuid"])
                 except Exception as e:
-                    self.msg = "An exception occured while fetching the device uuids from Cisco Catalyst Center: {0}".format(
+                    self.msg = "An exception occurred while fetching the device uuids from Cisco Catalyst Center: {0}".format(
                         str(e)
                     )
                     self.log(self.msg, "ERROR")

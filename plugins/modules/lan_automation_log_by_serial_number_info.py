@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: lan_automation_log_by_serial_number_info
-short_description: Information module for Lan Automation
-  Log By Serial Number
+short_description: Information module for Lan Automation Log By Serial Number
 description:
-  - Get Lan Automation Log By Serial Number by id. -
-    > Invoke this API to get the LAN Automation session
-    logs for individual devices based on the given LAN
-    Automation session id and device serial number.
+  - Get Lan Automation Log By Serial Number by id. - > Invoke this API to get the LAN Automation session logs for individual
+    devices based on the given LAN Automation session id and device serial number.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -33,21 +30,16 @@ options:
   logLevel:
     description:
       - >
-        LogLevel query parameter. Supported levels are
-        ERROR, INFO, WARNING, TRACE, CONFIG and ALL.
-        Specifying ALL will display device specific
-        logs with the exception of CONFIG logs. In order
-        to view CONFIG logs along with the remaining
-        logs, please leave the query parameter blank.
+        LogLevel query parameter. Supported levels are ERROR, INFO, WARNING, TRACE, CONFIG and ALL. Specifying
+        ALL will display device specific logs with the exception of CONFIG logs. In order to view CONFIG logs
+        along with the remaining logs, please leave the query parameter blank.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation
-      LANAutomationLogsForIndividualDevices
-    description: Complete reference of the LANAutomationLogsForIndividualDevices
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogsForIndividualDevices
+    description: Complete reference of the LANAutomationLogsForIndividualDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-logs-for-individual-devices
 notes:
   - SDK Method used are
@@ -83,14 +75,14 @@ dnac_response:
       "response": [
         {
           "nwOrchId": "string",
-          "logs": [
+          "entry": [
             {
               "logLevel": "string",
               "timeStamp": "string",
-              "record": "string"
+              "record": "string",
+              "deviceId": "string"
             }
-          ],
-          "serialNumber": "string"
+          ]
         }
       ],
       "version": "string"

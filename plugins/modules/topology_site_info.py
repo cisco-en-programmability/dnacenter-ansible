@@ -20,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Topology
-      GetSiteTopology
-    description: Complete reference of the GetSiteTopology
-      API.
+  - name: Cisco DNA Center documentation for Topology GetSiteTopology
+    description: Complete reference of the GetSiteTopology API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-topology
 notes:
   - SDK Method used are
