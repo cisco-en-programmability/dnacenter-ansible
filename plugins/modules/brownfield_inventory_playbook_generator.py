@@ -35,11 +35,12 @@ options:
     type: str
     default: "admin"
     required: false
+    aliases:
+      - user
   dnac_password:
     description: Cisco Catalyst Center password.
     type: str
-    required: true
-    no_log: true
+    required: false
   dnac_verify:
     description: Verify SSL certificate for Cisco Catalyst Center.
     type: bool
