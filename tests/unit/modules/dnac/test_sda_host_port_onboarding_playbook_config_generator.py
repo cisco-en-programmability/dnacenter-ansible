@@ -18,13 +18,13 @@ __metaclass__ = type
 
 from unittest.mock import patch, mock_open
 import yaml
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_sda_host_port_onboarding_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import sda_host_port_onboarding_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldSdaHostPortOnboardingPlaybookGenerator(TestDnacModule):
-    module = brownfield_sda_host_port_onboarding_playbook_generator
-    test_data = loadPlaybookData("brownfield_sda_host_port_onboarding_playbook_generator")
+class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
+    module = sda_host_port_onboarding_playbook_config_generator
+    test_data = loadPlaybookData("sda_host_port_onboarding_playbook_config_generator")
 
     playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
     playbook_config_port_assignments_filtered = test_data.get("playbook_config_port_assignments_filtered")
@@ -33,7 +33,7 @@ class TestBrownfieldSdaHostPortOnboardingPlaybookGenerator(TestDnacModule):
     playbook_config_all_components_filtered = test_data.get("playbook_config_all_components_filtered")
 
     def setUp(self):
-        super(TestBrownfieldSdaHostPortOnboardingPlaybookGenerator, self).setUp()
+        super(TestSdaHostPortOnboardingPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
@@ -49,7 +49,7 @@ class TestBrownfieldSdaHostPortOnboardingPlaybookGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldSdaHostPortOnboardingPlaybookGenerator, self).tearDown()
+        super(TestSdaHostPortOnboardingPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 

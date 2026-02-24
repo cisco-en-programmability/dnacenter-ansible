@@ -21,7 +21,7 @@ __author__ = "Vivek Raj, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_sda_host_port_onboarding_playbook_generator
+module: sda_host_port_onboarding_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'sda_host_port_onboarding_workflow_manager' module.
 description:
 - Automates brownfield YAML playbook generation for SDA host port onboarding
@@ -203,7 +203,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate YAML playbook for SDA host port onboarding workflow manager which includes all components
-  cisco.dnac.brownfield_sda_host_port_onboarding_playbook_generator:
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -218,7 +218,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_sda_host_port_onboarding_playbook_generator:
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -234,7 +234,7 @@ EXAMPLES = r"""
         file_path: "sda_host_port_onboarding_config.yml"
 
 - name: Generate YAML Configuration with specific component port assignments filters
-  cisco.dnac.brownfield_sda_host_port_onboarding_playbook_generator:
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -256,7 +256,7 @@ EXAMPLES = r"""
               - "Global/USA/RTP/Building2"
 
 - name: Generate YAML Configuration with port channels component
-  cisco.dnac.brownfield_sda_host_port_onboarding_playbook_generator:
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -276,7 +276,7 @@ EXAMPLES = r"""
               - "Global/USA/San Jose/Building1"
 
 - name: Generate YAML Configuration with wireless SSIDs component
-  cisco.dnac.brownfield_sda_host_port_onboarding_playbook_generator:
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -297,7 +297,7 @@ EXAMPLES = r"""
               - "Global/USA/RTP/Building2"
 
 - name: Generate YAML Configuration with multiple components and fabric site filters
-  cisco.dnac.brownfield_sda_host_port_onboarding_playbook_generator:
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -402,7 +402,7 @@ else:
     OrderedDumper = None
 
 
-class SdaHostPortOnboardingPlaybookGenerator(DnacBase, BrownFieldHelper):
+class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center SDA host port onboarding.
 
@@ -2150,7 +2150,7 @@ class SdaHostPortOnboardingPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes YAML configuration file generation for brownfield template workflow.
+        Executes YAML configuration file generation for template workflow.
 
         Processes the desired state parameters prepared by get_want() and generates a
         YAML configuration file containing network element details from Catalyst Center.
@@ -2254,48 +2254,48 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_sda_host_port_onboarding_playbook_generator = SdaHostPortOnboardingPlaybookGenerator(module)
+    catc_sda_host_port_onboarding_playbook_config_generator = SdaHostPortOnboardingPlaybookConfigGenerator(module)
     if (
-        ccc_sda_host_port_onboarding_playbook_generator.compare_dnac_versions(
-            ccc_sda_host_port_onboarding_playbook_generator.get_ccc_version(), "2.3.7.9"
+        catc_sda_host_port_onboarding_playbook_config_generator.compare_dnac_versions(
+            catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_sda_host_port_onboarding_playbook_generator.msg = (
+        catc_sda_host_port_onboarding_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_sda_host_port_onboarding_playbook_generator.get_ccc_version()
+                catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()
             )
         )
-        ccc_sda_host_port_onboarding_playbook_generator.set_operation_result(
-            "failed", False, ccc_sda_host_port_onboarding_playbook_generator.msg, "ERROR"
+        catc_sda_host_port_onboarding_playbook_config_generator.set_operation_result(
+            "failed", False, catc_sda_host_port_onboarding_playbook_config_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_sda_host_port_onboarding_playbook_generator.params.get("state")
+    state = catc_sda_host_port_onboarding_playbook_config_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_sda_host_port_onboarding_playbook_generator.supported_states:
-        ccc_sda_host_port_onboarding_playbook_generator.status = "invalid"
-        ccc_sda_host_port_onboarding_playbook_generator.msg = "State {0} is invalid".format(
+    if state not in catc_sda_host_port_onboarding_playbook_config_generator.supported_states:
+        catc_sda_host_port_onboarding_playbook_config_generator.status = "invalid"
+        catc_sda_host_port_onboarding_playbook_config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_sda_host_port_onboarding_playbook_generator.check_recturn_status()
+        catc_sda_host_port_onboarding_playbook_config_generator.check_recturn_status()
 
     # Validate the input parameters and check the return status
-    ccc_sda_host_port_onboarding_playbook_generator.validate_input().check_return_status()
+    catc_sda_host_port_onboarding_playbook_config_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
-    for config in ccc_sda_host_port_onboarding_playbook_generator.validated_config:
-        ccc_sda_host_port_onboarding_playbook_generator.reset_values()
-        ccc_sda_host_port_onboarding_playbook_generator.get_want(
+    for config in catc_sda_host_port_onboarding_playbook_config_generator.validated_config:
+        catc_sda_host_port_onboarding_playbook_config_generator.reset_values()
+        catc_sda_host_port_onboarding_playbook_config_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_sda_host_port_onboarding_playbook_generator.get_diff_state_apply[
+        catc_sda_host_port_onboarding_playbook_config_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    module.exit_json(**ccc_sda_host_port_onboarding_playbook_generator.result)
+    module.exit_json(**catc_sda_host_port_onboarding_playbook_config_generator.result)
 
 
 if __name__ == "__main__":
