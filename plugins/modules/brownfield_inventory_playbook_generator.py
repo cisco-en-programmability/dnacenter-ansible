@@ -4,41 +4,91 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Wired Campus Automation Module."""
-from __future__ import absolute_import, division, print_function
-from operator import index
-
-__metaclass__ = type
-__author__ = "Mridul Saurabh, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
 module: brownfield_inventory_playbook_generator
 short_description: Generate YAML playbook input for 'inventory_workflow_manager' module.
 description:
-- Generates YAML input files for C(cisco.dnac.inventory_workflow_manager).
-- Supports independent component generation for device details, SDA provisioning,
-  interface details, and user-defined fields.
-- Supports global device filters by IP, hostname, serial number, and MAC address.
-- In non-auto mode, provide C(component_specific_filters.components_list) to
-  control which component sections are generated.
+  - Generates YAML input files for C(cisco.dnac.inventory_workflow_manager).
+  - Supports independent component generation for device details, SDA provisioning,
+    interface details, and user-defined fields.
+  - Supports global device filters by IP, hostname, serial number, and MAC address.
+  - In non-auto mode, provide C(component_specific_filters.components_list) to
+    control which component sections are generated.
 version_added: 6.44.0
-extends_documentation_fragment:
-- cisco.dnac.workflow_manager_params
 author:
-- Mridul Saurabh (@msaurabh)
-- Madhan Sankaranarayanan (@madsanka)
+  - Mridul Saurabh (@msaurabh)
+  - Madhan Sankaranarayanan (@madsanka)
 options:
+  dnac_host:
+    description: Cisco Catalyst Center hostname or IP address.
+    type: str
+    required: true
+  dnac_port:
+    description: Cisco Catalyst Center port number.
+    type: str
+    default: '443'
+  dnac_username:
+    description: Cisco Catalyst Center username.
+    type: str
+    default: admin
+  dnac_password:
+    description: Cisco Catalyst Center password.
+    type: str
+    required: true
+    no_log: true
+  dnac_verify:
+    description: Verify SSL certificate for Cisco Catalyst Center.
+    type: bool
+    default: true
+  dnac_version:
+    description: Cisco Catalyst Center version.
+    type: str
+    default: 2.2.3.3
+  dnac_debug:
+    description: Enable debug logging.
+    type: bool
+    default: false
+  dnac_log_level:
+    description: Log level for module execution.
+    type: str
+    default: WARNING
+  dnac_log_file_path:
+    description: Path for debug log file.
+    type: str
+    default: dnac.log
+  dnac_log_append:
+    description: Append to log file instead of overwriting.
+    type: bool
+    default: true
+  dnac_log:
+    description: Enable logging to file.
+    type: bool
+    default: false
+  validate_response_schema:
+    description: Validate response schema from API.
+    type: bool
+    default: true
+  dnac_api_task_timeout:
+    description: API task timeout in seconds.
+    type: int
+    default: 1200
+  dnac_task_poll_interval:
+    description: Task poll interval in seconds.
+    type: int
+    default: 2
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [gathered]
+    choices:
+      - gathered
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the 'inventory_workflow_manager'
-      module.
-    - Filters specify which devices and credentials to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+      - A list of filters for generating YAML playbook compatible with the 'inventory_workflow_manager' module.
+      - Filters specify which devices and credentials to include in the YAML configuration file.
+      - If "components_list" is specified, only those components are included, regardless of the filters.
     type: list
     elements: dict
     required: true
