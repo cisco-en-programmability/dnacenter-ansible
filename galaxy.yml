@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: dnac
-version: 6.47.0
+version: 6.48.0
 readme: README.md
 authors:
   - Rafael Campos <rcampos@cloverhound.com>
@@ -47,3 +47,24 @@ repository: https://github.com/cisco-en-programmability/dnacenter-ansible
 documentation: https://cisco-en-programmability.github.io/dnacenter-ansible/
 homepage: https://github.com/cisco-en-programmability/dnacenter-ansible
 issues: https://github.com/cisco-en-programmability/dnacenter-ansible/issues
+build_ignore:
+  - .git
+  - .gitignore
+  - .github
+  - .circleci
+  - .vscode
+  - .pytest_cache
+
+  - .ansible-lint
+  - .yamlfmt
+  - .yamllint.yml
+
+  - Dockerfile.ansible-test
+  - Makefile
+  - run_tests.sh
+
+  - Pipfile
+  - requirements.txt
+  - test-requirements.txt
+
+  - cisco-dnac-*.tar.gz
