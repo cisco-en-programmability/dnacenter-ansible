@@ -28,7 +28,7 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [gathered]
+    choices: ["gathered"]
     default: gathered
   config:
     description:
@@ -104,7 +104,7 @@ options:
                 type: str
               device_identifier:
                 description:
-                - Specifies which device identifier to use in the generated tag membership configuration.
+                - Specifies the device identifier to use when generating the tag membership configuration.
                 - This determines how devices and interfaces are identified in the output YAML file.
                 - Applies to both network device and interface (port) tag memberships.
                 - If not specified, defaults to serial_number.
@@ -115,7 +115,7 @@ options:
                 type: str
                 required: false
                 default: serial_number
-                choices: ["hostname", "serial_number", "mac_address", "ip_address",]
+                choices: ["hostname", "serial_number", "mac_address", "ip_address"]
 requirements:
 - dnacentersdk >= 2.4.5
 - python >= 3.9
@@ -1129,19 +1129,19 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         f"Processing tag_id filter with value: '{value}'",
                         "DEBUG",
                     )
-                    if value in self.tag_id_to_tag_name_mapping:
-                        tag_name = self.tag_id_to_tag_name_mapping[value]
-                        params["id"] = value
-                        self.log(
-                            f"Tag ID '{value}' found in mapping. Resolved to tag_name: '{tag_name}'",
-                            "INFO",
-                        )
-                    else:
+                    if value not in self.tag_id_to_tag_name_mapping:
                         self.log(
                             f"Tag with ID '{value}' does not exist in Cisco Catalyst Center. Skipping.",
                             "WARNING",
                         )
                         continue
+
+                    tag_name = self.tag_id_to_tag_name_mapping[value]
+                    params["id"] = value
+                    self.log(
+                        f"Tag ID '{value}' found in mapping. Resolved to tag_name: '{tag_name}'",
+                        "INFO",
+                    )
 
                 # Process device_identifier
                 if "device_identifier" in filter_param:
@@ -1150,24 +1150,24 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         f"Processing device_identifier filter with value: '{value}'",
                         "DEBUG",
                     )
-                    if value in [
+                    if value not in [
                         "hostname",
                         "serial_number",
                         "mac_address",
                         "ip_address",
                     ]:
-                        device_identifier = value
-                        self.log(
-                            f"Device identifier set to '{value}' for tag membership retrieval.",
-                            "INFO",
-                        )
-                    else:
                         self.log(
                             f"Invalid device_identifier value: '{value}'. Must be one of 'hostname', 'serial_number', 'mac_address', or 'ip_address'. "
                             f"Skipping this filter.",
                             "WARNING",
                         )
                         continue
+
+                    device_identifier = value
+                    self.log(
+                        f"Device identifier set to '{value}' for tag membership retrieval.",
+                        "INFO",
+                    )
 
                 # Check if only device_identifier is provided without specific tag
                 if not params.get("id"):
