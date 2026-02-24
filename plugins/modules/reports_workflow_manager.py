@@ -1155,7 +1155,7 @@ To verify this information, search the code for:
 **OPTIONAL FILTERS** can be omitted or provided as empty arrays.
 
 1. EXECUTIVE SUMMARY VIEW GROUP:
-    -------------------------------
+-------------------------------
     View Name: "Executive Summary"
     Allowed Filters:
       - Location (MULTI_SELECT_TREE): Network location hierarchy
@@ -1168,7 +1168,7 @@ To verify this information, search the code for:
     Supported Formats: PDF
 
 2. SECURITY ADVISORIES VIEW GROUP:
-    --------------------------------
+--------------------------------
     View Name: "Security Advisories Data"
     Allowed Filters:
       - DeviceType (MULTI_SELECT): Device categories (Switch, Router, AP, etc.)
@@ -1184,7 +1184,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, PDF, TDE
 
 3. INVENTORY VIEW GROUP:
-    ----------------------
+----------------------
 
     3.1 View Name: "All Data"
     Allowed Filters:
@@ -1228,7 +1228,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, TDE, JSON
 
 4. ROGUE AND AWIPS VIEW GROUP:
-    ----------------------------
+----------------------------
 
     4.1 View Name: "New Threat"
     Allowed Filters:
@@ -1272,7 +1272,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, TDE, JSON
 
 5. ACCESS POINT VIEW GROUP:
-    -------------------------
+-------------------------
 
     5.1 View Name: "AP"
     Allowed Filters:
@@ -1357,7 +1357,7 @@ To verify this information, search the code for:
     Supported Formats: TDE, JSON and CSV
 
 6. NETWORK DEVICES VIEW GROUP:
-    ----------------------------
+----------------------------
 
     6.1 View Name: "Device CPU and Memory Utilization"
     Allowed Filters:
@@ -1475,7 +1475,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, TDE
 
 7. AUDIT LOG VIEW GROUP:
-    ----------------------
+----------------------
     View Name: "Audit Log"
     Allowed Filters:
       - domain (MULTI_SELECT): System domain classifications
@@ -1493,7 +1493,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, JSON
 
 8. COMPLIANCE VIEW GROUP:
-    -----------------------
+-----------------------
     View Name: "Network Device Compliance"
     Allowed Filters:
       - complianceStatus (REGULAR): Compliance status (must be UPPERCASE)
@@ -1510,7 +1510,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, PDF, JSON
 
 9. CONFIGURATION ARCHIVE VIEW GROUP:
-    ----------------------------------
+----------------------------------
     View Name: "Configuration Archive"
     Allowed Filters:
       - configChangeType (REGULAR): Configuration change type (must be UPPERCASE)
@@ -1525,7 +1525,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, PDF, JSON
 
 10. EOX VIEW GROUP:
-    ---------------
+---------------
     View Name: "EoX Data"
     Allowed Filters:
        - DeviceType (MULTI_SELECT): Device type classifications
@@ -1545,7 +1545,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, PDF, TDE
 
 11. SWIM VIEW GROUP:
-    ----------------
+----------------
 
     11.1 View Name: "All Data"
     Allowed Filters:
@@ -1575,7 +1575,7 @@ To verify this information, search the code for:
     Supported Formats: CSV, TDE, JSON
 
 12. CLIENT VIEW GROUP:
-    ------------------
+------------------
 
     12.1 View Name: "Busiest Client"
     Allowed Filters:
@@ -1701,7 +1701,7 @@ To verify this information, search the code for:
     Supported Formats: PDF
 
 13. LICENSING VIEW GROUP:
-    ---------------------
+---------------------
 
     13.1 View Name: "AireOS Controllers Licenses"
     No filters are supported for this view
