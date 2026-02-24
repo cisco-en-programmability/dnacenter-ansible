@@ -3,32 +3,28 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to generate YAML configurations for Wired Campus Automation Module."""
+"""Ansible module to generate YAML configurations for SD-Access Fabric Transits Module."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ", Madhan Sankaranarayanan"
+__author__ = "Abhishek Maheshwari, Sunil Shatagopa, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_sda_fabric_transits_config_generator
-short_description: Generate YAML configurations playbook for 'sda_fabric_transits_workflow_manager' module.
+module: sda_fabric_transits_playbook_config_generator
+short_description: Generate YAML configurations playbook for C(sda_fabric_transits_workflow_manager) module.
 description:
-- Generates YAML configurations compatible with the 'sda_fabric_transits_workflow_manager'
+- Generates YAML configurations compatible with the C(sda_fabric_transits_workflow_manager)
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
-version_added: 6.17.0
+version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Abhishek Maheshwari (@abmahesh)
+- Sunil Shatagopa (@shatagopasunil)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -46,11 +42,12 @@ options:
     suboptions:
       generate_all_configurations:
         description:
-          - When set to True, automatically generates YAML configurations for all devices and all supported features.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
+          - When set to C(true), automatically generates YAML configurations for all the fabric transits
+            present in the Cisco Catalyst Center, ignoring any provided filters.
           - When enabled, the config parameter becomes optional and will use default values if not provided.
           - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
+          - This is useful for complete playbook configuration infrastructure discovery and documentation.
+          - When set to false, the module uses provided filters to generate a targeted YAML configuration.
         type: bool
         required: false
         default: false
@@ -58,30 +55,25 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "sda_fabric_transits_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        - For example, "sda_fabric_transits_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+          a default file name  C(sda_fabric_transits_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml).
         type: str
-      global_filters:
-        description:
-        - Global filters to apply when generating the YAML configuration file.
-        - These filters apply to all components unless overridden by component-specific filters.
-        type: dict
       component_specific_filters:
         description:
-        - Filters to specify which components to include in the YAML configuration
-          file.
-        - If "components_list" is specified, only those components are included,
-          regardless of other filters.
+        - Filters to specify which components to include in the YAML configuration file.
+        - If C(components_list) is specified, only those components are included, regardless of other filters.
         type: dict
         suboptions:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are "sda_fabric_transits"
-            - If not specified, all components are included.
+            - Valid values are
+              - Fabric Transits C(sda_fabric_transits)
             - For example, ["sda_fabric_transits"].
+            - If not specified, all components are included.
             type: list
             elements: str
+            choices: ["sda_fabric_transits"]
           sda_fabric_transits:
             description:
             - Fabric transits to filter by name or transit type.
@@ -98,7 +90,7 @@ options:
                 - Valid values are IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT
                 type: str
 requirements:
-- dnacentersdk >= 2.10.10
+- dnacentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -109,11 +101,14 @@ notes:
     - GET /dna/intent/api/v1/sites
     - GET /dna/intent/api/v1/sda/transit-networks
     - GET /dna/intent/api/v1/network-device
+seealso:
+- module: cisco.dnac.sda_fabric_transits_workflow_manager
+  description: Module for managing fabric transits in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
 - name: Auto-generate YAML Configuration for all fabric transits
-  cisco.dnac.brownfield_sda_fabric_transits_config_generator:
+  cisco.dnac.sda_fabric_transits_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -126,8 +121,9 @@ EXAMPLES = r"""
     state: gathered
     config:
       - generate_all_configurations: true
+
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_sda_fabric_transits_config_generator:
+  cisco.dnac.sda_fabric_transits_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -139,9 +135,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_transits_config.yaml"
+      - generate_all_configurations: true
+        file_path: "/tmp/all_config.yml"
+
 - name: Generate YAML Configuration with specific fabric transits components only
-  cisco.dnac.brownfield_sda_fabric_transits_config_generator:
+  cisco.dnac.sda_fabric_transits_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -153,11 +151,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_transits_config.yaml"
+      - file_path: "/tmp/catc_fabric_transits_config.yml"
         component_specific_filters:
           components_list: ["sda_fabric_transits"]
+
 - name: Generate YAML Configuration for fabric transits with transit type filter
-  cisco.dnac.brownfield_sda_fabric_transits_config_generator:
+  cisco.dnac.sda_fabric_transits_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -169,14 +168,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_transits_config.yaml"
+      - file_path: "/tmp/catc_fabric_transits_config.yml"
         component_specific_filters:
           components_list: ["sda_fabric_transits"]
           sda_fabric_transits:
             - transit_type: "IP_BASED_TRANSIT"
             - transit_type: "SDA_LISP_BGP_TRANSIT"
+
 - name: Generate YAML Configuration for fabric transits with name filter
-  cisco.dnac.brownfield_sda_fabric_transits_config_generator:
+  cisco.dnac.sda_fabric_transits_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -194,8 +194,9 @@ EXAMPLES = r"""
           sda_fabric_transits:
             - name: "Transit1"
             - name: "Transit2"
+
 - name: Generate YAML Configuration for fabric transits with name and type filter
-  cisco.dnac.brownfield_sda_fabric_transits_config_generator:
+  cisco.dnac.sda_fabric_transits_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -226,22 +227,37 @@ response_1:
   type: dict
   sample: >
     {
-      "response":
-        {
-          "response": String,
-          "version": String
+        "msg": {
+            "components_processed": 1,
+            "components_skipped": 0,
+            "configurations_count": 1,
+            "file_path": "sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml",
+            "message": "YAML configuration file generated successfully for module 'sda_fabric_transits_workflow_manager'",
+            "status": "success"
         },
-      "msg": String
+        "response": {
+            "components_processed": 1,
+            "components_skipped": 0,
+            "configurations_count": 1,
+            "file_path": "sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml",
+            "message": "YAML configuration file generated successfully for module 'sda_fabric_transits_workflow_manager'",
+            "status": "success"
+        },
+        "status": "success"
     }
 # Case_2: Error Scenario
 response_2:
   description: A string with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
+  type: dict
   sample: >
     {
-      "response": [],
-      "msg": String
+        "msg":
+            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+             when 'generate_all_configurations' is set to False.",
+        "response":
+            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+             when 'generate_all_configurations' is set to False."
     }
 """
 
@@ -256,29 +272,10 @@ from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
 import time
-
-try:
-    import yaml
-
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-    yaml = None
 from collections import OrderedDict
 
 
-if HAS_YAML:
-
-    class OrderedDumper(yaml.Dumper):
-        def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
-
-    OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
-else:
-    OrderedDumper = None
-
-
-class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
+class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -323,20 +320,32 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "generate_all_configurations": {
                 "type": "bool",
                 "required": False,
-                "default": False,
+                "default": False
             },
-            "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
+            "file_path": {
+                "type": "str",
+                "required": False
+            },
+            "component_specific_filters": {
+                "type": "dict",
+                "required": False
+            }
         }
 
         # Validate params
+        self.log("Validating configuration against schema", "DEBUG")
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
+        self.validate_minimum_requirements(self.config)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -348,13 +357,28 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_workflow_filters_schema(self):
         """
-        Get the workflow filters schema for SDA fabric transits.
+        Constructs and returns a structured mapping for managing fabric transits.
+        This mapping includes associated filters, temporary specification functions, API details,
+        and fetch function references used in the transits network workflow orchestration process.
 
-        Returns:
-            dict: A dictionary containing network elements configuration with filters,
-                API details, and processing functions for fabric transits.
+        Args:
+            self: Refers to the instance of the class containing definitions of helper methods like
+                `fabric_transit_temp_spec`, `get_fabric_transits_configuration`.
+
+        Return:
+            dict: A dictionary with the following structure:
+                - "network_elements": A nested dictionary where each key represents a network component
+                (e.g., 'sda_fabric_transits') and maps to:
+                    - "filters": List of filter keys relevant to the component.
+                    - "reverse_mapping_function": Reference to the function that generates temp specs for the component.
+                    - "api_function": Name of the API to be called for the component.
+                    - "api_family": API family name (e.g., 'sda').
+                    - "get_function_name": Reference to the internal function used to retrieve the component data.
         """
-        return {
+
+        self.log("Building workflow filters schema for sda fabric transits networks module", "DEBUG")
+
+        schema = {
             "network_elements": {
                 "sda_fabric_transits": {
                     "filters": ["name", "transit_type"],
@@ -363,9 +387,16 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "api_family": "sda",
                     "get_function_name": self.get_fabric_transits_configuration,
                 },
-            },
-            "global_filters": [],
+            }
         }
+
+        network_elements = list(schema["network_elements"].keys())
+        self.log(
+            f"Workflow filters schema generated successfully with {len(network_elements)} network element(s): {network_elements}",
+            "INFO",
+        )
+
+        return schema
 
     def fabric_transit_temp_spec(self):
         """
@@ -432,34 +463,40 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def transform_transit_site_hierarchy(self, transit_details):
         """
         Transforms a site ID into its corresponding site hierarchy name.
+
         Args:
-            transit_details (dict): The transit details containing the siteId.
+            transit_details (dict): A dictionary containing transit network information,
+                                    expected to include the key 'siteId'.
+
         Returns:
-            str: The site hierarchy name corresponding to the provided site ID.
+            str or None: The site hierarchy name corresponding to the provided site ID if found, otherwise None.
         """
 
-        site_id = transit_details.get("siteId")
         self.log(
-            "Transforming site ID to site hierarchy name: {0}".format(site_id), "DEBUG"
+            "Starting site name transformation for given site id: {0}"
+            .format(transit_details.get("siteId", "Unknown")), "DEBUG"
         )
 
+        site_id = transit_details.get("siteId")
         if not site_id:
-            self.log("No site ID provided", "DEBUG")
-            return ""
+            self.log(
+                "No site ID found in transits details: {0}".format(transit_details),
+                "DEBUG"
+            )
+            return site_id
 
         site_hierarchy_name = self.site_id_name_dict.get(site_id)
         if not site_hierarchy_name:
             self.log(
                 "Site ID {0} not found in site ID to name mapping.".format(site_id),
-                "DEBUG",
+                "WARNING",
             )
-            return ""
+            return site_hierarchy_name
 
         self.log(
-            "Transformed site ID {0} to site hierarchy name {1}".format(
-                site_id, site_hierarchy_name
-            ),
-            "DEBUG",
+            "Completed site name transformation for site id: {0}. "
+            "Transformed site name: {1}". format(site_id, site_hierarchy_name),
+            "DEBUG"
         )
 
         return site_hierarchy_name
@@ -469,34 +506,38 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Transforms control plane network device IDs to their corresponding IP addresses.
 
         Args:
-            sda_transit_settings (dict): The SDA transit settings containing controlPlaneNetworkDeviceIds.
+            sda_transit_settings (dict): A dictionary containing transits network information,
+                expected to include a list of device IDs under the 'controlPlaneNetworkDeviceIds' key.
 
         Returns:
             list: A list of management IP addresses corresponding to the device IDs.
         """
 
         self.log(
-            "Transforming control plane device IDs to IPs from SDA transit settings: {0}".format(
-                sda_transit_settings
-            ),
-            "DEBUG",
+            "Starting control plane device ip(s) transformation for given control plane device id(s): {0}"
+            .format(sda_transit_settings.get("controlPlaneNetworkDeviceIds", "Unknown")),
+            "DEBUG"
         )
 
-        # Extract controlPlaneNetworkDeviceIds from the settings
-        control_plane_device_ids = sda_transit_settings.get(
-            "controlPlaneNetworkDeviceIds", []
-        )
+        control_plane_device_ids = sda_transit_settings.get("controlPlaneNetworkDeviceIds")
+        if not control_plane_device_ids:
+            self.log(
+                "No Control Plane Device IDs found in transits settings details: {0}".format(sda_transit_settings),
+                "DEBUG"
+            )
+            return control_plane_device_ids
 
         self.log(
-            "Extracted control plane device IDs: {0}".format(control_plane_device_ids),
-            "DEBUG",
+            "Processing {0} control plane devices for device id(s): {1}"
+            .format(len(control_plane_device_ids), control_plane_device_ids),
+            "DEBUG"
         )
 
         if not control_plane_device_ids:
             self.log(
                 "No control plane device IDs found in SDA transit settings", "DEBUG"
             )
-            return []
+            return control_plane_device_ids
 
         device_ips = []
 
@@ -512,7 +553,10 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 continue
 
             self.log(
-                "Mapping device ID {0} to IP {1}".format(device_id, device_ip), "DEBUG"
+                "Transformed device ip {0} for device id: {1}".format(
+                    device_ip, device_id
+                ),
+                "DEBUG"
             )
             device_ips.append(device_ip)
 
@@ -520,22 +564,29 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "Transformed control plane device IDs to IPs: {0}".format(device_ips),
             "DEBUG",
         )
+        self.log(
+            "Completed control plane device IPs transformation. Transformed device IP(s): {0}"
+            .format(device_ips),
+            "DEBUG"
+        )
 
         return sorted(device_ips) if device_ips else []
 
-    def get_fabric_transits_configuration(
-        self, network_element, component_specific_filters=None
-    ):
+    def get_fabric_transits_configuration(self, network_element, filters):
         """
         Retrieves fabric transits based on the provided network element and component-specific filters.
 
         Args:
             network_element (dict): A dictionary containing the API family and function for retrieving fabric transits.
-            component_specific_filters (list, optional): A list of dictionaries containing filters for fabric transits.
+            filters (dict): Dictionary containing global filters and component_specific_filters for fabric transits.
 
         Returns:
             dict: A dictionary containing the modified details of fabric transits.
         """
+
+        component_specific_filters = None
+        if "component_specific_filters" in filters:
+            component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve fabric transits with network element: {0} and component-specific filters: {1}".format(
@@ -544,13 +595,20 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        # Extract API family and function from network_element
-        final_fabric_transits = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
+        if not api_family or not api_function:
+            self.log(
+                "Missing API family or function in network element: {0}".format(network_element),
+                "ERROR"
+            )
+            return {"fabric_transits": []}
+
+        # Extract API family and function from network_element
+        final_fabric_transits = []
 
         self.log(
-            "Getting fabric transits using family '{0}' and function '{1}'.".format(
+            "Getting fabric transits using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
             "INFO",
@@ -558,56 +616,94 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         params = {}
         if component_specific_filters:
-            for filter_param in component_specific_filters:
-                self.log(
-                    "Processing filter parameter: {0}".format(filter_param), "DEBUG"
-                )
-                for key, value in filter_param.items():
-                    if key == "name":
-                        params["name"] = value
-                    elif key == "transit_type":
-                        params["type"] = value
-                    else:
-                        self.log(
-                            "Ignoring unsupported filter parameter: {0}".format(key),
-                            "DEBUG",
-                        )
+            self.log(
+                "Started Processing {0} filter(s) for fabric transits retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
 
-                # Execute API call to retrieve fabric transit details with filters
+            for filter_param in component_specific_filters:
+                supported_keys = {"name", "transit_type"}
+
+                if "name" in filter_param:
+                    params["name"] = filter_param["name"]
+                if "transit_type" in filter_param:
+                    params["type"] = filter_param["transit_type"]
+
+                unsupported_keys = set(filter_param.keys()) - supported_keys
+                if unsupported_keys:
+                    self.log(
+                        "Ignoring unsupported filter parameters for fabric transits: {0}".format(unsupported_keys),
+                        "WARNING"
+                    )
+
+                self.log(
+                    "Fetching fabric transits with parameters: {0}".format(params),
+                    "DEBUG"
+                )
+
                 fabric_transit_details = self.execute_get_with_pagination(
                     api_family, api_function, params
                 )
-                self.log(
-                    "Retrieved fabric transit details: {0}".format(
-                        fabric_transit_details
-                    ),
-                    "INFO",
-                )
-                final_fabric_transits.extend(fabric_transit_details)
+
+                if fabric_transit_details:
+                    final_fabric_transits.extend(fabric_transit_details)
+                    self.log(
+                        "Retrieved {0} fabric transit(s): {1}".format(
+                            len(fabric_transit_details), fabric_transit_details
+                        ),
+                        "DEBUG",
+                    )
+                else:
+                    self.log(
+                        "No fabric transits found for parameters: {0}".format(params),
+                        "DEBUG"
+                    )
                 params.clear()
 
-            self.log("Using component-specific filters for API call.", "INFO")
+            self.log(
+                "Completed Processing {0} filter(s) for fabric transits retrieval".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
+
         else:
-            # Execute API call to retrieve all fabric transit details
+            self.log("Fetching all fabric transits from Catalyst Center", "DEBUG")
+
             fabric_transit_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
-            self.log(
-                "Retrieved fabric transit details: {0}".format(fabric_transit_details),
-                "INFO",
-            )
-            final_fabric_transits.extend(fabric_transit_details)
 
-        # Modify fabric transit details using temp_spec
+            if fabric_transit_details:
+                final_fabric_transits.extend(fabric_transit_details)
+                self.log(
+                    "Retrieved {0} fabric transit(s) from Catalyst Center"
+                    .format(len(fabric_transit_details)),
+                    "DEBUG",
+                )
+            else:
+                self.log("No fabric transits found in Catalyst Center", "DEBUG")
+
+        # Transform using temp spec
+        self.log(
+            "Transforming {0} fabric transit(s) using fabric_transit temp spec".format(
+                len(final_fabric_transits)
+            ),
+            "DEBUG"
+        )
         fabric_transit_temp_spec = self.fabric_transit_temp_spec()
         transit_details = self.modify_parameters(
             fabric_transit_temp_spec, final_fabric_transits
         )
         modified_fabric_transits_details = {}
-        modified_fabric_transits_details["fabric_transits"] = transit_details
+
+        if transit_details:
+            modified_fabric_transits_details["fabric_transits"] = transit_details
 
         self.log(
-            "Modified fabric transit details: {0}".format(
+            "Completed retrieving fabric transit(s): {0}".format(
                 modified_fabric_transits_details
             ),
             "INFO",
@@ -615,228 +711,33 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return modified_fabric_transits_details
 
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters, processes the data,
-        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
-
-        Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
-
-        Returns:
-            self: The current instance with the operation result and message updated.
-        """
-
-        self.log(
-            "Starting YAML config generation with parameters: {0}".format(
-                yaml_config_generator
-            ),
-            "DEBUG",
-        )
-
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if generate_all:
-            self.log(
-                "Auto-discovery mode enabled - will process all devices and all features",
-                "INFO",
-            )
-
-        self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
-        if not file_path:
-            self.log(
-                "No file_path provided by user, generating default filename", "DEBUG"
-            )
-            file_path = self.generate_filename()
-        else:
-            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
-
-        self.log(
-            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
-        )
-
-        self.log("Initializing filter dictionaries", "DEBUG")
-        if generate_all:
-            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log(
-                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
-                "INFO",
-            )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-
-            # Set empty filters to retrieve everything
-            global_filters = {}
-            component_specific_filters = {}
-        else:
-            # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = (
-                yaml_config_generator.get("component_specific_filters") or {}
-            )
-
-        # Retrieve the supported network elements for the module
-        self.log("Retrieving supported network elements schema for the module", "DEBUG")
-        module_supported_network_elements = self.module_schema.get(
-            "network_elements", {}
-        )
-        self.log(
-            "Module supported network elements: {0}".format(
-                module_supported_network_elements
-            ),
-            "DEBUG",
-        )
-
-        self.log("Determining components list for processing", "DEBUG")
-        self.log(
-            "Component specific filters provided: {0}".format(
-                component_specific_filters
-            ),
-            "DEBUG",
-        )
-        components_list = component_specific_filters.get(
-            "components_list", list(module_supported_network_elements.keys())
-        )
-
-        # If components_list is empty, default to all supported components
-        if not components_list:
-            self.log(
-                "No components specified; processing all supported components.", "INFO"
-            )
-            components_list = list(module_supported_network_elements.keys())
-
-        self.log("Components to process: {0}".format(components_list), "DEBUG")
-        self.log(
-            "Keys in module_supported_network_elements: {0}".format(
-                module_supported_network_elements.keys()
-            ),
-            "DEBUG",
-        )
-
-        self.log("Initializing final configuration list", "DEBUG")
-
-        final_list = []
-        for component in components_list:
-            self.log("Processing component: {0}".format(component), "DEBUG")
-            network_element = module_supported_network_elements.get(component)
-            if not network_element:
-                self.log(
-                    "Component {0} not supported by module, skipping processing".format(
-                        component
-                    ),
-                    "WARNING",
-                )
-                continue
-
-            filters = component_specific_filters.get(component, [])
-            operation_func = network_element.get("get_function_name")
-            if callable(operation_func):
-                details = operation_func(network_element, filters)
-                self.log(
-                    "Details retrieved for {0}: {1}".format(component, details), "DEBUG"
-                )
-                final_list.append(details)
-
-        if not final_list:
-            self.log(
-                "No configurations found to process, setting appropriate result",
-                "WARNING",
-            )
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
-                    self.module_name
-                )
-            }
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
-
-        final_dict = {"config": final_list}
-        self.log("Final dictionary created: {0}".format(final_dict), "DEBUG")
-
-        if self.write_dict_to_yaml(final_dict, file_path):
-            self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
-            }
-            self.set_operation_result("success", True, self.msg, "INFO")
-        else:
-            self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
-            }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        return self
-
-    def get_want(self, config, state):
-        """
-        Creates parameters for API calls based on the specified state.
-        This method prepares the parameters required for adding, updating, or deleting
-        network configurations such as SSIDs and interfaces in the Cisco Catalyst Center
-        based on the desired state. It logs detailed information for each operation.
-
-        Args:
-            config (dict): The configuration data for the network elements.
-            state (str): The desired state of the network elements ('gathered' or 'deleted').
-        """
-
-        self.log(
-            "Creating Parameters for API Calls with state: {0}".format(state), "INFO"
-        )
-
-        self.validate_params(config)
-
-        want = {}
-
-        # Add yaml_config_generator to want
-        want["yaml_config_generator"] = config
-        self.log(
-            "yaml_config_generator added to want: {0}".format(
-                want["yaml_config_generator"]
-            ),
-            "INFO",
-        )
-
-        self.want = want
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
-        self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
-        self.status = "success"
-        return self
-
     def get_diff_gathered(self):
         """
-        Executes the merge operations for various network configurations in the Cisco Catalyst Center.
-        This method processes additions and updates for SSIDs, interfaces, power profiles, access point profiles,
-        radio frequency profiles, and anchor groups. It logs detailed information about each operation,
-        updates the result status, and returns a consolidated result.
+        Executes YAML configuration file generation for sda fabric transits workflow.
+
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing network element details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
 
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
-        operations = [
+        # Define workflow operations
+        workflow_operations = [
             (
                 "yaml_config_generator",
                 "YAML Config Generator",
                 self.yaml_config_generator,
             )
         ]
+        operations_executed = 0
+        operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined operations for processing.", "DEBUG")
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
         for index, (param_key, operation_name, operation_func) in enumerate(
-            operations, start=1
+            workflow_operations, start=1
         ):
             self.log(
                 "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
@@ -852,8 +753,27 @@ class SdaFabricTransitsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO",
                 )
-                operation_func(params).check_return_status()
+
+                try:
+                    operation_func(params).check_return_status()
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR"
+                    ).check_return_status()
+
             else:
+                operations_skipped += 1
                 self.log(
                     "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
                         index, operation_name
@@ -888,7 +808,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
@@ -898,58 +817,50 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_sda_fabric_transits_playbook_generator = SdaFabricTransitsPlaybookGenerator(
+    ccc_sda_fabric_transits_playbook_config_generator = SdaFabricTransitsPlaybookConfigGenerator(
         module
     )
     if (
-        ccc_sda_fabric_transits_playbook_generator.compare_dnac_versions(
-            ccc_sda_fabric_transits_playbook_generator.get_ccc_version(), "2.3.7.9"
+        ccc_sda_fabric_transits_playbook_config_generator.compare_dnac_versions(
+            ccc_sda_fabric_transits_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_sda_fabric_transits_playbook_generator.msg = (
+        ccc_sda_fabric_transits_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_sda_fabric_transits_playbook_generator.get_ccc_version()
+            "for SDA FABRIC TRANSITS Module. Supported versions start from '2.3.7.9' onwards. ".format(
+                ccc_sda_fabric_transits_playbook_config_generator.get_ccc_version()
             )
         )
-        ccc_sda_fabric_transits_playbook_generator.set_operation_result(
-            "failed", False, ccc_sda_fabric_transits_playbook_generator.msg, "ERROR"
+        ccc_sda_fabric_transits_playbook_config_generator.set_operation_result(
+            "failed", False, ccc_sda_fabric_transits_playbook_config_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_sda_fabric_transits_playbook_generator.params.get("state")
+    state = ccc_sda_fabric_transits_playbook_config_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_sda_fabric_transits_playbook_generator.supported_states:
-        ccc_sda_fabric_transits_playbook_generator.status = "invalid"
-        ccc_sda_fabric_transits_playbook_generator.msg = "State {0} is invalid".format(
+    if state not in ccc_sda_fabric_transits_playbook_config_generator.supported_states:
+        ccc_sda_fabric_transits_playbook_config_generator.status = "invalid"
+        ccc_sda_fabric_transits_playbook_config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_sda_fabric_transits_playbook_generator.check_recturn_status()
+        ccc_sda_fabric_transits_playbook_config_generator.check_recturn_status()
 
     # Validate the input parameters and check the return statusk
-    ccc_sda_fabric_transits_playbook_generator.validate_input().check_return_status()
-    config = ccc_sda_fabric_transits_playbook_generator.validated_config
-    if len(config) == 1 and config[0].get("component_specific_filters") is None:
-        ccc_sda_fabric_transits_playbook_generator.msg = (
-            "No valid configurations found in the provided parameters."
-        )
-        ccc_sda_fabric_transits_playbook_generator.validated_config = [
-            {"component_specific_filters": {"components_list": []}}
-        ]
+    ccc_sda_fabric_transits_playbook_config_generator.validate_input().check_return_status()
 
     # Iterate over the validated configuration parameters
-    for config in ccc_sda_fabric_transits_playbook_generator.validated_config:
-        ccc_sda_fabric_transits_playbook_generator.reset_values()
-        ccc_sda_fabric_transits_playbook_generator.get_want(
+    for config in ccc_sda_fabric_transits_playbook_config_generator.validated_config:
+        ccc_sda_fabric_transits_playbook_config_generator.reset_values()
+        ccc_sda_fabric_transits_playbook_config_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_sda_fabric_transits_playbook_generator.get_diff_state_apply[
+        ccc_sda_fabric_transits_playbook_config_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    module.exit_json(**ccc_sda_fabric_transits_playbook_generator.result)
+    module.exit_json(**ccc_sda_fabric_transits_playbook_config_generator.result)
 
 
 if __name__ == "__main__":
