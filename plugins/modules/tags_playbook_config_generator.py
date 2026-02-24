@@ -115,7 +115,11 @@ options:
                 type: str
                 required: false
                 default: serial_number
-                choices: ["hostname", "serial_number", "mac_address", "ip_address"]
+                choices:
+                - hostname
+                - serial_number
+                - mac_address
+                - ip_address
 requirements:
 - dnacentersdk >= 2.4.5
 - python >= 3.9
