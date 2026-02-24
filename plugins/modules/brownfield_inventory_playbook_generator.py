@@ -33,7 +33,7 @@ options:
   dnac_username:
     description: Cisco Catalyst Center username.
     type: str
-    default: admin
+    default: "admin"
     required: false
   dnac_password:
     description: Cisco Catalyst Center password.
@@ -58,12 +58,12 @@ options:
   dnac_log_level:
     description: Log level for module execution.
     type: str
-    default: WARNING
+    default: "WARNING"
     required: false
   dnac_log_file_path:
     description: Path for debug log file.
     type: str
-    default: dnac.log
+    default: "dnac.log"
     required: false
   dnac_log_append:
     description: Append to log file instead of overwriting.
@@ -95,7 +95,7 @@ options:
     type: str
     choices:
       - gathered
-    default: gathered
+    default: "gathered"
     required: false
   config:
     description:
@@ -182,16 +182,13 @@ options:
             description:
             - Filters for device configuration generation.
             - Accepts a dict or a list of dicts.
-            - List behavior: OR between dict entries.
-            - Dict behavior: AND between filter keys.
-            - Supported keys:
-            - C(type): NETWORK_DEVICE, COMPUTE_DEVICE,
-              MERAKI_DASHBOARD, THIRD_PARTY_DEVICE,
-              FIREPOWER_MANAGEMENT_SYSTEM.
-            - C(role): ACCESS, CORE, DISTRIBUTION, BORDER ROUTER,
-              UNKNOWN.
-            - C(snmp_version): v2, v2c, v3.
-            - C(cli_transport): ssh or telnet.
+            - List behavior OR between dict entries.
+            - Dict behavior AND between filter keys.
+            - Supported keys include type, role, snmp_version, and cli_transport.
+            - 'Type options: NETWORK_DEVICE, COMPUTE_DEVICE, MERAKI_DASHBOARD, THIRD_PARTY_DEVICE, FIREPOWER_MANAGEMENT_SYSTEM.'
+            - 'Role options: ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.'
+            - 'SNMP version options: v2, v2c, v3.'
+            - 'CLI transport options: ssh or telnet.'
             type: raw
             suboptions:
               role:
@@ -201,7 +198,12 @@ options:
                 - Valid values are ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
                 - 'Example: role="ACCESS" for single role or role=["ACCESS", "CORE"] for multiple roles.'
                 type: str
-                choices: [ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN]
+                choices:
+                  - ACCESS
+                  - CORE
+                  - DISTRIBUTION
+                  - BORDER ROUTER
+                  - UNKNOWN
           provision_device:
             description:
             - Specific filters for provision_device component.
