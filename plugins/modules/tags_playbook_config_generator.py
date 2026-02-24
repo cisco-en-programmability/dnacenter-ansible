@@ -1096,96 +1096,81 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG",
                 )
 
-                for key, value in filter_param.items():
+                device_identifier = "serial_number"  # Default device identifier
+                tag_name = None
+                tag_id = None
+
+                # Process tag_name
+                if "tag_name" in filter_param:
+                    value = filter_param["tag_name"]
                     self.log(
-                        f"Evaluating filter parameter - key: '{key}', value: '{value}'",
+                        f"Processing tag_name filter with value: '{value}'",
                         "DEBUG",
                     )
-                    device_identifier = "serial_number"  # Default device identifier
-                    if key == "tag_name":
+                    if value in self.tag_name_to_details_mapping:
+                        tag_id = self.tag_name_to_details_mapping[value].get("id")
+                        params["id"] = tag_id
+                        tag_name = value
                         self.log(
-                            f"Processing tag_name filter with value: '{value}'",
-                            "DEBUG",
+                            f"Tag name '{value}' found in mapping. Resolved to tag_id: '{tag_id}'",
+                            "INFO",
                         )
-                        if value in self.tag_name_to_details_mapping:
-                            tag_id = self.tag_name_to_details_mapping[value].get("id")
-                            params["id"] = tag_id
-                            tag_name = value
-                            self.log(
-                                f"Tag name '{value}' found in mapping. Resolved to tag_id: '{tag_id}'",
-                                "INFO",
-                            )
-                        else:
-                            self.log(
-                                f"Tag with name '{value}' does not exist in Cisco Catalyst Center. Skipping.",
-                                "WARNING",
-                            )
-                            continue
-
-                    elif key == "tag_id":
-                        self.log(
-                            f"Processing tag_id filter with value: '{value}'",
-                            "DEBUG",
-                        )
-                        if value in self.tag_id_to_tag_name_mapping:
-                            tag_name = self.tag_id_to_tag_name_mapping[value]
-
-                            self.log(
-                                f"Tag ID '{value}' found in mapping. Resolved to tag_name: '{tag_name}'",
-                                "DEBUG",
-                            )
-
-                            if tag_name in self.tag_name_to_details_mapping:
-                                params["id"] = value
-
-                                self.log(
-                                    f"Tag name '{tag_name}' validated in details mapping. Using tag_id: '{value}'",
-                                    "INFO",
-                                )
-                            else:
-                                self.log(
-                                    f"Tag with ID '{value}', name: {tag_name} does not exist in Cisco Catalyst Center. Skipping.",
-                                    "WARNING",
-                                )
-                                continue
-                        else:
-                            self.log(
-                                f"Tag with ID '{value}' does not exist in Cisco Catalyst Center. Skipping.",
-                                "WARNING",
-                            )
-                            continue
-                    elif key == "device_identifier":
-                        self.log(
-                            f"Processing device_identifier filter with value: '{value}'",
-                            "DEBUG",
-                        )
-                        if value in [
-                            "hostname",
-                            "serial_number",
-                            "mac_address",
-                            "ip_address",
-                        ]:
-                            device_identifier = value
-                            self.log(
-                                f"Device identifier set to '{value}' for tag membership retrieval.",
-                                "INFO",
-                            )
-                        else:
-                            self.log(
-                                f"Invalid device_identifier value: '{value}'. Must be one of 'hostname', 'serial_number', 'mac_address', or 'ip_address'. "
-                                f"Skipping this filter.",
-                                "WARNING",
-                            )
-                            continue
                     else:
                         self.log(
-                            f"Ignoring unsupported filter parameter: {key}",
-                            "DEBUG",
+                            f"Tag with name '{value}' does not exist in Cisco Catalyst Center. Skipping.",
+                            "WARNING",
+                        )
+                        continue
+
+                # Process tag_id
+                if "tag_id" in filter_param:
+                    value = filter_param["tag_id"]
+                    self.log(
+                        f"Processing tag_id filter with value: '{value}'",
+                        "DEBUG",
+                    )
+                    if value in self.tag_id_to_tag_name_mapping:
+                        tag_name = self.tag_id_to_tag_name_mapping[value]
+                        params["id"] = value
+                        self.log(
+                            f"Tag ID '{value}' found in mapping. Resolved to tag_name: '{tag_name}'",
+                            "INFO",
+                        )
+                    else:
+                        self.log(
+                            f"Tag with ID '{value}' does not exist in Cisco Catalyst Center. Skipping.",
+                            "WARNING",
+                        )
+                        continue
+
+                # Process device_identifier
+                if "device_identifier" in filter_param:
+                    value = filter_param["device_identifier"]
+                    self.log(
+                        f"Processing device_identifier filter with value: '{value}'",
+                        "DEBUG",
+                    )
+                    if value in [
+                        "hostname",
+                        "serial_number",
+                        "mac_address",
+                        "ip_address",
+                    ]:
+                        device_identifier = value
+                        self.log(
+                            f"Device identifier set to '{value}' for tag membership retrieval.",
+                            "INFO",
+                        )
+                    else:
+                        self.log(
+                            f"Invalid device_identifier value: '{value}'. Must be one of 'hostname', 'serial_number', 'mac_address', or 'ip_address'. "
+                            f"Skipping this filter.",
+                            "WARNING",
                         )
                         continue
 
                 # Check if only device_identifier is provided without specific tag
-                if not params.get("id") and not params.get("name"):
+                if not params.get("id"):
                     # User wants to fetch all tags with the specific device identifier
                     self.log(
                         f"No specific tag ID or name provided. Fetching all tags with device_identifier '{device_identifier}'.",
@@ -1213,17 +1198,18 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         device_identifier,
                     )
 
-                    if tag_membership_details:
-                        tag_memberships_config.append(tag_membership_details)
-                        self.log(
-                            f"Successfully added membership details for tag '{tag_name}' to configuration.",
-                            "INFO",
-                        )
-                    else:
+                    if not tag_membership_details:
                         self.log(
                             f"Skipping tag '{tag_name}' - no memberships found.",
                             "INFO",
                         )
+                        continue
+
+                    tag_memberships_config.append(tag_membership_details)
+                    self.log(
+                        f"Successfully added membership details for tag '{tag_name}' to configuration.",
+                        "INFO",
+                    )
         else:
             # Use cached tag details instead of making an API call
             self.log(
