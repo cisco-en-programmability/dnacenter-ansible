@@ -3465,7 +3465,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             if isinstance(value, set):
                 normalized_values = [normalize_for_grouping(item) for item in value]
-                return tuple(sorted(normalized_values, key=lambda item: str(item)))
+                return tuple(sorted(normalized_values, key=str))
 
             return value
 
