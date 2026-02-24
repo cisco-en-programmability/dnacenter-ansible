@@ -2230,70 +2230,436 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
 
 def main():
-    """main entry point for module execution"""
-    # Define the specification for the module"s arguments
+    """
+    Main entry point for the Cisco Catalyst Center SDA host port onboarding playbook config generator module.
+
+    This function serves as the primary execution entry point for the Ansible module,
+    orchestrating the complete workflow from parameter collection to YAML playbook
+    generation for SDA host port onboarding configuration extraction.
+
+    Purpose:
+        Initializes and executes the SDA host port onboarding playbook config generator
+        workflow to extract existing port assignments, port channels, and wireless SSID
+        configurations from Cisco Catalyst Center and generate Ansible-compatible YAML
+        playbook files.
+
+    Workflow Steps:
+        1. Define module argument specification with required parameters
+        2. Initialize Ansible module with argument validation
+        3. Create SdaHostPortOnboardingPlaybookConfigGenerator instance
+        4. Validate Catalyst Center version compatibility (>= 2.3.7.9)
+        5. Validate and sanitize state parameter
+        6. Execute input parameter validation
+        7. Process each configuration item in the playbook
+        8. Execute state-specific operations (gathered workflow)
+        9. Return results via module.exit_json()
+
+    Module Arguments:
+        Connection Parameters:
+            - dnac_host (str, required): Catalyst Center hostname/IP
+            - dnac_port (str, default="443"): HTTPS port
+            - dnac_username (str, default="admin"): Authentication username
+            - dnac_password (str, required, no_log): Authentication password
+            - dnac_verify (bool, default=True): SSL certificate verification
+
+        API Configuration:
+            - dnac_version (str, default="2.2.3.3"): Catalyst Center version
+            - dnac_api_task_timeout (int, default=1200): API timeout (seconds)
+            - dnac_task_poll_interval (int, default=2): Poll interval (seconds)
+            - validate_response_schema (bool, default=True): Schema validation
+
+        Logging Configuration:
+            - dnac_debug (bool, default=False): Debug mode
+            - dnac_log (bool, default=False): Enable file logging
+            - dnac_log_level (str, default="WARNING"): Log level
+            - dnac_log_file_path (str, default="dnac.log"): Log file path
+            - dnac_log_append (bool, default=True): Append to log file
+
+        Playbook Configuration:
+            - config (list[dict], required): Configuration parameters list containing:
+                * generate_all_configurations (bool): Enable auto-discovery mode
+                * file_path (str): Output YAML file path
+                * component_specific_filters (dict): Component-based filters with:
+                    - components_list (list): Component types to extract
+                    - port_assignments (dict): Port assignment filters
+                    - port_channels (dict): Port channel filters
+                    - wireless_ssids (dict): Wireless SSID filters
+            - state (str, default="gathered", choices=["gathered"]): Workflow state
+
+    Version Requirements:
+        - Minimum Catalyst Center version: 2.3.7.9
+        - Introduced APIs for SDA host port onboarding retrieval:
+            * Port Assignments (get_port_assignments)
+            * Port Channels (get_port_channels)
+            * Wireless VLAN-SSID Mappings (retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site)
+            * Device Information (get_device_by_id)
+
+    API Paths Utilized:
+        - GET /dna/intent/api/v1/sda/portAssignments
+        - GET /dna/intent/api/v1/sda/portChannels
+        - GET /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids
+        - GET /dna/intent/api/v1/network-device/{id}
+
+    Supported States:
+        - gathered: Extract existing SDA host port onboarding configurations and generate
+          YAML playbook compatible with sda_host_port_onboarding_workflow_manager module
+        - Future: merged, deleted, replaced (reserved for future use)
+
+    Component Types:
+        - port_assignments: Interface port assignment configurations with VLAN mappings,
+          security groups, and authentication templates
+        - port_channels: Port channel (LAG) configurations with member interfaces and
+          trunk settings
+        - wireless_ssids: Wireless SSID to VLAN mappings within fabric sites
+
+    Error Handling:
+        - Version compatibility failures: Module exits with error
+        - Invalid state parameter: Module exits with error
+        - Input validation failures: Module exits with error
+        - Configuration processing errors: Module exits with error
+        - Filter validation errors: Module exits with error
+        - All errors are logged and returned via module.fail_json()
+
+    Return Format:
+        Success: module.exit_json() with result containing:
+            - status (str): "success"
+            - msg (dict): Operation result details with:
+                * message (str): Success message
+                * file_path (str): Generated YAML file path
+                * components_processed (int): Number of components processed
+                * components_skipped (int): Number of components skipped
+                * configurations_count (int): Total configurations retrieved
+            - response (dict): Detailed operation results
+            - changed (bool): Whether changes were made (False for gathered state)
+
+        Failure: module.fail_json() with error details:
+            - failed (bool): True
+            - msg (str): Error message
+            - response (str): Detailed error information
+
+    Notes:
+        - Module is idempotent; multiple runs generate identical YAML content except
+          timestamp in header comments
+        - Check mode supported; validates parameters without file generation
+        - Device management IP addresses are resolved from device IDs for all port
+          configurations
+        - Generated YAML uses OrderedDumper for consistent key ordering enabling
+          version control
+        - Fabric site hierarchical paths must match exact Catalyst Center fabric site
+          structure (case-sensitive)
+    """
+    # Record module initialization start time for performance tracking
+    module_start_time = time.time()
+
+    # Define the specification for the module's arguments
+    # This structure defines all parameters accepted by the module with their types,
+    # defaults, and validation rules
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "dnac.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
-        "validate_response_schema": {"type": "bool", "default": True},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "gathered", "choices": ["gathered"]},
+        # ============================================
+        # Catalyst Center Connection Parameters
+        # ============================================
+        "dnac_host": {
+            "required": True,
+            "type": "str"
+        },
+        "dnac_port": {
+            "type": "str",
+            "default": "443"
+        },
+        "dnac_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"]
+        },
+        "dnac_password": {
+            "type": "str",
+            "no_log": True  # Prevent password from appearing in logs
+        },
+        "dnac_verify": {
+            "type": "bool",
+            "default": True
+        },
+
+        # ============================================
+        # API Configuration Parameters
+        # ============================================
+        "dnac_version": {
+            "type": "str",
+            "default": "2.2.3.3"
+        },
+        "dnac_api_task_timeout": {
+            "type": "int",
+            "default": 1200
+        },
+        "dnac_task_poll_interval": {
+            "type": "int",
+            "default": 2
+        },
+        "validate_response_schema": {
+            "type": "bool",
+            "default": True
+        },
+
+        # ============================================
+        # Logging Configuration Parameters
+        # ============================================
+        "dnac_debug": {
+            "type": "bool",
+            "default": False
+        },
+        "dnac_log_level": {
+            "type": "str",
+            "default": "WARNING"
+        },
+        "dnac_log_file_path": {
+            "type": "str",
+            "default": "dnac.log"
+        },
+        "dnac_log_append": {
+            "type": "bool",
+            "default": True
+        },
+        "dnac_log": {
+            "type": "bool",
+            "default": False
+        },
+
+        # ============================================
+        # Playbook Configuration Parameters
+        # ============================================
+        "config": {
+            "required": True,
+            "type": "list",
+            "elements": "dict"
+        },
+        "state": {
+            "default": "gathered",
+            "choices": ["gathered"]
+        },
     }
 
-    # Initialize the Ansible module with the provided argument specifications
-    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
-    # Initialize the NetworkCompliance object with the module
+    # Initialize the Ansible module with argument specification
+    # supports_check_mode=True allows module to run in check mode (dry-run)
+    module = AnsibleModule(
+        argument_spec=element_spec,
+        supports_check_mode=True
+    )
+
+    # Create initial log entry with module initialization timestamp
+    # Note: Logging is not yet available since object isn't created
+    initialization_timestamp = time.strftime(
+        "%Y-%m-%d %H:%M:%S",
+        time.localtime(module_start_time)
+    )
+
+    # Initialize the SdaHostPortOnboardingPlaybookConfigGenerator object
+    # This creates the main orchestrator for SDA host port onboarding playbook config generator extraction
     catc_sda_host_port_onboarding_playbook_config_generator = SdaHostPortOnboardingPlaybookConfigGenerator(module)
+
+    # Log module initialization after object creation (now logging is available)
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Starting Ansible module execution for SDA host port onboarding playbook config generator "
+        "generator at timestamp {0}".format(initialization_timestamp),
+        "INFO"
+    )
+
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
+        "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
+        "config_items={6}".format(
+            module.params.get("dnac_host"),
+            module.params.get("dnac_port"),
+            module.params.get("dnac_username"),
+            module.params.get("dnac_verify"),
+            module.params.get("dnac_version"),
+            module.params.get("state"),
+            len(module.params.get("config", []))
+        ),
+        "DEBUG"
+    )
+
+    # ============================================
+    # Version Compatibility Check
+    # ============================================
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Validating Catalyst Center version compatibility - checking if version {0} "
+        "meets minimum requirement of 2.3.7.9 for SDA host port onboarding APIs".format(
+            catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()
+        ),
+        "INFO"
+    )
+
     if (
         catc_sda_host_port_onboarding_playbook_config_generator.compare_dnac_versions(
             catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        catc_sda_host_port_onboarding_playbook_config_generator.msg = (
-            "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
+        error_msg = (
+            "The specified Catalyst Center version '{0}' does not support the YAML "
+            "playbook generation for SDA Host Port Onboarding module. Supported versions start "
+            "from '2.3.7.9' onwards. Version '2.3.7.9' introduces APIs for retrieving "
+            "SDA host port onboarding configurations for the following components: Port Assignments, "
+            "Port Channels, and Wireless SSIDs from the Catalyst Center.".format(
                 catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()
             )
         )
+
+        catc_sda_host_port_onboarding_playbook_config_generator.log(
+            "Version compatibility check failed: {0}".format(error_msg),
+            "ERROR"
+        )
+
+        catc_sda_host_port_onboarding_playbook_config_generator.msg = error_msg
         catc_sda_host_port_onboarding_playbook_config_generator.set_operation_result(
             "failed", False, catc_sda_host_port_onboarding_playbook_config_generator.msg, "ERROR"
         ).check_return_status()
 
-    # Get the state parameter from the provided parameters
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Version compatibility check passed - Catalyst Center version {0} supports "
+        "all required SDA host port onboarding APIs".format(
+            catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()
+        ),
+        "INFO"
+    )
+
+    # ============================================
+    # State Parameter Validation
+    # ============================================
     state = catc_sda_host_port_onboarding_playbook_config_generator.params.get("state")
 
-    # Check if the state is valid
-    if state not in catc_sda_host_port_onboarding_playbook_config_generator.supported_states:
-        catc_sda_host_port_onboarding_playbook_config_generator.status = "invalid"
-        catc_sda_host_port_onboarding_playbook_config_generator.msg = "State {0} is invalid".format(
-            state
-        )
-        catc_sda_host_port_onboarding_playbook_config_generator.check_recturn_status()
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Validating requested state parameter: '{0}' against supported states: {1}".format(
+            state, catc_sda_host_port_onboarding_playbook_config_generator.supported_states
+        ),
+        "DEBUG"
+    )
 
-    # Validate the input parameters and check the return status
+    if state not in catc_sda_host_port_onboarding_playbook_config_generator.supported_states:
+        error_msg = (
+            "State '{0}' is invalid for this module. Supported states are: {1}. "
+            "Please update your playbook to use one of the supported states.".format(
+                state, catc_sda_host_port_onboarding_playbook_config_generator.supported_states
+            )
+        )
+
+        catc_sda_host_port_onboarding_playbook_config_generator.log(
+            "State validation failed: {0}".format(error_msg),
+            "ERROR"
+        )
+
+        catc_sda_host_port_onboarding_playbook_config_generator.status = "invalid"
+        catc_sda_host_port_onboarding_playbook_config_generator.msg = error_msg
+        catc_sda_host_port_onboarding_playbook_config_generator.check_return_status()
+
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "State validation passed - using state '{0}' for workflow execution".format(
+            state
+        ),
+        "INFO"
+    )
+
+    # ============================================
+    # Input Parameter Validation
+    # ============================================
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Starting comprehensive input parameter validation for playbook configuration",
+        "INFO"
+    )
+
     catc_sda_host_port_onboarding_playbook_config_generator.validate_input().check_return_status()
 
-    # Iterate over the validated configuration parameters
-    for config in catc_sda_host_port_onboarding_playbook_config_generator.validated_config:
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Input parameter validation completed successfully - all configuration "
+        "parameters meet module requirements",
+        "INFO"
+    )
+
+    # ============================================
+    # Configuration Processing Loop
+    # ============================================
+    config_list = catc_sda_host_port_onboarding_playbook_config_generator.validated_config
+
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Starting configuration processing loop - will process {0} configuration "
+        "item(s) from playbook".format(len(config_list)),
+        "INFO"
+    )
+
+    for config_index, config in enumerate(config_list, start=1):
+        catc_sda_host_port_onboarding_playbook_config_generator.log(
+            "Processing configuration item {0}/{1} for state '{2}'".format(
+                config_index, len(config_list), state
+            ),
+            "INFO"
+        )
+
+        # Reset values for clean state between configurations
+        catc_sda_host_port_onboarding_playbook_config_generator.log(
+            "Resetting module state variables for clean configuration processing",
+            "DEBUG"
+        )
         catc_sda_host_port_onboarding_playbook_config_generator.reset_values()
+
+        # Collect desired state (want) from configuration
+        catc_sda_host_port_onboarding_playbook_config_generator.log(
+            "Collecting desired state parameters from configuration item {0}".format(
+                config_index
+            ),
+            "DEBUG"
+        )
         catc_sda_host_port_onboarding_playbook_config_generator.get_want(
             config, state
         ).check_return_status()
+
+        # Execute state-specific operation (gathered workflow)
+        catc_sda_host_port_onboarding_playbook_config_generator.log(
+            "Executing state-specific operation for '{0}' workflow on "
+            "configuration item {1}".format(state, config_index),
+            "INFO"
+        )
         catc_sda_host_port_onboarding_playbook_config_generator.get_diff_state_apply[
             state
         ]().check_return_status()
+
+        catc_sda_host_port_onboarding_playbook_config_generator.log(
+            "Successfully completed processing for configuration item {0}/{1}".format(
+                config_index, len(config_list)
+            ),
+            "INFO"
+        )
+
+    # ============================================
+    # Module Completion and Exit
+    # ============================================
+    module_end_time = time.time()
+    module_duration = module_end_time - module_start_time
+
+    completion_timestamp = time.strftime(
+        "%Y-%m-%d %H:%M:%S",
+        time.localtime(module_end_time)
+    )
+
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Module execution completed successfully at timestamp {0}. Total execution "
+        "time: {1:.2f} seconds. Processed {2} configuration item(s) with final "
+        "status: {3}".format(
+            completion_timestamp,
+            module_duration,
+            len(config_list),
+            catc_sda_host_port_onboarding_playbook_config_generator.status
+        ),
+        "INFO"
+    )
+
+    # Exit module with results
+    # This is a terminal operation - function does not return after this
+    catc_sda_host_port_onboarding_playbook_config_generator.log(
+        "Exiting Ansible module with result: {0}".format(
+            catc_sda_host_port_onboarding_playbook_config_generator.result
+        ),
+        "DEBUG"
+    )
 
     module.exit_json(**catc_sda_host_port_onboarding_playbook_config_generator.result)
 
