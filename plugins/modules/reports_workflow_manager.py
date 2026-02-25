@@ -1276,84 +1276,84 @@ Supported Formats: CSV, TDE, JSON
 
 5.1 View Name: "AP"
 Allowed Filters:
-    - Location (MULTI_SELECT_TREE): Network location hierarchy
-    - Wlc (MULTI_SELECT): Wireless LAN Controllers
-    - AP (MULTI_SELECT): Access Point identifiers
-    - TimeRange (TIME_RANGE): Data collection period
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Wireless LAN Controllers
+  - AP (MULTI_SELECT): Access Point identifiers
+  - TimeRange (TIME_RANGE): Data collection period
 Required Filters: Location, TimeRange
 Field Groups:
-    - apDetailByAP:
-        Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
-                osVersion, nwDeviceType, platformId, serialNumber, deviceFamily,
-                siteHierarchy, upTime, mode, adminState, opState, overallScore,
-                clCount_avg, cpu, memory, clCount_max, wlcName, powerStatus,
-                regulatoryDomain, cdp, location, flexGroup, apGroup, siteTagName,
-                policyTagName, rfTagName, rxBytes, txBytes, rxRate, txRate
+  - apDetailByAP:
+     Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
+              osVersion, nwDeviceType, platformId, serialNumber, deviceFamily,
+              siteHierarchy, upTime, mode, adminState, opState, overallScore,
+              clCount_avg, cpu, memory, clCount_max, wlcName, powerStatus,
+              regulatoryDomain, cdp, location, flexGroup, apGroup, siteTagName,
+              policyTagName, rfTagName, rxBytes, txBytes, rxRate, txRate
 Supported Formats: CSV, TDE, JSON
 
 5.2 View Name: "AP - Usage and Client Breakdown"
 Allowed Filters:
-    - Location (MULTI_SELECT_TREE): Network location hierarchy
-    - Wlc (MULTI_SELECT): Controller selection
-    - AP (MULTI_SELECT): Access Point selection
-    - TimeRange (TIME_RANGE): Usage analysis period
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller selection
+  - AP (MULTI_SELECT): Access Point selection
+  - TimeRange (TIME_RANGE): Usage analysis period
 Required Filters: Location, AP, TimeRange
 Field Groups:
-    - apBreakdown:
-        Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
-                traffic, trafficPercentage, ethernetMac, location
+  - apBreakdown:
+     Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
+              traffic, trafficPercentage, ethernetMac, location
 Supported Formats: CSV, TDE, JSON, PDF
 
 5.3 View Name: "AP Radio"
 Allowed Filters:
-    - Location (MULTI_SELECT_TREE): Network location hierarchy
-    - Wlc (MULTI_SELECT): Controller identifiers
-    - AP (MULTI_SELECT): Access Point names
-    - Band (MULTI_SELECT): Radio frequency bands
-    - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
-    - Limit (SINGLE_SELECT_ARRAY): Result count limit
-    - TimeRange (TIME_RANGE): Performance data period
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller identifiers
+  - AP (MULTI_SELECT): Access Point names
+  - Band (MULTI_SELECT): Radio frequency bands
+  - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
+  - Limit (SINGLE_SELECT_ARRAY): Result count limit
+  - TimeRange (TIME_RANGE): Performance data period
 Required Filters: Location, SortBy, Limit, TimeRange
 Field Groups:
-    - apDetailByRadio:
-        Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
-                frequency, siteHierarchy, channels, txPower, memory, osVersion,
-                cpu, managementIpAddress, deviceModel, deviceFamily, platformId,
-                nwDeviceType, upTime, wlcName, wlcIpAddr, radioNoiseMax_max,
-                radioUtil_max, txUtilPct_max, rxUtilPct_max, radioIntf_max,
-                radioClientCount_max, radioClientCount_avg, txBytes_sum,
-                rxBytes_sum, radioAirQualMax_max, txUtil_avg, rxUtil_avg
+  - apDetailByRadio:
+     Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
+              frequency, siteHierarchy, channels, txPower, memory, osVersion,
+              cpu, managementIpAddress, deviceModel, deviceFamily, platformId,
+              nwDeviceType, upTime, wlcName, wlcIpAddr, radioNoiseMax_max,
+              radioUtil_max, txUtilPct_max, rxUtilPct_max, radioIntf_max,
+              radioClientCount_max, radioClientCount_avg, txBytes_sum,
+              rxBytes_sum, radioAirQualMax_max, txUtil_avg, rxUtil_avg
 Supported Formats: CSV, JSON and TDE
 
 5.4 View Name: "AP RRM Events"
 Allowed Filters:
-    - Location (MULTI_SELECT_TREE): Network location hierarchy
-    - Wlc (MULTI_SELECT): Controller selection
-    - AP (MULTI_SELECT): Access Point identifiers
-    - eventType (MULTI_SELECT): RRM event categories
-    - Band (MULTI_SELECT): Radio frequency bands
-    - TimeRange (TIME_RANGE): Event monitoring period
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller selection
+  - AP (MULTI_SELECT): Access Point identifiers
+  - eventType (MULTI_SELECT): RRM event categories
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Event monitoring period
 Required Filters: Location, TimeRange
 Field Groups:
-    - apRRMEventsByAPMac:
-        Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
-                slotId, wlcName, frequency, eventType, prevChannels, currChannels,
-                prevPower, currPower, oldWidthValue, newWidthValue, reasonType,
-                lastFailureReason, dcaReasonCode, location
+  - apRRMEventsByAPMac:
+     Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
+              slotId, wlcName, frequency, eventType, prevChannels, currChannels,
+              prevPower, currPower, oldWidthValue, newWidthValue, reasonType,
+              lastFailureReason, dcaReasonCode, location
 Supported Formats: CSV, TDE and JSON
 
 5.5 View Name: "Worst Interferers"
 Allowed Filters:
-    - Location (MULTI_SELECT_TREE): Network location hierarchy
-    - Wlc (MULTI_SELECT): Controller identifiers
-    - AP (MULTI_SELECT): Access Point names
-    - Band (MULTI_SELECT): Radio frequency bands
-    - TimeRange (TIME_RANGE): Interference analysis period
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller identifiers
+  - AP (MULTI_SELECT): Access Point names
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Interference analysis period
 Required Filters: Location, TimeRange
 Field Groups:
-    - worstInterferers:
-        Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
-                affectedChannels, apName, slot, band, siteHierarchy, discoveredTime
+  - worstInterferers:
+     Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
+              affectedChannels, apName, slot, band, siteHierarchy, discoveredTime
 Supported Formats: TDE, JSON and CSV
 
 6. NETWORK DEVICES VIEW GROUP:
