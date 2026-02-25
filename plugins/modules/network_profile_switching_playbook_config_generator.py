@@ -88,7 +88,7 @@ options:
           - At least one filter type must be specified to identify
             target devices.
           - If multiple filter types are provided, the module will filter
-            them in the following order: profile_name_list, day_n_template_list, site_list
+            them in the following order of profile_name_list, day_n_template_list, site_list
           - All profiles matching any of the provided filters will be retrieved.
         type: dict
         required: false
