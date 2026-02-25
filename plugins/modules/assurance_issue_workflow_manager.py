@@ -3326,7 +3326,6 @@ class AssuranceSettings(DnacBase):
                     result_assurance_issue.get("msg").update(
                         {name: "Assurance issue deleted successfully"}
                     )
-                    result_assurance_issue.update({"Validation": "Success"})
                     self.result["changed"] = True
                     self.log("Assurance Issue '{0}' deleted successfully".format(name), "INFO")
                 except Exception as e:
@@ -3354,7 +3353,6 @@ class AssuranceSettings(DnacBase):
                         result_assurance_issue.get("msg").update(
                             {name: "Assurance user-defined issue deleted successfully"}
                         )
-                        result_assurance_issue.update({"Validation": "Success"})
                         self.result["changed"] = True
                         self.msg = "Assurance Issue '{0}' deleted successfully".format(
                             name
