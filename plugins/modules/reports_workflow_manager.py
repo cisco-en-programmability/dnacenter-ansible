@@ -1156,590 +1156,590 @@ To verify this information, search the code for:
 
 1. EXECUTIVE SUMMARY VIEW GROUP:
 -------------------------------
-    View Name: "Executive Summary"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - TimeRange (TIME_RANGE): Date/time range for data collection
-      - SSID (MULTI_SELECT): Wireless network identifiers
-      - Band (MULTI_SELECT): Radio frequency bands (2.4GHz, 5GHz, 6GHz)
-      - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
-    Required Filters: None - All filters are optional
-    Field Groups: Not applicable for Executive Summary
-    Supported Formats: PDF
+View Name: "Executive Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - TimeRange (TIME_RANGE): Date/time range for data collection
+  - SSID (MULTI_SELECT): Wireless network identifiers
+  - Band (MULTI_SELECT): Radio frequency bands (2.4GHz, 5GHz, 6GHz)
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+Required Filters: None - All filters are optional
+Field Groups: Not applicable for Executive Summary
+Supported Formats: PDF
 
 2. SECURITY ADVISORIES VIEW GROUP:
 --------------------------------
-    View Name: "Security Advisories Data"
-    Allowed Filters:
-      - DeviceType (MULTI_SELECT): Device categories (Switch, Router, AP, etc.)
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - Impact (MULTI_SELECT): Advisory impact levels (Critical, High, Medium, Low)
-    Required Filters: None - All filters are optional
-    Field Groups:
-      - psirtAllData:
-         Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
-                  deviceImageVersion, deviceSite, advisoryId, advisoryCvssScore,
-                  advisoryImpact, advisoryMatchType, advisoryLastScanTime,
-                  firstFixedVersion, scanCriteria, scanStatus
-    Supported Formats: CSV, PDF, TDE
+View Name: "Security Advisories Data"
+Allowed Filters:
+  - DeviceType (MULTI_SELECT): Device categories (Switch, Router, AP, etc.)
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Impact (MULTI_SELECT): Advisory impact levels (Critical, High, Medium, Low)
+Required Filters: None - All filters are optional
+Field Groups:
+  - psirtAllData:
+     Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
+              deviceImageVersion, deviceSite, advisoryId, advisoryCvssScore,
+              advisoryImpact, advisoryMatchType, advisoryLastScanTime,
+              firstFixedVersion, scanCriteria, scanStatus
+Supported Formats: CSV, PDF, TDE
 
 3. INVENTORY VIEW GROUP:
 ----------------------
 
-    3.1 View Name: "All Data"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - DeviceFamily (MULTI_SELECT): Device family categories
-      - DeviceType (MULTI_SELECT): Device type classifications
-      - SoftwareVersion (MULTI_SELECT): Firmware/software versions
-    Required Filters: None - All filters are optional
-    Field Groups:
-      - inventoryAllData:
-         Fields: family, type, hostname, serialNumber, ipAddress, status,
-                  softwareVersion, upTime, partNumber, site, numberofUsers,
-                  numberofethernetports, timeSinceCodeUpgrade, licenseDnaLevel,
-                  networkLicense, fabricRole
-    Supported Formats: CSV, PDF, TDE
+3.1 View Name: "All Data"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceType (MULTI_SELECT): Device type classifications
+  - SoftwareVersion (MULTI_SELECT): Firmware/software versions
+Required Filters: None - All filters are optional
+Field Groups:
+  - inventoryAllData:
+     Fields: family, type, hostname, serialNumber, ipAddress, status,
+              softwareVersion, upTime, partNumber, site, numberofUsers,
+              numberofethernetports, timeSinceCodeUpgrade, licenseDnaLevel,
+              networkLicense, fabricRole
+Supported Formats: CSV, PDF, TDE
 
-    3.2 View Name: "All Data Version 2.0"
-    Allowed Filters:
-      - siteId (MULTI_SELECT_TREE): Site identifier hierarchy
-      - deviceType (MULTI_SELECT): Device type classifications
-      - deviceFamily (MULTI_SELECT): Device family categories
-      - softwareVersion (MULTI_SELECT): Software/firmware versions
-    Required Filters: None - All filters are optional
-    Field Groups:
-      - inventory_fields:
-         Fields: rownum, deviceFamily, deviceType, name, serialNumber,
-                  managementIpAddress, communicationState, softwareVersion,
-                  upTime, platformId, siteHierarchy, clientCount, portCount,
-                  completionTime, dnaLevel, networkLicense, uxLevel, fabricRole
-    Supported Formats: CSV, PDF, TDE
+3.2 View Name: "All Data Version 2.0"
+Allowed Filters:
+  - siteId (MULTI_SELECT_TREE): Site identifier hierarchy
+  - deviceType (MULTI_SELECT): Device type classifications
+  - deviceFamily (MULTI_SELECT): Device family categories
+  - softwareVersion (MULTI_SELECT): Software/firmware versions
+Required Filters: None - All filters are optional
+Field Groups:
+  - inventory_fields:
+     Fields: rownum, deviceFamily, deviceType, name, serialNumber,
+              managementIpAddress, communicationState, softwareVersion,
+              upTime, platformId, siteHierarchy, clientCount, portCount,
+              completionTime, dnaLevel, networkLicense, uxLevel, fabricRole
+Supported Formats: CSV, PDF, TDE
 
-    3.3 View Name: "Port Reclaim View"
-    Allowed Filters:
-      - family (REGULAR): Device family identifier
-      - hostname (REGULAR): Device hostname pattern
-    Required Filters: None - All filters are optional
-    Field Groups:
-      - PortReclaimFieldGroup:
-         Fields: rownum, hostname, family, type, managementIpAddress, portname,
-                  description, macAddress, adminStatus, status, lastInput, lastOutput
-    Supported Formats: CSV, TDE, JSON
+3.3 View Name: "Port Reclaim View"
+Allowed Filters:
+  - family (REGULAR): Device family identifier
+  - hostname (REGULAR): Device hostname pattern
+Required Filters: None - All filters are optional
+Field Groups:
+  - PortReclaimFieldGroup:
+     Fields: rownum, hostname, family, type, managementIpAddress, portname,
+              description, macAddress, adminStatus, status, lastInput, lastOutput
+Supported Formats: CSV, TDE, JSON
 
 4. ROGUE AND AWIPS VIEW GROUP:
 ----------------------------
 
-    4.1 View Name: "New Threat"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - ThreatLevel (MULTI_SELECT): Threat severity levels
-      - ThreatType (MULTI_SELECT): Types of identified threats
-      - TimeRange (TIME_RANGE): Date/time range for threat data
-    Required Filters: TimeRange
-    Field Groups:
-      - rogue_details:
-         Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
-                  rssi, ssid, vendor, lastUpdated
-    Supported Formats: CSV, TDE, JSON
+4.1 View Name: "New Threat"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatLevel (MULTI_SELECT): Threat severity levels
+  - ThreatType (MULTI_SELECT): Types of identified threats
+  - TimeRange (TIME_RANGE): Date/time range for threat data
+Required Filters: TimeRange
+Field Groups:
+  - rogue_details:
+     Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
+              rssi, ssid, vendor, lastUpdated
+Supported Formats: CSV, TDE, JSON
 
-    4.2 View Name: "Rogue Additional Detail"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - ThreatType (MULTI_SELECT): Threat classifications
-      - ThreatLevel (MULTI_SELECT): Severity assessments
-      - TimeRange (TIME_RANGE): Analysis time period
-    Required Filters: TimeRange
-    Field Groups:
-      - rogue_ap_bssid_details:
-         Fields: macAddress, lastUpdated, firstSeen, mldMacAddress, apName,
-                  radioType, controllerIp, siteNameHierarchy, ssid, channelNumber,
-                  channelWidth, threatLevel, containment, threatType, encryption,
-                  switchIp, switchName, portDescription
-    Supported Formats: CSV, TDE, JSON
+4.2 View Name: "Rogue Additional Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatType (MULTI_SELECT): Threat classifications
+  - ThreatLevel (MULTI_SELECT): Severity assessments
+  - TimeRange (TIME_RANGE): Analysis time period
+Required Filters: TimeRange
+Field Groups:
+  - rogue_ap_bssid_details:
+     Fields: macAddress, lastUpdated, firstSeen, mldMacAddress, apName,
+              radioType, controllerIp, siteNameHierarchy, ssid, channelNumber,
+              channelWidth, threatLevel, containment, threatType, encryption,
+              switchIp, switchName, portDescription
+Supported Formats: CSV, TDE, JSON
 
-    4.3 View Name: "Threat Detail"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - ThreatType (MULTI_SELECT): Threat categories
-      - ThreatLevel (MULTI_SELECT): Risk severity levels
-      - TimeRange (TIME_RANGE): Threat analysis timeframe
-    Required Filters: TimeRange
-    Field Groups:
-      - rogue_details:
-         Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
-                  rssi, ssid, vendor, lastUpdated
-    Supported Formats: CSV, TDE, JSON
+4.3 View Name: "Threat Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatType (MULTI_SELECT): Threat categories
+  - ThreatLevel (MULTI_SELECT): Risk severity levels
+  - TimeRange (TIME_RANGE): Threat analysis timeframe
+Required Filters: TimeRange
+Field Groups:
+  - rogue_details:
+     Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
+              rssi, ssid, vendor, lastUpdated
+Supported Formats: CSV, TDE, JSON
 
 5. ACCESS POINT VIEW GROUP:
 -------------------------
 
-    5.1 View Name: "AP"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - Wlc (MULTI_SELECT): Wireless LAN Controllers
-      - AP (MULTI_SELECT): Access Point identifiers
-      - TimeRange (TIME_RANGE): Data collection period
-    Required Filters: Location, TimeRange
-    Field Groups:
-      - apDetailByAP:
-         Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
-                  osVersion, nwDeviceType, platformId, serialNumber, deviceFamily,
-                  siteHierarchy, upTime, mode, adminState, opState, overallScore,
-                  clCount_avg, cpu, memory, clCount_max, wlcName, powerStatus,
-                  regulatoryDomain, cdp, location, flexGroup, apGroup, siteTagName,
-                  policyTagName, rfTagName, rxBytes, txBytes, rxRate, txRate
-    Supported Formats: CSV, TDE, JSON
+5.1 View Name: "AP"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Wlc (MULTI_SELECT): Wireless LAN Controllers
+    - AP (MULTI_SELECT): Access Point identifiers
+    - TimeRange (TIME_RANGE): Data collection period
+Required Filters: Location, TimeRange
+Field Groups:
+    - apDetailByAP:
+        Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
+                osVersion, nwDeviceType, platformId, serialNumber, deviceFamily,
+                siteHierarchy, upTime, mode, adminState, opState, overallScore,
+                clCount_avg, cpu, memory, clCount_max, wlcName, powerStatus,
+                regulatoryDomain, cdp, location, flexGroup, apGroup, siteTagName,
+                policyTagName, rfTagName, rxBytes, txBytes, rxRate, txRate
+Supported Formats: CSV, TDE, JSON
 
-    5.2 View Name: "AP - Usage and Client Breakdown"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - Wlc (MULTI_SELECT): Controller selection
-      - AP (MULTI_SELECT): Access Point selection
-      - TimeRange (TIME_RANGE): Usage analysis period
-    Required Filters: Location, AP, TimeRange
-    Field Groups:
-      - apBreakdown:
-         Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
-                  traffic, trafficPercentage, ethernetMac, location
-    Supported Formats: CSV, TDE, JSON, PDF
+5.2 View Name: "AP - Usage and Client Breakdown"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Wlc (MULTI_SELECT): Controller selection
+    - AP (MULTI_SELECT): Access Point selection
+    - TimeRange (TIME_RANGE): Usage analysis period
+Required Filters: Location, AP, TimeRange
+Field Groups:
+    - apBreakdown:
+        Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
+                traffic, trafficPercentage, ethernetMac, location
+Supported Formats: CSV, TDE, JSON, PDF
 
-    5.3 View Name: "AP Radio"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - Wlc (MULTI_SELECT): Controller identifiers
-      - AP (MULTI_SELECT): Access Point names
-      - Band (MULTI_SELECT): Radio frequency bands
-      - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
-      - Limit (SINGLE_SELECT_ARRAY): Result count limit
-      - TimeRange (TIME_RANGE): Performance data period
-    Required Filters: Location, SortBy, Limit, TimeRange
-    Field Groups:
-      - apDetailByRadio:
-         Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
-                  frequency, siteHierarchy, channels, txPower, memory, osVersion,
-                  cpu, managementIpAddress, deviceModel, deviceFamily, platformId,
-                  nwDeviceType, upTime, wlcName, wlcIpAddr, radioNoiseMax_max,
-                  radioUtil_max, txUtilPct_max, rxUtilPct_max, radioIntf_max,
-                  radioClientCount_max, radioClientCount_avg, txBytes_sum,
-                  rxBytes_sum, radioAirQualMax_max, txUtil_avg, rxUtil_avg
-    Supported Formats: CSV, JSON and TDE
+5.3 View Name: "AP Radio"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Wlc (MULTI_SELECT): Controller identifiers
+    - AP (MULTI_SELECT): Access Point names
+    - Band (MULTI_SELECT): Radio frequency bands
+    - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
+    - Limit (SINGLE_SELECT_ARRAY): Result count limit
+    - TimeRange (TIME_RANGE): Performance data period
+Required Filters: Location, SortBy, Limit, TimeRange
+Field Groups:
+    - apDetailByRadio:
+        Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
+                frequency, siteHierarchy, channels, txPower, memory, osVersion,
+                cpu, managementIpAddress, deviceModel, deviceFamily, platformId,
+                nwDeviceType, upTime, wlcName, wlcIpAddr, radioNoiseMax_max,
+                radioUtil_max, txUtilPct_max, rxUtilPct_max, radioIntf_max,
+                radioClientCount_max, radioClientCount_avg, txBytes_sum,
+                rxBytes_sum, radioAirQualMax_max, txUtil_avg, rxUtil_avg
+Supported Formats: CSV, JSON and TDE
 
-    5.4 View Name: "AP RRM Events"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - Wlc (MULTI_SELECT): Controller selection
-      - AP (MULTI_SELECT): Access Point identifiers
-      - eventType (MULTI_SELECT): RRM event categories
-      - Band (MULTI_SELECT): Radio frequency bands
-      - TimeRange (TIME_RANGE): Event monitoring period
-    Required Filters: Location, TimeRange
-    Field Groups:
-      - apRRMEventsByAPMac:
-         Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
-                  slotId, wlcName, frequency, eventType, prevChannels, currChannels,
-                  prevPower, currPower, oldWidthValue, newWidthValue, reasonType,
-                  lastFailureReason, dcaReasonCode, location
-    Supported Formats: CSV, TDE and JSON
+5.4 View Name: "AP RRM Events"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Wlc (MULTI_SELECT): Controller selection
+    - AP (MULTI_SELECT): Access Point identifiers
+    - eventType (MULTI_SELECT): RRM event categories
+    - Band (MULTI_SELECT): Radio frequency bands
+    - TimeRange (TIME_RANGE): Event monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+    - apRRMEventsByAPMac:
+        Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
+                slotId, wlcName, frequency, eventType, prevChannels, currChannels,
+                prevPower, currPower, oldWidthValue, newWidthValue, reasonType,
+                lastFailureReason, dcaReasonCode, location
+Supported Formats: CSV, TDE and JSON
 
-    5.5 View Name: "Worst Interferers"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - Wlc (MULTI_SELECT): Controller identifiers
-      - AP (MULTI_SELECT): Access Point names
-      - Band (MULTI_SELECT): Radio frequency bands
-      - TimeRange (TIME_RANGE): Interference analysis period
-    Required Filters: Location, TimeRange
-    Field Groups:
-      - worstInterferers:
-         Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
-                  affectedChannels, apName, slot, band, siteHierarchy, discoveredTime
-    Supported Formats: TDE, JSON and CSV
+5.5 View Name: "Worst Interferers"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Wlc (MULTI_SELECT): Controller identifiers
+    - AP (MULTI_SELECT): Access Point names
+    - Band (MULTI_SELECT): Radio frequency bands
+    - TimeRange (TIME_RANGE): Interference analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+    - worstInterferers:
+        Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
+                affectedChannels, apName, slot, band, siteHierarchy, discoveredTime
+Supported Formats: TDE, JSON and CSV
 
 6. NETWORK DEVICES VIEW GROUP:
 ----------------------------
 
-    6.1 View Name: "Device CPU and Memory Utilization"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - DeviceFamily (MULTI_SELECT): Device family categories
-      - DeviceRole (MULTI_SELECT): Network device roles
-      - SortBy (SINGLE_SELECT_ARRAY): Result sorting options
-      - Limit (SINGLE_SELECT_ARRAY): Result count limits
-      - TimeRange (TIME_RANGE): Performance monitoring period
-    Required Filters: [REQUIRED] Location, SortBy, Limit, TimeRange
-    Field Groups:
-      - Device_Health_Details:
-         Fields: deviceName, ipAddr, deviceFamily, deviceRole, deviceModel,
-                  minCPU, maxCPU, avgCPU, minMemory, maxMemory, avgMemory
-    Supported Formats: CSV, TDE, JSON
+6.1 View Name: "Device CPU and Memory Utilization"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - DeviceRole (MULTI_SELECT): Network device roles
+    - SortBy (SINGLE_SELECT_ARRAY): Result sorting options
+    - Limit (SINGLE_SELECT_ARRAY): Result count limits
+    - TimeRange (TIME_RANGE): Performance monitoring period
+Required Filters: [REQUIRED] Location, SortBy, Limit, TimeRange
+Field Groups:
+    - Device_Health_Details:
+        Fields: deviceName, ipAddr, deviceFamily, deviceRole, deviceModel,
+                minCPU, maxCPU, avgCPU, minMemory, maxMemory, avgMemory
+Supported Formats: CSV, TDE, JSON
 
-    6.2 View Name: "Energy Management"
-    Allowed Filters:
-      - Locations (MULTI_SELECT_TREE): Network location hierarchy
-      - DeviceCategory (SINGLE_SELECT_ARRAY): Device category classification
-      - TimeRange (TIME_RANGE): Energy consumption analysis period
-    Required Filters: TimeRange
-    Field Groups:
-      - response:
-         Fields: timeVal, energyConsumed, carbonIntensity, estimatedEmission,
-                  estimatedCost, measured
-    Supported Formats: CSV, PDF
+6.2 View Name: "Energy Management"
+Allowed Filters:
+    - Locations (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceCategory (SINGLE_SELECT_ARRAY): Device category classification
+    - TimeRange (TIME_RANGE): Energy consumption analysis period
+Required Filters: TimeRange
+Field Groups:
+    - response:
+        Fields: timeVal, energyConsumed, carbonIntensity, estimatedEmission,
+                estimatedCost, measured
+Supported Formats: CSV, PDF
 
-    6.3 View Name: "Network Device Availability"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - NwDeviceType (MULTI_SELECT): Network device classifications
-      - TimeRange (TIME_RANGE): Availability monitoring period
-    Required Filters: Location, TimeRange
-    Field Groups:
-      - response:
-         Fields: nwDeviceFamily, nwDeviceRole, nwDeviceName, managementIpAddr,
-                  siteHierarchy, softwareVersion, availability
-    Supported Formats: CSV, TDE, JSON
+6.3 View Name: "Network Device Availability"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - NwDeviceType (MULTI_SELECT): Network device classifications
+    - TimeRange (TIME_RANGE): Availability monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+    - response:
+        Fields: nwDeviceFamily, nwDeviceRole, nwDeviceName, managementIpAddr,
+                siteHierarchy, softwareVersion, availability
+Supported Formats: CSV, TDE, JSON
 
-    6.4 View Name: "Network Interface Utilization"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - SortBy (SINGLE_SELECT_ARRAY): Data sorting criteria
-      - SortOrder (SINGLE_SELECT_ARRAY): Sort direction (ascending/descending)
-      - Limit (SINGLE_SELECT_ARRAY): Maximum result count
-      - TimeRange (TIME_RANGE): Interface monitoring period
-    Required Filters: [REQUIRED] All filters (Location, SortBy, SortOrder, Limit, TimeRange)
-    Field Groups:
-      - Interface_Utilization_Details:
-         Fields: deviceName, managementIpAddress, location, interfaceName,
-                  minTx, maxTx, avgTx, txErrors, txPacketDrops, minRx, maxRx,
-                  avgRx, rxErrors, rxPacketDrops
-    Supported Formats: CSV, Tableau Data Extract (TDE), JSON
+6.4 View Name: "Network Interface Utilization"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - SortBy (SINGLE_SELECT_ARRAY): Data sorting criteria
+    - SortOrder (SINGLE_SELECT_ARRAY): Sort direction (ascending/descending)
+    - Limit (SINGLE_SELECT_ARRAY): Maximum result count
+    - TimeRange (TIME_RANGE): Interface monitoring period
+Required Filters: [REQUIRED] All filters (Location, SortBy, SortOrder, Limit, TimeRange)
+Field Groups:
+    - Interface_Utilization_Details:
+        Fields: deviceName, managementIpAddress, location, interfaceName,
+                minTx, maxTx, avgTx, txErrors, txPacketDrops, minRx, maxRx,
+                avgRx, rxErrors, rxPacketDrops
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-    6.5 View Name: "PoE"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-    Required Filters: [REQUIRED] Location
-    Field Groups:
-      - response:
-         Fields: managementIpAddr, nwDeviceName, date, site, powerBudget,
-                  powerConsumed, powerConsumedPercentage, poeUsedPortCount,
-                  fastPoeEnabledCount, perpetualPoeEnabledCount,
-                  PolicePoeEnabledCount, poeOperPriorityHighCount
-    Supported Formats: CSV, Tableau Data Extract (TDE), JSON
+6.5 View Name: "PoE"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+Required Filters: [REQUIRED] Location
+Field Groups:
+    - response:
+        Fields: managementIpAddr, nwDeviceName, date, site, powerBudget,
+                powerConsumed, powerConsumedPercentage, poeUsedPortCount,
+                fastPoeEnabledCount, perpetualPoeEnabledCount,
+                PolicePoeEnabledCount, poeOperPriorityHighCount
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-    6.6 View Name: "Port Capacity"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - DeviceFamily (MULTI_SELECT): Device family categories
-      - Devicerole (MULTI_SELECT): Device role classifications
-      - utilizationLevel (SINGLE_SELECT_ARRAY): Port utilization thresholds
-    Required Filters: utilizationLevel
-    Field Groups:
-      - Port Capacity:
-         Fields: deviceIp, deviceName, location, deviceFamily, deviceRole,
-                  connectedPorts, freePorts, downPorts, totalPorts, usagePercentage
-    Supported Formats: CSV, Tableau Data Extract (TDE)
+6.6 View Name: "Port Capacity"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - Devicerole (MULTI_SELECT): Device role classifications
+    - utilizationLevel (SINGLE_SELECT_ARRAY): Port utilization thresholds
+Required Filters: utilizationLevel
+Field Groups:
+    - Port Capacity:
+        Fields: deviceIp, deviceName, location, deviceFamily, deviceRole,
+                connectedPorts, freePorts, downPorts, totalPorts, usagePercentage
+Supported Formats: CSV, Tableau Data Extract (TDE)
 
-    6.7 View Name: "Transmit Power Change Count"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - Band (MULTI_SELECT): Radio frequency bands
-      - TimeRange (TIME_RANGE): Power change monitoring period
-    Required Filters: Location, TimeRange
-    Field Groups:
-      - response:
-         Fields: apName, apMac, slotId, frequency, upCount, downCount,
-                  totalChangeCount, powerRange, location
-    Supported Formats: CSV, Tableau Data Extract (TDE), JSON
+6.7 View Name: "Transmit Power Change Count"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Band (MULTI_SELECT): Radio frequency bands
+    - TimeRange (TIME_RANGE): Power change monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+    - response:
+        Fields: apName, apMac, slotId, frequency, upCount, downCount,
+                totalChangeCount, powerRange, location
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-    6.8 View Name: "Channel Change Count"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - Band (MULTI_SELECT): Radio frequency bands
-      - TimeRange (TIME_RANGE): Channel change monitoring period
-    Required Filters: [REQUIRED] Location, TimeRange (Band is optional)
-    Field Groups:
-      - response:
-         Fields: apName, apMac, slotId, frequency, DCA, DFS, ED-RRM,
-                  totalChangeCount, channelsCount, location
-    Supported Formats: CSV, TDE, JSON
+6.8 View Name: "Channel Change Count"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Band (MULTI_SELECT): Radio frequency bands
+    - TimeRange (TIME_RANGE): Channel change monitoring period
+Required Filters: [REQUIRED] Location, TimeRange (Band is optional)
+Field Groups:
+    - response:
+        Fields: apName, apMac, slotId, frequency, DCA, DFS, ED-RRM,
+                totalChangeCount, channelsCount, location
+Supported Formats: CSV, TDE, JSON
 
-    6.9 View Name: "VLAN"
-    Allowed Filters:
-      - Location (MULTI_SELECT_TREE): Network location hierarchy
-      - DeviceFamily (MULTI_SELECT): Device family categories
-      - DeviceType (MULTI_SELECT): Device type classifications
-    Required Filters: None - All filters are optional
-    Field Groups:
-      - VLAN Details:
-         Fields: ipAddress, deviceName, location, deviceFamily, deviceType,
-                  vlanId, vlanName, interfacename, adminStatus, operStatus
-    Supported Formats: CSV, TDE
+6.9 View Name: "VLAN"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - DeviceType (MULTI_SELECT): Device type classifications
+Required Filters: None - All filters are optional
+Field Groups:
+    - VLAN Details:
+        Fields: ipAddress, deviceName, location, deviceFamily, deviceType,
+                vlanId, vlanName, interfacename, adminStatus, operStatus
+Supported Formats: CSV, TDE
 
 7. AUDIT LOG VIEW GROUP:
 ----------------------
-    View Name: "Audit Log"
-    Allowed Filters:
-      - domain (MULTI_SELECT): System domain classifications
-      - category (MULTI_SELECT): Audit event categories (must be UPPERCASE)
-      - sortBy (REGULAR): Field to sort results by
-      - order (REGULAR): Sort order ('asc' only supported)
-      - TimeRange (TIME_RANGE): Audit log time period
-    Required Filters: TimeRange
-    Field Groups:
-      - audit_log:
-         Fields: eventId, namespace, name, description, type, category, domain,
-                  subDomain, severity, timestamp, details, ciscoDnaEventLink, note,
-                  userId, i18n, eventHierarchy, message, messageParams,
-                  parentInstanceId, network, startTime, childCount
-    Supported Formats: CSV, JSON
+View Name: "Audit Log"
+Allowed Filters:
+  - domain (MULTI_SELECT): System domain classifications
+  - category (MULTI_SELECT): Audit event categories (must be UPPERCASE)
+  - sortBy (REGULAR): Field to sort results by
+  - order (REGULAR): Sort order ('asc' only supported)
+  - TimeRange (TIME_RANGE): Audit log time period
+Required Filters: TimeRange
+Field Groups:
+  - audit_log:
+     Fields: eventId, namespace, name, description, type, category, domain,
+              subDomain, severity, timestamp, details, ciscoDnaEventLink, note,
+              userId, i18n, eventHierarchy, message, messageParams,
+              parentInstanceId, network, startTime, childCount
+Supported Formats: CSV, JSON
 
 8. COMPLIANCE VIEW GROUP:
 -----------------------
-    View Name: "Network Device Compliance"
-    Allowed Filters:
-      - complianceStatus (REGULAR): Compliance status (must be UPPERCASE)
-      - complianceType (REGULAR): Type of compliance check (must be UPPERCASE)
-      - family (REGULAR): Device family identifier
-      - DeviceType (REGULAR): Device type classification
-    Required Filters: None - All filters are optional
-    Field Groups:
-      - Compliance:
-         Fields: rownum, hostname, family, type, managementIpAddress,
-                  complianceStatus, IMAGE, RUNNING_CONFIG, PSIRT, NETWORK_PROFILE,
-                  NETWORK_SETTINGS, EOX, FABRIC, APPLICATION_VISIBILITY,
-                  CUSTOMIZATION_PROFILE
-    Supported Formats: CSV, PDF, JSON
+View Name: "Network Device Compliance"
+Allowed Filters:
+  - complianceStatus (REGULAR): Compliance status (must be UPPERCASE)
+  - complianceType (REGULAR): Type of compliance check (must be UPPERCASE)
+  - family (REGULAR): Device family identifier
+  - DeviceType (REGULAR): Device type classification
+Required Filters: None - All filters are optional
+Field Groups:
+  - Compliance:
+     Fields: rownum, hostname, family, type, managementIpAddress,
+              complianceStatus, IMAGE, RUNNING_CONFIG, PSIRT, NETWORK_PROFILE,
+              NETWORK_SETTINGS, EOX, FABRIC, APPLICATION_VISIBILITY,
+              CUSTOMIZATION_PROFILE
+Supported Formats: CSV, PDF, JSON
 
 9. CONFIGURATION ARCHIVE VIEW GROUP:
 ----------------------------------
-    View Name: "Configuration Archive"
-    Allowed Filters:
-      - configChangeType (REGULAR): Configuration change type (must be UPPERCASE)
-      - family (REGULAR): Device family identifier
-      - DeviceType (REGULAR): Device type classification
-    Required Filters: None - All filters are optional
-    Field Groups:
-      - ConfigArchive:
-         Fields: rownum, deviceName, family, type, managementIpAddress,
-                  createdTime, createdBy, configChangeType, userName, configMethod,
-                  loginIpAddress
-    Supported Formats: CSV, PDF, JSON
+View Name: "Configuration Archive"
+Allowed Filters:
+  - configChangeType (REGULAR): Configuration change type (must be UPPERCASE)
+  - family (REGULAR): Device family identifier
+  - DeviceType (REGULAR): Device type classification
+Required Filters: None - All filters are optional
+Field Groups:
+  - ConfigArchive:
+     Fields: rownum, deviceName, family, type, managementIpAddress,
+              createdTime, createdBy, configChangeType, userName, configMethod,
+              loginIpAddress
+Supported Formats: CSV, PDF, JSON
 
 10. EOX VIEW GROUP:
 ---------------
-    View Name: "EoX Data"
-    Allowed Filters:
-       - DeviceType (MULTI_SELECT): Device type classifications
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-    Required Filters: None - All filters are optional
-    Field Groups:
-       - eoxAllData:
-         Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
-                   deviceImageVersion, deviceSite, deviceModelName, deviceImageType,
-                   eoxScanStatus, eoxType, endOfLifeExternalAnnouncementDate,
-                   endOfSaleDate, endOfLastHardwareShipDate,
-                   endOfSoftwareMaintenanceReleasesDate,
-                   endOfHardwareNewServiceAttachmentDate,
-                   endOfSoftwareVulnerabilityOrSecuritySupportDate,
-                   endOfHardwareServiceContractRenewalDate, lastDateOfSupport,
-                   eoxLastScanTime
-    Supported Formats: CSV, PDF, TDE
+View Name: "EoX Data"
+Allowed Filters:
+  - DeviceType (MULTI_SELECT): Device type classifications
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+Required Filters: None - All filters are optional
+Field Groups:
+  - eoxAllData:
+     Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
+              deviceImageVersion, deviceSite, deviceModelName, deviceImageType,
+              eoxScanStatus, eoxType, endOfLifeExternalAnnouncementDate,
+              endOfSaleDate, endOfLastHardwareShipDate,
+              endOfSoftwareMaintenanceReleasesDate,
+              endOfHardwareNewServiceAttachmentDate,
+              endOfSoftwareVulnerabilityOrSecuritySupportDate,
+              endOfHardwareServiceContractRenewalDate, lastDateOfSupport,
+              eoxLastScanTime
+Supported Formats: CSV, PDF, TDE
 
 11. SWIM VIEW GROUP:
 ----------------
 
-    11.1 View Name: "All Data"
-    Allowed Filters:
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-       - DeviceFamily (MULTI_SELECT): Device family categories
-       - DeviceRole (MULTI_SELECT): Network device roles
-    Required Filters: None - All filters are optional
-    Field Groups:
-       - swimAllData:
-         Fields: hostname, family, type, role, ipAddress, site, serialNumber,
-                   softwareVersion, codeUpgradeDate, previousUpgradeDate,
-                   currentSMU, currentSMUUpgradeDate, upgradeFailureReason
-    Supported Formats: CSV, PDF, TDE
+11.1 View Name: "All Data"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceRole (MULTI_SELECT): Network device roles
+Required Filters: None - All filters are optional
+Field Groups:
+  - swimAllData:
+     Fields: hostname, family, type, role, ipAddress, site, serialNumber,
+              softwareVersion, codeUpgradeDate, previousUpgradeDate,
+              currentSMU, currentSMUUpgradeDate, upgradeFailureReason
+Supported Formats: CSV, PDF, TDE
 
-    11.2 View Name: "All Data Version 2.0"
-    Allowed Filters:
-       - Location1 (MULTI_SELECT_TREE): Network location hierarchy
-       - DeviceFamily (MULTI_SELECT): Device family categories
-       - DeviceRole (MULTI_SELECT): Network device roles
-    Required Filters: None - All filters are optional
-    Field Groups:
-       - swimAllData Version 2.0:
-         Fields: deviceName, deviceFamily, deviceType, deviceRole, ipAddress,
-                   location, serialNumber, currentVersion, codeUpgradeDate,
-                   priorUpgradeDate, currentSMU, currentSMUUpgradeDate,
-                   upgradeFailureReason
-    Supported Formats: CSV, TDE, JSON
+11.2 View Name: "All Data Version 2.0"
+Allowed Filters:
+  - Location1 (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceRole (MULTI_SELECT): Network device roles
+Required Filters: None - All filters are optional
+Field Groups:
+  - swimAllData Version 2.0:
+     Fields: deviceName, deviceFamily, deviceType, deviceRole, ipAddress,
+              location, serialNumber, currentVersion, codeUpgradeDate,
+              priorUpgradeDate, currentSMU, currentSMUUpgradeDate,
+              upgradeFailureReason
+Supported Formats: CSV, TDE, JSON
 
 12. CLIENT VIEW GROUP:
 ------------------
 
-    12.1 View Name: "Busiest Client"
-    Allowed Filters:
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-       - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
-       - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
-       - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
-       - Band (MULTI_SELECT): Radio frequency bands
-       - SortBy (SINGLE_SELECT_ARRAY): Result sorting criteria
-       - Limit (SINGLE_SELECT_ARRAY): Result count limit
-       - TimeRange (TIME_RANGE): Performance monitoring period
-    Required Filters: Location, TimeRange
-    Field Groups:
-       - response:
-         Fields: hostName, username, macAddress, ipv4, ipv6, deviceType,
-                   connectionStatus, averageHealthScore_min, averageHealthScore_max,
-                   averageHealthScore_median, usage_sum, connectedDeviceName,
-                   frequency, rssi_median, snr_median, site, lastUpdated, apGroup,
-                   ssid, vlan, vnid, onboardingEventTime, assocDoneTimestamp,
-                   authDoneTimestamp, aaaServerIp, dhcpDoneTimestamp,
-                   maxDhcpDuration_max, dhcpServerIp, linkSpeed, txRate_min,
-                   txRate_max, txRate_avg, rxRate_min, rxRate_max, rxRate_avg,
-                   txBytes_sum, rxBytes_sum, dataRate_median, dot11Protocol
-    Supported Formats: CSV, JSON, TDE
+12.1 View Name: "Busiest Client"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - SortBy (SINGLE_SELECT_ARRAY): Result sorting criteria
+  - Limit (SINGLE_SELECT_ARRAY): Result count limit
+  - TimeRange (TIME_RANGE): Performance monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+  - response:
+     Fields: hostName, username, macAddress, ipv4, ipv6, deviceType,
+              connectionStatus, averageHealthScore_min, averageHealthScore_max,
+              averageHealthScore_median, usage_sum, connectedDeviceName,
+              frequency, rssi_median, snr_median, site, lastUpdated, apGroup,
+              ssid, vlan, vnid, onboardingEventTime, assocDoneTimestamp,
+              authDoneTimestamp, aaaServerIp, dhcpDoneTimestamp,
+              maxDhcpDuration_max, dhcpServerIp, linkSpeed, txRate_min,
+              txRate_max, txRate_avg, rxRate_min, rxRate_max, rxRate_avg,
+              txBytes_sum, rxBytes_sum, dataRate_median, dot11Protocol
+Supported Formats: CSV, JSON, TDE
 
-    12.2 View Name: "Client Detail"
-    Allowed Filters:
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-       - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
-       - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
-       - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
-       - Band (MULTI_SELECT): Radio frequency bands
-       - TimeRange (TIME_RANGE): Analysis period
-    Required Filters: Location, TimeRange
-    Field Groups:
-       - client_details:
-         Fields: hostName, username, macAddress, ipv4, ipv6, deviceType,
-                   deviceForm, deviceVendor, remoteEndDuplexMode, hostOS,
-                   firmwareVersion, connectionStatus, averageHealthScore_min,
-                   averageHealthScore_max, averageHealthScore_median, usage_sum,
-                   duration_latest, connectedDeviceName, frequency, rssi_median,
-                   snr_median, site, lastUpdated, connectedDeviceId, apGroup, ssid,
-                   ethernetMac, slotId, vlan, vnid, port, portDescription, channel,
-                   onboardingEventTime, assocDoneTimestamp, authDoneTimestamp,
-                   aaaServerIp, dhcpDoneTimestamp, maxDhcpDuration_max, dhcpServerIp,
-                   wlcName, linkSpeed, txRate_min, txRate_max, txRate_avg,
-                   rxRate_min, rxRate_max, rxRate_avg, txBytes_sum, rxBytes_sum,
-                   dataRate_median, dot11Protocol
-    Supported Formats: CSV, JSON, TDE
+12.2 View Name: "Client Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - client_details:
+     Fields: hostName, username, macAddress, ipv4, ipv6, deviceType,
+              deviceForm, deviceVendor, remoteEndDuplexMode, hostOS,
+              firmwareVersion, connectionStatus, averageHealthScore_min,
+              averageHealthScore_max, averageHealthScore_median, usage_sum,
+              duration_latest, connectedDeviceName, frequency, rssi_median,
+              snr_median, site, lastUpdated, connectedDeviceId, apGroup, ssid,
+              ethernetMac, slotId, vlan, vnid, port, portDescription, channel,
+              onboardingEventTime, assocDoneTimestamp, authDoneTimestamp,
+              aaaServerIp, dhcpDoneTimestamp, maxDhcpDuration_max, dhcpServerIp,
+              wlcName, linkSpeed, txRate_min, txRate_max, txRate_avg,
+              rxRate_min, rxRate_max, rxRate_avg, txBytes_sum, rxBytes_sum,
+              dataRate_median, dot11Protocol
+Supported Formats: CSV, JSON, TDE
 
-    12.3 View Name: "Client Session"
-    Allowed Filters:
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-       - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
-       - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
-       - Band (MULTI_SELECT): Radio frequency bands
-       - TimeRange (TIME_RANGE): Session analysis period
-    Required Filters: Location, TimeRange
-    Field Groups:
-       - client_sessions:
-         Fields: macAddress, sessionStartTime, sessionEndTime, duration, apMac,
-                   ssid, siteHierarchy
-    Supported Formats: CSV, JSON, TDE
+12.3 View Name: "Client Session"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Session analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - client_sessions:
+     Fields: macAddress, sessionStartTime, sessionEndTime, duration, apMac,
+              ssid, siteHierarchy
+Supported Formats: CSV, JSON, TDE
 
-    12.4 View Name: "Client Summary"
-    Allowed Filters:
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-       - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
-       - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
-       - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
-       - Band (MULTI_SELECT): Radio frequency bands
-       - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
-       - TimeRange (TIME_RANGE): Summary period
-    Required Filters: Location, GroupBy, TimeRange
-    Field Groups:
-       - locationCountGraph, devTypeCountGraph, bandCountGraph, ssidCountGraph,
-         protocolCountGraph, clientTrafficTotalByBand, clientTrafficTotalBySsid,
-         clientTrafficTotalByProtocol, clientSessionDurationByBand,
-         clientSessionDurationBySsid, clientSessionDurationByProtocol,
-         clientCountOverTime, healthScoreOverTime, sessionInfo
-    Supported Formats: PDF
+12.4 View Name: "Client Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, GroupBy, TimeRange
+Field Groups:
+  - locationCountGraph, devTypeCountGraph, bandCountGraph, ssidCountGraph,
+     protocolCountGraph, clientTrafficTotalByBand, clientTrafficTotalBySsid,
+     clientTrafficTotalByProtocol, clientSessionDurationByBand,
+     clientSessionDurationBySsid, clientSessionDurationByProtocol,
+     clientCountOverTime, healthScoreOverTime, sessionInfo
+Supported Formats: PDF
 
-    12.5 View Name: "Client Trend"
-    Allowed Filters:
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-       - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
-       - ConnectionType (SINGLE_SELECT_ARRAY): Connection type selection
-       - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
-       - Band (MULTI_SELECT): Radio frequency bands
-       - TimeRange (TIME_RANGE): Trend analysis period
-    Required Filters: Location, TimeRange
-    Field Groups:
-       - clientTrend, clienTraffic, assocClientHealthTrendTable,
-         authClientHealthTrendTable
-    Supported Formats: PDF
+12.5 View Name: "Client Trend"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - ConnectionType (SINGLE_SELECT_ARRAY): Connection type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Trend analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - clientTrend, clienTraffic, assocClientHealthTrendTable,
+     authClientHealthTrendTable
+Supported Formats: PDF
 
-    12.6 View Name: "Top N Summary"
-    Allowed Filters:
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-       - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
-       - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
-       - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
-       - Band (MULTI_SELECT): Radio frequency bands
-       - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
-       - TimeRange (TIME_RANGE): Summary period
-    Required Filters: Location, GroupBy, TimeRange
-    Field Groups:
-       - topLocationsGraph, topWorstLocationsGraph
-    Supported Formats: PDF
+12.6 View Name: "Top N Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, GroupBy, TimeRange
+Field Groups:
+  - topLocationsGraph, topWorstLocationsGraph
+Supported Formats: PDF
 
-    12.7 View Name: "Unique Clients and Users Summary"
-    Allowed Filters:
-       - Location (MULTI_SELECT_TREE): Network location hierarchy
-       - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
-       - ConnectionType (SINGLE_SELECT_ARRAY): Connection type selection
-       - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
-       - Band (MULTI_SELECT): Radio frequency bands
-       - TimeRange (TIME_RANGE): Summary period
-    Required Filters: Location, TimeRange
-    Field Groups:
-       - overview, ap, throughput, protocolBreakdown, ssidBreakdown,
-         vlanBreakdown, vendorBreakdown
-    Supported Formats: PDF
+12.7 View Name: "Unique Clients and Users Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - ConnectionType (SINGLE_SELECT_ARRAY): Connection type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, TimeRange
+Field Groups:
+  - overview, ap, throughput, protocolBreakdown, ssidBreakdown,
+     vlanBreakdown, vendorBreakdown
+Supported Formats: PDF
 
 13. LICENSING VIEW GROUP:
 ---------------------
 
-    13.1 View Name: "AireOS Controllers Licenses"
-    No filters are supported for this view
-    Field Groups:
-       - virtual_assignment_devices
-    Supported Formats: CSV, PDF
+13.1 View Name: "AireOS Controllers Licenses"
+No filters are supported for this view
+Field Groups:
+  - virtual_assignment_devices
+Supported Formats: CSV, PDF
 
-    13.2 View Name: "License Usage Upload Details"
-    Allowed Filters: None (filters not supported for this report)
-    Required Filters: N/A
-    Field Groups:
-       - license_usage_upload_details
-    Supported Formats: CSV, PDF
+13.2 View Name: "License Usage Upload Details"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - license_usage_upload_details
+Supported Formats: CSV, PDF
 
-    13.3 View Name: "Non Compliance Summary"
-    Allowed Filters: None (filters not supported for this report)
-    Required Filters: N/A
-    Field Groups:
-       - non_compliance_summary
-    Supported Formats: CSV, PDF
+13.3 View Name: "Non Compliance Summary"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - non_compliance_summary
+Supported Formats: CSV, PDF
 
-    13.4 View Name: "Non Compliant Devices"
-    Allowed Filters: None (filters not supported for this report)
-    Required Filters: N/A
-    Field Groups:
-       - non_compliant_devices
-    Supported Formats: CSV, PDF
+13.4 View Name: "Non Compliant Devices"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - non_compliant_devices
+Supported Formats: CSV, PDF
 
-    13.5 View Name: "License Historical Usage"
-    Allowed Filters:
-       - smartaccountuser (SINGLE_SELECT_ARRAY): Smart account user selection
-       - smartaccountname (SINGLE_SELECT_ARRAY): Smart account name selection
-       - Mode (SINGLE_SELECT_ARRAY): License mode selection
-       - TimeRange (TIME_RANGE): Historical analysis period (CUSTOM only)
-    Required Filters: [REQUIRED] All filters (smartaccountuser, smartaccountname, Mode, TimeRange)
-    Field Groups:
-       - license_historical_data
-    Supported Formats: CSV
+13.5 View Name: "License Historical Usage"
+Allowed Filters:
+  - smartaccountuser (SINGLE_SELECT_ARRAY): Smart account user selection
+  - smartaccountname (SINGLE_SELECT_ARRAY): Smart account name selection
+  - Mode (SINGLE_SELECT_ARRAY): License mode selection
+  - TimeRange (TIME_RANGE): Historical analysis period (CUSTOM only)
+Required Filters: [REQUIRED] All filters (smartaccountuser, smartaccountname, Mode, TimeRange)
+Field Groups:
+  - license_historical_data
+Supported Formats: CSV
 
 FILTER TYPE SPECIFICATIONS:
 ===========================
