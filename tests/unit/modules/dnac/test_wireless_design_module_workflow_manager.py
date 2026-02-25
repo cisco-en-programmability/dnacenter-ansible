@@ -1261,7 +1261,7 @@ class TestWirelessDesign(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             {
-                "aaa_radius_attributes_delete": {
+                "aaa_radius_attributes_delete_or_reset": {
                     "sample_design": "Successfully deleted AAA Radius Attribute."
                 }
             }
@@ -1327,7 +1327,7 @@ class TestWirelessDesign(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             {
-                "advanced_ssids_delete": {
+                "advanced_ssids_delete_or_reset": {
                     "sample_advanced_ssid_design": "Successfully deleted Advanced SSID."
                 }
             }
@@ -1389,7 +1389,7 @@ class TestWirelessDesign(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             {
-                "clean_air_delete": {
+                "clean_air_delete_or_reset": {
                     "sample_cleanair_design_24ghz": "Successfully deleted CleanAir Profile."
                 }
             }
@@ -1452,10 +1452,12 @@ class TestWirelessDesign(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
+        print(11111111111111)
+        print(result)
         self.assertEqual(
             result.get('msg'),
             {
-                "dot11ax_delete": {
+                "dot11ax_delete_or_reset": {
                     "dot11ax_24ghz_design": "Successfully deleted dot11ax configuration."
                 }
             }

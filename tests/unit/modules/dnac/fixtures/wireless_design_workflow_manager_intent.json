@@ -32511,23 +32511,7 @@
       {
         "dot11ax_configuration": [
           {
-            "design_name": "dot11ax_24ghz_design",
-            "feature_attributes": {
-              "bss_color": true,
-              "non_srg_obss_pd_max_threshold": -78,
-              "obss_pd": true,
-              "radio_band": "2_4GHZ",
-              "target_wake_up_time_11ax": true,
-              "target_waketime_broadcast": true
-            },
-            "unlocked_attributes": [
-              "radio_band",
-              "bss_color",
-              "target_waketime_broadcast",
-              "non_srg_obss_pd_max_threshold",
-              "target_wake_up_time_11ax",
-              "obss_pd"
-            ]
+            "design_name": "dot11ax_24ghz_design"
           }
         ]
       }
@@ -32733,14 +32717,7 @@
       {
         "dot11be_configuration": [
           {
-            "design_name": "dot11be_24ghz_design",
-            "feature_attributes": {
-              "dot11be_status": false,
-              "radio_band": "2_4GHZ"
-            },
-            "unlocked_attributes": [
-              "dot11be_status"
-            ]
+            "design_name": "dot11be_24ghz_design"
           }
         ]
       }
@@ -32923,13 +32900,7 @@
       {
         "flexconnect_configuration": [
           {
-            "design_name": "flexconnect_branch_office",
-            "feature_attributes": {
-              "overlap_ip_enable": false
-            },
-            "unlocked_attributes": [
-              "overlap_ip_enable"
-            ]
+            "design_name": "flexconnect_branch_office"
           }
         ]
       }
@@ -33354,20 +33325,7 @@
       {
         "rrm_general_configuration": [
           {
-            "design_name": "rrm_general_5ghz_default",
-            "feature_attributes": {
-              "coverage_hole_detection": false,
-              "monitoring_channels": "MONITORING_CHANNELS_DCA",
-              "neighbor_discover_type": "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT",
-              "radio_band": "5GHZ",
-              "throughput_threshold": 500000
-            },
-            "unlocked_attributes": [
-              "monitoring_channels",
-              "neighbor_discover_type",
-              "throughput_threshold",
-              "coverage_hole_detection"
-            ]
+            "design_name": "rrm_general_5ghz_default"
           }
         ]
       }
@@ -33591,20 +33549,7 @@
       {
         "rrm_fra_configuration": [
           {
-            "design_name": "fra_design_1",
-            "feature_attributes": {
-              "fra_freeze": false,
-              "fra_interval": 12,
-              "fra_sensitivity": "HIGH",
-              "fra_status": false,
-              "radio_band": "2_4GHZ_5GHZ"
-            },
-            "unlocked_attributes": [
-              "fra_freeze",
-              "fra_status",
-              "fra_interval",
-              "fra_sensitivity"
-            ]
+            "design_name": "fra_design_1"
           }
         ]
       }
@@ -33804,17 +33749,7 @@
       {
         "event_driven_rrm_configuration": [
           {
-            "design_name": "edrrm_2_4ghz_design",
-            "feature_attributes": {
-              "event_driven_rrm_enable": true,
-              "event_driven_rrm_threshold_level": "LOW",
-              "radio_band": "2_4GHZ"
-            },
-            "unlocked_attributes": [
-              "event_driven_rrm_enable",
-              "event_driven_rrm_threshold_level",
-              "event_driven_rrm_custom_threshold_val"
-            ]
+            "design_name": "edrrm_2_4ghz_design"
           }
         ]
       }
