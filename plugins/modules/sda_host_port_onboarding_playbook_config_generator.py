@@ -81,17 +81,10 @@ options:
           with pattern
           'sda_host_port_onboarding_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'
         - Example default filename
-          'sda_host_port_onboarding_workflow_manager_playbook_2026-01-24_12-33-20.yml'
+          'sda_host_port_onboarding_workflow_manager_playbook_2026-02-24_12-22-31.yml'
         - Directory created automatically if path does not exist.
         - Supports YAML file extension (.yml or .yaml).
         type: str
-      global_filters:
-        description:
-        - Global filters to apply when generating the YAML configuration file.
-        - Reserved for future use; currently not implemented for this module.
-        - Component-specific filters should be used for fabric site filtering.
-        type: dict
-        required: false
       component_specific_filters:
         description:
         - Component-based filters for targeted SDA host port onboarding extraction.
@@ -183,11 +176,12 @@ requirements:
 notes:
   - SDK methods utilized - sda.get_port_assignments, sda.get_port_channels,
     fabric_wireless.retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site,
-    devices.get_device_by_id
+    devices.get_device_by_id, sda.get_fabric_sites
   - API paths utilized - GET /dna/intent/api/v1/sda/portAssignments,
     GET /dna/intent/api/v1/sda/portChannels,
     GET /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids
     GET /dna/intent/api/v1/network-device/{id}
+    GET /dna/intent/api/v1/sda/fabricSites
   - Module is idempotent; multiple runs generate identical YAML content except
     timestamp in header comments.
   - Check mode supported; validates parameters without file generation.
@@ -509,6 +503,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.get_workflow_filters_schema()
         self.fabric_site_id_name_dict = self.get_fabric_site_id_name_mapping()
+        self.fabric_name_site_id_dict = {v: k for k, v in self.fabric_site_id_name_dict.items()}
         self.module_name = "sda_host_port_onboarding_workflow_manager"
 
     def validate_input(self):
@@ -543,10 +538,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
-            },
-            "global_filters": {
-                "type": "dict",
-                "required": False},
+            }
         }
 
         # Validate params
@@ -554,18 +546,16 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            self.msg = f'Invalid parameters in playbook: {invalid_params}'
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
+        self.log(f'Validating minimum requirements against provided config: {self.config}', "DEBUG")
         self.validate_minimum_requirements(self.config)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
-        )
+        self.msg = f'Successfully validated playbook configuration parameters using \'validated_input\': {str(valid_temp)}'
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
@@ -604,7 +594,6 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         - api_function (str): 'retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site'
                         - api_family (str): 'fabric_wireless'
                         - get_function_name (method): get_wireless_ssids_configuration
-                - global_filters (list): Empty list (reserved for future use)
 
         Component Configuration Details:
             Each network element configuration contains five key mappings:
@@ -664,8 +653,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "api_family": "fabric_wireless",
                     "get_function_name": self.get_wireless_ssids_configuration,
                 },
-            },
-            "global_filters": [],
+            }
         }
 
     def get_port_assignments_configuration(self, network_element, filters):
@@ -704,14 +692,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log(
-            "Extracting component_specific_filters from filters dictionary: {0}. "
-            "Filters determine which fabric sites to process for port assignment "
-            "retrieval.".format(filters),
+            f'Extracting component_specific_filters from filters dictionary: {filters}. Filters determine which fabric sites to process for port assignment retrieval.',
             "DEBUG"
         )
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
+        if component_specific_filters:
             self.log(
                 "Component-specific filters found with fabric site filters. "
                 "Will apply fabric_site_name_hierarchy filtering to port assignments.",
@@ -723,7 +708,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "for all fabric sites without filtering.",
                 "DEBUG"
             )
-        self.log("component_specific_filters for port assignments: {0}".format(component_specific_filters), "DEBUG")
+        self.log(f"component_specific_filters for port assignments: {component_specific_filters}", "DEBUG")
 
         self.log(
             "Extracting API family and function from network_element configuration "
@@ -733,23 +718,26 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
         self.log(
-            "API configuration extracted - family: {0}, function: {1}. Executing "
-            "API call to retrieve all port assignments from Catalyst Center.".format(
-                api_family, api_function
-            ),
+            f"API configuration extracted - family: {api_family}, function: {api_function}. "
+            f"Executing API call to retrieve all port assignments from Catalyst Center.",
             "DEBUG"
         )
 
-        response = self.dnac._exec(
-            family=api_family,
-            function=api_function,
-            op_modifies=False,
-        )
+        try:
+            response = self.dnac._exec(
+                family=api_family,
+                function=api_function,
+                op_modifies=False,
+            )
+        except Exception as e:
+            self.log(f"Failed to retrieve port assignments using {api_family}.{api_function}: {e}", "ERROR")
+            raise RuntimeError(
+                f"Port assignments API call failed for {api_family}.{api_function}: {e}"
+            ) from e
 
         all_port_assignments = response.get("response", [])
         self.log(
-            "Port assignments API call completed successfully. Retrieved {0} port "
-            "assignment(s) from Catalyst Center.".format(len(all_port_assignments)),
+            f'Port assignments API call completed successfully. Retrieved {len(all_port_assignments)} port assignment(s) from Catalyst Center.',
             "INFO"
         )
 
@@ -773,87 +761,84 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "fabric_site_id_name_dict for filter-based fabric ID resolution.",
                 "DEBUG"
             )
-            fabric_name_site_id_dict = {v: k for k, v in self.fabric_site_id_name_dict.items()}
-            self.log("Fabric name to site ID mapping: {0}".format(fabric_name_site_id_dict), "DEBUG")
 
             fabric_site_name_hierarchies = component_specific_filters.get("fabric_site_name_hierarchy", [])
             self.log(
-                "Extracted {0} fabric site name hierarchy filter(s) from "
-                "component_specific_filters: {1}. Resolving to fabric site IDs.".format(
-                    len(fabric_site_name_hierarchies), fabric_site_name_hierarchies
-                ),
+                f'Extracted {len(fabric_site_name_hierarchies)} fabric site name hierarchy filter(s) from component_specific_filters: {fabric_site_name_hierarchies}. Resolving to fabric site IDs.',
                 "DEBUG"
             )
 
-            for fabric_site_name_hierarchy in fabric_site_name_hierarchies:
-                fabric_id = fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
-                if fabric_id:
-                    fabric_ids.append(fabric_id)
+            for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
+                self.log(
+                    f'Resolving fabric site name hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}: \'{fabric_site_name_hierarchy}\' for port assignments.',
+                    "DEBUG"
+                )
+                fabric_id = self.fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
+                if not fabric_id:
                     self.log(
-                        "Resolved fabric site name '{0}' to fabric ID '{1}'. Added to "
-                        "processing list.".format(fabric_site_name_hierarchy, fabric_id),
-                        "DEBUG"
-                    )
-                else:
-                    self.log(
-                        "Warning: Fabric site name '{0}' not found in cached mapping. "
-                        "Skipping this fabric site.".format(fabric_site_name_hierarchy),
+                        f'Warning: Fabric site name \'{fabric_site_name_hierarchy}\' (hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}) not found in cached mapping. Skipping this fabric site for port assignments.',
                         "WARNING"
                     )
+                    continue
+                fabric_ids.append(fabric_id)
+                self.log(
+                    f'Resolved fabric site name \'{fabric_site_name_hierarchy}\' (hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}) to fabric ID \'{fabric_id}\'. Added to port assignments processing list.',
+                    "DEBUG"
+                )
         else:
             self.log(
-                "No fabric site filters provided. Using all {0} cached fabric site "
-                "IDs for complete port assignment retrieval.".format(
-                    len(self.fabric_site_id_name_dict)
-                ),
+                f'No fabric site filters provided. Using all {len(self.fabric_site_id_name_dict)} cached fabric site IDs for complete port assignment retrieval.',
                 "DEBUG"
             )
             fabric_ids = list(self.fabric_site_id_name_dict.keys())
 
         self.log(
-            "Fabric site ID resolution completed. Will process {0} fabric site(s): "
-            "{1}.".format(len(fabric_ids), fabric_ids),
+            f'Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.',
             "INFO"
         )
-        self.log("Fabric IDs to process for port assignments: {0}".format(fabric_ids), "DEBUG")
 
         self.log(
-            "Grouping {0} port assignment(s) by fabric ID for organized processing. "
-            "Building fabric_port_assignments_dict.".format(len(all_port_assignments)),
+            f'Grouping {len(all_port_assignments)} port assignment(s) by fabric ID for organized processing. Building fabric_port_assignments_dict.',
             "DEBUG"
         )
         # Group port assignments by fabric_id
+        # Convert to set for O(1) membership checks
+        fabric_ids_set = set(fabric_ids)
         fabric_port_assignments_dict = {}
-        for port_assignment in all_port_assignments:
+        for port_assignment_index, port_assignment in enumerate(all_port_assignments, start=1):
             fabric_id = port_assignment.get("fabricId")
-            if fabric_id in fabric_ids:
+            self.log(
+                f'Processing port assignment {port_assignment_index}/{len(all_port_assignments)} with fabric ID \'{fabric_id}\'.',
+                "DEBUG"
+            )
+            if fabric_id in fabric_ids_set:
+                self.log(
+                    f'Fabric ID \'{fabric_id}\' matches filter criteria. Adding port assignment {port_assignment_index}/{len(all_port_assignments)} to fabric group.',
+                    "DEBUG"
+                )
                 if fabric_id not in fabric_port_assignments_dict:
                     fabric_port_assignments_dict[fabric_id] = []
                 fabric_port_assignments_dict[fabric_id].append(port_assignment)
+            else:
+                self.log(
+                    f'Fabric ID \'{fabric_id}\' does not match filter criteria. Skipping port assignment {port_assignment_index}/{len(all_port_assignments)}.',
+                    "DEBUG"
+                )
 
         self.log(
-            "Port assignment grouping completed. Grouped into {0} fabric site(s) "
-            "with assignments: {1}.".format(
-                len(fabric_port_assignments_dict),
-                {k: len(v) for k, v in fabric_port_assignments_dict.items()}
-            ),
+            f'Port assignment grouping completed. Grouped into {len(fabric_port_assignments_dict)} fabric site(s) with assignments: {{k: len(v) for k, v in fabric_port_assignments_dict.items()}}.',
             "DEBUG"
         )
 
         # Process each fabric's port assignments
         self.log(
-            "Starting fabric site iteration loop. Processing {0} fabric site(s) "
-            "with port assignments.".format(len(fabric_port_assignments_dict)),
+            f'Starting fabric site iteration loop. Processing {len(fabric_port_assignments_dict)} fabric site(s) with port assignments.',
             "DEBUG"
         )
 
         for fabric_index, (fabric_id, port_assignments) in enumerate(fabric_port_assignments_dict.items(), start=1):
             self.log(
-                "Processing fabric site {0}/{1} with ID '{2}'. Contains {3} port "
-                "assignment(s).".format(
-                    fabric_index, len(fabric_port_assignments_dict), fabric_id,
-                    len(port_assignments)
-                ),
+                f'Processing fabric site {fabric_index}/{len(fabric_port_assignments_dict)} with ID \'{fabric_id}\'. Contains {len(port_assignments)} port assignment(s).',
                 "DEBUG"
             )
 
@@ -865,25 +850,20 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             port_assignments_temp_spec = self.port_assignments_temp_spec()
 
             self.log(
-                "Applying reverse mapping transformation to {0} port assignment(s) "
-                "using modify_parameters(). Transformation converts API format to "
-                "user-friendly YAML structure.".format(len(port_assignments)),
+                f'Applying reverse mapping transformation to {len(port_assignments)} port assignment(s) using modify_parameters(). Transformation converts API format to user-friendly YAML structure.',
                 "DEBUG"
             )
             modified_port_assignments = self.modify_parameters(
                 port_assignments_temp_spec, port_assignments
             )
             self.log(
-                "Reverse mapping transformation completed for {0} port assignment(s).".format(
-                    len(modified_port_assignments)
-                ),
+                f'Reverse mapping transformation completed for {len(modified_port_assignments)} port assignment(s).',
                 "DEBUG"
             )
 
             # Group port assignments by network device
             self.log(
-                "Grouping {0} port assignment(s) by network device ID for device-based "
-                "organization.".format(len(port_assignments)),
+                f'Grouping {len(port_assignments)} port assignment(s) by network device ID for device-based organization.',
                 "DEBUG"
             )
             device_port_assignments = {}
@@ -894,64 +874,54 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 device_port_assignments[network_device_id].append(modified_port_assignments[idx])
 
             self.log(
-                "Port assignment device grouping completed. Grouped into {0} network "
-                "device(s) with assignments: {1}.".format(
-                    len(device_port_assignments),
-                    {k: len(v) for k, v in device_port_assignments.items()}
-                ),
+                f'Port assignment device grouping completed. Grouped into {len(device_port_assignments)} network device(s) with assignments: {{k: len(v) for k, v in device_port_assignments.items()}}.',
                 "DEBUG"
             )
 
             # Build the final structure with device IP addresses
             self.log(
-                "Building final device configuration structures with management IP "
-                "address resolution for {0} device(s).".format(len(device_port_assignments)),
+                f'Building final device configuration structures with management IP address resolution for {len(device_port_assignments)} device(s).',
                 "DEBUG"
             )
             for device_index, (network_device_id, device_ports) in enumerate(device_port_assignments.items(), start=1):
                 self.log(
-                    "Processing device {0}/{1} with ID '{2}'. Fetching device details "
-                    "to resolve management IP address.".format(
-                        device_index, len(device_port_assignments), network_device_id
-                    ),
+                    f'Processing device {device_index}/{len(device_port_assignments)} with ID \'{network_device_id}\'. Fetching device details to resolve management IP address.',
                     "DEBUG"
                 )
                 # Get device details to fetch management IP address
-                device_response = self.dnac._exec(
-                    family="devices",
-                    function="get_device_by_id",
-                    op_modifies=False,
-                    params={"id": network_device_id},
-                )
-                self.log("Device details response for device ID {0}: {1}".format(network_device_id, device_response), "DEBUG")
+                try:
+                    device_response = self.dnac._exec(
+                        family="devices",
+                        function="get_device_by_id",
+                        op_modifies=False,
+                        params={"id": network_device_id},
+                    )
+                except Exception as e:
+                    self.log(f"Failed to resolve device details for device ID '{network_device_id}': {e}", "ERROR")
+                    raise RuntimeError(
+                        f"Device lookup failed for device ID '{network_device_id}': {e}"
+                    ) from e
+                self.log(f'Device details response for device ID {network_device_id}: {device_response}', "DEBUG")
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
                 self.log(
-                    "Resolved device ID '{0}' to management IP address '{1}'.".format(
-                        network_device_id, management_ip
-                    ),
+                    f'Resolved device ID \'{network_device_id}\' to management IP address \'{management_ip}\'.',
                     "DEBUG"
                 )
 
-                device_dict = {}
-                device_dict['ip_address'] = management_ip
-                device_dict['fabric_site_name_hierarchy'] = self.fabric_site_id_name_dict.get(fabric_id)
-                device_dict['port_assignments'] = device_ports
+                device_dict = {
+                    'ip_address': management_ip,
+                    'fabric_site_name_hierarchy': self.fabric_site_id_name_dict.get(fabric_id),
+                    'port_assignments': device_ports
+                }
                 all_fabric_port_assignments_details.append(device_dict)
                 self.log(
-                    "Added device configuration to final list. Device IP: {0}, "
-                    "Fabric: {1}, Port assignments: {2}.".format(
-                        management_ip, self.fabric_site_id_name_dict.get(fabric_id),
-                        len(device_ports)
-                    ),
+                    f'Added device configuration to final list. Device IP: {management_ip}, Fabric: {self.fabric_site_id_name_dict.get(fabric_id)}, Port assignments: {len(device_ports)}.',
                     "DEBUG"
                 )
 
         self.log(
-            "Port assignments configuration retrieval completed successfully. "
-            "Retrieved {0} device configuration(s) with port assignments.".format(
-                len(all_fabric_port_assignments_details)
-            ),
+            f'Port assignments configuration retrieval completed successfully. Retrieved {len(all_fabric_port_assignments_details)} device configuration(s) with port assignments.',
             "INFO"
         )
         return all_fabric_port_assignments_details
@@ -992,14 +962,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log(
-            "Extracting component_specific_filters from filters dictionary: {0}. "
-            "Filters determine which fabric sites to process for port channel "
-            "retrieval.".format(filters),
+            f'Extracting component_specific_filters from filters dictionary: {filters}. Filters determine which fabric sites to process for port channel retrieval.',
             "DEBUG"
         )
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
+        if component_specific_filters:
             self.log(
                 "Component-specific filters found with fabric site filters. "
                 "Will apply fabric_site_name_hierarchy filtering to port channels.",
@@ -1011,7 +978,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "for all fabric sites without filtering.",
                 "DEBUG"
             )
-        self.log("component_specific_filters for port channels: {0}".format(component_specific_filters), "DEBUG")
+        self.log(f'component_specific_filters for port channels: {component_specific_filters}', "DEBUG")
 
         self.log(
             "Extracting API family and function from network_element configuration "
@@ -1021,23 +988,25 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
         self.log(
-            "API configuration extracted - family: {0}, function: {1}. Executing "
-            "API call to retrieve all port channels from Catalyst Center.".format(
-                api_family, api_function
-            ),
+            f'API configuration extracted - family: {api_family}, function: {api_function}. Executing API call to retrieve all port channels from Catalyst Center.',
             "DEBUG"
         )
 
-        response = self.dnac._exec(
-            family=api_family,
-            function=api_function,
-            op_modifies=False,
-        )
+        try:
+            response = self.dnac._exec(
+                family=api_family,
+                function=api_function,
+                op_modifies=False,
+            )
+        except Exception as e:
+            self.log(f"Failed to retrieve port channels using {api_family}.{api_function}: {e}", "ERROR")
+            raise RuntimeError(
+                f"Port channels API call failed for {api_family}.{api_function}: {e}"
+            ) from e
 
         all_port_channels = response.get("response", [])
         self.log(
-            "Port channels API call completed successfully. Retrieved {0} port "
-            "channel(s) from Catalyst Center.".format(len(all_port_channels)),
+            f'Port channels API call completed successfully. Retrieved {len(all_port_channels)} port channel(s) from Catalyst Center.',
             "INFO"
         )
 
@@ -1061,86 +1030,84 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "fabric_site_id_name_dict for filter-based fabric ID resolution.",
                 "DEBUG"
             )
-            fabric_name_site_id_dict = {v: k for k, v in self.fabric_site_id_name_dict.items()}
 
             fabric_site_name_hierarchies = component_specific_filters.get("fabric_site_name_hierarchy", [])
             self.log(
-                "Extracted {0} fabric site name hierarchy filter(s) from "
-                "component_specific_filters: {1}. Resolving to fabric site IDs.".format(
-                    len(fabric_site_name_hierarchies), fabric_site_name_hierarchies
-                ),
+                f'Extracted {len(fabric_site_name_hierarchies)} fabric site name hierarchy filter(s) from component_specific_filters: {fabric_site_name_hierarchies}. Resolving to fabric site IDs.',
                 "DEBUG"
             )
 
-            for fabric_site_name_hierarchy in fabric_site_name_hierarchies:
-                fabric_id = fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
-                if fabric_id:
-                    fabric_ids.append(fabric_id)
+            for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
+                self.log(
+                    f'Resolving fabric site name hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}: \'{fabric_site_name_hierarchy}\' for port channels.',
+                    "DEBUG"
+                )
+                fabric_id = self.fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
+                if not fabric_id:
                     self.log(
-                        "Resolved fabric site name '{0}' to fabric ID '{1}'. Added to "
-                        "processing list.".format(fabric_site_name_hierarchy, fabric_id),
-                        "DEBUG"
-                    )
-                else:
-                    self.log(
-                        "Warning: Fabric site name '{0}' not found in cached mapping. "
-                        "Skipping this fabric site.".format(fabric_site_name_hierarchy),
+                        f'Warning: Fabric site name \'{fabric_site_name_hierarchy}\' (hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}) not found in cached mapping. Skipping this fabric site for port channels.',
                         "WARNING"
                     )
+                    continue
+                fabric_ids.append(fabric_id)
+                self.log(
+                    f'Resolved fabric site name \'{fabric_site_name_hierarchy}\' (hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}) to fabric ID \'{fabric_id}\'. Added to port channels processing list.',
+                    "DEBUG"
+                )
         else:
             self.log(
-                "No fabric site filters provided. Using all {0} cached fabric site "
-                "IDs for complete port channel retrieval.".format(
-                    len(self.fabric_site_id_name_dict)
-                ),
+                f'No fabric site filters provided. Using all {len(self.fabric_site_id_name_dict)} cached fabric site IDs for complete port channel retrieval.',
                 "DEBUG"
             )
             fabric_ids = list(self.fabric_site_id_name_dict.keys())
 
         self.log(
-            "Fabric site ID resolution completed. Will process {0} fabric site(s): "
-            "{1}.".format(len(fabric_ids), fabric_ids),
+            f'Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.',
             "INFO"
         )
-        self.log("Fabric IDs to process for port channels: {0}".format(fabric_ids), "DEBUG")
 
         self.log(
-            "Grouping {0} port channel(s) by fabric ID for organized processing. "
-            "Building fabric_port_channels_dict.".format(len(all_port_channels)),
+            f'Grouping {len(all_port_channels)} port channel(s) by fabric ID for organized processing. Building fabric_port_channels_dict.',
             "DEBUG"
         )
         # Group port channels by fabric_id
+        # Convert to set for O(1) membership checks
+        fabric_ids_set = set(fabric_ids)
         fabric_port_channels_dict = {}
-        for port_channel in all_port_channels:
+        for port_channel_index, port_channel in enumerate(all_port_channels, start=1):
             fabric_id = port_channel.get("fabricId")
-            if fabric_id in fabric_ids:
+            self.log(
+                f'Processing port channel {port_channel_index}/{len(all_port_channels)} with fabric ID \'{fabric_id}\'.',
+                "DEBUG"
+            )
+            if fabric_id in fabric_ids_set:
+                self.log(
+                    f'Fabric ID \'{fabric_id}\' matches filter criteria. Adding port channel {port_channel_index}/{len(all_port_channels)} to fabric group.',
+                    "DEBUG"
+                )
                 if fabric_id not in fabric_port_channels_dict:
                     fabric_port_channels_dict[fabric_id] = []
                 fabric_port_channels_dict[fabric_id].append(port_channel)
+            else:
+                self.log(
+                    f'Fabric ID \'{fabric_id}\' does not match filter criteria. Skipping port channel {port_channel_index}/{len(all_port_channels)}.',
+                    "DEBUG"
+                )
 
         self.log(
-            "Port channel grouping completed. Grouped into {0} fabric site(s) "
-            "with channels: {1}.".format(
-                len(fabric_port_channels_dict),
-                {k: len(v) for k, v in fabric_port_channels_dict.items()}
-            ),
+            f'Port channel grouping completed. Grouped into {len(fabric_port_channels_dict)} fabric site(s) with channels: {{k: len(v) for k, v in fabric_port_channels_dict.items()}}.',
             "DEBUG"
         )
 
         # Process each fabric's port channels
         self.log(
-            "Starting fabric site iteration loop. Processing {0} fabric site(s) "
-            "with port channels.".format(len(fabric_port_channels_dict)),
+            f'Starting fabric site iteration loop. Processing {len(fabric_port_channels_dict)} fabric site(s) with port channels.',
             "DEBUG"
         )
 
         for fabric_index, (fabric_id, port_channels) in enumerate(fabric_port_channels_dict.items(), start=1):
             self.log(
-                "Processing fabric site {0}/{1} with ID '{2}'. Contains {3} port "
-                "channel(s).".format(
-                    fabric_index, len(fabric_port_channels_dict), fabric_id,
-                    len(port_channels)
-                ),
+                f'Processing fabric site {fabric_index}/{len(fabric_port_channels_dict)} with ID \'{fabric_id}\'. Contains {len(port_channels)} port channel(s).',
                 "DEBUG"
             )
 
@@ -1152,25 +1119,20 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             port_channels_temp_spec = self.port_channels_temp_spec()
 
             self.log(
-                "Applying reverse mapping transformation to {0} port channel(s) "
-                "using modify_parameters(). Transformation converts API format to "
-                "user-friendly YAML structure.".format(len(port_channels)),
+                f'Applying reverse mapping transformation to {len(port_channels)} port channel(s) using modify_parameters(). Transformation converts API format to user-friendly YAML structure.',
                 "DEBUG"
             )
             modified_port_channels = self.modify_parameters(
                 port_channels_temp_spec, port_channels
             )
             self.log(
-                "Reverse mapping transformation completed for {0} port channel(s).".format(
-                    len(modified_port_channels)
-                ),
+                f'Reverse mapping transformation completed for {len(modified_port_channels)} port channel(s).',
                 "DEBUG"
             )
 
             # Group port channels by network device
             self.log(
-                "Grouping {0} port channel(s) by network device ID for device-based "
-                "organization.".format(len(port_channels)),
+                f'Grouping {len(port_channels)} port channel(s) by network device ID for device-based organization.',
                 "DEBUG"
             )
             device_port_channels = {}
@@ -1181,68 +1143,57 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 device_port_channels[network_device_id].append(modified_port_channels[idx])
 
             self.log(
-                "Port channel device grouping completed. Grouped into {0} network "
-                "device(s) with channels: {1}.".format(
-                    len(device_port_channels),
-                    {k: len(v) for k, v in device_port_channels.items()}
-                ),
+                f'Port channel device grouping completed. Grouped into {len(device_port_channels)} network device(s) with channels: {{k: len(v) for k, v in device_port_channels.items()}}.',
                 "DEBUG"
             )
 
             # Build the final structure with device IP addresses
             self.log(
-                "Building final device configuration structures with management IP "
-                "address resolution for {0} device(s).".format(len(device_port_channels)),
+                f'Building final device configuration structures with management IP address resolution for {len(device_port_channels)} device(s).',
                 "DEBUG"
             )
             for device_index, (network_device_id, device_port_channels_list) in enumerate(device_port_channels.items(), start=1):
                 self.log(
-                    "Processing device {0}/{1} with ID '{2}'. Fetching device details "
-                    "to resolve management IP address.".format(
-                        device_index, len(device_port_channels), network_device_id
-                    ),
+                    f'Processing device {device_index}/{len(device_port_channels)} with ID \'{network_device_id}\'. Fetching device details to resolve management IP address.',
                     "DEBUG"
                 )
                 # Get device details to fetch management IP address
-                device_response = self.dnac._exec(
-                    family="devices",
-                    function="get_device_by_id",
-                    op_modifies=False,
-                    params={"id": network_device_id},
-                )
+                try:
+                    device_response = self.dnac._exec(
+                        family="devices",
+                        function="get_device_by_id",
+                        op_modifies=False,
+                        params={"id": network_device_id},
+                    )
+                except Exception as e:
+                    self.log(f"Failed to resolve device details for device ID '{network_device_id}': {e}", "ERROR")
+                    raise RuntimeError(
+                        f"Device lookup failed for device ID '{network_device_id}': {e}"
+                    ) from e
                 self.log(
-                    "Device API response received for device ID '{0}'.".format(
-                        network_device_id
-                    ),
+                    f'Device API response received for device ID \'{network_device_id}\'.',
                     "DEBUG"
                 )
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
                 self.log(
-                    "Resolved device ID '{0}' to management IP address '{1}'.".format(
-                        network_device_id, management_ip
-                    ),
+                    f'Resolved device ID \'{network_device_id}\' to management IP address \'{management_ip}\'.',
                     "DEBUG"
                 )
-                device_dict = {}
-                device_dict['ip_address'] = management_ip
-                device_dict['fabric_site_name_hierarchy'] = self.fabric_site_id_name_dict.get(fabric_id)
-                device_dict['port_channels'] = device_port_channels_list
+
+                device_dict = {
+                    'ip_address': management_ip,
+                    'fabric_site_name_hierarchy': self.fabric_site_id_name_dict.get(fabric_id),
+                    'port_channels': device_port_channels_list
+                }
                 all_fabric_port_channels_details.append(device_dict)
                 self.log(
-                    "Added device configuration to final list. Device IP: {0}, "
-                    "Fabric: {1}, Port channels: {2}.".format(
-                        management_ip, self.fabric_site_id_name_dict.get(fabric_id),
-                        len(device_port_channels_list)
-                    ),
+                    f'Added device configuration to final list. Device IP: {management_ip}, Fabric: {self.fabric_site_id_name_dict.get(fabric_id)}, Port channels: {len(device_port_channels_list)}.',
                     "DEBUG"
                 )
 
         self.log(
-            "Port channels configuration retrieval completed successfully. "
-            "Retrieved {0} device configuration(s) with port channels.".format(
-                len(all_fabric_port_channels_details)
-            ),
+            f'Port channels configuration retrieval completed successfully. Retrieved {len(all_fabric_port_channels_details)} device configuration(s) with port channels.',
             "INFO"
         )
         return all_fabric_port_channels_details
@@ -1281,14 +1232,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log(
-            "Extracting component_specific_filters from filters dictionary: {0}. "
-            "Filters determine which fabric sites to process for wireless SSID "
-            "retrieval.".format(filters),
+            f'Extracting component_specific_filters from filters dictionary: {filters}. Filters determine which fabric sites to process for wireless SSID retrieval.',
             "DEBUG"
         )
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
+        if component_specific_filters:
             self.log(
                 "Component-specific filters found with fabric site filters. "
                 "Will apply fabric_site_name_hierarchy filtering to wireless SSIDs.",
@@ -1309,10 +1257,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
         self.log(
-            "API configuration extracted - family: {0}, function: {1}. Will execute "
-            "per-fabric API calls to retrieve VLAN/SSID mappings.".format(
-                api_family, api_function
-            ),
+            f'API configuration extracted - family: {api_family}, function: {api_function}. Will execute per-fabric API calls to retrieve VLAN/SSID mappings.',
             "DEBUG"
         )
 
@@ -1336,81 +1281,73 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "fabric_site_id_name_dict for filter-based fabric ID resolution.",
                 "DEBUG"
             )
-            fabric_name_site_id_dict = {v: k for k, v in self.fabric_site_id_name_dict.items()}
 
             fabric_site_name_hierarchies = component_specific_filters.get("fabric_site_name_hierarchy", [])
             self.log(
-                "Extracted {0} fabric site name hierarchy filter(s) from "
-                "component_specific_filters: {1}. Resolving to fabric site IDs.".format(
-                    len(fabric_site_name_hierarchies), fabric_site_name_hierarchies
-                ),
+                f'Extracted {len(fabric_site_name_hierarchies)} fabric site name hierarchy filter(s) from component_specific_filters: {fabric_site_name_hierarchies}. Resolving to fabric site IDs.',
                 "DEBUG"
             )
 
-            for fabric_site_name_hierarchy in fabric_site_name_hierarchies:
-                fabric_id = fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
-                if fabric_id:
-                    fabric_ids.append(fabric_id)
+            for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
+                self.log(
+                    f'Resolving fabric site name hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}: \'{fabric_site_name_hierarchy}\' for wireless SSIDs.',
+                    "DEBUG"
+                )
+                fabric_id = self.fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
+                if not fabric_id:
                     self.log(
-                        "Resolved fabric site name '{0}' to fabric ID '{1}'. Added to "
-                        "processing list.".format(fabric_site_name_hierarchy, fabric_id),
-                        "DEBUG"
-                    )
-                else:
-                    self.log(
-                        "Warning: Fabric site name '{0}' not found in cached mapping. "
-                        "Skipping this fabric site.".format(fabric_site_name_hierarchy),
+                        f'Warning: Fabric site name \'{fabric_site_name_hierarchy}\' (hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}) not found in cached mapping. Skipping this fabric site for wireless SSIDs.',
                         "WARNING"
                     )
+                    continue
+                fabric_ids.append(fabric_id)
+                self.log(
+                    f'Resolved fabric site name \'{fabric_site_name_hierarchy}\' (hierarchy {hierarchy_index}/{len(fabric_site_name_hierarchies)}) to fabric ID \'{fabric_id}\'. Added to wireless SSIDs processing list.',
+                    "DEBUG"
+                )
         else:
             self.log(
-                "No fabric site filters provided. Using all {0} cached fabric site "
-                "IDs for complete wireless SSID retrieval.".format(
-                    len(self.fabric_site_id_name_dict)
-                ),
+                f'No fabric site filters provided. Using all {len(self.fabric_site_id_name_dict)} cached fabric site IDs for complete wireless SSID retrieval.',
                 "DEBUG"
             )
             fabric_ids = list(self.fabric_site_id_name_dict.keys())
 
         self.log(
-            "Fabric site ID resolution completed. Will process {0} fabric site(s): "
-            "{1}.".format(len(fabric_ids), fabric_ids),
+            f'Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.',
             "INFO"
         )
 
         self.log(
-            "Starting fabric site iteration loop for per-fabric wireless SSID "
-            "retrieval. Processing {0} fabric site(s).".format(len(fabric_ids)),
+            f'Starting fabric site iteration loop for per-fabric wireless SSID retrieval. Processing {len(fabric_ids)} fabric site(s).',
             "DEBUG"
         )
         for fabric_index, fabric_id in enumerate(fabric_ids, start=1):
             self.log(
-                "Processing fabric site {0}/{1} with ID '{2}'. Executing API call to "
-                "retrieve VLAN/SSID mappings.".format(
-                    fabric_index, len(fabric_ids), fabric_id
-                ),
+                f'Processing fabric site {fabric_index}/{len(fabric_ids)} with ID \'{fabric_id}\'. Executing API call to retrieve VLAN/SSID mappings.',
                 "DEBUG"
             )
-            response = self.dnac._exec(
-                family=api_family,
-                function=api_function,
-                op_modifies=False,
-                params={"fabric_id": fabric_id},
-            )
+            try:
+                response = self.dnac._exec(
+                    family=api_family,
+                    function=api_function,
+                    op_modifies=False,
+                    params={"fabric_id": fabric_id},
+                )
+            except Exception as e:
+                self.log(f"Failed to retrieve wireless SSIDs for fabric ID '{fabric_id}' using {api_family}.{api_function}: {e}", "ERROR")
+                raise RuntimeError(
+                    f"Wireless SSIDs API call failed for fabric ID '{fabric_id}': {e}"
+                ) from e
 
             response = response.get("response", [])
             self.log(
-                "Wireless SSID API call completed for fabric ID '{0}'. Retrieved {1} "
-                "VLAN/SSID mapping(s).".format(fabric_id, len(response)),
+                f'Wireless SSID API call completed for fabric ID \'{fabric_id}\'. Retrieved {len(response)} VLAN/SSID mapping(s).',
                 "DEBUG"
             )
 
             if not response:
                 self.log(
-                    "No wireless SSIDs found for fabric ID '{0}' (fabric name: '{1}'). "
-                    "Skipping this fabric site.".format(
-                        fabric_id, self.fabric_site_id_name_dict.get(fabric_id)
-                    ),
+                    f'No wireless SSIDs found for fabric ID \'{fabric_id}\' (fabric name: \'{self.fabric_site_id_name_dict.get(fabric_id)}\'). Skipping this fabric site.',
                     "WARNING"
                 )
                 continue
@@ -1423,37 +1360,29 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             wireless_ssids_temp_spec = self.wireless_ssids_temp_spec()
 
             self.log(
-                "Applying reverse mapping transformation to {0} wireless SSID "
-                "mapping(s) using modify_parameters(). Transformation converts API "
-                "format to user-friendly YAML structure.".format(len(response)),
+                f'Applying reverse mapping transformation to {len(response)} wireless SSID mapping(s) using modify_parameters(). Transformation converts API format to user-friendly YAML structure.',
                 "DEBUG"
             )
             wireless_ssids = self.modify_parameters(
                 wireless_ssids_temp_spec, response
             )
             self.log(
-                "Reverse mapping transformation completed for {0} wireless SSID "
-                "mapping(s).".format(len(wireless_ssids)),
+                f'Reverse mapping transformation completed for {len(wireless_ssids)} wireless SSID mapping(s).',
                 "DEBUG"
             )
 
-            modified_wireless_ssids_details = {}
-            modified_wireless_ssids_details['fabric_site_name_hierarchy'] = self.fabric_site_id_name_dict.get(fabric_id)
-            modified_wireless_ssids_details['wireless_ssids'] = wireless_ssids
+            modified_wireless_ssids_details = {
+                'fabric_site_name_hierarchy': self.fabric_site_id_name_dict.get(fabric_id),
+                'wireless_ssids': wireless_ssids
+            }
             all_fabric_wireless_ssids_details.append(modified_wireless_ssids_details)
             self.log(
-                "Added wireless SSID configuration to final list. Fabric: {0}, "
-                "Wireless SSIDs: {1}.".format(
-                    self.fabric_site_id_name_dict.get(fabric_id), len(wireless_ssids)
-                ),
+                f'Added wireless SSID configuration to final list. Fabric: {self.fabric_site_id_name_dict.get(fabric_id)}, Wireless SSIDs: {len(wireless_ssids)}.',
                 "DEBUG"
             )
 
         self.log(
-            "Wireless SSIDs configuration retrieval completed successfully. "
-            "Retrieved {0} fabric site configuration(s) with wireless SSIDs.".format(
-                len(all_fabric_wireless_ssids_details)
-            ),
+            f'Wireless SSIDs configuration retrieval completed successfully. Retrieved {len(all_fabric_wireless_ssids_details)} fabric site configuration(s) with wireless SSIDs.',
             "INFO"
         )
         return all_fabric_wireless_ssids_details
@@ -1719,8 +1648,6 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                                         - file_path (str, optional): Output YAML file
                                         path, defaults to auto-generated timestamped
                                         filename if not provided
-                                        - global_filters (dict, optional): Reserved for
-                                        future use, currently not implemented
                                         - component_specific_filters (dict, optional):
                                         Component filters with components_list and
                                         per-component filter criteria for fabric site
@@ -1740,7 +1667,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                'sda_host_port_onboarding_workflow_manager_playbook_<timestamp>.yml'
             2. Auto-Discovery Processing - If generate_all_configurations=True, overrides
                all filters to retrieve complete fabric infrastructure without restrictions
-            3. Filter Extraction - Retrieves global_filters and component_specific_filters
+            3. Filter Extraction - Retrieves component_specific_filters
                from yaml_config_generator parameters for targeted extraction
             4. Component Iteration - Loops through components_list (port_assignments,
                port_channels, wireless_ssids) invoking retrieval functions with filters
@@ -1811,10 +1738,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log(
-            "YAML config generator parameters received: {0}. Extracting "
-            "generate_all_configurations flag, file_path, and filter configurations.".format(
-                yaml_config_generator
-            ),
+            f'YAML config generator parameters received: {yaml_config_generator}. Extracting generate_all_configurations flag, file_path, and filter configurations.',
             "DEBUG"
         )
 
@@ -1850,20 +1774,17 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             )
             file_path = self.generate_filename()
             self.log(
-                "Default filename generated: {0}. File will be created in current "
-                "working directory.".format(file_path),
+                f'Default filename generated: {file_path}. File will be created in current working directory.',
                 "DEBUG"
             )
         else:
             self.log(
-                "Using user-provided file_path: {0}. File will be created at "
-                "specified location with directory creation if needed.".format(file_path),
+                f'Using user-provided file_path: {file_path}. File will be created at specified location with directory creation if needed.',
                 "DEBUG"
             )
 
         self.log(
-            "YAML configuration file path determined: {0}. Path will be used for "
-            "write_dict_to_yaml() operation.".format(file_path),
+            f'YAML configuration file path determined: {file_path}. Path will be used for write_dict_to_yaml() operation.',
             "INFO"
         )
 
@@ -1881,38 +1802,19 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "complete fabric configuration and component extraction without restrictions."
             )
 
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided ({0}) but will be ignored due to "
-                    "generate_all_configurations=True. Complete infrastructure "
-                    "extraction takes precedence.".format(
-                        yaml_config_generator.get("global_filters")
-                    ),
-                    "WARNING"
-                )
             if yaml_config_generator.get("component_specific_filters"):
                 self.log(
-                    "Warning: component_specific_filters provided ({0}) but will be "
-                    "ignored because generate_all_configurations=True. All supported "
-                    "components and configurations will be extracted.".format(
-                        yaml_config_generator.get("component_specific_filters")
-                    ),
+                    f'Warning: component_specific_filters provided ({yaml_config_generator.get("component_specific_filters")}) but will be ignored because generate_all_configurations=True. All supported components and configurations will be extracted.',
                     "WARNING"
                 )
 
             # Set empty filters to retrieve everything
-            global_filters = {}
             component_specific_filters = {}
         else:
             # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
             self.log(
-                "Targeted extraction mode: Using provided filters. Global filters: {0}, "
-                "Component-specific filters: {1}. Filters will be applied during "
-                "component retrieval.".format(
-                    bool(global_filters), bool(component_specific_filters)
-                ),
+                f'Targeted extraction mode: Using provided filters. Component-specific filters: {bool(component_specific_filters)}. Filters will be applied during component retrieval.',
                 "DEBUG"
             )
 
@@ -1925,12 +1827,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         module_supported_network_elements = self.module_schema.get("network_elements", {})
 
         self.log(
-            "Module supports {0} network element component(s): {1}. Components define "
-            "available SDA host port onboarding configuration types and fabric site "
-            "mappings.".format(
-                len(module_supported_network_elements),
-                list(module_supported_network_elements.keys())
-            ),
+            f'Module supports {len(module_supported_network_elements)} network element component(s): {list(module_supported_network_elements.keys())}. Components define available SDA host port onboarding configuration types and fabric site mappings.',
             "DEBUG"
         )
 
@@ -1947,26 +1844,18 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         # If components_list is empty, default to all supported components
         if not components_list:
             self.log(
-                "No components specified in components_list. Defaulting to all "
-                "supported components for complete SDA host port onboarding configuration "
-                "extraction: {0}".format(
-                    list(module_supported_network_elements.keys())
-                ),
+                f'No components specified in components_list. Defaulting to all supported components for complete SDA host port onboarding configuration extraction: {list(module_supported_network_elements.keys())}',
                 "DEBUG"
             )
             components_list = list(module_supported_network_elements.keys())
         else:
             self.log(
-                "Components list extracted from filters: {0}. Will process {1} "
-                "component(s) for targeted SDA configuration retrieval.".format(
-                    components_list, len(components_list)
-                ),
+                f'Components list extracted from filters: {components_list}. Will process {len(components_list)} component(s) for targeted SDA configuration retrieval.',
                 "DEBUG"
             )
 
         self.log(
-            "Components to process: {0}. Starting iteration through components for "
-            "SDA configuration retrieval and configuration aggregation.".format(components_list),
+            f'Components to process: {components_list}. Starting iteration through components for SDA configuration retrieval and configuration aggregation.',
             "INFO"
         )
 
@@ -1982,53 +1871,39 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         skipped_count = 0
 
         self.log(
-            "Starting component iteration loop. Processing {0} component(s) with "
-            "retrieval functions, filter application, and data aggregation for each.".format(
-                len(components_list)
-            ),
+            f'Starting component iteration loop. Processing {len(components_list)} component(s) with retrieval functions, filter application, and data aggregation for each.',
             "DEBUG"
         )
         for component_index, component in enumerate(components_list, start=1):
             self.log(
-                "Processing component {0}/{1}: '{2}'. Checking module schema for "
-                "component support and retrieval function availability.".format(
-                    component_index, len(components_list), component
-                ),
+                f'Processing component {component_index}/{len(components_list)}: \'{component}\'. Checking module schema for component support and retrieval function availability.',
                 "DEBUG"
             )
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
-                    "Component {0} not supported by module, skipping processing".format(component),
+                    f'Component {component} not supported by module, skipping processing',
                     "WARNING",
                 )
                 skipped_count += 1
                 continue
 
             filters = {
-                "global_filters": global_filters,
                 "component_specific_filters": component_specific_filters.get(component, [])
             }
             self.log(
-                "Filter dictionary constructed for component '{0}': global_filters={1}, "
-                "component_specific_filters={2}. Filters will be passed to component "
-                "retrieval function.".format(
-                    component, bool(filters["global_filters"]),
-                    bool(filters["component_specific_filters"])
-                ),
+                f'Filter dictionary constructed for component \'{component}\': component_specific_filters={bool(filters["component_specific_filters"])}. Filters will be passed to component retrieval function.',
                 "DEBUG"
             )
 
             self.log(
-                "Extracting retrieval function for component '{0}' from network element "
-                "schema. Function will execute API calls and data transformation for "
-                "this component.".format(component),
+                f'Extracting retrieval function for component \'{component}\' from network element schema. Function will execute API calls and data transformation for this component.',
                 "DEBUG"
             )
             operation_func = network_element.get("get_function_name")
             if not callable(operation_func):
                 self.log(
-                    "No retrieval function defined for component: {0}".format(component),
+                    f'No retrieval function defined for component: {component}',
                     "ERROR"
                 )
                 skipped_count += 1
@@ -2038,59 +1913,42 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             # Validate retrieval success
             if not component_data:
                 self.log(
-                    "No data retrieved for component: {0}".format(component),
+                    f'No data retrieved for component: {component}',
                     "DEBUG"
                 )
                 continue
 
             self.log(
-                "Details retrieved for {0}: {1}".format(component, component_data), "DEBUG"
+                f'Details retrieved for {component}: {component_data}', "DEBUG"
             )
             processed_count += 1
 
             if isinstance(component_data, list):
                 final_config_list.extend(component_data)
                 self.log(
-                    "Component '{0}' returned list with {1} item(s). Extended final "
-                    "configuration list. Total configurations: {2}".format(
-                        component, len(component_data), len(final_config_list)
-                    ),
+                    f'Component \'{component}\' returned list with {len(component_data)} item(s). Extended final configuration list. Total configurations: {len(final_config_list)}',
                     "DEBUG"
                 )
             else:
                 final_config_list.append(component_data)
                 self.log(
-                    "Component '{0}' returned single dictionary. Appended to final "
-                    "configuration list. Total configurations: {1}".format(
-                        component, len(final_config_list)
-                    ),
+                    f'Component \'{component}\' returned single dictionary. Appended to final configuration list. Total configurations: {len(final_config_list)}',
                     "DEBUG"
                 )
 
         self.log(
-            "Component iteration completed. Processed {0}/{1} component(s), skipped "
-            "{2} component(s). Final configuration list contains {3} item(s) for YAML "
-            "generation.".format(
-                processed_count, len(components_list), skipped_count,
-                len(final_config_list)
-            ),
+            f'Component iteration completed. Processed {processed_count}/{len(components_list)} component(s), skipped {skipped_count} component(s). Final configuration list contains {len(final_config_list)} item(s) for YAML generation.',
             "INFO"
         )
         if not final_config_list:
             self.log(
-                "No configurations retrieved after processing {0} component(s). "
-                "Processed: {1}, Skipped: {2}. All filters may have excluded available "
-                "configurations or no SDA configurations exist in Catalyst Center for "
-                "requested components: {3}".format(
-                    len(components_list), processed_count, skipped_count, components_list
-                ),
+                f'No configurations retrieved after processing {len(components_list)} component(s). Processed: {processed_count}, Skipped: {skipped_count}. All filters may have excluded available configurations or no SDA configurations exist in Catalyst Center for requested components: {components_list}',
                 "WARNING"
             )
             self.msg = {
                 "status": "ok",
                 "message": (
-                    "No configurations found for module '{0}'. Verify filters and component availability. "
-                    "Components attempted: {1}".format(self.module_name, components_list)
+                    f'No configurations found for module \'{self.module_name}\'. Verify filters and component availability. Components attempted: {components_list}'
                 ),
                 "components_attempted": len(components_list),
                 "components_processed": processed_count,
@@ -2101,31 +1959,23 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         yaml_config_dict = {"config": final_config_list}
         self.log(
-            "Final YAML configuration dictionary created successfully. Dictionary "
-            "structure: {0}. Proceeding with write_dict_to_yaml() operation.".format(
-                self.pprint(yaml_config_dict)
-            ),
+            f'Final YAML configuration dictionary created successfully. Dictionary structure: {self.pprint(yaml_config_dict)}. Proceeding with write_dict_to_yaml() operation.',
             "DEBUG"
         )
 
         self.log(
-            "Writing YAML configuration dictionary to file path: {0}. Using "
-            "OrderedDumper for consistent key ordering and formatting.".format(file_path),
+            f'Writing YAML configuration dictionary to file path: {file_path}. Using OrderedDumper for consistent key ordering and formatting.',
             "DEBUG"
         )
 
         if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
             self.log(
-                "YAML file write operation succeeded. File created at: {0}. File "
-                "contains {1} configuration(s) with header comments and formatted "
-                "structure.".format(file_path, len(final_config_list)),
+                f'YAML file write operation succeeded. File created at: {file_path}. File contains {len(final_config_list)} configuration(s) with header comments and formatted structure.',
                 "INFO"
             )
             self.msg = {
                 "status": "success",
-                "message": "YAML configuration file generated successfully for module '{0}'".format(
-                    self.module_name
-                ),
+                "message": f'YAML configuration file generated successfully for module \'{self.module_name}\'',
                 "file_path": file_path,
                 "components_processed": processed_count,
                 "components_skipped": skipped_count,
@@ -2134,16 +1984,12 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("success", True, self.msg, "INFO")
 
             self.log(
-                "YAML configuration generation completed. File: {0}, Components: {1}/{2}, Configs: {3}".format(
-                    file_path, processed_count, len(components_list), len(final_config_list)
-                ),
+                f'YAML configuration generation completed. File: {file_path}, Components: {processed_count}/{len(components_list)}, Configs: {len(final_config_list)}',
                 "INFO"
             )
         else:
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                f'YAML config generation Task failed for module \'{self.module_name}\'.': {"file_path": file_path}
             }
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
@@ -2178,17 +2024,13 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             workflow_operations, start=1
         ):
             self.log(
-                "Iteration {0}: Checking parameters for {1} operation with param_key '{2}'.".format(
-                    index, operation_name, param_key
-                ),
+                f'Iteration {index}: Checking parameters for {operation_name} operation with param_key \'{param_key}\'.',
                 "DEBUG",
             )
             params = self.want.get(param_key)
             if params:
                 self.log(
-                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
-                        index, operation_name
-                    ),
+                    f'Iteration {index}: Parameters found for {operation_name}. Starting processing.',
                     "INFO",
                 )
 
@@ -2196,34 +2038,30 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     operation_func(params).check_return_status()
                     operations_executed += 1
                     self.log(
-                        "{0} operation completed successfully".format(operation_name),
+                        f'{operation_name} operation completed successfully',
                         "DEBUG"
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
+                        f'{operation_name} operation failed with error: {str(e)}',
                         "ERROR"
                     )
                     self.set_operation_result(
                         "failed", True,
-                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        f'{operation_name} operation failed: {str(e)}',
                         "ERROR"
                     ).check_return_status()
 
             else:
                 operations_skipped += 1
                 self.log(
-                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
-                        index, operation_name
-                    ),
+                    f'Iteration {index}: No parameters found for {operation_name}. Skipping operation.',
                     "WARNING",
                 )
 
         end_time = time.time()
         self.log(
-            "Completed 'get_diff_gathered' operation in {0:.2f} seconds.".format(
-                end_time - start_time
-            ),
+            f'Completed \'get_diff_gathered\' operation in {end_time - start_time:.2f} seconds.',
             "DEBUG",
         )
 
@@ -2304,7 +2142,6 @@ def main():
     Supported States:
         - gathered: Extract existing SDA host port onboarding configurations and generate
           YAML playbook compatible with sda_host_port_onboarding_workflow_manager module
-        - Future: merged, deleted, replaced (reserved for future use)
 
     Component Types:
         - port_assignments: Interface port assignment configurations with VLAN mappings,
@@ -2459,23 +2296,12 @@ def main():
 
     # Log module initialization after object creation (now logging is available)
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Starting Ansible module execution for SDA host port onboarding playbook config generator "
-        "generator at timestamp {0}".format(initialization_timestamp),
+        f'Starting Ansible module execution for SDA host port onboarding playbook config generator generator at timestamp {initialization_timestamp}',
         "INFO"
     )
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
-        "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
-        "config_items={6}".format(
-            module.params.get("dnac_host"),
-            module.params.get("dnac_port"),
-            module.params.get("dnac_username"),
-            module.params.get("dnac_verify"),
-            module.params.get("dnac_version"),
-            module.params.get("state"),
-            len(module.params.get("config", []))
-        ),
+        f'Module initialized with parameters: dnac_host={module.params.get("dnac_host")}, dnac_port={module.params.get("dnac_port")}, dnac_username={module.params.get("dnac_username")}, dnac_verify={module.params.get("dnac_verify")}, dnac_version={module.params.get("dnac_version")}, state={module.params.get("state")}, config_items={len(module.params.get("config", []))}',
         "DEBUG"
     )
 
@@ -2483,10 +2309,7 @@ def main():
     # Version Compatibility Check
     # ============================================
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Validating Catalyst Center version compatibility - checking if version {0} "
-        "meets minimum requirement of 2.3.7.9 for SDA host port onboarding APIs".format(
-            catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()
-        ),
+        f'Validating Catalyst Center version compatibility - checking if version {catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()} meets minimum requirement of 2.3.7.9 for SDA host port onboarding APIs',
         "INFO"
     )
 
@@ -2497,17 +2320,11 @@ def main():
         < 0
     ):
         error_msg = (
-            "The specified Catalyst Center version '{0}' does not support the YAML "
-            "playbook generation for SDA Host Port Onboarding module. Supported versions start "
-            "from '2.3.7.9' onwards. Version '2.3.7.9' introduces APIs for retrieving "
-            "SDA host port onboarding configurations for the following components: Port Assignments, "
-            "Port Channels, and Wireless SSIDs from the Catalyst Center.".format(
-                catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()
-            )
+            f'The specified Catalyst Center version \'{catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()}\' does not support the YAML playbook generation for SDA Host Port Onboarding module. Supported versions start from \'2.3.7.9\' onwards. Version \'2.3.7.9\' introduces APIs for retrieving SDA host port onboarding configurations for the following components: Port Assignments, Port Channels, and Wireless SSIDs from the Catalyst Center.'
         )
 
         catc_sda_host_port_onboarding_playbook_config_generator.log(
-            "Version compatibility check failed: {0}".format(error_msg),
+            f'Version compatibility check failed: {error_msg}',
             "ERROR"
         )
 
@@ -2517,10 +2334,8 @@ def main():
         ).check_return_status()
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Version compatibility check passed - Catalyst Center version {0} supports "
-        "all required SDA host port onboarding APIs".format(
-            catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()
-        ),
+        f"Version compatibility check passed - Catalyst Center version {catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()}"
+        f" supports all required SDA host port onboarding APIs",
         "INFO"
     )
 
@@ -2530,22 +2345,19 @@ def main():
     state = catc_sda_host_port_onboarding_playbook_config_generator.params.get("state")
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Validating requested state parameter: '{0}' against supported states: {1}".format(
-            state, catc_sda_host_port_onboarding_playbook_config_generator.supported_states
-        ),
+        f"Validating requested state parameter: '{state}' against "
+        f"supported states: {catc_sda_host_port_onboarding_playbook_config_generator.supported_states}",
         "DEBUG"
     )
 
     if state not in catc_sda_host_port_onboarding_playbook_config_generator.supported_states:
         error_msg = (
-            "State '{0}' is invalid for this module. Supported states are: {1}. "
-            "Please update your playbook to use one of the supported states.".format(
-                state, catc_sda_host_port_onboarding_playbook_config_generator.supported_states
-            )
+            f"State '{state}' is invalid for this module. Supported states are: {catc_sda_host_port_onboarding_playbook_config_generator.supported_states}. "
+            f"Please update your playbook to use one of the supported states."
         )
 
         catc_sda_host_port_onboarding_playbook_config_generator.log(
-            "State validation failed: {0}".format(error_msg),
+            f"State validation failed: {error_msg}",
             "ERROR"
         )
 
@@ -2554,9 +2366,7 @@ def main():
         catc_sda_host_port_onboarding_playbook_config_generator.check_return_status()
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "State validation passed - using state '{0}' for workflow execution".format(
-            state
-        ),
+        f"State validation passed - using state '{state}' for workflow execution",
         "INFO"
     )
 
@@ -2582,16 +2392,13 @@ def main():
     config_list = catc_sda_host_port_onboarding_playbook_config_generator.validated_config
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Starting configuration processing loop - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        f'Starting configuration processing loop - will process {len(config_list)} configuration item(s) from playbook',
         "INFO"
     )
 
     for config_index, config in enumerate(config_list, start=1):
         catc_sda_host_port_onboarding_playbook_config_generator.log(
-            "Processing configuration item {0}/{1} for state '{2}'".format(
-                config_index, len(config_list), state
-            ),
+            f'Processing configuration item {config_index}/{len(config_list)} for state \'{state}\'',
             "INFO"
         )
 
@@ -2604,9 +2411,7 @@ def main():
 
         # Collect desired state (want) from configuration
         catc_sda_host_port_onboarding_playbook_config_generator.log(
-            "Collecting desired state parameters from configuration item {0}".format(
-                config_index
-            ),
+            f'Collecting desired state parameters from configuration item {config_index}',
             "DEBUG"
         )
         catc_sda_host_port_onboarding_playbook_config_generator.get_want(
@@ -2615,8 +2420,7 @@ def main():
 
         # Execute state-specific operation (gathered workflow)
         catc_sda_host_port_onboarding_playbook_config_generator.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1}".format(state, config_index),
+            f'Executing state-specific operation for \'{state}\' workflow on configuration item {config_index}',
             "INFO"
         )
         catc_sda_host_port_onboarding_playbook_config_generator.get_diff_state_apply[
@@ -2624,9 +2428,7 @@ def main():
         ]().check_return_status()
 
         catc_sda_host_port_onboarding_playbook_config_generator.log(
-            "Successfully completed processing for configuration item {0}/{1}".format(
-                config_index, len(config_list)
-            ),
+            f'Successfully completed processing for configuration item {config_index}/{len(config_list)}',
             "INFO"
         )
 
@@ -2642,23 +2444,15 @@ def main():
     )
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Module execution completed successfully at timestamp {0}. Total execution "
-        "time: {1:.2f} seconds. Processed {2} configuration item(s) with final "
-        "status: {3}".format(
-            completion_timestamp,
-            module_duration,
-            len(config_list),
-            catc_sda_host_port_onboarding_playbook_config_generator.status
-        ),
+        f"Module execution completed successfully at timestamp {completion_timestamp}. "
+        f"Total execution time: {module_duration:.2f} seconds. Processed {len(config_list)} configuration item(s) with final status: {catc_sda_host_port_onboarding_playbook_config_generator.status}",
         "INFO"
     )
 
     # Exit module with results
     # This is a terminal operation - function does not return after this
     catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Exiting Ansible module with result: {0}".format(
-            catc_sda_host_port_onboarding_playbook_config_generator.result
-        ),
+        f"Exiting Ansible module with result: {catc_sda_host_port_onboarding_playbook_config_generator.result}",
         "DEBUG"
     )
 
