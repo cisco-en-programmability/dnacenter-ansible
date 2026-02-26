@@ -156,16 +156,17 @@ options:
                 description:
                 - List of specific device family names to extract KPI threshold
                   settings for using modern nested filter format.
-                - Valid device family names include C(UNIFIED_AP) for wireless
-                  access points, C(ROUTER) for routing devices, C(SWITCH) or
+                - Valid device family names include C(ROUTER) for routing devices,
                   C(SWITCH_AND_HUB) for switching infrastructure,
                   C(WIRELESS_CONTROLLER) for wireless LAN controllers,
-                  C(WIRELESS_SENSOR) for wireless sensors, C(MERAKI_DASHBOARD)
-                  for Meraki devices, C(FIREWALL) for firewall appliances, and
-                  other Catalyst Center supported device types.
+                  C(UNIFIED_AP) for wireless access points, C(WIRELESS_CLIENT)
+                  for wireless client devices, and C(WIRED_CLIENT) for wired
+                  client devices.
                 - If not specified, all device families with configured KPI
                   threshold settings will be extracted for comprehensive
                   brownfield documentation.
+                - Duplicate device family values are automatically removed while
+                  preserving the original order of unique entries.
                 - Each device family may have different KPI metrics and
                   thresholds based on device capabilities and health monitoring
                   requirements.
@@ -176,6 +177,13 @@ options:
                   names used in Catalyst Center.
                 type: list
                 elements: str
+                choices:
+                - ROUTER
+                - SWITCH_AND_HUB
+                - WIRELESS_CONTROLLER
+                - UNIFIED_AP
+                - WIRELESS_CLIENT
+                - WIRED_CLIENT
                 required: false
 
 requirements:
@@ -253,7 +261,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/assurance_health_score_settings.yml"
+      - file_path: "tmp/assurance_health_score_settings.yml"
+        generate_all_configurations: true
 
 - name: Generate YAML Configuration for all device health score components
   cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
@@ -1022,16 +1031,15 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "method to ensure proper list structure and string element types.",
                     "DEBUG"
                 )
-                if not self.validate_device_families_parameter(device_health_score_settings['device_families']):
-                    if not self.validate_device_families_parameter(
-                        device_health_score_settings['device_families']
-                    ):
-                        self.log(
-                            "Nested device_families parameter validation failed. "
-                            "validate_device_families_parameter() returned False. Operation result "
-                            "already set to failed. Returning False to indicate validation failure.",
-                            "ERROR"
-                        )
+                if not self.validate_device_families_parameter(
+                    device_health_score_settings['device_families']
+                ):
+                    self.log(
+                        "Nested device_families parameter validation failed. "
+                        "validate_device_families_parameter() returned False. Operation result "
+                        "already set to failed. Returning False to indicate validation failure.",
+                        "ERROR"
+                    )
                     return False
 
             self.log(
@@ -1085,9 +1093,10 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         This function performs validation of device_families parameter ensuring proper list
         structure and string element types for device family names used in filtering device
-        health score settings configurations.
+        health score settings configurations. Duplicate entries are automatically removed
+        by converting to a set (preserving order).
         Args:
-            device_families: The device_families parameter to validate.
+            device_families: The device_families parameter to validate (list will be deduplicated in-place).
         Returns:
             bool: True if validation passes, False otherwise.
         """
@@ -1115,7 +1124,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        # Check if all elements are strings
+        # Check if all elements are strings before deduplication
         for family_index, family in enumerate(device_families, start=1):
             self.log(
                 "Validating device family {0}/{1} in device_families list. Family value: '{2}', "
@@ -1133,6 +1142,30 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
+
+        # Deduplicate device_families in-place by converting to set and back to list
+        original_count = len(device_families)
+        device_families_set = list(dict.fromkeys(device_families))  # Preserve order while removing duplicates
+
+        if original_count != len(device_families_set):
+            duplicates_found = original_count - len(device_families_set)
+            self.log(
+                "Duplicate device families detected. Original count: {0}, Unique count: {1}, "
+                "Duplicates removed: {2}. Deduplicated list: {3}".format(
+                    original_count, len(device_families_set), duplicates_found, device_families_set
+                ),
+                "WARNING"
+            )
+            # Update the list in-place
+            device_families.clear()
+            device_families.extend(device_families_set)
+        else:
+            self.log(
+                "No duplicate device families found. All {0} entries are unique.".format(
+                    original_count
+                ),
+                "DEBUG"
+            )
 
         self.log(
             "All device_families entries validated as string type successfully. Proceeding with "
@@ -1183,8 +1216,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log(
-            "device_families parameter validation completed successfully. Returning True to "
-            "indicate successful validation with proper list structure and string element types.",
+            "device_families parameter validation completed successfully.",
             "DEBUG"
         )
 
@@ -2881,18 +2913,17 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         Generates default filename with module name and timestamp for YAML output.
 
         This function creates a timestamped filename following the pattern
-        module_name_YYYY-MM-DD_HH-MM-SS.yml for unique identification
-        when file_path is not provided in playbook configuration.
+        assurance_device_health_score_settings_playbook_config_YYYY-MM-DD_HH-MM-SS.yml
+        for unique identification when file_path is not provided in playbook configuration.
 
         Returns:
             str: Generated filename with format
-                assurance_device_health_score_settings_playbook_config_generator_2026-01-24_12-33-20.yml
+                assurance_device_health_score_settings_playbook_config_2026-01-24_12-33-20.yml
         """
         self.log(
-            "Generating default filename for YAML configuration file. Using module "
-            "name '{0}' and current timestamp for unique identification.".format(
-                self.module_name
-            ),
+            "Generating default filename for YAML configuration file. Using base name "
+            "'assurance_device_health_score_settings_playbook_config' and current timestamp "
+            "for unique identification.",
             "DEBUG"
         )
         import datetime
@@ -2902,8 +2933,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "filename component.".format(timestamp.strftime("%Y-%m-%d %H:%M:%S")),
             "DEBUG"
         )
-        filename = "{0}_{1}.yml".format(
-            self.module_name,
+        filename = "assurance_device_health_score_settings_playbook_config_{0}.yml".format(
             timestamp.strftime("%Y-%m-%d_%H-%M-%S")
         )
         self.log(
