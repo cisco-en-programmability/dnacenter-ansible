@@ -41,11 +41,12 @@ options:
     default: gathered
   config:
     description:
-    - A dictionary of filters for generating YAML playbook compatible with the `site_workflow_manager`
+    - A list of filters for generating YAML playbook compatible with the `site_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: dict
+    type: list
+    elements: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -76,8 +77,8 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are
-              - site: includes all site components (areas, buildings, floors) and supports all filter keys.
+            - Valid value is C(site), which includes all site components (areas, buildings, floors)
+              and supports all filter keys.
             - If not specified, all components are included.
             - For example, ["site"].
             type: list
@@ -97,13 +98,13 @@ options:
                 type: str
               parent_name_hierarchy:
                 description:
-                - Parent site name hierarchy filter.
+                  - Parent site name hierarchy filter.
                 type: str
               site_type:
                 description:
-                - Site type filter.
-                - Valid values are "area", "building", and "floor".
-                - Can be a list to match multiple site types.
+                  - Site type filter.
+                  - Valid values are "area", "building", and "floor".
+                  - Can be a list to match multiple site types.
                 type: list
                 elements: str
 requirements:
