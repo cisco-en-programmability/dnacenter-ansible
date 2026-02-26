@@ -7,7 +7,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_inventory_playbook_generator
+module: inventory_playbook_config_generator
 short_description: Generate YAML playbook input for 'inventory_workflow_manager' module.
 description:
   - Generates YAML input files for C(cisco.dnac.inventory_workflow_manager).
@@ -113,7 +113,7 @@ options:
           - This mode discovers all managed devices in Cisco Catalyst Center and extracts all device inventory configurations.
           - When enabled, the config parameter becomes optional and will use default values if not provided.
           - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
+          - This is useful for complete infrastructure discovery and documentation.
           - Note - Only devices with manageable software versions are included in the output.
         type: bool
         required: false
@@ -278,7 +278,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate inventory playbook for all devices
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -292,7 +292,7 @@ EXAMPLES = r"""
         file_path: "./inventory_devices_all.yml"
 
 - name: Generate inventory playbook for specific devices by IP address
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -309,7 +309,7 @@ EXAMPLES = r"""
         file_path: "./inventory_devices_by_ip.yml"
 
 - name: Generate inventory playbook for devices by hostname
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -327,7 +327,7 @@ EXAMPLES = r"""
         file_path: "./inventory_devices_by_hostname.yml"
 
 - name: Generate inventory playbook for devices by serial number
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -344,7 +344,7 @@ EXAMPLES = r"""
         file_path: "./inventory_devices_by_serial.yml"
 
 - name: Generate inventory playbook for mixed device filtering
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -362,7 +362,7 @@ EXAMPLES = r"""
         file_path: "./inventory_devices_mixed_filter.yml"
 
 - name: Generate inventory playbook with default file path
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -377,7 +377,7 @@ EXAMPLES = r"""
             - "10.195.225.40"
 
 - name: Generate inventory playbook for multiple devices
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -396,7 +396,7 @@ EXAMPLES = r"""
         file_path: "./inventory_devices_multiple.yml"
 
 - name: Generate inventory playbook for ACCESS role devices only
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -413,7 +413,7 @@ EXAMPLES = r"""
         file_path: "./inventory_access_role_devices.yml"
 
 - name: Generate inventory playbook with auto-populated provision_wired_device
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -427,7 +427,7 @@ EXAMPLES = r"""
         file_path: "./inventory_with_provisioning.yml"
 
 - name: Generate inventory playbook with interface filtering
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -449,7 +449,7 @@ EXAMPLES = r"""
         file_path: "./inventory_interface_filtered.yml"
 
 - name: Generate inventory playbook for specific interface on single device
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -468,7 +468,7 @@ EXAMPLES = r"""
         file_path: "./inventory_loopback_interface.yml"
 
 - name: Generate complete inventory with all components and interface filter
-  cisco.dnac.brownfield_inventory_playbook_generator:
+  cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
     dnac_username: "{{ dnac_username }}"
@@ -549,7 +549,7 @@ else:
     OrderedDumper = None
 
 
-class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
+class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -3324,7 +3324,7 @@ class InventoryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Executes YAML configuration file generation for brownfield Inventory workflow.
+        Executes YAML configuration file generation for inventory workflow.
 
         Processes the desired state parameters prepared by get_want() and generates a
         YAML configuration file containing network element details from Catalyst Center.
@@ -3805,7 +3805,7 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_inventory_playbook_generator = InventoryPlaybookGenerator(module)
+    ccc_inventory_playbook_generator = InventoryPlaybookConfigGenerator(module)
     if (
         ccc_inventory_playbook_generator.compare_dnac_versions(
             ccc_inventory_playbook_generator.get_ccc_version(), "2.3.7.9"

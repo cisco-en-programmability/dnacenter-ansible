@@ -33,7 +33,7 @@
     # Output: Single YAML with 3 documents (device details, provision, interfaces)
     # ===================================================================================
     - name: "SCENARIO 1: Complete Discovery - All Components"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -57,7 +57,7 @@
     # Output: 3 documents for specified IPs
     # ===================================================================================
     - name: "SCENARIO 2: Specific IPs - All Three Components"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -87,7 +87,7 @@
     # Output: Single document with device credentials
     # ===================================================================================
     - name: "SCENARIO 3: Device Details Only"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -116,7 +116,7 @@
     # Output: Single document with provision config
     # ===================================================================================
     - name: "SCENARIO 4: Provision Device Only - Site Filter"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -143,7 +143,7 @@
     # Output: Single document with interface configurations
     # ===================================================================================
     - name: "SCENARIO 5: Interface Details Only"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -175,7 +175,7 @@
     # Output: 3 documents with different device sets based on independent filters
     # ===================================================================================
     - name: "SCENARIO 6: Independent Component Filters"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -204,7 +204,7 @@
     # Output: 3 documents, all using same global IPs, provision filtered by site
     # ===================================================================================
     - name: "SCENARIO 7: Global + Component-Specific Filters"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -236,7 +236,7 @@
     # Output: Single document with ACCESS role devices
     # ===================================================================================
     - name: "SCENARIO 8: ACCESS Role Devices"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -263,7 +263,7 @@
     # Output: Single document with devices matching ANY of the specified roles
     # ===================================================================================
     - name: "SCENARIO 9: Multiple Roles - OR Logic"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -290,7 +290,7 @@
     # Output: 2 documents - device details and provision
     # ===================================================================================
     - name: "SCENARIO 10: Device Details + Provision"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -318,7 +318,7 @@
     # Output: Multiple YAML files, each with different site provision configs
     # ===================================================================================
     - name: "SCENARIO 11: Multiple Sites - Independent Files"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -352,7 +352,7 @@
     # Output: File named inventory_workflow_manager_playbook_<timestamp>.yml
     # ===================================================================================
     - name: "SCENARIO 12: Default File Path (Auto-Generated)"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -379,7 +379,7 @@
     # Output: Single document with only specified interface names (e.g., Vlan100)
     # ===================================================================================
     - name: "SCENARIO 13: Interface Details - Single Interface Filter (Vlan100)"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -406,7 +406,7 @@
     # Output: Single document with only specified interface names (Vlan100, Loopback0, etc.)
     # ===================================================================================
     - name: "SCENARIO 14: Interface Details - Multiple Interface Filters"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -434,7 +434,7 @@
     # Note: If device doesn't have the specified interface, no config generated for it
     # ===================================================================================
     - name: "SCENARIO 15: Global IP + Interface Name Filter"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -466,7 +466,7 @@
     # Output: 2 documents - device details and filtered interface configs
     # ===================================================================================
     - name: "SCENARIO 16: Device Details + Filtered Interfaces"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -497,7 +497,7 @@
     # Output: 3 documents - device details, provision config, and filtered interfaces
     # ===================================================================================
     - name: "SCENARIO 17: All Components - Device + Provision + Filtered Interfaces"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -531,7 +531,7 @@
     # Note: No file created if no devices have matching interfaces
     # ===================================================================================
     - name: "SCENARIO 18: Interface Filter - No Match Handling"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -563,7 +563,7 @@
     # Output: Single document with GigabitEthernet interface configs only
     # ===================================================================================
     - name: "SCENARIO 19: GigabitEthernet Interfaces Only"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -590,7 +590,7 @@
     # Output: 2 documents - filtered device details (ACCESS only) and their interfaces
     # ===================================================================================
     - name: "SCENARIO 20: ACCESS Devices with Specific Interface Filter"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -620,7 +620,7 @@
     # Note: user_defined_fields is INDEPENDENT - cannot be used with global_filters
     # ===================================================================================
     - name: "SCENARIO 21: User-Defined Fields Only - All UDFs"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -646,7 +646,7 @@
     # Note: Filter uses OR logic if single name is provided
     # ===================================================================================
     - name: "SCENARIO 22: User-Defined Fields - Single UDF Filter"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -673,7 +673,7 @@
     # Output: Single document with all matching UDFs (OR logic - any name match)
     # ===================================================================================
     - name: "SCENARIO 23: User-Defined Fields - Multiple UDF Filters"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -701,7 +701,7 @@
     # Note: Components filter independently - no global_filters used
     # ===================================================================================
     - name: "SCENARIO 24: Device Details + User-Defined Fields"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -731,7 +731,7 @@
     # Note: Each component filters independently without global IP filters
     # ===================================================================================
     - name: "SCENARIO 25: All Components + User-Defined Fields"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -765,7 +765,7 @@
     # Note: This scenario validates the constraint that prevents UDFs from using IP-based filters
     # ===================================================================================
     - name: "SCENARIO 26: INVALID - User-Defined Fields with Global Filters (SHOULD FAIL)"
-      cisco.dnac.brownfield_inventory_playbook_generator:
+      cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

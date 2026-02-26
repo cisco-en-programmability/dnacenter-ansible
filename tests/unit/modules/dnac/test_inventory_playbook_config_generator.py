@@ -17,7 +17,7 @@
 #   Madhan Sankaranarayanan <madsanka@cisco.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_inventory_playbook_generator`.
+#   Unit tests for the Ansible module `inventory_playbook_config_generator`.
 #   These tests cover various brownfield inventory scenarios such as complete
 #   discovery, device filtering by IP, hostname, serial number, MAC address,
 #   role-based filtering, combined filters, and multiple device groups.
@@ -26,18 +26,18 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.dnac.plugins.modules import brownfield_inventory_playbook_generator
+from ansible_collections.cisco.dnac.plugins.modules import inventory_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
     """
-    Test class for brownfield_inventory_playbook_generator module.
+    Test class for inventory_playbook_config_generator module.
     Tests all scenarios defined in the JSON fixture file.
     """
 
-    module = brownfield_inventory_playbook_generator
-    test_data = loadPlaybookData("brownfield_inventory_playbook_generator")
+    module = inventory_playbook_config_generator
+    test_data = loadPlaybookData("inventory_playbook_config_generator")
 
     # Load all test configurations from fixtures
     playbook_config_scenario1_complete_infrastructure_generate_all_device_configurations = test_data.get(
@@ -254,7 +254,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_filtered_devices_access_with_interface_filter_response")
             ]
 
-    def test_brownfield_inventory_playbook_generator_scenario1_complete_infrastructure(self):
+    def test_inventory_playbook_config_generator_scenario1_complete_infrastructure(self):
         """
         Test case for scenario 1: Complete Infrastructure - Generate All Device Configurations
 
@@ -281,7 +281,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=False, failed=False)
         self.assertIn("configuration generated successfully", result.get('msg', '').lower() or "success" in result.get('msg', '').lower())
 
-    def test_brownfield_inventory_playbook_generator_scenario2_specific_devices_by_ip_address(self):
+    def test_inventory_playbook_config_generator_scenario2_specific_devices_by_ip_address(self):
         """
         Test case for scenario 2: Specific Devices by IP Address List
 
@@ -310,7 +310,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario3_devices_by_hostname(self):
+    def test_inventory_playbook_config_generator_scenario3_devices_by_hostname(self):
         """
         Test case for scenario 3: Devices by Hostname List
 
@@ -339,7 +339,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario4_devices_by_serial_number(self):
+    def test_inventory_playbook_config_generator_scenario4_devices_by_serial_number(self):
         """
         Test case for scenario 4: Devices by Serial Number List
 
@@ -368,7 +368,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario5_devices_by_mac_address(self):
+    def test_inventory_playbook_config_generator_scenario5_devices_by_mac_address(self):
         """
         Test case for scenario 5: Devices by MAC Address List
 
@@ -397,7 +397,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario6_devices_by_role_access(self):
+    def test_inventory_playbook_config_generator_scenario6_devices_by_role_access(self):
         """
         Test case for scenario 6: Devices by Role - ACCESS
 
@@ -426,7 +426,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('role_filter', ''))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario7_devices_by_role_core(self):
+    def test_inventory_playbook_config_generator_scenario7_devices_by_role_core(self):
         """
         Test case for scenario 7: Devices by Role - CORE
 
@@ -455,7 +455,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('role_filter', ''))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario8_combined_filters(self):
+    def test_inventory_playbook_config_generator_scenario8_combined_filters(self):
         """
         Test case for scenario 8: Combined Filters - Multiple Criteria
 
@@ -484,7 +484,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario9_multiple_device_groups(self):
+    def test_inventory_playbook_config_generator_scenario9_multiple_device_groups(self):
         """
         Test case for scenario 9: Multiple Device Groups
 
@@ -513,7 +513,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('total_device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario10_provision_devices_by_site(self):
+    def test_inventory_playbook_config_generator_scenario10_provision_devices_by_site(self):
         """
         Test case for scenario 10: Provision Devices by Site with Role Filter
 
@@ -542,7 +542,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario11_multiple_roles(self):
+    def test_inventory_playbook_config_generator_scenario11_multiple_roles(self):
         """
         Test case for scenario 11: Multiple Roles
 
@@ -571,7 +571,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario12_global_filter_plus_site(self):
+    def test_inventory_playbook_config_generator_scenario12_global_filter_plus_site(self):
         """
         Test case for scenario 12: Global Filter Plus Site Filter
 
@@ -602,7 +602,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
 
     # Additional edge case and error scenario tests
 
-    def test_brownfield_inventory_playbook_generator_invalid_ip_address(self):
+    def test_inventory_playbook_config_generator_invalid_ip_address(self):
         """
         Test case for invalid IP address format in filter
 
@@ -638,7 +638,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             result.get('msg', '')
         )
 
-    def test_brownfield_inventory_playbook_generator_device_not_found(self):
+    def test_inventory_playbook_config_generator_device_not_found(self):
         """
         Test case for device not found scenario
 
@@ -678,7 +678,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             result.get('msg', '')
         )
 
-    def test_brownfield_inventory_playbook_generator_invalid_role(self):
+    def test_inventory_playbook_config_generator_invalid_role(self):
         """
         Test case for invalid role filter value
 
@@ -716,7 +716,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             result.get('msg', '')
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario13_interface_details_single_interface(self):
+    def test_inventory_playbook_config_generator_scenario13_interface_details_single_interface(self):
         """
         Test case for scenario 13: Interface Details - Single Interface Name Filter
 
@@ -745,7 +745,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('filter_type', ''))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario14_interface_details_multiple_interface(self):
+    def test_inventory_playbook_config_generator_scenario14_interface_details_multiple_interface(self):
         """
         Test case for scenario 14: Interface Details - Multiple Interface Name Filters
 
@@ -774,7 +774,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('interface_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario15_global_ip_filter_plus_interface_name(self):
+    def test_inventory_playbook_config_generator_scenario15_global_ip_filter_plus_interface_name(self):
         """
         Test case for scenario 15: Global IP Filter + Interface Name Filter
 
@@ -803,7 +803,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('ip_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario16_device_details_plus_filtered_interfaces(self):
+    def test_inventory_playbook_config_generator_scenario16_device_details_plus_filtered_interfaces(self):
         """
         Test case for scenario 16: Device Details + Filtered Interfaces
 
@@ -832,7 +832,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('components_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario17_all_components_with_interface_filter(self):
+    def test_inventory_playbook_config_generator_scenario17_all_components_with_interface_filter(self):
         """
         Test case for scenario 17: All Components with Interface Filter
 
@@ -861,7 +861,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('components_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario18_interface_filter_no_match_handling(self):
+    def test_inventory_playbook_config_generator_scenario18_interface_filter_no_match_handling(self):
         """
         Test case for scenario 18: Interface Filter - No Match Handling
 
@@ -890,7 +890,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('device_count', 0))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario19_gigabitethernet_interfaces_only(self):
+    def test_inventory_playbook_config_generator_scenario19_gigabitethernet_interfaces_only(self):
         """
         Test case for scenario 19: GigabitEthernet Interfaces Only
 
@@ -919,7 +919,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('interface_type', ''))
         )
 
-    def test_brownfield_inventory_playbook_generator_scenario20_access_devices_with_interface_filter(self):
+    def test_inventory_playbook_config_generator_scenario20_access_devices_with_interface_filter(self):
         """
         Test case for scenario 20: ACCESS Devices with Specific Interface Filter
 
@@ -948,7 +948,7 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             str(result.get('role_filter', ''))
         )
 
-    def test_brownfield_inventory_playbook_generator_dnac_connection_failure(self):
+    def test_inventory_playbook_config_generator_dnac_connection_failure(self):
         """
         Test case for DNAC connection failure
 
