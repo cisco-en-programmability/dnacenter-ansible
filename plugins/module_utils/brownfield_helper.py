@@ -149,6 +149,19 @@ class BrownFieldHelper:
                     )
                     continue
 
+            # Validate patterns for string filters
+            if expected_type == "str" and "pattern" in filter_spec:
+                pattern = filter_spec["pattern"]
+                if isinstance(filter_value, str) and not re.match(
+                    pattern, filter_value
+                ):
+                    invalid_filters.append(
+                        "Filter '{0}' does not match required pattern".format(
+                            filter_name
+                        )
+                    )
+                    continue
+
             # Validate list elements
             if expected_type == "list" and filter_value:
                 element_type = filter_spec.get("elements", "str")
@@ -303,7 +316,6 @@ class BrownFieldHelper:
                         continue
 
                     filter_spec = valid_filters_for_component[filter_name]
-
                     # Validate type
                     expected_type = filter_spec.get("type", "str")
                     if expected_type == "list" and not isinstance(filter_value, list):
@@ -351,6 +363,19 @@ class BrownFieldHelper:
                             )
                             continue
 
+                    # Validate patterns for string filters
+                    if expected_type == "str" and "pattern" in filter_spec:
+                        pattern = filter_spec["pattern"]
+                        if isinstance(filter_value, str) and not re.match(
+                            pattern, filter_value
+                        ):
+                            invalid_filters.append(
+                                "Component '{0}' filter '{1}' does not match required pattern".format(
+                                    component_name, filter_name
+                                )
+                            )
+                            continue
+
                     # Validate choices for lists
                     if expected_type == "list" and "choices" in filter_spec:
                         valid_choices = filter_spec["choices"]
@@ -367,6 +392,31 @@ class BrownFieldHelper:
                                 )
                             )
 
+                    # Validate list elements with range validation
+                    if expected_type == "list" and filter_value:
+                        element_type = filter_spec.get("elements", "str")
+                        range_values = filter_spec.get("range")
+
+                        for i, element in enumerate(filter_value):
+                            #  ADD: Range validation for list elements
+                            if (
+                                element_type == "int"
+                                and range_values
+                                and isinstance(element, int)
+                            ):
+                                min_val, max_val = range_values[0], range_values[1]
+                                if not (min_val <= element <= max_val):
+                                    invalid_filters.append(
+                                        "Component '{0}' filter '{1}[{2}]' value {3} is outside valid range [{4}, {5}]".format(
+                                            component_name,
+                                            filter_name,
+                                            i,
+                                            element,
+                                            min_val,
+                                            max_val,
+                                        )
+                                    )
+                                    continue
                     # Validate choices for strings
                     if expected_type == "str" and "choices" in filter_spec:
                         valid_choices = filter_spec["choices"]
@@ -1912,6 +1962,64 @@ class BrownFieldHelper:
             "INFO",
         )
         return site_id_name_mapping
+
+    def get_fabric_site_name_to_id_mapping(self):
+        """
+        Retrieves the bidirectional mapping of fabric site names to fabric site IDs for all fabric sites.
+        Returns:
+            tuple: A tuple containing two dictionaries:
+                - fabric_site_name_to_id (dict): Mapping of fabric site names (hierarchical) to fabric site IDs
+                - fabric_site_id_to_name (dict): Mapping of fabric site IDs to fabric site names (hierarchical)
+        Raises:
+            Exception: If an error occurs while retrieving the fabric site mapping.
+        """
+
+        self.log(
+            "Retrieving bidirectional fabric site name to ID mapping for all fabric sites.",
+            "DEBUG",
+        )
+        self.log(
+            "Executing 'get_fabric_sites' API call from 'sda' family to retrieve all fabric sites.",
+            "DEBUG",
+        )
+        fabric_site_name_to_id_mapping = {}
+        fabric_site_id_to_name_mapping = {}
+
+        api_family, api_function, params = "sda", "get_fabric_sites", {}
+        fabric_sites = self.execute_get_with_pagination(
+            api_family, api_function, params
+        )
+
+        for fabric_site in fabric_sites:
+            fabric_id = fabric_site.get("id")
+            site_id = fabric_site.get("siteId")
+
+            if fabric_id and site_id:
+                # Get the site name from the site_id using the existing site_id_name_dict
+                site_name = self.site_id_name_dict.get(site_id)
+                if site_name:
+                    self.log(
+                        f"Processing fabric site: site_name '{site_name}' mapped to fabric_id '{fabric_id}'",
+                        "DEBUG",
+                    )
+                    fabric_site_name_to_id_mapping[site_name] = fabric_id
+                    fabric_site_id_to_name_mapping[fabric_id] = site_name
+                else:
+                    self.log(
+                        f"Skipping fabric site with missing site name - fabric_id: {fabric_id}, site_id: {site_id}",
+                        "WARNING",
+                    )
+            else:
+                self.log(
+                    f"Skipping fabric site with missing IDs - fabric_id: {fabric_id}, site_id: {site_id}",
+                    "WARNING",
+                )
+
+        self.log(
+            f"Fabric site bidirectional mapping completed. Total fabric sites mapped: {len(fabric_site_name_to_id_mapping)}",
+            "INFO",
+        )
+        return fabric_site_name_to_id_mapping, fabric_site_id_to_name_mapping
 
     def get_deployed_layer2_feature_configuration(self, network_device_id, feature):
         """

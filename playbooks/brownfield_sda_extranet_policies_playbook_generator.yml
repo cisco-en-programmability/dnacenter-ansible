@@ -1,0 +1,39 @@
+---
+# ==============================================================================
+# BROWNFIELD SDA EXTRANET POLICIES PLAYBOOK GENERATOR - EXAMPLES
+# ==============================================================================
+- name: Generate complete brownfield sda extranet policies configuration
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate all configurations from Cisco Catalyst Center
+      cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        state: gathered
+        config:
+          # ====================================================================================
+          # Scenario 1: SDA Extranet Policies - Fetch All Configurations
+          # Tests behavior when no filters are provided
+          # ====================================================================================
+          - generate_all_configurations: true
+
+          # ====================================================================================
+          # Scenario 2: SDA Extranet Policies - Component Specific Filters
+          # Tests behavior when component specific filters are provided
+          # ====================================================================================
+          # - component_specific_filters:
+          #     components_list: ["extranet_policies"]
+          #     extranet_policies:
+          #       - extranet_policy_name: Test_3
