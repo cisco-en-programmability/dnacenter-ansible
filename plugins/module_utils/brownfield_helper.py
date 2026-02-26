@@ -696,6 +696,7 @@ class BrownFieldHelper:
             "Completed validation of minimum requirements for configuration entries.",
             "DEBUG",
         )
+
     def validate_minimum_requirement_for_global_filters(self, config_list):
         """
         Validates minimum requirements for configuration entries using global filters.
