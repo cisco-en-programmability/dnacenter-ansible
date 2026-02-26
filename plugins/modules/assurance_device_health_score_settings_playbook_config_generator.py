@@ -306,7 +306,9 @@ EXAMPLES = r"""
     config:
       - file_path: "/tmp/legacy_device_health_score_settings.yml"
         component_specific_filters:
-          device_families: ["UNIFIED_AP", "ROUTER"]
+          components_list: ["device_health_score_settings"]
+          device_health_score_settings:
+            device_families: ["UNIFIED_AP", "ROUTER"]
 """
 
 RETURN = r"""
@@ -825,16 +827,14 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         This function performs comprehensive validation of component_specific_filters
         configuration provided through playbook parameters, ensuring dictionary structure,
         validating parameter names against allowed options, checking components_list format
-        and values, validating device_families parameter in both direct and nested formats,
-        and verifying nested device_health_score_settings structure with detailed error
-        reporting for configuration issues.
+        and values, and verifying nested device_health_score_settings structure with detailed
+        error reporting for configuration issues.
 
         Args:
             component_specific_filters (dict): Component filters configuration containing:
                 - components_list (list, optional): List of component names to process
-                - device_families (list, optional): Direct device families filter
                 - device_health_score_settings (dict, optional): Nested filters with:
-                - device_families (list, optional): Device families within settings
+                    - device_families (list, optional): Device families within settings
 
         Returns:
             bool: True if validation passes successfully, False if validation fails with
@@ -845,8 +845,8 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "This validation ensures component_specific_filters is properly formatted as "
             "dictionary, contains only allowed parameter names, components_list contains "
             "valid component choices, and device_families parameters are properly structured "
-            "in both direct and nested formats. Comprehensive error reporting provided for "
-            "configuration issues.",
+            "within nested device_health_score_settings. Comprehensive error reporting provided "
+            "for configuration issues.",
             "DEBUG"
         )
         if not isinstance(component_specific_filters, dict):
@@ -859,9 +859,9 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        # Define allowed component filter parameters
+        # Define allowed component filter parameters at top level
+        # Note: device_families is only allowed within device_health_score_settings, not at top level
         allowed_component_params = {
-            'device_families',
             'components_list',
             'device_health_score_settings'
         }
@@ -985,30 +985,6 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "valid and supported by module schema. Components validated: {1}.".format(
                 len(components_list), ", ".join(components_list)
             ),
-            "DEBUG"
-        )
-
-        # Validate device_families if provided (direct usage)
-        if 'device_families' in component_specific_filters:
-            self.log(
-                "device_families parameter found at top level of component_specific_filters. "
-                "Starting validation of device_families parameter structure and values using "
-                "validate_device_families_parameter() method. This represents direct device "
-                "family filtering without nested structure.",
-                "DEBUG"
-            )
-            if not self.validate_device_families_parameter(component_specific_filters['device_families']):
-                self.log(
-                    "device_families parameter validation failed. validate_device_families_parameter() "
-                    "returned False indicating validation errors. Operation result already set "
-                    "to failed with error details. Returning False to indicate validation failure.",
-                    "ERROR"
-                )
-                return False
-
-        self.log(
-            "Direct device_families parameter validation passed successfully. Parameter "
-            "structure and values conform to module schema requirements.",
             "DEBUG"
         )
 
@@ -1159,8 +1135,48 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 return False
 
         self.log(
-            "All device_families entries validated as string type successfully. Total {0} device "
-            "families validated: {1}. Parameter structure conforms to module schema requirements.".format(
+            "All device_families entries validated as string type successfully. Proceeding with "
+            "device family value validation against allowed choices. Total {0} device families "
+            "to validate: {1}.".format(
+                len(device_families), ", ".join(device_families)
+            ),
+            "DEBUG"
+        )
+
+        # Define allowed device family values
+        allowed_device_families = [
+            "ROUTER",
+            "SWITCH_AND_HUB",
+            "WIRELESS_CONTROLLER",
+            "UNIFIED_AP",
+            "WIRELESS_CLIENT",
+            "WIRED_CLIENT"
+        ]
+
+        # Validate each device family against allowed values
+        for family_index, family in enumerate(device_families, start=1):
+            self.log(
+                "Validating device family {0}/{1} against allowed choices. Family value: '{2}'. "
+                "Checking if family is in allowed_device_families list.".format(
+                    family_index, len(device_families), family
+                ),
+                "DEBUG"
+            )
+            if family not in allowed_device_families:
+                self.msg = (
+                    "Invalid device family '{0}' found in device_families at index {1}. "
+                    "Allowed device families are: {2}. Device family names are case-sensitive "
+                    "and must match exact names used in Catalyst Center."
+                ).format(
+                    family, family_index - 1, ", ".join(allowed_device_families)
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+        self.log(
+            "All device_families entries validated against allowed choices successfully. Total {0} "
+            "device families validated: {1}. Parameter values conform to module schema requirements.".format(
                 len(device_families), ", ".join(device_families)
             ),
             "INFO"
