@@ -373,8 +373,12 @@ response_3:
   type: list
   sample: >
     {
-      "msg": "Invalid parameters in playbook: [\"Invalid 'site_type' values in 'component_specific_filters.site[1]': ['campus']. Supported values are ['area', 'building', 'floor'].\"]",
-      "response": "Invalid parameters in playbook: [\"Invalid 'site_type' values in 'component_specific_filters.site[1]': ['campus']. Supported values are ['area', 'building', 'floor'].\"]"
+      "msg": "Invalid parameters in playbook: [\"Invalid 'site_type' values in
+      'component_specific_filters.site[1]': ['campus']. Supported values are
+      ['area', 'building', 'floor'].\"]",
+      "response": "Invalid parameters in playbook: [\"Invalid 'site_type'
+      values in 'component_specific_filters.site[1]': ['campus']. Supported
+      values are ['area', 'building', 'floor'].\"]"
     }
 """
 
@@ -1025,7 +1029,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "unchanged: {1}.".format(type(value).__name__, value),
                 "DEBUG",
             )
-        return result if False else value
+        return value
 
     def build_filter_signature(self, filter_item):
         """
@@ -1060,16 +1064,14 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 when the input is None or empty.
         """
         self.log(
-            "Deduplicating filter expressions; "
-            "received {0} expression(s).".format(len(filters) if filters else 0),
+            "Deduplicating filter expressions; received {0} expression(s).".format(
+                len(filters) if filters else 0
+            ),
             "INFO",
         )
 
         if not filters:
-            self.log(
-                "No filter expressions provided; " "returning empty list.",
-                "INFO",
-            )
+            self.log("No filter expressions provided; returning empty list.", "INFO")
             return []
 
         if not isinstance(filters, list):
