@@ -16,7 +16,7 @@
 #   Vidhya Rathinam (VidhyaGit)
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_site_playbook_generator`.
+#   Unit tests for the Ansible module `site_playbook_config_generator`.
 #   These tests cover various scenarios for generating YAML playbooks from brownfield
 #   site configurations including areas, buildings, and floors.
 
@@ -24,16 +24,16 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.dnac.plugins.modules import (
-    brownfield_site_playbook_generator,
+from brownfield.collections.ansible_collections.cisco.dnac.plugins.modules import (
+    site_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
-    module = brownfield_site_playbook_generator
-    test_data = loadPlaybookData("brownfield_site_playbook_generator")
+    module = site_playbook_config_generator
+    test_data = loadPlaybookData("site_playbook_config_generator")
     success_message_fragment = "YAML configuration file generated successfully"
 
     # Load all playbook configurations
@@ -97,6 +97,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     def setUp(self):
         super(TestBrownfieldSiteWorkflowManager, self).setUp()
+        self._fixture_response_override = None
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
@@ -120,9 +121,21 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         Load fixtures for brownfield site workflow manager tests.
         """
-        # The module now executes one consolidated `site_design.get_sites` call
-        # and applies all filtering/partitioning locally.
-        self.run_dnac_exec.side_effect = [self.test_data.get("get_all_sites_response")]
+        if self._fixture_response_override is not None:
+            self.run_dnac_exec.side_effect = self._fixture_response_override
+            self._fixture_response_override = None
+            return
+
+        if response is not None:
+            self.run_dnac_exec.side_effect = (
+                response if isinstance(response, list) else [response]
+            )
+            return
+
+        # Default fixture: return the same consolidated payload for each API call.
+        self.run_dnac_exec.side_effect = (
+            lambda *args, **kwargs: self.test_data.get("get_all_sites_response")
+        )
 
     def run_module_with_config_and_validate_success(self, config):
         """
@@ -135,7 +148,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
         Args:
             config (list): Module configuration payload passed directly to
-                `brownfield_site_playbook_generator`.
+                `site_playbook_config_generator`.
 
         Returns:
             dict: Module execution result dictionary returned by
@@ -229,7 +242,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_generate_all_configurations(
+    def test_site_playbook_config_generator_generate_all_configurations(
         self, mock_exists, mock_file
     ):
         """
@@ -258,7 +271,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_generate_all_configurations_api_invocation(
+    def test_site_playbook_config_generator_generate_all_configurations_api_invocation(
         self, mock_exists, mock_file
     ):
         """
@@ -279,7 +292,161 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_area_by_site_name_single(
+    def test_site_playbook_config_generator_generate_all_configurations_pagination_over_500(
+        self, mock_exists, mock_file
+    ):
+        """
+        Validate pagination behavior when generate_all_configurations exceeds one page.
+
+        Synthetic response setup:
+        - Page 1: 500 area records
+        - Page 2: 120 area records
+
+        Expected behavior:
+        - Module retrieves both pages via execute_get_with_pagination
+        - API calls are issued with offsets 1 and 501
+        - Final generated configuration includes all 620 records
+        """
+        mock_exists.return_value = True
+
+        def build_area_records(start_index, end_index):
+            records = []
+            for index in range(start_index, end_index + 1):
+                records.append(
+                    {
+                        "id": "area-uuid-{0}".format(index),
+                        "siteId": "area-uuid-{0}".format(index),
+                        "name": "Area_{0}".format(index),
+                        "parentName": "Global",
+                        "nameHierarchy": "Global/Area_{0}".format(index),
+                        "type": "area",
+                        "additionalInfo": [],
+                    }
+                )
+            return records
+
+        synthetic_paginated_response = [
+            {"response": build_area_records(1, 500), "version": "1.0"},
+            {"response": build_area_records(501, 620), "version": "1.0"},
+        ]
+        self._fixture_response_override = synthetic_paginated_response
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=self.playbook_config_generate_all_configurations,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            2,
+            "Expected two paginated get_sites calls for 620 synthetic records.",
+        )
+        self.assert_get_sites_api_call(0, {"offset": 1, "limit": 500})
+        self.assert_get_sites_api_call(1, {"offset": 501, "limit": 500})
+
+        result_payload = (
+            result.get("msg")
+            if isinstance(result.get("msg"), dict)
+            else result.get("response")
+        )
+        self.assertEqual(
+            result_payload.get("configurations_count"),
+            620,
+            (
+                "Expected all 620 records to be included in generated payload "
+                "when pagination spans more than 500 records."
+            ),
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_duplicate_site_type_input_dedupes_api_calls(
+        self, mock_exists, mock_file
+    ):
+        """
+        Validate duplicate site_type values are deduped to a single API query.
+        """
+        mock_exists.return_value = True
+
+        duplicate_site_type_config = [
+            {
+                "file_path": "/tmp/case_duplicate_site_type.yaml",
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [{"site_type": ["area", "area"]}],
+                },
+            }
+        ]
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=duplicate_site_type_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            1,
+            "Expected one API call after deduping duplicate site_type values.",
+        )
+        self.assert_get_sites_api_call(0, {"type": "area", "offset": 1, "limit": 500})
+
+    def test_site_playbook_config_generator_invalid_site_type_value_fails_validation(
+        self,
+    ):
+        """
+        Validate invalid site_type values fail with a clear validation error.
+        """
+        invalid_site_type_config = [
+            {
+                "file_path": "/tmp/case_invalid_site_type.yaml",
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [{"site_type": ["campus"]}],
+                },
+            }
+        ]
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=invalid_site_type_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid 'site_type' values", str(result.get("msg")))
+        self.assertIn("campus", str(result.get("msg")))
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution for invalid site_type validation failure.",
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_area_by_site_name_single(
         self, mock_exists, mock_file
     ):
         """
@@ -307,11 +474,11 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_area_by_site_name_single_api_invocation(
+    def test_site_playbook_config_generator_area_by_site_name_single_api_invocation(
         self, mock_exists, mock_file
     ):
         """
-        Verify API params for one-pass retrieval with local area filtering.
+        Verify API params for exact site_name_hierarchy + site_type query.
         """
         mock_exists.return_value = True
         self.run_module_with_config_and_validate_success(
@@ -319,14 +486,19 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         )
 
         self.assertEqual(self.run_dnac_exec.call_count, 1)
-        self.assert_get_sites_api_call(0, {"offset": 1, "limit": 500})
-        params = self.run_dnac_exec.call_args_list[0].kwargs.get("params") or {}
-        self.assertNotIn("type", params)
-        self.assertNotIn("nameHierarchy", params)
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/USA",
+                "type": "area",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_area_by_site_name_multiple(
+    def test_site_playbook_config_generator_area_by_site_name_multiple(
         self, mock_exists, mock_file
     ):
         """
@@ -354,14 +526,13 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_area_by_parent_site_api_invocation(
+    def test_site_playbook_config_generator_area_by_parent_site_api_invocation(
         self, mock_exists, mock_file
     ):
         """
         Verify API params for parentNameHierarchy filter scenario.
 
-        parentNameHierarchy is applied as post-filtering, so API call should
-        include only pagination params.
+        parent_name_hierarchy is translated to a nameHierarchy scope pattern.
         """
         mock_exists.return_value = True
         self.run_module_with_config_and_validate_success(
@@ -369,14 +540,21 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         )
 
         self.assertEqual(self.run_dnac_exec.call_count, 1)
-        self.assert_get_sites_api_call(0, {"offset": 1, "limit": 500})
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/.*",
+                "type": "area",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
         params = self.run_dnac_exec.call_args_list[0].kwargs.get("params") or {}
-        self.assertNotIn("type", params)
         self.assertNotIn("parentNameHierarchy", params)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_area_by_parent_site(
+    def test_site_playbook_config_generator_area_by_parent_site(
         self, mock_exists, mock_file
     ):
         """
@@ -404,7 +582,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_building_by_site_name_single(
+    def test_site_playbook_config_generator_building_by_site_name_single(
         self, mock_exists, mock_file
     ):
         """
@@ -432,7 +610,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_building_by_site_name_multiple(
+    def test_site_playbook_config_generator_building_by_site_name_multiple(
         self, mock_exists, mock_file
     ):
         """
@@ -460,7 +638,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_building_by_parent_site(
+    def test_site_playbook_config_generator_building_by_parent_site(
         self, mock_exists, mock_file
     ):
         """
@@ -488,7 +666,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_floor_by_site_name_single(
+    def test_site_playbook_config_generator_floor_by_site_name_single(
         self, mock_exists, mock_file
     ):
         """
@@ -516,7 +694,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_floor_by_site_name_multiple(
+    def test_site_playbook_config_generator_floor_by_site_name_multiple(
         self, mock_exists, mock_file
     ):
         """
@@ -544,7 +722,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_floor_by_parent_site(
+    def test_site_playbook_config_generator_floor_by_parent_site(
         self, mock_exists, mock_file
     ):
         """
@@ -572,7 +750,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_area_combined_filters(
+    def test_site_playbook_config_generator_area_combined_filters(
         self, mock_exists, mock_file
     ):
         """
@@ -601,7 +779,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_floor_combined_filters(
+    def test_site_playbook_config_generator_floor_combined_filters(
         self, mock_exists, mock_file
     ):
         """
@@ -630,7 +808,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_areas_and_buildings(
+    def test_site_playbook_config_generator_areas_and_buildings(
         self, mock_exists, mock_file
     ):
         """
@@ -658,7 +836,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_buildings_and_floors(
+    def test_site_playbook_config_generator_buildings_and_floors(
         self, mock_exists, mock_file
     ):
         """
@@ -686,7 +864,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_all_components(
+    def test_site_playbook_config_generator_all_components(
         self, mock_exists, mock_file
     ):
         """
@@ -714,9 +892,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_empty_filters(
-        self, mock_exists, mock_file
-    ):
+    def test_site_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration with empty filters.
 
@@ -742,9 +918,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_no_file_path(
-        self, mock_exists, mock_file
-    ):
+    def test_site_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
         """
         Test case for generating YAML configuration without specifying file path.
 
@@ -770,7 +944,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_direct_filter_components_list_name_hierarchy(
+    def test_site_playbook_config_generator_direct_filter_components_list_name_hierarchy(
         self, mock_exists, mock_file
     ):
         """
@@ -798,14 +972,14 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_direct_filter_components_list_name_hierarchy_api_invocation(
+    def test_site_playbook_config_generator_direct_filter_components_list_name_hierarchy_api_invocation(
         self, mock_exists, mock_file
     ):
         """
         Verify one-pass API retrieval in direct-filter mode.
 
-        components_list: ["nameHierarchy"] should execute a single get_sites call
-        and apply filter/type partitioning in local processing.
+        components_list: ["site"] with only site_name_hierarchy should execute a
+        single scoped get_sites call without site_type fanout.
         """
         mock_exists.return_value = True
         self.run_module_with_config_and_validate_success(
@@ -813,86 +987,97 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         )
 
         self.assertEqual(self.run_dnac_exec.call_count, 1)
-        self.assert_get_sites_api_call(0, {"offset": 1, "limit": 500})
+        self.assert_get_sites_api_call(
+            0,
+            {"nameHierarchy": "Global/USA", "offset": 1, "limit": 500},
+        )
         params = self.run_dnac_exec.call_args_list[0].kwargs.get("params") or {}
         self.assertNotIn("type", params)
-        self.assertNotIn("nameHierarchy", params)
         self.assertNotIn("parentNameHierarchy", params)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_name_hierarchy_pattern_api_invocation(
+    def test_site_playbook_config_generator_name_hierarchy_pattern_api_invocation(
         self, mock_exists, mock_file
     ):
         """
-        Verify wildcard nameHierarchy is enforced locally and not sent to API params.
+        Verify wildcard site_name_hierarchy with site_type list fans out by type.
         """
         mock_exists.return_value = True
         self.run_module_with_config_and_validate_success(
             self.playbook_config_name_hierarchy_pattern
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 1)
-        self.assert_get_sites_api_call(0, {"offset": 1, "limit": 500})
+        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        expected_site_types = set(["area", "building", "floor"])
+        observed_site_types = set()
 
-        for call in self.run_dnac_exec.call_args_list:
-            params = call.kwargs.get("params") or {}
-            self.assertNotIn(
-                "nameHierarchy",
-                params,
-                (
-                    "Wildcard nameHierarchy filter should not be pushed to "
-                    "site_design.get_sites params."
-                ),
+        for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
+            self.assert_get_sites_api_call(
+                call_index,
+                {"nameHierarchy": "Global/USA/.*", "offset": 1, "limit": 500},
             )
+            params = call.kwargs.get("params") or {}
+            self.assertNotIn("parentNameHierarchy", params)
+            observed_site_types.add(params.get("type"))
+
+        self.assertSetEqual(observed_site_types, expected_site_types)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_parent_name_hierarchy_pattern_api_invocation(
+    def test_site_playbook_config_generator_parent_name_hierarchy_pattern_api_invocation(
         self, mock_exists, mock_file
     ):
         """
-        Verify wildcard parentNameHierarchy is enforced locally and not in API params.
+        Verify parent_name_hierarchy scope with site_type list fans out by type.
         """
         mock_exists.return_value = True
         self.run_module_with_config_and_validate_success(
             self.playbook_config_parent_name_hierarchy_pattern
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 1)
-        self.assert_get_sites_api_call(0, {"offset": 1, "limit": 500})
+        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        expected_site_types = set(["area", "building", "floor"])
+        observed_site_types = set()
 
-        for call in self.run_dnac_exec.call_args_list:
-            params = call.kwargs.get("params") or {}
-            self.assertNotIn(
-                "parentNameHierarchy",
-                params,
-                (
-                    "parentNameHierarchy filter must remain a local post-filter "
-                    "and should not appear in API query params."
-                ),
+        for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
+            self.assert_get_sites_api_call(
+                call_index,
+                {"nameHierarchy": "Global/USA/.*", "offset": 1, "limit": 500},
             )
+            params = call.kwargs.get("params") or {}
+            self.assertNotIn("parentNameHierarchy", params)
+            observed_site_types.add(params.get("type"))
+
+        self.assertSetEqual(observed_site_types, expected_site_types)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_brownfield_site_playbook_generator_combined_hierarchy_patterns_api_invocation(
+    def test_site_playbook_config_generator_combined_hierarchy_patterns_api_invocation(
         self, mock_exists, mock_file
     ):
         """
-        Verify combined hierarchy pattern filters stay in local post-filter stage.
+        Verify combined hierarchy + site_type filters are planned as typed calls.
         """
         mock_exists.return_value = True
         self.run_module_with_config_and_validate_success(
             self.playbook_config_combined_hierarchy_patterns
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 1)
-        self.assert_get_sites_api_call(0, {"offset": 1, "limit": 500})
+        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        expected_site_types = set(["area", "building", "floor"])
+        observed_site_types = set()
 
-        for call in self.run_dnac_exec.call_args_list:
+        for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
+            self.assert_get_sites_api_call(
+                call_index,
+                {"nameHierarchy": "Global/USA/.*", "offset": 1, "limit": 500},
+            )
             params = call.kwargs.get("params") or {}
-            self.assertNotIn("nameHierarchy", params)
             self.assertNotIn("parentNameHierarchy", params)
+            observed_site_types.add(params.get("type"))
+
+        self.assertSetEqual(observed_site_types, expected_site_types)
 
     def test_parent_name_hierarchy_scope_includes_descendants(self):
         """
@@ -1233,3 +1418,52 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 "Global/USA/San_Jose", "Global/USA/["
             )
         )
+
+    def test_build_site_query_plan_for_filter_dedupes_duplicate_site_type_values(self):
+        """
+        Ensure duplicate site_type values do not produce duplicate API query params.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        query_plan = site_generator.build_site_query_plan_for_filter(
+            {
+                "site_name_hierarchy": "Global/USA/San Jose",
+                "site_type": ["building", "building", "floor"],
+            }
+        )
+
+        self.assertEqual(
+            len(query_plan),
+            2,
+            "Expected duplicate site_type values to be deduplicated in query plan.",
+        )
+        self.assertEqual(query_plan[0].get("type"), "building")
+        self.assertEqual(query_plan[1].get("type"), "floor")
+
+    def test_validate_component_specific_filters_structure_invalid_site_type_value(self):
+        """
+        Ensure invalid site_type values fail validation with explicit value details.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        errors = site_generator.validate_component_specific_filters_structure(
+            {
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [{"site_type": ["campus"]}],
+                }
+            }
+        )
+
+        self.assertTrue(
+            errors,
+            "Expected validation errors for unsupported site_type value 'campus'.",
+        )
+        self.assertIn("Invalid 'site_type' values", errors[0])
+        self.assertIn("campus", errors[0])

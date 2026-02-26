@@ -10,11 +10,16 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": "Global/USA",
-        "type": "area"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA",
+            "site_type": [
+              "area"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -23,14 +28,22 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": [
-          "Global/USA",
-          "Global/Europe"
-        ],
-        "type": "area"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA",
+            "site_type": [
+              "area"
+            ]
+          },
+          {
+            "site_name_hierarchy": "Global/Europe",
+            "site_type": [
+              "area"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -39,11 +52,16 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "parentNameHierarchy": "Global",
-        "type": "area"
+        "site": [
+          {
+            "parent_name_hierarchy": "Global",
+            "site_type": [
+              "area"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -52,11 +70,16 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": "Global/USA/San Jose/Building1",
-        "type": "building"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA/San Jose/Building1",
+            "site_type": [
+              "building"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -65,14 +88,22 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": [
-          "Global/USA/San Jose/Building1",
-          "Global/USA/San Jose/Building2"
-        ],
-        "type": "building"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA/San Jose/Building1",
+            "site_type": [
+              "building"
+            ]
+          },
+          {
+            "site_name_hierarchy": "Global/USA/San Jose/Building2",
+            "site_type": [
+              "building"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -81,11 +112,16 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "parentNameHierarchy": "Global/USA/San Jose",
-        "type": "building"
+        "site": [
+          {
+            "parent_name_hierarchy": "Global/USA/San Jose",
+            "site_type": [
+              "building"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -94,11 +130,16 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": "Global/USA/San Jose/Building1/Floor1",
-        "type": "floor"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor1",
+            "site_type": [
+              "floor"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -107,14 +148,22 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": [
-          "Global/USA/San Jose/Building1/Floor1",
-          "Global/USA/San Jose/Building1/Floor2"
-        ],
-        "type": "floor"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor1",
+            "site_type": [
+              "floor"
+            ]
+          },
+          {
+            "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor2",
+            "site_type": [
+              "floor"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -123,11 +172,16 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "parentNameHierarchy": "Global/USA/San Jose/Building1",
-        "type": "floor"
+        "site": [
+          {
+            "parent_name_hierarchy": "Global/USA/San Jose/Building1",
+            "site_type": [
+              "floor"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -136,13 +190,17 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": "Global/USA",
-        "parentNameHierarchy": "Global",
-        "type": "area"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA",
+            "parent_name_hierarchy": "Global",
+            "site_type": [
+              "area"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -151,11 +209,16 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "parentNameHierarchy": "Global/USA/San Jose/Building1",
-        "type": "floor"
+        "site": [
+          {
+            "parent_name_hierarchy": "Global/USA/San Jose/Building1",
+            "site_type": [
+              "floor"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -164,16 +227,23 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": [
-          "Global/USA",
-          "Global/USA/San Jose/Building1"
-        ],
-        "type": [
-          "area",
-          "building"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA",
+            "site_type": [
+              "area",
+              "building"
+            ]
+          },
+          {
+            "site_name_hierarchy": "Global/USA/San Jose/Building1",
+            "site_type": [
+              "area",
+              "building"
+            ]
+          }
         ]
       }
     }
@@ -183,16 +253,23 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "parentNameHierarchy": [
-          "Global/USA/San Jose",
-          "Global/USA/San Jose/Building1"
-        ],
-        "type": [
-          "building",
-          "floor"
+        "site": [
+          {
+            "parent_name_hierarchy": "Global/USA/San Jose",
+            "site_type": [
+              "building",
+              "floor"
+            ]
+          },
+          {
+            "parent_name_hierarchy": "Global/USA/San Jose/Building1",
+            "site_type": [
+              "building",
+              "floor"
+            ]
+          }
         ]
       }
     }
@@ -202,16 +279,18 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": "Global/USA/.*",
-        "parentNameHierarchy": "Global/USA/San Jose",
-        "type": [
-          "area",
-          "building",
-          "floor"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA/.*",
+            "parent_name_hierarchy": "Global/USA",
+            "site_type": [
+              "area",
+              "building",
+              "floor"
+            ]
+          }
         ]
       }
     }
@@ -221,9 +300,11 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "type"
+          "site"
         ],
-        "type": "area"
+        "site": [
+          {}
+        ]
       }
     }
   ],
@@ -231,11 +312,16 @@
     {
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": "Global/USA/San Jose/Building1",
-        "type": "building"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA/San Jose/Building1",
+            "site_type": [
+              "building"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -244,9 +330,13 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy"
+          "site"
         ],
-        "nameHierarchy": "Global/USA"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA"
+          }
+        ]
       }
     }
   ],
@@ -255,14 +345,17 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": "Global/USA/.*",
-        "type": [
-          "area",
-          "building",
-          "floor"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA/.*",
+            "site_type": [
+              "area",
+              "building",
+              "floor"
+            ]
+          }
         ]
       }
     }
@@ -272,14 +365,17 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "parentNameHierarchy": "Global/USA/.*",
-        "type": [
-          "area",
-          "building",
-          "floor"
+        "site": [
+          {
+            "parent_name_hierarchy": "Global/USA",
+            "site_type": [
+              "area",
+              "building",
+              "floor"
+            ]
+          }
         ]
       }
     }
@@ -289,16 +385,18 @@
       "file_path": "/tmp/test_site_demo.yaml",
       "component_specific_filters": {
         "components_list": [
-          "nameHierarchy",
-          "parentNameHierarchy",
-          "type"
+          "site"
         ],
-        "nameHierarchy": "Global/USA/.*",
-        "parentNameHierarchy": "Global/USA/.*",
-        "type": [
-          "area",
-          "building",
-          "floor"
+        "site": [
+          {
+            "site_name_hierarchy": "Global/USA/.*",
+            "parent_name_hierarchy": "Global/USA",
+            "site_type": [
+              "area",
+              "building",
+              "floor"
+            ]
+          }
         ]
       }
     }

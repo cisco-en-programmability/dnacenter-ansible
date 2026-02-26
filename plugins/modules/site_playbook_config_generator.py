@@ -17,7 +17,7 @@ __author__ = "Vidhya Rathinam"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_site_playbook_generator
+module: site_playbook_config_generator
 short_description: Generate YAML playbook for 'site_workflow_manager' module.
 description:
 - Generates YAML configurations compatible with the `site_workflow_manager`
@@ -41,12 +41,11 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `site_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `site_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -63,8 +62,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "site_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "site_workflow_manager_playbook_2026-01-24_12-33-20.yml".
+          a default file name  "site_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
+        - For example, "site_playbook_config_2026-02-24_12-33-20.yml".
         type: str
       component_specific_filters:
         description:
@@ -78,35 +77,37 @@ options:
             description:
             - List of components to include in the YAML configuration file.
             - Valid values are
-              - nameHierarchy
-              - parentNameHierarchy
-              - type
+              - site: includes all site components (areas, buildings, floors) and supports all filter keys.
             - If not specified, all components are included.
-            - For example, ["nameHierarchy", "parentNameHierarchy", "type"].
+            - For example, ["site"].
             type: list
             elements: str
-            choices: ["nameHierarchy", "parentNameHierarchy", "type"]
-          nameHierarchy:
+            choices: ["site"]
+          site:
             description:
-            - Site name hierarchy filter.
-            - Can be a list of name hierarchies to match multiple sites.
+              - Contains site filter expressions for site hierarchy extraction.
+              - Supported keys in each list item are C(site_name_hierarchy),
+                C(parent_name_hierarchy), and C(site_type).
             type: list
-            elements: str
-          parentNameHierarchy:
-            description:
-            - Parent site name hierarchy filter.
-            - Can be a list of parent name hierarchies to match multiple sites.
-            type: list
-            elements: str
-          type:
-            description:
-            - Site type filter.
-            - Valid values are "area", "building", and "floor".
-            - Can be a list to match multiple site types.
-            type: list
-            elements: str
+            elements: dict
+            suboptions:
+              site_name_hierarchy:
+                description:
+                  - Site name hierarchy filter.
+                type: str
+              parent_name_hierarchy:
+                description:
+                - Parent site name hierarchy filter.
+                type: str
+              site_type:
+                description:
+                - Site type filter.
+                - Valid values are "area", "building", and "floor".
+                - Can be a list to match multiple site types.
+                type: list
+                elements: str
 requirements:
-- dnacentersdk >= 2.3.7.6
+- dnacentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -122,9 +123,169 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Auto-generate YAML Configuration for all site components which
-     includes areas, buildings, and floors.
-  cisco.dnac.brownfield_site_playbook_generator:
+- name: Generate YAML configuration with site_name_hierarchy only
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/case1_site_name_hierarchy_only.yaml"
+        component_specific_filters:
+          components_list: ["site"]
+          site:
+            - site_name_hierarchy: "Global/USA/San Jose"
+
+- name: Generate YAML configuration with parent_name_hierarchy only
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/case2_parent_name_hierarchy_only.yaml"
+        component_specific_filters:
+          components_list: ["site"]
+          site:
+            - parent_name_hierarchy: "Global/USA"
+
+- name: Generate YAML configuration with site_name_hierarchy and parent_name_hierarchy
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/case3_site_and_parent_only.yaml"
+        component_specific_filters:
+          components_list: ["site"]
+          site:
+            - site_name_hierarchy: "Global/USA/San Jose"
+              parent_name_hierarchy: "Global/USA"
+
+- name: Generate YAML configuration with no hierarchy input
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/case4_no_hierarchy_filters.yaml"
+        component_specific_filters:
+          components_list: ["site"]
+
+- name: Generate YAML configuration with site_name_hierarchy and site_type list
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/case5_site_name_and_site_type.yaml"
+        component_specific_filters:
+          components_list: ["site"]
+          site:
+            - site_name_hierarchy: "Global/USA/San Jose"
+              site_type:
+                - "building"
+                - "floor"
+
+- name: Generate YAML configuration with parent_name_hierarchy and site_type
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/case6_parent_name_and_site_type.yaml"
+        component_specific_filters:
+          components_list: ["site"]
+          site:
+            - parent_name_hierarchy: "Global/USA"
+              site_type:
+                - "building"
+
+- name: Generate YAML configuration with all filters
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/case7_all_filters.yaml"
+        component_specific_filters:
+          components_list: ["site"]
+          site:
+            - site_name_hierarchy: "Global/USA/San Jose"
+              parent_name_hierarchy: "Global/USA"
+              site_type:
+                - "building"
+                - "floor"
+
+- name: Generate YAML configuration with site_type only
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      - file_path: "/tmp/case8_site_type_only.yaml"
+        component_specific_filters:
+          components_list: ["site"]
+          site:
+            - site_type:
+                - "area"
+
+- name: Auto-generate YAML configuration for all sites
+  cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -137,9 +298,10 @@ EXAMPLES = r"""
     state: gathered
     config:
       - generate_all_configurations: true
+        file_path: "/tmp/case9_all_sites.yaml"
 
-- name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_site_playbook_generator:
+- name: Auto-generate YAML configuration with default file path
+  cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -151,262 +313,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-
-- name: Generate YAML Configuration with specific Name Hierarchy components only
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["nameHierarchy"]
-
-- name: Generate YAML Configuration with specific Parent Name Hierarchy components only
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["parentNameHierarchy"]
-
-- name: Generate YAML Configuration with specific floor components only
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["type"]
-
-- name: Generate YAML Configuration for areas with name hierarchy filter
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["nameHierarchy", "type"]
-          nameHierarchy:
-            - "Global/USA"
-            - "Global/Europe"
-          type:
-            - "area"
-
-- name: Generate YAML Configuration for buildings and floors with multiple filters
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["parentNameHierarchy", "type"]
-          parentNameHierarchy:
-            - "Global/USA/San Jose"
-            - "Global/USA/San Jose/Building1"
-          type:
-            - "building"
-            - "floor"
-
-- name: Generate YAML Configuration for buildings and floors with type filters
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["type"]
-          type:
-            - "building"
-            - "floor"
-
-- name: Generate YAML Configuration using all supported filter keys together
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["nameHierarchy", "parentNameHierarchy", "type"]
-          nameHierarchy:
-            - "Global/USA/San Jose/Building1"
-            - "Global/USA/New_York"
-          parentNameHierarchy:
-            - "Global/USA"
-          type:
-            - "building"
-            - "floor"
-
-- name: Generate YAML Configuration for complete hierarchy below Global
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["parentNameHierarchy", "type"]
-          parentNameHierarchy:
-            - "Global"
-          type:
-            - "area"
-            - "building"
-            - "floor"
-
-- name: Generate YAML Configuration for floors under selected buildings
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["parentNameHierarchy", "type"]
-          parentNameHierarchy:
-            - "Global/USA/San Jose/Building1"
-            - "Global/USA/San Jose/Building2"
-          type:
-            - "floor"
-
-- name: Generate YAML Configuration with hierarchy pattern and mixed types
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["nameHierarchy", "type"]
-          nameHierarchy:
-            - "Global/USA/.*"
-          type:
-            - "area"
-            - "building"
-
-- name: Generate YAML Configuration with parentName hierarchy pattern and mixed types
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["parentNameHierarchy", "type"]
-          parentNameHierarchy:
-            - "Global/USA/.*"
-          type:
-            - "area"
-            - "building"
-
-- name: Generate YAML Configuration with combined hierarchy patterns
-  cisco.dnac.brownfield_site_playbook_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_components_config.yaml"
-        component_specific_filters:
-          components_list: ["nameHierarchy", "parentNameHierarchy", "type"]
-          nameHierarchy:
-            - "Global/USA/.*"
-          parentNameHierarchy:
-            - "Global/USA/.*"
-          type:
-            - "area"
-            - "building"
-            - "floor"
+      - generate_all_configurations: true
 """
 
 
@@ -421,7 +328,7 @@ response_1:
         "msg": {
             "status": "success",
             "message": "YAML configuration file generated successfully for module 'site_workflow_manager'",
-            "file_path": "site_workflow_manager_playbook_2026-02-02_16-04-06.yml",
+            "file_path": "site_playbook_config_2026-02-02_16-04-06.yml",
             "components_processed": 3,
             "components_skipped": 0,
             "configurations_count": 6
@@ -429,7 +336,7 @@ response_1:
         "response": {
             "status": "success",
             "message": "YAML configuration file generated successfully for module 'site_workflow_manager'",
-            "file_path": "site_workflow_manager_playbook_2026-02-02_16-04-06.yml",
+            "file_path": "site_playbook_config_2026-02-02_16-04-06.yml",
             "components_processed": 3,
             "components_skipped": 0,
             "configurations_count": 6
@@ -457,6 +364,16 @@ response_2:
         "components_processed": 0,
         "components_skipped": 0
       }
+    }
+# Case_3: Error Scenario
+response_3:
+  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: list
+  sample: >
+    {
+      "msg": "Invalid parameters in playbook: [\"Invalid 'site_type' values in 'component_specific_filters.site[1]': ['campus']. Supported values are ['area', 'building', 'floor'].\"]",
+      "response": "Invalid parameters in playbook: [\"Invalid 'site_type' values in 'component_specific_filters.site[1]': ['campus']. Supported values are ['area', 'building', 'floor'].\"]"
     }
 """
 
@@ -527,15 +444,15 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     Operational scope:
     - Site components: areas, buildings, floors
-    - Supported filters: `nameHierarchy`, `parentNameHierarchy`, `type`
+    - Supported filters: `site_name_hierarchy`, `parent_name_hierarchy`, `site_type`
     - State mode: `gathered`
     """
 
     values_to_nullify = ["NOT CONFIGURED"]
     filter_list_fields = (
-        "nameHierarchy",
-        "parentNameHierarchy",
-        "type",
+        "site_name_hierarchy",
+        "parent_name_hierarchy",
+        "site_type",
     )
 
     def __init__(self, module):
@@ -572,6 +489,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             f"Resolved module_name={self.module_name}.",
             "INFO",
         )
+        self.log(
+            "Execution context: this module collects and transforms site hierarchy "
+            "data for YAML playbook generation. Diagnostic guidance: validate input "
+            "schema, filter processing, API retrieval outcomes, and YAML "
+            "serialization when troubleshooting failures.",
+            "DEBUG",
+        )
 
     def log(self, msg, level="INFO"):
         """Emit a normalized, context-rich log message for this module.
@@ -599,48 +523,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             caller_line = caller_frame.f_back.f_lineno
         del caller_frame
 
-        if base_message.startswith("Entering if:"):
-            condition = base_message.split(":", 1)[1].strip()
-            interpreted_message = (
-                "Conditional execution path selected because the following condition "
-                f"evaluated to True: '{condition}'."
-            )
-        elif base_message.startswith("Entering else:"):
-            condition_context = base_message.split(":", 1)[1].strip()
-            interpreted_message = (
-                "Fallback execution path selected because the paired IF condition "
-                f"evaluated to False. Else-branch context: '{condition_context}'."
-            )
-        elif base_message.startswith("Entering "):
-            operation = base_message.replace("Entering ", "", 1).strip()
-            interpreted_message = (
-                f"Method entry checkpoint reached for '{operation}'. Internal "
-                "preconditions have been satisfied and execution is continuing."
-            )
-        elif base_message.startswith("Exiting "):
-            operation = base_message.replace("Exiting ", "", 1).strip()
-            interpreted_message = (
-                f"Method exit checkpoint reached for '{operation}'. Processing for "
-                "this scope has completed and control is returning to the caller."
-            )
-        elif base_message.startswith("Inside "):
-            scope = base_message.replace("Inside ", "", 1).strip()
-            interpreted_message = (
-                f"Execution is currently in helper scope '{scope}' where a fixed "
-                "component-specific value is returned."
-            )
-        else:
-            interpreted_message = base_message
+        interpreted_message = base_message
 
         detailed_msg = (
             f"[module={module_name}] [class={self.__class__.__name__}] "
             f"[status={status}] [generate_all_configurations={generate_all}] "
             f"[caller={caller_name}:{caller_line}] "
-            f"{interpreted_message} "
-            "Execution context: this module is collecting and transforming site "
-            "hierarchy data for YAML playbook generation. Diagnostic guidance: "
-            "validate input schema, filter normalization, API retrieval results, "
-            "and YAML serialization state when investigating failures."
+            f"{interpreted_message}"
         )
         return super().log(detailed_msg, level)
 
@@ -670,11 +559,18 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         # If the user did not provide config entries, this module chooses a
         # non-failing success path and records a descriptive status message.
         if not self.config:
-            self.log("Entering if: configuration not provided", "INFO")
+            self.log(
+                "Configuration payload is not available in playbook input; "
+                "skipping schema validation.",
+                "INFO",
+            )
             self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
             self.log(f"{self.msg}", "ERROR")
-            self.log("Exiting validate_input", "INFO")
+            self.log(
+                "Validation stopped because configuration payload is missing.",
+                "INFO",
+            )
             return self
 
         # Declare the minimal accepted schema for one config dictionary so the
@@ -695,13 +591,26 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating configuration against schema.", "INFO")
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
+        for config_entry in valid_temp:
+            structure_errors = self.validate_component_specific_filters_structure(
+                config_entry
+            )
+            if structure_errors:
+                invalid_params.extend(structure_errors)
+
         # Fail fast when unknown/invalid keys are present to prevent ambiguous
         # runtime behavior later in normalization and API execution.
         if invalid_params:
-            self.log("Entering if: invalid_params found", "INFO")
+            self.log(
+                "Validation detected invalid parameters in configuration payload.",
+                "INFO",
+            )
             self.msg = f"Invalid parameters in playbook: {invalid_params}"
             self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.log("Exiting validate_input", "INFO")
+            self.log(
+                "Validation failed because invalid configuration parameters were found.",
+                "INFO",
+            )
             return self
 
         # Persist normalized validator output for subsequent processing stages
@@ -712,7 +621,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             f"{valid_temp}"
         )
         self.set_operation_result("success", False, self.msg, "INFO")
-        self.log("Exiting validate_input", "INFO")
+        self.log(
+            "Validation completed successfully for all configuration entries.", "INFO"
+        )
         return self
 
     def get_workflow_elements_schema(self):
@@ -732,15 +643,17 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 - `site`
             and top-level `global_filters` metadata.
         """
-        self.log("Entering get_workflow_elements_schema", "INFO")
+        self.log(
+            "Building workflow element schema for site retrieval operations.", "INFO"
+        )
 
         schema = {
             "network_elements": {
                 "site": {
                     "filters": [
-                        "nameHierarchy",
-                        "parentNameHierarchy",
-                        "type",
+                        "site_name_hierarchy",
+                        "parent_name_hierarchy",
+                        "site_type",
                     ],
                     "reverse_mapping_function": None,
                     "api_function": "get_sites",
@@ -750,7 +663,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             },
             "global_filters": [],
         }
-        self.log("Exiting get_workflow_elements_schema", "INFO")
+        self.log("Workflow element schema prepared successfully.", "INFO")
         return schema
 
     def get_parent_name(self, detail):
@@ -764,37 +677,75 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             SingleQuotedStr | None: Parent site identifier in single-quoted wrapper,
             or `None` when no valid parent value can be resolved.
         """
-        self.log("Entering get_parent_name", "INFO")
+        self.log("Resolving parent name from site record", "INFO")
 
         if not isinstance(detail, dict):
-            self.log("Entering if: detail is not a dict", "INFO")
-            self.log("Exiting get_parent_name with None", "INFO")
+            self.log(
+                "Cannot extract parent name because the "
+                "site record is not a dict (type={0}). "
+                "Returning None.".format(type(detail).__name__),
+                "WARNING",
+            )
             return None
 
         parent_name = detail.get("parentName")
         if parent_name:
-            self.log("Entering if: parent_name found", "INFO")
-            self.log("Exiting get_parent_name with parent_name", "INFO")
+            self.log(
+                "Resolved parent name from 'parentName' field: {0}.".format(
+                    parent_name
+                ),
+                "INFO",
+            )
             return SingleQuotedStr(parent_name)
 
         parent_name_hierarchy = detail.get("parentNameHierarchy")
         if parent_name_hierarchy:
-            self.log("Entering if: parent_name_hierarchy found", "INFO")
-            self.log("Exiting get_parent_name with parent_name_hierarchy", "INFO")
+            self.log(
+                "Resolved parent name hierarchy from 'parentNameHierarchy' field: {0}.".format(
+                    parent_name_hierarchy
+                ),
+                "INFO",
+            )
             return SingleQuotedStr(parent_name_hierarchy)
 
         name = detail.get("name")
         name_hierarchy = detail.get("nameHierarchy")
 
-        if name and name_hierarchy:
-            self.log("Entering if: name and name_hierarchy available", "INFO")
-            token = "/" + str(name)
-            if token in name_hierarchy:
-                self.log("Entering if: token found in name_hierarchy", "INFO")
-                self.log("Exiting get_parent_name with derived parent", "INFO")
-                return SingleQuotedStr(name_hierarchy.rsplit(token, 1)[0])
+        if not name or not name_hierarchy:
+            self.log(
+                "Unable to derive parent name; 'name' or "
+                "'nameHierarchy' is missing "
+                "(name={0}, nameHierarchy={1}). "
+                "Returning None.".format(name, name_hierarchy),
+                "INFO",
+            )
+            return None
 
-        self.log("Exiting get_parent_name with None", "INFO")
+        token = "/" + str(name)
+        if token not in name_hierarchy:
+            self.log(
+                "Unable to derive parent name; terminal "
+                "token '{0}' not found in "
+                "nameHierarchy '{1}'. "
+                "Returning None.".format(token, name_hierarchy),
+                "INFO",
+            )
+            return None
+
+        derived_parent = name_hierarchy.rsplit(token, 1)[0]
+        self.log(
+            "Derived parent name by stripping terminal "
+            "node '{0}' from nameHierarchy '{1}': "
+            "resolved={2}.".format(name, name_hierarchy, derived_parent),
+            "INFO",
+        )
+
+        if derived_parent:
+            return SingleQuotedStr(derived_parent)
+
+        self.log(
+            "Cannot resolve parent name from the site record. Returning None.", "INFO"
+        )
         return None
 
     def get_name_hierarchy(self, detail):
@@ -810,28 +761,46 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str | None: Hierarchy string such as `Global/USA/SanJose` when present.
         """
-        self.log("Entering get_name_hierarchy", "INFO")
-
         if not isinstance(detail, dict):
-            self.log("Entering if: detail is not a dict", "INFO")
-            self.log("Exiting get_name_hierarchy with None", "INFO")
+            self.log(
+                "Cannot resolve nameHierarchy because the "
+                "site record is not a dict (type={0}). "
+                "Returning None.".format(type(detail).__name__),
+                "WARNING",
+            )
             return None
 
         name_hierarchy = detail.get("nameHierarchy")
         if name_hierarchy:
-            self.log("Exiting get_name_hierarchy with name_hierarchy", "INFO")
+            self.log(
+                "Resolved nameHierarchy from site "
+                "record: '{0}'.".format(name_hierarchy),
+                "INFO",
+            )
             return name_hierarchy
 
-        self.log("Exiting get_name_hierarchy with None", "INFO")
+        self.log(
+            "Cannot resolve nameHierarchy because key "
+            "'nameHierarchy' is absent or empty in the site record. "
+            "Returning None.",
+            "INFO",
+        )
         return None
 
     def get_parent_name_hierarchy(self, detail):
         """
         Resolve `parentNameHierarchy` from a site payload, with derivation fallback.
 
-        If the explicit parent hierarchy is absent, the method derives it from
-        `nameHierarchy` by dropping the terminal node, or falls back to
-        `parentName` style fields where necessary.
+        Resolution priority:
+        1. Explicit ``parentNameHierarchy`` key from the API response.
+        2. Derived by stripping the terminal node from
+        ``nameHierarchy`` (requires at least one ``/`` separator).
+        3. Fallback to the ``parentName`` key when neither of the
+        above yields a value.
+
+        Root-level records whose ``nameHierarchy`` contains no ``/``
+        separator (e.g. ``Global``) skip derivation and fall through
+        to the ``parentName`` fallback.
 
         Args:
             detail (dict): Site payload candidate for parent hierarchy resolution.
@@ -839,17 +808,30 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str | None: Parent hierarchy string if available or derivable.
         """
-        self.log("Entering get_parent_name_hierarchy", "INFO")
+        self.log(
+            "Resolving parent name hierarchy from site "
+            "record with keys={0}.".format(
+                list(detail.keys())
+                if isinstance(detail, dict)
+                else type(detail).__name__
+            ),
+            "INFO",
+        )
 
         if not isinstance(detail, dict):
-            self.log("Entering if: detail is not a dict", "INFO")
-            self.log("Exiting get_parent_name_hierarchy with None", "INFO")
+            self.log(
+                "Cannot resolve parent name hierarchy "
+                "because the site record is not a dict "
+                "(type={0}). Returning None.".format(type(detail).__name__),
+                "WARNING",
+            )
             return None
 
         parent_name_hierarchy = detail.get("parentNameHierarchy")
         if parent_name_hierarchy:
             self.log(
-                "Exiting get_parent_name_hierarchy with parent_name_hierarchy",
+                "Resolved parentNameHierarchy from site record: "
+                "'{0}'.".format(parent_name_hierarchy),
                 "INFO",
             )
             return parent_name_hierarchy
@@ -858,22 +840,34 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         if name_hierarchy and "/" in name_hierarchy:
             derived_parent = name_hierarchy.rsplit("/", 1)[0]
             self.log(
-                "Exiting get_parent_name_hierarchy with derived parent",
+                "Derived parent name hierarchy '{0}' from "
+                "nameHierarchy '{1}'.".format(derived_parent, name_hierarchy),
                 "INFO",
             )
             return derived_parent
 
         parent_name = detail.get("parentName")
         if parent_name:
-            self.log("Exiting get_parent_name_hierarchy with parent_name", "INFO")
+            self.log(
+                "Resolved parent name hierarchy from parentName "
+                "field: '{0}'.".format(parent_name),
+                "INFO",
+            )
             return parent_name
 
-        self.log("Exiting get_parent_name_hierarchy with None", "INFO")
+        self.log(
+            "Cannot resolve parent name hierarchy because keys "
+            "'parentNameHierarchy', 'nameHierarchy', and 'parentName' "
+            "did not provide a usable value. Returning None.",
+            "INFO",
+        )
         return None
 
     def get_site_type_value(self, detail):
         """
-        Resolve site type from API payload while supporting alternate key names.
+        Extracts the ``type`` field from the supplied site payload
+        dictionary. Returns None when the record is not a dict or
+        the key is absent/empty.
 
         Args:
             detail (dict): Site record expected to contain `type` or `siteType`.
@@ -881,19 +875,28 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str | None: Canonical type label (`area`, `building`, `floor`) when found.
         """
-        self.log("Entering get_site_type_value", "INFO")
-
         if not isinstance(detail, dict):
-            self.log("Entering if: detail is not a dict", "INFO")
-            self.log("Exiting get_site_type_value with None", "INFO")
+            self.log(
+                "Cannot resolve site type because the "
+                "site record is not a dict (type={0}). "
+                "Returning None.".format(type(detail).__name__),
+                "WARNING",
+            )
             return None
 
         site_type = detail.get("type")
         if site_type:
-            self.log("Exiting get_site_type_value with site_type", "INFO")
+            self.log(
+                "Resolved site type from site record: '{0}'.".format(site_type),
+                "INFO",
+            )
             return site_type
 
-        self.log("Exiting get_site_type_value with None", "INFO")
+        self.log(
+            "Cannot resolve site type because key 'type' is absent or empty "
+            "in the site record. Returning None.",
+            "INFO",
+        )
         return None
 
     def get_site_type_area(self, detail):
@@ -906,7 +909,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: Literal value `area`.
         """
-        self.log("Inside get_site_type_area", "INFO")
+        self.log(
+            "Returning fixed site type value 'area' for area record mapping.", "INFO"
+        )
         return "area"
 
     def get_site_type_building(self, detail):
@@ -919,7 +924,10 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: Literal value `building`.
         """
-        self.log("Inside get_site_type_building", "INFO")
+        self.log(
+            "Returning fixed site type value 'building' for building record mapping.",
+            "INFO",
+        )
         return "building"
 
     def get_site_type_floor(self, detail):
@@ -932,7 +940,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             str: Literal value `floor`.
         """
-        self.log("Inside get_site_type_floor", "INFO")
+        self.log(
+            "Returning fixed site type value 'floor' for floor record mapping.", "INFO"
+        )
         return "floor"
 
     def normalize_site_filter_param(self, filter_param):
@@ -954,24 +964,67 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return {"nameHierarchy": filter_param}
 
-    def freeze_filter_value(self, value):
+    def freeze_filter_value(self, value, _depth=0):
         """
-        Convert nested filter values into hashable deterministic tuples.
+        Recursively convert a mutable filter value into a
+        hashable, immutable representation.
+
+        Dicts become sorted tuples of ``(key, frozen_value)``
+        pairs, lists become tuples of frozen elements, and
+        scalar values are returned unchanged. The result is
+        suitable for use as a dict key or set member when
+        deduplicating filter combinations.
 
         Args:
-            value (Any): Value to canonicalize.
+            value: Filter value to freeze. May be a dict, list,
+                or any hashable scalar (str, int, bool, None).
+            _depth (int): Internal recursion depth tracker used
+                to restrict logging to the top-level call only.
+                Callers should not supply this argument.
 
         Returns:
-            Any: Hashable representation for dedupe/signature usage.
+            tuple | scalar: An immutable, hashable equivalent of
+                the input value.
         """
-        if isinstance(value, dict):
-            return tuple(
-                (key, self.freeze_filter_value(inner_value))
-                for key, inner_value in sorted(value.items())
+        if _depth == 0:
+            self.log(
+                "Freezing filter value of type "
+                "'{0}' into a hashable "
+                "representation: {1}.".format(type(value).__name__, value),
+                "DEBUG",
             )
+
+        if isinstance(value, dict):
+            result = tuple(
+                sorted(
+                    (k, self.freeze_filter_value(v, _depth + 1))
+                    for k, v in value.items()
+                )
+            )
+            if _depth == 0:
+                self.log(
+                    "Frozen dict filter value " "to: {0}.".format(result),
+                    "DEBUG",
+                )
+            return result
+
         if isinstance(value, list):
-            return tuple(self.freeze_filter_value(item) for item in value)
-        return value
+            result = tuple(self.freeze_filter_value(item, _depth + 1) for item in value)
+            if _depth == 0:
+                self.log(
+                    "Frozen list filter value " "to: {0}.".format(result),
+                    "DEBUG",
+                )
+            return result
+
+        if _depth == 0:
+            self.log(
+                "Filter value is a scalar "
+                "(type={0}); returning "
+                "unchanged: {1}.".format(type(value).__name__, value),
+                "DEBUG",
+            )
+        return result if False else value
 
     def build_filter_signature(self, filter_item):
         """
@@ -987,22 +1040,49 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def dedupe_filter_expressions(self, filters, context_name):
         """
-        Remove duplicate filter expressions while preserving order.
+        Remove duplicate filter expressions while preserving
+        original insertion order.
+
+        Each expression is recursively frozen into an immutable
+        hashable form via ``freeze_filter_value`` and tracked in
+        a set. Only the first occurrence of each unique expression
+        is retained.
 
         Args:
-            filters (Any): Candidate filter list payload.
-            context_name (str): Logging context label.
+            filter_expressions (list[dict]): List of filter
+                expression dicts to deduplicate. May be None
+                or empty.
 
         Returns:
-            Any: De-duplicated list when input is list; original value otherwise.
+            list[dict]: Deduplicated filter expressions in
+                their original order. Returns an empty list
+                when the input is None or empty.
         """
+        self.log(
+            "Deduplicating filter expressions; "
+            "received {0} expression(s).".format(len(filters) if filters else 0),
+            "INFO",
+        )
+
+        if not filters:
+            self.log(
+                "No filter expressions provided; " "returning empty list.",
+                "INFO",
+            )
+            return []
+
         if not isinstance(filters, list):
             return filters
 
         seen_signatures = set()
         deduped_filters = []
         duplicates_ignored = 0
-        for filter_item in filters:
+        for index, filter_item in enumerate(filters):
+            self.log(
+                "Processing filter expression at "
+                "index {0}: {1}.".format(index, filter_item),
+                "DEBUG",
+            )
             signature = self.build_filter_signature(filter_item)
             if signature in seen_signatures:
                 duplicates_ignored += 1
@@ -1067,8 +1147,8 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             Returns `(None, None)` when filter type conflicts with component type.
         """
         self.log(
-            "Entering build_site_query_context with incoming filter payload "
-            "and target component type.",
+            "Building site query context using provided filter payload for "
+            "component type '{0}'.".format(component_type),
             "INFO",
         )
         # Convert user-provided filter expression to canonical dictionary form.
@@ -1107,8 +1187,8 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "WARNING",
                 )
                 self.log(
-                    "Exiting build_site_query_context with invalid context due to "
-                    "type mismatch between filter and component target. "
+                    "Site query context resolution failed due to type mismatch "
+                    "between filter and component target. "
                     "applied_query_filters={0}, applied_post_filters={1}, "
                     "ignored_filters={2}.".format(
                         applied_query_filters,
@@ -1128,7 +1208,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             applied_post_filters += 1
 
         self.log(
-            "Exiting build_site_query_context with resolved API params and "
+            "Resolved site query context with API params and "
             "post-filter criteria. applied_query_filters={0}, "
             "applied_post_filters={1}, ignored_filters={2}, "
             "resolved_query_params={3}, resolved_post_filters={4}.".format(
@@ -1158,8 +1238,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             list: Filtered record list preserving original order.
         """
         self.log(
-            "Entering apply_site_post_filters with candidate record set and "
-            "post-filter constraints.",
+            "Applying site post-filters to candidate record set.",
             "INFO",
         )
         start_time = time.time()
@@ -1169,8 +1248,8 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         if not post_filters:
             end_time = time.time()
             self.log(
-                "Exiting apply_site_post_filters early because no post-filters "
-                "were provided. start_time={start_time:.6f}, end_time={end_time:.6f}, "
+                "No post-filters were provided; returning records unchanged. "
+                "start_time={start_time:.6f}, end_time={end_time:.6f}, "
                 "duration_seconds={duration_seconds:.6f}, input_records={input_records}, "
                 "output_records={output_records}, filtered_out_records=0, "
                 "processed_filter_keys=0, skipped_filter_keys=2.".format(
@@ -1237,8 +1316,8 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         total_filtered_out_records = max(0, input_records - output_records)
 
         self.log(
-            "Exiting apply_site_post_filters after evaluating hierarchical "
-            "post-filter scope conditions. start_time={0:.6f}, end_time={1:.6f}, "
+            "Completed site post-filter evaluation. "
+            "start_time={0:.6f}, end_time={1:.6f}, "
             "duration_seconds={2:.6f}, input_records={3}, output_records={4}, "
             "filtered_out_records={5}, processed_filter_keys={6}, "
             "skipped_filter_keys={7}, filtered_out_by_name_hierarchy={8}, "
@@ -1517,264 +1596,154 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         return deduped
 
-    def normalize_component_specific_filters(self, config):
+    def validate_component_specific_filters_structure(self, config):
         """
-        Normalize `component_specific_filters` into schema-compatible internal form.
+        Validate component-specific filters using the new site-only input shape.
 
-        Supported input styles:
-        - Direct filter style with canonical keys:
-          `nameHierarchy`, `parentNameHierarchy`, `type`
-        - Component-scoped style:
-          `area`, `building`, `floor`
-
-        Validation rule:
-        - Mixed usage of direct and component-scoped styles in one payload is
-          rejected to avoid ambiguous interpretation.
+        Supported structure:
+        component_specific_filters:
+          components_list: ["site"]
+          site:
+            - site_name_hierarchy: <str>            # optional
+              parent_name_hierarchy: <str>          # optional
+              site_type: ["area"|"building"|"floor"]  # optional
 
         Args:
-            config (dict): One validated `config` entry from playbook input.
+            config (dict): One validated config entry from playbook input.
 
         Returns:
-            dict: Updated configuration with normalized component names, expanded
-            list-valued filters, and preserved non-filter keys.
-
+            list: Validation error messages. Empty list means valid.
         """
-        self.log("Entering normalize_component_specific_filters", "INFO")
-
-        # If config itself is absent, return early and let upstream validation
-        # decide whether this is acceptable for the execution mode.
-        if not config:
-            self.log("Entering if: config is empty", "INFO")
-            return config
-
-        # If no component filters exist, no normalization work is required.
+        errors = []
         component_specific_filters = config.get("component_specific_filters")
         if not component_specific_filters:
-            self.log("Entering if: component_specific_filters missing", "INFO")
-            return config
+            return errors
 
-        # Internal site-type components used for type-aware normalization.
-        supported_components = self.get_supported_components()
-        site_component_key = "site"
-        canonical_filter_keys = ("nameHierarchy", "parentNameHierarchy", "type")
+        if not isinstance(component_specific_filters, dict):
+            return ["'component_specific_filters' must be a dictionary when provided."]
 
-        def normalize_site_filters(filters, component_name):
-            # Empty filter payload can be returned untouched.
-            if not filters:
-                return filters
-            list_fields = self.filter_list_fields
-
-            def expand_filter_item(item):
-                # Support shorthand scalar item by interpreting it as
-                # nameHierarchy filter.
-                if not isinstance(item, dict):
-                    return [{"nameHierarchy": item}]
-
-                # Clone incoming dictionary so expansion does not mutate caller state.
-                normalized_item = dict(item)
-
-                # Expand list-valued fields into cartesian-style discrete filter
-                # objects so downstream query loop can process one scalar tuple at
-                # a time.
-                expanded_items = [normalized_item]
-                for field in list_fields:
-                    updated_items = []
-                    for expanded_item in expanded_items:
-                        field_value = expanded_item.get(field)
-                        if isinstance(field_value, list):
-                            for value in field_value:
-                                cloned = dict(expanded_item)
-                                cloned[field] = value
-                                updated_items.append(cloned)
-                        else:
-                            updated_items.append(expanded_item)
-                    expanded_items = updated_items
-
-                return expanded_items
-
-            if isinstance(filters, list):
-                # Normalize each list item into a dictionary expression.
-                normalized_list = []
-                for item in filters:
-                    if isinstance(item, str):
-                        normalized_list.append({"nameHierarchy": item})
-                        continue
-                    normalized_list.extend(expand_filter_item(item))
-                if normalized_list != filters:
-                    self.log(
-                        "Normalized {0} filters to expand list values for "
-                        "nameHierarchy, parentNameHierarchy, and type.".format(
-                            component_name
-                        ),
-                        "INFO",
-                    )
-                return normalized_list
-
-            if isinstance(filters, dict):
-                # Normalize dictionary expression into expanded list form to keep
-                # consumer code consistent.
-                normalized_list = expand_filter_item(filters)
-                if normalized_list != [filters]:
-                    self.log(
-                        "Normalized {0} filters to expand list values for "
-                        "nameHierarchy, parentNameHierarchy, and type.".format(
-                            component_name
-                        ),
-                        "INFO",
-                    )
-                return normalized_list
-
-            return filters
-
-        normalized_filters = {}
-        # Detect whether user supplied component-scoped style, direct-filter style,
-        # or both.
-        original_keys = set(component_specific_filters.keys())
-        component_scope_keys = set(supported_components)
-        has_site_scope = site_component_key in original_keys
-        has_component_scope = bool(original_keys.intersection(component_scope_keys))
-        has_flat_filters = bool(original_keys.intersection(canonical_filter_keys))
-        self._direct_filter_mode = (
-            has_flat_filters or has_component_scope or has_site_scope
+        allowed_top_level_keys = {"components_list", "site"}
+        unknown_top_level_keys = sorted(
+            set(component_specific_filters.keys()) - allowed_top_level_keys
         )
-        self.unified_filter_mode_enabled = False
-
-        if has_component_scope and has_flat_filters:
-            # Reject mixed styles because it is ambiguous which selector should
-            # control effective component scope.
-            self.msg = (
-                "Invalid 'component_specific_filters': use either component-scoped "
-                "filters ('area', 'building', 'floor') or direct filters "
-                "('nameHierarchy', 'parentNameHierarchy', 'type'), not both."
+        if unknown_top_level_keys:
+            errors.append(
+                "Invalid keys in 'component_specific_filters': {0}. Allowed keys are {1}.".format(
+                    unknown_top_level_keys, sorted(allowed_top_level_keys)
+                )
             )
-            self.fail_and_exit(self.msg)
 
-        if has_site_scope and (has_component_scope or has_flat_filters):
-            self.msg = (
-                "Invalid 'component_specific_filters': use either normalized "
-                "'site' filters or direct/component-scoped filters, not both."
-            )
-            self.fail_and_exit(self.msg)
-
-        normalized_filters["components_list"] = [site_component_key]
-
-        if has_site_scope:
-            normalized_site_filters = normalize_site_filters(
-                component_specific_filters.get(site_component_key), site_component_key
-            )
-            normalized_filters[site_component_key] = self.dedupe_filter_expressions(
-                normalized_site_filters, "normalized_site_component_filters"
-            )
-        elif has_flat_filters:
-            # Direct-filter mode: resolve which direct filter keys are enabled and
-            # collapse expressions under a single `site` component.
-            components_list = component_specific_filters.get("components_list")
-            enabled_direct_filter_keys = set(canonical_filter_keys)
-
-            if isinstance(components_list, list):
-                # Limit enabled direct keys to explicitly listed filter keys when
-                # user provided a list.
-                requested_direct_filters = [
-                    key for key in components_list if key in canonical_filter_keys
+        components_list = component_specific_filters.get("components_list")
+        if components_list is not None:
+            if not isinstance(components_list, list):
+                errors.append("'components_list' must be a list when provided.")
+            else:
+                invalid_components = [
+                    component for component in components_list if component != "site"
                 ]
-                if requested_direct_filters:
-                    enabled_direct_filter_keys = set(requested_direct_filters)
-
-                unknown_entries = []
-                # Warn on unsupported tokens in direct filter list.
-                for component in components_list:
-                    if component not in canonical_filter_keys:
-                        unknown_entries.append(component)
-
-                if unknown_entries:
-                    self.log(
-                        "Ignoring unsupported entries in components_list while "
-                        "normalizing direct filters: {0}. Supported component "
-                        "entries are {1}; supported direct filter entries are {2}.".format(
-                            unknown_entries,
-                            list(supported_components),
-                            list(canonical_filter_keys),
-                        ),
-                        "WARNING",
+                if invalid_components:
+                    errors.append(
+                        "Invalid values in 'components_list': {0}. Only ['site'] is supported.".format(
+                            invalid_components
+                        )
                     )
 
-            elif components_list is not None:
-                # Invalid non-list shape: keep module resilient by falling back to
-                # all canonical filter keys while logging a warning.
-                self.log(
-                    "components_list is not a list in direct filter mode; defaulting "
-                    "to all direct filter keys for internal processing.",
-                    "WARNING",
-                )
+        site_filters = component_specific_filters.get("site")
+        if site_filters is None:
+            return errors
 
-            # Keep only canonical direct filter keys enabled for this request.
-            direct_filters = {
-                key: component_specific_filters.get(key)
-                for key in canonical_filter_keys
-                if key in component_specific_filters
-                and key in enabled_direct_filter_keys
-            }
-            normalized_direct_filters = normalize_site_filters(
-                direct_filters, "direct_filters"
-            )
-            normalized_direct_filters = self.dedupe_filter_expressions(
-                normalized_direct_filters, "normalize_component_specific_filters"
-            )
-            normalized_filters[site_component_key] = normalized_direct_filters or []
-        elif has_component_scope:
-            # Component-scoped mode: normalize each component key and normalize
-            # each component payload into merged `site` filter expressions.
-            merged_site_filters = []
-            for component in supported_components:
-                component_filters = normalize_site_filters(
-                    component_specific_filters.get(component), component
-                )
-                component_filters = self.dedupe_filter_expressions(
-                    component_filters, "component_scoped_{0}".format(component)
-                )
-                if not component_filters:
-                    continue
-                for filter_expression in component_filters:
-                    normalized_expression = self.normalize_site_filter_param(
-                        filter_expression
+        if not isinstance(site_filters, list):
+            errors.append("'component_specific_filters.site' must be a list.")
+            return errors
+
+        allowed_filter_keys = {
+            "site_name_hierarchy",
+            "parent_name_hierarchy",
+            "site_type",
+        }
+        valid_site_types = set(self.get_supported_components())
+        for index, filter_entry in enumerate(site_filters, start=1):
+            if not isinstance(filter_entry, dict):
+                errors.append(
+                    "Each item in 'component_specific_filters.site' must be a dict. Invalid entry at index {0}.".format(
+                        index
                     )
-                    if not normalized_expression.get("type"):
-                        normalized_expression["type"] = component
-                    merged_site_filters.append(normalized_expression)
-            normalized_filters[site_component_key] = self.dedupe_filter_expressions(
-                merged_site_filters, "component_scoped_merged_site_filters"
-            )
-        else:
-            # No explicit filters provided under component_specific_filters;
-            # keep one logical site component with empty filter set.
-            normalized_filters[site_component_key] = []
-
-        for key, value in component_specific_filters.items():
-            # Preserve non-canonical extras for compatibility, excluding keys
-            # already normalized into the `site` component representation.
-            if (
-                key in canonical_filter_keys
-                or key == "components_list"
-                or key in component_scope_keys
-                or key == site_component_key
-            ):
+                )
                 continue
-            normalized_filters[key] = value
 
-        # If normalization does not change payload, avoid unnecessary copying.
-        if normalized_filters == component_specific_filters:
-            self.log("Entering if: normalized_filters unchanged", "INFO")
-            self.log("Exiting normalize_component_specific_filters", "INFO")
-            return config
+            unknown_filter_keys = sorted(set(filter_entry.keys()) - allowed_filter_keys)
+            if unknown_filter_keys:
+                errors.append(
+                    "Invalid keys in 'component_specific_filters.site[{0}]': {1}. Allowed keys are {2}.".format(
+                        index, unknown_filter_keys, sorted(allowed_filter_keys)
+                    )
+                )
 
-        self.log(
-            f"Normalized component_specific_filters to match internal schema keys: {normalized_filters}",
-            "INFO",
-        )
-        updated_config = dict(config)
-        updated_config["component_specific_filters"] = normalized_filters
-        self.log("Exiting normalize_component_specific_filters", "INFO")
-        return updated_config
+            site_name_hierarchy = filter_entry.get("site_name_hierarchy")
+            if site_name_hierarchy is not None and not isinstance(
+                site_name_hierarchy, str
+            ):
+                errors.append(
+                    "'site_name_hierarchy' in 'component_specific_filters.site[{0}]' must be a string.".format(
+                        index
+                    )
+                )
+
+            parent_name_hierarchy = filter_entry.get("parent_name_hierarchy")
+            if parent_name_hierarchy is not None and not isinstance(
+                parent_name_hierarchy, str
+            ):
+                errors.append(
+                    "'parent_name_hierarchy' in 'component_specific_filters.site[{0}]' must be a string.".format(
+                        index
+                    )
+                )
+
+            site_type = filter_entry.get("site_type")
+            if site_type is not None:
+                if not isinstance(site_type, list):
+                    errors.append(
+                        "'site_type' in 'component_specific_filters.site[{0}]' must be a list.".format(
+                            index
+                        )
+                    )
+                else:
+                    invalid_site_types = [
+                        site_type_value
+                        for site_type_value in site_type
+                        if not isinstance(site_type_value, str)
+                        or site_type_value not in valid_site_types
+                    ]
+                    if invalid_site_types:
+                        errors.append(
+                            "Invalid 'site_type' values in 'component_specific_filters.site[{0}]': {1}. "
+                            "Supported values are {2}.".format(
+                                index,
+                                invalid_site_types,
+                                sorted(valid_site_types),
+                            )
+                        )
+                    duplicate_site_types = []
+                    seen_site_types = set()
+                    for site_type_value in site_type:
+                        if not isinstance(site_type_value, str):
+                            continue
+                        if site_type_value in seen_site_types:
+                            if site_type_value not in duplicate_site_types:
+                                duplicate_site_types.append(site_type_value)
+                            continue
+                        seen_site_types.add(site_type_value)
+                    if duplicate_site_types:
+                        self.log(
+                            "Duplicate 'site_type' values found in "
+                            "'component_specific_filters.site[{0}]': {1}. "
+                            "Duplicates will be deduplicated before API query execution.".format(
+                                index, duplicate_site_types
+                            ),
+                            "INFO",
+                        )
+
+        return errors
 
     def area_temp_spec(self):
         """
@@ -1792,7 +1761,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             OrderedDict: Deterministic schema map for area records.
         """
 
-        self.log("Entering area_temp_spec", "INFO")
+        self.log("Building temporary mapping specification for area records.", "INFO")
         self.log("Generating temporary specification for areas.", "INFO")
         area = OrderedDict(
             {
@@ -1823,7 +1792,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
             }
         )
-        self.log("Exiting area_temp_spec", "INFO")
+        self.log("Area temporary mapping specification built successfully.", "INFO")
         return area
 
     def building_temp_spec(self):
@@ -1841,7 +1810,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             OrderedDict: Deterministic schema map for building records.
         """
 
-        self.log("Entering building_temp_spec", "INFO")
+        self.log(
+            "Building temporary mapping specification for building records.", "INFO"
+        )
         self.log("Generating temporary specification for buildings.", "INFO")
         building = OrderedDict(
             {
@@ -1889,7 +1860,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
             }
         )
-        self.log("Exiting building_temp_spec", "INFO")
+        self.log("Building temporary mapping specification built successfully.", "INFO")
         return building
 
     def floor_temp_spec(self):
@@ -1907,7 +1878,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             OrderedDict: Deterministic schema map for floor records.
         """
 
-        self.log("Entering floor_temp_spec", "INFO")
+        self.log("Building temporary mapping specification for floor records.", "INFO")
         self.log("Generating temporary specification for floors.", "INFO")
         floor = OrderedDict(
             {
@@ -1967,7 +1938,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
             }
         )
-        self.log("Exiting floor_temp_spec", "INFO")
+        self.log("Floor temporary mapping specification built successfully.", "INFO")
         return floor
 
     def get_record_count(self, records):
@@ -2036,27 +2007,35 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             detail (dict): Site record from API response.
-            filter_expression (dict | str): One filter expression.
+            filter_expression (dict): One filter expression.
 
         Returns:
             bool: True when record satisfies the expression.
         """
-        normalized_expression = self.normalize_site_filter_param(filter_expression)
+        if not isinstance(filter_expression, dict):
+            return False
 
-        filter_type = normalized_expression.get("type")
-        if filter_type:
+        site_type_filters = filter_expression.get("site_type")
+        if site_type_filters:
             detail_type = self.get_site_type_value(detail)
-            if detail_type != filter_type:
+            if not isinstance(site_type_filters, list):
+                return False
+            if detail_type not in site_type_filters:
                 return False
 
-        expression_name_hierarchy = normalized_expression.get("nameHierarchy")
+        expression_name_hierarchy = filter_expression.get("site_name_hierarchy")
         if expression_name_hierarchy:
             if not self.matches_name_hierarchy_filter(
                 detail, expression_name_hierarchy
             ):
                 return False
 
-        expression_parent_hierarchy = normalized_expression.get("parentNameHierarchy")
+        # When site_name_hierarchy is provided, it is treated as the primary
+        # hierarchy selector and parent filter is not additionally applied.
+        if expression_name_hierarchy:
+            return True
+
+        expression_parent_hierarchy = filter_expression.get("parent_name_hierarchy")
         if expression_parent_hierarchy:
             if not self.matches_parent_name_hierarchy_scope(
                 detail, expression_parent_hierarchy
@@ -2228,13 +2207,119 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         return records
 
+    def is_valid_parent_site_hierarchy(
+        self, parent_name_hierarchy, site_name_hierarchy
+    ):
+        """
+        Validate that parent hierarchy is a strict hierarchy prefix of site hierarchy.
+
+        Args:
+            parent_name_hierarchy (str): Parent hierarchy expression.
+            site_name_hierarchy (str): Site hierarchy expression.
+
+        Returns:
+            bool: True when parent is a strict prefix of site path.
+        """
+        normalized_parent = self.normalize_hierarchy_path(parent_name_hierarchy)
+        normalized_site = self.normalize_hierarchy_path(site_name_hierarchy)
+        if not normalized_parent or not normalized_site:
+            return False
+        return normalized_site.startswith(normalized_parent + "/")
+
+    def build_site_query_plan_for_filter(self, filter_expression):
+        """
+        Build API query params from one site filter expression.
+
+        The filter expression is interpreted using one common rule set:
+        - `site_name_hierarchy` is used directly as `nameHierarchy`.
+        - `parent_name_hierarchy` becomes `nameHierarchy=<parent>/.*` when
+          `site_name_hierarchy` is absent.
+        - When both hierarchy keys are present, parent must be a strict prefix
+          of site; then parent is ignored and site is used.
+        - `site_type` expands query params to one API call per type value.
+
+        Args:
+            filter_expression (dict): One item from component_specific_filters.site.
+
+        Returns:
+            list: List of API params dictionaries for get_sites.
+        """
+        if not isinstance(filter_expression, dict):
+            return []
+
+        site_name_hierarchy = self.normalize_hierarchy_path(
+            filter_expression.get("site_name_hierarchy")
+        )
+        parent_name_hierarchy = self.normalize_hierarchy_path(
+            filter_expression.get("parent_name_hierarchy")
+        )
+        site_type_list = filter_expression.get("site_type")
+        deduped_site_type_list = site_type_list
+
+        if site_name_hierarchy and parent_name_hierarchy:
+            if not self.is_valid_parent_site_hierarchy(
+                parent_name_hierarchy, site_name_hierarchy
+            ):
+                self.log(
+                    "Skipping site filter because parent_name_hierarchy '{0}' is not "
+                    "a valid strict prefix of site_name_hierarchy '{1}'.".format(
+                        parent_name_hierarchy, site_name_hierarchy
+                    ),
+                    "WARNING",
+                )
+                return []
+            parent_name_hierarchy = None
+
+        effective_name_hierarchy = None
+        if site_name_hierarchy:
+            effective_name_hierarchy = site_name_hierarchy
+        elif parent_name_hierarchy:
+            normalized_parent = self.normalize_hierarchy_path(parent_name_hierarchy)
+            if normalized_parent:
+                effective_name_hierarchy = normalized_parent + "/.*"
+
+        if isinstance(site_type_list, list) and site_type_list:
+            deduped_site_type_list = []
+            duplicate_site_types = []
+            seen_site_types = set()
+            for site_type in site_type_list:
+                if site_type in seen_site_types:
+                    if site_type not in duplicate_site_types:
+                        duplicate_site_types.append(site_type)
+                    continue
+                seen_site_types.add(site_type)
+                deduped_site_type_list.append(site_type)
+            if duplicate_site_types:
+                self.log(
+                    "Duplicate 'site_type' values detected in one site filter "
+                    "expression: {0}. Duplicates are ignored for API query planning.".format(
+                        duplicate_site_types
+                    ),
+                    "INFO",
+                )
+
+        query_plan = []
+        type_values = (
+            deduped_site_type_list
+            if isinstance(deduped_site_type_list, list) and deduped_site_type_list
+            else [None]
+        )
+        for site_type in type_values:
+            params = {}
+            if effective_name_hierarchy:
+                params["nameHierarchy"] = effective_name_hierarchy
+            if site_type:
+                params["type"] = site_type
+            query_plan.append(params)
+        return query_plan
+
     def get_sites_configuration(self, network_element, component_specific_filters=None):
         """
-        Retrieve all sites in a single API call, then partition and transform locally.
+        Retrieve site hierarchy records using one common filter-to-query pipeline.
 
-        This execution path guarantees one `site_design.get_sites` invocation per
-        module run for site retrieval and preserves the output payload structure
-        expected by downstream `site_workflow_manager` processing.
+        The method builds API query params from every filter expression, deduplicates
+        query params, retrieves matching site records, deduplicates records, and
+        finally maps them to area/building/floor output payloads.
 
         Args:
             network_element (dict): API metadata containing family and function names.
@@ -2243,9 +2328,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: Combined mapped configuration entries for area, building, and floor.
         """
-        self.log("Entering get_sites_configuration", "INFO")
         self.log(
-            "Starting single-pass site retrieval with network element: {0} and "
+            "Starting site retrieval workflow with unified query planning.", "INFO"
+        )
+        self.log(
+            "Starting site retrieval with common query planning and network element: {0} and "
             "component-specific filters: {1}".format(
                 network_element, component_specific_filters
             ),
@@ -2283,48 +2370,60 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
 
-        site_counters["api_calls"] += 1
-        all_site_details = self.execute_sites_api_with_timing(
-            api_family,
-            api_function,
-            {},
-            "sites",
-            "single_site_component_fetch",
-        )
-        site_counters["records_collected_before_filter"] = self.get_record_count(
-            all_site_details
-        )
-
-        if component_specific_filters is None:
-            self.log(
-                "Entering if: site component filters explicitly marked as None; "
-                "treating as empty filter set.",
-                "INFO",
-            )
-            filtered_site_details = all_site_details
-            site_counters["filters_skipped"] += 1
-        elif component_specific_filters:
+        site_query_plan = []
+        if component_specific_filters:
             site_counters["filters_processed"] = self.get_record_count(
                 component_specific_filters
             )
-            filtered_site_details = []
-            for detail in all_site_details:
-                for filter_expression in component_specific_filters:
-                    if self.site_record_matches_filter_expression(
-                        detail, filter_expression
-                    ):
-                        filtered_site_details.append(detail)
-                        break
+            for filter_expression in component_specific_filters:
+                filter_query_plan = self.build_site_query_plan_for_filter(
+                    filter_expression
+                )
+                if not filter_query_plan:
+                    site_counters["filters_skipped"] += 1
+                    continue
+                site_query_plan.extend(filter_query_plan)
         else:
-            filtered_site_details = all_site_details
+            site_query_plan = [{}]
+            site_counters["filters_skipped"] += 1
 
-        site_counters["records_after_filter"] = self.get_record_count(
-            filtered_site_details
+        site_query_plan = self.dedupe_filter_expressions(
+            site_query_plan, "site_query_plan"
         )
+        self.log(
+            "Prepared site query plan with {0} API call candidate(s): {1}.".format(
+                self.get_record_count(site_query_plan), site_query_plan
+            ),
+            "INFO",
+        )
+
+        all_site_details = []
+        for query_params in site_query_plan:
+            site_counters["api_calls"] += 1
+            site_records = self.execute_sites_api_with_timing(
+                api_family,
+                api_function,
+                query_params,
+                "sites",
+                query_params,
+            )
+            site_counters["records_collected_before_filter"] += self.get_record_count(
+                site_records
+            )
+            if isinstance(site_records, list):
+                all_site_details.extend(site_records)
+            elif site_records:
+                all_site_details.append(site_records)
+
+        records_before_global_dedupe = self.get_record_count(all_site_details)
+        filtered_site_details = self.dedupe_site_details(all_site_details, "sites")
+        records_after_global_dedupe = self.get_record_count(filtered_site_details)
+        site_counters["records_after_filter"] = records_after_global_dedupe
         site_counters["records_filtered_out"] = max(
-            0,
-            site_counters["records_collected_before_filter"]
-            - site_counters["records_after_filter"],
+            0, records_before_global_dedupe - records_after_global_dedupe
+        )
+        site_counters["records_ignored_as_duplicates"] += max(
+            0, records_before_global_dedupe - records_after_global_dedupe
         )
 
         records_by_type = {
@@ -2376,7 +2475,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             mapped_configurations
         )
         self.log(
-            "Single-pass site processing counters: filters_received={0}, "
+            "Site processing counters: filters_received={0}, "
             "filters_processed={1}, filters_skipped={2}, api_calls={3}, "
             "records_collected_before_filter={4}, records_filtered_out={5}, "
             "records_after_filter={6}, unknown_type_records={7}, "
@@ -2400,13 +2499,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
         self.log(
-            "Single-pass mapped site payload (debug): {0}".format(
-                mapped_configurations
-            ),
+            "Mapped site payload (debug): {0}".format(mapped_configurations),
             "DEBUG",
         )
 
-        self.log("Exiting get_sites_configuration", "INFO")
+        self.log(
+            "Site retrieval workflow completed and mapped payload assembled.", "INFO"
+        )
         return mapped_configurations
 
     def get_areas_configuration(self, network_element, component_specific_filters=None):
@@ -2425,7 +2524,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             list: Mapped area configuration objects ready for YAML serialization.
         """
 
-        self.log("Entering get_areas_configuration", "INFO")
+        self.log("Starting area retrieval workflow.", "INFO")
         self.log(
             f"Starting to retrieve areas with network element: {network_element} and component-specific filters: {component_specific_filters}",
             "INFO",
@@ -2469,8 +2568,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             and component_specific_filters is not None
         ):
             self.log(
-                "Entering if: unified one-pass direct filter retrieval mode is "
-                "enabled for areas.",
+                "Unified one-pass direct-filter retrieval mode is enabled for areas.",
                 "INFO",
             )
             unified_records_by_type, unified_summary = (
@@ -2503,13 +2601,15 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             )
         elif component_specific_filters is None:
             self.log(
-                "Entering if: area component explicitly skipped due to "
+                "Area component retrieval is skipped due to "
                 "type-aware filter pruning.",
                 "INFO",
             )
             area_counters["filters_skipped"] += 1
         elif component_specific_filters:
-            self.log("Entering if: component_specific_filters provided", "INFO")
+            self.log(
+                "Component-specific filters were provided for area retrieval.", "INFO"
+            )
             # Build a query plan keyed by API params so identical queries are
             # executed once and post-filters are applied from the shared payload.
             query_plan = OrderedDict()
@@ -2613,7 +2713,10 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ] += post_post_filter_count
                     final_areas.extend(filtered_area_details)
         else:
-            self.log("Entering else: no component_specific_filters provided", "INFO")
+            self.log(
+                "No component-specific filters provided for areas; using default type filter.",
+                "INFO",
+            )
             default_params = {"type": "area"}
             area_counters["query_plan_buckets"] = 1
             area_counters["api_calls"] += 1
@@ -2685,7 +2788,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "Modified area details payload (debug): {0}".format(areas_details), "DEBUG"
         )
 
-        self.log("Exiting get_areas_configuration", "INFO")
+        self.log("Area retrieval workflow completed.", "INFO")
         return areas_details
 
     def get_buildings_configuration(
@@ -2705,7 +2808,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             list: Mapped building configuration objects for YAML serialization.
         """
 
-        self.log("Entering get_buildings_configuration", "INFO")
+        self.log("Starting building retrieval workflow.", "INFO")
         self.log(
             f"Starting to retrieve buildings with network element: {network_element} and component-specific filters: {component_specific_filters}",
             "INFO",
@@ -2748,8 +2851,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             and component_specific_filters is not None
         ):
             self.log(
-                "Entering if: unified one-pass direct filter retrieval mode is "
-                "enabled for buildings.",
+                "Unified one-pass direct-filter retrieval mode is enabled for buildings.",
                 "INFO",
             )
             unified_records_by_type, unified_summary = (
@@ -2784,13 +2886,16 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             )
         elif component_specific_filters is None:
             self.log(
-                "Entering if: building component explicitly skipped due to "
+                "Building component retrieval is skipped due to "
                 "type-aware filter pruning.",
                 "INFO",
             )
             building_counters["filters_skipped"] += 1
         elif component_specific_filters:
-            self.log("Entering if: component_specific_filters provided", "INFO")
+            self.log(
+                "Component-specific filters were provided for building retrieval.",
+                "INFO",
+            )
             # Build a query plan keyed by API params so identical queries are
             # executed once and post-filters are applied from the shared payload.
             query_plan = OrderedDict()
@@ -2896,7 +3001,10 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ] += post_post_filter_count
                     final_buildings.extend(filtered_building_details)
         else:
-            self.log("Entering else: no component_specific_filters provided", "INFO")
+            self.log(
+                "No component-specific filters provided for buildings; using default type filter.",
+                "INFO",
+            )
             default_params = {"type": "building"}
             building_counters["query_plan_buckets"] = 1
             building_counters["api_calls"] += 1
@@ -2973,7 +3081,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        self.log("Exiting get_buildings_configuration", "INFO")
+        self.log("Building retrieval workflow completed.", "INFO")
         return buildings_details
 
     def get_floors_configuration(
@@ -2993,7 +3101,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             list: Mapped floor configuration objects for YAML serialization.
         """
 
-        self.log("Entering get_floors_configuration", "INFO")
+        self.log("Starting floor retrieval workflow.", "INFO")
         self.log(
             f"Starting to retrieve floors with network element: {network_element} and component-specific filters: {component_specific_filters}",
             "INFO",
@@ -3036,8 +3144,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             and component_specific_filters is not None
         ):
             self.log(
-                "Entering if: unified one-pass direct filter retrieval mode is "
-                "enabled for floors.",
+                "Unified one-pass direct-filter retrieval mode is enabled for floors.",
                 "INFO",
             )
             unified_records_by_type, unified_summary = (
@@ -3072,13 +3179,15 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             )
         elif component_specific_filters is None:
             self.log(
-                "Entering if: floor component explicitly skipped due to "
+                "Floor component retrieval is skipped due to "
                 "type-aware filter pruning.",
                 "INFO",
             )
             floor_counters["filters_skipped"] += 1
         elif component_specific_filters:
-            self.log("Entering if: component_specific_filters provided", "INFO")
+            self.log(
+                "Component-specific filters were provided for floor retrieval.", "INFO"
+            )
             # Build a query plan keyed by API params so identical queries are
             # executed once and post-filters are applied from the shared payload.
             query_plan = OrderedDict()
@@ -3183,7 +3292,10 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ] += post_post_filter_count
                     final_floors.extend(filtered_floor_details)
         else:
-            self.log("Entering else: no component_specific_filters provided", "INFO")
+            self.log(
+                "No component-specific filters provided for floors; using default type filter.",
+                "INFO",
+            )
             default_params = {"type": "floor"}
             floor_counters["query_plan_buckets"] = 1
             floor_counters["api_calls"] += 1
@@ -3256,17 +3368,18 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        self.log("Exiting get_floors_configuration", "INFO")
+        self.log("Floor retrieval workflow completed.", "INFO")
         return floors_details
 
     def resolve_component_filters(self, component_specific_filters):
         """
-        Normalize component filter payload shape for retrieval functions.
+        Resolve component filter payload shape for retrieval functions.
 
-        This module may receive filters in one of two forms:
-        - Direct list form: `[{"nameHierarchy": ...}, ...]`
-        - Helper-wrapped form:
+        Supported payload:
+        - Helper-wrapped form from BrownFieldHelper:
           `{"global_filters": {...}, "component_specific_filters": [...]}`.
+        - Direct list form for internal/unit-test invocation:
+          `[{"site_name_hierarchy": ...}, ...]`.
 
         Args:
             component_specific_filters (Any): Incoming filter payload.
@@ -3276,6 +3389,17 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         total_filters_collected = 0
         ignored_filter_container = 0
+        if component_specific_filters is None:
+            ignored_filter_container = 1
+            self.log(
+                "Resolved component filters from empty payload: "
+                "filters_collected=0, ignored_filter_container={0}.".format(
+                    ignored_filter_container
+                ),
+                "INFO",
+            )
+            return []
+
         # BrownFieldHelper.yaml_config_generator passes a wrapped dictionary.
         if isinstance(component_specific_filters, dict):
             wrapped_filters = component_specific_filters.get(
@@ -3290,6 +3414,10 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "INFO",
                 )
                 return None
+            if not isinstance(wrapped_filters, list):
+                self.fail_and_exit(
+                    "'component_specific_filters.site' must be a list of filter dictionaries."
+                )
             total_filters_collected = self.get_record_count(wrapped_filters)
             self.log(
                 "Resolved component filters from wrapped payload: "
@@ -3298,20 +3426,12 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "INFO",
             )
-            return self.dedupe_filter_expressions(
-                wrapped_filters, "resolve_component_filters_wrapped"
-            )
+            return wrapped_filters
 
-        if component_specific_filters is None:
-            ignored_filter_container = 1
-            self.log(
-                "Resolved component filters from empty payload: "
-                "filters_collected=0, ignored_filter_container={0}.".format(
-                    ignored_filter_container
-                ),
-                "INFO",
+        if not isinstance(component_specific_filters, list):
+            self.fail_and_exit(
+                "Resolved component filters must be a list of filter dictionaries."
             )
-            return []
 
         total_filters_collected = self.get_record_count(component_specific_filters)
         self.log(
@@ -3321,9 +3441,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "INFO",
         )
-        return self.dedupe_filter_expressions(
-            component_specific_filters, "resolve_component_filters_direct"
-        )
+        return component_specific_filters
 
     def get_want(self, config, state):
         """
@@ -3341,32 +3459,26 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             SitePlaybookGenerator: Instance with `self.want` initialized.
         """
 
-        self.log("Entering get_want", "INFO")
+        self.log(
+            "Preparing desired-state payload from validated configuration.", "INFO"
+        )
         self.log(f"Creating Parameters for API Calls with state: {state}", "INFO")
 
-        # Reset per-request direct/unified mode and cached unified payload so
-        # each config entry is processed independently.
-        self._direct_filter_mode = False
-        self.unified_filter_mode_enabled = False
+        # Reset cached unified payload so each config entry is processed
+        # independently.
         self._normalized_component_specific_filters = {}
         self._unified_site_records_cache = None
         self._unified_site_records_cache_key = None
 
-        # Normalize direct/component-scoped filter formats into internal schema.
-        config = self.normalize_component_specific_filters(config)
-        # Validate final normalized payload against module schema rules.
+        # Validate payload against shared schema rules.
         self.validate_params(config)
 
         self._normalized_component_specific_filters = (
             config.get("component_specific_filters") or {}
         )
         self.log(
-            "Resolved filter execution mode after normalization: "
-            "direct_filter_mode={0}, unified_filter_mode_enabled={1}, "
-            "normalized_component_keys={2}.".format(
-                self._direct_filter_mode,
-                self.unified_filter_mode_enabled,
-                list(self._normalized_component_specific_filters.keys()),
+            "Resolved component_specific_filters keys for execution: {0}.".format(
+                list(self._normalized_component_specific_filters.keys())
             ),
             "INFO",
         )
@@ -3394,7 +3506,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log(f"Desired State (want): {self.want}", "INFO")
         self.msg = "Successfully collected all parameters from the playbook for Site operations."
         self.status = "success"
-        self.log("Exiting get_want", "INFO")
+        self.log("Desired-state payload preparation completed.", "INFO")
         return self
 
     def get_diff_gathered(self):
@@ -3413,7 +3525,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Capture execution start time for high-level performance telemetry.
         start_time = time.time()
-        self.log("Entering get_diff_gathered", "INFO")
+        self.log("Starting gather-state diff processing workflow.", "INFO")
         # Declare gather operations in execution order.
         operations = [
             (
@@ -3453,12 +3565,12 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
 
-        self.log("Exiting get_diff_gathered", "INFO")
+        self.log("Gather-state diff processing workflow completed.", "INFO")
         return self
 
 
 def main():
-    """Run the Ansible module lifecycle for brownfield site playbook generation.
+    """Run the Ansible module lifecycle for site playbook config generation.
 
     Flow summary:
     1. Build Ansible argument schema.
@@ -3469,7 +3581,7 @@ def main():
     """
     LOGGER.debug(
         "main() execution started; preparing argument specification and module "
-        "runtime bootstrap for brownfield site playbook generation."
+        "runtime bootstrap for site playbook configgeneration."
     )
     # Define module argument contract used by Ansible runtime for parameter
     # parsing, defaults, and type validation.
@@ -3512,8 +3624,7 @@ def main():
         < 0
     ):
         ccc_site_playbook_generator.log(
-            "Entering if: Catalyst Center version unsupported for YAML site "
-            "playbook generation workflow.",
+            "Catalyst Center version check failed for site playbook generation support.",
             "DEBUG",
         )
         ccc_site_playbook_generator.msg = (
@@ -3531,8 +3642,7 @@ def main():
     # Validate state against module-supported states.
     if state not in ccc_site_playbook_generator.supported_states:
         ccc_site_playbook_generator.log(
-            "Entering if: invalid state provided that is not supported by this "
-            "module implementation.",
+            "Requested state is not supported by this module implementation.",
             "DEBUG",
         )
         ccc_site_playbook_generator.status = "invalid"
@@ -3558,8 +3668,7 @@ def main():
         ccc_site_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     ccc_site_playbook_generator.log(
-        "Exiting main after processing all configuration entries and preparing "
-        "final Ansible module response payload.",
+        "Main workflow completed; final Ansible response payload is ready.",
         "DEBUG",
     )
     module.exit_json(**ccc_site_playbook_generator.result)
