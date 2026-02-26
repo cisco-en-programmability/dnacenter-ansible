@@ -1,24 +1,4 @@
 {
-  "get_user_defined_fields_response": {
-    "response": [
-      {
-        "id": "udf-001",
-        "name": "Cisco Switches",
-        "description": "Used for regression testing"
-      },
-      {
-        "id": "udf-002",
-        "name": "Test123",
-        "description": "Added first udf for testing"
-      },
-      {
-        "id": "udf-003",
-        "name": "Production Devices",
-        "description": "Production network devices"
-      }
-    ],
-    "version": "1.0"
-  },
   "get_all_devices_response": {
     "response": [
       {

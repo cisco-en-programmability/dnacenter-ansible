@@ -1,6 +1,6 @@
 ---
 # ===================================================================================================
-# BROWNFIELD INVENTORY PLAYBOOK GENERATOR - KEY SCENARIOS
+# INVENTORY PLAYBOOK GENERATOR - KEY SCENARIOS
 # ===================================================================================================
 #
 # This playbook demonstrates key scenarios for generating YAML configurations
@@ -17,7 +17,7 @@
 #
 # ===================================================================================================
 
-- name: Cisco Catalyst Center Brownfield Inventory Playbook Generator - Key Scenarios
+- name: Cisco Catalyst Center Inventory Playbook Generator - Key Scenarios
   hosts: localhost
   connection: local
   gather_facts: false
@@ -29,7 +29,7 @@
     # SCENARIO 1: Complete Discovery - All Components
     # ===================================================================================
     # Description: Auto-discovers ALL devices and generates all three components
-    # Use Case: Initial brownfield migration, complete infrastructure backup
+    # Use Case: Initial migration, complete infrastructure backup
     # Output: Single YAML with 3 documents (device details, provision, interfaces)
     # ===================================================================================
     - name: "SCENARIO 1: Complete Discovery - All Components"
@@ -610,179 +610,3 @@
               interface_details:
                 interface_name: ["GigabitEthernet0/0", "GigabitEthernet0/1"]
       tags: [scenario20, access_devices_interface]
-
-    # ===================================================================================
-    # SCENARIO 21: User-Defined Fields Only - All UDFs
-    # ===================================================================================
-    # Description: Fetch all user-defined fields from Catalyst Center
-    # Use Case: Audit all UDFs defined in the system
-    # Output: Single document with all UDF definitions (name, description, value)
-    # Note: user_defined_fields is INDEPENDENT - cannot be used with global_filters
-    # ===================================================================================
-    - name: "SCENARIO 21: User-Defined Fields Only - All UDFs"
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: INFO
-        state: gathered
-        config:
-          - file_path: "inventory_user_defined_fields_all.yml"
-            component_specific_filters:
-              components_list: ["user_defined_fields"]
-      tags: [scenario21, user_defined_fields_all]
-
-    # ===================================================================================
-    # SCENARIO 22: User-Defined Fields with Single UDF Name Filter
-    # ===================================================================================
-    # Description: Fetch and filter user-defined fields by a single UDF name
-    # Use Case: Get definition of a specific UDF for documentation or audit
-    # Output: Single document with only the matching UDF
-    # Note: Filter uses OR logic if single name is provided
-    # ===================================================================================
-    - name: "SCENARIO 22: User-Defined Fields - Single UDF Filter"
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: INFO
-        state: gathered
-        config:
-          - file_path: "inventory_udf_single_filter.yml"
-            component_specific_filters:
-              components_list: ["user_defined_fields"]
-              user_defined_fields:
-                udf_name: "Cisco Switches"
-      tags: [scenario22, user_defined_fields_single]
-
-    # ===================================================================================
-    # SCENARIO 23: User-Defined Fields with Multiple UDF Name Filters (OR Logic)
-    # ===================================================================================
-    # Description: Fetch user-defined fields matching any of the specified names
-    # Use Case: Get definitions for multiple specific UDFs
-    # Output: Single document with all matching UDFs (OR logic - any name match)
-    # ===================================================================================
-    - name: "SCENARIO 23: User-Defined Fields - Multiple UDF Filters"
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: INFO
-        state: gathered
-        config:
-          - file_path: "inventory_udf_multi_filter.yml"
-            component_specific_filters:
-              components_list: ["user_defined_fields"]
-              user_defined_fields:
-                udf_name: ["Cisco Switches", "Production Devices", "Test123"]
-      tags: [scenario23, user_defined_fields_multi]
-
-    # ===================================================================================
-    # SCENARIO 24: Device Details + User-Defined Fields (Independent)
-    # ===================================================================================
-    # Description: Combine device details with UDF definitions
-    # Use Case: Create inventory with both device credentials and UDF metadata
-    # Output: 2 documents - device details and user-defined fields
-    # Note: Components filter independently - no global_filters used
-    # ===================================================================================
-    - name: "SCENARIO 24: Device Details + User-Defined Fields"
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: INFO
-        state: gathered
-        config:
-          - file_path: "inventory_device_udf.yml"
-            component_specific_filters:
-              components_list: ["device_details", "user_defined_fields"]
-              device_details:
-                role: "ACCESS"
-              user_defined_fields:
-                udf_name: ["Cisco Switches", "Production Devices"]
-      tags: [scenario24, device_udf]
-
-    # ===================================================================================
-    # SCENARIO 25: All Components + User-Defined Fields (No Global Filters)
-    # ===================================================================================
-    # Description: Generate all four components independently
-    # Use Case: Complete infrastructure documentation with UDF definitions
-    # Output: 4 documents - device details, provision, interface details, and UDFs
-    # Note: Each component filters independently without global IP filters
-    # ===================================================================================
-    - name: "SCENARIO 25: All Components + User-Defined Fields"
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: INFO
-        state: gathered
-        config:
-          - file_path: "inventory_all_components_udf.yml"
-            component_specific_filters:
-              components_list: ["device_details", "provision_device", "interface_details", "user_defined_fields"]
-              device_details:
-                role: "ACCESS"
-              provision_device:
-                site_name: "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
-              interface_details:
-                interface_name: ["Loopback0"]
-              user_defined_fields:
-                udf_name: ["Cisco Switches"]
-      tags: [scenario25, all_components_udf]
-
-    # ===================================================================================
-    # SCENARIO 26: INVALID - User-Defined Fields with Global Filters (Should FAIL)
-    # ===================================================================================
-    # Description: Demonstrates constraint validation - user_defined_fields cannot use global_filters
-    # Use Case: Shows error handling when conflicting filters are specified
-    # Output: SHOULD FAIL with error message - no YAML file created
-    # Note: This scenario validates the constraint that prevents UDFs from using IP-based filters
-    # ===================================================================================
-    - name: "SCENARIO 26: INVALID - User-Defined Fields with Global Filters (SHOULD FAIL)"
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: INFO
-        state: gathered
-        config:
-          - file_path: "inventory_invalid_udf_global_filter.yml"
-            global_filters:
-              ip_address_list:
-                - "172.27.248.223"
-            component_specific_filters:
-              components_list: ["user_defined_fields"]
-      register: scenario26_result
-      failed_when: false  # Don't fail the playbook - we expect this test case to fail
-      tags: [scenario26, invalid_udf_global_filter]
