@@ -1173,7 +1173,6 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             f"and floors have APs positioned on floor maps before retrying."
                         )
                         self.log(self.msg, "ERROR")
-                        #self.fail_and_exit(self.msg)
 
                     self.log(
                         f"All {len(site_list)} floor site(s) validated successfully. All requested "
@@ -1236,7 +1235,6 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             f"and APs are configured as planned (not real) on floor maps before retrying."
                         )
                         self.log(self.msg, "ERROR")
-                        #self.fail_and_exit(self.msg)
 
                     self.log(
                         f"All {len(planned_ap_list)} planned AP(s) validated successfully. All "
@@ -1299,7 +1297,6 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             f"deployed and visible in Catalyst Center before retrying."
                         )
                         self.log(self.msg, "ERROR")
-                        #self.fail_and_exit(self.msg)
 
                     self.log(
                         f"All {len(real_ap_list)} real AP(s) validated successfully. All requested "
@@ -1362,7 +1359,6 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             f"and APs with these models are deployed in Catalyst Center before retrying."
                         )
                         self.log(self.msg, "ERROR")
-                        #self.fail_and_exit(self.msg)
 
                     self.log(
                         f"All {len(model_list)} AP model(s) validated successfully. All requested "
@@ -1426,7 +1422,6 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                             f"these MACs are deployed in Catalyst Center before retrying."
                         )
                         self.log(self.msg, "ERROR")
-                        #self.fail_and_exit(self.msg)
 
                     self.log(
                         f"All {len(mac_list)} MAC address(es) validated successfully. All requested "
