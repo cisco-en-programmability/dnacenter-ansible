@@ -100,16 +100,15 @@ options:
             description:
               - List of discovery types to filter by.
               - LOWER PRIORITY - Only used if discovery_name_list is not provided.
-              - Valid values are SINGLE, RANGE, MULTI RANGE, CDP, LLDP, CIDR.
+              - Valid values are SINGLE, RANGE, CDP, LLDP, CIDR.
               - Will include all discoveries matching any of the specified types.
-              - Example ["MULTI RANGE", "CDP", "LLDP"]
+              - Example ["CDP", "LLDP"]
             type: list
             elements: str
             required: false
             choices:
-            - SINGLE
-            - RANGE
-            - MULTI RANGE
+            - Single
+            - Range
             - CDP
             - LLDP
             - CIDR
@@ -223,7 +222,7 @@ response_1:
         "discoveries_found": [
           {
             "discovery_name": "Multi_global",
-            "discovery_type": "MULTI RANGE",
+            "discovery_type": "Range",
             "status": "Complete"
           },
           {
@@ -340,7 +339,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             workflow schema for discovery components.
         """
         super().__init__(module)
-        self.module_name = "discovery_playbook_generator_config"
+        self.module_name = "discovery"
         self.supported_states = ["gathered"]
         self._global_credentials_lookup = None
 
@@ -356,7 +355,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "description": "List of discovery types to filter by",
-                    "choices": ['SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP', 'CIDR']
+                    "choices": ['SINGLE', 'RANGE', 'CDP', 'LLDP', 'CIDR']
                 }
             },
             "network_elements": {
@@ -1139,7 +1138,8 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "http_write_credential_list": [],
             "snmp_v2_read_credential_list": [],
             "snmp_v2_write_credential_list": [],
-            "snmp_v3_credential_list": []
+            "snmp_v3_credential_list": [],
+            "net_conf_port_list": []
         }
 
         lookup = self.get_global_credentials_lookup()
@@ -1199,6 +1199,11 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log(f"MAPPED_TO: snmp_v3_credential_list - {description}", "DEBUG")
                 continue
 
+            if cred_type == 'netconfCredential':
+                credentials["net_conf_port_list"].append(cred_entry)
+                self.log(f"MAPPED_TO: net_conf_port_list - {description}", "DEBUG")
+                continue
+
             cred_type_upper = cred_type.upper()
             self.log(f"FALLBACK_MAPPING: Processing unknown cred_type='{cred_type}' (upper='{cred_type_upper}') for ID={cred_id}", "DEBUG")
 
@@ -1232,8 +1237,14 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log(f"FALLBACK_MAPPED_TO: snmp_v3_credential_list (SNMPV3 match) - {description}", "DEBUG")
                 continue
 
-            self.log(f"FALLBACK_DEFAULT: Unknown credential type '{cred_type}' for ID {cred_id}, defaulting to CLI - {description}", "INFO")
-            credentials["cli_credentials_list"].append(cred_entry)
+            if 'NETCONF' in cred_type_upper or 'NET_CONF' in cred_type_upper:
+                credentials["net_conf_port_list"].append(cred_entry)
+                self.log(f"FALLBACK_MAPPED_TO: net_conf_port_list (NETCONF match) - {description}", "DEBUG")
+                continue
+
+            self.log(f"FALLBACK_DEFAULT: Unknown credential type '{cred_type}' for ID {cred_id},"
+                     f" skipping to avoid misclassification - {description}", "WARNING")
+            # Do not default unknown credentials to CLI to prevent misclassification
 
         # Remove empty credential lists to keep output clean
         credentials_before_filter = dict(credentials)
@@ -1247,9 +1258,8 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         for cred_type, cred_list in credentials.items():
             descriptions = [c.get('description', 'N/A') for c in cred_list]
             self.log(f"FINAL_{cred_type.upper()}: {len(cred_list)} entries - {descriptions}", "INFO")
-            self.log(f"Returning transformed credentials with {len(credentials)} credential types", "DEBUG")
-            return credentials if credentials else {}
 
+        self.log(f"Returning transformed credentials with {len(credentials)} credential types", "DEBUG")
         return credentials if credentials else {}
 
     def transform_ip_address_list(self, discovery_data):
