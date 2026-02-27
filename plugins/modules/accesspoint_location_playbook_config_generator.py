@@ -2418,10 +2418,12 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
 
                     if each_real_config and real_detailed_config:
-                        for each_ap in each_real_config:
+                        for index, each_ap in enumerate(each_real_config):
                             each_ap["mac_address"] = self.convert_eth_mac_address_to_mac_address(
                                 each_ap.get("mac_address")
                             )
+                            real_detailed_config[index]["mac_address"] = each_ap["mac_address"]
+
                         collect_all_detailed_config.extend(real_detailed_config)
                         collect_each_floor_config.extend(each_real_config)
                         real_floor_data = {
