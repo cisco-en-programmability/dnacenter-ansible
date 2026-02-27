@@ -79,9 +79,9 @@ options:
         - Absolute or relative path for YAML configuration file output.
         - If not provided, generates default filename in current working directory
           with pattern
-          'sda_host_port_onboarding_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'
+          'sda_host_port_onboarding_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml'
         - Example default filename
-          'sda_host_port_onboarding_workflow_manager_playbook_2026-02-24_12-22-31.yml'
+          'sda_host_port_onboarding_playbook_config_2026-02-27_14-31-46.yml'
         - Directory created automatically if path does not exist.
         - Supports YAML file extension (.yml or .yaml).
         type: str
@@ -438,7 +438,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         module_schema (dict): Network elements schema configuration mapping API
                              families, functions, filters, and reverse mapping
                              specifications for SDA host port onboarding components
-        fabric_site_id_name_dict (dict): Cached mapping of fabric site UUIDs to
+        fabric_site_id_to_name_mapping (dict): Cached mapping of fabric site UUIDs to
                                         hierarchical site names from Catalyst Center
                                         for fabric site name resolution
         module_name (str): Target workflow manager module name for generated playbooks
@@ -502,8 +502,9 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_filters_schema()
-        self.fabric_site_id_name_dict = self.get_fabric_site_id_name_mapping()
-        self.fabric_name_site_id_dict = {v: k for k, v in self.fabric_site_id_name_dict.items()}
+        # self.fabric_site_id_to_name_mapping = self.get_fabric_site_id_name_mapping()
+        self.fabric_site_name_to_id_mapping, self.fabric_site_id_to_name_mapping = self.get_fabric_site_name_to_id_mapping()
+        # self.fabric_site_name_to_id_mapping = {v: k for k, v in self.fabric_site_id_to_name_mapping.items()}
         self.module_name = "sda_host_port_onboarding_workflow_manager"
 
     def validate_input(self):
@@ -760,7 +761,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if component_specific_filters:
             self.log(
                 "Building fabric name to site ID mapping from cached "
-                "fabric_site_id_name_dict for filter-based fabric ID resolution.",
+                "fabric_site_id_to_name_mapping for filter-based fabric ID resolution.",
                 "DEBUG"
             )
 
@@ -779,7 +780,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     f"'{fabric_site_name_hierarchy}' for port assignments.",
                     "DEBUG"
                 )
-                fabric_id = self.fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
+                fabric_id = self.fabric_site_name_to_id_mapping.get(fabric_site_name_hierarchy)
                 if not fabric_id:
                     self.log(
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
@@ -800,11 +801,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         else:
             self.log(
                 "No fabric site filters provided. Using all "
-                f"{len(self.fabric_site_id_name_dict)} cached fabric site IDs for "
+                f"{len(self.fabric_site_id_to_name_mapping)} cached fabric site IDs for "
                 "complete port assignment retrieval.",
                 "DEBUG"
             )
-            fabric_ids = list(self.fabric_site_id_name_dict.keys())
+            fabric_ids = list(self.fabric_site_id_to_name_mapping.keys())
 
         self.log(
             f"Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.",
@@ -885,9 +886,27 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             device_port_assignments = {}
             for idx, port_assignment in enumerate(port_assignments):
                 network_device_id = port_assignment.get("networkDeviceId")
+                self.log(
+                    f"Processing port assignment {idx + 1}/{len(port_assignments)} "
+                    f"for network device ID '{network_device_id}' in fabric ID "
+                    f"'{fabric_id}'.",
+                    "DEBUG"
+                )
                 if network_device_id not in device_port_assignments:
                     device_port_assignments[network_device_id] = []
+                    self.log(
+                        f"Initialized new device group for network device ID "
+                        f"'{network_device_id}' in port assignments grouping.",
+                        "DEBUG"
+                    )
                 device_port_assignments[network_device_id].append(modified_port_assignments[idx])
+                self.log(
+                    f"Added port assignment {idx + 1} to device group. Device ID "
+                    f"'{network_device_id}' now has "
+                    f"{len(device_port_assignments[network_device_id])} port "
+                    "assignment(s).",
+                    "DEBUG"
+                )
 
             # Build the final structure with device IP addresses
             self.log(
@@ -924,14 +943,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
                 device_dict = {
                     'ip_address': management_ip,
-                    'fabric_site_name_hierarchy': self.fabric_site_id_name_dict.get(fabric_id),
+                    'fabric_site_name_hierarchy': self.fabric_site_id_to_name_mapping.get(fabric_id),
                     'port_assignments': device_ports
                 }
                 all_fabric_port_assignments_details.append(device_dict)
                 self.log(
                     f"Added device configuration to final list. Device IP: "
                     f"{management_ip}, Fabric: "
-                    f"{self.fabric_site_id_name_dict.get(fabric_id)}, Port "
+                    f"{self.fabric_site_id_to_name_mapping.get(fabric_id)}, Port "
                     f"assignments: {len(device_ports)}.",
                     "DEBUG"
                 )
@@ -1048,7 +1067,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if component_specific_filters:
             self.log(
                 "Building fabric name to site ID mapping from cached "
-                "fabric_site_id_name_dict for filter-based fabric ID resolution.",
+                "fabric_site_id_to_name_mapping for filter-based fabric ID resolution.",
                 "DEBUG"
             )
 
@@ -1067,7 +1086,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     f"'{fabric_site_name_hierarchy}' for port channels.",
                     "DEBUG"
                 )
-                fabric_id = self.fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
+                fabric_id = self.fabric_site_name_to_id_mapping.get(fabric_site_name_hierarchy)
                 if not fabric_id:
                     self.log(
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
@@ -1087,10 +1106,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
         else:
             self.log(
-                f"No fabric site filters provided. Using all {len(self.fabric_site_id_name_dict)} cached fabric site IDs for complete port channel retrieval.",
+                f"No fabric site filters provided. Using all {len(self.fabric_site_id_to_name_mapping)} "
+                f"cached fabric site IDs for complete port channel retrieval.",
                 "DEBUG"
             )
-            fabric_ids = list(self.fabric_site_id_name_dict.keys())
+            fabric_ids = list(self.fabric_site_id_to_name_mapping.keys())
 
         self.log(
             f"Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.",
@@ -1168,9 +1188,27 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             device_port_channels = {}
             for idx, port_channel in enumerate(port_channels):
                 network_device_id = port_channel.get("networkDeviceId")
+                self.log(
+                    f"Processing port channel {idx + 1}/{len(port_channels)} "
+                    f"for network device ID '{network_device_id}' in fabric ID "
+                    f"'{fabric_id}'.",
+                    "DEBUG"
+                )
                 if network_device_id not in device_port_channels:
                     device_port_channels[network_device_id] = []
+                    self.log(
+                        f"Initialized new device group for network device ID "
+                        f"'{network_device_id}' in port channels grouping.",
+                        "DEBUG"
+                    )
                 device_port_channels[network_device_id].append(modified_port_channels[idx])
+                self.log(
+                    f"Added port channel {idx + 1} to device group. Device ID "
+                    f"'{network_device_id}' now has "
+                    f"{len(device_port_channels[network_device_id])} port "
+                    "channel(s).",
+                    "DEBUG"
+                )
 
             # Build the final structure with device IP addresses
             self.log(
@@ -1210,14 +1248,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
                 device_dict = {
                     'ip_address': management_ip,
-                    'fabric_site_name_hierarchy': self.fabric_site_id_name_dict.get(fabric_id),
+                    'fabric_site_name_hierarchy': self.fabric_site_id_to_name_mapping.get(fabric_id),
                     'port_channels': device_port_channels_list
                 }
                 all_fabric_port_channels_details.append(device_dict)
                 self.log(
                     "Added device configuration to final list. Device IP: "
                     f"{management_ip}, Fabric: "
-                    f"{self.fabric_site_id_name_dict.get(fabric_id)}, Port channels: "
+                    f"{self.fabric_site_id_to_name_mapping.get(fabric_id)}, Port channels: "
                     f"{len(device_port_channels_list)}.",
                     "DEBUG"
                 )
@@ -1312,7 +1350,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if component_specific_filters:
             self.log(
                 "Building fabric name to site ID mapping from cached "
-                "fabric_site_id_name_dict for filter-based fabric ID resolution.",
+                "fabric_site_id_to_name_mapping for filter-based fabric ID resolution.",
                 "DEBUG"
             )
 
@@ -1331,7 +1369,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     f"'{fabric_site_name_hierarchy}' for wireless SSIDs.",
                     "DEBUG"
                 )
-                fabric_id = self.fabric_name_site_id_dict.get(fabric_site_name_hierarchy)
+                fabric_id = self.fabric_site_name_to_id_mapping.get(fabric_site_name_hierarchy)
                 if not fabric_id:
                     self.log(
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
@@ -1351,10 +1389,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
         else:
             self.log(
-                f"No fabric site filters provided. Using all {len(self.fabric_site_id_name_dict)} cached fabric site IDs for complete wireless SSID retrieval.",
+                f"No fabric site filters provided. Using all {len(self.fabric_site_id_to_name_mapping)} "
+                f"cached fabric site IDs for complete wireless SSID retrieval.",
                 "DEBUG"
             )
-            fabric_ids = list(self.fabric_site_id_name_dict.keys())
+            fabric_ids = list(self.fabric_site_id_to_name_mapping.keys())
 
         self.log(
             f"Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.",
@@ -1392,7 +1431,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             if not response:
                 self.log(
                     f"No wireless SSIDs found for fabric ID '{fabric_id}' (fabric "
-                    f"name: '{self.fabric_site_id_name_dict.get(fabric_id)}'). "
+                    f"name: '{self.fabric_site_id_to_name_mapping.get(fabric_id)}'). "
                     "Skipping this fabric site.",
                     "WARNING"
                 )
@@ -1421,13 +1460,13 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             )
 
             modified_wireless_ssids_details = {
-                'fabric_site_name_hierarchy': self.fabric_site_id_name_dict.get(fabric_id),
+                'fabric_site_name_hierarchy': self.fabric_site_id_to_name_mapping.get(fabric_id),
                 'wireless_ssids': wireless_ssids
             }
             all_fabric_wireless_ssids_details.append(modified_wireless_ssids_details)
             self.log(
                 "Added wireless SSID configuration to final list. Fabric: "
-                f"{self.fabric_site_id_name_dict.get(fabric_id)}, Wireless SSIDs: "
+                f"{self.fabric_site_id_to_name_mapping.get(fabric_id)}, Wireless SSIDs: "
                 f"{len(wireless_ssids)}.",
                 "DEBUG"
             )
