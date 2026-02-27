@@ -3170,7 +3170,17 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "WARNING"
                     )
 
-                final_list = self.have.get("planned_aps", [])
+                if not self.have.get("all_config", []):
+                    self.log(
+                        "No configurations found in self.have['all_config'] for 'all' site_list filter. "
+                        "This may indicate no AP locations exist in Catalyst Center or data collection "
+                        "failed. Returning empty configuration list.",
+                        "WARNING"
+                    )
+                    return None
+                else:
+                    final_list = self.have.get("all_config", [])
+
                 self.log(
                     f"Returned {len(final_list)} floor site(s) with planned AP configurations for "
                     f"'all' keyword in site_list.",
@@ -3487,6 +3497,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "is empty or None.",
                         "WARNING"
                     )
+                    return None
 
                 final_list = self.have.get("all_config", [])
                 self.log(
