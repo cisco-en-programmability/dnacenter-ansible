@@ -502,9 +502,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_filters_schema()
-        # self.fabric_site_id_to_name_mapping = self.get_fabric_site_id_name_mapping()
         self.fabric_site_name_to_id_mapping, self.fabric_site_id_to_name_mapping = self.get_fabric_site_name_to_id_mapping()
-        # self.fabric_site_name_to_id_mapping = {v: k for k, v in self.fabric_site_id_to_name_mapping.items()}
         self.module_name = "sda_host_port_onboarding_workflow_manager"
 
     def validate_input(self):
