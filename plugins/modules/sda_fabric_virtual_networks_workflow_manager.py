@@ -88,7 +88,7 @@ options:
               deploying on a fabric zone, this vlan_id
               must match the vlan_id of the corresponding
               layer2 virtual network on the fabric site.
-              And updation of this field is not allowed.
+              And update of this field is not allowed.
             type: int
             required: true
           fabric_site_locations:
@@ -203,7 +203,7 @@ options:
               The layer3 virtual network must have already
               been added to the fabric before association.
               This field must either be present in all
-              payload elements or none. And updation
+              payload elements or none. And update
               of this field is not allowed.
             type: str
       virtual_networks:
@@ -575,7 +575,7 @@ notes:
   - New parameters added in the module are
     wireless_flooding_enable, resource_guard_enable,
     flooding_address_assignment, flooding_address
-    as part of fabric_vlan and anycast_gateways creation/updation
+    as part of fabric_vlan and anycast_gateways creation/update
     will start supporting from Catalsyt Center
     with version 3.1.3.0 onwards.
 """
@@ -1741,7 +1741,7 @@ class VirtualNetwork(DnacBase):
 
             except Exception as e:
                 self.msg = (
-                    "An exception occured while creating the layer2 VLAN(s) '{0}' in the Cisco Catalyst "
+                    "An exception occurred while creating the layer2 VLAN(s) '{0}' in the Cisco Catalyst "
                     "Center: {1}"
                 ).format(self.fabric_vlan_details, str(e))
                 self.set_operation_result(
@@ -2057,7 +2057,7 @@ class VirtualNetwork(DnacBase):
 
         req_limit = self.params.get("sda_fabric_vlan_limit", 20)
         self.log(
-            "API request batch size set to '{0}' for fabric VLAN updation.".format(
+            "API request batch size set to '{0}' for fabric VLAN update.".format(
                 req_limit
             ),
             "DEBUG",
@@ -2090,7 +2090,7 @@ class VirtualNetwork(DnacBase):
 
             except Exception as e:
                 self.msg = (
-                    "An exception occured while updating the layer2 fabric VLAN(s) '{0}' in the Cisco Catalyst "
+                    "An exception occurred while updating the layer2 fabric VLAN(s) '{0}' in the Cisco Catalyst "
                     "Center: {1}"
                 ).format(fabric_vlan_details, str(e))
                 self.set_operation_result(
@@ -2438,7 +2438,7 @@ class VirtualNetwork(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while creating and anchoring the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "An exception occurred while creating and anchoring the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(vn_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2512,7 +2512,7 @@ class VirtualNetwork(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while creating and anchoring the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "An exception occurred while creating and anchoring the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(vn_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2587,7 +2587,7 @@ class VirtualNetwork(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while extending the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "An exception occurred while extending the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(vn_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2708,7 +2708,7 @@ class VirtualNetwork(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while creating the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "An exception occurred while creating the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(self.created_virtual_networks, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2946,7 +2946,7 @@ class VirtualNetwork(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while updating the layer3 Virtual Network(s) '{0}' in "
+                "An exception occurred while updating the layer3 Virtual Network(s) '{0}' in "
                 "the Cisco Catalyst Center: {1}"
             ).format(self.updated_virtual_networks, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3218,7 +3218,7 @@ class VirtualNetwork(DnacBase):
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             vn_name (str): The name of the layer3 Virtual Network to check whether it's INFRA_VN or not
-                and seperate the payload for the API for respective VN.
+                and separate the payload for the API for respective VN.
         Returns:
             dict: A dictionary where the keys are common parameter names used in configuration
                 and the values are the corresponding field names used in the Anycast Gateway API.
@@ -3866,7 +3866,7 @@ class VirtualNetwork(DnacBase):
                     task_id, task_name, success_msg
                 ).check_return_status()
                 self.log(
-                    "Batch {0}: Completed Anycast Gateway updation.".format(
+                    "Batch {0}: Completed Anycast Gateway update.".format(
                         batch_number
                     ),
                     "INFO",
@@ -4085,7 +4085,7 @@ class VirtualNetwork(DnacBase):
             if not vn_name:
                 self.msg = (
                     "Required parameter 'vn_name' must be given in the playbook in order to perform any virtual "
-                    "networks operation including creation/updation/deletion in Cisco Catalyst Center."
+                    "networks operation including creation/update/deletion in Cisco Catalyst Center."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -4155,7 +4155,7 @@ class VirtualNetwork(DnacBase):
             if missing_required_item:
                 self.msg = (
                     "Required parameter '{0}' must be given in the playbook in order to perform any anycast "
-                    "networks operation including creation/updation/deletion in Cisco Catalyst Center."
+                    "networks operation including creation/update/deletion in Cisco Catalyst Center."
                 ).format(missing_required_item)
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -5482,12 +5482,12 @@ class VirtualNetwork(DnacBase):
         if not missed_vlan_list:
             msg = (
                 "Requested fabric Vlan(s) '{0}' have been successfully added/updated to the Cisco Catalyst Center "
-                "and their addition/updation has been verified."
+                "and their addition/update has been verified."
             ).format(verify_vlan_list)
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that the fabric Vlan(s) '{0}' "
-                " addition/updation task may not have executed successfully."
+                " addition/update task may not have executed successfully."
             ).format(missed_vlan_list)
 
         self.log(msg, "INFO")
@@ -5523,12 +5523,12 @@ class VirtualNetwork(DnacBase):
         if not missed_vn_list:
             msg = (
                 "Requested layer3 Virtual Network(s) '{0}' have been successfully added/updated to the Cisco Catalyst Center "
-                "and their addition/updation has been verified."
+                "and their addition/update has been verified."
             ).format(verify_vn_list)
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that the fabric Vlan(s) '{0}' "
-                " addition/updation task may not have executed successfully."
+                " addition/update task may not have executed successfully."
             ).format(missed_vn_list)
 
         self.log(msg, "INFO")
@@ -5588,12 +5588,12 @@ class VirtualNetwork(DnacBase):
         if not missed_anycast_list:
             msg = (
                 "Requested Anycast Gateway(s) '{0}' have been successfully added/updated to the Cisco Catalyst Center "
-                "and their addition/updation has been verified."
+                "and their addition/update has been verified."
             ).format(verify_anycast_list)
         else:
             msg = (
                 "Playbook's input does not match with Cisco Catalyst Center, indicating that the Anycast Gateway(s) '{0}' "
-                " addition/updation task may not have executed successfully."
+                " addition/update task may not have executed successfully."
             ).format(missed_anycast_list)
 
         self.log(msg, "INFO")
@@ -5810,7 +5810,7 @@ class VirtualNetwork(DnacBase):
         if anycast_gateways:
             self.process_anycast_gateways(anycast_gateways).check_return_status()
 
-        self.log("Completed the creation/updation process for specified items.", "INFO")
+        self.log("Completed the creation/update process for specified items.", "INFO")
 
         return self
 
@@ -5868,7 +5868,7 @@ class VirtualNetwork(DnacBase):
     def verify_diff_merged(self, config):
         """
         Verify the addition/update status of fabric Vlan, layer3 Virtual Networks and
-        Anycast Gateway(s) in teh Cisco Catalyst Center.
+        Anycast Gateway(s) in the Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration details to be verified.
@@ -5883,14 +5883,14 @@ class VirtualNetwork(DnacBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Verify the creation/updation of fabric Vlan in the Cisco Catalyst Center
+        # Verify the creation/update of fabric Vlan in the Cisco Catalyst Center
         fabric_vlan_details = config.get("fabric_vlan")
         if fabric_vlan_details:
             self.verify_fabric_vlan(fabric_vlan_details)
         else:
             self.log("No fabric VLAN details provided for verification.", "DEBUG")
 
-        # Verify the creation/updation of layer3 Virtual Network in the Cisco Catalyst Center
+        # Verify the creation/update of layer3 Virtual Network in the Cisco Catalyst Center
         virtual_networks = config.get("virtual_networks")
         if virtual_networks:
             self.verify_virtual_network(virtual_networks)
@@ -5899,7 +5899,7 @@ class VirtualNetwork(DnacBase):
                 "No layer3 Virtual Network details provided for verification.", "DEBUG"
             )
 
-        # Verify the creation/updation of Anycast gateway in the Cisco Catalyst Center with fabric id, ip pool and vn name
+        # Verify the creation/update of Anycast gateway in the Cisco Catalyst Center with fabric id, ip pool and vn name
         anycast_gateways = config.get("anycast_gateways")
         if anycast_gateways:
             self.verify_anycast_gateway(anycast_gateways)
