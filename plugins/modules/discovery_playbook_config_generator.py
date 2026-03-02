@@ -100,7 +100,7 @@ options:
             description:
               - List of discovery types to filter by.
               - LOWER PRIORITY - Only used if discovery_name_list is not provided.
-              - Valid values are SINGLE, RANGE, CDP, LLDP, CIDR.
+              - Valid values are Single, Range, CDP, LLDP, CIDR.
               - Will include all discoveries matching any of the specified types.
               - Example ["CDP", "LLDP"]
             type: list
@@ -227,7 +227,7 @@ response_1:
           },
           {
             "discovery_name": "Single IP Discovery",
-            "discovery_type": "SINGLE",
+            "discovery_type": "Single",
             "status": "Complete"
           }
         ],
@@ -355,7 +355,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "description": "List of discovery types to filter by",
-                    "choices": ['SINGLE', 'RANGE', 'CDP', 'LLDP', 'CIDR']
+                    "choices": ['Single', 'Range', 'CDP', 'LLDP', 'CIDR']
                 }
             },
             "network_elements": {
