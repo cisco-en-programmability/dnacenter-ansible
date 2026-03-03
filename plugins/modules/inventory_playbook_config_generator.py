@@ -497,72 +497,72 @@ EXAMPLES = r"""
         file_path: "./inventory_access_with_interfaces.yml"
 
 - name: Generate UDF output filtered by name (single string)
-    cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        config:
-            - component_specific_filters:
-                    components_list: ["user_defined_fields"]
-                    user_defined_fields:
-                        name: "Cisco Switches"
-                file_path: "./inventory_udf_name_single.yml"
+  cisco.dnac.inventory_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    config:
+      - component_specific_filters:
+          components_list: ["user_defined_fields"]
+          user_defined_fields:
+            name: "Cisco Switches"
+        file_path: "./inventory_udf_name_single.yml"
 
 - name: Generate UDF output filtered by name (list)
-    cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        config:
-            - component_specific_filters:
-                    components_list: ["user_defined_fields"]
-                    user_defined_fields:
-                        name: ["Cisco Switches", "To_test_udf"]
-                file_path: "./inventory_udf_name_list.yml"
+  cisco.dnac.inventory_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    config:
+      - component_specific_filters:
+          components_list: ["user_defined_fields"]
+          user_defined_fields:
+            name: ["Cisco Switches", "To_test_udf"]
+        file_path: "./inventory_udf_name_list.yml"
 
 - name: Generate UDF output filtered by value (single string)
-    cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        config:
-            - component_specific_filters:
-                    components_list: ["user_defined_fields"]
-                    user_defined_fields:
-                        value: "2234"
-                file_path: "./inventory_udf_value_single.yml"
+  cisco.dnac.inventory_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    config:
+      - component_specific_filters:
+          components_list: ["user_defined_fields"]
+          user_defined_fields:
+            value: "2234"
+        file_path: "./inventory_udf_value_single.yml"
 
 - name: Generate UDF output filtered by value (list)
-    cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        config:
-            - component_specific_filters:
-                    components_list: ["user_defined_fields"]
-                    user_defined_fields:
-                        value: ["2234", "value12345", "value321"]
-                file_path: "./inventory_udf_value_list.yml"
+  cisco.dnac.inventory_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    config:
+      - component_specific_filters:
+          components_list: ["user_defined_fields"]
+          user_defined_fields:
+            value: ["2234", "value12345", "value321"]
+        file_path: "./inventory_udf_value_list.yml"
 """
 RETURN = r"""
 # Case_1: Success Scenario
