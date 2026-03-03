@@ -22,7 +22,7 @@ __author__ = "Vivek Raj, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_device_credential_playbook_generator
+module: device_credential_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'device_credential_workflow_manager' module.
 description:
 - Automates brownfield YAML playbook generation for device credential
@@ -269,7 +269,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate YAML playbook for device credential workflow manager which includes all global credentials and site assignments
-  cisco.dnac.brownfield_device_credential_playbook_generator:
+  cisco.dnac.device_credential_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -284,7 +284,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate YAML Configuration with File Path specified
-  cisco.dnac.brownfield_device_credential_playbook_generator:
+  cisco.dnac.device_credential_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -300,7 +300,7 @@ EXAMPLES = r"""
         file_path: "device_credential_config.yml"
 
 - name: Generate YAML Configuration with specific component global credential filters
-  cisco.dnac.brownfield_device_credential_playbook_generator:
+  cisco.dnac.device_credential_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -325,7 +325,7 @@ EXAMPLES = r"""
               - description: http_write
 
 - name: Generate YAML Configuration with specific component assign credentials to site filters
-  cisco.dnac.brownfield_device_credential_playbook_generator:
+  cisco.dnac.device_credential_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -346,7 +346,7 @@ EXAMPLES = r"""
               - "Global/India/Haryana"
 
 - name: Generate YAML Configuration with both global credential and assign credentials to site filters
-  cisco.dnac.brownfield_device_credential_playbook_generator:
+  cisco.dnac.device_credential_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -507,7 +507,7 @@ else:
     OrderedDumper = None
 
 
-class DeviceCredentialPlaybookGenerator(DnacBase, BrownFieldHelper):
+class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center device credentials.
 
@@ -2515,7 +2515,7 @@ def main():
     Main entry point for Ansible module execution.
     This function orchestrates complete brownfield YAML playbook generation
     workflow by parsing Ansible module parameters with connection credentials
-    and configuration filters, initializing DeviceCredentialPlaybookGenerator
+    and configuration filters, initializing DeviceCredentialPlaybookConfigGenerator
     instance for Catalyst Center API interaction, validating minimum Catalyst
     Center version requirement (2.3.7.9+) for brownfield generation support,
     checking requested state against supported states (gathered only), validating
@@ -2584,7 +2584,7 @@ def main():
 
     Workflow Execution:
         1. Parse module parameters with AnsibleModule argument specification
-        2. Initialize DeviceCredentialPlaybookGenerator with module instance
+        2. Initialize DeviceCredentialPlaybookConfigGenerator with module instance
         3. Validate Catalyst Center version >= 2.3.7.9 for brownfield support
         4. Check state parameter against supported_states list (gathered only)
         5. Validate input configuration against schema with type checking
@@ -2616,52 +2616,52 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_device_credential_playbook_generator = DeviceCredentialPlaybookGenerator(module)
+    ccc_device_credential_playbook_config_generator = DeviceCredentialPlaybookConfigGenerator(module)
     if (
-        ccc_device_credential_playbook_generator.compare_dnac_versions(
-            ccc_device_credential_playbook_generator.get_ccc_version(), "2.3.7.9"
+        ccc_device_credential_playbook_config_generator.compare_dnac_versions(
+            ccc_device_credential_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_device_credential_playbook_generator.msg = (
+        ccc_device_credential_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_device_credential_playbook_generator.get_ccc_version()
+                ccc_device_credential_playbook_config_generator.get_ccc_version()
             )
         )
-        ccc_device_credential_playbook_generator.set_operation_result(
-            "failed", False, ccc_device_credential_playbook_generator.msg, "ERROR"
+        ccc_device_credential_playbook_config_generator.set_operation_result(
+            "failed", False, ccc_device_credential_playbook_config_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_device_credential_playbook_generator.params.get("state")
+    state = ccc_device_credential_playbook_config_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_device_credential_playbook_generator.supported_states:
-        ccc_device_credential_playbook_generator.status = "invalid"
-        ccc_device_credential_playbook_generator.msg = "State {0} is invalid".format(
+    if state not in ccc_device_credential_playbook_config_generator.supported_states:
+        ccc_device_credential_playbook_config_generator.status = "invalid"
+        ccc_device_credential_playbook_config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_device_credential_playbook_generator.check_recturn_status()
+        ccc_device_credential_playbook_config_generator.check_recturn_status()
 
     # Validate the input parameters and check the return statusk
-    ccc_device_credential_playbook_generator.validate_input().check_return_status()
-    config = ccc_device_credential_playbook_generator.validated_config
-    ccc_device_credential_playbook_generator.log(
+    ccc_device_credential_playbook_config_generator.validate_input().check_return_status()
+    config = ccc_device_credential_playbook_config_generator.validated_config
+    ccc_device_credential_playbook_config_generator.log(
         "Validated configuration parameters: {0}".format(str(config)), "DEBUG"
     )
 
     # Iterate over the validated configuration parameters
-    for config in ccc_device_credential_playbook_generator.validated_config:
-        ccc_device_credential_playbook_generator.reset_values()
-        ccc_device_credential_playbook_generator.get_want(
+    for config in ccc_device_credential_playbook_config_generator.validated_config:
+        ccc_device_credential_playbook_config_generator.reset_values()
+        ccc_device_credential_playbook_config_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_device_credential_playbook_generator.get_diff_state_apply[
+        ccc_device_credential_playbook_config_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    module.exit_json(**ccc_device_credential_playbook_generator.result)
+    module.exit_json(**ccc_device_credential_playbook_config_generator.result)
 
 
 if __name__ == "__main__":
