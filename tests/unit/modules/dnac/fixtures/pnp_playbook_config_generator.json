@@ -1161,10 +1161,7 @@
                 ]
             },
             "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
-            "generate_all_configurations": true,
-            "global_filters": {
-                "site_name": "Global/USA/SAN JOSE/SJ_BLD20"
-            }
+            "generate_all_configurations": true
         }
     ],
     "PnPdevices1": 
