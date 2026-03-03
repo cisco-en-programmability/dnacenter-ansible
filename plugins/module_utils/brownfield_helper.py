@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2021, Cisco Systems
+# Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 import datetime
 import os
+from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
+    validate_list_of_dicts,
+)
 
 try:
     import yaml
@@ -564,12 +567,12 @@ class BrownFieldHelper:
 
         self.log("Completed validation of all input parameters.", "INFO")
 
-    def validate_invalid_params(self, config_list, valid_params):
+    def validate_invalid_params(self, config_dict, valid_params):
         """
-        Validates that all parameters in each configuration entry are valid.
+        Validates that all parameters in a configuration dictionary are valid.
 
         Args:
-            config_list (list): List of configuration dictionaries to validate.
+            config_dict (dict): Configuration dictionary to validate.
             valid_params (dict_keys): Valid parameter keys for the module.
         """
 
@@ -578,10 +581,10 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        if not isinstance(config_list, list):
+        if not isinstance(config_dict, dict):
             self.msg = (
-                f"Invalid input: Expected a list of configuration entries, "
-                f"but got {type(config_list).__name__}."
+                f"Invalid input: Expected a configuration dict, "
+                f"but got {type(config_dict).__name__}."
             )
             self.fail_and_exit(self.msg)
 
@@ -590,38 +593,77 @@ class BrownFieldHelper:
             self.msg = "No valid parameters provided for validation. Please provide valid parameters."
             self.fail_and_exit(self.msg)
 
-        self.log(
-            f"Processing validation for {len(config_list)} configuration(s).", "DEBUG"
-        )
-        for idx, config in enumerate(config_list, start=1):
-            self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
+        self.log("Validating configuration entry: {0}".format(config_dict), "DEBUG")
 
-            invalid_params_set = set(config.keys()) - valid_params_set
-            if invalid_params_set:
-                self.msg = (
-                    f"Invalid parameters found in configuration entry {idx}: {list(invalid_params_set)}. "
-                    f"Valid parameters are: {list(valid_params_set)}."
-                )
-                self.fail_and_exit(self.msg)
+        invalid_params_set = set(config_dict.keys()) - valid_params_set
+        if invalid_params_set:
+            self.msg = (
+                "Invalid parameters found in configuration: {0}. Valid parameters are: {1}."
+                .format(list(invalid_params_set), list(valid_params_set))
+            )
+            self.fail_and_exit(self.msg)
 
-            self.log(f"Entry {idx}: No invalid parameters found.", "DEBUG")
+        self.log("No invalid parameters found in configuration.", "DEBUG")
 
         self.log(
             "Completed validation of invalid parameters in configuration entries.",
             "DEBUG",
         )
 
-    def validate_minimum_requirements(self, config_list):
+    def validate_config_dict(self, config_dict, temp_spec):
         """
-        Validate minimum requirements for each configuration entry in a list.
+        Validates config dictionary using the same behavior as
+        validate_list_of_dicts by wrapping the dict into a one-item list.
 
-        This function checks each config dictionary in `config_list` to ensure that the
-        module can safely proceed with execution. It enforces the following rules:
+        Args:
+            config_dict (dict): Single configuration dictionary from playbook input.
+            temp_spec (dict): Validation schema for config keys.
+
+        Returns:
+            dict: Single config dictionary entry.
+        """
+
+        self.log(
+            "Validating config dictionary with list-based validator: {0}".format(
+                config_dict
+            ),
+            "DEBUG",
+        )
+
+        if not isinstance(config_dict, dict):
+            self.msg = "Invalid parameters in playbook: expected 'config' to be dict, got {0}".format(
+                type(config_dict).__name__
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        validated_list, invalid_params = validate_list_of_dicts([config_dict], temp_spec)
+
+        if invalid_params:
+            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        validated_config = validated_list[0] if validated_list else {}
+        self.log(
+            "Completed config dictionary validation. Validated config: {0}".format(
+                validated_config
+            ),
+            "DEBUG",
+        )
+        return validated_config
+
+    def validate_minimum_requirements(self, config_dict):
+        """
+        Validate minimum requirements for a single configuration dictionary.
+
+        This function checks `config_dict` to ensure that the module can safely
+        proceed with execution. It enforces the following rules:
         - If generate_all_configurations not provided or set to False:
             - component_specific_filters must exist
             - component_specific_filters must contain 'components_list' key (the list can be empty)
         Args:
-            config_list : list of config dictionaries to validate.
+            config_dict (dict): Configuration dictionary to validate.
         """
 
         self.log(
@@ -629,69 +671,61 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        if not isinstance(config_list, list):
+        if not isinstance(config_dict, dict):
             self.msg = (
-                f"Invalid input: Expected a list of configuration entries, "
-                f"but got {type(config_list).__name__}."
+                f"Invalid input: Expected a configuration dict, "
+                f"but got {type(config_dict).__name__}."
             )
             self.fail_and_exit(self.msg)
 
-        self.log(
-            f"Processing validation for {len(config_list)} configuration(s).", "DEBUG"
-        )
+        self.log("Validating configuration entry: {0}".format(config_dict), "DEBUG")
 
-        for idx, config in enumerate(config_list, start=1):
-            self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
+        has_generate_all_config_flag = "generate_all_configurations" in config_dict
+        generate_all_configurations = config_dict.get("generate_all_configurations", False)
+        component_specific_filters = config_dict.get("component_specific_filters")
 
-            has_generate_all_config_flag = "generate_all_configurations" in config
-            generate_all_configurations = config.get(
-                "generate_all_configurations", False
+        if has_generate_all_config_flag and generate_all_configurations:
+            self.log(
+                "generate_all_configurations=True, skipping filters check.",
+                "DEBUG",
             )
-            component_specific_filters = config.get("component_specific_filters")
+            return
 
-            if has_generate_all_config_flag and generate_all_configurations:
-                self.log(
-                    f"Entry {idx}: generate_all_configurations=True, skipping filters check.",
-                    "DEBUG",
+        if (
+            component_specific_filters is None
+            or "components_list" not in component_specific_filters
+        ):
+            if has_generate_all_config_flag:
+                self.msg = (
+                    "Validation Error: 'component_specific_filters' must be provided "
+                    "with 'components_list' key when 'generate_all_configurations' is set to False."
                 )
-                continue  # No further validation needed
+            else:
+                self.msg = (
+                    "Validation Error: Either 'generate_all_configurations' must be provided as True"
+                    " or 'component_specific_filters' must be provided with 'components_list' key."
+                )
+            self.fail_and_exit(self.msg)
 
-            if (
-                component_specific_filters is None
-                or "components_list" not in component_specific_filters
-            ):
-                if has_generate_all_config_flag:
-                    self.msg = (
-                        f"Validation Error in entry {idx}: 'component_specific_filters' must be provided "
-                        f"with 'components_list' key when 'generate_all_configurations' is set to False."
-                    )
-                else:
-                    self.msg = (
-                        f"Validation Error in entry {idx}: Either 'generate_all_configurations' must be provided as True"
-                        f" or 'component_specific_filters' must be provided with 'components_list' key."
-                    )
-                self.fail_and_exit(self.msg)
-
-            self.log(f"Entry {idx}: Passed minimum requirements validation.", "DEBUG")
+        self.log("Passed minimum requirements validation.", "DEBUG")
 
         self.log(
-            "Completed validation of minimum requirements for configuration entries.",
+            "Completed validation of minimum requirements for configuration entry.",
             "DEBUG",
         )
 
-    def validate_minimum_requirement_for_global_filters(self, config_list):
+    def validate_minimum_requirement_for_global_filters(self, config):
         """
-        Validates minimum requirements for configuration entries using global filters.
+        Validates minimum requirements for configuration using global filters.
 
         This function enforces business logic validation rules for brownfield modules that
-        support global_filters-based configuration extraction. It ensures each configuration
-        entry provides either generate_all_configurations mode OR valid global_filters,
+        support global_filters-based configuration extraction. It ensures configuration
+        provides either generate_all_configurations mode OR valid global_filters,
         preventing invalid configuration states that would result in no-op or ambiguous
         behavior during playbook generation.
 
         Args:
-            config_list (list[dict]): List of configuration dictionaries to validate. Each entry
-                                     should contain one or more of:
+            config (dict): Configuration dictionary to validate. Should contain one or more of:
                 - generate_all_configurations (bool, optional): Complete discovery mode flag
                 - global_filters (dict, optional): Filter criteria for targeted extraction
                 - component_specific_filters (dict, optional): Component-level filters (ignored)
@@ -703,12 +737,10 @@ class BrownFieldHelper:
             Rule 1 (Auto-Discovery Mode):
                 - If 'generate_all_configurations' exists AND equals True
                 - Skip all filter validation (auto-discovery mode)
-                - Continue to next configuration entry
 
             Rule 2 (Global Filters Mode):
                 - If 'global_filters' exists AND is non-empty dict
                 - Skip validation (filters provided for targeted extraction)
-                - Continue to next configuration entry
 
             Rule 3 (Invalid Configuration):
                 - If neither Rule 1 nor Rule 2 satisfied
@@ -734,7 +766,7 @@ class BrownFieldHelper:
                 - Validation FAILS with error message
 
         Error Messages:
-            Format: "Validation Error in entry {idx}: Either 'generate_all_configurations'
+            Format: "Validation Error: Either 'generate_all_configurations'
                     must be provided as True or 'global_filters' must be provided"
 
             Provides clear guidance on required parameters:
@@ -742,7 +774,7 @@ class BrownFieldHelper:
                 - Option 2: Provide valid global_filters dictionary
 
         Input Validation:
-            - config_list must be list type (not dict, str, etc.)
+            - config must be dict type (not list, str, etc.)
             - Invalid type triggers immediate fail_and_exit()
             - Error message specifies expected type vs. actual type
 
@@ -766,99 +798,86 @@ class BrownFieldHelper:
             - Function name includes "global_filters" to distinguish from component validation
         """
         self.log(
-            "Starting minimum requirements validation for configuration entries using "
-            "global_filters mode. This validation ensures each configuration provides either "
+            "Starting minimum requirements validation for configuration using "
+            "global_filters mode. This validation ensures configuration provides either "
             "'generate_all_configurations=True' for complete discovery OR 'global_filters' "
             f"dictionary for targeted extraction. Module: '{self.module_name}'",
             "DEBUG"
         )
 
         # Validate input type
-        if not isinstance(config_list, list):
+        if not isinstance(config, dict):
             self.msg = (
                 "Invalid input type for validate_minimum_requirement_for_global_filters(): "
-                f"Expected list of configuration entries, but got {type(config_list).__name__}. "
-                "Configuration must be provided as a list of dictionaries, even if only one "
-                f"configuration entry exists. Example: [{{...config...}}]. Module: "
+                f"Expected configuration dict, but got {type(config).__name__}. "
+                "Configuration must be provided as a dictionary. Module: "
                 f"'{self.module_name}'"
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         self.log(
-            f"Input type validation passed. Received list with {len(config_list)} configuration "
-            "entry/entries to validate. Beginning per-entry validation loop to check minimum "
-            "requirements for each configuration.",
+            "Input type validation passed. Beginning minimum requirements validation "
+            "for configuration dictionary.",
             "DEBUG"
         )
 
-        # Validate each configuration entry
-        for idx, config in enumerate(config_list, start=1):
-            self.log(
-                f"Validating configuration entry {idx}/{len(config_list)} for minimum requirements. "
-                f"Entry contains {len(config.keys()) if isinstance(config, dict) else 0} parameter(s). "
-                f"Configuration: {config}",
-                "DEBUG"
-            )
+        # Extract configuration flags and filters
+        has_generate_all_config_flag = "generate_all_configurations" in config
+        generate_all_configurations = config.get("generate_all_configurations", False)
+        component_specific_filters = config.get("component_specific_filters")
+        global_filters = config.get("global_filters", False)
 
-            # Extract configuration flags and filters
-            has_generate_all_config_flag = "generate_all_configurations" in config
-            generate_all_configurations = config.get("generate_all_configurations", False)
-            component_specific_filters = config.get("component_specific_filters")
-            global_filters = config.get("global_filters", False)
-
-            self.log(
-                f"Entry {idx}/{len(config_list)}: Extracted configuration parameters - "
-                f"has_generate_all_flag: {has_generate_all_config_flag}, "
-                f"generate_all_value: {generate_all_configurations}, "
-                f"has_component_filters: {bool(component_specific_filters)}, "
-                f"has_global_filters: {bool(global_filters)}, "
-                f"global_filters_type: {type(global_filters).__name__}",
-                "DEBUG"
-            )
-
-            # Rule 1: Check for auto-discovery mode (generate_all_configurations=True)
-            if has_generate_all_config_flag and generate_all_configurations:
-                self.log(
-                    f"Entry {idx}/{len(config_list)}: Auto-discovery mode detected "
-                    "(generate_all_configurations=True). This mode will discover ALL entities "
-                    "in Cisco Catalyst Center without applying any filter criteria. Skipping "
-                    "global_filters validation check as filters are not required in auto-discovery "
-                    "mode. Configuration is VALID.",
-                    "DEBUG"
-                )
-                continue  # No further validation needed for auto-discovery mode
-
-            # Rule 2: Check for targeted extraction mode (global_filters provided)
-            if global_filters and isinstance(global_filters, dict) and len(global_filters) > 0:
-                self.log(
-                    f"Entry {idx}/{len(config_list)}: Targeted extraction mode detected "
-                    f"(global_filters provided). Found {len(global_filters)} filter type(s): "
-                    f"{list(global_filters.keys())}. This mode will apply hierarchical filter "
-                    "matching to extract specific entities from Catalyst Center inventory. "
-                    "Skipping generate_all_configurations check as valid filters provided. "
-                    "Configuration is VALID.",
-                    "DEBUG"
-                )
-                continue  # No further validation needed for targeted extraction mode
-
-            # Rule 3: Invalid configuration - neither auto-discovery nor filters provided
-            self.msg = (
-                f"Minimum requirements validation FAILED for configuration entry {idx}/{len(config_list)}. "
-                "Configuration must provide EITHER 'generate_all_configurations=True' for complete "
-                "brownfield discovery OR 'global_filters' dictionary for targeted extraction. "
-                f"Current configuration state: generate_all_configurations={generate_all_configurations}, "
-                f"global_filters={'empty/invalid' if not global_filters else 'provided but empty dict'}. "
-                "Required actions: (1) Set 'generate_all_configurations: true' to extract all entities, "
-                f"OR (2) Provide 'global_filters' dictionary with at least one filter type."
-            )
-            self.log(self.msg, "ERROR")
-            self.fail_and_exit(self.msg)
-
-        # All configuration entries passed validation
         self.log(
-            f"Completed minimum requirements validation for all {len(config_list)} configuration "
-            "entry/entries. All configurations passed validation checks - each provides either "
+            "Extracted configuration parameters - has_generate_all_flag: {0}, "
+            "generate_all_value: {1}, has_component_filters: {2}, "
+            "has_global_filters: {3}, global_filters_type: {4}".format(
+                has_generate_all_config_flag,
+                generate_all_configurations,
+                bool(component_specific_filters),
+                bool(global_filters),
+                type(global_filters).__name__,
+            ),
+            "DEBUG",
+        )
+
+        # Rule 1: Check for auto-discovery mode (generate_all_configurations=True)
+        if has_generate_all_config_flag and generate_all_configurations:
+            self.log(
+                "Auto-discovery mode detected (generate_all_configurations=True). "
+                "Skipping global_filters validation check as filters are not required.",
+                "DEBUG"
+            )
+            return
+
+        # Rule 2: Check for targeted extraction mode (global_filters provided)
+        if global_filters and isinstance(global_filters, dict) and len(global_filters) > 0:
+            self.log(
+                "Targeted extraction mode detected (global_filters provided). "
+                "Skipping generate_all_configurations check as valid filters provided.",
+                "DEBUG"
+            )
+            return
+
+        # Rule 3: Invalid configuration - neither auto-discovery nor filters provided
+        self.msg = (
+            "Minimum requirements validation FAILED for configuration. "
+            "Configuration must provide EITHER 'generate_all_configurations=True' for complete "
+            "brownfield discovery OR 'global_filters' dictionary for targeted extraction. "
+            "Current configuration state: generate_all_configurations={0}, "
+            "global_filters={1}. Required actions: (1) Set 'generate_all_configurations: true' "
+            "to extract all entities, OR (2) Provide 'global_filters' dictionary with at least "
+            "one filter type.".format(
+                generate_all_configurations,
+                "empty/invalid" if not global_filters else "provided but empty dict",
+            )
+        )
+        self.log(self.msg, "ERROR")
+        self.fail_and_exit(self.msg)
+
+        self.log(
+            "Completed minimum requirements validation for configuration. "
+            "Configuration passed validation checks and provides either "
             "'generate_all_configurations=True' or valid 'global_filters' dictionary. Module can "
             f"proceed with brownfield playbook generation workflow. Module: '{self.module_name}'",
             "DEBUG"
@@ -893,6 +912,7 @@ class BrownFieldHelper:
             )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
+
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
             self.log(
@@ -902,8 +922,11 @@ class BrownFieldHelper:
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+
         self.log(
-            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
+            "DEBUG"
         )
 
         self.log("Initializing filter dictionaries", "DEBUG")
@@ -1036,7 +1059,7 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
+        if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, dumper=OrderedDumper):
             self.msg = {
                 "status": "success",
                 "message": "YAML configuration file generated successfully for module '{0}'".format(
@@ -1120,12 +1143,15 @@ class BrownFieldHelper:
                 "INFO",
             )
 
-    def write_dict_to_yaml(self, data_dict, file_path, dumper=OrderedDumper):
+    def write_dict_to_yaml(
+        self, data_dict, file_path, file_mode="overwrite", dumper=OrderedDumper
+    ):
         """
         Converts a dictionary to YAML format and writes it to a specified file path.
         Args:
             data_dict (dict): The dictionary to convert to YAML format.
             file_path (str): The path where the YAML file will be written.
+            file_mode (str): File write mode. Supported values: "overwrite", "append".
             dumper: The YAML dumper class to use for serialization (default is OrderedDumper).
         Returns:
             bool: True if the YAML file was successfully written, False otherwise.
@@ -1148,16 +1174,31 @@ class BrownFieldHelper:
                 allow_unicode=True,
                 sort_keys=False,  # Important: Don't sort keys to preserve order
             )
+
+            if file_mode not in ("overwrite", "append"):
+                self.msg = (
+                    "Invalid file_mode '{0}'. Supported values are 'overwrite' and 'append'."
+                    .format(file_mode)
+                )
+                self.fail_and_exit(self.msg)
+
+            if file_mode == "overwrite":
+                open_mode = "w"
+            else:
+                open_mode = "a"
+
             yaml_content = "---\n" + yaml_content
+
             self.log("Dictionary successfully converted to YAML format.", "DEBUG")
 
             # Ensure the directory exists
             self.ensure_directory_exists(file_path)
 
             self.log(
-                "Preparing to write YAML content to file: {0}".format(file_path), "INFO"
+                "Preparing to write YAML content to file: {0}, file_mode: {1}".format(file_path, file_mode),
+                "INFO"
             )
-            with open(file_path, "w") as yaml_file:
+            with open(file_path, open_mode) as yaml_file:
                 yaml_file.write(yaml_content)
 
             self.log(
