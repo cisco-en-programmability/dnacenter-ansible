@@ -1788,7 +1788,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                         }
                     ),
                 },
-                "site_type": {
+                "type": {
                     "type": "str",
                     "special_handling": True,
                     "transform": self.get_site_type_area,
@@ -1856,7 +1856,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                         }
                     ),
                 },
-                "site_type": {
+                "type": {
                     "type": "str",
                     "special_handling": True,
                     "transform": self.get_site_type_building,
@@ -1934,7 +1934,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                         }
                     ),
                 },
-                "site_type": {
+                "type": {
                     "type": "str",
                     "special_handling": True,
                     "transform": self.get_site_type_floor,
