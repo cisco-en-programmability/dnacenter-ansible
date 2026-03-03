@@ -2031,13 +2031,18 @@ class BrownFieldHelper:
             api_family, api_function, params
         )
 
+        site_ids_of_fabric_sites = [site.get("siteId") for site in fabric_sites if site.get("siteId")]
+
+        # Get mapping of siteId to nameHierarchy
+        site_id_name_mapping = self.get_site_id_name_mapping(site_ids_of_fabric_sites)
+
         for fabric_site in fabric_sites:
             fabric_id = fabric_site.get("id")
             site_id = fabric_site.get("siteId")
 
             if fabric_id and site_id:
-                # Get the site name from the site_id using the existing site_id_name_dict
-                site_name = self.site_id_name_dict.get(site_id)
+                # Get the site name from the site_id using the existing site_id_name_mapping
+                site_name = site_id_name_mapping.get(site_id)
                 if site_name:
                     self.log(
                         f"Processing fabric site: site_name '{site_name}' mapped to fabric_id '{fabric_id}'",
