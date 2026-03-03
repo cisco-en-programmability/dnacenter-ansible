@@ -610,3 +610,480 @@
               interface_details:
                 interface_name: ["GigabitEthernet0/0", "GigabitEthernet0/1"]
       tags: [scenario20, access_devices_interface]
+    # ===================================================================================
+    # SCENARIO 21: User Defined Fields Only
+    # ===================================================================================
+    # Description: Generate only user_defined_fields configuration for all devices
+    # Use Case: Inventory audit of custom UDF values assigned to devices
+    # Output: Single document with consolidated UDF entries grouped by identical UDF sets
+    # ===================================================================================
+    - name: "SCENARIO 21: User Defined Fields Only"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_udf_only.yml"
+            component_specific_filters:
+              components_list: ["user_defined_fields"]
+      tags: [scenario21, udf_only]
+
+    # ===================================================================================
+    # SCENARIO 22: All Components Including User Defined Fields
+    # ===================================================================================
+    # Description: Generate all four components: device_details, provision_device,
+    #              interface_details, and user_defined_fields
+    # Use Case: Complete infrastructure migration with all metadata and custom fields
+    # Output: 4 YAML documents with all configurations
+    # ===================================================================================
+    - name: "SCENARIO 22: All Components Including User Defined Fields"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_all_components_with_udf.yml"
+            component_specific_filters:
+              components_list: ["device_details", "provision_device", "interface_details", "user_defined_fields"]
+      tags: [scenario22, all_components_udf]
+
+    # ===================================================================================
+    # SCENARIO 23: Device Details + User Defined Fields
+    # ===================================================================================
+    # Description: Generate device credentials and their user-defined field assignments
+    # Use Case: Device onboarding with custom metadata preservation
+    # Output: 2 documents - device details and UDF configurations
+    # ===================================================================================
+    - name: "SCENARIO 23: Device Details + User Defined Fields"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_device_udf.yml"
+            component_specific_filters:
+              components_list: ["device_details", "user_defined_fields"]
+      tags: [scenario23, device_udf]
+
+    # ===================================================================================
+    # SCENARIO 24: Global IP Filter + User Defined Fields
+    # ===================================================================================
+    # Description: Generate UDF configurations only for devices at specific IP addresses
+    # Use Case: Audit custom fields for specific set of devices
+    # Output: UDF entries for devices matching the IP filter
+    # Note: Replace IPs with actual device management IPs from your environment
+    # ===================================================================================
+    - name: "SCENARIO 24: Global IP Filter + User Defined Fields"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_ip_filter_udf.yml"
+            global_filters:
+              ip_address_list:
+                - "206.1.2.3"
+                - "206.1.2.4"
+                - "172.27.248.223"
+            component_specific_filters:
+              components_list: ["user_defined_fields"]
+      tags: [scenario24, ip_filter_udf]
+
+    # ===================================================================================
+    # SCENARIO 25: Provision Device + User Defined Fields (Site-Specific)
+    # ===================================================================================
+    # Description: Generate provisioning config for specific site and UDF for all devices
+    # Use Case: Site provisioning with device metadata tracking
+    # Output: 2 documents - provision_device (site-filtered) and user_defined_fields (all)
+    # ===================================================================================
+    - name: "SCENARIO 25: Provision Device Site Filter + UDF"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_provision_site_udf.yml"
+            component_specific_filters:
+              components_list: ["provision_device", "user_defined_fields"]
+              provision_device:
+                site_name: "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+      tags: [scenario25, provision_site_udf]
+
+    # ===================================================================================
+    # SCENARIO 26: Interface Details + User Defined Fields
+    # ===================================================================================
+    # Description: Generate interface configurations and device custom field assignments
+    # Use Case: Interface updates with device metadata synchronization
+    # Output: 2 documents - interface_details (filtered or all) and user_defined_fields
+    # ===================================================================================
+    - name: "SCENARIO 26: Interface Details + User Defined Fields"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_interface_udf.yml"
+            component_specific_filters:
+              components_list: ["interface_details", "user_defined_fields"]
+      tags: [scenario26, interface_udf]
+
+    # ===================================================================================
+    # SCENARIO 27: Interface Filter + UDF (Specific Interfaces Only)
+    # ===================================================================================
+    # Description: Generate UDF and only specific interface names
+    # Use Case: Configure critical interfaces and sync custom device metadata
+    # Output: 2 documents - filtered interface_details and user_defined_fields
+    # ===================================================================================
+    - name: "SCENARIO 27: Specific Interfaces + User Defined Fields"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_interface_name_udf.yml"
+            component_specific_filters:
+              components_list: ["interface_details", "user_defined_fields"]
+              interface_details:
+                interface_name: ["Loopback0", "Vlan100"]
+      tags: [scenario27, interface_name_udf]
+
+    # ===================================================================================
+    # SCENARIO 28: Role-Based Device Details + UDF
+    # ===================================================================================
+    # Description: Generate UDF for devices of specific roles (e.g., ACCESS layer)
+    # Use Case: Access layer device migration with preserved custom metadata
+    # Output: 2 documents - role-filtered device_details and corresponding user_defined_fields
+    # ===================================================================================
+    - name: "SCENARIO 28: Role-Based Device Details + UDF"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_access_role_udf.yml"
+            component_specific_filters:
+              components_list: ["device_details", "user_defined_fields"]
+              device_details:
+                role: "ACCESS"
+      tags: [scenario28, role_based_udf]
+
+    # ===================================================================================
+    # SCENARIO 29: Complex Multi-Filter with UDF
+    # ===================================================================================
+    # Description: Multiple global filters with device roles and provision site + UDF
+    # Use Case: Multi-site, multi-role infrastructure with comprehensive metadata
+    # Output: 4 documents - filtered device_details, provision_device, interfaces, and UDF
+    # ===================================================================================
+    - name: "SCENARIO 29: Multi-Filter Complex Scenario with UDF"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_complex_multi_filter_udf.yml"
+            global_filters:
+              ip_address_list:
+                - "172.27.248.223"
+                - "172.27.248.224"
+                - "205.1.2.67"
+            component_specific_filters:
+              components_list: ["device_details", "provision_device", "interface_details", "user_defined_fields"]
+              device_details:
+                role: "ACCESS"
+              provision_device:
+                site_name: "Global/Site_India/Karnataka/Bangalore"
+              interface_details:
+                interface_name: ["Loopback0", "Vlan100"]
+      tags: [scenario29, complex_multi_filter_udf]
+
+    # ===================================================================================
+    # SCENARIO 30: UDF Audit - All Devices with Custom Metadata
+    # ===================================================================================
+    # Description: Comprehensive UDF audit showing all devices and their custom field values
+    # Use Case: Complete inventory audit with custom metadata for compliance reporting
+    # Output: Consolidated UDF configurations grouped by identical field sets
+    # Note: Uses generate_all_configurations for maximum device coverage
+    # ===================================================================================
+    - name: "SCENARIO 30: Complete UDF Audit - All Devices"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - generate_all_configurations: true
+            file_path: "inventory_udf_audit_complete.yml"
+            component_specific_filters:
+              components_list: ["user_defined_fields"]
+      tags: [scenario30, udf_audit]
+
+    # ===================================================================================
+    # SCENARIO 31: UDF Name Filter - Specific Field Names Only
+    # ===================================================================================
+    # Description: Generate UDF configurations but only for specified UDF field names
+    # Use Case: Focus on specific custom fields (e.g., only "Cisco Switches" and "To_test_udf")
+    # Output: UDF entries grouped by identical field sets (only specified names)
+    # ===================================================================================
+    - name: "SCENARIO 31: UDF Name Filter - Specific Field Names"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_udf_name_filter.yml"
+            component_specific_filters:
+              components_list: ["user_defined_fields"]
+              user_defined_fields:
+                name: ["Cisco Switches", "To_test_udf"]
+      tags: [scenario31, udf_name_filter]
+
+    # ===================================================================================
+    # SCENARIO 32: UDF Value Filter - Specific Field Values Only
+    # ===================================================================================
+    # Description: Generate UDF configurations but only for devices matching specific values
+    # Use Case: Audit devices with any of the specified values (OR logic)
+    # Output: UDF entries only where values match any in the list
+    # Note: Matches devices with values: 2234, value123, or value12345
+    # ===================================================================================
+    - name: "SCENARIO 32: UDF Value Filter - Specific Field Values"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_udf_value_filter.yml"
+            component_specific_filters:
+              components_list: ["user_defined_fields"]
+              user_defined_fields:
+                value: ["2234", "value123", "value12345"]
+      tags: [scenario32, udf_value_filter]
+
+    # ===================================================================================
+    # SCENARIO 33: Global IP Filter + UDF Name Filter
+    # ===================================================================================
+    # Description: Generate UDF for specific IPs but only for specified UDF field names
+    # Use Case: Audit custom fields for targeted devices
+    # Output: UDF entries for devices matching IP filter and field names
+    # ===================================================================================
+    - name: "SCENARIO 33: Global IP Filter + UDF Name Filter"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_ip_udf_name_filter.yml"
+            global_filters:
+              ip_address_list:
+                - "206.1.2.4"
+                - "204.1.2.2"
+                - "204.1.2.3"
+            component_specific_filters:
+              components_list: ["user_defined_fields"]
+              user_defined_fields:
+                name: ["Cisco Switches", "Test123"]
+      tags: [scenario33, ip_udf_name_filter]
+
+    # ===================================================================================
+    # SCENARIO 34: Device Details + Filtered UDF Names
+    # ===================================================================================
+    # Description: Generate device credentials with only specific UDF field names
+    # Use Case: Device migration preserving only critical custom metadata
+    # Output: 2 documents - device_details and UDF (name-filtered)
+    # ===================================================================================
+    - name: "SCENARIO 34: Device Details + Filtered UDF Names"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_device_udf_name_filter.yml"
+            component_specific_filters:
+              components_list: ["device_details", "user_defined_fields"]
+              user_defined_fields:
+                name: ["Cisco Switches", "Test321"]
+      tags: [scenario34, device_udf_name_filter]
+
+    # ===================================================================================
+    # SCENARIO 35: All Components + UDF Name and Value Filters
+    # ===================================================================================
+    # Description: Complete migration with UDF filtered by both name and value
+    # Use Case: Multi-site deployment with specific metadata filtering
+    # Output: Multiple documents with filtered UDF entries
+    # Note: Filters by field names AND by specific values (combination filter)
+    # ===================================================================================
+    - name: "SCENARIO 35: All Components + UDF Name & Value Filters"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_all_udf_filtered.yml"
+            global_filters:
+              ip_address_list:
+                - "206.1.2.4"
+                - "204.1.2.2"
+                - "204.1.2.3"
+            component_specific_filters:
+              components_list: ["device_details", "user_defined_fields"]
+              user_defined_fields:
+                name: ["Cisco Switches", "Test123", "Test321"]
+                value: ["2234", "value321"]
+      tags: [scenario35, all_components_udf_filtered]
+
+    # ===================================================================================
+    # SCENARIO 36: UDF Name Filter - Single String
+    # ===================================================================================
+    # Description: Generate UDF using single name string (no list)
+    # Use Case: Validate string input support for user_defined_fields.name
+    # Output: UDF entries containing only "Cisco Switches"
+    # ===================================================================================
+    - name: "SCENARIO 36: UDF Name Filter - Single String"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_udf_name_filter_single.yml"
+            component_specific_filters:
+              components_list: ["user_defined_fields"]
+              user_defined_fields:
+                name: "Cisco Switches"
+      tags: [scenario36, udf_name_filter_str]
+
+    # ===================================================================================
+    # SCENARIO 37: UDF Value Filter - Single String
+    # ===================================================================================
+    # Description: Generate UDF using single value string (no list)
+    # Use Case: Validate string input support for user_defined_fields.value
+    # Output: UDF entries where value equals "value12345"
+    # ===================================================================================
+    - name: "SCENARIO 37: UDF Value Filter - Single String"
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        config:
+          - file_path: "inventory_udf_value_filter_single.yml"
+            component_specific_filters:
+              components_list: ["user_defined_fields"]
+              user_defined_fields:
+                value: "value12345"
+      tags: [scenario37, udf_value_filter_str]
