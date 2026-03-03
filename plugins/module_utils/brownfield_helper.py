@@ -673,15 +673,16 @@ class BrownFieldHelper:
 
     def validate_minimum_requirements(self, config_list, require_global_filters=False):
         """
-        Validate minimum requirements for a single configuration dictionary.
+        Validate minimum requirements for a list of configuration dictionaries.
 
-        This function checks `config_dict` to ensure that the module can safely
+        This function checks each config in config_list to ensure that the module can safely
         proceed with execution. It enforces the following rules:
         - If generate_all_configurations not provided or set to False:
             - component_specific_filters must exist
             - component_specific_filters must contain 'components_list' key (the list can be empty)
         Args:
-            config_dict (dict): Configuration dictionary to validate.
+            config_list (list): List of configuration dictionaries to validate.
+            require_global_filters (bool): Whether global filters are required.
         """
 
         self.log(
@@ -689,10 +690,10 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        if not isinstance(config_dict, dict):
+        if not isinstance(config_list, list):
             self.msg = (
-                f"Invalid input: Expected a configuration dict, "
-                f"but got {type(config_dict).__name__}."
+                f"Invalid input: Expected a configuration list, "
+                f"but got {type(config_list).__name__}."
             )
             self.fail_and_exit(self.msg)
 
@@ -727,17 +728,6 @@ class BrownFieldHelper:
                 )
                 continue
 
-        if (
-            component_specific_filters is None
-            or "components_list" not in component_specific_filters
-        ):
-            if has_generate_all_config_flag:
-                self.msg = (
-                    "Validation Error: 'component_specific_filters' must be provided "
-                    "with 'components_list' key when 'generate_all_configurations' is set to False."
-                )
-            continue
-
             has_components_list = (
                 isinstance(component_specific_filters, dict)
                 and "components_list" in component_specific_filters
@@ -759,7 +749,7 @@ class BrownFieldHelper:
         self.log("Passed minimum requirements validation.", "DEBUG")
 
         self.log(
-            "Completed validation of minimum requirements for configuration entry.",
+            "Completed validation of minimum requirements for configuration entries.",
             "DEBUG",
         )
 
