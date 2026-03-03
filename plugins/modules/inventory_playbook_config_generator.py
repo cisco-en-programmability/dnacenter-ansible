@@ -256,7 +256,7 @@ options:
                 - 'Example: value="2234" or value=["2234", "value12345"].'
                 type: raw
 
-                
+
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
@@ -1079,7 +1079,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 value = record.get("value")
                 if isinstance(name, str) and name.strip():
                     udf_dict[name] = value
-            
+
             if udf_dict:
                 return udf_dict
 
@@ -1184,12 +1184,12 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         # Note: component_specific_filters contains the filters FOR this component directly
         component_filters = (filters or {}).get("component_specific_filters") or {}
         self.log("Component filters received: {0}".format(component_filters), "DEBUG")
-        
+
         udf_name_filter = component_filters.get("name")
         udf_value_filter = component_filters.get("value")
-        
+
         self.log("Extracted UDF filters - name: {0}, value: {1}".format(udf_name_filter, udf_value_filter), "DEBUG")
-        
+
         # Normalize UDF name filter to set
         udf_name_filter_set = None
         if udf_name_filter:
@@ -1200,10 +1200,10 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     name.strip() for name in udf_name_filter
                     if isinstance(name, str) and name.strip()
                 }
-            
+
             if udf_name_filter_set:
                 self.log("UDF name filter applied: {0}".format(sorted(list(udf_name_filter_set))), "INFO")
-        
+
         # Normalize UDF value filter to list for consistent processing
         udf_value_filter_list = None
         if udf_value_filter:
@@ -1238,22 +1238,22 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
             # Extract UDF data from device response
             user_defined_fields = device.get("userDefinedFields", {})
-            
+
             if isinstance(user_defined_fields, dict) and user_defined_fields:
                 devices_with_udf += 1
-                
+
                 # Filter UDFs based on name and value filters
                 filtered_udf_data = {}
                 for udf_name in user_defined_fields.keys():
                     if not isinstance(udf_name, str) or not udf_name.strip():
                         continue
-                    
+
                     # Apply UDF name filter check
                     if udf_name_filter_set is not None and udf_name not in udf_name_filter_set:
                         self.log("Filtering out UDF '{0}' for {1}: not in name filter".format(
                             udf_name, ip_address), "DEBUG")
                         continue
-                    
+
                     # Apply UDF value filter check
                     udf_value = user_defined_fields.get(udf_name)
                     if udf_value_filter:
@@ -1263,17 +1263,17 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                                 self.log("Filtering out UDF '{0}' for {1}: value '{2}' not in filter list {3}".format(
                                     udf_name, ip_address, udf_value, udf_value_filter_list), "DEBUG")
                                 continue
-                    
+
                     # This UDF passes the filters, include it
                     filtered_udf_data[udf_name] = udf_value
                     udf_names.add(udf_name)
                     self.log("Including UDF '{0}' for {1}: value '{2}'".format(
                         udf_name, ip_address, udf_value), "DEBUG")
-                
+
                 # Only store device if it has UDFs after filtering
                 if filtered_udf_data:
                     device_udf_data[ip_address] = filtered_udf_data
-                
+
                 self.log(
                     "Device {0}: {1} total UDFs, {2} after filtering".format(
                         ip_address, len(user_defined_fields), len(filtered_udf_data)
@@ -1338,10 +1338,10 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "Generated {0} consolidated UDF configurations".format(len(grouped_entries)),
             "INFO",
         )
-        
+
         if udf_value_filter:
             self.log("UDF value filter applied: {0}".format(udf_value_filter), "INFO")
-            
+
         return {"user_defined_fields": list(grouped_entries.values())}
 
     def process_global_filters(self, global_filters):
