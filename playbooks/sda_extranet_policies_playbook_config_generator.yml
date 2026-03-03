@@ -1,8 +1,8 @@
 ---
 # ==============================================================================
-# BROWNFIELD SDA EXTRANET POLICIES PLAYBOOK GENERATOR - EXAMPLES
+# SDA EXTRANET POLICIES PLAYBOOK CONFIG GENERATOR - EXAMPLES
 # ==============================================================================
-- name: Generate complete brownfield sda extranet policies configuration
+- name: Generate complete SDA extranet policies configuration
   hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -10,7 +10,7 @@
   connection: local
   tasks:
     - name: Generate all configurations from Cisco Catalyst Center
-      cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+      cisco.dnac.sda_extranet_policies_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
