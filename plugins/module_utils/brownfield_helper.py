@@ -640,8 +640,19 @@ class BrownFieldHelper:
             f"Processing validation for {len(config_list)} configuration(s).", "DEBUG"
         )
 
+        global_filter_msg = ""
+        if require_global_filters:
+            global_filter_msg = "'global filters' or "
+
         for idx, config in enumerate(config_list, start=1):
             self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
+
+            if not isinstance(config, dict):
+                self.msg = (
+                    f"Invalid configuration entry at index {idx}: Expected dict, "
+                    f"but got {type(config).__name__}."
+                )
+                self.fail_and_exit(self.msg)
 
             has_generate_all_config_flag = "generate_all_configurations" in config
             generate_all_configurations = config.get(
@@ -654,16 +665,14 @@ class BrownFieldHelper:
                     f"Entry {idx}: generate_all_configurations=True, skipping filters check.",
                     "DEBUG",
                 )
-                continue  # No further validation needed
+                continue
 
-            if component_specific_filters is None or "components_list" not in component_specific_filters:
-                global_filter_msg = ""
-                if require_global_filters:
-                    global_filter_msg = "'global filters' or "
-            if (
-                component_specific_filters is None
-                or "components_list" not in component_specific_filters
-            ):
+            has_components_list = (
+                isinstance(component_specific_filters, dict)
+                and "components_list" in component_specific_filters
+            )
+
+            if not has_components_list:
                 if has_generate_all_config_flag:
                     self.msg = (
                         f"Validation Error in entry {idx}: {global_filter_msg}'component_specific_filters' must be provided "
