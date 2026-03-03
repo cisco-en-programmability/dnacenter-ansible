@@ -100,6 +100,57 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
     playbook_config_scenario20_access_devices_with_interface_filter = test_data.get(
         "playbook_config_scenario20_access_devices_with_interface_filter"
     )
+    playbook_config_scenario21_user_defined_fields_only = test_data.get(
+        "playbook_config_scenario21_user_defined_fields_only"
+    )
+    playbook_config_scenario22_all_components_including_user_defined_fields = test_data.get(
+        "playbook_config_scenario22_all_components_including_user_defined_fields"
+    )
+    playbook_config_scenario23_device_details_plus_user_defined_fields = test_data.get(
+        "playbook_config_scenario23_device_details_plus_user_defined_fields"
+    )
+    playbook_config_scenario24_global_ip_filter_plus_user_defined_fields = test_data.get(
+        "playbook_config_scenario24_global_ip_filter_plus_user_defined_fields"
+    )
+    playbook_config_scenario25_provision_device_plus_user_defined_fields = test_data.get(
+        "playbook_config_scenario25_provision_device_plus_user_defined_fields"
+    )
+    playbook_config_scenario26_interface_details_plus_user_defined_fields = test_data.get(
+        "playbook_config_scenario26_interface_details_plus_user_defined_fields"
+    )
+    playbook_config_scenario27_interface_filter_plus_user_defined_fields = test_data.get(
+        "playbook_config_scenario27_interface_filter_plus_user_defined_fields"
+    )
+    playbook_config_scenario28_role_based_device_details_plus_user_defined_fields = test_data.get(
+        "playbook_config_scenario28_role_based_device_details_plus_user_defined_fields"
+    )
+    playbook_config_scenario29_complex_multi_filter_with_user_defined_fields = test_data.get(
+        "playbook_config_scenario29_complex_multi_filter_with_user_defined_fields"
+    )
+    playbook_config_scenario30_udf_audit_all_devices_with_custom_metadata = test_data.get(
+        "playbook_config_scenario30_udf_audit_all_devices_with_custom_metadata"
+    )
+    playbook_config_scenario31_udf_name_filter_specific_field_names = test_data.get(
+        "playbook_config_scenario31_udf_name_filter_specific_field_names"
+    )
+    playbook_config_scenario32_udf_value_filter_specific_field_values = test_data.get(
+        "playbook_config_scenario32_udf_value_filter_specific_field_values"
+    )
+    playbook_config_scenario33_global_ip_filter_plus_udf_name_filter = test_data.get(
+        "playbook_config_scenario33_global_ip_filter_plus_udf_name_filter"
+    )
+    playbook_config_scenario34_device_details_plus_filtered_udf_names = test_data.get(
+        "playbook_config_scenario34_device_details_plus_filtered_udf_names"
+    )
+    playbook_config_scenario35_all_components_plus_udf_name_and_value_filters = test_data.get(
+        "playbook_config_scenario35_all_components_plus_udf_name_and_value_filters"
+    )
+    playbook_config_scenario36_udf_name_filter_single_string = test_data.get(
+        "playbook_config_scenario36_udf_name_filter_single_string"
+    )
+    playbook_config_scenario37_udf_value_filter_single_string = test_data.get(
+        "playbook_config_scenario37_udf_value_filter_single_string"
+    )
 
     def setUp(self):
         """Set up test fixtures and mocks."""
@@ -252,6 +303,41 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             # Scenario 20: ACCESS role devices with interface filter
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_filtered_devices_access_with_interface_filter_response")
+            ]
+
+        elif "scenario21_user_defined_fields_only" in self._testMethodName:
+            # Scenario 21: UDF only
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_devices_with_user_defined_fields_response"),
+                self.test_data.get("get_all_user_defined_fields_response")
+            ]
+
+        elif "scenario31_udf_name_filter_specific_field_names" in self._testMethodName:
+            # Scenario 31: UDF name list filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_devices_with_user_defined_fields_response"),
+                self.test_data.get("get_all_user_defined_fields_response")
+            ]
+
+        elif "scenario32_udf_value_filter_specific_field_values" in self._testMethodName:
+            # Scenario 32: UDF value list filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_devices_with_user_defined_fields_response"),
+                self.test_data.get("get_all_user_defined_fields_response")
+            ]
+
+        elif "scenario36_udf_name_filter_single_string" in self._testMethodName:
+            # Scenario 36: UDF name string filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_devices_with_user_defined_fields_response"),
+                self.test_data.get("get_all_user_defined_fields_response")
+            ]
+
+        elif "scenario37_udf_value_filter_single_string" in self._testMethodName:
+            # Scenario 37: UDF value string filter
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_all_devices_with_user_defined_fields_response"),
+                self.test_data.get("get_all_user_defined_fields_response")
             ]
 
     def test_inventory_playbook_config_generator_scenario1_complete_infrastructure(self):
@@ -947,6 +1033,106 @@ class TestBrownfieldInventoryPlaybookGenerator(TestDnacModule):
             "ACCESS",
             str(result.get('role_filter', ''))
         )
+
+    def test_inventory_playbook_config_generator_scenario21_user_defined_fields_only(self):
+        """Test case for scenario 21: User Defined Fields Only."""
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario21_user_defined_fields_only
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("configuration generated successfully", result.get("msg", "").lower())
+
+    def test_inventory_playbook_config_generator_scenario31_udf_name_filter_specific_field_names(self):
+        """Test case for scenario 31: UDF name filter with list input."""
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario31_udf_name_filter_specific_field_names
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("configuration generated successfully", result.get("msg", "").lower())
+
+    def test_inventory_playbook_config_generator_scenario32_udf_value_filter_specific_field_values(self):
+        """Test case for scenario 32: UDF value filter with list input."""
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario32_udf_value_filter_specific_field_values
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("configuration generated successfully", result.get("msg", "").lower())
+
+    def test_inventory_playbook_config_generator_scenario36_udf_name_filter_single_string(self):
+        """Test case for scenario 36: UDF name filter with string input."""
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario36_udf_name_filter_single_string
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("configuration generated successfully", result.get("msg", "").lower())
+
+    def test_inventory_playbook_config_generator_scenario37_udf_value_filter_single_string(self):
+        """Test case for scenario 37: UDF value filter with string input."""
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin123",
+                dnac_verify=False,
+                dnac_port=443,
+                dnac_version="2.3.3.0",
+                dnac_debug=False,
+                dnac_log=True,
+                dnac_log_level="INFO",
+                state="gathered",
+                config=self.playbook_config_scenario37_udf_value_filter_single_string
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("configuration generated successfully", result.get("msg", "").lower())
 
     def test_inventory_playbook_config_generator_dnac_connection_failure(self):
         """

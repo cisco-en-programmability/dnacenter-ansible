@@ -170,7 +170,7 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are "device_details", "provision_device", and "interface_details".
+            - Valid values are "device_details", "provision_device", "interface_details", and "user_defined_fields".
             - If not specified, all components are included.
             type: list
             elements: str
@@ -178,6 +178,7 @@ options:
             - device_details
             - provision_device
             - interface_details
+            - user_defined_fields
           device_details:
             description:
             - Filters for device configuration generation.
@@ -232,6 +233,30 @@ options:
                 - If not specified, all discovered interfaces for matched devices are included.
                 - 'Example: interface_name="Vlan100" for single or interface_name=["Vlan100", "Loopback0"] for multiple.'
                 type: str
+          user_defined_fields:
+            description:
+            - Filters for user-defined fields (UDF) component generation.
+            - Supports filtering by UDF field name and/or UDF field value.
+            - Both C(name) and C(value) accept a single string or a list of strings.
+            - List behavior uses OR logic (match any item in the list).
+            type: dict
+            suboptions:
+              name:
+                description:
+                - Filter UDF output by field name.
+                - Accepts a single name string or a list of names.
+                - When specified, only matching UDF names are included.
+                - 'Example: name="Cisco Switches" or name=["Cisco Switches", "To_test_udf"].'
+                type: raw
+              value:
+                description:
+                - Filter UDF output by field value.
+                - Accepts a single value string or a list of values.
+                - When specified, only UDFs with matching values are included.
+                - 'Example: value="2234" or value=["2234", "value12345"].'
+                type: raw
+
+                
 requirements:
 - dnacentersdk >= 2.10.10
 - python >= 3.9
@@ -470,6 +495,74 @@ EXAMPLES = r"""
               - "GigabitEthernet1/0/2"
               - "GigabitEthernet1/0/3"
         file_path: "./inventory_access_with_interfaces.yml"
+
+- name: Generate UDF output filtered by name (single string)
+    cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: gathered
+        config:
+            - component_specific_filters:
+                    components_list: ["user_defined_fields"]
+                    user_defined_fields:
+                        name: "Cisco Switches"
+                file_path: "./inventory_udf_name_single.yml"
+
+- name: Generate UDF output filtered by name (list)
+    cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: gathered
+        config:
+            - component_specific_filters:
+                    components_list: ["user_defined_fields"]
+                    user_defined_fields:
+                        name: ["Cisco Switches", "To_test_udf"]
+                file_path: "./inventory_udf_name_list.yml"
+
+- name: Generate UDF output filtered by value (single string)
+    cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: gathered
+        config:
+            - component_specific_filters:
+                    components_list: ["user_defined_fields"]
+                    user_defined_fields:
+                        value: "2234"
+                file_path: "./inventory_udf_value_single.yml"
+
+- name: Generate UDF output filtered by value (list)
+    cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: gathered
+        config:
+            - component_specific_filters:
+                    components_list: ["user_defined_fields"]
+                    user_defined_fields:
+                        value: ["2234", "value12345", "value321"]
+                file_path: "./inventory_udf_value_list.yml"
 """
 RETURN = r"""
 # Case_1: Success Scenario
@@ -626,6 +719,21 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "filters": ["interface_name"],
                     "is_filter_only": True,
                 },
+                "user_defined_fields": {
+                    "filters": {
+                        "name": {
+                            "type": ["str", "list"],
+                            "required": False,
+                        },
+                        "value": {
+                            "type": ["str", "list"],
+                            "required": False,
+                        },
+                    },
+                    "api_function": "get_device_list",
+                    "api_family": "devices",
+                    "get_function_name": self.get_user_defined_fields_details,
+                },
 
             },
             "global_filters": {
@@ -656,6 +764,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         "device_details",
                         "provision_device",
                         "interface_details",
+                        "user_defined_fields",
                     ],
                 },
                 "device_details": {
@@ -847,6 +956,393 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             self.status = "failed"
             self.log(self.msg, "ERROR")
             return []
+
+    def fetch_user_defined_field_descriptions(self, udf_names):
+        """
+        Fetch UDF descriptions using /dna/intent/api/v1/network-device/user-defined-field.
+
+        Args:
+            udf_names (iterable): UDF names to look up.
+
+        Returns:
+            dict: Mapping of UDF name to description.
+        """
+        if not udf_names:
+            return {}
+
+        name_list = [name for name in udf_names if isinstance(name, str) and name.strip()]
+        if not name_list:
+            return {}
+
+        unique_names = sorted(set(name_list))
+        params = {"name": ",".join(unique_names)}
+        self.log(
+            "Fetching UDF descriptions for {0} names.".format(len(unique_names)),
+            "DEBUG",
+        )
+
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function="get_all_user_defined_fields",
+                op_modifies=False,
+                params=params,
+            )
+        except Exception as error:
+            self.log(
+                "Failed to fetch UDF descriptions: {0}".format(str(error)),
+                "ERROR",
+            )
+            return {}
+
+        if not isinstance(response, dict):
+            self.log(
+                "Invalid UDF response type: expected dict, got {0}".format(
+                    type(response).__name__
+                ),
+                "WARNING",
+            )
+            return {}
+
+        records = response.get("response", [])
+        self.log("Received UDF descriptions response with {0} records.".format(len(records)), "INFO")
+        if records is None:
+            records = []
+        if isinstance(records, dict):
+            records = [records]
+        elif not isinstance(records, list):
+            self.log(
+                "Invalid UDF response payload type: {0}".format(type(records).__name__),
+                "WARNING",
+            )
+            return {}
+
+        mapping = {}
+        for record in records:
+            if not isinstance(record, dict):
+                continue
+            name = record.get("name")
+            description = record.get("description")
+            if isinstance(name, str) and name.strip():
+                mapping[name] = description if description is not None else ""
+
+        return mapping
+
+    def fetch_device_user_defined_fields(self, device_id):
+        """
+        Fetch user-defined fields for a specific device.
+        Attempts multiple SDK functions to retrieve UDF data.
+
+        Args:
+            device_id (str): The device UUID/ID
+
+        Returns:
+            dict: User-defined fields as {name: value} mapping
+        """
+        if not device_id or not isinstance(device_id, str):
+            return {}
+
+        # Try the direct function first
+        sdk_functions = [
+            ("get_device_user_defined_fields", {"device_id": device_id}),
+            ("get_network_device_user_defined_fields", {"deviceId": device_id}),
+            ("get_network_device_user_defined_fields", {"device_id": device_id}),
+        ]
+
+        for func_name, params in sdk_functions:
+            try:
+                response = self.dnac._exec(
+                    family="devices",
+                    function=func_name,
+                    op_modifies=False,
+                    params=params,
+                )
+            except Exception as error:
+                continue
+
+            if not isinstance(response, dict):
+                continue
+
+            records = response.get("response", [])
+            if records is None:
+                records = []
+            if isinstance(records, dict):
+                records = [records]
+            elif not isinstance(records, list):
+                continue
+
+            udf_dict = {}
+            for record in records:
+                if not isinstance(record, dict):
+                    continue
+                name = record.get("name")
+                value = record.get("value")
+                if isinstance(name, str) and name.strip():
+                    udf_dict[name] = value
+            
+            if udf_dict:
+                return udf_dict
+
+        return {}
+
+    def get_user_defined_fields_details(self, network_element, filters):
+        """
+        Build user-defined fields configuration data for YAML output.
+        Fetches devices from /networkDevices endpoint with USER_DEFINED_FIELDS view.
+
+        Args:
+            network_element (dict): network element schema definition
+            filters (dict): contains global_filters and generate_all_configurations flags
+
+        Returns:
+            dict: Configuration with user_defined_fields section, or empty dict
+        """
+        global_filters = (filters or {}).get("global_filters") or {}
+        generate_all = bool((filters or {}).get("generate_all_configurations", False))
+
+        allowed_ips = set()
+        if not generate_all and global_filters and any(global_filters.values()):
+            filter_result = self.process_global_filters(global_filters)
+            device_mapping = filter_result.get("device_ip_to_id_mapping", {})
+            if isinstance(device_mapping, dict):
+                allowed_ips = set(device_mapping.keys())
+
+        # Fetch all devices with USER_DEFINED_FIELDS view
+        all_devices = []
+        seen_device_ids = set()
+        offset = 1
+        limit = 500
+        page_number = 1
+
+        self.log("Fetching devices with USER_DEFINED_FIELDS view for UDF processing", "INFO")
+
+        try:
+            while True:
+                request_params = {
+                    "offset": str(offset),
+                    "limit": str(limit),
+                    "views": "USER_DEFINED_FIELDS",
+                }
+
+                self.log(
+                    "UDF device list request params (page {0}): {1}".format(
+                        page_number, request_params
+                    ),
+                    "INFO",
+                )
+
+                response = self.dnac._exec(
+                    family="devices",
+                    function="retrieve_network_devices",
+                    op_modifies=False,
+                    params=request_params,
+                )
+
+                if not isinstance(response, dict):
+                    break
+
+                page_devices = response.get("response", [])
+                if not page_devices:
+                    break
+
+                if isinstance(page_devices, dict):
+                    page_devices = [page_devices]
+                elif not isinstance(page_devices, list):
+                    break
+
+                added_count = 0
+                for device in page_devices:
+                    if not isinstance(device, dict):
+                        continue
+
+                    device_id = device.get("id") or device.get("instanceUuid")
+                    if device_id and device_id in seen_device_ids:
+                        continue
+
+                    if device_id:
+                        seen_device_ids.add(device_id)
+
+                    all_devices.append(device)
+                    added_count += 1
+
+                if len(page_devices) < limit:
+                    break
+
+                offset += limit
+                page_number += 1
+
+        except Exception as e:
+            self.log("Error fetching devices with USER_DEFINED_FIELDS view: {0}".format(str(e)), "ERROR")
+
+        if not all_devices:
+            self.log("No devices returned for user_defined_fields generation.", "WARNING")
+            return []
+
+        self.log("Fetched {0} devices with USER_DEFINED_FIELDS view".format(len(all_devices)), "INFO")
+
+        # Extract UDF-specific filters from component_specific_filters
+        # Note: component_specific_filters contains the filters FOR this component directly
+        component_filters = (filters or {}).get("component_specific_filters") or {}
+        self.log("Component filters received: {0}".format(component_filters), "DEBUG")
+        
+        udf_name_filter = component_filters.get("name")
+        udf_value_filter = component_filters.get("value")
+        
+        self.log("Extracted UDF filters - name: {0}, value: {1}".format(udf_name_filter, udf_value_filter), "DEBUG")
+        
+        # Normalize UDF name filter to set
+        udf_name_filter_set = None
+        if udf_name_filter:
+            if isinstance(udf_name_filter, str):
+                udf_name_filter_set = {udf_name_filter.strip()}
+            elif isinstance(udf_name_filter, list):
+                udf_name_filter_set = {
+                    name.strip() for name in udf_name_filter
+                    if isinstance(name, str) and name.strip()
+                }
+            
+            if udf_name_filter_set:
+                self.log("UDF name filter applied: {0}".format(sorted(list(udf_name_filter_set))), "INFO")
+        
+        # Normalize UDF value filter to list for consistent processing
+        udf_value_filter_list = None
+        if udf_value_filter:
+            if isinstance(udf_value_filter, str):
+                udf_value_filter_list = [udf_value_filter]
+                self.log("UDF value filter applied: {0}".format(udf_value_filter_list), "INFO")
+            elif isinstance(udf_value_filter, list):
+                udf_value_filter_list = udf_value_filter
+                self.log("UDF value filter applied: {0}".format(udf_value_filter_list), "INFO")
+
+        # Collect all UDF names and device data
+        udf_names = set()
+        device_udf_data = {}  # managementAddress -> {udf_dict}
+        devices_with_udf = 0
+
+        for device in all_devices:
+            if not isinstance(device, dict):
+                continue
+
+            ip_address = (
+                device.get("managementAddress")
+                or device.get("dnsResolvedManagementIpAddress")
+                or device.get("managementIpAddress")
+                or device.get("ipAddress")
+            )
+
+            if not ip_address:
+                continue
+
+            if allowed_ips and ip_address not in allowed_ips:
+                continue
+
+            # Extract UDF data from device response
+            user_defined_fields = device.get("userDefinedFields", {})
+            
+            if isinstance(user_defined_fields, dict) and user_defined_fields:
+                devices_with_udf += 1
+                
+                # Filter UDFs based on name and value filters
+                filtered_udf_data = {}
+                for udf_name in user_defined_fields.keys():
+                    if not isinstance(udf_name, str) or not udf_name.strip():
+                        continue
+                    
+                    # Apply UDF name filter check
+                    if udf_name_filter_set is not None and udf_name not in udf_name_filter_set:
+                        self.log("Filtering out UDF '{0}' for {1}: not in name filter".format(
+                            udf_name, ip_address), "DEBUG")
+                        continue
+                    
+                    # Apply UDF value filter check
+                    udf_value = user_defined_fields.get(udf_name)
+                    if udf_value_filter:
+                        # Supports str/list with OR logic
+                        if udf_value_filter_list is not None:
+                            if str(udf_value) not in [str(v) for v in udf_value_filter_list]:
+                                self.log("Filtering out UDF '{0}' for {1}: value '{2}' not in filter list {3}".format(
+                                    udf_name, ip_address, udf_value, udf_value_filter_list), "DEBUG")
+                                continue
+                    
+                    # This UDF passes the filters, include it
+                    filtered_udf_data[udf_name] = udf_value
+                    udf_names.add(udf_name)
+                    self.log("Including UDF '{0}' for {1}: value '{2}'".format(
+                        udf_name, ip_address, udf_value), "DEBUG")
+                
+                # Only store device if it has UDFs after filtering
+                if filtered_udf_data:
+                    device_udf_data[ip_address] = filtered_udf_data
+                
+                self.log(
+                    "Device {0}: {1} total UDFs, {2} after filtering".format(
+                        ip_address, len(user_defined_fields), len(filtered_udf_data)
+                    ),
+                    "DEBUG",
+                )
+
+        self.log(
+            "UDF scan summary: total_devices={0}, devices_with_udf_data={1}".format(
+                len(all_devices), devices_with_udf
+            ),
+            "INFO",
+        )
+
+        if not device_udf_data:
+            self.log("No devices with user-defined fields found.", "WARNING")
+            return []
+
+        # Fetch descriptions for all UDF names
+        udf_descriptions = self.fetch_user_defined_field_descriptions(udf_names)
+
+        # Group devices by identical UDF sets
+        grouped_entries = {}
+        for ip_address, udf_dict in device_udf_data.items():
+            udf_list = []
+            for udf_name, udf_value in sorted(udf_dict.items()):
+                # All UDFs here are already filtered, so just build the list
+                udf_list.append(
+                    {
+                        "name": udf_name,
+                        "description": udf_descriptions.get(udf_name, ""),
+                        "value": udf_value,
+                    }
+                )
+
+            if not udf_list:
+                continue
+
+            # Create grouping key based on UDF configuration
+            grouping_key = tuple(
+                (item.get("name"), item.get("description"), str(item.get("value")))
+                for item in udf_list
+            )
+
+            entry = grouped_entries.get(grouping_key)
+            if entry is None:
+                grouped_entries[grouping_key] = {
+                    "ip_address_list": [ip_address],
+                    "add_user_defined_field": udf_list,
+                }
+            else:
+                entry_ips = entry.get("ip_address_list", [])
+                if ip_address not in entry_ips:
+                    entry_ips.append(ip_address)
+                entry["ip_address_list"] = entry_ips
+
+        if not grouped_entries:
+            self.log("No UDF entries found matching the specified filters.", "WARNING")
+            return []
+
+        self.log(
+            "Generated {0} consolidated UDF configurations".format(len(grouped_entries)),
+            "INFO",
+        )
+        
+        if udf_value_filter:
+            self.log("UDF value filter applied: {0}".format(udf_value_filter), "INFO")
+            
+        return {"user_defined_fields": list(grouped_entries.values())}
 
     def process_global_filters(self, global_filters):
         """
@@ -2568,9 +3064,10 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
 
-        # Separate provision_wired_device config from device configs
+        # Separate provision_wired_device and user_defined_fields configs from device configs
         device_configs = []
         provision_config = None
+        user_defined_fields_config = None
 
         self.log("Separating configs from final_list with {0} total items".format(len(final_list)), "DEBUG")
 
@@ -2580,6 +3077,9 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             if isinstance(config, dict) and "provision_wired_device" in config and isinstance(config.get("provision_wired_device"), list):
                 provision_config = config
                 self.log("Found provision_wired_device config at index {0}".format(idx), "DEBUG")
+            elif isinstance(config, dict) and "user_defined_fields" in config and isinstance(config.get("user_defined_fields"), list):
+                user_defined_fields_config = config
+                self.log("Found user_defined_fields config at index {0}".format(idx), "DEBUG")
             else:
                 device_configs.append(config)
                 self.log("Added device config at index {0}".format(idx), "DEBUG")
@@ -2618,9 +3118,10 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         include_device_details = self.generate_all_configurations or "device_details" in components_list
         include_provision_device = self.generate_all_configurations or "provision_device" in components_list
         include_interface_details = self.generate_all_configurations or "interface_details" in components_list
+        include_user_defined_fields = self.generate_all_configurations or "user_defined_fields" in components_list
 
-        self.log("Component inclusion (independent) - device_details: {0}, provision_device: {1}, interface_details: {2}".format(
-            include_device_details, include_provision_device, include_interface_details), "INFO")
+        self.log("Component inclusion (independent) - device_details: {0}, provision_device: {1}, interface_details: {2}, user_defined_fields: {3}".format(
+            include_device_details, include_provision_device, include_interface_details, include_user_defined_fields), "INFO")
 
         # First document: device details
         if include_device_details and device_configs:
@@ -2703,6 +3204,18 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "data": auto_interface_configs
             })
             self.log("Added third document with {0} auto-generated interface configs".format(len(auto_interface_configs)), "DEBUG")
+
+        # Fourth document with user-defined fields configuration
+        if include_user_defined_fields and user_defined_fields_config:
+            user_defined_fields_entries = user_defined_fields_config.get("user_defined_fields", [])
+            if user_defined_fields_entries:
+                dicts_to_write.append({
+                    "_comment": "config for updating user defined fields:",
+                    "data": user_defined_fields_entries
+                })
+                self.log("Added fourth document with {0} user-defined fields configs".format(
+                    len(user_defined_fields_entries)
+                ), "DEBUG")
 
         self.log("Final dictionaries created: {0} config sections".format(len(dicts_to_write)), "DEBUG")
 

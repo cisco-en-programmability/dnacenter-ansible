@@ -704,6 +704,355 @@
       }
     }
   ],
+  "playbook_config_scenario21_user_defined_fields_only": [
+    {
+      "file_path": "inventory_udf_only.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "user_defined_fields"
+        ]
+      }
+    }
+  ],
+  "playbook_config_scenario22_all_components_including_user_defined_fields": [
+    {
+      "file_path": "inventory_all_components_with_udf.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "provision_device",
+          "interface_details",
+          "user_defined_fields"
+        ]
+      }
+    }
+  ],
+  "playbook_config_scenario23_device_details_plus_user_defined_fields": [
+    {
+      "file_path": "inventory_device_udf.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "user_defined_fields"
+        ]
+      }
+    }
+  ],
+  "playbook_config_scenario24_global_ip_filter_plus_user_defined_fields": [
+    {
+      "file_path": "inventory_ip_filter_udf.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "206.1.2.3",
+          "206.1.2.4",
+          "172.27.248.223"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "user_defined_fields"
+        ]
+      }
+    }
+  ],
+  "playbook_config_scenario25_provision_device_plus_user_defined_fields": [
+    {
+      "file_path": "inventory_provision_site_udf.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "provision_device",
+          "user_defined_fields"
+        ],
+        "provision_device": {
+          "site_name": "Global/Site_India/Karnataka/Bangalore/BLD_2/Floor_1"
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario26_interface_details_plus_user_defined_fields": [
+    {
+      "file_path": "inventory_interface_udf.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "interface_details",
+          "user_defined_fields"
+        ]
+      }
+    }
+  ],
+  "playbook_config_scenario27_interface_filter_plus_user_defined_fields": [
+    {
+      "file_path": "inventory_interface_name_udf.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "interface_details",
+          "user_defined_fields"
+        ],
+        "interface_details": {
+          "interface_name": [
+            "Loopback0",
+            "Vlan100"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario28_role_based_device_details_plus_user_defined_fields": [
+    {
+      "file_path": "inventory_access_role_udf.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "user_defined_fields"
+        ],
+        "device_details": {
+          "role": "ACCESS"
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario29_complex_multi_filter_with_user_defined_fields": [
+    {
+      "file_path": "inventory_complex_multi_filter_udf.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "172.27.248.223",
+          "172.27.248.224",
+          "205.1.2.67"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "provision_device",
+          "interface_details",
+          "user_defined_fields"
+        ],
+        "device_details": {
+          "role": "ACCESS"
+        },
+        "provision_device": {
+          "site_name": "Global/Site_India/Karnataka/Bangalore"
+        },
+        "interface_details": {
+          "interface_name": [
+            "Loopback0",
+            "Vlan100"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario30_udf_audit_all_devices_with_custom_metadata": [
+    {
+      "generate_all_configurations": true,
+      "file_path": "inventory_udf_audit_complete.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "user_defined_fields"
+        ]
+      }
+    }
+  ],
+  "playbook_config_scenario31_udf_name_filter_specific_field_names": [
+    {
+      "file_path": "inventory_udf_name_filter.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "user_defined_fields"
+        ],
+        "user_defined_fields": {
+          "name": [
+            "Cisco Switches",
+            "To_test_udf"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario32_udf_value_filter_specific_field_values": [
+    {
+      "file_path": "inventory_udf_value_filter.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "user_defined_fields"
+        ],
+        "user_defined_fields": {
+          "value": [
+            "2234",
+            "value123",
+            "value12345"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario33_global_ip_filter_plus_udf_name_filter": [
+    {
+      "file_path": "inventory_ip_udf_name_filter.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "206.1.2.4",
+          "204.1.2.2",
+          "204.1.2.3"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "user_defined_fields"
+        ],
+        "user_defined_fields": {
+          "name": [
+            "Cisco Switches",
+            "Test123"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario34_device_details_plus_filtered_udf_names": [
+    {
+      "file_path": "inventory_device_udf_name_filter.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "user_defined_fields"
+        ],
+        "user_defined_fields": {
+          "name": [
+            "Cisco Switches",
+            "Test321"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario35_all_components_plus_udf_name_and_value_filters": [
+    {
+      "file_path": "inventory_all_udf_filtered.yml",
+      "global_filters": {
+        "ip_address_list": [
+          "206.1.2.4",
+          "204.1.2.2",
+          "204.1.2.3"
+        ]
+      },
+      "component_specific_filters": {
+        "components_list": [
+          "device_details",
+          "user_defined_fields"
+        ],
+        "user_defined_fields": {
+          "name": [
+            "Cisco Switches",
+            "Test123",
+            "Test321"
+          ],
+          "value": [
+            "2234",
+            "value321"
+          ]
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario36_udf_name_filter_single_string": [
+    {
+      "file_path": "inventory_udf_name_filter_single.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "user_defined_fields"
+        ],
+        "user_defined_fields": {
+          "name": "Cisco Switches"
+        }
+      }
+    }
+  ],
+  "playbook_config_scenario37_udf_value_filter_single_string": [
+    {
+      "file_path": "inventory_udf_value_filter_single.yml",
+      "component_specific_filters": {
+        "components_list": [
+          "user_defined_fields"
+        ],
+        "user_defined_fields": {
+          "value": "value12345"
+        }
+      }
+    }
+  ],
+  "get_all_devices_with_user_defined_fields_response": {
+    "response": [
+      {
+        "id": "device-001",
+        "hostname": "evpn-app-c9k-27",
+        "managementIpAddress": "206.1.2.1",
+        "userDefinedFields": {
+          "Cisco Switches": "2234",
+          "To_test_udf": "value12345",
+          "Test123": "value123"
+        }
+      },
+      {
+        "id": "device-002",
+        "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+        "managementIpAddress": "205.1.2.67",
+        "userDefinedFields": {
+          "Cisco Switches": "value321",
+          "Test321": "2234"
+        }
+      },
+      {
+        "id": "device-003",
+        "hostname": "TB3-SJC-BORDER-01.autoagni1.com",
+        "managementIpAddress": "204.1.2.2",
+        "userDefinedFields": {
+          "Test123": "value12345",
+          "Test321": "value111"
+        }
+      },
+      {
+        "id": "device-004",
+        "hostname": "core-router-01",
+        "managementIpAddress": "210.1.1.1",
+        "userDefinedFields": {}
+      },
+      {
+        "id": "device-006",
+        "hostname": "access-switch-01",
+        "managementIpAddress": "172.27.248.224",
+        "userDefinedFields": {
+          "To_test_udf": "value321",
+          "Custom": "abc"
+        }
+      }
+    ]
+  },
+  "get_all_user_defined_fields_response": {
+    "response": [
+      {
+        "name": "Cisco Switches",
+        "description": "Cisco Switches custom field"
+      },
+      {
+        "name": "To_test_udf",
+        "description": "Test UDF field"
+      },
+      {
+        "name": "Test123",
+        "description": "Test123 description"
+      },
+      {
+        "name": "Test321",
+        "description": "Test321 description"
+      },
+      {
+        "name": "Custom",
+        "description": "Custom metadata field"
+      }
+    ]
+  },
   "get_filtered_devices_by_interface_name_vlan100_response": {
     "response": [
       {
