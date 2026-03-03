@@ -4,7 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """
-Ansible brownfield playbook generator for SDA fabric multicast configurations.
+Ansible playbook config generator for SDA fabric multicast configurations.
 
 Retrieves existing multicast configurations from Cisco Catalyst Center and generates
 YAML playbooks compatible with the sda_fabric_multicast_workflow_manager module.
@@ -16,13 +16,13 @@ __author__ = "Archit Soni, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: brownfield_sda_fabric_multicast_playbook_generator
+module: sda_fabric_multicast_playbook_config_generator
 short_description: Generate YAML configurations playbook for 'sda_fabric_multicast_workflow_manager' module.
 description:
 - Automates YAML playbook generation from existing SDA fabric multicast
   deployments in Cisco Catalyst Center.
 - Creates playbooks compatible with the C(sda_fabric_multicast_workflow_manager)
-  module for brownfield infrastructure migration and documentation.
+  module for infrastructure configuration management and documentation.
 - Reduces manual effort by programmatically extracting current multicast
   configurations including replication modes, SSM ranges, and ASM RPs.
 - Supports selective filtering to generate playbooks for specific fabric sites
@@ -64,7 +64,7 @@ options:
           Cisco Catalyst Center without requiring specific filters.
         - Overrides any provided C(component_specific_filters) to ensure
           complete configuration retrieval.
-        - Ideal for complete brownfield infrastructure migration and
+        - Ideal for complete infrastructure configuration export and
           comprehensive documentation.
         - If enabled, a default filename will be auto-generated when
           C(file_path) is not provided.
@@ -76,8 +76,8 @@ options:
         description:
         - Absolute or relative path where the generated YAML playbook file will be saved.
         - If not specified, the file is saved in the current working directory with an auto-generated filename.
-        - Default filename format is C(sda_fabric_multicast_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml).
-        - "Example: C(sda_fabric_multicast_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml)"
+        - Default filename format is C(sda_fabric_multicast_playbook_config_<DD_Mon_YYYY_HH_MM_SS_MS>.yml).
+        - "Example: C(sda_fabric_multicast_playbook_config_22_Apr_2025_21_43_26_379.yml)"
         type: str
         required: false
       component_specific_filters:
@@ -177,7 +177,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Generate YAML playbook for all SDA fabric multicast configurations
-  cisco.dnac.brownfield_sda_fabric_multicast_playbook_generator:
+  cisco.dnac.sda_fabric_multicast_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -193,7 +193,7 @@ EXAMPLES = r"""
         file_path: "/path/to/output/all_fabric_multicast_configs.yml"
 
 - name: Generate YAML playbook for specific fabric site
-  cisco.dnac.brownfield_sda_fabric_multicast_playbook_generator:
+  cisco.dnac.sda_fabric_multicast_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -212,7 +212,7 @@ EXAMPLES = r"""
             - fabric_name: "Global/USA/San Jose/Building1"
 
 - name: Generate YAML playbook for specific fabric and virtual network
-  cisco.dnac.brownfield_sda_fabric_multicast_playbook_generator:
+  cisco.dnac.sda_fabric_multicast_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -228,7 +228,7 @@ EXAMPLES = r"""
               layer3_virtual_network: "GUEST_VN"
 
 - name: Generate playbook for multiple fabric sites with auto-generated filename
-  cisco.dnac.brownfield_sda_fabric_multicast_playbook_generator:
+  cisco.dnac.sda_fabric_multicast_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -360,9 +360,9 @@ else:
     OrderedDumper = None
 
 
-class SdaFabricMulticastPlaybookGenerator(DnacBase, BrownFieldHelper):
+class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
-    Brownfield playbook generator for SDA fabric multicast configurations.
+    Playbook config generator for SDA fabric multicast configurations.
 
     Attributes:
         supported_states (list): List of supported Ansible states (currently only 'gathered').
@@ -392,7 +392,7 @@ class SdaFabricMulticastPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def __init__(self, module):
         """
-        Initialize the SdaFabricMulticastPlaybookGenerator instance.
+        Initialize the SdaFabricMulticastPlaybookConfigGenerator instance.
 
         Parameters:
             module (AnsibleModule): The Ansible module instance.
@@ -1664,7 +1664,7 @@ def main():
         None
 
     Description:
-        Initializes the Ansible module, creates the SdaFabricMulticastPlaybookGenerator instance,
+        Initializes the Ansible module, creates the SdaFabricMulticastPlaybookConfigGenerator instance,
         validates version compatibility, validates input parameters, processes configurations,
         and executes the playbook generation workflow.
     """
@@ -1691,7 +1691,9 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_sda_multicast_playbook_generator = SdaFabricMulticastPlaybookGenerator(module)
+    ccc_sda_multicast_playbook_generator = SdaFabricMulticastPlaybookConfigGenerator(
+        module
+    )
     if (
         ccc_sda_multicast_playbook_generator.compare_dnac_versions(
             ccc_sda_multicast_playbook_generator.get_ccc_version(), "2.3.7.9"

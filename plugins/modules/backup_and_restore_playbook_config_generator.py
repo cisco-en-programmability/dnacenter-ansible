@@ -102,14 +102,12 @@ options:
                   - Must be provided along with source_path for filtering.
                   - Used for exact match filtering of NFS configurations.
                 type: str
-                required: true
               source_path:
                 description:
                   - Source path on the NFS server.
                   - Must be provided along with server_ip for filtering.
                   - Used for exact match filtering of NFS configurations.
                 type: str
-                required: true
           backup_storage_configuration:
             description:
               - Backup storage configuration filtering options by server type only.
@@ -1519,6 +1517,32 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 for key in filter_param.keys():
                     if key not in ["server_type"]:
                         unsupported_filters.append(key)
+
+                # Validate server_type values if present
+                if "server_type" in filter_param:
+                    server_type_value = filter_param["server_type"]
+                    allowed_server_types = ["NFS", "PHYSICAL_DISK"]
+
+                    if server_type_value not in allowed_server_types:
+                        error_msg = (
+                            "Backup storage configuration filter validation failed. Invalid server_type value "
+                            "detected: '{0}'. Only the following server_type values are supported: {1}. "
+                            "Invalid filter at position {2}: {3}.".format(
+                                server_type_value, allowed_server_types, filter_index, filter_param
+                            )
+                        )
+                        self.log(error_msg, "ERROR")
+
+                        result = self.set_operation_result("failed", False, error_msg, "ERROR")
+                        self.msg = error_msg
+                        self.result["msg"] = error_msg
+
+                        self.log(
+                            "Server type validation failed, returning operation result with error details. "
+                            "Operation status: failed. No API call will be made due to invalid server_type value.",
+                            "ERROR"
+                        )
+                        return result
 
                 self.log(
                     "Filter {0} validation check: unsupported_filters={1}. If non-empty, "
@@ -3038,6 +3062,44 @@ def main():
                     "DEBUG"
                 )
 
+        # Handle component_specific_filters scenarios
+        elif config_item.get("component_specific_filters"):
+            components_list = config_item["component_specific_filters"].get("components_list")
+
+            # Scenario 1: Empty components_list - treat as generate_all
+            if components_list is not None and len(components_list) == 0:
+                ccc_backup_restore_playbook_generator.log(
+                    "Configuration item {0}: Empty components_list detected. Treating as generate_all_configurations=True".format(
+                        config_index
+                    ),
+                    "INFO"
+                )
+                config_item["component_specific_filters"]["components_list"] = ["nfs_configuration", "backup_storage_configuration"]
+
+            # Scenario 2 & 3: Components specified but no actual filter values - treat as generate_all for those components
+            elif components_list:
+                for component in components_list:
+                    if component in config_item["component_specific_filters"] and not config_item["component_specific_filters"][component]:
+                        ccc_backup_restore_playbook_generator.log(
+                            "Configuration item {0}: Component '{1}' specified without filter values. "
+                            "Will retrieve all configurations for this component".format(
+                                config_index, component
+                            ),
+                            "INFO"
+                        )
+                        # Remove empty filter to allow all configurations for this component
+                        del config_item["component_specific_filters"][component]
+
+            # If no components_list specified, default to all components
+            else:
+                ccc_backup_restore_playbook_generator.log(
+                    "Configuration item {0}: component_specific_filters provided but no components_list. "
+                    "Defaulting to all components".format(config_index),
+                    "INFO"
+                )
+                config_item["component_specific_filters"]["components_list"] = ["nfs_configuration", "backup_storage_configuration"]
+
+        # No component filters specified at all
         elif config_item.get("component_specific_filters") is None:
             ccc_backup_restore_playbook_generator.log(
                 "Configuration item {0}: No component_specific_filters provided in normal mode. "

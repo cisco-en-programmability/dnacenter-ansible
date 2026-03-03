@@ -978,7 +978,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                         f"Found: {len(filtered_profiles)}. Please verify the profile names and try again."
                     )
                     self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
 
                 if filtered_profiles:
                     self.log(
@@ -1410,7 +1409,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     "and are associated with profiles."
                 )
                 self.log(self.msg, "WARNING")
-                self.fail_and_exit(self.msg)
 
             self.log(
                 f"Day-N template list filtering completed. Matched {day_n_template_matches} "
@@ -1489,7 +1487,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     "and are associated with profiles."
                 )
                 self.log(self.msg, "WARNING")
-                self.fail_and_exit(self.msg)
 
             unique_data = {d["profile_name"]: d for d in final_list}.values()
             final_list = list(unique_data)
@@ -1576,7 +1573,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     "and are associated with profiles."
                 )
                 self.log(self.msg, "WARNING")
-                self.fail_and_exit(self.msg)
 
             unique_data = {d["profile_name"]: d for d in final_list}.values()
             final_list = list(unique_data)
@@ -1663,7 +1659,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     "and are associated with profiles."
                 )
                 self.log(self.msg, "WARNING")
-                self.fail_and_exit(self.msg)
 
             unique_data = {d["profile_name"]: d for d in final_list}.values()
             final_list = list(unique_data)
@@ -1754,7 +1749,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     "and are associated with profiles."
                 )
                 self.log(self.msg, "WARNING")
-                self.fail_and_exit(self.msg)
 
             unique_data = {d["profile_name"]: d for d in final_list}.values()
             final_list = list(unique_data)
@@ -1842,7 +1836,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     "and are associated with profiles."
                 )
                 self.log(self.msg, "WARNING")
-                self.fail_and_exit(self.msg)
 
             unique_data = {d["profile_name"]: d for d in final_list}.values()
             final_list = list(unique_data)
@@ -3600,9 +3593,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                     )
 
                     self.set_operation_result(
-                        "failed", True,
-                        f"{operation_name} operation failed: {str(e)}",
-                        "ERROR"
+                        "success", False,
+                        self.msg,
+                        "ERROR",
+                        f"{operation_name} operation failed: {str(e)}"
                     ).check_return_status()
             else:
                 operations_skipped += 1

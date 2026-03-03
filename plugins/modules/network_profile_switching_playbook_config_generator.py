@@ -87,10 +87,9 @@ options:
             by component-specific filters.
           - At least one filter type must be specified to identify
             target devices.
-          - Filter priority (highest to lowest) is profile_name_list,
-            day_n_template_list, site_list.
-          - Only the highest priority filter with valid data will
-            be processed.
+          - If multiple filter types are provided, the module will filter
+            them in the following order of profile_name_list, day_n_template_list, site_list
+          - All profiles matching any of the provided filters will be retrieved.
         type: dict
         required: false
         suboptions:
@@ -951,7 +950,6 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     len(profile_names)
                 )
             )
-            self.fail_and_exit(self.msg)
 
         if filtered_profiles:
             self.log(
@@ -1290,6 +1288,18 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 each_profile_config = {}
                 each_profile_config["profile_name"] = profile
 
+                if profile not in profile_names:
+                    self.log(
+                        "Profile {0}/{1}: '{2}' is in switch_profile_names but not in "
+                        "requested profile_name_list filter. This should not happen as "
+                        "validation should have filtered only requested profiles. Skipping "
+                        "this profile due to mismatch.".format(
+                            profile_index, len(self.have.get("switch_profile_names", [])), profile
+                        ),
+                        "WARNING"
+                    )
+                    continue
+
                 profile_id = self.get_value_by_key(
                     self.have["switch_profile_list"],
                     "name",
@@ -1377,7 +1387,8 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 ),
                 "INFO"
             )
-        elif day_n_templates and isinstance(day_n_templates, list):
+
+        if day_n_templates and isinstance(day_n_templates, list):
             self.log(
                 "Filtering switch profiles based on day_n_template_list (MEDIUM PRIORITY, "
                 "profile_name_list not provided). Requested template names: {0} (count: {1}). "
@@ -1497,7 +1508,6 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
                 )
                 self.log(self.msg, "WARNING")
-                self.fail_and_exit(self.msg)
 
             unique_data = {d["profile_name"]: d for d in final_list}.values()
             final_list = list(unique_data)
@@ -1511,7 +1521,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "INFO"
             )
 
-        elif site_list and isinstance(site_list, list):
+        if site_list and isinstance(site_list, list):
             self.log(
                 "Filtering switch profiles based on site_list (LOWEST PRIORITY, neither "
                 "profile_name_list nor day_n_template_list provided). Requested site paths: {0} "
@@ -1633,7 +1643,6 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "correctly assigned to profiles in Catalyst Center or adjust filter criteria."
                 )
                 self.log(self.msg, "WARNING")
-                self.fail_and_exit(self.msg)
 
             unique_data = {d["profile_name"]: d for d in final_list}.values()
             final_list = list(unique_data)

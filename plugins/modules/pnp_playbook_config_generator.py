@@ -782,6 +782,20 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                             )
                         )
 
+            # Validate that generate_all_configurations is true OR filters are provided
+            generate_all = config_item.get("generate_all_configurations", False)
+            has_global_filters = bool(global_filters)
+            has_component_filters = bool(component_filters and component_filters.get("components_list"))
+
+            if not generate_all and not has_global_filters and not has_component_filters:
+                validation_errors.append(
+                    "Config item {0}: 'generate_all_configurations' is set to false but no "
+                    "filters are provided. Either set 'generate_all_configurations' to true, "
+                    "or specify 'global_filters' (device_state, device_family, site_name) or "
+                    "'component_specific_filters' with 'components_list' to control which "
+                    "devices are included in the generated playbook.".format(config_index)
+                )
+
         if validation_errors:
             self.msg = "Configuration validation errors:\n{0}".format(
                 "\n".join(validation_errors)
