@@ -10,7 +10,7 @@ __metaclass__ = type
 __author__ = "Apoorv Bansal, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
-module: brownfield_sda_extranet_policies_playbook_generator
+module: sda_extranet_policies_playbook_config_generator
 short_description: Generate YAML playbooks for SDA extranet
   policies from existing configurations.
 description:
@@ -188,7 +188,7 @@ seealso:
 
 EXAMPLES = r"""
 - name: Generate YAML playbook for all SDA extranet policies
-  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+  cisco.dnac.sda_extranet_policies_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -203,7 +203,7 @@ EXAMPLES = r"""
       - generate_all_configurations: true
 
 - name: Generate YAML playbook for all SDA extranet policies with custom file path
-  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+  cisco.dnac.sda_extranet_policies_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -219,7 +219,7 @@ EXAMPLES = r"""
         file_path: "/tmp/all_extranet_policies.yml"
 
 - name: Generate YAML playbook for specific extranet policy by name
-  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+  cisco.dnac.sda_extranet_policies_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -238,7 +238,7 @@ EXAMPLES = r"""
             - extranet_policy_name: "Test_1"
 
 - name: Generate YAML playbook for multiple specific extranet policies
-  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+  cisco.dnac.sda_extranet_policies_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -260,7 +260,7 @@ EXAMPLES = r"""
             - extranet_policy_name: "Test_3"
 
 - name: Generate multiple playbooks with different filters
-  cisco.dnac.brownfield_sda_extranet_policies_playbook_generator:
+  cisco.dnac.sda_extranet_policies_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
     dnac_password: "{{ dnac_password }}"
@@ -337,9 +337,9 @@ else:
     OrderedDumper = None
 
 
-class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
+class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
-    Brownfield playbook generator for SDA extranet policies.
+    Playbook config generator for SDA extranet policies.
     Attributes:
         supported_states (list): Supported Ansible states
             (only 'gathered').
@@ -955,7 +955,7 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
         from the 'want' state, and consolidating results into the module's result dictionary.
 
         Purpose:
-            Implements the 'gathered' state behavior for the sda_extranet_policies_playbook_generator
+            Implements the 'gathered' state behavior for the sda_extranet_policies_playbook_config_generator
             module, coordinating the retrieval of existing extranet policy configurations from
             Cisco Catalyst Center and generation of Ansible-compatible YAML playbook files.
 
@@ -1158,21 +1158,21 @@ class SdaExtranetPoliciesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
 def main():
     """
-    Main entry point for the Cisco Catalyst Center brownfield SDA extranet policies playbook generator module.
+    Main entry point for the Cisco Catalyst Center SDA extranet policies playbook config generator module.
 
     This function serves as the primary execution entry point for the Ansible module,
     orchestrating the complete workflow from parameter collection to YAML playbook
-    generation for brownfield SDA extranet policies extraction.
+    generation for SDA extranet policies extraction.
 
     Purpose:
-        Initializes and executes the brownfield SDA extranet policies playbook generator
+        Initializes and executes the SDA extranet policies playbook config generator
         workflow to extract existing extranet policy configurations from Cisco Catalyst Center
         and generate Ansible-compatible YAML playbook files for SDA fabric extranet policies.
 
     Workflow Steps:
         1. Define module argument specification with required parameters
         2. Initialize Ansible module with argument validation
-        3. Create SdaExtranetPoliciesPlaybookGenerator instance
+        3. Create SdaExtranetPoliciesPlaybookConfigGenerator instance
         4. Validate Catalyst Center version compatibility (>= 2.3.7.9)
         5. Validate and sanitize state parameter
         6. Execute input parameter validation
@@ -1341,45 +1341,45 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_sda_extranet_policies_playbook_generator = SdaExtranetPoliciesPlaybookGenerator(module)
-    ccc_sda_extranet_policies_playbook_generator.log(
+    ccc_sda_extranet_policies_playbook_config_generator = SdaExtranetPoliciesPlaybookConfigGenerator(module)
+    ccc_sda_extranet_policies_playbook_config_generator.log(
         "Starting SDA extranet policies playbook "
         "generator execution",
         "INFO",
     )
     if (
-        ccc_sda_extranet_policies_playbook_generator.compare_dnac_versions(
-            ccc_sda_extranet_policies_playbook_generator.get_ccc_version(), "2.3.7.9"
+        ccc_sda_extranet_policies_playbook_config_generator.compare_dnac_versions(
+            ccc_sda_extranet_policies_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_sda_extranet_policies_playbook_generator.msg = (
+        ccc_sda_extranet_policies_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for SDA Extranet Policies Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_sda_extranet_policies_playbook_generator.get_ccc_version()
+                ccc_sda_extranet_policies_playbook_config_generator.get_ccc_version()
             )
         )
-        ccc_sda_extranet_policies_playbook_generator.set_operation_result(
-            "failed", False, ccc_sda_extranet_policies_playbook_generator.msg, "ERROR"
+        ccc_sda_extranet_policies_playbook_config_generator.set_operation_result(
+            "failed", False, ccc_sda_extranet_policies_playbook_config_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_sda_extranet_policies_playbook_generator.params.get("state")
-    ccc_sda_extranet_policies_playbook_generator.log(
+    state = ccc_sda_extranet_policies_playbook_config_generator.params.get("state")
+    ccc_sda_extranet_policies_playbook_config_generator.log(
         "Validating requested state '{0}' against "
         "supported states: {1}".format(
-            state, ccc_sda_extranet_policies_playbook_generator.supported_states
+            state, ccc_sda_extranet_policies_playbook_config_generator.supported_states
         ),
         "DEBUG",
     )
     # Check if the state is valid
-    if state not in ccc_sda_extranet_policies_playbook_generator.supported_states:
-        ccc_sda_extranet_policies_playbook_generator.status = "invalid"
-        ccc_sda_extranet_policies_playbook_generator.msg = "State {0} is invalid".format(
+    if state not in ccc_sda_extranet_policies_playbook_config_generator.supported_states:
+        ccc_sda_extranet_policies_playbook_config_generator.status = "invalid"
+        ccc_sda_extranet_policies_playbook_config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_sda_extranet_policies_playbook_generator.check_return_status()
-    ccc_sda_extranet_policies_playbook_generator.log(
+        ccc_sda_extranet_policies_playbook_config_generator.check_return_status()
+    ccc_sda_extranet_policies_playbook_config_generator.log(
         "State '{0}' validated successfully".format(
             state
         ),
@@ -1387,19 +1387,19 @@ def main():
     )
 
     # Validate the input parameters and check the return statusk
-    ccc_sda_extranet_policies_playbook_generator.validate_input().check_return_status()
+    ccc_sda_extranet_policies_playbook_config_generator.validate_input().check_return_status()
     # Validate input configuration
-    ccc_sda_extranet_policies_playbook_generator.log(
+    ccc_sda_extranet_policies_playbook_config_generator.log(
         "Starting validation of input configuration "
         "parameters from playbook",
         "DEBUG",
     )
-    config = ccc_sda_extranet_policies_playbook_generator.validated_config
+    config = ccc_sda_extranet_policies_playbook_config_generator.validated_config
     if len(config) == 1 and config[0].get("component_specific_filters") is None and not config[0].get("generate_all_configurations"):
-        ccc_sda_extranet_policies_playbook_generator.msg = (
+        ccc_sda_extranet_policies_playbook_config_generator.msg = (
             "No valid configurations found in the provided parameters."
         )
-        ccc_sda_extranet_policies_playbook_generator.validated_config = [
+        ccc_sda_extranet_policies_playbook_config_generator.validated_config = [
             {
                 'component_specific_filters':
                 {
@@ -1407,32 +1407,32 @@ def main():
                 }
             }
         ]
-    ccc_sda_extranet_policies_playbook_generator.log(
+    ccc_sda_extranet_policies_playbook_config_generator.log(
         "Processing {0} validated configuration(s) "
         "for state '{1}'".format(
-            len(ccc_sda_extranet_policies_playbook_generator.validated_config), state
+            len(ccc_sda_extranet_policies_playbook_config_generator.validated_config), state
         ),
         "INFO",
     )
     # Iterate over the validated configuration parameters
-    for config in ccc_sda_extranet_policies_playbook_generator.validated_config:
-        ccc_sda_extranet_policies_playbook_generator.reset_values()
-        ccc_sda_extranet_policies_playbook_generator.get_want(
+    for config in ccc_sda_extranet_policies_playbook_config_generator.validated_config:
+        ccc_sda_extranet_policies_playbook_config_generator.reset_values()
+        ccc_sda_extranet_policies_playbook_config_generator.get_want(
             config, state
         ).check_return_status()
-        ccc_sda_extranet_policies_playbook_generator.get_diff_state_apply[
+        ccc_sda_extranet_policies_playbook_config_generator.get_diff_state_apply[
             state
         ]().check_return_status()
 
-    ccc_sda_extranet_policies_playbook_generator.log(
+    ccc_sda_extranet_policies_playbook_config_generator.log(
         "All {0} configuration(s) processed "
         "successfully. Exiting module.".format(
-            len(ccc_sda_extranet_policies_playbook_generator.validated_config)
+            len(ccc_sda_extranet_policies_playbook_config_generator.validated_config)
         ),
         "INFO",
     )
 
-    module.exit_json(**ccc_sda_extranet_policies_playbook_generator.result)
+    module.exit_json(**ccc_sda_extranet_policies_playbook_config_generator.result)
 
 
 if __name__ == "__main__":
