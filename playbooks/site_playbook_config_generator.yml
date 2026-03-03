@@ -1,0 +1,138 @@
+---
+- name: Generate YAML playbook for site configurations from Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate the playbook for site hierarchy (area, building, floor) from Cisco Catalyst Center
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          # ====================================================================================
+          # Scenario 1: Sites - Filter by Site Name Hierarchy
+          # Fetches site hierarchy entries using the exact site_name_hierarchy value.
+          # ====================================================================================
+          # - file_path: "/tmp/case1_site_name_hierarchy_only.yaml"
+          #   component_specific_filters:
+          #     components_list: ["site"]
+          #     site:
+          #       - site_name_hierarchy: "Global/USA/San Jose"
+
+          # ====================================================================================
+          # Scenario 2: Sites - Filter by Parent Name Hierarchy
+          # Fetches descendant sites under parent_name_hierarchy by using parent_name_hierarchy/.*
+          # as the API hierarchy scope.
+          # ====================================================================================
+          # - file_path: "/tmp/case2_parent_name_hierarchy_only.yaml"
+          #   component_specific_filters:
+          #     components_list: ["site"]
+          #     site:
+          #       - parent_name_hierarchy: "Global/USA"
+
+          # ====================================================================================
+          # Scenario 3: Sites - Filter by Site Name Hierarchy and Parent Name Hierarchy
+          # Validates that parent_name_hierarchy is a strict path-prefix of site_name_hierarchy.
+          # On valid input, parent_name_hierarchy is used for validation and the API query uses
+          # site_name_hierarchy as the primary filter.
+          # ====================================================================================
+          # - file_path: "/tmp/case3_site_and_parent_only.yaml"
+          #   component_specific_filters:
+          #     components_list: ["site"]
+          #     site:
+          #       - site_name_hierarchy: "Global/USA/San Francisco"
+          #         parent_name_hierarchy: "Global/USA"
+
+          # ====================================================================================
+          # Scenario 4: Sites - No Hierarchy Filters
+          # Fetches all site hierarchy entries when site_name_hierarchy and
+          # parent_name_hierarchy are not provided.
+          # ====================================================================================
+          # - file_path: "/tmp/case4_no_hierarchy_filters.yaml"
+          #   component_specific_filters:
+          #     components_list: ["site"]
+
+          # ====================================================================================
+          # Scenario 5: Sites - Site Name Hierarchy with Site Type
+          # Executes one get_sites API call per site_type value while keeping
+          # the same site_name_hierarchy filter.
+          # ====================================================================================
+          # - file_path: "/tmp/case5_site_name_and_site_type.yaml"
+          #   component_specific_filters:
+          #     components_list: ["site"]
+          #     site:
+          #       - site_name_hierarchy: "Global/USA/San Jose"
+          #         site_type:
+          #           - "building"
+          #           - "floor"
+
+          # ====================================================================================
+          # Scenario 6: Sites - Parent Name Hierarchy with Site Type
+          # Executes one get_sites API call per site_type value using
+          # parent_name_hierarchy/.* as the hierarchy scope.
+          # ====================================================================================
+          # - file_path: "/tmp/case6_parent_name_and_site_type.yaml"
+          #   component_specific_filters:
+          #     components_list: ["site"]
+          #     site:
+          #       - parent_name_hierarchy: "Global/USA"
+          #         site_type:
+          #           - "floor"
+
+          # ====================================================================================
+          # Scenario 7: Sites - Site Name Hierarchy, Parent Name Hierarchy, and Site Type
+          # Validates parent_name_hierarchy as a strict prefix of site_name_hierarchy.
+          # On valid input, executes one get_sites API call per site_type value using
+          # site_name_hierarchy as the primary hierarchy filter.
+          # ====================================================================================
+          # - file_path: "/tmp/case7_all_filters.yaml"
+          #   component_specific_filters:
+          #     components_list: ["site"]
+          #     site:
+          #       - site_name_hierarchy: "Global/USA/San Francisco"
+          #         parent_name_hierarchy: "Global/USA"
+          #         site_type:
+          #           - "building"
+          #           - "floor"
+
+          # ====================================================================================
+          # Scenario 8: Sites - Site Type Only
+          # Fetches site hierarchy entries by site_type without hierarchy filters.
+          # ====================================================================================
+          # - file_path: "/tmp/case8_site_type_only.yaml"
+          #   component_specific_filters:
+          #     components_list: ["site"]
+          #     site:
+          #       - site_type:
+          #           - "area"
+
+          # ====================================================================================
+          # Scenario 9: Generate All Configurations with File Path
+          # Fetches all site hierarchy entries and writes the generated playbook
+          # to the user-provided file path.
+          # ====================================================================================
+          # - generate_all_configurations: true
+          #   file_path: "/tmp/case9_all_sites.yaml"
+
+          # ====================================================================================
+          # Scenario 10: Generate All Configurations with Default File Path
+          # Fetches all site hierarchy entries and writes output using the default
+          # file name pattern "site_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml"
+          # in the current working directory.
+          # ====================================================================================
+          - generate_all_configurations: true
+
+      register: result
+
+      tags:
+        - site_playbook_config_generator_testing
