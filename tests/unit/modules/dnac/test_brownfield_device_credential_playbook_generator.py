@@ -18,19 +18,19 @@ __metaclass__ = type
 
 from unittest.mock import patch, mock_open
 import yaml
-from ansible_collections.cisco.dnac.plugins.modules import device_credential_playbook_config_generator
+from ansible_collections.cisco.dnac.plugins.modules import brownfield_device_credential_playbook_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDeviceCredentialPlaybookConfigGenerator(TestDnacModule):
-    module = device_credential_playbook_config_generator
-    test_data = loadPlaybookData("device_credential_playbook_config_generator")
+class TestBrownfieldDeviceCredentialPlaybookGenerator(TestDnacModule):
+    module = brownfield_device_credential_playbook_generator
+    test_data = loadPlaybookData("brownfield_device_credential_playbook_generator")
 
     playbook_config_global_credentials_filtered = test_data.get("playbook_config_global_credentials_filtered")
     playbook_config_assign_credentials_to_site_filtered = test_data.get("playbook_config_assign_credentials_to_site_filtered")
 
     def setUp(self):
-        super(TestDeviceCredentialPlaybookConfigGenerator, self).setUp()
+        super(TestBrownfieldDeviceCredentialPlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
@@ -46,7 +46,7 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDeviceCredentialPlaybookConfigGenerator, self).tearDown()
+        super(TestBrownfieldDeviceCredentialPlaybookGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
