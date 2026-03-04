@@ -6,12 +6,11 @@
     "dnac_verify": false,
     "dnac_version": "2.3.7.6",
     "state": "merged",
-    "config": [
-      {
-        "generate_all_configurations": true,
-        "file_path": "/tmp/complete_health_score_settings.yml"
-      }
-    ]
+    "config": {
+      "generate_all_configurations": true,
+      "file_path": "/tmp/complete_health_score_settings.yml",
+      "file_mode": "overwrite"
+    }
   },
   "playbook_config_specific_families": {
     "dnac_host": "198.18.129.100",
@@ -20,14 +19,13 @@
     "dnac_verify": false,
     "dnac_version": "2.3.7.6",
     "state": "merged",
-    "config": [
-      {
-        "file_path": "/tmp/specific_families_settings.yml",
-        "component_specific_filters": {
-          "device_families": ["UNIFIED_AP", "ROUTER"]
-        }
+    "config": {
+      "file_path": "/tmp/specific_families_settings.yml",
+      "file_mode": "overwrite",
+      "component_specific_filters": {
+        "device_families": ["UNIFIED_AP", "ROUTER"]
       }
-    ]
+    }
   },
   "playbook_config_specific_kpis": {
     "dnac_host": "198.18.129.100",
@@ -36,14 +34,13 @@
     "dnac_verify": false, 
     "dnac_version": "2.3.7.6",
     "state": "merged",
-    "config": [
-      {
-        "file_path": "/tmp/specific_kpis_settings.yml",
-        "component_specific_filters": {
-          "kpi_names": ["CPU Utilization", "Memory Utilization", "Interface Utilization"]
-        }
+    "config": {
+      "file_path": "/tmp/specific_kpis_settings.yml",
+      "file_mode": "overwrite",
+      "component_specific_filters": {
+        "kpi_names": ["CPU Utilization", "Memory Utilization", "Interface Utilization"]
       }
-    ]
+    }
   },
   "playbook_config_combined_filters": {
     "dnac_host": "198.18.129.100",
@@ -52,15 +49,14 @@
     "dnac_verify": false,
     "dnac_version": "2.3.7.6",
     "state": "merged",
-    "config": [
-      {
-        "file_path": "/tmp/combined_filters_settings.yml",
-        "component_specific_filters": {
-          "device_families": ["SWITCH", "ROUTER"], 
-          "kpi_names": ["CPU Utilization", "Interface Utilization"]
-        }
+    "config": {
+      "file_path": "/tmp/combined_filters_settings.yml",
+      "file_mode": "overwrite",
+      "component_specific_filters": {
+        "device_families": ["SWITCH", "ROUTER"], 
+        "kpi_names": ["CPU Utilization", "Interface Utilization"]
       }
-    ]
+    }
   },
   "playbook_config_invalid_filters": {
     "dnac_host": "198.18.129.100",
@@ -69,15 +65,14 @@
     "dnac_verify": false,
     "dnac_version": "2.3.7.6",
     "state": "merged",
-    "config": [
-      {
-        "file_path": "/tmp/invalid_filters_settings.yml",
-        "component_specific_filters": {
-          "device_families": ["INVALID_DEVICE", "NONEXISTENT_TYPE"],
-          "kpi_names": ["Invalid KPI", "Nonexistent Metric"]
-        }
+    "config": {
+      "file_path": "/tmp/invalid_filters_settings.yml",
+      "file_mode": "overwrite",
+      "component_specific_filters": {
+        "device_families": ["INVALID_DEVICE", "NONEXISTENT_TYPE"],
+        "kpi_names": ["Invalid KPI", "Nonexistent Metric"]
       }
-    ]
+    }
   },
   "api_response_complete_data": {
     "response": [
