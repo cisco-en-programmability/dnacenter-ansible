@@ -101,8 +101,8 @@ options:
           will be saved.
         - If not provided, the module generates a default filename in the current
           working directory with the format
-          C(<module_name>_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - Example default filename C(assurance_device_health_score_settings_playbook_config_generator_2026-01-24_12-33-20.yml).
+          C(assurance_device_health_score_settings_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - Example default filename C(assurance_device_health_score_settings_playbook_config_2026-01-24_12-33-20.yml).
         - The directory path will be created automatically if it does not exist.
         - Supports both absolute paths (C(/tmp/config.yml)) and relative paths
           (C(./configs/health_score.yml)).
@@ -453,7 +453,7 @@ response_3:
         'assurance_device_health_score_settings_workflow_manager'.
         Verify input filters or configuration.
       file_path: >-
-        assurance_device_health_score_settings_workflow_manager_playbook_2026-02-04_14-30-15.yml
+        assurance_device_health_score_settings_playbook_config_2026-02-04_14-30-15.yml
       operation_summary:
         total_device_families_processed: 0
         total_kpis_processed: 0

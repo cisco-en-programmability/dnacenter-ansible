@@ -55,8 +55,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name "sda_fabric_devices_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "sda_fabric_devices_workflow_manager_playbook_2026-01-30_19-16-01.yml".
+          a default file name C(sda_fabric_devices_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(sda_fabric_devices_playbook_config_2026-01-30_19-16-01.yml).
         type: str
         required: false
       component_specific_filters:
@@ -339,7 +339,7 @@ response_1:
       "response": {
         "status": "success",
         "message": "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
-        "file_path": "sda_fabric_devices_workflow_manager_playbook_2026-02-18_11-01-59.yml",
+        "file_path": "sda_fabric_devices_playbook_config_2026-02-18_11-01-59.yml",
         "configurations_count": 1,
         "components_processed": 1,
         "components_skipped": 0
@@ -347,7 +347,7 @@ response_1:
       "msg": {
         "status": "success",
         "message": "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
-        "file_path": "sda_fabric_devices_workflow_manager_playbook_2026-02-18_11-01-59.yml",
+        "file_path": "sda_fabric_devices_playbook_config_2026-02-18_11-01-59.yml",
         "configurations_count": 1,
         "components_processed": 1,
         "components_skipped": 0

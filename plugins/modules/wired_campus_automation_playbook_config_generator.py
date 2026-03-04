@@ -72,8 +72,8 @@ options:
         description:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
-            a default file name  "wired_campus_automation_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-          - For example, "wired_campus_automation_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml".
+            a default file name C(wired_campus_automation_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+          - For example, C(wired_campus_automation_playbook_config_2025-04-22_21-43-26.yml).
         type: str
         required: false
       global_filters:
