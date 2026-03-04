@@ -1,0 +1,312 @@
+{
+  "playbook_config_generate_all_configurations": [
+    {
+      "generate_all_configurations": true,
+      "file_path": "/tmp/sda_host_port_onboarding.yaml"
+    }
+  ],
+  "playbook_config_port_assignments_filtered": [
+    {
+      "file_path": "/tmp/sda_host_port_onboarding.yaml",
+      "component_specific_filters": {
+        "components_list": ["port_assignments"],
+        "port_assignments": {
+          "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
+        }
+      }
+    }
+  ],
+  "playbook_config_port_channels_filtered": [
+    {
+      "file_path": "/tmp/sda_host_port_onboarding.yaml",
+      "component_specific_filters": {
+        "components_list": ["port_channels"],
+        "port_channels": {
+          "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
+        }
+      }
+    }
+  ],
+  "playbook_config_wireless_ssids_filtered": [
+    {
+      "file_path": "/tmp/sda_host_port_onboarding.yaml",
+      "component_specific_filters": {
+        "components_list": ["wireless_ssids"],
+        "wireless_ssids": {
+          "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
+        }
+      }
+    }
+  ],
+  "playbook_config_all_components_filtered": [
+    {
+      "file_path": "/tmp/sda_host_port_onboarding.yaml",
+      "component_specific_filters": {
+        "components_list": ["port_assignments", "port_channels", "wireless_ssids"],
+        "port_assignments": {
+          "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
+        },
+        "port_channels": {
+          "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
+        },
+        "wireless_ssids": {
+          "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
+        }
+      }
+    }
+  ],
+  "playbook_config_no_file_path": [
+    {
+      "component_specific_filters": {
+        "components_list": ["port_assignments"]
+      }
+    }
+  ],
+  "get_port_assignments_response": {
+    "response": [
+      {
+        "id": "port-assign-001",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-001",
+        "interfaceName": "GigabitEthernet1/0/1",
+        "connectedDeviceType": "USER_DEVICE",
+        "dataVlanName": "Data_VLAN_100",
+        "voiceVlanName": "Voice_VLAN_150",
+        "authenticateTemplateName": "No Authentication",
+        "scalableGroupName": null,
+        "interfaceDescription": "User Port 1"
+      },
+      {
+        "id": "port-assign-002",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-002",
+        "interfaceName": "GigabitEthernet1/0/2",
+        "connectedDeviceType": "TRUNK",
+        "dataVlanName": "Data_VLAN_200",
+        "voiceVlanName": null,
+        "authenticateTemplateName": "Closed Authentication",
+        "scalableGroupName": "SGT_Employees",
+        "interfaceDescription": "Trunk Port 2"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_port_channels_response": {
+    "response": [
+      {
+        "id": "port-channel-001",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-001",
+        "portChannelName": "Port-channel10",
+        "interfaceNames": ["GigabitEthernet1/0/10", "GigabitEthernet1/0/11"],
+        "connectedDeviceType": "TRUNK",
+        "protocol": "PAGP",
+        "description": "Port Channel for Uplink"
+      },
+      {
+        "id": "port-channel-002",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-002",
+        "portChannelName": "Port-channel20",
+        "interfaceNames": ["GigabitEthernet1/0/20", "GigabitEthernet1/0/21"],
+        "connectedDeviceType": "TRUNK",
+        "protocol": "LACP",
+        "description": "Port Channel for Distribution"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_vlans_and_ssids_response": {
+    "response": [
+      {
+        "vlanName": "Guest_VLAN_300",
+        "ssidDetails": [
+          {
+            "name": "Guest_WiFi",
+            "securityGroupTag": "Unknown"
+          }
+        ]
+      },
+      {
+        "vlanName": "Corporate_VLAN_400",
+        "ssidDetails": [
+          {
+            "name": "Corporate_WiFi",
+            "securityGroupTag": "SGT_Corporate"
+          },
+          {
+            "name": "Corporate_WiFi_5G",
+            "securityGroupTag": "SGT_Corporate"
+          }
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_device_by_id_response_device_001": {
+    "response": {
+      "type": "Cisco Catalyst 9300 Switch",
+      "lastUpdateTime": 1771582763813,
+      "macAddress": "5c:a6:2d:6b:a3:00",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.4",
+      "deviceSupportLevel": "Supported",
+      "serialNumber": "FJC2413E16S",
+      "inventoryStatusDetail": "<status><general code=\"SUCCESS\"/></status>",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "10.10.10.101",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "syncRequestedByApp": "",
+      "upTime": "2 days, 0:31:50.16",
+      "interfaceCount": "0",
+      "lastUpdated": "2026-02-20 10:19:23",
+      "apManagerInterfaceIp": "",
+      "bootDateTime": "2026-02-18 09:48:23",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "TB3-BGL-EDGE1.autoagni1.com",
+      "locationName": null,
+      "managementIpAddress": "10.10.10.101",
+      "platformId": "C9300-48P",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2026-02-20 10:18:00",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": false,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 180034,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.15.4, RELEASE SOFTWARE (fc6)",
+      "roleSource": "AUTO",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "device-001",
+      "instanceTenantId": "67e6885ba7e51e7021a8a263",
+      "id": "device-001"
+    },
+    "version": "1.0"
+  },
+  "get_device_by_id_response_device_002": {
+    "response": {
+      "type": "Cisco Catalyst 9300 Switch",
+      "lastUpdateTime": 1771582763813,
+      "macAddress": "5c:a6:2d:6b:a4:00",
+      "softwareType": "IOS-XE",
+      "softwareVersion": "17.15.4",
+      "deviceSupportLevel": "Supported",
+      "serialNumber": "FJC2413E17S",
+      "inventoryStatusDetail": "<status><general code=\"SUCCESS\"/></status>",
+      "collectionInterval": "Global Default",
+      "dnsResolvedManagementAddress": "10.10.10.102",
+      "lastManagedResyncReasons": "Periodic",
+      "managementState": "Managed",
+      "pendingSyncRequestsCount": "0",
+      "reasonsForDeviceResync": "Periodic",
+      "reasonsForPendingSyncRequests": "",
+      "syncRequestedByApp": "",
+      "upTime": "2 days, 0:31:50.16",
+      "interfaceCount": "0",
+      "lastUpdated": "2026-02-20 10:19:23",
+      "apManagerInterfaceIp": "",
+      "bootDateTime": "2026-02-18 09:48:23",
+      "collectionStatus": "Managed",
+      "family": "Switches and Hubs",
+      "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+      "locationName": null,
+      "managementIpAddress": "10.10.10.102",
+      "platformId": "C9300-48P",
+      "reachabilityFailureReason": "",
+      "reachabilityStatus": "Reachable",
+      "series": "Cisco Catalyst 9300 Series Switches",
+      "snmpContact": "",
+      "snmpLocation": "",
+      "associatedWlcIp": "",
+      "apEthernetMacAddress": null,
+      "errorCode": null,
+      "errorDescription": null,
+      "lastDeviceResyncStartTime": "2026-02-20 10:18:00",
+      "lineCardCount": "0",
+      "lineCardId": "",
+      "managedAtleastOnce": false,
+      "memorySize": "NA",
+      "tagCount": "0",
+      "tunnelUdpPort": null,
+      "uptimeSeconds": 180034,
+      "vendor": "Cisco",
+      "waasDeviceMode": null,
+      "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.15.4, RELEASE SOFTWARE (fc6)",
+      "roleSource": "AUTO",
+      "location": null,
+      "role": "ACCESS",
+      "instanceUuid": "device-002",
+      "instanceTenantId": "67e6885ba7e51e7021a8a263",
+      "id": "device-002"
+    },
+    "version": "1.0"
+  },
+  "get_fabric_sites_response": {
+    "response": [
+      {
+        "id": "fabric-001",
+        "siteId": "site-001",
+        "authenticationProfileName": "No Authentication",
+        "isPubSubEnabled": true
+      },
+      {
+        "id": "fabric-002",
+        "siteId": "site-002",
+        "authenticationProfileName": "Open Authentication",
+        "isPubSubEnabled": true
+      },
+      {
+        "id": "fabric-003",
+        "siteId": "site-003",
+        "authenticationProfileName": "No Authentication",
+        "isPubSubEnabled": false
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_sites_response": {
+    "response": [
+      {
+        "id": "site-001",
+        "nameHierarchy": "Global/USA/San Jose/Building1",
+        "name": "Building1",
+        "type": "area"
+      },
+      {
+        "id": "site-002",
+        "nameHierarchy": "Global/USA/RTP/Building2",
+        "name": "Building2",
+        "type": "area"
+      },
+      {
+        "id": "site-003",
+        "nameHierarchy": "Global/Europe/London/Building3",
+        "name": "Building3",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+  "empty_response": {
+    "response": [],
+    "version": "1.0"
+  }
+}

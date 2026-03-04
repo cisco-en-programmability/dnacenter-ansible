@@ -60,7 +60,7 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name C(<module_name>playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+          a default file name C(network_settings_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - For example, C(network_settings_playbook_config_2026-01-24_12-33-20.yml).
         type: str
         required: false

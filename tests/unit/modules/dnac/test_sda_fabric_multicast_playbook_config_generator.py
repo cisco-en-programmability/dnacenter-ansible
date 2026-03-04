@@ -16,7 +16,7 @@
 #   Archit Soni <soni.archit03@gmail.com>
 #
 # Description:
-#   Unit tests for the Ansible module `brownfield_sda_fabric_multicast_playbook_generator`.
+#   Unit tests for the Ansible module `sda_fabric_multicast_playbook_config_generator`.
 #   These tests cover various playbook generation scenarios for SDA fabric multicast configurations
 #   using mocked Catalyst Center responses.
 
@@ -30,15 +30,15 @@ __version__ = "1.0.0"
 
 from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import (
-    brownfield_sda_fabric_multicast_playbook_generator,
+    sda_fabric_multicast_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldSdaFabricMulticastPlaybookGenerator(TestDnacModule):
+class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
 
-    module = brownfield_sda_fabric_multicast_playbook_generator
-    test_data = loadPlaybookData("brownfield_sda_fabric_multicast_playbook_generator")
+    module = sda_fabric_multicast_playbook_config_generator
+    test_data = loadPlaybookData("sda_fabric_multicast_playbook_config_generator")
 
     playbook_config_generate_all_configurations_case_1 = test_data.get(
         "generate_all_configurations_case_1"
@@ -63,7 +63,7 @@ class TestBrownfieldSdaFabricMulticastPlaybookGenerator(TestDnacModule):
     )
 
     def setUp(self):
-        super(TestBrownfieldSdaFabricMulticastPlaybookGenerator, self).setUp()
+        super(TestSdaFabricMulticastPlaybookConfigGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
@@ -77,13 +77,13 @@ class TestBrownfieldSdaFabricMulticastPlaybookGenerator(TestDnacModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestBrownfieldSdaFabricMulticastPlaybookGenerator, self).tearDown()
+        super(TestSdaFabricMulticastPlaybookConfigGenerator, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
-        Load fixtures for brownfield SDA fabric multicast playbook generator tests.
+        Load fixtures for SDA fabric multicast playbook config generator tests.
         """
         if "test_generate_all_configurations_case_1" in self._testMethodName:
             # Case 1: Generate all configurations
