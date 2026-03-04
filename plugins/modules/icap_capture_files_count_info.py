@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: icap_capture_files_count_info
-short_description: Information module for Icap Capture
-  Files Count
+short_description: Information module for Icap Capture Files Count
 description:
-  - Get all Icap Capture Files Count. - > Retrieves
-    the total number of packet capture files matching
-    the specified criteria. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
+  - Get all Icap Capture Files Count. - > Retrieves the total number of packet capture files matching the specified criteria.
+    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
     programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -30,38 +26,30 @@ options:
     type: str
   clientMac:
     description:
-      - ClientMac query parameter. The macAddress of
-        client.
+      - ClientMac query parameter. The macAddress of client.
     type: str
   apMac:
     description:
-      - ApMac query parameter. The base radio macAddress
-        of the access point.
+      - ApMac query parameter. The base radio macAddress of the access point.
     type: str
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which
-        API queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive.
+        StartTime query parameter. Start time from which API queries the data set related to the resource. It
+        must be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API
-        queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive.
+        EndTime query parameter. End time to which API queries the data set related to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteria
-    description: Complete reference of the RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteria
-      API.
+  - name: Cisco DNA Center documentation for Sensors RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteria
+    description: Complete reference of the RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteria API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-packet-capture-files-matching-specified-criteria
 notes:
   - SDK Method used are

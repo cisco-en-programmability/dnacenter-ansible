@@ -9,28 +9,24 @@ DOCUMENTATION = r"""
 module: maps_import
 short_description: Resource module for Maps Import
 description:
-  - Manage operation delete of the resource Maps Import.
-    - > Cancels a previously initatied import, allowing
-    the system to cleanup cached resources about that
-    import data, and ensures the import cannot accidentally
-    be performed / approved at a later time.
+  - Manage operation delete of the resource Maps Import. - > Cancels a previously initatied import, allowing the system to
+    cleanup cached resources about that import data, and ensures the import cannot accidentally be performed / approved at
+    a later time.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   importContextUuid:
-    description: ImportContextUuid path parameter. The
-      unique import context UUID given by a previous
-      call to Start Import API.
+    description: ImportContextUuid path parameter. The unique import context UUID given by a previous call to Start Import
+      API.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites ImportMapArchiveCancelAnImport
-    description: Complete reference of the ImportMapArchiveCancelAnImport
-      API.
+    description: Complete reference of the ImportMapArchiveCancelAnImport API.
     link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-cancel-an-import
 notes:
   - SDK Method used are

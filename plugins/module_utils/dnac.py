@@ -744,8 +744,12 @@ class DnacBase():
         # Retrieve device IDs from the specified site
         api_response, device_ids = self.get_device_ids_from_site(site_name, site_id)
         if not api_response:
-            self.msg = "No response received from API call 'get_device_ids_from_site' for site ID: {0}".format(site_id)
-            self.fail_and_exit(self.msg)
+            self.log(
+                "No response received from API call 'get_device_ids_from_site' for site ID: {0}, site name: {1}"
+                .format(site_id, site_name),
+                "DEBUG"
+            )
+            return device_details_list
 
         self.log("Device IDs retrieved from site '{0}': {1}".format(site_id, str(device_ids)), "DEBUG")
 
@@ -2563,6 +2567,46 @@ class DnacBase():
                     seen.add(value)
 
         return list(duplicates)
+
+    def find_multiple_dict_by_key_value(self, data_list, key, value):
+        """
+        Find a dictionary in a list by a matching key-value pair.
+
+        Parameters:
+            data_list (list): List of dictionaries to search.
+            key (str): The key to match in each dictionary.
+            value (any): The value to match against the given key.
+
+        Returns:
+            list or None: The list of dictionaries that match the key-value pair, or None if not found.
+
+        Description:
+            Iterates through the list of dictionaries and returns the first dictionary
+            where the specified key has the specified value. If no match is found, returns None.
+        """
+        if not isinstance(data_list, list):
+            self.log("The 'data_list' parameter must be a list.", "ERROR")
+            return None
+
+        if not all(isinstance(item, dict) for item in data_list):
+            self.log("All items in 'data_list' must be dictionaries.", "ERROR")
+            return None
+
+        self.log(f"Searching for key '{key}' with value '{value}' in a list of {len(data_list)} items.",
+                 "DEBUG")
+        matched_items = []
+        for idx, item in enumerate(data_list):
+            self.log(f"Checking item at index {idx}: {item}", "DEBUG")
+            if item.get(key) == value:
+                self.log(f"Match found at index {idx}: {item}", "DEBUG")
+                matched_items.append(item)
+
+        if matched_items:
+            self.log(f"Total matches found: {len(matched_items)}", "DEBUG")
+            return matched_items
+
+        self.log(f"No matching item found for key '{key}' with value '{value}'.", "DEBUG")
+        return None
 
 
 def is_list_complex(x):

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: interface_network_device_detail_info
-short_description: Information module for Interface
-  Network Device Detail
+short_description: Information module for Interface Network Device Detail
 description:
   - Get all Interface Network Device Detail.
-  - Returns interface by specified device Id and interface
-    name.
+  - Returns interface by specified device Id and interface name.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -30,13 +28,11 @@ options:
       - Name query parameter. Interface name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetInterfaceDetailsByDeviceIdAndInterfaceName
-    description: Complete reference of the GetInterfaceDetailsByDeviceIdAndInterfaceName
-      API.
+  - name: Cisco DNA Center documentation for Devices GetInterfaceDetailsByDeviceIdAndInterfaceName
+    description: Complete reference of the GetInterfaceDetailsByDeviceIdAndInterfaceName API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interface-details-by-device-id-and-interface-name
 notes:
   - SDK Method used are

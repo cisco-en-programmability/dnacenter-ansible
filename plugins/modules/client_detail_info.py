@@ -10,8 +10,7 @@ module: client_detail_info
 short_description: Information module for Client Detail
 description:
   - Get all Client Detail.
-  - Returns detailed Client information retrieved by
-    Mac Address for any given point of time.
+  - Returns detailed Client information retrieved by Mac Address for any given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,22 +21,18 @@ options:
     type: dict
   macAddress:
     description:
-      - MacAddress query parameter. MAC Address of the
-        client.
+      - MacAddress query parameter. MAC Address of the client.
     type: str
   timestamp:
     description:
-      - Timestamp query parameter. Epoch time(in milliseconds)
-        when the Client health data is required.
+      - Timestamp query parameter. Epoch time(in milliseconds) when the Client health data is required.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients
-      GetClientDetail
-    description: Complete reference of the GetClientDetail
-      API.
+  - name: Cisco DNA Center documentation for Clients GetClientDetail
+    description: Complete reference of the GetClientDetail API.
     link: https://developer.cisco.com/docs/dna-center/#!get-client-detail
 notes:
   - SDK Method used are

@@ -593,6 +593,7 @@ options:
               - Maintenance purpose and details.
               - A brief description of the maintenance schedule, specifying its
                 purpose or any relevant details.
+              - Description can be created but cannot be updated later for maintenance schedules.
             type: str
           start_time:
             description:
@@ -3269,7 +3270,7 @@ class Inventory(DnacBase):
             )
 
         except Exception as e:
-            self.msg = """An exception occured while fetching the details for wireless provisioning of
+            self.msg = """An exception occurred while fetching the details for wireless provisioning of
                 device '{0}' due to - {1}""".format(
                 device_ip_address, str(e)
             )
@@ -4288,11 +4289,11 @@ class Inventory(DnacBase):
                                 self.status = "failed"
                                 failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
-                                    self.msg = "Interface Updation get failed because of {0}".format(
+                                    self.msg = "Interface Update get failed because of {0}".format(
                                         failure_reason
                                     )
                                 else:
-                                    self.msg = "Interface Updation get failed"
+                                    self.msg = "Interface Update get failed"
                                 self.log(self.msg, "ERROR")
                                 self.result["response"] = self.msg
                                 break
@@ -4304,7 +4305,7 @@ class Inventory(DnacBase):
                     self.log(error_message, "INFO")
                     self.status = "success"
                     self.result["changed"] = False
-                    self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
+                    self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Update required"
                     self.log(self.msg, "INFO")
                     self.response_list.append(self.msg)
 
@@ -4339,11 +4340,11 @@ class Inventory(DnacBase):
                 self.status = "failed"
                 failure_reason = execution_details.get("failureReason")
                 if failure_reason:
-                    self.msg = "Device new management IP updation for device '{0}' get failed due to {1}".format(
+                    self.msg = "Device new management IP update for device '{0}' get failed due to {1}".format(
                         device_ip, failure_reason
                     )
                 else:
-                    self.msg = "Device new management IP updation for device '{0}' get failed".format(
+                    self.msg = "Device new management IP update for device '{0}' get failed".format(
                         device_ip
                     )
                 self.log(self.msg, "ERROR")
@@ -4389,12 +4390,12 @@ class Inventory(DnacBase):
                 failure_reason = execution_details.get("failureReason")
                 if failure_reason:
                     self.msg = (
-                        "Device Updation for device '{0}' get failed due to {1}".format(
+                        "Device Update for device '{0}' get failed due to {1}".format(
                             device_ip, failure_reason
                         )
                     )
                 else:
-                    self.msg = "Device Updation for device '{0}' get failed".format(
+                    self.msg = "Device Update for device '{0}' get failed".format(
                         device_ip
                     )
                 self.log(self.msg, "ERROR")
@@ -5123,7 +5124,7 @@ class Inventory(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while scheduling the maintenance for the device(s) '{0}' in the Cisco Catalyst "
+                "An exception occurred while scheduling the maintenance for the device(s) '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(device_ips, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -5244,7 +5245,7 @@ class Inventory(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while checking the scheduling the maintenance for the device '{0}' "
+                "An exception occurred while checking the scheduling the maintenance for the device '{0}' "
                 " needs update or not in the Cisco Catalyst Center: {1}"
             ).format(device_ip, str(e))
             self.log(self.msg, "ERROR")
@@ -5575,7 +5576,7 @@ class Inventory(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while updating the maintenance schedule for the device '{0}' in the Cisco Catalyst "
+                "An exception occurred while updating the maintenance schedule for the device '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(device_ip, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -6320,7 +6321,7 @@ class Inventory(DnacBase):
                             execution_details = self.get_task_details(task_id)
                             progress = execution_details.get("progress")
 
-                            if "successfully" in progress or "succesfully" in progress:
+                            if "successfully" in progress or "successfully" in progress:
                                 self.status = "success"
                                 self.log(
                                     "Device '{0}' role updated successfully to '{1}'".format(
@@ -6335,11 +6336,11 @@ class Inventory(DnacBase):
                                 self.status = "failed"
                                 failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
-                                    self.msg = "Device role updation get failed because of {0}".format(
+                                    self.msg = "Device role update get failed because of {0}".format(
                                         failure_reason
                                     )
                                 else:
-                                    self.msg = "Device role updation get failed"
+                                    self.msg = "Device role update get failed"
                                 self.log(self.msg, "ERROR")
                                 self.result["response"] = self.msg
                                 break
@@ -7252,7 +7253,7 @@ class Inventory(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Addition/Updation) of Devices in Cisco Catalyst Center.
+        Verify the merged status(Addition/Update) of Devices in Cisco Catalyst Center.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -7328,7 +7329,7 @@ class Inventory(DnacBase):
                 self.log(msg, "INFO")
             else:
                 self.log(
-                    "Playbook parameter does not match with Cisco Catalyst Center, meaning device updation task not executed properly.",
+                    "Playbook parameter does not match with Cisco Catalyst Center, meaning device update task not executed properly.",
                     "INFO",
                 )
         elif device_type != "NETWORK_DEVICE":
@@ -7420,7 +7421,7 @@ class Inventory(DnacBase):
                 else:
                     self.log(
                         "Mismatch between playbook parameter for creating/updating the maintenance schedule for"
-                        "  the device(s) {0}, indicating that the maintenance schedule creation/updation task may "
+                        "  the device(s) {0}, indicating that the maintenance schedule creation/update task may "
                         "not have executed successfully.".format(device_ips),
                         "WARNING",
                     )

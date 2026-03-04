@@ -122,6 +122,17 @@ options:
         type: bool
         required: false
         default: true
+      config_verification_wait_time:
+        description:
+          - Time in seconds to wait before verifying the configuration deployment status.
+          - Used when config_verify is enabled to allow sufficient time for configuration to be applied.
+          - Provides a delay between configuration deployment and verification checks.
+          - Useful for large configurations or devices with slower response times.
+          - Minimum recommended value is 10 seconds.
+          - Maximum value depends on network conditions and device performance.
+          - Default behavior uses internal timing based on operation complexity.
+        type: int
+        required: false
       layer2_configuration:
         description:
           - Comprehensive Layer 2 configuration settings for the network device.
@@ -7591,7 +7602,7 @@ class WiredCampusAutomation(DnacBase):
         api_params.update(config_params)
 
         self.log(
-            "Final API parameters for udpate intent operation: {0}".format(api_params),
+            "Final API parameters for update intent operation: {0}".format(api_params),
             "DEBUG",
         )
 
@@ -12188,7 +12199,7 @@ class WiredCampusAutomation(DnacBase):
         Returns:
             bool: True if values match, False otherwise
         """
-        if not isinstance(desired, type(current)) and not isinstance(current, type(desired)):
+        if not isinstance(desired, current.__class__) and not isinstance(current, desired.__class__):
             self.log(
                 "Type mismatch detected: desired={0}, current={1}".format(
                     type(desired).__name__, type(current).__name__

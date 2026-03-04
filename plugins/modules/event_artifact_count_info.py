@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: event_artifact_count_info
-short_description: Information module for Event Artifact
-  Count
+short_description: Information module for Event Artifact Count
 description:
   - Get all Event Artifact Count.
   - Get the count of registered event artifacts.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      EventArtifactCount
-    description: Complete reference of the EventArtifactCount
-      API.
+  - name: Cisco DNA Center documentation for Event Management EventArtifactCount
+    description: Complete reference of the EventArtifactCount API.
     link: https://developer.cisco.com/docs/dna-center/#!event-artifact-count
 notes:
   - SDK Method used are
