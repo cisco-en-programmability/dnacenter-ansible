@@ -65,7 +65,7 @@ options:
     default: gathered
   config:
     description:
-    - List of configuration parameters for generating YAML playbooks compatible
+    - A dictionary of configuration parameters for generating YAML playbooks compatible
       with the C(assurance_device_health_score_settings_workflow_manager) module.
     - Defines filters to specify which device families and KPI settings to
       include in the generated YAML configuration file.
@@ -73,8 +73,7 @@ options:
       device health score settings without manual filter specification.
     - When C(generate_all_configurations) is enabled, filter parameters become
       optional and defaults are applied automatically.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -101,14 +100,22 @@ options:
           will be saved.
         - If not provided, the module generates a default filename in the current
           working directory with the format
-          C(<module_name>_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - Example default filename C(assurance_device_health_score_settings_playbook_config_generator_2026-01-24_12-33-20.yml).
+          C(assurance_device_health_score_settings_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - Example default filename C(assurance_device_health_score_settings_playbook_config_2026-01-24_12-33-20.yml).
         - The directory path will be created automatically if it does not exist.
         - Supports both absolute paths (C(/tmp/config.yml)) and relative paths
           (C(./configs/health_score.yml)).
         - File will be overwritten if it already exists at the specified path.
         type: str
         required: false
+      file_mode:
+        description:
+        - Controls how config is written to the YAML file.
+        - C(overwrite) replaces existing file content.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
       component_specific_filters:
         description:
         - Dictionary of filters to specify which device families and KPI settings
@@ -246,7 +253,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with custom file path
   cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
@@ -261,8 +269,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "tmp/assurance_health_score_settings.yml"
-        generate_all_configurations: true
+      file_path: "tmp/assurance_health_score_settings.yml"
+      generate_all_configurations: true
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration for all device health score components
   cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
@@ -277,9 +286,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/assurance_health_score_settings.yml"
-        component_specific_filters:
-          components_list: ["device_health_score_settings"]
+      file_path: "/tmp/assurance_health_score_settings.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["device_health_score_settings"]
 
 - name: Generate YAML Configuration for specific device families
   cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
@@ -294,11 +304,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/specific_device_health_score_settings.yml"
-        component_specific_filters:
-          components_list: ["device_health_score_settings"]
-          device_health_score_settings:
-            device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
+      file_path: "/tmp/specific_device_health_score_settings.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["device_health_score_settings"]
+        device_health_score_settings:
+          device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
 
 - name: Generate YAML Configuration using legacy filter format
   cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
@@ -313,11 +324,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/legacy_device_health_score_settings.yml"
-        component_specific_filters:
-          components_list: ["device_health_score_settings"]
-          device_health_score_settings:
-            device_families: ["UNIFIED_AP", "ROUTER"]
+      file_path: "/tmp/legacy_device_health_score_settings.yml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["device_health_score_settings"]
+        device_health_score_settings:
+          device_families: ["UNIFIED_AP", "ROUTER"]
 """
 
 RETURN = r"""
@@ -562,7 +574,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 from collections import OrderedDict
 import os
@@ -710,10 +721,10 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             return self
 
         self.log(
-            "Configuration data available in playbook with {0} configuration item(s). "
+            "Configuration data available in playbook. "
             "Proceeding with parameter schema definition and validation workflow. "
             "Configuration structure will be validated against expected parameter "
-            "specifications.".format(len(self.config)),
+            "specifications.",
             "DEBUG"
         )
 
@@ -728,6 +739,12 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "type": "str",
                 "required": False
             },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"]
+            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
@@ -738,77 +755,15 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             },
         }
 
-        # Pre-validation: Check for invalid parameter names (typos)
-        self.log(
-            "Starting pre-validation stage to check for invalid parameter names and typos in "
-            "playbook configuration. This early validation stage catches common errors like "
-            "misspelled parameter names before detailed type and value validation. Allowed "
-            "parameter names: {0}.".format(", ".join(sorted(temp_spec.keys()))),
-            "DEBUG"
-        )
-        allowed_param_names = set(temp_spec.keys())
-        self.log(
-            "Extracted allowed parameter names set with {0} parameter(s): {1}. Iterating through "
-            "{2} configuration item(s) to identify invalid parameter names not in allowed set.".format(
-                len(allowed_param_names), sorted(allowed_param_names), len(self.config)
-            ),
-            "DEBUG"
-        )
-        for config_index, config_item in enumerate(self.config, start=1):
-            if isinstance(config_item, dict):
-                self.log(
-                    "Pre-validating configuration item {0}/{1} for parameter name correctness. "
-                    "Configuration item keys: {2}. Checking against allowed parameter names to "
-                    "identify typos or invalid parameters.".format(
-                        config_index, len(self.config), list(config_item.keys())
-                    ),
-                    "DEBUG"
-                )
-                invalid_params = set(config_item.keys()) - allowed_param_names
-                if invalid_params:
-                    self.msg = (
-                        "Invalid parameters detected in playbook configuration item {0}/{1}: "
-                        "{2}. These parameter names are not recognized by the module. Please "
-                        "check for typos in parameter names. Allowed parameters are: {3}.".format(
-                            config_index, len(self.config), sorted(invalid_params),
-                            ", ".join(sorted(allowed_param_names))
-                        )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-        self.validate_minimum_requirements(self.config)
-        self.log(
-            "Minimum requirements validation completed. Configuration meets minimum parameter "
-            "requirements for module operation. Proceeding to detailed parameter type and value "
-            "validation using validate_list_of_dicts() function.",
-            "DEBUG"
-        )
-
         # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-        self.log(
-            "validate_list_of_dicts() execution completed. Validation result: valid_temp type={0}, "
-            "invalid_params count={1}. Checking for validation failures requiring error handling "
-            "and user notification.".format(
-                type(valid_temp).__name__, len(invalid_params) if invalid_params else 0
-            ),
-            "DEBUG"
-        )
+        self.log("Validating configuration against schema", "DEBUG")
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
-        if invalid_params:
-            allowed_params = sorted(temp_spec.keys())
-            self.msg = (
-                "Invalid parameters in playbook configuration: {0}. These parameters failed "
-                "validation due to incorrect types, missing required fields, or invalid values. "
-                "Allowed parameters are: {1}. Please verify parameter names are spelled correctly "
-                "and check for typos in parameter names.".format(
-                    invalid_params, ", ".join(allowed_params)
-                )
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        self.log("Validating minimum requirements for configuration", "DEBUG")
+        self.validate_minimum_requirements(self.config)
 
         self.log(
             "All parameters passed detailed validation successfully. No type errors, missing "
@@ -2355,9 +2310,11 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
 
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+
         self.log(
-            "YAML configuration output file path determined: {0}. Path will be used "
-            "for writing final configuration with header comments.".format(file_path),
+            "YAML configuration output file path determined: {0}, file_mode: {1}. Path will be used "
+            "for writing final configuration with header comments.".format(file_path, file_mode),
             "INFO"
         )
 
@@ -2653,7 +2610,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         self.log("Attempting to write final dictionary to YAML file", "DEBUG")
-        if self.write_dict_to_yaml(final_dict, file_path):
+        if self.write_dict_to_yaml(final_dict, file_path, file_mode):
             self.log(
                 "YAML file write operation completed successfully. File created at: {0} "
                 "with {1} configurations and header comments.".format(
@@ -3131,7 +3088,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return "\n".join(header_lines)
 
-    def write_dict_to_yaml(self, data_dict, file_path):
+    def write_dict_to_yaml(self, data_dict, file_path, file_mode="overwrite"):
         """
         Writes dictionary to YAML file with header comments and proper formatting.
 
@@ -3147,6 +3104,8 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                             other health score settings for YAML serialization
             file_path (str): Absolute or relative path where YAML file should be saved,
                             including filename with .yml extension
+            file_mode (str): File write mode - 'overwrite' replaces existing file,
+                            'append' appends to existing file. Default: 'overwrite'.
 
         Returns:
             bool: True if file write operation succeeds with header and data written
@@ -3194,15 +3153,27 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
 
+            if file_mode not in ("overwrite", "append"):
+                self.log(
+                    "Invalid file_mode '{0}'. Supported values are 'overwrite' and 'append'.".format(
+                        file_mode
+                    ),
+                    "ERROR"
+                )
+                return False
+
+            open_mode = "w" if file_mode == "overwrite" else "a"
+
             self.log(
-                "Opening file for write operation: {0}. File will be created or "
-                "overwritten with generated header comments and YAML content.".format(
-                    file_path
+                "Opening file for {0} operation: {1}. File will be {2} "
+                "with generated header comments and YAML content.".format(
+                    file_mode, file_path,
+                    "created or overwritten" if file_mode == "overwrite" else "appended to"
                 ),
                 "DEBUG"
             )
 
-            with open(file_path, 'w') as yaml_file:
+            with open(file_path, open_mode) as yaml_file:
                 self.log(
                     "File opened successfully for writing. Generating playbook header "
                     "comments with timestamp, source system details, configuration "
@@ -3580,8 +3551,7 @@ def main():
         # ============================================
         "config": {
             "required": True,
-            "type": "list",
-            "elements": "dict"
+            "type": "dict"
         },
         "state": {
             "default": "gathered",
@@ -3617,15 +3587,13 @@ def main():
 
     ccc_brownfield_assurance_device_health_score_settings.log(
         "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
-        "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
-        "config_items={6}".format(
+        "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}".format(
             module.params.get("dnac_host"),
             module.params.get("dnac_port"),
             module.params.get("dnac_username"),
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
         ),
         "DEBUG"
     )
@@ -3726,57 +3694,26 @@ def main():
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ============================================
-    config_list = ccc_brownfield_assurance_device_health_score_settings.validated_config
+    config = ccc_brownfield_assurance_device_health_score_settings.validated_config
 
     ccc_brownfield_assurance_device_health_score_settings.log(
-        "Starting configuration processing loop - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        "Starting configuration processing for state '{0}'".format(state),
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        ccc_brownfield_assurance_device_health_score_settings.log(
-            "Processing configuration item {0}/{1} for state '{2}'".format(
-                config_index, len(config_list), state
-            ),
-            "INFO"
-        )
+    ccc_brownfield_assurance_device_health_score_settings.get_want(
+        config, state
+    ).check_return_status()
 
-        # Reset values for clean state between configurations
-        ccc_brownfield_assurance_device_health_score_settings.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_brownfield_assurance_device_health_score_settings.reset_values()
+    ccc_brownfield_assurance_device_health_score_settings.get_diff_state_apply[state](
+    ).check_return_status()
 
-        # Collect desired state (want) from configuration
-        ccc_brownfield_assurance_device_health_score_settings.log(
-            "Collecting desired state parameters from configuration item {0}".format(
-                config_index
-            ),
-            "DEBUG"
-        )
-        ccc_brownfield_assurance_device_health_score_settings.get_want(
-            config, state
-        ).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        ccc_brownfield_assurance_device_health_score_settings.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1}".format(state, config_index),
-            "INFO"
-        )
-        ccc_brownfield_assurance_device_health_score_settings.get_diff_state_apply[state](
-        ).check_return_status()
-
-        ccc_brownfield_assurance_device_health_score_settings.log(
-            "Successfully completed processing for configuration item {0}/{1}".format(
-                config_index, len(config_list)
-            ),
-            "INFO"
-        )
+    ccc_brownfield_assurance_device_health_score_settings.log(
+        "Successfully completed processing configuration",
+        "INFO"
+    )
 
     # ============================================
     # Module Completion and Exit
@@ -3791,11 +3728,9 @@ def main():
 
     ccc_brownfield_assurance_device_health_score_settings.log(
         "Module execution completed successfully at timestamp {0}. Total execution "
-        "time: {1:.2f} seconds. Processed {2} configuration item(s) with final "
-        "status: {3}".format(
+        "time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            len(config_list),
             ccc_brownfield_assurance_device_health_score_settings.status
         ),
         "INFO"
