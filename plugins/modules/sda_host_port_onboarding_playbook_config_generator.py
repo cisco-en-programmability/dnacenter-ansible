@@ -1754,7 +1754,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         Workflow Steps:
             1. File Path Determination - Validates user-provided file_path or generates
                default timestamped filename with pattern:
-               'sda_host_port_onboarding_workflow_manager_playbook_<timestamp>.yml'
+               'sda_host_port_onboarding_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml'
             2. Auto-Discovery Processing - If generate_all_configurations=True, overrides
                all filters to retrieve complete fabric infrastructure without restrictions
             3. Filter Extraction - Retrieves component_specific_filters
@@ -1860,7 +1860,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if not file_path:
             self.log(
                 "No file_path provided in configuration. Generating default filename "
-                "with pattern <module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml in "
+                "with pattern sda_host_port_onboarding_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml in "
                 "current working directory.",
                 "DEBUG"
             )
