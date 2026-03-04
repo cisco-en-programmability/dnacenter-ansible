@@ -170,7 +170,7 @@ options:
           - Controls how the generated YAML content is written to the output
             file.
           - When set to 'overwrite', the file is created or replaced with new
-            content.
+            content .
           - When set to 'append', the generated content is appended to the
             existing file.
           - Append mode is useful for combining multiple device configurations
