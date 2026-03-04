@@ -104,7 +104,7 @@ options:
           current working directory with an
           auto-generated filename.
         - "Default filename format:
-          C(sda_extranet_policies_playbook_config_<DD_Mon_YYYY_HH_MM_SS_MS>.yml)"
+          C(sda_extranet_policies_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml)"
         - Ensure the directory path exists and has write
           permissions.
         type: dict
