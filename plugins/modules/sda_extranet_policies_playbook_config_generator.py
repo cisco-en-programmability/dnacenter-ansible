@@ -73,7 +73,7 @@ options:
           migration and documentation.
         - "Default filename format when file_path not
           provided:
-          C(sda_extranet_policies_workflow_manager_playbook_<timestamp>.yml)"
+          C(sda_extranet_policies_playbook_config_<timestamp>.yml)"
         type: bool
         required: false
         default: false
@@ -104,7 +104,7 @@ options:
           current working directory with an
           auto-generated filename.
         - "Default filename format:
-          C(sda_extranet_policies_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml)"
+          C(sda_extranet_policies_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml)"
         - Ensure the directory path exists and has write
           permissions.
         type: dict
@@ -290,10 +290,10 @@ response_1:
   sample:
     msg:
       "YAML config generation Task succeeded for module 'sda_extranet_policies_workflow_manager'":
-        file_path: "sda_extranet_policies_workflow_manager_playbook_2026-02-03_15-22-02.yml"
+        file_path: "sda_extranet_policies_playbook_config_2026-02-03_15-22-02.yml"
     response:
       "YAML config generation Task succeeded for module 'sda_extranet_policies_workflow_manager'":
-        file_path: "sda_extranet_policies_workflow_manager_playbook_2026-02-03_15-22-02.yml"
+        file_path: "sda_extranet_policies_playbook_config_2026-02-03_15-22-02.yml"
 
 # Case_2: Error Scenario
 response_2:
