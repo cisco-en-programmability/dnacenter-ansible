@@ -63,8 +63,8 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  "<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "rma_workflow_manager_playbook_2025-04-22_21-43-26.yml".
+          a default file name C(rma_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(rma_playbook_config_2025-04-22_21-43-26.yml).
         - Ensure the directory path exists and has write
           permissions.
         type: str
