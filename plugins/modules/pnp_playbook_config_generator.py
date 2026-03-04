@@ -313,7 +313,6 @@ EXAMPLES = r"""
         components_list: ["device_info"]
       global_filters:
         device_state: ["Unclaimed"]
-
 """
 
 RETURN = r"""
