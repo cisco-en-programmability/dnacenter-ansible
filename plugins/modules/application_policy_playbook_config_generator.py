@@ -53,7 +53,8 @@ options:
         description:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
-            a default file name "application_policy_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
+            a default file name C(application_policy_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+          - For example, C(application_policy_playbook_config_2025-04-22_21-43-26.yml).
         type: str
         required: false
       component_specific_filters:
@@ -216,7 +217,7 @@ response_1:
         "response": {
             "status": "success",
             "message": "YAML config generation succeeded for module 'application_policy_workflow_manager'.",
-            "file_path": "application_policy_workflow_manager_playbook_2026-02-03_03-00-59.yml",
+            "file_path": "application_policy_playbook_config_2026-02-03_03-00-59.yml",
             "configurations_count": 15,
             "components_processed": 2,
             "components_skipped": 0

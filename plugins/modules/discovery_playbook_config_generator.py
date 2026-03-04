@@ -74,8 +74,8 @@ options:
         description:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
-            a default file name C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example, C(discovery_workflow_manager_playbook_2026-01-24_12-33-20.yml).
+            a default file name C(discovery_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+          - For example, C(discovery_playbook_config_2026-01-24_12-33-20.yml).
         type: str
         required: false
       global_filters:
@@ -217,7 +217,7 @@ response_1:
     {
       "response": {
         "status": "success",
-        "file_path": "/path/to/discovery_workflow_manager_playbook_22_Dec_2024_21_43_26_379.yml",
+        "file_path": "/path/to/discovery_playbook_config_2026-01-24_12-33-20.yml",
         "total_discoveries_processed": 5,
         "discoveries_found": [
           {

@@ -73,7 +73,7 @@ options:
           migration and documentation.
         - "Default filename format when file_path not
           provided:
-          C(sda_extranet_policies_playbook_config_<timestamp>.yml)"
+          C(sda_extranet_policies_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml)"
         type: bool
         required: false
         default: false
@@ -84,7 +84,8 @@ options:
         - If not provided, the file is saved in the
           current working directory with an
           auto-generated filename.
-        - "Default filename format: C(<module_name>playbook<YYYY-MM-DD_HH-MM-SS>.yml)."
+        - "Default filename format: C(sda_extranet_policies_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml)."
+        - For example, C(sda_extranet_policies_playbook_config_2025-04-22_21-43-26.yml).
         - Ensure the directory path exists and has write
           permissions.
         type: str

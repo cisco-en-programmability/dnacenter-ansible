@@ -55,8 +55,8 @@ options:
         description:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current working directory with
-            a default file name  "<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-          - For example, "backup_and_restore_workflow_manager_playbook_2026-01-27_14-21-41.yml".
+            a default file name C(backup_and_restore_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+          - For example, C(backup_and_restore_playbook_config_2026-01-27_14-21-41.yml).
           - Supports both absolute and relative paths.
         type: str
       generate_all_configurations:
