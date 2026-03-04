@@ -1,0 +1,516 @@
+{
+    "playbook_config_generate_all": {
+        "generate_all_configurations": true
+    },
+    "playbook_config_specific_names": {
+        "file_path": "/tmp/test_discoveries.yml",
+        "global_filters": {
+            "discovery_name_list": ["Test Discovery 1", "Test Discovery 2"]
+        }
+    },
+    "playbook_config_by_type": {
+        "global_filters": {
+            "discovery_type_list": ["Range", "CIDR"]
+        }
+    },
+    "playbook_config_with_filters": {
+        "generate_all_configurations": true,
+        "component_specific_filters": {
+            "components_list": ["discovery_details"],
+            "include_credentials": true,
+            "include_global_credentials": true,
+            "discovery_status_filter": ["Complete"]
+        }
+    },
+    "get_discoveries_response_success": {
+        "response": [
+            {
+                "id": "discovery-1",
+                "name": "Test Discovery 1",
+                "discoveryType": "Range",
+                "ipAddressList": "192.168.1.1-192.168.1.10",
+                "globalCredentialIdList": ["cred-1", "cred-2"],
+                "discoveryCondition": "Complete",
+                "discoveryStatus": "Inactive",
+                "protocolOrder": "SSH",
+                "preferredMgmtIPMethod": "None",
+                "isAutoCdp": false,
+                "timeOut": 5,
+                "retryCount": 3,
+                "httpReadCredential": ["cred-3"],
+                "httpWriteCredential": ["cred-4"],
+                "snmpRoCommunity": "cred-5",
+                "snmpRwCommunity": "cred-6",
+                "snmpUserName": "cred-7"
+            },
+            {
+                "id": "discovery-2",
+                "name": "Test Discovery 2", 
+                "discoveryType": "CIDR",
+                "ipAddressList": "10.0.0.0/24",
+                "globalCredentialIdList": ["cred-8", "cred-9"],
+                "discoveryCondition": "Complete",
+                "discoveryStatus": "Inactive",
+                "protocolOrder": "SSH",
+                "preferredMgmtIPMethod": "None",
+                "isAutoCdp": true,
+                "timeOut": 5,
+                "retryCount": 3,
+                "httpReadCredential": [],
+                "httpWriteCredential": [],
+                "snmpRoCommunity": "",
+                "snmpRwCommunity": "",
+                "snmpUserName": ""
+            },
+            {
+                "id": "discovery-3",
+                "name": "Test Discovery 3",
+                "discoveryType": "SINGLE",
+                "ipAddressList": "172.16.1.1",
+                "globalCredentialIdList": ["cred-1"],
+                "discoveryCondition": "In Progress",
+                "discoveryStatus": "Active",
+                "protocolOrder": "SSH",
+                "preferredMgmtIPMethod": "None",
+                "isAutoCdp": false,
+                "timeOut": 5,
+                "retryCount": 3,
+                "httpReadCredential": [],
+                "httpWriteCredential": [],
+                "snmpRoCommunity": "",
+                "snmpRwCommunity": "",
+                "snmpUserName": ""
+            }
+        ]
+    },
+    "get_global_credentials_response_success": {
+        "response": [
+            {
+                "id": "cred-1",
+                "instanceUuid": "cred-1",
+                "description": "CLI Credential 1",
+                "username": "admin",
+                "credentialType": "GLOBAL",
+                "cliCredential": {
+                    "username": "admin",
+                    "description": "CLI Credential 1"
+                }
+            },
+            {
+                "id": "cred-2",
+                "instanceUuid": "cred-2", 
+                "description": "CLI Credential 2",
+                "username": "cisco",
+                "credentialType": "GLOBAL",
+                "cliCredential": {
+                    "username": "cisco",
+                    "description": "CLI Credential 2"
+                }
+            },
+            {
+                "id": "cred-3",
+                "instanceUuid": "cred-3",
+                "description": "HTTP Read Credential",
+                "username": "httpread",
+                "credentialType": "GLOBAL",
+                "httpsRead": {
+                    "username": "httpread",
+                    "description": "HTTP Read Credential"
+                }
+            },
+            {
+                "id": "cred-4", 
+                "instanceUuid": "cred-4",
+                "description": "HTTP Write Credential",
+                "username": "httpwrite",
+                "credentialType": "GLOBAL",
+                "httpsWrite": {
+                    "username": "httpwrite",
+                    "description": "HTTP Write Credential"
+                }
+            },
+            {
+                "id": "cred-5",
+                "instanceUuid": "cred-5",
+                "description": "SNMP Read Credential",
+                "username": "",
+                "credentialType": "GLOBAL",
+                "snmpV2cRead": {
+                    "description": "SNMP Read Credential"
+                }
+            },
+            {
+                "id": "cred-6",
+                "instanceUuid": "cred-6",
+                "description": "SNMP Write Credential", 
+                "username": "",
+                "credentialType": "GLOBAL",
+                "snmpV2cWrite": {
+                    "description": "SNMP Write Credential"
+                }
+            },
+            {
+                "id": "cred-7",
+                "instanceUuid": "cred-7",
+                "description": "SNMP v3 Credential",
+                "username": "snmpv3user",
+                "credentialType": "GLOBAL",
+                "snmpV3": {
+                    "username": "snmpv3user",
+                    "description": "SNMP v3 Credential"
+                }
+            },
+            {
+                "id": "cred-8",
+                "instanceUuid": "cred-8",
+                "description": "NETCONF Credential",
+                "username": "",
+                "credentialType": "GLOBAL",
+                "netconfCredential": {
+                    "description": "NETCONF Credential"
+                }
+            },
+            {
+                "id": "cred-9",
+                "instanceUuid": "cred-9",
+                "description": "Additional CLI Credential",
+                "username": "admin2",
+                "credentialType": "GLOBAL", 
+                "cliCredential": {
+                    "username": "admin2",
+                    "description": "Additional CLI Credential"
+                }
+            }
+        ]
+    },
+    "get_discoveries_empty_response": {
+        "response": []
+    },
+    "get_global_credentials_empty_response": {
+        "response": []
+    },
+    "expected_yaml_output": {
+        "config": [
+            {
+                "discovery_name": "Test Discovery 1",
+                "discovery_type": "Range",
+                "ip_address_list": ["192.168.1.1-192.168.1.10"],
+                "global_credentials": {
+                    "cli_credentials_list": [
+                        {
+                            "description": "CLI Credential 1",
+                            "username": "admin"
+                        },
+                        {
+                            "description": "CLI Credential 2", 
+                            "username": "cisco"
+                        }
+                    ],
+                    "http_read_credential_list": [
+                        {
+                            "description": "HTTP Read Credential",
+                            "username": "httpread"
+                        }
+                    ],
+                    "http_write_credential_list": [
+                        {
+                            "description": "HTTP Write Credential",
+                            "username": "httpwrite"
+                        }
+                    ],
+                    "snmp_v2_read_credential_list": [
+                        {
+                            "description": "SNMP Read Credential"
+                        }
+                    ],
+                    "snmp_v2_write_credential_list": [
+                        {
+                            "description": "SNMP Write Credential"
+                        }
+                    ],
+                    "snmp_v3_credential_list": [
+                        {
+                            "description": "SNMP v3 Credential",
+                            "username": "snmpv3user"
+                        }
+                    ]
+                },
+                "discovery_specific_credentials": {},
+                "protocol_order": "SSH",
+                "preferred_mgmt_ip_method": "None",
+                "discovery_condition": "Complete",
+                "discovery_status": "Inactive",
+                "is_auto_cdp": false
+            }
+        ]
+    },
+    "api_error_response": {
+        "error": {
+            "message": "API Error: Unable to retrieve discovery data",
+            "code": 500
+        }
+    },
+    "credential_mapping_test_data": {
+        "cred_id_to_description": {
+            "cred-1": "CLI Credential 1",
+            "cred-2": "CLI Credential 2", 
+            "cred-3": "HTTP Read Credential",
+            "cred-4": "HTTP Write Credential",
+            "cred-5": "SNMP Read Credential",
+            "cred-6": "SNMP Write Credential",
+            "cred-7": "SNMP v3 Credential",
+            "cred-8": "NETCONF Credential",
+            "cred-9": "Additional CLI Credential"
+        },
+        "cred_id_to_username": {
+            "cred-1": "admin",
+            "cred-2": "cisco",
+            "cred-3": "httpread", 
+            "cred-4": "httpwrite",
+            "cred-5": "",
+            "cred-6": "",
+            "cred-7": "snmpv3user",
+            "cred-8": "",
+            "cred-9": "admin2"
+        }
+    },
+    "discovery_types_filter_test": {
+        "valid_types": ["SINGLE", "RANGE", "MULTI RANGE", "CDP", "LLDP", "CIDR"],
+        "invalid_types": ["INVALID_TYPE", "UNKNOWN"]
+    },
+    "component_filters_test": {
+        "valid_components": ["discovery_details"],
+        "valid_status_filters": ["Complete", "In Progress", "Aborted", "Failed"],
+        "invalid_components": ["invalid_component"],
+        "invalid_status": ["Invalid Status"]
+    },
+    "file_path_test_data": {
+        "valid_paths": [
+            "/tmp/test.yml",
+            "/home/user/discoveries.yaml",
+            "./local_file.yml",
+            "relative_path.yaml"
+        ],
+        "invalid_paths": [
+            "/nonexistent/path/file.yml",
+            ""
+        ]
+    },
+    "ip_address_transformation_test": {
+        "input_formats": [
+            "192.168.1.1-192.168.1.10",
+            "10.0.0.0/24",
+            "172.16.1.1",
+            "192.168.1.1-192.168.1.5,192.168.2.1-192.168.2.5"
+        ],
+        "expected_outputs": [
+            ["192.168.1.1-192.168.1.10"],
+            ["10.0.0.0/24"],
+            ["172.16.1.1"],
+            ["192.168.1.1-192.168.1.5", "192.168.2.1-192.168.2.5"]
+        ]
+    },
+    "validation_test_cases": {
+        "valid_configs": [
+            {
+                "generate_all_configurations": true
+            },
+            {
+                "global_filters": {
+                    "discovery_name_list": ["Discovery 1"]
+                }
+            },
+            {
+                "global_filters": {
+                    "discovery_type_list": ["Range"]
+                }
+            },
+            {
+                "component_specific_filters": {
+                    "include_credentials": false
+                }
+            }
+        ],
+        "invalid_configs": [
+            {
+                "invalid_parameter": "invalid_value"
+            },
+            {
+                "global_filters": {
+                    "discovery_type_list": ["INVALID_TYPE"]
+                }
+            }
+        ]
+    },
+    "exception_test_scenarios": {
+        "api_timeout": {
+            "error_type": "TimeoutError",
+            "message": "API request timed out"
+        },
+        "authentication_error": {
+            "error_type": "AuthenticationError", 
+            "message": "Invalid credentials"
+        },
+        "network_error": {
+            "error_type": "NetworkError",
+            "message": "Network connection failed"
+        },
+        "file_permission_error": {
+            "error_type": "PermissionError",
+            "message": "Permission denied writing to file"
+        },
+        "empty_credentials_v1_fallback_v2": {
+            "get_all_global_credentials_v1": {
+                "response": {}
+            },
+            "get_all_global_credentials_v2": {
+                "response": [
+                    {
+                        "id": "cred-v2-1",
+                        "description": "V2 CLI Credential",
+                        "username": "v2admin",
+                        "credentialType": "cliCredential",
+                        "comments": "V2 API credential",
+                        "instanceTenantId": "tenant-v2",
+                        "instanceUuid": "uuid-v2-1"
+                    }
+                ]
+            }
+        },
+        "credentials_api_failure": {
+            "get_all_global_credentials_v1": "API_ERROR",
+            "get_all_global_credentials_v2": "API_ERROR"
+        },
+        "complex_credential_mapping": {
+            "response": {
+                "cliCredential": [
+                    {
+                        "id": "cli-1",
+                        "description": "Primary CLI",
+                        "username": "admin",
+                        "credentialType": "CLI"
+                    }
+                ],
+                "snmpV2cRead": [
+                    {
+                        "id": "snmp-read-1",
+                        "description": "SNMP Read",
+                        "username": "",
+                        "credentialType": "SNMPV2_READ"
+                    }
+                ],
+                "snmpV2cWrite": [
+                    {
+                        "id": "snmp-write-1",
+                        "description": "SNMP Write",
+                        "username": "snmpwrite",
+                        "credentialType": "SNMPV2_WRITE"
+                    }
+                ],
+                "httpsRead": [
+                    {
+                        "id": "https-read-1",
+                        "description": "HTTPS Read",
+                        "username": "httpread",
+                        "credentialType": "HTTPS_READ"
+                    }
+                ],
+                "httpsWrite": [
+                    {
+                        "id": "https-write-1",
+                        "description": "HTTPS Write",
+                        "username": "httpwrite",
+                        "credentialType": "HTTPS_WRITE"
+                    }
+                ],
+                "snmpV3": [
+                    {
+                        "id": "snmp-v3-1",
+                        "description": "SNMPv3",
+                        "username": "snmpv3",
+                        "credentialType": "SNMPV3"
+                    }
+                ],
+                "netconfCredential": [
+                    {
+                        "id": "netconf-1",
+                        "description": "NETCONF Credential",
+                        "username": "netconf",
+                        "credentialType": "UNKNOWN_TYPE"
+                    }
+                ]
+            }
+        },
+        "credentials_not_found": {
+            "response": {
+                "cliCredential": [],
+                "snmpV2cRead": [],
+                "httpsRead": [],
+                "snmpV3": []
+            }
+        },
+        "unknown_credential_types": {
+            "response": {
+                "customCredential": [
+                    {
+                        "id": "custom-1",
+                        "description": "Custom Credential",
+                        "username": "customuser",
+                        "credentialType": "CUSTOM_UNKNOWN"
+                    }
+                ],
+                "legacyCredential": [
+                    {
+                        "id": "legacy-1",
+                        "description": "Legacy System",
+                        "username": "",
+                        "credentialType": "LEGACY_TYPE"
+                    }
+                ]
+            }
+        },
+        "malformed_api_response": {
+            "invalid_response": "This is not a proper JSON structure",
+            "response": "string_instead_of_dict"
+        },
+        "mixed_discovery_types": {
+            "response": [
+                {
+                    "id": "mixed-1",
+                    "name": "Range Discovery",
+                    "discoveryType": "RANGE",
+                    "discoveryCondition": "Complete",
+                    "ipAddressList": "192.168.1.1-192.168.1.10",
+                    "globalCredentialIdList": ["cred-1", "cred-2"]
+                },
+                {
+                    "id": "mixed-2", 
+                    "name": "CIDR Discovery",
+                    "discoveryType": "CIDR",
+                    "discoveryCondition": "Complete",
+                    "ipAddressList": "10.0.0.0/24",
+                    "globalCredentialIdList": ["cred-3"]
+                },
+                {
+                    "id": "mixed-3",
+                    "name": "Single Host Discovery", 
+                    "discoveryType": "SINGLE",
+                    "discoveryCondition": "In Progress",
+                    "ipAddressList": "172.16.1.100",
+                    "globalCredentialIdList": []
+                }
+            ]
+        },
+        "api_error_conditions": {
+            "get_all_global_credentials_v1": {
+                "response": null
+            },
+            "get_all_global_credentials_v2": {
+                "error": "Timeout occurred"
+            },
+            "get_discoveries_by_range": {
+                "response": []
+            }
+        }
+    }
+}

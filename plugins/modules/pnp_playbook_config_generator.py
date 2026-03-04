@@ -158,9 +158,9 @@ options:
           - If not provided, file is saved in current working directory with
             auto-generated filename.
           - Filename format when auto-generated is
-            "pnp_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+            C(pnp_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
           - Example auto-generated filename
-            "pnp_workflow_manager_playbook_2026-02-06_14-30-45.yml".
+            C(pnp_playbook_config_2026-02-06_14-30-45.yml).
           - Parent directories are created automatically if they do not exist.
           - File behavior depends on file_mode setting.
         type: str
@@ -327,7 +327,7 @@ response_1:
       "response": {
         "status": "success",
         "message": "YAML config generation succeeded for module 'pnp_workflow_manager'.",
-        "file_path": "pnp_workflow_manager_playbook_2026-02-06_14-19-07.yml",
+        "file_path": "pnp_playbook_config_2026-02-06_14-19-07.yml",
         "configurations_count": 8,
         "components_processed": 1,
         "components_skipped": 0
@@ -1248,9 +1248,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             yaml_config_generator (dict): Configuration dictionary containing:
                 - file_path (str, optional): Target path for generated YAML file. When not
                   provided, auto-generates filename using generate_filename() with timestamp
-                  format "pnp_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
-                - file_mode (str, optional): File write mode. Supported values are 'overwrite'
-                  (default) and 'append'. When 'append', content is added to existing file.
+                  format "pnp_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
                 - global_filters (dict, optional): Device filtering criteria including
                   device_state for targeted device retrieval.
                 - component_specific_filters (dict, optional): Component selection filters

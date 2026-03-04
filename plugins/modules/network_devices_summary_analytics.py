@@ -7,27 +7,20 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_summary_analytics
-short_description: Resource module for Network Devices
-  Summary Analytics
+short_description: Resource module for Network Devices Summary Analytics
 description:
-  - Manage operation create of the resource Network
-    Devices Summary Analytics. - > Gets the summary
-    analytics data related to network devices based
-    on the provided input data. This endpoint helps
-    to obtain the consolidated insights into the performance
-    and status of the monitored network devices. For
-    detailed information about the usage of the API,
-    please refer to the Open API specification document
-    - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Summary Analytics.
+  - Gets the summary analytics data related to network devices based on the provided input data.
+  - This endpoint helps to obtain the consolidated insights into the performance and status of the monitored network devices.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Network Devices Summary Analytics's
-      aggregateAttributes.
+    description: Network Devices Summary Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -45,8 +38,7 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Network Devices Summary Analytics's
-      filters.
+    description: Network Devices Summary Analytics's filters.
     elements: dict
     suboptions:
       key:
@@ -64,8 +56,7 @@ options:
     elements: str
     type: list
   page:
-    description: Network Devices Summary Analytics's
-      page.
+    description: Network Devices Summary Analytics's page.
     suboptions:
       limit:
         description: Limit.
@@ -74,8 +65,7 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Network Devices Summary Analytics's
-          sortBy.
+        description: Network Devices Summary Analytics's sortBy.
         elements: dict
         suboptions:
           name:
@@ -90,13 +80,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetsTheSummaryAnalyticsDataRelatedToNetworkDevices
-    description: Complete reference of the GetsTheSummaryAnalyticsDataRelatedToNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices GetsTheSummaryAnalyticsDataRelatedToNetworkDevices
+    description: Complete reference of the GetsTheSummaryAnalyticsDataRelatedToNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-summary-analytics-data-related-to-network-devices
 notes:
   - SDK Method used are
@@ -145,10 +133,10 @@ dnac_response:
     {
       "response": {
         "attributes": [
-          {}
+          "string"
         ],
         "aggregateAttributes": [
-          {}
+          "string"
         ],
         "groups": [
           {

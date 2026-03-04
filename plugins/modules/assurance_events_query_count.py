@@ -7,18 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: assurance_events_query_count
-short_description: Resource module for Assurance Events
-  Query Count
+short_description: Resource module for Assurance Events Query Count
 description:
-  - Manage operation create of the resource Assurance
-    Events Query Count. - > API to fetch the count of
-    assurance events for the given complex query. Please
-    refer to the 'API Support Documentation' section
-    to understand which fields are supported. For detailed
-    information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceEvents-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Assurance Events Query Count. - > API to fetch the count of assurance events for
+    the given complex query. Please refer to the 'API Support Documentation' section to understand which fields are supported.
+    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- AssuranceEvents-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -52,13 +46,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      CountTheNumberOfEventsWithFilters
-    description: Complete reference of the CountTheNumberOfEventsWithFilters
-      API.
+  - name: Cisco DNA Center documentation for Devices CountTheNumberOfEventsWithFilters
+    description: Complete reference of the CountTheNumberOfEventsWithFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events-with-filters
 notes:
   - SDK Method used are

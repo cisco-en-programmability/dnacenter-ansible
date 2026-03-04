@@ -1,0 +1,27 @@
+---
+- name: Generate YAML Configuration for Events and Notifications Management
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate YAML Configuration for Events and Notifications Settings
+      cisco.dnac.events_and_notifications_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: gathered
+        config:
+          - generate_all_configurations: true
+            file_path: /Users/priyadharshini/Downloads/events_and_notifications_playbook1
+            component_specific_filters:
+              components_list: ["webhook_destinations", "email_destinations", "syslog_destinations", "syslog_event_notifications"]

@@ -1,14 +1,14 @@
 ---
 namespace: cisco
 name: dnac
-version: 6.44.0
+version: 6.48.0
 readme: README.md
 authors:
-  - Rafael Campos <rcampos@altus.cr>
-  - William Astorga <wastorga@altus.cr>
-  - Jose Bogarin <jbogarin@altus.cr>
-  - Bryan Vargas <bvargas@altus.cr>
-  - Francisco Muñoz <fmunoz@altus.cr>
+  - Rafael Campos <rcampos@cloverhound.com>
+  - William Astorga <wastorga@cloverhound.com>
+  - Jose Bogarin <jbogarin@cloverhound.com>
+  - Bryan Vargas <bvargas@cloverhound.com>
+  - Francisco Muñoz <fmunoz@cloverhound.com>
   - Madhan Sankaranarayanan <madsanka@cisco.com>
   - Pawan Singh <pawansi@cisco.com>
   - Rishita Chowdhary (@rishitachowdhary)
@@ -30,6 +30,7 @@ authors:
   - Priyadharshini Balakumar <pbalaku2@cisco.com>
   - Karthick S N <kasn@cisco.com>
   - Sunil Shatagopa <sshatago@cisco.com>
+  - Vivek Raj Penke <vpenke@cisco.com>
 
 description: Ansible Modules for Cisco DNA Center
 license_file: "LICENSE"
@@ -46,3 +47,24 @@ repository: https://github.com/cisco-en-programmability/dnacenter-ansible
 documentation: https://cisco-en-programmability.github.io/dnacenter-ansible/
 homepage: https://github.com/cisco-en-programmability/dnacenter-ansible
 issues: https://github.com/cisco-en-programmability/dnacenter-ansible/issues
+build_ignore:
+  - .git
+  - .gitignore
+  - .github
+  - .circleci
+  - .vscode
+  - .pytest_cache
+
+  - .ansible-lint
+  - .yamlfmt
+  - .yamllint.yml
+
+  - Dockerfile.ansible-test
+  - Makefile
+  - run_tests.sh
+
+  - Pipfile
+  - requirements.txt
+  - test-requirements.txt
+
+  - cisco-dnac-*.tar.gz

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_lexicographically_sorted_info
-short_description: Information module for Network Device
-  Lexicographically Sorted
+short_description: Information module for Network Device Lexicographically Sorted
 description:
   - Get all Network Device Lexicographically Sorted.
-  - Returns the list of values of the first given required
-    parameter.
+  - Returns the list of values of the first given required parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -107,17 +105,14 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
-    description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
+    description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
 notes:
   - SDK Method used are

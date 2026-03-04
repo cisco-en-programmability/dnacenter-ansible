@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: tags_network_devices_members_associations_count_info
-short_description: Information module for Tags Network
-  Devices Members Associations Count
+short_description: Information module for Tags Network Devices Members Associations Count
 description:
-  - Get all Tags Network Devices Members Associations
-    Count. - > Fetches the count of network devices
-    that are associated with at least one tag. A tag
-    is a user-defined or system-defined construct to
-    group resources. When a device is tagged, it is
-    called a member of the tag.
+  - Get all Tags Network Devices Members Associations Count. - > Fetches the count of network devices that are associated
+    with at least one tag. A tag is a user-defined or system-defined construct to group resources. When a device is tagged,
+    it is called a member of the tag.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,12 +21,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag RetrieveTheCountOfNetworkDevicesThatAreAssociatedWithAtLeastOneTag
-    description: Complete reference of the RetrieveTheCountOfNetworkDevicesThatAreAssociatedWithAtLeastOneTag
-      API.
+    description: Complete reference of the RetrieveTheCountOfNetworkDevicesThatAreAssociatedWithAtLeastOneTag API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-network-devices-that-are-associated-with-at-least-one-tag
 notes:
   - SDK Method used are
@@ -41,8 +36,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Tags Network Devices Members Associations
-    Count
+- name: Get all Tags Network Devices Members Associations Count
   cisco.dnac.tags_network_devices_members_associations_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

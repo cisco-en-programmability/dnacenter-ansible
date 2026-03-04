@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: activities_activity_id_triggered_jobs_count_info
-short_description: Information module for Activities
-  Activity Id Triggered Jobs Count
+short_description: Information module for Activities Activity Id Triggered Jobs Count
 description:
   - Get all Activities Activity Id Triggered Jobs Count.
-  - Retrieves the count of triggered jobs by activity
-    id.
+  - Retrieves the count of triggered jobs by activity id.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,12 +24,11 @@ options:
       - ActivityId path parameter. The id of the activity.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task RetrievesTheCountOfTriggeredJobsByActivityId
-    description: Complete reference of the RetrievesTheCountOfTriggeredJobsByActivityId
-      API.
+    description: Complete reference of the RetrievesTheCountOfTriggeredJobsByActivityId API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-triggered-jobs-by-activity-id
 notes:
   - SDK Method used are
@@ -42,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Activities Activity Id Triggered Jobs
-    Count
+- name: Get all Activities Activity Id Triggered Jobs Count
   cisco.dnac.activities_activity_id_triggered_jobs_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

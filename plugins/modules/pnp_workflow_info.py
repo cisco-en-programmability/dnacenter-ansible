@@ -11,11 +11,8 @@ short_description: Information module for Pnp Workflow
 description:
   - Get all Pnp Workflow.
   - Get Pnp Workflow by id.
-  - Returns a workflow specified by id. - > Returns
-    the list of workflows based on filter criteria.
-    If a limit is not specified, it will default to
-    return 50 workflows. Pagination and sorting are
-    also supported by this endpoint.
+  - Returns a workflow specified by id. - > Returns the list of workflows based on filter criteria. If a limit is not specified,
+    it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,27 +24,23 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. The minimum and maximum
-        values are 0 and 500, respectively.
-    type: float
+        Limit query parameter. The number of records to show for this page. The minimum and maximum values are 0
+        and 500, respectively.
+    type: int
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        0. The Minimum value is 0.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 0. The
+        Minimum value is 0.
+    type: int
   sort:
     description:
-      - Sort query parameter. Comma seperated lost of
-        fields to sort on.
+      - Sort query parameter. Comma seperated lost of fields to sort on.
     elements: str
     type: list
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
   type:
     description:
@@ -64,18 +57,14 @@ options:
       - Id path parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetWorkflowById
-    description: Complete reference of the GetWorkflowById
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowById
+    description: Complete reference of the GetWorkflowById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetWorkflows
-    description: Complete reference of the GetWorkflows
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflows
+    description: Complete reference of the GetWorkflows API.
     link: https://developer.cisco.com/docs/dna-center/#!get-workflows
 notes:
   - SDK Method used are

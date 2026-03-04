@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: floors_upload_image
-short_description: Resource module for Floors Upload
-  Image
+short_description: Resource module for Floors Upload Image
 description:
-  - Manage operation create of the resource Floors Upload
-    Image.
+  - Manage operation create of the resource Floors Upload Image.
   - Uploads floor image.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -22,13 +20,11 @@ options:
     description: Id path parameter. Floor Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      UploadsFloorImageV2
-    description: Complete reference of the UploadsFloorImageV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design UploadsFloorImageV2
+    description: Complete reference of the UploadsFloorImageV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image-v-2
 notes:
   - SDK Method used are

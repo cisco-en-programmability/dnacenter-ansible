@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: event_config_connector_types_info
-short_description: Information module for Event Config
-  Connector Types
+short_description: Information module for Event Config Connector Types
 description:
   - Get all Event Config Connector Types.
   - Get the list of connector types.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetConnectorTypes
-    description: Complete reference of the GetConnectorTypes
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetConnectorTypes
+    description: Complete reference of the GetConnectorTypes API.
     link: https://developer.cisco.com/docs/dna-center/#!get-connector-types
 notes:
   - SDK Method used are

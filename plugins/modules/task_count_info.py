@@ -21,61 +21,50 @@ options:
     type: dict
   startTime:
     description:
-      - StartTime query parameter. This is the epoch
-        start time from which tasks need to be fetched.
+      - StartTime query parameter. This is the epoch start time from which tasks need to be fetched.
     type: str
   endTime:
     description:
-      - EndTime query parameter. This is the epoch end
-        time upto which audit records need to be fetched.
+      - EndTime query parameter. This is the epoch end time upto which audit records need to be fetched.
     type: str
   data:
     description:
-      - Data query parameter. Fetch tasks that contains
-        this data.
+      - Data query parameter. Fetch tasks that contains this data.
     type: str
   errorCode:
     description:
-      - ErrorCode query parameter. Fetch tasks that
-        have this error code.
+      - ErrorCode query parameter. Fetch tasks that have this error code.
     type: str
   serviceType:
     description:
-      - ServiceType query parameter. Fetch tasks with
-        this service type.
+      - ServiceType query parameter. Fetch tasks with this service type.
     type: str
   username:
     description:
-      - Username query parameter. Fetch tasks with this
-        username.
+      - Username query parameter. Fetch tasks with this username.
     type: str
   progress:
     description:
-      - Progress query parameter. Fetch tasks that contains
-        this progress.
+      - Progress query parameter. Fetch tasks that contains this progress.
     type: str
   isError:
     description:
-      - IsError query parameter. Fetch tasks ended as
-        success or failure. Valid values true, false.
+      - IsError query parameter. Fetch tasks ended as success or failure. Valid values true, false.
     type: str
   failureReason:
     description:
-      - FailureReason query parameter. Fetch tasks that
-        contains this failure reason.
+      - FailureReason query parameter. Fetch tasks that contains this failure reason.
     type: str
   parentId:
     description:
-      - ParentId query parameter. Fetch tasks that have
-        this parent Id.
+      - ParentId query parameter. Fetch tasks that have this parent Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task GetTaskCount
-    description: Complete reference of the GetTaskCount
-      API.
+    description: Complete reference of the GetTaskCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-count
 notes:
   - SDK Method used are

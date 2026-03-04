@@ -7,26 +7,21 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_trials
-short_description: Resource module for Network Bugs
-  Trials
+short_description: Resource module for Network Bugs Trials
 description:
-  - Manage operation create of the resource Network
-    Bugs Trials.
-  - Creates a trial for bugs detection on network devices.
-    The consent to connect.
+  - Manage operation create of the resource Network Bugs Trials.
+  - Creates a trial for bugs detection on network devices. The consent to connect.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      CreatesATrialForBugsDetectionOnNetworkDevices
-    description: Complete reference of the CreatesATrialForBugsDetectionOnNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Compliance CreatesATrialForBugsDetectionOnNetworkDevices
+    description: Complete reference of the CreatesATrialForBugsDetectionOnNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-a-trial-for-bugs-detection-on-network-devices
 notes:
   - SDK Method used are
@@ -57,8 +52,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

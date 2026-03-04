@@ -2,7 +2,7 @@
 - name: Wireless enterprise ssid
   hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   tasks:
     - name: Create Wirelesss Enterprise SSID
@@ -16,8 +16,8 @@
         dnac_debug: "{{ dnac_debug }}"
         state: present
         validate_response_schema: false
-        basicServiceSetClientIdleTimeout: 00
-        clientExclusionTimeout: 00
+        basicServiceSetClientIdleTimeout: "0"
+        clientExclusionTimeout: "0"
         enableBasicServiceSetMaxIdle: true
         enableBroadcastSSID: true
         enableClientExclusion: true
@@ -32,5 +32,5 @@
         passphrase: ""
         radioPolicy: Dual band operation (2.4GHz and 5GHz)
         securityLevel: WPA2_ENTERPRISE
-        sessionTimeOut: 00
+        sessionTimeOut: "0"
         trafficType: voicedata

@@ -4525,7 +4525,7 @@ class LanAutomation(DnacBase):
         else:
             self.msg = f"Invalid state '{state}' provided. Supported states are 'merged' and 'deleted'."
             self.fail_and_exit(self.msg)
-        #  The update API is not available, instead 2 seperate APIs for Add and delete are available, so only storing the new links to be added/removed.
+        #  The update API is not available, instead 2 separate APIs for Add and delete are available, so only storing the new links to be added/removed.
 
         if not updated_required_links:
             self.log(
@@ -5780,7 +5780,7 @@ class LanAutomation(DnacBase):
         lan_auto_params = {
             key: lan_automation_params[key]
             for key in included_keys
-            if key in lan_automation_params
+            if key in lan_automation_params and lan_automation_params[key] is not None
         }
 
         if lan_auto_params:

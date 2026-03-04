@@ -10,8 +10,7 @@ module: event_info
 short_description: Information module for Event
 description:
   - Get all Event.
-  - Gets the list of registered Events with provided
-    eventIds or tags as mandatory.
+  - Gets the list of registered Events with provided eventIds or tags as mandatory.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,25 +21,19 @@ options:
     type: dict
   eventId:
     description:
-      - EventId query parameter. The registered EventId
-        should be provided.
+      - EventId query parameter. The registered EventId should be provided.
     type: str
   tags:
     description:
-      - Tags query parameter. The registered Tags should
-        be provided.
+      - Tags query parameter. The registered Tags should be provided.
     type: str
   offset:
     description:
-      - Offset query parameter. The number of Registries
-        to offset in the resultset whose default value
-        0.
+      - Offset query parameter. The number of Registries to offset in the resultset whose default value 0.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of Registries
-        to limit in the resultset whose default value
-        10.
+      - Limit query parameter. The number of Registries to limit in the resultset whose default value 10.
     type: int
   sortBy:
     description:
@@ -51,13 +44,11 @@ options:
       - Order query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetEvents
-    description: Complete reference of the GetEvents
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetEvents
+    description: Complete reference of the GetEvents API.
     link: https://developer.cisco.com/docs/dna-center/#!get-events
 notes:
   - SDK Method used are

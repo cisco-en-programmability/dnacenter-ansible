@@ -7,14 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_endpoints
-short_description: Resource module for Endpoint Analytics
-  Endpoints
+short_description: Resource module for Endpoint Analytics Endpoints
 description:
-  - Manage operations create, update and delete of the
-    resource Endpoint Analytics Endpoints.
+  - Manage operations create, update and delete of the resource Endpoint Analytics Endpoints.
   - Register a new endpoint in the system.
-  - Deletes the endpoint for the given unique identifier
-    'epId'.
+  - Deletes the endpoint for the given unique identifier 'epId'.
   - Update attributes of a registered endpoint.
 version_added: '6.16.0'
 extends_documentation_fragment:
@@ -22,12 +19,10 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceType:
-    description: Type of the device represented by this
-      endpoint.
+    description: Type of the device represented by this endpoint.
     type: str
   epId:
-    description: EpId path parameter. Unique identifier
-      for the endpoint.
+    description: EpId path parameter. Unique identifier for the endpoint.
     type: str
   hardwareManufacturer:
     description: Hardware manufacturer for the endpoint.
@@ -39,23 +34,17 @@ options:
     description: MAC address of the endpoint.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics RegisterAnEndpoint
-    description: Complete reference of the RegisterAnEndpoint
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics RegisterAnEndpoint
+    description: Complete reference of the RegisterAnEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!register-an-endpoint
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics DeleteAnEndpoint
-    description: Complete reference of the DeleteAnEndpoint
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics DeleteAnEndpoint
+    description: Complete reference of the DeleteAnEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-an-endpoint
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics UpdateARegisteredEndpoint
-    description: Complete reference of the UpdateARegisteredEndpoint
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics UpdateARegisteredEndpoint
+    description: Complete reference of the UpdateARegisteredEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint
 notes:
   - SDK Method used are
@@ -84,6 +73,17 @@ EXAMPLES = r"""
     hardwareManufacturer: string
     hardwareModel: string
     macAddress: string
+- name: Delete by id
+  cisco.dnac.endpoint_analytics_endpoints:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    epId: string
 - name: Update by id
   cisco.dnac.endpoint_analytics_endpoints:
     dnac_host: "{{dnac_host}}"
@@ -98,17 +98,6 @@ EXAMPLES = r"""
     epId: string
     hardwareManufacturer: string
     hardwareModel: string
-- name: Delete by id
-  cisco.dnac.endpoint_analytics_endpoints:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    epId: string
 """
 RETURN = r"""
 dnac_response:

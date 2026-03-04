@@ -7,10 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_custom_prompt_info
-short_description: Information module for Network Device
-  Custom Prompt Info
+short_description: Information module for Network Device Custom Prompt
 description:
-  - Get all Network Device Custom Prompt Info.
+  - Get all Network Device Custom Prompt.
   - Returns supported custom prompts by Catalyst Center.
 version_added: '6.0.0'
 extends_documentation_fragment:
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System
-      Settings CustomPromptSupportGETAPI
-    description: Complete reference of the CustomPromptSupportGETAPI
-      API.
+  - name: Cisco DNA Center documentation for System Settings CustomPromptSupportGETAPI
+    description: Complete reference of the CustomPromptSupportGETAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-support-getapi
 notes:
   - SDK Method used are
@@ -38,7 +35,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Device Custom Prompt Info
+- name: Get all Network Device Custom Prompt
   cisco.dnac.network_device_custom_prompt_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

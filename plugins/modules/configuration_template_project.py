@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_project
-short_description: Resource module for Configuration
-  Template Project
+short_description: Resource module for Configuration Template Project
 description:
-  - Manage operations create, update and delete of the
-    resource Configuration Template Project.
+  - Manage operations create, update and delete of the resource Configuration Template Project.
   - This API is used to create a new project.
   - Deletes the project by its id.
   - This API is used to update an existing project.
@@ -36,8 +34,7 @@ options:
     description: Name of project.
     type: str
   projectId:
-    description: ProjectId path parameter. ProjectId(UUID)
-      of project to be deleted.
+    description: ProjectId path parameter. ProjectId(UUID) of project to be deleted.
     type: str
   tags:
     description: Configuration Template Project's tags.
@@ -52,26 +49,20 @@ options:
     type: list
   templates:
     description: List of templates within the project.
-    elements: dict
+    elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates CreateProject
-    description: Complete reference of the CreateProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates CreateProject
+    description: Complete reference of the CreateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!create-project
-  - name: Cisco DNA Center documentation for Configuration
-      Templates DeletesTheProject
-    description: Complete reference of the DeletesTheProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates DeletesTheProject
+    description: Complete reference of the DeletesTheProject API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-the-project
-  - name: Cisco DNA Center documentation for Configuration
-      Templates UpdateProject
-    description: Complete reference of the UpdateProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates UpdateProject
+    description: Complete reference of the UpdateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!update-project
 notes:
   - SDK Method used are
@@ -105,7 +96,7 @@ EXAMPLES = r"""
       - id: string
         name: string
     templates:
-      - {}
+      - string
 - name: Update all
   cisco.dnac.configuration_template_project:
     dnac_host: "{{dnac_host}}"

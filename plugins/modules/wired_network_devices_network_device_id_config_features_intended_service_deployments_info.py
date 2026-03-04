@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wired_network_devices_network_device_id_config_features_intended_service_deployments_info
-short_description: Information module for Wired Network
-  Devices Network Device Id Config Features Intended
-  Service Deployments
+short_description: Information module for Wired Network Devices Network Device Id Config Features Intended Service Deployments
 description:
-  - Get all Wired Network Devices Network Device Id
-    Config Features Intended Service Deployments.
-  - Returns service deployment status based on filter
-    criteria.
+  - Get all Wired Network Devices Network Device Id Config Features Intended Service Deployments.
+  - Returns service deployment status based on filter criteria.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,18 +22,15 @@ options:
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId path parameter. Network device
-        ID of the wired device to provision. The API
-        /intent/api/v1/network-device can be used to
-        get the network device ID.
+        NetworkDeviceId path parameter. Network device ID of the wired device to provision. The API
+        /intent/api/v1/network-device can be used to get the network device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Wired GetServiceDeploymentStatus
-    description: Complete reference of the GetServiceDeploymentStatus
-      API.
+    description: Complete reference of the GetServiceDeploymentStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!get-service-deployment-status
 notes:
   - SDK Method used are
@@ -48,8 +41,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wired Network Devices Network Device
-    Id Config Features Intended Service Deployments
+- name: Get all Wired Network Devices Network Device Id Config Features Intended Service Deployments
   cisco.dnac.wired_network_devices_network_device_id_config_features_intended_service_deployments_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

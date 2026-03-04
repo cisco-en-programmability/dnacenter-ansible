@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_rest
-short_description: Resource module for Event Subscription
-  Rest
+short_description: Resource module for Event Subscription Rest
 description:
-  - Manage operations create and update of the resource
-    Event Subscription Rest.
-  - Create Rest/Webhook Subscription Endpoint for list
-    of registered events.
-  - Update Rest/Webhook Subscription Endpoint for list
-    of registered events.
+  - Manage operations create and update of the resource Event Subscription Rest.
+  - Create Rest/Webhook Subscription Endpoint for list of registered events.
+  - Update Rest/Webhook Subscription Endpoint for list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -48,8 +44,7 @@ options:
                 type: list
             type: list
           eventIds:
-            description: Event Ids (Comma separated
-              event ids).
+            description: Event Ids (Comma separated event ids).
             elements: str
             type: list
           severities:
@@ -77,15 +72,13 @@ options:
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Rest/Webhook Subscription
-              Details --> pick instanceId).
+            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
             description: Event Subscription Rest's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Connector Type (Must be
-                  REST).
+                description: Connector Type (Must be REST).
                 type: str
             type: dict
         type: list
@@ -97,18 +90,14 @@ options:
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      CreateRestWebhookEventSubscription
-    description: Complete reference of the CreateRestWebhookEventSubscription
-      API.
+  - name: Cisco DNA Center documentation for Event Management CreateRestWebhookEventSubscription
+    description: Complete reference of the CreateRestWebhookEventSubscription API.
     link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription
-  - name: Cisco DNA Center documentation for Event Management
-      UpdateRestWebhookEventSubscription
-    description: Complete reference of the UpdateRestWebhookEventSubscription
-      API.
+  - name: Cisco DNA Center documentation for Event Management UpdateRestWebhookEventSubscription
+    description: Complete reference of the UpdateRestWebhookEventSubscription API.
     link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription
 notes:
   - SDK Method used are

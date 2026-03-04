@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: device_health_info
 short_description: Information module for Device Health
 description:
-  - Get all Device Health. - > Intent API for accessing
-    DNA Assurance Device object for generating reports,
-    creating dashboards or creating additional value
-    added services.
+  - Get all Device Health. - > Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards
+    or creating additional value added services.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,8 +21,7 @@ options:
     type: dict
   deviceRole:
     description:
-      - DeviceRole query parameter. CORE, ACCESS, DISTRIBUTION,
-        ROUTER, WLC, or AP (case insensitive).
+      - DeviceRole query parameter. CORE, ACCESS, DISTRIBUTION, ROUTER, WLC, or AP (case insensitive).
     type: str
   siteId:
     description:
@@ -32,13 +29,11 @@ options:
     type: str
   health:
     description:
-      - Health query parameter. DNAC health catagory
-        POOR, FAIR, or GOOD (case insensitive).
+      - Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
     type: str
   startTime:
     description:
-      - StartTime query parameter. UTC epoch time in
-        milliseconds.
+      - StartTime query parameter. UTC epoch time in milliseconds.
     type: float
   endTime:
     description:
@@ -46,22 +41,17 @@ options:
     type: float
   limit:
     description:
-      - Limit query parameter. Max number of device
-        entries in the response (default to 50. Max
-        at 500).
+      - Limit query parameter. Max number of device entries in the response (default to 50. Max at 500).
     type: int
   offset:
     description:
-      - Offset query parameter. The offset of the first
-        device in the returned data (Mutiple of 'limit'
-        + 1).
+      - Offset query parameter. The offset of the first device in the returned data (Mutiple of 'limit' + 1).
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      Devices
+  - name: Cisco DNA Center documentation for Devices Devices
     description: Complete reference of the Devices API.
     link: https://developer.cisco.com/docs/dna-center/#!api-devices-devices
 notes:

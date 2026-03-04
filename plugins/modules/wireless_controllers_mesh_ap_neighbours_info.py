@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_mesh_ap_neighbours_info
-short_description: Information module for Wireless Controllers
-  Mesh Ap Neighbours
+short_description: Information module for Wireless Controllers Mesh Ap Neighbours
 description:
-  - Get all Wireless Controllers Mesh Ap Neighbours.
-  - Retrieves all Mesh accesspoint Neighbours details
-    whether child, parent, etc.
+  - Get all Wireless Controllers Mesh Ap Neighbours. - > Retrieves all mesh access point neighbour details, including Child,
+    Parent, Neighbour, Tentative Parent, and Blocklisted statuses.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,34 +22,40 @@ options:
   wlcIpAddress:
     description:
       - >
-        WlcIpAddress query parameter. Employ this query
-        parameter to obtain the details of the Access
-        points corresponding to the provided WLC IP
-        address.
+        WlcIpAddress query parameter. Employ this query parameter to obtain the details of the access points
+        corresponding to the provided WLC IP address.
     type: str
   apName:
     description:
       - >
-        ApName query parameter. Employ this query parameter
-        to obtain the details of the Access points corresponding
-        to the provided ap name.
+        ApName query parameter. Employ this query parameter to obtain the details of the access points
+        corresponding to the provided access point name.
     type: str
   ethernetMacAddress:
     description:
       - >
-        EthernetMacAddress query parameter. Employ this
-        query parameter to obtain the details of the
-        Access points corresponding to the provided
-        EthernetMacAddress.
+        EthernetMacAddress query parameter. Employ this query parameter to obtain the details of the access
+        points corresponding to the provided ethernet MAC address.
+    type: str
+  meshRole:
+    description:
+      - >
+        MeshRole query parameter. Employ this query parameter to obtain the details of the access points
+        corresponding to the provided mesh role. Allowed values are RAP or MAP.
+    type: str
+  neighbourType:
+    description:
+      - >
+        NeighbourType query parameter. Employ this query parameter to obtain the details of the access points
+        corresponding to the provided mesh neighbour type. Allowed values are Child, Parent, Neigh, Tentative
+        Parent, Blocklisted.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetMeshApNeighbours
-    description: Complete reference of the GetMeshApNeighbours
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetMeshApNeighbours
+    description: Complete reference of the GetMeshApNeighbours API.
     link: https://developer.cisco.com/docs/dna-center/#!get-mesh-ap-neighbours
 notes:
   - SDK Method used are
@@ -75,6 +79,8 @@ EXAMPLES = r"""
     wlcIpAddress: string
     apName: string
     ethernetMacAddress: string
+    meshRole: string
+    neighbourType: string
   register: result
 """
 RETURN = r"""

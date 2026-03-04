@@ -7,10 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: sda_layer3_virtual_networks
-short_description: Resource module for Sda Layer3virtualnetworks
+short_description: Resource module for Sda Layer3 Virtual Networks
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Layer3virtualnetworks.
+  - Manage operations create, update and delete of the resource Sda Layer3 Virtual Networks.
   - Adds layer 3 virtual networks based on user input.
   - Deletes layer 3 virtual networks based on user input.
   - Updates layer 3 virtual networks based on user input.
@@ -24,13 +23,10 @@ options:
     elements: dict
     suboptions:
       anchoredSiteId:
-        description: Fabric ID of the fabric site this
-          layer 3 virtual network is to be anchored
-          at.
+        description: Fabric ID of the fabric site this layer 3 virtual network is to be anchored at.
         type: str
       fabricIds:
-        description: IDs of the fabrics this layer 3
-          virtual network is to be assigned to.
+        description: IDs of the fabrics this layer 3 virtual network is to be assigned to.
         elements: str
         type: list
       virtualNetworkName:
@@ -38,24 +34,20 @@ options:
         type: str
     type: list
   virtualNetworkName:
-    description: VirtualNetworkName query parameter.
-      Name of the layer 3 virtual network.
+    description: VirtualNetworkName query parameter. Name of the layer 3 virtual network.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddLayer3VirtualNetworks
-    description: Complete reference of the AddLayer3VirtualNetworks
-      API.
+    description: Complete reference of the AddLayer3VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!add-layer-3-virtual-networks
   - name: Cisco DNA Center documentation for SDA DeleteLayer3VirtualNetworks
-    description: Complete reference of the DeleteLayer3VirtualNetworks
-      API.
+    description: Complete reference of the DeleteLayer3VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-layer-3-virtual-networks
   - name: Cisco DNA Center documentation for SDA UpdateLayer3VirtualNetworks
-    description: Complete reference of the UpdateLayer3VirtualNetworks
-      API.
+    description: Complete reference of the UpdateLayer3VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!update-layer-3-virtual-networks
 notes:
   - SDK Method used are
@@ -70,8 +62,19 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete all
+  cisco.dnac.sda_layer3_virtual_networks:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    virtualNetworkName: string
 - name: Create
-  cisco.dnac.sda_layer3VirtualNetworks:
+  cisco.dnac.sda_layer3_virtual_networks:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -85,19 +88,8 @@ EXAMPLES = r"""
         fabricIds:
           - string
         virtualNetworkName: string
-- name: Delete all
-  cisco.dnac.sda_layer3VirtualNetworks:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
-    virtualNetworkName: string
 - name: Update all
-  cisco.dnac.sda_layer3VirtualNetworks:
+  cisco.dnac.sda_layer3_virtual_networks:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

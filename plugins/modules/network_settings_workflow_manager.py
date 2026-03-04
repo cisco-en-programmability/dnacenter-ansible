@@ -885,7 +885,7 @@ EXAMPLES = r"""
 
 
 RETURN = r"""
-# Case_1: Successful creation/updation/deletion of global pool
+# Case_1: Successful creation/update/deletion of global pool
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -896,7 +896,7 @@ response_1:
       "executionStatusUrl": "string",
       "message": "string"
     }
-# Case_2: Successful creation/updation/deletion of reserve pool
+# Case_2: Successful creation/update/deletion of reserve pool
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -907,7 +907,7 @@ response_2:
       "executionStatusUrl": "string",
       "message": "string"
     }
-# Case_3: Successful creation/updation of network
+# Case_3: Successful creation/update of network
 response_3:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always

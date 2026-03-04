@@ -2,7 +2,7 @@
 - name: Template workflow manager
   hosts: localhost
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
     - device_details.template
   gather_facts: false
   connection: local

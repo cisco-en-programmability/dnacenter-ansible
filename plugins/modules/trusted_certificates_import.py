@@ -7,26 +7,21 @@
 DOCUMENTATION = r"""
 ---
 module: trusted_certificates_import
-short_description: Resource module for Trusted Certificates
-  Import
+short_description: Resource module for Trusted Certificates Import
 description:
-  - Manage operation create of the resource Trusted
-    Certificates Import.
-  - Imports trusted certificate into a truststore. Accepts
-    .pem or .der file as input.
+  - Manage operation create of the resource Trusted Certificates Import.
+  - Imports trusted certificate into a truststore. Accepts .pem or .der file as input.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Cisco Trusted
-      Certificates ImportTrustedCertificate
-    description: Complete reference of the ImportTrustedCertificate
-      API.
+  - name: Cisco DNA Center documentation for Cisco Trusted Certificates ImportTrustedCertificate
+    description: Complete reference of the ImportTrustedCertificate API.
     link: https://developer.cisco.com/docs/dna-center/#!import-trusted-certificate
 notes:
   - SDK Method used are

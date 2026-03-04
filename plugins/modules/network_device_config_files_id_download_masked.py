@@ -7,30 +7,24 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_config_files_id_download_masked
-short_description: Resource module for Network Device
-  Config Files Id Download Masked
+short_description: Resource module for Network Device Config Files Id Download Masked
 description:
-  - Manage operation create of the resource Network
-    Device Config Files Id Download Masked.
-  - Download the masked sanitized device configuration
-    by providing the file `id`.
+  - Manage operation create of the resource Network Device Config Files Id Download Masked.
+  - Download the masked sanitized device configuration by providing the file `id`.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. The value of `id`
-      can be obtained from the response of API `/dna/intent/api/v1/networkDeviceConfigFiles`.
+    description: Id path parameter. The value of `id` can be obtained from the response of API `/dna/intent/api/v1/networkDeviceConfigFiles`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Archive DownloadMaskedDeviceConfiguration
-    description: Complete reference of the DownloadMaskedDeviceConfiguration
-      API.
+  - name: Cisco DNA Center documentation for Configuration Archive DownloadMaskedDeviceConfiguration
+    description: Complete reference of the DownloadMaskedDeviceConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!download-masked-device-configuration
 notes:
   - SDK Method used are

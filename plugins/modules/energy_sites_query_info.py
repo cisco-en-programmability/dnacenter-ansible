@@ -7,15 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: energy_sites_query_info
-short_description: Information module for Energy Sites
-  Query
+short_description: Information module for Energy Sites Query
 description:
-  - Get all Energy Sites Query. - > Gets query sites
-    energy task result for the given task ID. For detailed
-    information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    sitesEnergy-1.0.1-resolved.yaml.
+  - Get all Energy Sites Query.
+  - Gets query sites energy task result for the given task ID.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,18 +25,15 @@ options:
   taskId:
     description:
       - >
-        TaskId query parameter. Used to retrieve asynchronously
-        processed & stored data. When this parameter
-        is used, the rest of the request params will
-        be ignored.
+        TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is
+        used, the rest of the request params will be ignored.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites QuerySitesEnergyForTheGivenTaskID
-    description: Complete reference of the QuerySitesEnergyForTheGivenTaskID
-      API.
+    description: Complete reference of the QuerySitesEnergyForTheGivenTaskID API.
     link: https://developer.cisco.com/docs/dna-center/#!query-sites-energy-for-the-given-task-id
 notes:
   - SDK Method used are

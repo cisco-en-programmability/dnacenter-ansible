@@ -1,0 +1,26 @@
+---
+- name: Generate YAML Configuration for NFS server details for storing backups
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate YAML Configuration for NFS server details for storing backups
+      cisco.dnac.backup_and_restore_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: gathered
+        config:
+          - file_path: "/Users/priyadharshini/Downloads/configuration_details_info"
+            component_specific_filters:
+              components_list: ["nfs_configuration", "backup_storage_configuration"]

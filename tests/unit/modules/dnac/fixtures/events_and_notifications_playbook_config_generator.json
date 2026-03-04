@@ -1,0 +1,877 @@
+{
+  "playbook_generate_all_configurations": [
+    {
+      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+      "generate_all_configurations": true
+    }
+  ],
+  "webhook_destinations": {
+    "errorMessage": {
+      
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": [
+      {
+        "version": null,
+        "clientId": "admin",
+        "isProxyRoute": true,
+        "tenantId": "68593aeecd0f400013b8604e",
+        "webhookId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+        "name": "webhook demo 103",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false
+      },
+      {
+        "version": null,
+        "clientId": "admin",
+        "isProxyRoute": false,
+        "tenantId": "68593aeecd0f400013b8604e",
+        "webhookId": "a2c1bf6b-39b0-4294-808a-5240d9259b17",
+        "name": "webhook demo 102",
+        "description": "Webhook Demo Test SEEN-4890-01",
+        "url": "https://4.5.6.8/dnac_test_webhook",
+        "method": "POST",
+        "trustCert": false
+      }
+    ],
+    "createdTimeStamp": 1765517896022
+  },
+  "email_destinations": [
+    {
+      "version": null,
+      "clientId": "",
+      "emailConfigId": "29e3f877-1054-4dd6-b0cf-cec1fa99a7d7",
+      "primarySMTPConfig": {
+        "hostName": "outbound.cisco.com",
+        "port": "25",
+        "userName": "",
+        "password": "",
+        "smtpType": "DEFAULT"
+      },
+      "secondarySMTPConfig": null,
+      "fromEmail": "pbalaku2@cisco.com",
+      "toEmail": "pbalaku2@cisco.com",
+      "subject": "Testing email destination",
+      "tenantId": "SYS0"
+    }
+  ],
+  "syslog_destinations": {
+    "errorMessage": {
+      
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": [
+      {
+        "version": null,
+        "clientId": "admin",
+        "tenantId": "68593aeecd0f400013b8604e",
+        "configId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+        "name": "Test_Syslog 101",
+        "description": "Adding random IP Test 01",
+        "host": "10.195.247.247",
+        "port": 514,
+        "protocol": "UDP",
+        "isSecure": false
+      },
+      {
+        "version": null,
+        "clientId": "admin",
+        "tenantId": "68593aeecd0f400013b8604e",
+        "configId": "d1babe28-069a-4196-9e31-fa20e14c6e16",
+        "name": "Test_Syslog 102",
+        "description": "Adding random URL Test 02",
+        "host": "syslog.cisco.com",
+        "port": 514,
+        "protocol": "TCP",
+        "isSecure": false
+      }
+    ],
+    "createdTimeStamp": 1765517896815
+  },
+  "SNMP_destinations": [
+    {
+      "version": null,
+      "clientId": "admin",
+      "tenantId": "68593aeecd0f400013b8604e",
+      "configId": "2a8cb471-9fed-4eb7-861c-21f4ee4bb53c",
+      "name": "SNMP",
+      "description": "Test Cisco SNMP",
+      "ipAddress": "23.2.34.34",
+      "port": 161,
+      "snmpVersion": "V2C",
+      "community": "klasjdnfusadifnuhu",
+      "userName": null,
+      "snmpMode": null,
+      "snmpAuthType": null,
+      "authPassword": null,
+      "snmpPrivacyType": null,
+      "privacyPassword": null
+    },
+    {
+      "version": null,
+      "clientId": "admin",
+      "tenantId": "68593aeecd0f400013b8604e",
+      "configId": "a71450fa-0ccc-475c-9d63-74af686f8f93",
+      "name": "SNMP V3",
+      "description": "Testing DNAC for SNMPv3",
+      "ipAddress": "2.7.4.5",
+      "port": 161,
+      "snmpVersion": "V3",
+      "community": null,
+      "userName": "cisco123",
+      "snmpMode": "AUTH_PRIVACY",
+      "snmpAuthType": "SHA",
+      "authPassword": "authpass123",
+      "snmpPrivacyType": "AES128",
+      "privacyPassword": "privpass123"
+    }
+  ],
+  "webhook_event_notifications": [
+    {
+      "version": null,
+      "clientId": "68593aee99c98400133aa450",
+      "subscriptionId": "cccf2c21-d870-4f36-8fd6-3d4147ddd8e1",
+      "name": "CG-Test",
+      "description": "x",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "327900dc-6246-4fe2-bb1d-c36db883c329",
+          "subscriptionDetails": {
+            "connectorType": "EMAIL",
+            "instanceId": "327900dc-6246-4fe2-bb1d-c36db883c329",
+            "name": "Email Instance test",
+            "description": "Email Instance description 1",
+            "fromEmailAddress": "catalyst@cisco.com",
+            "toEmailAddresses": [
+              "noc@cisco.com",
+              "soc@cisco.com"
+            ],
+            "subject": "Mail test"
+          },
+          "connectorType": "EMAIL",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        },
+        {
+          "instanceId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+          "subscriptionDetails": {
+            "connectorType": "SYSLOG",
+            "instanceId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+            "name": "Test_Syslog 101",
+            "description": "Adding random IP Test 01",
+            "syslogConfig": {
+              "version": null,
+              "clientId": "admin",
+              "tenantId": "68593aeecd0f400013b8604e",
+              "configId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+              "name": "Test_Syslog 101",
+              "description": "Adding random IP Test 01",
+              "host": "10.195.247.247",
+              "port": 514,
+              "protocol": "UDP",
+              "isSecure": false
+            }
+          },
+          "connectorType": "SYSLOG",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        },
+        {
+          "instanceId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+          "subscriptionDetails": {
+            "connectorType": "REST",
+            "instanceId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+            "name": "webhook demo 103",
+            "description": "Webhook Demo Test SEEN-4890-02",
+            "url": "https://webhook.cisco.com/dna_test_webhook",
+            "basePath": null,
+            "resource": null,
+            "method": "PUT",
+            "trustCert": false,
+            "body": null,
+            "connectTimeout": 10,
+            "readTimeout": 10,
+            "serviceName": null,
+            "servicePort": null,
+            "namespace": null,
+            "proxyRoute": true
+          },
+          "connectorType": "REST",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-2-264"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+          {
+            "srcResourceId": "*",
+            "type": "site",
+            "name": "Global"
+          }
+        ],
+        "_id": "bf968342bb086d285e9c18508bb5af7a67e329be"
+      },
+      "userTimezone": "Asia/Calcutta",
+      "tenantId": "68593aeecd0f400013b8604e"
+    }
+  ],
+  "get_event_artifacts": [
+    {
+      "version": null,
+      "clientId": "admin",
+      "artifactId": "44bf-f9e1-4318-8b8a",
+      "namespace": "ASSURANCE",
+      "name": "Access Contract (SGACL) access policy installation failed on the device",
+      "description": "Failure to install Access Contract (SGACL) access policy on the device",
+      "domain": "Know Your Network",
+      "subDomain": "Devices",
+      "tags": [
+        "ASSURANCE",
+        "sgacl_install_error_ace"
+      ],
+      "isTemplateEnabled": true,
+      "ciscoDNAEventLink": "dna/assurance/issueDetails?issueId=$instanceId$",
+      "note": "To programmatically get more info see here - https://<ip-address>/dna/platform/app/consumer-portal/developer-toolkit/apis?apiId=8684-39bb-4e89-a6e4",
+      "isPrivate": false,
+      "eventPayload": {
+        "eventId": "NETWORK-DEVICES-2-264",
+        "version": "1.0.0",
+        "category": "ERROR",
+        "type": "NETWORK",
+        "source": null,
+        "severity": 2,
+        "details": {
+          "Type": "$eventSource$",
+          "Assurance Issue Details": "Failure to install an access policy for SGT $sgName$ ($sgtValue$).  Policy rule error found in SGACL $sgaclName$, ACE rule $aceName$.",
+          "Assurance Issue Priority": "$priority$",
+          "Device": "$eventUniqueId$",
+          "Assurance Issue Name": "Failed to install IP SGACL $sgaclName$ for SGT $sgName$ due to ACE $aceName$ error",
+          "Assurance Issue Category": "$category$",
+          "Assurance Issue Status": "$status$"
+        }
+      },
+      "isTenantAware": true,
+      "supportedConnectorTypes": [
+        "REST",
+        "SYSLOG",
+        "NO_ENDPOINT",
+        "EMAIL",
+        "WEBEX",
+        "PAGER_DUTY"
+      ],
+      "configs": {
+        "isAlert": false,
+        "isACKnowledgeable": false,
+        "ruleType": "DEFAULT"
+      },
+      "deprecated": false,
+      "deprecationMessage": null,
+      "tenantId": "SYS0"
+    }
+  ],
+  "email_event_notifications": [
+    {
+      "version": null,
+      "clientId": "68593aee99c98400133aa450",
+      "subscriptionId": "cccf2c21-d870-4f36-8fd6-3d4147ddd8e1",
+      "name": "CG-Test",
+      "description": "x",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "327900dc-6246-4fe2-bb1d-c36db883c329",
+          "subscriptionDetails": {
+            "connectorType": "EMAIL",
+            "instanceId": "327900dc-6246-4fe2-bb1d-c36db883c329",
+            "name": "Email Instance test",
+            "description": "Email Instance description 1",
+            "fromEmailAddress": "catalyst@cisco.com",
+            "toEmailAddresses": [
+              "noc@cisco.com",
+              "soc@cisco.com"
+            ],
+            "subject": "Mail test"
+          },
+          "connectorType": "EMAIL",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        },
+        {
+          "instanceId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+          "subscriptionDetails": {
+            "connectorType": "SYSLOG",
+            "instanceId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+            "name": "Test_Syslog 101",
+            "description": "Adding random IP Test 01",
+            "syslogConfig": {
+              "version": null,
+              "clientId": "admin",
+              "tenantId": "68593aeecd0f400013b8604e",
+              "configId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+              "name": "Test_Syslog 101",
+              "description": "Adding random IP Test 01",
+              "host": "10.195.247.247",
+              "port": 514,
+              "protocol": "UDP",
+              "isSecure": false
+            }
+          },
+          "connectorType": "SYSLOG",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        },
+        {
+          "instanceId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+          "subscriptionDetails": {
+            "connectorType": "REST",
+            "instanceId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+            "name": "webhook demo 103",
+            "description": "Webhook Demo Test SEEN-4890-02",
+            "url": "https://webhook.cisco.com/dna_test_webhook",
+            "basePath": null,
+            "resource": null,
+            "method": "PUT",
+            "trustCert": false,
+            "body": null,
+            "connectTimeout": 10,
+            "readTimeout": 10,
+            "serviceName": null,
+            "servicePort": null,
+            "namespace": null,
+            "proxyRoute": true
+          },
+          "connectorType": "REST",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-2-264"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+          {
+            "srcResourceId": "*",
+            "type": "site",
+            "name": "Global"
+          }
+        ],
+        "_id": "bf968342bb086d285e9c18508bb5af7a67e329be"
+      },
+      "userTimezone": "Asia/Calcutta",
+      "tenantId": "68593aeecd0f400013b8604e"
+    }
+  ],
+  "get_event_artifacts1": [
+    {
+      "version": null,
+      "clientId": "admin",
+      "artifactId": "44bf-f9e1-4318-8b8a",
+      "namespace": "ASSURANCE",
+      "name": "Access Contract (SGACL) access policy installation failed on the device",
+      "description": "Failure to install Access Contract (SGACL) access policy on the device",
+      "domain": "Know Your Network",
+      "subDomain": "Devices",
+      "tags": [
+        "ASSURANCE",
+        "sgacl_install_error_ace"
+      ],
+      "isTemplateEnabled": true,
+      "ciscoDNAEventLink": "dna/assurance/issueDetails?issueId=$instanceId$",
+      "note": "To programmatically get more info see here - https://<ip-address>/dna/platform/app/consumer-portal/developer-toolkit/apis?apiId=8684-39bb-4e89-a6e4",
+      "isPrivate": false,
+      "eventPayload": {
+        "eventId": "NETWORK-DEVICES-2-264",
+        "version": "1.0.0",
+        "category": "ERROR",
+        "type": "NETWORK",
+        "source": null,
+        "severity": 2,
+        "details": {
+          "Type": "$eventSource$",
+          "Assurance Issue Details": "Failure to install an access policy for SGT $sgName$ ($sgtValue$).  Policy rule error found in SGACL $sgaclName$, ACE rule $aceName$.",
+          "Assurance Issue Priority": "$priority$",
+          "Device": "$eventUniqueId$",
+          "Assurance Issue Name": "Failed to install IP SGACL $sgaclName$ for SGT $sgName$ due to ACE $aceName$ error",
+          "Assurance Issue Category": "$category$",
+          "Assurance Issue Status": "$status$"
+        }
+      },
+      "isTenantAware": true,
+      "supportedConnectorTypes": [
+        "REST",
+        "SYSLOG",
+        "NO_ENDPOINT",
+        "EMAIL",
+        "WEBEX",
+        "PAGER_DUTY"
+      ],
+      "configs": {
+        "isAlert": false,
+        "isACKnowledgeable": false,
+        "ruleType": "DEFAULT"
+      },
+      "deprecated": false,
+      "deprecationMessage": null,
+      "tenantId": "SYS0"
+    }
+  ],
+  "syslog_event_notifications": [
+    {
+      "version": null,
+      "clientId": "68593aee99c98400133aa450",
+      "subscriptionId": "cccf2c21-d870-4f36-8fd6-3d4147ddd8e1",
+      "name": "CG-Test",
+      "description": "x",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "327900dc-6246-4fe2-bb1d-c36db883c329",
+          "subscriptionDetails": {
+            "connectorType": "EMAIL",
+            "instanceId": "327900dc-6246-4fe2-bb1d-c36db883c329",
+            "name": "Email Instance test",
+            "description": "Email Instance description 1",
+            "fromEmailAddress": "catalyst@cisco.com",
+            "toEmailAddresses": [
+              "noc@cisco.com",
+              "soc@cisco.com"
+            ],
+            "subject": "Mail test"
+          },
+          "connectorType": "EMAIL",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        },
+        {
+          "instanceId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+          "subscriptionDetails": {
+            "connectorType": "SYSLOG",
+            "instanceId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+            "name": "Test_Syslog 101",
+            "description": "Adding random IP Test 01",
+            "syslogConfig": {
+              "version": null,
+              "clientId": "admin",
+              "tenantId": "68593aeecd0f400013b8604e",
+              "configId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+              "name": "Test_Syslog 101",
+              "description": "Adding random IP Test 01",
+              "host": "10.195.247.247",
+              "port": 514,
+              "protocol": "UDP",
+              "isSecure": false
+            }
+          },
+          "connectorType": "SYSLOG",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        },
+        {
+          "instanceId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+          "subscriptionDetails": {
+            "connectorType": "REST",
+            "instanceId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+            "name": "webhook demo 103",
+            "description": "Webhook Demo Test SEEN-4890-02",
+            "url": "https://webhook.cisco.com/dna_test_webhook",
+            "basePath": null,
+            "resource": null,
+            "method": "PUT",
+            "trustCert": false,
+            "body": null,
+            "connectTimeout": 10,
+            "readTimeout": 10,
+            "serviceName": null,
+            "servicePort": null,
+            "namespace": null,
+            "proxyRoute": true
+          },
+          "connectorType": "REST",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-2-264"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+          {
+            "srcResourceId": "*",
+            "type": "site",
+            "name": "Global"
+          }
+        ],
+        "_id": "bf968342bb086d285e9c18508bb5af7a67e329be"
+      },
+      "userTimezone": "Asia/Calcutta",
+      "tenantId": "68593aeecd0f400013b8604e"
+    }
+  ],
+  "get_event_artifacts2": [
+    {
+      "version": null,
+      "clientId": "admin",
+      "artifactId": "44bf-f9e1-4318-8b8a",
+      "namespace": "ASSURANCE",
+      "name": "Access Contract (SGACL) access policy installation failed on the device",
+      "description": "Failure to install Access Contract (SGACL) access policy on the device",
+      "domain": "Know Your Network",
+      "subDomain": "Devices",
+      "tags": [
+        "ASSURANCE",
+        "sgacl_install_error_ace"
+      ],
+      "isTemplateEnabled": true,
+      "ciscoDNAEventLink": "dna/assurance/issueDetails?issueId=$instanceId$",
+      "note": "To programmatically get more info see here - https://<ip-address>/dna/platform/app/consumer-portal/developer-toolkit/apis?apiId=8684-39bb-4e89-a6e4",
+      "isPrivate": false,
+      "eventPayload": {
+        "eventId": "NETWORK-DEVICES-2-264",
+        "version": "1.0.0",
+        "category": "ERROR",
+        "type": "NETWORK",
+        "source": null,
+        "severity": 2,
+        "details": {
+          "Type": "$eventSource$",
+          "Assurance Issue Details": "Failure to install an access policy for SGT $sgName$ ($sgtValue$).  Policy rule error found in SGACL $sgaclName$, ACE rule $aceName$.",
+          "Assurance Issue Priority": "$priority$",
+          "Device": "$eventUniqueId$",
+          "Assurance Issue Name": "Failed to install IP SGACL $sgaclName$ for SGT $sgName$ due to ACE $aceName$ error",
+          "Assurance Issue Category": "$category$",
+          "Assurance Issue Status": "$status$"
+        }
+      },
+      "isTenantAware": true,
+      "supportedConnectorTypes": [
+        "REST",
+        "SYSLOG",
+        "NO_ENDPOINT",
+        "EMAIL",
+        "WEBEX",
+        "PAGER_DUTY"
+      ],
+      "configs": {
+        "isAlert": false,
+        "isACKnowledgeable": false,
+        "ruleType": "DEFAULT"
+      },
+      "deprecated": false,
+      "deprecationMessage": null,
+      "tenantId": "SYS0"
+    }
+  ],
+  "playbook_component_specific_filters": [
+    {
+      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+      "component_specific_filters": {
+        "components_list": [
+          "webhook_destinations",
+          "webhook_event_notifications"
+        ]
+      }
+    }
+  ],
+  "webhook_destinations1": {
+    "errorMessage": {
+      
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": [
+      {
+        "version": null,
+        "clientId": "admin",
+        "isProxyRoute": true,
+        "tenantId": "68593aeecd0f400013b8604e",
+        "webhookId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+        "name": "webhook demo 103",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false
+      },
+      {
+        "version": null,
+        "clientId": "admin",
+        "isProxyRoute": false,
+        "tenantId": "68593aeecd0f400013b8604e",
+        "webhookId": "a2c1bf6b-39b0-4294-808a-5240d9259b17",
+        "name": "webhook demo 102",
+        "description": "Webhook Demo Test SEEN-4890-01",
+        "url": "https://4.5.6.8/dnac_test_webhook",
+        "method": "POST",
+        "trustCert": false
+      }
+    ],
+    "createdTimeStamp": 1765531146680
+  },
+  "webhook_event_notifications1": [
+    {
+      "version": null,
+      "clientId": "68593aee99c98400133aa450",
+      "subscriptionId": "cccf2c21-d870-4f36-8fd6-3d4147ddd8e1",
+      "name": "CG-Test",
+      "description": "x",
+      "subscriptionEndpoints": [
+        {
+          "instanceId": "327900dc-6246-4fe2-bb1d-c36db883c329",
+          "subscriptionDetails": {
+            "connectorType": "EMAIL",
+            "instanceId": "327900dc-6246-4fe2-bb1d-c36db883c329",
+            "name": "Email Instance test",
+            "description": "Email Instance description 1",
+            "fromEmailAddress": "catalyst@cisco.com",
+            "toEmailAddresses": [
+              "noc@cisco.com",
+              "soc@cisco.com"
+            ],
+            "subject": "Mail test"
+          },
+          "connectorType": "EMAIL",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        },
+        {
+          "instanceId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+          "subscriptionDetails": {
+            "connectorType": "SYSLOG",
+            "instanceId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+            "name": "Test_Syslog 101",
+            "description": "Adding random IP Test 01",
+            "syslogConfig": {
+              "version": null,
+              "clientId": "admin",
+              "tenantId": "68593aeecd0f400013b8604e",
+              "configId": "9aaa3fd7-cdf3-4a7b-94de-3cc6a0a68678",
+              "name": "Test_Syslog 101",
+              "description": "Adding random IP Test 01",
+              "host": "10.195.247.247",
+              "port": 514,
+              "protocol": "UDP",
+              "isSecure": false
+            }
+          },
+          "connectorType": "SYSLOG",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        },
+        {
+          "instanceId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+          "subscriptionDetails": {
+            "connectorType": "REST",
+            "instanceId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+            "name": "webhook demo 103",
+            "description": "Webhook Demo Test SEEN-4890-02",
+            "url": "https://webhook.cisco.com/dna_test_webhook",
+            "basePath": null,
+            "resource": null,
+            "method": "PUT",
+            "trustCert": false,
+            "body": null,
+            "connectTimeout": 10,
+            "readTimeout": 10,
+            "serviceName": null,
+            "servicePort": null,
+            "namespace": null,
+            "proxyRoute": true
+          },
+          "connectorType": "REST",
+          "filter": {
+            "eventIds": [
+              "NETWORK-DEVICES-2-264"
+            ]
+          }
+        }
+      ],
+      "filter": {
+        "eventIds": [
+          "NETWORK-DEVICES-2-264"
+        ]
+      },
+      "isPrivate": false,
+      "isEnabled": true,
+      "resourceDomain": {
+        "name": "SUPER-ADMIN_GLOBAL",
+        "resourceGroups": [
+          {
+            "srcResourceId": "*",
+            "type": "site",
+            "name": "Global"
+          }
+        ],
+        "_id": "bf968342bb086d285e9c18508bb5af7a67e329be"
+      },
+      "userTimezone": "Asia/Calcutta",
+      "tenantId": "68593aeecd0f400013b8604e"
+    }
+  ],
+  "get_event_artifacts3": [
+    {
+      "version": null,
+      "clientId": "admin",
+      "artifactId": "44bf-f9e1-4318-8b8a",
+      "namespace": "ASSURANCE",
+      "name": "Access Contract (SGACL) access policy installation failed on the device",
+      "description": "Failure to install Access Contract (SGACL) access policy on the device",
+      "domain": "Know Your Network",
+      "subDomain": "Devices",
+      "tags": [
+        "ASSURANCE",
+        "sgacl_install_error_ace"
+      ],
+      "isTemplateEnabled": true,
+      "ciscoDNAEventLink": "dna/assurance/issueDetails?issueId=$instanceId$",
+      "note": "To programmatically get more info see here - https://<ip-address>/dna/platform/app/consumer-portal/developer-toolkit/apis?apiId=8684-39bb-4e89-a6e4",
+      "isPrivate": false,
+      "eventPayload": {
+        "eventId": "NETWORK-DEVICES-2-264",
+        "version": "1.0.0",
+        "category": "ERROR",
+        "type": "NETWORK",
+        "source": null,
+        "severity": 2,
+        "details": {
+          "Type": "$eventSource$",
+          "Assurance Issue Details": "Failure to install an access policy for SGT $sgName$ ($sgtValue$).  Policy rule error found in SGACL $sgaclName$, ACE rule $aceName$.",
+          "Assurance Issue Priority": "$priority$",
+          "Device": "$eventUniqueId$",
+          "Assurance Issue Name": "Failed to install IP SGACL $sgaclName$ for SGT $sgName$ due to ACE $aceName$ error",
+          "Assurance Issue Category": "$category$",
+          "Assurance Issue Status": "$status$"
+        }
+      },
+      "isTenantAware": true,
+      "supportedConnectorTypes": [
+        "REST",
+        "SYSLOG",
+        "NO_ENDPOINT",
+        "EMAIL",
+        "WEBEX",
+        "PAGER_DUTY"
+      ],
+      "configs": {
+        "isAlert": false,
+        "isACKnowledgeable": false,
+        "ruleType": "DEFAULT"
+      },
+      "deprecated": false,
+      "deprecationMessage": null,
+      "tenantId": "SYS0"
+    }
+  ],
+  "playbook_invalid_filter": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "webhook_destinatio",
+          "webhook_event_notifications"
+        ]
+      },
+      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook"
+    }
+  ],
+  "playbook_specific_filter": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "webhook_destinations"
+        ],
+        "destination_filters": {
+          "destination_names": [
+            "webhook demo 103"
+          ],
+          "destination_types": [
+            "webhook"
+          ]
+        }
+      },
+      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook"
+    }
+  ],
+  "webhook": {
+    "errorMessage": {
+      
+    },
+    "apiStatus": "SUCCESS",
+    "statusMessage": [
+      {
+        "version": null,
+        "clientId": "admin",
+        "isProxyRoute": true,
+        "tenantId": "68593aeecd0f400013b8604e",
+        "webhookId": "0d81e835-27eb-4be9-b53a-228de2a4d8b6",
+        "name": "webhook demo 103",
+        "description": "Webhook Demo Test SEEN-4890-02",
+        "url": "https://webhook.cisco.com/dna_test_webhook",
+        "method": "PUT",
+        "trustCert": false
+      },
+      {
+        "version": null,
+        "clientId": "admin",
+        "isProxyRoute": false,
+        "tenantId": "68593aeecd0f400013b8604e",
+        "webhookId": "a2c1bf6b-39b0-4294-808a-5240d9259b17",
+        "name": "webhook demo 102",
+        "description": "Webhook Demo Test SEEN-4890-01",
+        "url": "https://4.5.6.8/dnac_test_webhook",
+        "method": "POST",
+        "trustCert": false
+      }
+    ],
+    "createdTimeStamp": 1765532819100
+  }
+}
