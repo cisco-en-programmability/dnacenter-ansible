@@ -465,7 +465,7 @@ response_3:
         'assurance_device_health_score_settings_workflow_manager'.
         Verify input filters or configuration.
       file_path: >-
-        assurance_device_health_score_settings_workflow_manager_playbook_2026-02-04_14-30-15.yml
+        assurance_device_health_score_settings_playbook_config_2026-02-04_14-30-15.yml
       operation_summary:
         total_device_families_processed: 0
         total_kpis_processed: 0

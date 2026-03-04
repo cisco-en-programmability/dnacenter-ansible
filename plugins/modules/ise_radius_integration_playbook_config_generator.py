@@ -55,7 +55,7 @@ options:
         description:
         - Path where the YAML configuration file will be saved.
         - If not provided, the file will be saved in the current working directory with
-          a default file name  C(<module_name>_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+          a default file name C(ise_radius_integration_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - For example, C(ise_radius_integration_playbook_config_2026-01-24_12-33-20.yml).
         type: str
       component_specific_filters:
@@ -224,7 +224,7 @@ response_1:
             "components_processed": 1,
             "components_skipped": 0,
             "configurations_count": 1,
-            "file_path": "ise_radius_integration_workflow_manager_playbook_2026-01-28_17-26-35.yml",
+            "file_path": "ise_radius_integration_playbook_config_2026-01-28_17-26-35.yml",
             "message": "YAML configuration file generated successfully for module 'ise_radius_integration_workflow_manager'",
             "status": "success"
         },
@@ -232,7 +232,7 @@ response_1:
             "components_processed": 1,
             "components_skipped": 0,
             "configurations_count": 1,
-            "file_path": "ise_radius_integration_workflow_manager_playbook_2026-01-28_17-26-35.yml",
+            "file_path": "ise_radius_integration_playbook_config_2026-01-28_17-26-35.yml",
             "message": "YAML configuration file generated successfully for module 'ise_radius_integration_workflow_manager'",
             "status": "success"
         },

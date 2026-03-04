@@ -1,13 +1,13 @@
 ---
 ################################################################################
-# Brownfield SDA Fabric Multicast Playbook Generator Examples
+# SDA Fabric Multicast Playbook Config Generator Examples
 ################################################################################
 # This playbook demonstrates how to generate YAML configurations from existing
 # SDA fabric multicast deployments in Cisco Catalyst Center.
 #
 # The module creates playbooks compatible with the
-# 'sda_fabric_multicast_workflow_manager' module for brownfield infrastructure
-# migration and documentation.
+# 'sda_fabric_multicast_workflow_manager' module for configuration management
+# and documentation.
 ################################################################################
 
 # Example 1: Generate YAML playbook for all SDA fabric multicast configurations
@@ -19,7 +19,7 @@
   connection: local
   tasks:
     - name: Generate all fabric multicast configurations
-      cisco.dnac.brownfield_sda_fabric_multicast_playbook_generator:
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -29,11 +29,10 @@
         dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: INFO
-        config_verify: false
         state: gathered
         config:
           - generate_all_configurations: true
-            file_path: "/path/to/output/all_fabric_multicast_configs.yml"
+            file_path: "all_fabric_multicast_configs.yml"
 
 # Example 2: Generate YAML playbook for specific fabric site
 - name: Generate YAML playbook for specific fabric site
@@ -44,7 +43,7 @@
   connection: local
   tasks:
     - name: Generate fabric multicast configs for specific site
-      cisco.dnac.brownfield_sda_fabric_multicast_playbook_generator:
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -55,7 +54,7 @@
         dnac_log: true
         state: gathered
         config:
-          - file_path: "/path/to/output/site_specific_multicast.yml"
+          - file_path: "site_specific_multicast.yml"
             component_specific_filters:
               components_list:
                 - fabric_multicast
@@ -71,7 +70,7 @@
   connection: local
   tasks:
     - name: Generate configs for specific fabric and VN
-      cisco.dnac.brownfield_sda_fabric_multicast_playbook_generator:
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -95,7 +94,7 @@
   connection: local
   tasks:
     - name: Generate configs for multiple sites with auto-generated filename
-      cisco.dnac.brownfield_sda_fabric_multicast_playbook_generator:
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

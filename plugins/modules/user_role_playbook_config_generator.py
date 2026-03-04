@@ -67,7 +67,7 @@ options:
           becomes optional and defaults to all components.
         - A default filename is generated automatically if
           C(file_path) is not specified using pattern
-          C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
+          C(user_role_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - Useful for complete brownfield discovery, documentation,
           and disaster recovery planning.
         type: bool
@@ -79,9 +79,9 @@ options:
         - If not provided, the file is saved in the current working
           directory with auto-generated filename.
         - Default filename pattern is
-          C(<module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml).
+          C(user_role_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - For example,
-          C(user_role_workflow_manager_playbook_2025-04-22_21-43-26.yml).
+          C(user_role_playbook_config_2025-04-22_21-43-26.yml).
         - The directory path must exist and be writable.
         - Supports absolute paths (e.g., C(/tmp/config.yml)) and
           relative paths (e.g., C(./configs/users.yml)).
