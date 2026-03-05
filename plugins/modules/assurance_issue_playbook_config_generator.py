@@ -34,13 +34,12 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `assurance_issue_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `assurance_issue_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - Global filters identify target settings by issue name or device type.
     - Component-specific filters allow selection of specific assurance issue features and detailed filtering.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -61,6 +60,15 @@ options:
         - Parent directories are created automatically if they do not exist.
         type: str
         required: false
+      file_mode:
+        description:
+        - Determines how the output YAML configuration file is written.
+        - When set to C(overwrite), the file will be replaced with new content.
+        - When set to C(append), new content will be added to the existing file.
+        type: str
+        required: false
+        default: overwrite
+        choices: ["overwrite", "append"]
       component_specific_filters:
         description:
         - Filters to specify which assurance issue components and features to include in the YAML configuration file.
@@ -124,8 +132,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - component_specific_filters:
-          components_list: ["assurance_user_defined_issue_settings"]
+      component_specific_filters:
+        components_list: ["assurance_user_defined_issue_settings"]
 
 # Example 2: Generate YAML Configuration for all user-defined issue components
 - name: Generate complete user-defined issue configuration
@@ -141,8 +149,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/complete_assurance_config.yml"
-        generate_all_configurations: true
+      file_path: "/tmp/complete_assurance_config.yml"
+      file_mode: "overwrite"
+      generate_all_configurations: true
 
 # Example 3: Filter by specific issue name
 - name: Generate YAML for specific issue by name
@@ -158,10 +167,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/high_cpu_issue.yml"
-        component_specific_filters:
-          assurance_user_defined_issue_settings:
-            - name: "High CPU Usage"
+      file_path: "/tmp/high_cpu_issue.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        assurance_user_defined_issue_settings:
+          - name: "High CPU Usage"
 
 # Example 4: Filter by enabled status
 - name: Generate YAML for only enabled issues
@@ -177,10 +187,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/enabled_issues.yml"
-        component_specific_filters:
-          assurance_user_defined_issue_settings:
-            - is_enabled: true
+      file_path: "/tmp/enabled_issues.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        assurance_user_defined_issue_settings:
+          - is_enabled: true
 
 # Example 5: Filter by name and enabled status
 - name: Generate YAML for specific enabled issue
@@ -196,11 +207,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/specific_enabled_issue.yml"
-        component_specific_filters:
-          assurance_user_defined_issue_settings:
-            - name: "Memory Leak Detection"
-              is_enabled: true
+      file_path: "/tmp/specific_enabled_issue.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        assurance_user_defined_issue_settings:
+          - name: "Memory Leak Detection"
+            is_enabled: true
 """
 
 RETURN = r"""
@@ -298,7 +310,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import os
 try:
@@ -370,47 +381,24 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         temp_spec = {
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
+            "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
-        allowed_keys = set(temp_spec.keys())
+        # Validate the config dict using brownfield helper
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
         # Validate that only allowed keys are present in the configuration
-        for config_item in self.config:
-            if not isinstance(config_item, dict):
-                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+        self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
+        # Validate minimum requirements
         self.validate_minimum_requirements(self.config)
 
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
         # Set the validated configuration and update the result with success status
-        self.validated_config = valid_temp
+        self.validated_config = self.config
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
+            str(self.validated_config)
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
@@ -1332,7 +1320,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.reset_operation_tracking()
 
         # Get validated configuration
-        config = self.validated_config[0] if self.validated_config else {}
+        config = self.validated_config if self.validated_config else {}
         self.log(
             "Processing configuration with generate_all={0}, components_filter={1}".format(
                 config.get("generate_all_configurations", False),
@@ -1346,6 +1334,9 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         if not file_path:
             file_path = self.generate_filename()
             self.log("No file_path provided, using auto-generated filename: {0}".format(file_path), "INFO")
+
+        # Get file_mode
+        file_mode = config.get("file_mode", "overwrite")
 
         # Ensure directory exists
         self.ensure_directory_exists(file_path)
@@ -1510,7 +1501,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Writing YAML configuration to file: {0}".format(file_path),
                 "INFO"
             )
-            success = self.write_yaml_with_comments(yaml_config, file_path, operation_summary)
+            success = self.write_dict_to_yaml(yaml_config, file_path, file_mode)
             if success:
                 if all_configs:
                     self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
@@ -1563,7 +1554,7 @@ def main():
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "validate_response_schema": {"type": "bool", "default": True},
         "state": {"type": "str", "default": "gathered", "choices": ["gathered"]},
-        "config": {"type": "list", "required": True, "elements": "dict"},
+        "config": {"type": "dict", "required": True},
     }
 
     # Initialize the Ansible module with the defined argument spec
@@ -1590,7 +1581,9 @@ def main():
     # Validate the input parameters
     catalystcenter_assurance_issue.validate_input().check_return_status()
 
-    # Get the function mapped to the current state and execute it
+    # Get the validated config and execute the state function
+    config = catalystcenter_assurance_issue.validated_config
+    catalystcenter_assurance_issue.get_want(config, state).check_return_status()
     catalystcenter_assurance_issue.get_diff_state_apply[state]().check_return_status()
 
     # Exit with the result
