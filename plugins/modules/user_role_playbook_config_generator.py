@@ -93,7 +93,6 @@ options:
           and disaster recovery planning.
         type: bool
         default: false
-        type: str
       component_specific_filters:
         description:
         - Filters to specify which components to include in the
