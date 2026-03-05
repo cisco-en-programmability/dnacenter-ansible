@@ -66,7 +66,7 @@ options:
         - If not provided, file is saved in current working directory with
           auto-generated filename.
         - Filename format when auto-generated is
-          "<module_name>_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
+          C(events_and_notifications_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - Example auto-generated filename
           "events_and_notifications_playbook_config_2025-04-22_21-43-26.yml".
         - Parent directories are created automatically if they do not exist.
@@ -81,8 +81,6 @@ options:
           subscriptions.
         - Makes component_specific_filters optional by using default values
           when not provided.
-        - Sets default components_list to all supported component types if
-          not explicitly specified.
         - Useful for complete brownfield infrastructure documentation and
           discovery workflows.
         - When False, requires explicit component_specific_filters
@@ -97,8 +95,7 @@ options:
           retrieved regardless of other filters.
         - Destination and notification filters provide name-based filtering
           within selected components.
-        - Optional when generate_all_configurations is True, uses defaults if
-          not provided.
+        - Optional when generate_all_configurations is True.
         - Required when generate_all_configurations is False to specify which
           components to retrieve.
         type: dict
@@ -125,8 +122,6 @@ options:
                 configurations
             - When not specified with generate_all_configurations True, all
               component types are included.
-            - Order of components in list determines order in generated YAML
-              playbook structure.
             type: list
             elements: str
             choices:
@@ -144,12 +139,20 @@ options:
               matching.
             - Applies to webhook_destinations, email_destinations,
               syslog_destinations, and snmp_destinations components.
-            - When destination_names provided and matches found, only matching
-              destinations are included.
-            - When destination_names provided but no matches found, all
-              destinations are included for comprehensive coverage.
-            - Destination type filters currently informational, type-specific
-              filtering handled by components_list.
+            - Filtering is applied independently per component type selected
+              in components_list.
+            - Each component type only retrieves destinations of its own type
+              and applies destination_names filter within that scope.
+            - Destination names belonging to a component type not included in
+              components_list are silently ignored and do not trigger errors.
+            - When destination_names provided and at least one name matches
+              a destination within a component type, only matching destinations
+              of that type are included.
+            - When destination_names provided but no names match any
+              destination within a component type, all destinations of that
+              type are included as fallback for comprehensive coverage.
+            - Destination type filters are currently informational and
+              type-specific filtering is handled by components_list.
             type: dict
             suboptions:
               destination_names:
@@ -158,10 +161,21 @@ options:
                   configurations.
                 - Names must match exactly as configured in Catalyst Center
                   (case-sensitive).
-                - Applies smart filtering - includes all destinations when
-                  specified names not found.
-                - Works across all destination types selected in
+                - Filtering is scoped per component type. Each destination
+                  component in components_list independently matches names
+                  from this list against its own destinations.
+                - Names that do not match any destination within a given
+                  component type are ignored for that component. No
+                  cross-component-type filtering or validation occurs.
+                - For example, if components_list includes only
+                  C(webhook_destinations) and destination_names contains
+                  both an SNMP destination name and a webhook destination
+                  name, only the webhook name is matched. The SNMP name
+                  is ignored because C(snmp_destinations) is not in
                   components_list.
+                - If none of the specified names match any destination
+                  within a component type, all destinations of that type
+                  are included as fallback.
                 - Empty list or not specified retrieves all destinations for
                   selected component types.
                 type: list
@@ -280,6 +294,13 @@ notes:
   behavior.
 - Generated playbooks are compatible with
   events_and_notifications_workflow_manager module v6.44.0+.
+- Destination name filtering in destination_filters.destination_names is
+  scoped per component type in components_list. Each destination component
+  independently matches names against its own destinations. Names belonging
+  to a destination type not selected in components_list are silently ignored
+  and do not cause errors or affect other component types. If no names match
+  within a component type, all destinations of that type are included as
+  fallback.
 
 seealso:
 - module: cisco.dnac.events_and_notifications_workflow_manager
