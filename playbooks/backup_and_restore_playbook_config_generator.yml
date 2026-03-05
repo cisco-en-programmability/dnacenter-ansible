@@ -21,6 +21,7 @@
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          - file_path: "/Users/priyadharshini/Downloads/configuration_details_info"
-            component_specific_filters:
-              components_list: ["nfs_configuration", "backup_storage_configuration"]
+          file_path: "/Users/priyadharshini/Downloads/configuration_details_info"
+          file_mode: overwrite
+          component_specific_filters:
+            components_list: ["nfs_configuration", "backup_storage_configuration"]

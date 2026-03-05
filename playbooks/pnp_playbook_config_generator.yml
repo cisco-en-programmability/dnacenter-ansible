@@ -19,8 +19,8 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          - generate_all_configurations: true
-            component_specific_filters:
-              components_list: ["device_info"]
-            global_filters:
-              device_state: ["Onboarding"]
+          generate_all_configurations: true
+          component_specific_filters:
+            components_list: ["device_info"]
+          global_filters:
+            device_state: ["Onboarding"]

@@ -39,7 +39,7 @@ def get_mock_module():
         'dnac_version': '2.3.7.6',
         'dnac_debug': False,
         'state': 'gathered',
-        'config': [{'generate_all_configurations': True}]
+        'config': {'generate_all_configurations': True}
     }
     mock_module.exit_json = MagicMock()
     mock_module.fail_json = MagicMock()
@@ -162,12 +162,11 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "dnac_verify": False,
             "dnac_version": "2.3.7.6",
             "state": "gathered",
-            "config": [
-                {
-                    "generate_all_configurations": True,
-                    "file_path": "/tmp/test.yml"
-                }
-            ]
+            "config": {
+                "generate_all_configurations": True,
+                "file_path": "/tmp/test.yml",
+                "file_mode": "overwrite"
+            }
         }
 
         set_module_args(**valid_params)
@@ -175,7 +174,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         # This test verifies that the parameters are properly structured
         self.assertEqual(test_params["state"], "gathered")
         self.assertEqual(test_params["dnac_host"], "198.18.129.100")
-        self.assertTrue(isinstance(test_params["config"], list))
+        self.assertTrue(isinstance(test_params["config"], dict))
 
     @patch('ansible_collections.cisco.dnac.plugins.modules.'
            'assurance_device_health_score_settings_playbook_config_generator.'
@@ -199,12 +198,11 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             dnac_verify=False,
             dnac_version="2.3.7.6",
             state="gathered",
-            config=[
-                {
-                    "generate_all_configurations": True,
-                    "file_path": "/tmp/test.yml"
-                }
-            ]
+            config={
+                "generate_all_configurations": True,
+                "file_path": "/tmp/test.yml",
+                "file_mode": "overwrite"
+            }
         )
 
         # Verify that set_module_args worked
@@ -221,26 +219,28 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             assurance_device_health_score_settings_playbook_config_generator import \
             AssuranceDeviceHealthScorePlaybookGenerator
 
-        # Mock the parent class initialization
+        # Mock the parent class initialization and log method
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__') as mock_dnac_init:
             with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__') as mock_helper_init:
-                mock_dnac_init.return_value = None
-                mock_helper_init.return_value = None
+                with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.log') as mock_log:
+                    mock_dnac_init.return_value = None
+                    mock_helper_init.return_value = None
+                    mock_log.return_value = None
 
-                # Create mock module
-                mock_module = MagicMock()
-                mock_module.params = {
-                    "config": [{"generate_all_configurations": True}]
-                }
+                    # Create mock module
+                    mock_module = MagicMock()
+                    mock_module.params = {
+                        "config": {"generate_all_configurations": True}
+                    }
 
-                # Test class instantiation
-                try:
-                    generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
-                    self.assertIsNotNone(generator)
-                    self.assertTrue(hasattr(generator, 'module_name'))
-                    self.assertEqual(generator.module_name, "assurance_device_health_score_settings_workflow_manager")
-                except Exception as e:
-                    self.fail(f"Class initialization failed: {e}")
+                    # Test class instantiation
+                    try:
+                        generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
+                        self.assertIsNotNone(generator)
+                        self.assertTrue(hasattr(generator, 'module_name'))
+                        self.assertEqual(generator.module_name, "assurance_device_health_score_settings_playbook_config_generator")
+                    except Exception as e:
+                        self.fail(f"Class initialization failed: {e}")
 
     def test_supported_states(self):
         """Test that the module supports the correct states"""
@@ -251,7 +251,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__'):
             with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__'):
                 mock_module = MagicMock()
-                mock_module.params = {"config": []}
+                mock_module.params = {"config": {}}
 
                 try:
                     generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
@@ -438,13 +438,14 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             'dnac_version': '2.3.7.6',
             'state': 'gathered',
             'config_verify': True,
-            'config': [{
+            'config': {
                 'file_path': '/tmp/comprehensive_test.yml',
+                'file_mode': 'overwrite',
                 'component_specific_filters': {
                     'device_families': ['UNIFIED_AP', 'ROUTER'],
                     'kpi_names': ['CPU Utilization', 'Memory Utilization']
                 }
-            }]
+            }
         }
 
         # Test comprehensive integration scenario without class instantiation
