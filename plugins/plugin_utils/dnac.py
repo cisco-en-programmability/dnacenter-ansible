@@ -187,6 +187,7 @@ class DNACSDK(object):
     def __init__(self, params):
         display.deprecated(
             "The cisco.dnac collection is deprecated. Please migrate to cisco.catalystcenter.",
+            version="7.0.0",
             collection_name="cisco.dnac",
         )
         self.result = dict(changed=False, result="")
