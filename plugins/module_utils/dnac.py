@@ -17,7 +17,7 @@ except ImportError:
     DNAC_SDK_IS_INSTALLED = False
 else:
     DNAC_SDK_IS_INSTALLED = True
-from ansible.module_utils._text import to_native
+from ansible.module_utils.common.text.converters import to_native
 from ansible.module_utils.common import validation
 from abc import ABCMeta, abstractmethod
 try:
@@ -47,6 +47,10 @@ class DnacBase():
 
     def __init__(self, module):
         self.module = module
+        module.deprecate(
+            msg="The cisco.dnac collection is deprecated. Please migrate to cisco.catalystcenter.",
+            collection_name="cisco.dnac",
+        )
         self.params = module.params
         self.config = copy.deepcopy(module.params.get("config"))
         self.have = {}
