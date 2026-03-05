@@ -1,5 +1,9 @@
 # Ansible Collection: cisco.dnac
 
+> **DEPRECATED:** This collection is deprecated and will be removed in a future release.
+> Please migrate to [cisco.catalystcenter](https://galaxy.ansible.com/cisco/catalystcenter),
+> which provides the same functionality under the updated Cisco Catalyst Center branding.
+
 ## Overview
 
 The cisco.dnac Ansible Collection enables enterprise automation and management of Cisco CATALYST Center environments. It provides modules that interact with Cisco CATALYST Center APIs to automate provisioning, configuration, and operational workflows.
