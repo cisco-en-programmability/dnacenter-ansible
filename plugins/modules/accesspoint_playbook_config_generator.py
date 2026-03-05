@@ -75,9 +75,9 @@ options:
           - Path where the YAML configuration file will be saved.
           - If not provided, the file will be saved in the current
             working directory with a default file name
-            C(<module_name>playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+            C(accesspoint_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
           - For example,
-            'accesspoint_playbook_config_2025-04-22_21-43-26.yml'.
+            C(accesspoint_playbook_config_2025-04-22_21-43-26.yml).
           - Supports both absolute and relative file paths.
         type: str
       global_filters:
@@ -2446,7 +2446,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
         File Naming:
             - Custom path: Uses yaml_config_generator["file_path"] if provided
             - Auto-generated: Calls generate_filename() to create timestamp-based name
-                             Format: accesspoint_workflow_manager_<timestamp>.yaml
+                             Format: accesspoint_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml
 
         Error Handling:
             - No configurations found: Returns success with INFO message (no-op)

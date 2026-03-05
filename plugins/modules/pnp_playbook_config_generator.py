@@ -23,8 +23,6 @@ Core Capabilities:
     - Extracts core device attributes (serial_number, hostname, state, pid,
       is_sudi_required, authorize)
     - Supports device state filtering at API level for efficient data retrieval
-    - Enables device family filtering during post-retrieval processing
-    - Provides site-based filtering with hierarchical name resolution
     - Transforms camelCase API responses to snake_case playbook parameters
     - Generates timestamped filenames when custom path not specified
     - Creates parent directories automatically for file path destinations
@@ -33,14 +31,13 @@ Core Capabilities:
 Supported Operations:
     - Gathered state for brownfield device discovery and YAML generation
     - Generate all mode for complete PnP inventory documentation
-    - Selective filtering with state, family, and site criteria combinations
+    - Selective filtering with device state criteria
     - Single component mode supporting only device_info extraction
     - Multi-device processing with individual transformation error handling
 
 API Integration:
     - device_onboarding_pnp.DeviceOnboardingPnp.get_device_list with optional
       state filtering
-    - sites.Sites.get_sites for site name resolution during filtering operations
 
 Data Transformation:
     - Maps deviceInfo.serialNumber to serial_number (required field)
@@ -55,10 +52,6 @@ Data Transformation:
 Filtering Capabilities:
     - device_state: API-level filtering by PnP workflow state (Unclaimed, Planned,
       Onboarding, Provisioned, Error)
-    - device_family: Post-retrieval filtering by product category (Switches and
-      Hubs, Routers, Wireless Controller)
-    - site_name: Post-retrieval filtering by hierarchical site with substring
-      matching after UUID resolution
     - Smart validation skips None devices and invalid dictionary structures
     - Comprehensive coverage continues processing after individual device failures
 
@@ -66,7 +59,6 @@ Output Format:
     - YAML playbook compatible with pnp_workflow_manager module structure
     - Single configuration group with device_info key containing device list
     - Each device as separate OrderedDict entry with essential attributes only
-    - Site IDs resolved to hierarchical names for human readability
     - Clean structure without site assignments, templates, or projects
     - Proper indentation and formatting for manual modification workflows
 
@@ -105,12 +97,9 @@ description:
   and SUDI requirements.
 - Transforms API responses to playbook-compatible YAML format with parameter
   name mapping and structure optimization for Ansible execution.
-- Supports comprehensive filtering capabilities including device state filters,
-  device family filters, and site-based filtering for targeted device discovery.
+- Supports device state filtering for targeted device discovery.
 - Enables automated brownfield discovery by retrieving all registered PnP
   devices when generate_all_configurations is enabled.
-- Resolves site IDs to hierarchical site names for human-readable playbook
-  generation.
 - Creates structured playbook files ready for modification and redeployment
   through pnp_workflow_manager module.
 - Extracts essential device attributes without site assignments, templates,
@@ -137,16 +126,12 @@ options:
     default: gathered
   config:
     description:
-      - List of configuration filters controlling YAML playbook generation
-        behavior.
-      - Each configuration item defines output file path, component selection,
-        and filtering criteria.
-      - Supports multiple configuration items for generating separate playbook
-        files with different filter combinations.
+      - Configuration dictionary controlling YAML playbook generation behavior.
+      - Defines output file path, component selection, file write mode, and
+        filtering criteria for PnP device extraction.
       - When generate_all_configurations is True, automatically includes all
         PnP devices unless filters are explicitly specified.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -173,13 +158,27 @@ options:
           - If not provided, file is saved in current working directory with
             auto-generated filename.
           - Filename format when auto-generated is
-            "pnp_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+            C(pnp_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
           - Example auto-generated filename
-            "pnp_workflow_manager_playbook_2026-02-06_14-30-45.yml".
+            C(pnp_playbook_config_2026-02-06_14-30-45.yml).
           - Parent directories are created automatically if they do not exist.
-          - File is overwritten if it already exists at the specified path.
+          - File behavior depends on file_mode setting.
         type: str
         required: false
+      file_mode:
+        description:
+          - Controls how the generated YAML content is written to the output
+            file.
+          - When set to 'overwrite', the file is created or replaced with new
+            content.
+          - When set to 'append', the generated content is appended to the
+            existing file.
+          - Append mode is useful for combining multiple device configurations
+            into a single playbook file.
+        type: str
+        required: false
+        default: overwrite
+        choices: ['overwrite', 'append']
       component_specific_filters:
         description:
           - Filter configuration controlling which components are included in
@@ -235,48 +234,14 @@ options:
             elements: str
             required: false
             choices: ["Unclaimed", "Planned", "Onboarding", "Provisioned", "Error"]
-          device_family:
-            description:
-              - Filter devices by product family classification.
-              - Family categories group devices by hardware type and
-                functionality.
-              - Multiple families can be specified to include devices from any
-                listed category.
-              - Common families include "Switches and Hubs", "Routers",
-                "Wireless Controller".
-              - When not specified, devices from all families are included.
-              - Family filtering applied after API retrieval during post-
-                processing.
-            type: list
-            elements: str
-            required: false
-          site_name:
-            description:
-              - Filter devices by site name hierarchy location.
-              - Only devices claimed to sites matching this hierarchy are
-                included.
-              - Site hierarchy must match full path as configured in Catalyst
-                Center.
-              - Format example "Global/USA/San Francisco" for multi-level site
-                hierarchy.
-              - Substring matching supported for site hierarchy filtering.
-              - When not specified, devices from all sites are included.
-              - Site filtering requires site ID resolution and applies after
-                API retrieval.
-              - Devices without site assignments are excluded when site filter
-                specified.
-            type: str
-            required: false
 requirements:
 - dnacentersdk >= 2.9.3
 - python >= 3.9
 notes:
 - SDK Methods used are
   - device_onboarding_pnp.DeviceOnboardingPnp.get_device_list
-  - sites.Sites.get_sites (for site filtering only)
 - Paths used are
   - GET /dna/intent/api/v1/onboarding/pnp-device
-  - GET /dna/intent/api/v1/sites (for site filtering only)
 - Minimum Catalyst Center version required is 2.3.7.9 for PnP device APIs.
 - Module performs read-only operations and does not modify Catalyst Center
   configurations.
@@ -284,10 +249,6 @@ notes:
   attributes.
 - Site assignments, templates, projects, and advanced parameters are not
   included in output.
-- Site IDs are automatically resolved to hierarchical site names for
-  readability.
-- Site resolution uses in-memory caching to minimize API calls during
-  processing.
 - Module supports both check mode and normal execution mode with identical
   behavior.
 - Generated playbooks are compatible with pnp_workflow_manager module
@@ -314,9 +275,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
 
-- name: Generate device info with custom file path
+- name: Generate device info with custom file path and append mode
   cisco.dnac.pnp_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -329,9 +290,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/pnp_device_info.yml"
-        component_specific_filters:
-          components_list: ["device_info"]
+      file_path: "/tmp/pnp_device_info.yml"
+      file_mode: append
+      component_specific_filters:
+        components_list: ["device_info"]
 
 - name: Generate device info for unclaimed devices only
   cisco.dnac.pnp_playbook_config_generator:
@@ -346,69 +308,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/unclaimed_device_info.yml"
-        component_specific_filters:
-          components_list: ["device_info"]
-        global_filters:
-          device_state: ["Unclaimed"]
-
-- name: Generate device info for switches only
-  cisco.dnac.pnp_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/switches_device_info.yml"
-        component_specific_filters:
-          components_list: ["device_info"]
-        global_filters:
-          device_family: ["Switches and Hubs"]
-
-- name: Generate device info for devices at specific site
-  cisco.dnac.pnp_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/site_device_info.yml"
-        component_specific_filters:
-          components_list: ["device_info"]
-        global_filters:
-          site_name: "Global/USA/San Francisco"
-
-- name: Generate device info for provisioned wireless controllers
-  cisco.dnac.pnp_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/wlc_device_info.yml"
-        component_specific_filters:
-          components_list: ["device_info"]
-        global_filters:
-          device_family: ["Wireless Controller"]
-          device_state: ["Provisioned"]
+      file_path: "/tmp/unclaimed_device_info.yml"
+      component_specific_filters:
+        components_list: ["device_info"]
+      global_filters:
+        device_state: ["Unclaimed"]
 """
 
 RETURN = r"""
@@ -422,7 +326,7 @@ response_1:
       "response": {
         "status": "success",
         "message": "YAML config generation succeeded for module 'pnp_workflow_manager'.",
-        "file_path": "pnp_workflow_manager_playbook_2026-02-06_14-19-07.yml",
+        "file_path": "pnp_playbook_config_2026-02-06_14-19-07.yml",
         "configurations_count": 8,
         "components_processed": 1,
         "components_skipped": 0
@@ -436,7 +340,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 
@@ -517,10 +420,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
     Filtering Capabilities:
         - device_state: Filters by PnP workflow state at API level (Unclaimed,
           Planned, Onboarding, Provisioned, Error)
-        - device_family: Filters by product category during post-processing
-          (Switches and Hubs, Routers, Wireless Controller)
-        - site_name: Filters by hierarchical site name with substring matching
-          after site ID resolution
         - Smart validation: Skips None devices and invalid structures
         - Comprehensive coverage: Continues processing after individual failures
 
@@ -537,7 +436,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         - YAML playbook compatible with pnp_workflow_manager module
         - Single configuration group with device_info key
         - Each device as separate OrderedDict entry in device_info list
-        - Site IDs resolved to hierarchical names for readability
         - Clean structure with only essential device attributes
         - Proper indentation and formatting for easy manual modification
 
@@ -545,7 +443,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         - Cisco Catalyst Center version 2.3.7.9 or higher
         - DNA Center SDK 2.9.3 or higher for API compatibility
         - Python 3.9 or higher for OrderedDict and type hint support
-        - Read access to PnP and Sites APIs in Catalyst Center
+        - Read access to PnP APIs in Catalyst Center
         - Network connectivity to Catalyst Center management interface
 
     Usage Patterns:
@@ -567,8 +465,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             and state
         operation_failures (list): Failed transformations with serial and error
         total_devices_processed (int): Count of devices included in final output
-        _site_cache (dict): In-memory cache for site ID to name mappings
-
     Methods:
         validate_input(): Validates playbook configuration parameters against
             schema
@@ -576,8 +472,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         transform_pnp_device(): Transforms device from API to playbook format
         group_devices_by_config(): Organizes devices into unified configuration
         get_pnp_devices(): Retrieves and filters devices from Catalyst Center
-        get_site_name_from_id(): Resolves site UUID to hierarchical name with
-            caching
         yaml_config_generator(): Coordinates device retrieval and file generation
         get_want(): Extracts and normalizes configuration from user input
         get_diff_gathered(): Processes gathered state for YAML generation
@@ -615,9 +509,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.operation_successes = []
         self.operation_failures = []
         self.total_devices_processed = 0
-
-        # Initialize caches (reduced to only site cache since we're not using templates/images)
-        self._site_cache = {}
 
         # Initialize generate_all_configurations
         self.generate_all_configurations = False
@@ -673,55 +564,58 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "type": "str",
                 "required": False
             },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite"
+            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False,
-                "options": {
-                    "components_list": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                        "default": ["device_info"]
-                    }
-                }
             },
             "global_filters": {
                 "type": "dict",
                 "required": False,
-                "options": {
-                    "device_state": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False
-                    },
-                    "device_family": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False
-                    },
-                    "site_name": {
-                        "type": "str",
-                        "required": False
-                    }
-                }
             },
         }
 
-        valid_config, invalid_params = validate_list_of_dicts(
-            self.config, pnp_brownfield_spec
-        )
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook config: {0}".format(
-                "\n".join(invalid_params)
+        # Strict type validation for generate_all_configurations before
+        # validate_config_dict silently coerces strings to booleans
+        gen_all_value = self.config.get("generate_all_configurations")
+        if gen_all_value is not None and not isinstance(gen_all_value, bool):
+            self.msg = (
+                "'generate_all_configurations' must be a boolean "
+                "(true/false), got {0} of type {1}. Use 'true' or 'false' without "
+                "quotes in your playbook.".format(
+                    repr(gen_all_value), type(gen_all_value).__name__
+                )
             )
             self.log(
-                "Validation failed with {0} invalid parameter(s) detected. Invalid "
-                "parameters: {1}. Setting operation result to failed and exiting.".format(
-                    len(invalid_params), ", ".join(invalid_params)
+                "Strict type validation failed for 'generate_all_configurations'. "
+                "Expected bool, received {0} ({1}). Setting operation result to "
+                "failed and exiting.".format(
+                    type(gen_all_value).__name__, repr(gen_all_value)
                 ),
                 "ERROR"
             )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        # Validate that no unknown top-level keys are present in config
+        # using validate_invalid_params from BrownFieldHelper
+        self.validate_invalid_params(self.config, pnp_brownfield_spec.keys())
+
+        # Validate config dictionary using validate_config_dict from BrownFieldHelper
+        valid_config = self.validate_config_dict(self.config, pnp_brownfield_spec)
+
+        # Validate file_mode choices
+        file_mode = valid_config.get("file_mode", "overwrite")
+        valid_file_modes = ["overwrite", "append"]
+        if file_mode not in valid_file_modes:
+            self.msg = (
+                "Invalid value for 'file_mode': '{0}'. "
+                "Valid choices are: {1}".format(file_mode, valid_file_modes)
+            )
+            self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Additional validation for nested parameters and choice values
@@ -729,72 +623,71 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         valid_components = ["device_info"]
         valid_states = ["Unclaimed", "Planned", "Onboarding", "Provisioned", "Error"]
         valid_component_filter_keys = ["components_list"]
-        valid_global_filter_keys = ["device_state", "device_family", "site_name"]
+        valid_global_filter_keys = ["device_state"]
 
-        for config_index, config_item in enumerate(valid_config, start=1):
-            # Validate component_specific_filters keys and values
-            component_filters = config_item.get("component_specific_filters", {})
-            if component_filters:
-                # Check for unknown keys in component_specific_filters
-                unknown_comp_keys = [k for k in component_filters.keys() if k not in valid_component_filter_keys]
-                if unknown_comp_keys:
-                    validation_errors.append(
-                        "Config item {0}: Unknown parameter(s) in component_specific_filters: {1}. "
-                        "Valid parameters are: {2}".format(
-                            config_index, unknown_comp_keys, valid_component_filter_keys
-                        )
-                    )
-
-                # Validate components_list values
-                components_list = component_filters.get("components_list", [])
-                if components_list:
-                    invalid_components = [c for c in components_list if c not in valid_components]
-                    if invalid_components:
-                        validation_errors.append(
-                            "Config item {0}: Invalid value(s) in components_list: {1}. "
-                            "Valid choices are: {2}".format(
-                                config_index, invalid_components, valid_components
-                            )
-                        )
-
-            # Validate global_filters keys and values
-            global_filters = config_item.get("global_filters", {})
-            if global_filters:
-                # Check for unknown keys in global_filters
-                unknown_global_keys = [k for k in global_filters.keys() if k not in valid_global_filter_keys]
-                if unknown_global_keys:
-                    validation_errors.append(
-                        "Config item {0}: Unknown parameter(s) in global_filters: {1}. "
-                        "Valid parameters are: {2}".format(
-                            config_index, unknown_global_keys, valid_global_filter_keys
-                        )
-                    )
-
-                # Validate device_state values
-                device_states = global_filters.get("device_state", [])
-                if device_states:
-                    invalid_states = [s for s in device_states if s not in valid_states]
-                    if invalid_states:
-                        validation_errors.append(
-                            "Config item {0}: Invalid value(s) in device_state: {1}. "
-                            "Valid choices are: {2}".format(
-                                config_index, invalid_states, valid_states
-                            )
-                        )
-
-            # Validate that generate_all_configurations is true OR filters are provided
-            generate_all = config_item.get("generate_all_configurations", False)
-            has_global_filters = bool(global_filters)
-            has_component_filters = bool(component_filters and component_filters.get("components_list"))
-
-            if not generate_all and not has_global_filters and not has_component_filters:
+        # Validate component_specific_filters keys and values
+        component_filters = valid_config.get("component_specific_filters", {})
+        if component_filters:
+            # Check for unknown keys in component_specific_filters
+            unknown_comp_keys = [k for k in component_filters.keys() if k not in valid_component_filter_keys]
+            if unknown_comp_keys:
                 validation_errors.append(
-                    "Config item {0}: 'generate_all_configurations' is set to false but no "
-                    "filters are provided. Either set 'generate_all_configurations' to true, "
-                    "or specify 'global_filters' (device_state, device_family, site_name) or "
-                    "'component_specific_filters' with 'components_list' to control which "
-                    "devices are included in the generated playbook.".format(config_index)
+                    "Unknown parameter(s) in component_specific_filters: {0}. "
+                    "Valid parameters are: {1}".format(
+                        unknown_comp_keys, valid_component_filter_keys
+                    )
                 )
+
+            # Validate components_list values
+            components_list = component_filters.get("components_list", [])
+            if components_list:
+                invalid_components = [c for c in components_list if c not in valid_components]
+                if invalid_components:
+                    validation_errors.append(
+                        "Invalid value(s) in components_list: {0}. "
+                        "Valid choices are: {1}".format(
+                            invalid_components, valid_components
+                        )
+                    )
+
+        # Validate global_filters keys and values
+        global_filters = valid_config.get("global_filters", {})
+        if global_filters:
+            # Check for unknown keys in global_filters
+            unknown_global_keys = [k for k in global_filters.keys() if k not in valid_global_filter_keys]
+            if unknown_global_keys:
+                validation_errors.append(
+                    "Unknown parameter(s) in global_filters: {0}. "
+                    "Valid parameters are: {1}".format(
+                        unknown_global_keys, valid_global_filter_keys
+                    )
+                )
+
+            # Validate device_state values
+            device_states = global_filters.get("device_state", [])
+            if device_states:
+                invalid_states = [s for s in device_states if s not in valid_states]
+                if invalid_states:
+                    validation_errors.append(
+                        "Invalid value(s) in device_state: {0}. "
+                        "Valid choices are: {1}".format(
+                            invalid_states, valid_states
+                        )
+                    )
+
+        # Validate that generate_all_configurations is true OR filters are provided
+        generate_all = valid_config.get("generate_all_configurations", False)
+        has_global_filters = bool(global_filters)
+        has_component_filters = bool(component_filters and component_filters.get("components_list"))
+
+        if not generate_all and not has_global_filters and not has_component_filters:
+            validation_errors.append(
+                "'generate_all_configurations' is set to false but no "
+                "filters are provided. Either set 'generate_all_configurations' to true, "
+                "or specify 'global_filters' (device_state) or "
+                "'component_specific_filters' with 'components_list' to control which "
+                "devices are included in the generated playbook."
+            )
 
         if validation_errors:
             self.msg = "Configuration validation errors:\n{0}".format(
@@ -813,10 +706,8 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.msg = "Successfully validated playbook config"
         self.log(
             "Playbook configuration validation completed successfully including nested "
-            "parameter and choice validation. Validated {0} configuration item(s) ready "
-            "for YAML generation workflow processing.".format(
-                len(valid_config)
-            ),
+            "parameter and choice validation. Validated configuration ready "
+            "for YAML generation workflow processing.",
             "INFO"
         )
         self.status = "success"
@@ -844,8 +735,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                 - module_name (str): Target module identifier for generated playbooks
                   ('pnp_workflow_manager').
                 - global_filters (dict): Device filtering criteria with type validation
-                  and allowed values including device_state choices, device_family options,
-                  and site_name hierarchy patterns.
+                  and allowed values including device_state choices.
                 - component_specific_filters (dict): Component selection filters defining
                   components_list with valid values and defaults for device_info extraction.
                 - network_elements (dict): Component processing configuration mapping
@@ -872,12 +762,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "Error"
                     ]
                 },
-                "device_family": {
-                    "type": "list"
-                },
-                "site_name": {
-                    "type": "str"
-                }
             },
             "component_specific_filters": {
                 "components_list": {
@@ -1173,8 +1057,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Description:
             Fetches PnP device inventory from Cisco Catalyst Center by executing API calls
-            with optional state filtering, applying additional device family and site name
-            filters on retrieved results, validating device structure and deviceInfo presence,
+            with optional state filtering, validating device structure and deviceInfo presence,
             tracking total devices processed for operation statistics, and returning filtered
             device list ready for transformation to YAML format enabling targeted device
             discovery and configuration generation.
@@ -1183,8 +1066,8 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             network_element (dict): Network element definition containing processing metadata
                                    and getter function reference for device retrieval.
             config (dict): Configuration dictionary containing global_filters with optional
-                          device_state, device_family, and site_name criteria for filtering
-                          PnP device list. None or empty dict uses no filters.
+                          device_state criteria for filtering PnP device list. None or empty
+                          dict uses no filters.
 
         Returns:
             dict: Dictionary containing 'pnp_devices' key with list of filtered raw device
@@ -1206,27 +1089,33 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             config = {}
 
-        # Extract filters from config
-        global_filters = config.get("global_filters", {})
-        # Ensure global_filters is not None
-        if global_filters is None:
+        # When generate_all_configurations is True, ignore all filters
+        generate_all = config.get("generate_all_configurations", False)
+        if generate_all:
             self.log(
-                "Global filters is None, defaulting to empty dict. All devices will be "
-                "retrieved without filtering criteria.",
-                "DEBUG"
+                "generate_all_configurations is True. Ignoring all global_filters and "
+                "retrieving complete PnP device inventory without filtering.",
+                "INFO"
             )
-            global_filters = {}
+            device_state_filter = []
+        else:
+            # Extract filters from config
+            global_filters = config.get("global_filters", {})
+            # Ensure global_filters is not None
+            if global_filters is None:
+                self.log(
+                    "Global filters is None, defaulting to empty dict. All devices will be "
+                    "retrieved without filtering criteria.",
+                    "DEBUG"
+                )
+                global_filters = {}
 
-        device_state_filter = global_filters.get("device_state", [])
-        device_family_filter = global_filters.get("device_family", [])
-        site_name_filter = global_filters.get("site_name")
+            device_state_filter = global_filters.get("device_state", [])
 
         self.log(
-            "Extracted filters - State: {0}, Family: {1}, Site: {2}. Preparing API call "
+            "Extracted filters - State: {0}. Preparing API call "
             "parameters with state filter if provided.".format(
-                device_state_filter or "None",
-                device_family_filter or "None",
-                site_name_filter or "None"
+                device_state_filter or "None"
             ),
             "DEBUG"
         )
@@ -1303,48 +1192,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 serial_number = device_info.get("serialNumber", "Unknown")
 
-                # Apply device family filter
-                if device_family_filter:
-                    device_family = device_info.get("family")
-                    if device_family not in device_family_filter:
-                        devices_skipped += 1
-                        self.log(
-                            "Skipping device {0}/{1} with serial_number: {2}. Device family "
-                            "'{3}' not in filter list: {4}".format(
-                                device_index, len(devices), serial_number, device_family,
-                                device_family_filter
-                            ),
-                            "DEBUG"
-                        )
-                        continue
-
-                # Apply site name filter
-                if site_name_filter:
-                    site_id = device_info.get("siteId")
-                    if site_id:
-                        site_name = self.get_site_name_from_id(site_id)
-                        if not site_name or site_name_filter not in site_name:
-                            devices_skipped += 1
-                            self.log(
-                                "Skipping device {0}/{1} with serial_number: {2}. Site name "
-                                "'{3}' does not match filter: {4}".format(
-                                    device_index, len(devices), serial_number, site_name,
-                                    site_name_filter
-                                ),
-                                "DEBUG"
-                            )
-                            continue
-                    else:
-                        devices_skipped += 1
-                        self.log(
-                            "Skipping device {0}/{1} with serial_number: {2}. No site ID "
-                            "found but site name filter '{3}' specified.".format(
-                                device_index, len(devices), serial_number, site_name_filter
-                            ),
-                            "DEBUG"
-                        )
-                        continue
-
                 filtered_devices.append(device)
                 devices_processed += 1
 
@@ -1371,152 +1218,16 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             error_message = str(e)
             self.log(
                 "Exception occurred during PnP device retrieval. Exception type: {0}, "
-                "Exception message: {1}. Returning empty device list for graceful handling.".format(
+                "Exception message: {1}. Failing module due to API error.".format(
                     type(e).__name__, error_message
                 ),
                 "ERROR"
             )
             import traceback
             self.log("Traceback: {0}".format(traceback.format_exc()), "ERROR")
-            return {"pnp_devices": []}
-
-    def get_site_name_from_id(self, site_id):
-        """
-        Resolves site UUID to hierarchical site name with caching for performance optimization.
-
-        Description:
-            Retrieves full site name hierarchy from Catalyst Center Sites API by checking
-            in-memory cache first for previously resolved site IDs, executing Sites API call
-            when cache miss occurs, processing response to locate matching site by UUID,
-            extracting siteNameHierarchy or nameHierarchy attribute, caching result for
-            subsequent lookups, and returning hierarchical site name enabling human-readable
-            site references in generated YAML playbooks with reduced API call overhead.
-
-        Parameters:
-            site_id (str): Site UUID identifier requiring resolution to hierarchical name.
-                          Expected format is standard UUID string from Catalyst Center.
-
-        Returns:
-            str: Full hierarchical site name path (example "Global/USA/San Francisco/Building1")
-                 or None when site not found in API response or site_id is None/empty enabling
-                 graceful handling of missing site associations.
-        """
-        self.log(
-            "Resolving site name from site UUID. Checking cache for previously resolved "
-            "site_id: {0}".format(site_id),
-            "DEBUG"
-        )
-
-        if not site_id:
-            self.log(
-                "Site ID is None or empty. Cannot resolve site name without valid identifier. "
-                "Returning None for graceful handling.",
-                "DEBUG"
+            self.fail_and_exit(
+                "Failed to retrieve PnP devices from Catalyst Center: {0}".format(error_message)
             )
-            return None
-
-        if site_id in self._site_cache:
-            cached_site_name = self._site_cache[site_id]
-            self.log(
-                "Site name found in cache for site_id: {0}. Cached value: {1}. Returning "
-                "cached result without API call for performance optimization.".format(
-                    site_id, cached_site_name
-                ),
-                "DEBUG"
-            )
-            return cached_site_name
-
-        self.log(
-            "Site ID {0} not found in cache. Executing Sites API call to retrieve site "
-            "information from Catalyst Center.".format(site_id),
-            "DEBUG"
-        )
-
-        try:
-            response = self.dnac._exec(
-                family="site_design",
-                function="get_sites",
-                params={},
-                op_modifies=False
-            )
-
-            self.log(
-                "Received API response from Sites endpoint. Response type: {0}. Processing "
-                "response structure to locate site with UUID: {1}".format(
-                    type(response).__name__, site_id
-                ),
-                "DEBUG"
-            )
-
-            if response and response.get("response"):
-                site_info = response.get("response")
-                # Handle list response - need to find site by ID
-                if isinstance(site_info, list):
-                    self.log(
-                        "Sites API returned list format with {0} site(s). Iterating through "
-                        "sites to find matching site_id: {1}".format(len(site_info), site_id),
-                        "DEBUG"
-                    )
-
-                    for site_index, site in enumerate(site_info, start=1):
-                        if site.get("id") == site_id:
-                            site_name = site.get("siteNameHierarchy") or site.get("nameHierarchy")
-
-                            if site_name:
-                                self._site_cache[site_id] = site_name
-                                self.log(
-                                    "Site name resolved successfully for site_id: {0}. Hierarchical "
-                                    "name: {1}. Cached for future lookups to avoid redundant API "
-                                    "calls.".format(site_id, site_name),
-                                    "INFO"
-                                )
-                                return site_name
-
-                    self.log(
-                        "Site with UUID '{0}' not found in {1} site(s) returned by API. Site "
-                        "may be deleted or UUID invalid. Returning None for graceful handling.".format(
-                            site_id, len(site_info)
-                        ),
-                        "WARNING"
-                    )
-                    return None
-                elif isinstance(site_info, dict):
-                    self.log(
-                        "Sites API returned dict format for single site. Extracting site name "
-                        "hierarchy from response attributes.",
-                        "DEBUG"
-                    )
-
-                    site_name = site_info.get("siteNameHierarchy") or site_info.get("nameHierarchy")
-
-                    if site_name:
-                        self._site_cache[site_id] = site_name
-                        self.log(
-                            "Site name resolved from dict response for site_id: {0}. Hierarchical "
-                            "name: {1}. Cached for future lookups.".format(site_id, site_name),
-                            "INFO"
-                        )
-                        return site_name
-                else:
-                    self.log(
-                        "Unexpected Sites API response format. Expected list or dict, received: "
-                        "{0}. Unable to extract site name from unrecognized structure.".format(
-                            type(site_info).__name__
-                        ),
-                        "WARNING"
-                    )
-                    return None
-
-        except Exception as e:
-            self.log(
-                "Exception during site name resolution for site_id: {0}. Exception type: {1}, "
-                "Exception message: {2}. Returning None to allow device processing to continue.".format(
-                    site_id, type(e).__name__, str(e)
-                ),
-                "WARNING"
-            )
-
-        return None
 
     def yaml_config_generator(self, yaml_config_generator):
         """
@@ -1536,9 +1247,9 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             yaml_config_generator (dict): Configuration dictionary containing:
                 - file_path (str, optional): Target path for generated YAML file. When not
                   provided, auto-generates filename using generate_filename() with timestamp
-                  format "pnp_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml".
+                  format "pnp_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
                 - global_filters (dict, optional): Device filtering criteria including
-                  device_state, device_family, and site_name for targeted device retrieval.
+                  device_state for targeted device retrieval.
                 - component_specific_filters (dict, optional): Component selection filters
                   currently supporting only 'device_info' component type.
 
@@ -1570,6 +1281,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             yaml_config_generator = {}
 
         file_path = yaml_config_generator.get("file_path")
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
         if not file_path:
             file_path = self.generate_filename()
             self.log(
@@ -1690,7 +1402,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Write to YAML file
-        success = self.write_dict_to_yaml([output_structure], file_path)
+        success = self.write_dict_to_yaml([output_structure], file_path, file_mode=file_mode)
 
         if success:
             # Component successfully processed
@@ -1724,14 +1436,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             failure_message = "Failed to write YAML configuration file to path: {0}".format(
                 file_path
             )
-            self.msg = failure_message
-            self.result["msg"] = self.msg
-            self.result["response"] = {
-                "status": "failed",
-                "message": failure_message
-            }
-            self.status = "failed"
-
             self.log(
                 "YAML file write operation failed. Unable to write configuration to file: {0}. "
                 "Check file permissions, disk space, and parent directory existence.".format(
@@ -1739,6 +1443,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "ERROR"
             )
+            self.fail_and_exit(failure_message)
 
         return self
 
@@ -1809,9 +1514,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Operations registry is empty for state 'gathered' - no operations to execute"
             )
             self.log(error_msg, "ERROR")
-            self.msg = error_msg
-            self.status = "failed"
-            return self
+            self.fail_and_exit(error_msg)
 
         # Track operation execution statistics
         operations_attempted = 0
@@ -1820,7 +1523,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         operations_failed = 0
 
         # Get configuration from validated_config
-        config = self.validated_config[0] if self.validated_config else {}
+        config = self.validated_config if self.validated_config else {}
 
         self.log(
             "Extracted configuration from validated_config. Config keys: {0}".format(
@@ -1950,17 +1653,12 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 operations_failed += 1
 
-                # Set failure status and message
-                self.msg = (
+                # Fail and exit immediately on operation failure
+                self.fail_and_exit(
                     "Workflow execution failed during operation '{0}': {1}".format(
                         operation_name, str(e)
                     )
                 )
-                self.status = "failed"
-
-                # Exit immediately on operation failure
-                # Note: check_return_status() will handle module exit
-                return self
 
         # Calculate total workflow execution time
         workflow_end_time = time.time()
@@ -1994,7 +1692,9 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Workflow completed with {0} operation failure(s)".format(operations_failed),
                 "ERROR"
             )
-            self.status = "failed"
+            self.fail_and_exit(
+                "Workflow completed with {0} operation failure(s)".format(operations_failed)
+            )
         else:
             self.log(
                 "All {0} operation(s) executed successfully without errors".format(
@@ -2093,7 +1793,7 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -2170,20 +1870,20 @@ def main():
     pnp_generator.validate_input().check_return_status()
 
     pnp_generator.log(
-        "Input validation completed successfully. Processing {0} validated configuration "
-        "item(s) through YAML generation workflow.".format(len(pnp_generator.validated_config)),
+        "Input validation completed successfully. Processing validated configuration "
+        "through YAML generation workflow.",
         "INFO"
     )
 
     # Process configuration
-    for config_index, config in enumerate(pnp_generator.validated_config, start=1):
-        pnp_generator.log(
-            "Processing configuration item {0}/{1}. Extracting desired state and executing "
-            "gathered workflow.".format(config_index, len(pnp_generator.validated_config)),
-            "DEBUG"
-        )
-        pnp_generator.get_want(config, state).check_return_status()
-        pnp_generator.get_diff_state_apply[state]().check_return_status()
+    config = pnp_generator.validated_config
+    pnp_generator.log(
+        "Processing configuration. Extracting desired state and executing "
+        "gathered workflow.",
+        "DEBUG"
+    )
+    pnp_generator.get_want(config, state).check_return_status()
+    pnp_generator.get_diff_state_apply[state]().check_return_status()
 
     # Calculate total execution time
     module_end_time = time.time()

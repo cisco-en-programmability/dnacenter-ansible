@@ -66,7 +66,7 @@ options:
         - If not provided, file is saved in current working directory with
           auto-generated filename.
         - Filename format when auto-generated is
-          "<module_name>_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
+          C(events_and_notifications_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - Example auto-generated filename
           "events_and_notifications_playbook_config_2025-04-22_21-43-26.yml".
         - Parent directories are created automatically if they do not exist.

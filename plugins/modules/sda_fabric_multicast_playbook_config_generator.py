@@ -68,7 +68,7 @@ options:
           comprehensive documentation.
         - If enabled, a default filename will be auto-generated when
           C(file_path) is not provided.
-        - "Default filename format: C(sda_fabric_multicast_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml)"
+        - "Default filename format: C(sda_fabric_multicast_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml)"
         type: bool
         required: false
         default: false
@@ -76,8 +76,8 @@ options:
         description:
         - Absolute or relative path where the generated YAML playbook file will be saved.
         - If not specified, the file is saved in the current working directory with an auto-generated filename.
-        - Default filename format is C(sda_fabric_multicast_playbook_config_<DD_Mon_YYYY_HH_MM_SS_MS>.yml).
-        - "Example: C(sda_fabric_multicast_playbook_config_22_Apr_2025_21_43_26_379.yml)"
+        - Default filename format is C(sda_fabric_multicast_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(sda_fabric_multicast_playbook_config_2025-04-22_21-43-26.yml).
         type: str
         required: false
       component_specific_filters:
@@ -272,7 +272,7 @@ response:
   sample:
     response:
       "YAML config generation Task succeeded for module 'sda_fabric_multicast_workflow_manager'.":
-        file_path: "/tmp/sda_fabric_multicast_workflow_manager_playbook_22_Apr_2025_21_43_26_379.yml"
+        file_path: "/tmp/sda_fabric_multicast_playbook_config_2025-04-22_21-43-26.yml"
     version: "2.3.7.9"
 
 response_error:

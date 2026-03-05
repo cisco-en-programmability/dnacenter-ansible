@@ -82,9 +82,9 @@ options:
         - Absolute or relative path for YAML configuration file output.
         - If not provided, generates default filename in current working directory
           with pattern
-          'device_credential_workflow_manager_playbook_<YYYY-MM-DD_HH-MM-SS>.yml'
+          C(device_credential_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - Example default filename
-          'device_credential_workflow_manager_playbook_2026-01-24_12-33-20.yml'
+          C(device_credential_playbook_config_2026-01-24_12-33-20.yml).
         - Directory created automatically if path does not exist.
         - Supports YAML file extension (.yml or .yaml).
         type: str
@@ -2085,7 +2085,7 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if not file_path:
             self.log(
                 "No file_path provided in configuration. Generating default filename "
-                "with pattern <module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml in "
+                "with pattern device_credential_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml in "
                 "current working directory.",
                 "DEBUG"
             )
