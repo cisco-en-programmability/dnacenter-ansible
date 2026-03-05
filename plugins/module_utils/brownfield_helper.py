@@ -672,18 +672,17 @@ class BrownFieldHelper:
         )
         return validated_config
 
-    def validate_minimum_requirements(self, config_list, require_global_filters=False):
+    def validate_minimum_requirements(self, config_dict):
         """
-        Validate minimum requirements for a list of configuration dictionaries.
+        Validate minimum requirements for a single configuration dictionary.
 
-        This function checks each config in config_list to ensure that the module can safely
+        This function checks `config_dict` to ensure that the module can safely
         proceed with execution. It enforces the following rules:
         - If generate_all_configurations not provided or set to False:
             - component_specific_filters must exist
             - component_specific_filters must contain 'components_list' key (the list can be empty)
         Args:
-            config_list (list): List of configuration dictionaries to validate.
-            require_global_filters (bool): Whether global filters are required.
+            config_dict (dict): Configuration dictionary to validate.
         """
 
         self.log(
@@ -691,66 +690,46 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        if not isinstance(config_list, list):
+        if not isinstance(config_dict, dict):
             self.msg = (
-                f"Invalid input: Expected a configuration list, "
-                f"but got {type(config_list).__name__}."
+                f"Invalid input: Expected a configuration dict, "
+                f"but got {type(config_dict).__name__}."
             )
             self.fail_and_exit(self.msg)
 
-        self.log(
-            f"Processing validation for {len(config_list)} configuration(s).", "DEBUG"
-        )
+        self.log("Validating configuration entry: {0}".format(config_dict), "DEBUG")
 
-        global_filter_msg = ""
-        if require_global_filters:
-            global_filter_msg = "'global filters' or "
+        has_generate_all_config_flag = "generate_all_configurations" in config_dict
+        generate_all_configurations = config_dict.get("generate_all_configurations", False)
+        component_specific_filters = config_dict.get("component_specific_filters")
 
-        for idx, config in enumerate(config_list, start=1):
-            self.log(f"Validating configuration entry {idx}: {config}", "DEBUG")
+        if has_generate_all_config_flag and generate_all_configurations:
+            self.log(
+                "generate_all_configurations=True, skipping filters check.",
+                "DEBUG",
+            )
+            return
 
-            if not isinstance(config, dict):
+        if (
+            component_specific_filters is None
+            or "components_list" not in component_specific_filters
+        ):
+            if has_generate_all_config_flag:
                 self.msg = (
-                    f"Invalid configuration entry at index {idx}: Expected dict, "
-                    f"but got {type(config).__name__}."
+                    "Validation Error: 'component_specific_filters' must be provided "
+                    "with 'components_list' key when 'generate_all_configurations' is set to False."
                 )
-                self.fail_and_exit(self.msg)
-
-            has_generate_all_config_flag = "generate_all_configurations" in config
-            generate_all_configurations = config.get(
-                "generate_all_configurations", False
-            )
-            component_specific_filters = config.get("component_specific_filters")
-
-            if has_generate_all_config_flag and generate_all_configurations:
-                self.log(
-                    f"Entry {idx}: generate_all_configurations=True, skipping filters check.",
-                    "DEBUG",
+            else:
+                self.msg = (
+                    "Validation Error: Either 'generate_all_configurations' must be provided as True"
+                    " or 'component_specific_filters' must be provided with 'components_list' key."
                 )
-                continue
-
-            has_components_list = (
-                isinstance(component_specific_filters, dict)
-                and "components_list" in component_specific_filters
-            )
-
-            if not has_components_list:
-                if has_generate_all_config_flag:
-                    self.msg = (
-                        f"Validation Error in entry {idx}: {global_filter_msg}'component_specific_filters' must be provided "
-                        f"with 'components_list' key when 'generate_all_configurations' is set to False."
-                    )
-                else:
-                    self.msg = (
-                        f"Validation Error in entry {idx}: 'generate_all_configurations' must be provided as True"
-                        f" or {global_filter_msg}'component_specific_filters' must be provided with 'components_list' key."
-                    )
-                self.fail_and_exit(self.msg)
+            self.fail_and_exit(self.msg)
 
         self.log("Passed minimum requirements validation.", "DEBUG")
 
         self.log(
-            "Completed validation of minimum requirements for configuration entries.",
+            "Completed validation of minimum requirements for configuration entry.",
             "DEBUG",
         )
 
