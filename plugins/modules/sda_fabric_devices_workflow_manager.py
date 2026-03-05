@@ -5657,7 +5657,7 @@ class FabricDevices(DnacBase):
         Returns:
             self (object): The current object with added L2 Handoff information.
         Description:
-            Seperate the L2 Handoffs which need to be created and the rest. Since L2 Handoff can
+            Separate the L2 Handoffs which need to be created and the rest. Since L2 Handoff can
             only be created not updated. Call the API 'add_fabric_devices_layer2_handoffs' to
             create the L2 Handoff in the provided device.
         """
@@ -6094,10 +6094,10 @@ class FabricDevices(DnacBase):
                 "INFO",
             )
             result_fabric_device_response.get("ip_l3_handoff_details").update(
-                {"updation": update_ip_l3_handoff}
+                {"update": update_ip_l3_handoff}
             )
             result_fabric_device_msg.get("ip_l3_handoff_details").update(
-                {"updation": "IP L3 Handoffs updation is successful."}
+                {"update": "IP L3 Handoffs update is successful."}
             )
 
         self.msg = "L3 Handoff(s) with IP Transit operations are successful."
@@ -7142,7 +7142,7 @@ class FabricDevices(DnacBase):
         Returns:
             self (object): The current object with deleted L2 Handoffs information.
         Description:
-            Seperate which L2 Handoff exist and which are not. If there are L2 Handoff,
+            Separate which L2 Handoff exist and which are not. If there are L2 Handoff,
             which needs to be deleted. Call the API 'delete_fabric_device_layer2_handoff_by_id'.
         """
 
@@ -7182,7 +7182,7 @@ class FabricDevices(DnacBase):
                 task_name = "delete_fabric_device_layer2_handoff_by_id"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7293,7 +7293,7 @@ class FabricDevices(DnacBase):
                 task_name = "delete_fabric_device_layer3_handoffs_with_sda_transit"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7343,7 +7343,7 @@ class FabricDevices(DnacBase):
         Returns:
             self (object): The current object with deleted IP L3 Handoffs information.
         Description:
-            Seperate which IP L3 Handoff exist and which are not. If there are IP L3 Handoff,
+            Separate which IP L3 Handoff exist and which are not. If there are IP L3 Handoff,
             which needs to be deleted. Call the API 'delete_fabric_device_layer3_handoff_with_ip_transit_by_id'.
         """
 
@@ -7384,7 +7384,7 @@ class FabricDevices(DnacBase):
                 task_name = "delete_fabric_device_layer3_handoff_with_ip_transit_by_id"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7605,7 +7605,7 @@ class FabricDevices(DnacBase):
                             "sda", task_name, payload
                         )
                         if not task_id:
-                            self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                            self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                                 task_name=task_name
                             )
                             self.set_operation_result(

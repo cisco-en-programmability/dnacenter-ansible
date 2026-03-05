@@ -2383,7 +2383,7 @@ class Accesspoint(DnacBase):
 
         self.status = "success"
         self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center
-                    and its updation has been verified.""".format(ap_name)
+                    and its update has been verified.""".format(ap_name)
         self.log(self.msg, "INFO")
 
         unmatch_count = 0
@@ -3309,7 +3309,7 @@ class Accesspoint(DnacBase):
             site_name = self.have.get("site_name_hierarchy", self.want.get("site_name"))
             api_response, device_list = self.get_device_ids_from_site(site_name, site_id)
             if current_config.get("id") is not None and current_config.get("id") in device_list:
-                self.log("Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation."
+                self.log("Device with MAC address: {0} found in site: {1} Proceeding with ap_site update."
                          .format(ap_mac_address, site_id), "INFO")
                 return True
             else:
@@ -3915,7 +3915,7 @@ class Accesspoint(DnacBase):
                          .format(self.pprint(update_config)), "INFO")
                 return update_config
 
-            self.log("Playbook AP configuration remain same in current AP configration", "INFO")
+            self.log("Playbook AP configuration remain same in current AP configuration", "INFO")
             return None
 
     def update_ap_configuration(self, ap_config):

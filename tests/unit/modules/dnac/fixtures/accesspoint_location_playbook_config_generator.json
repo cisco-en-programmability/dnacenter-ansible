@@ -1,0 +1,367 @@
+{
+    "playbook_config_generate_all_config": [
+        {
+        "generate_all_configurations": true,
+        "file_path": "/tmp/test_demo.yaml"
+        }
+    ],
+
+    "all_site_details": {
+            "response": [{
+                    "id": "4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+                    "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+                    "parentId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+                    "name": "FLOOR1",
+                    "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1",
+                    "type": "floor",
+                    "floorNumber": 1,
+                    "rfModel": "Cubes And Walled Offices",
+                    "width": 100.0,
+                    "length": 100.0,
+                    "height": 10.0,
+                    "unitsOfMeasure": "feet"
+                },
+                {
+                    "id": "17178190-aeb1-42a8-83c4-38adbbe9a1fd",
+                    "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/17178190-aeb1-42a8-83c4-38adbbe9a1fd",
+                    "parentId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+                    "name": "FLOOR2",
+                    "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR2",
+                    "type": "floor",
+                    "floorNumber": 2,
+                    "rfModel": "Cubes And Walled Offices",
+                    "width": 100.0,
+                    "length": 100.0,
+                    "height": 10.0,
+                    "unitsOfMeasure": "feet"
+                },
+                {
+                    "id": "3605bebe-9095-4cc1-bb13-413db70e8840",
+                    "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/3605bebe-9095-4cc1-bb13-413db70e8840",
+                    "parentId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+                    "name": "FLOOR4",
+                    "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR4",
+                    "type": "floor",
+                    "floorNumber": 4,
+                    "rfModel": "Cubes And Walled Offices",
+                    "width": 100.0,
+                    "length": 100.0,
+                    "height": 10.0,
+                    "unitsOfMeasure": "feet"
+                }
+        ],
+        "version": "1.0"
+    },
+
+    "site_empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+
+    "site_floor_response_planned_1": {
+        "response": [
+        {
+            "id": "4b7246af-e675-4d9e-98fb-b694bf502566",
+            "name": "ap_test_auto-3",
+            "type": "AP9130E",
+            "position": {
+                "x": 51.0,
+                "y": 37.0,
+                "z": 10.0
+            },
+            "radios": [
+                {
+                    "id": "ab0c0987-d8f1-44cf-a5bb-b78db2dd1fa1",
+                    "bands": [
+                        2.4
+                    ],
+                    "channel": 11,
+                    "txPower": 18,
+                    "antenna": {
+                        "elevation": 30,
+                        "name": "C-ANT9101-2.4GHz",
+                        "azimuth": 30
+                    }
+                },
+                {
+                    "id": "4fa6cf45-f0f5-4b5f-8917-74c9e88f686f",
+                    "bands": [
+                        5.0
+                    ],
+                    "channel": 36,
+                    "txPower": 15,
+                    "antenna": {
+                        "elevation": 39,
+                        "name": "C-ANT9103-5GHz",
+                        "azimuth": 39
+                    }
+                },
+                {
+                    "id": "26167ff7-70bf-4e9d-9931-4b6ed2ce5e3a",
+                    "bands": [
+                        2.4,
+                        5.0
+                    ],
+                    "channel": 116,
+                    "txPower": 15,
+                    "antenna": {
+                        "elevation": 50,
+                        "name": "C-ANT9103",
+                        "azimuth": 50
+                    }
+                }
+            ]
+        }
+    ],
+    "version": "1.2"
+    },
+
+    "site_floor_response_real_1": {
+        "response": [
+            {
+                "id": "8954ff26-aa2d-4991-b2be-6462121ee710",
+                "name": "AP687D.B402.1614-AP-Test6",
+                "macAddress": "a4:88:73:ce:9b:b0",
+                "type": "AP9120E",
+                "model": "C9120AXE-B",
+                "position": {
+                    "x": 20.0,
+                    "y": 30.0,
+                    "z": 8.0
+                },
+                "radios": [
+                    {
+                        "id": "42cc12cb-3d48-461e-b9af-73e7e69586bc",
+                        "bands": [
+                            5.0
+                        ],
+                        "channel": 52,
+                        "txPower": 6,
+                        "antenna": {
+                            "elevation": 40,
+                            "name": "AIR-ANT2524DB-R-5GHz",
+                            "azimuth": 40
+                        }
+                    },
+                    {
+                        "id": "58bbbba1-b971-40f7-98de-f7e725ef5ae7",
+                        "bands": [
+                            2.4
+                        ],
+                        "channel": 11,
+                        "txPower": 17,
+                        "antenna": {
+                            "elevation": 40,
+                            "name": "AIR-ANT2524DB-R-2.4GHz",
+                            "azimuth": 40
+                        }
+                    }
+                ]
+            }
+        ],
+        "version": "1.2"
+    },
+
+    "site_floor_response_planned_2": {
+        "response": [
+            {
+                "id": "692f673c-2411-4def-a338-18b6a6f6b497",
+                "name": "ap_test_auto-1",
+                "type": "AP9130I",
+                "position": {
+                    "x": 18.6,
+                    "y": 32.17,
+                    "z": 10.0
+                },
+                "radios": [
+                    {
+                        "id": "6d1eaf8f-02ca-4906-a89f-fbef94a186e4",
+                        "bands": [
+                            2.4
+                        ],
+                        "channel": 1,
+                        "txPower": 18,
+                        "antenna": {
+                            "elevation": 0,
+                            "name": "Internal-9130-2.4GHz",
+                            "azimuth": 0
+                        }
+                    },
+                    {
+                        "id": "3da3b4a7-fd81-4711-89d8-a134aec49336",
+                        "bands": [
+                            5.0
+                        ],
+                        "channel": 104,
+                        "txPower": 15,
+                        "antenna": {
+                            "elevation": 0,
+                            "name": "Internal-9130-5GHz",
+                            "azimuth": 0
+                        }
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "site_floor_response_real_3": {
+        "response": [
+            {
+                "id": "52898352-c099-4869-8f18-9c94fe8a560e",
+                "name": "Cisco_9120AXE_IP4-01-Test2",
+                "macAddress": "a4:88:73:ce:0a:6c",
+                "type": "AP9120E",
+                "model": "C9120AXE-B",
+                "position": {
+                    "x": 20.86777,
+                    "y": 23.03719,
+                    "z": 10.0
+                },
+                "radios": [
+                    {
+                        "id": "32497b88-e95f-4e57-924a-a03eb2ac6bc0",
+                        "bands": [
+                            5.0
+                        ],
+                        "channel": 44,
+                        "txPower": 16,
+                        "antenna": {
+                            "elevation": 0,
+                            "name": "AIR-ANT2524DB-R-5GHz",
+                            "azimuth": 0
+                        }
+                    },
+                    {
+                        "id": "c936717c-3b48-4c0a-86fd-279aac54449c",
+                        "bands": [
+                            2.4
+                        ],
+                        "channel": 1,
+                        "txPower": 5,
+                        "antenna": {
+                            "elevation": 0,
+                            "name": "AIR-ANT2524DB-R-2.4GHz",
+                            "azimuth": 0
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "74700917-734c-4e6d-8913-800df742d28e",
+                "name": "Test_AP",
+                "macAddress": "cc:6e:2a:e1:02:40",
+                "type": "CW9172I",
+                "model": "CW9172I",
+                "position": {
+                    "x": 40.909092,
+                    "y": 49.79339,
+                    "z": 10.0
+                },
+                "radios": [
+                    {
+                        "id": "164d15a0-1e18-4c22-8bcd-c253674aba94",
+                        "bands": [
+                            2.4
+                        ],
+                        "channel": 1,
+                        "txPower": -96,
+                        "antenna": {
+                            "elevation": 0,
+                            "name": "Internal-CW9172I-x-2.4GHz",
+                            "azimuth": 0
+                        }
+                    },
+                    {
+                        "id": "403a0fca-9c01-435c-9d39-f24fd8008469",
+                        "bands": [
+                            6.0
+                        ],
+                        "channel": 1,
+                        "txPower": 0,
+                        "antenna": {
+                            "elevation": 0,
+                            "name": "Internal-CW9172I-x-Single-6GHz",
+                            "azimuth": 0
+                        }
+                    },
+                    {
+                        "id": "89950e0a-d9a6-4cea-b8d1-03f970a4c3e4",
+                        "bands": [
+                            5.0
+                        ],
+                        "channel": 36,
+                        "txPower": 0,
+                        "antenna": {
+                            "elevation": 0,
+                            "name": "Internal-CW9172I-x-5GHz",
+                            "azimuth": 0
+                        }
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "playbook_global_filter_realap_base": [
+        {
+            "file_path": "tmp/accesspoint_location_workflow_playbook_real_ap_base.yml",
+            "global_filters": {
+                "real_accesspoint_list": [
+                    "AP687D.B402.1614-AP-Test6",
+                    "Cisco_9120AXE_IP4-01-Test2"
+                ]
+            }
+        }
+    ],
+
+    "playbook_global_filter_pap_base": [
+        {
+            "file_path": "tmp/accesspoint_location_workflow_playbook_PAP_base.yml",
+            "global_filters": {
+                "planned_accesspoint_list": [
+                    "ap_test_auto-1",
+                    "ap_test_auto-3"
+                ]
+            }
+        }
+    ],
+
+    "playbook_global_filter_site_base": [
+        {
+            "file_path": "tmp/accesspoint_location_workflow_playbook_site_base.yml",
+            "global_filters": {
+                "site_list": [
+                    "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1",
+                    "Global/USA/SAN JOSE/SJ_BLD23/FLOOR2",
+                    "Global/USA/SAN JOSE/SJ_BLD23/FLOOR4"
+                ]
+            }
+        }
+    ],
+
+    "playbook_global_filter_model_base": [
+        {
+            "file_path": "tmp/accesspoint_location_workflow_playbook_model_base.yml",
+            "global_filters": {
+                "accesspoint_model_list": [
+                    "AP9120E",
+                    "CW9172I"
+                ]
+            }
+        }
+    ],
+
+    "playbook_global_filter_mac_base": [
+        {
+            "file_path": "tmp/accesspoint_location_workflow_playbook_mac_base.yml",
+            "global_filters": {
+                "mac_address_list": [
+                    "cc:6e:2a:e1:02:40"
+                ]
+            }
+        }
+    ]
+}

@@ -56,7 +56,8 @@ options:
       file_path:
         description:
         - Absolute or relative path for the output YAML configuration file.
-        - If not specified, a timestamped filename is auto-generated in the format C(assurance_issue_playbook_config_YYYYMMDD_HHMMSS.yml).
+        - If not specified, a timestamped filename is auto-generated in the format C(assurance_issue_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+        - For example, C(assurance_issue_playbook_config_2026-01-24_12-33-20.yml).
         - Parent directories are created automatically if they do not exist.
         type: str
         required: false

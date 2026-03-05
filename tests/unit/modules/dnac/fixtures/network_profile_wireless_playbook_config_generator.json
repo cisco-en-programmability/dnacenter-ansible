@@ -1,0 +1,1461 @@
+{
+    "playbook_config_generate_all_profile": [
+        {
+        "generate_all_configurations": true,
+        "file_path": "/tmp/test_demo.yaml"
+        }
+    ],
+
+    "all_wireless_profiles": {
+            "response": [
+            {
+                "id": "41abb276-81d5-42a0-a1c0-a1d898bd73e5",
+                "name": "profile-SSIDOpenIndia",
+                "type": "Wireless"
+            },
+            {
+                "id": "b4de80c0-3700-4ee1-9334-a32f8187da68",
+                "name": "Campus_Wireless_Profile",
+                "type": "Wireless"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "each_wireless_profile_info1": {
+    "response": [
+        {
+            "id": "41abb276-81d5-42a0-a1c0-a1d898bd73e5",
+            "wirelessProfileName": "profile-SSIDOpenIndia",
+            "ssidDetails": [
+                {
+                    "ssidName": "SSIDDUAL BAND",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "SSIDDUAL BAND_profile",
+                    "policyProfileName": "SSIDDUAL BAND_profile"
+                },
+                {
+                    "ssidName": "Random_mac",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "Random_mac_profile",
+                    "policyProfileName": "Random_mac_profile"
+                },
+                {
+                    "ssidName": "SSIDScheduler",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "SSIDScheduler_profile",
+                    "policyProfileName": "SSIDScheduler_profile"
+                },
+                {
+                    "ssidName": "posture",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "posture_profile",
+                    "policyProfileName": "posture_profile"
+                },
+                {
+                    "ssidName": "Single5KBand",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "Single5KBand_profile",
+                    "policyProfileName": "Single5KBand_profile"
+                },
+                {
+                    "ssidName": "Radius_ssid",
+                    "enableFabric": true,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "Radius_ssid_profile",
+                    "policyProfileName": "Radius_ssid_profile"
+                }
+            ],
+            "additionalInterfaces": [],
+            "apZones": [],
+            "featureTemplates": [
+                {
+                    "designName": "Default AAA_Radius_Attributes_Configuration",
+                    "id": "8864fe4d-b305-4fd2-b8f9-2d9bc54b6347",
+                    "ssids": []
+                }
+            ]
+        }
+    ],
+    "version": "1.2"
+    },
+
+    "each_wireless_profile_info2": {
+        "response": [
+        {
+            "id": "b4de80c0-3700-4ee1-9334-a32f8187da68",
+            "wirelessProfileName": "Campus_Wireless_Profile",
+            "ssidDetails": [
+                {
+                    "ssidName": "GUEST",
+                    "enableFabric": false,
+                    "flexConnect": {
+                        "enableFlexConnect": false
+                    },
+                    "wlanProfileName": "GUEST_profile",
+                    "policyProfileName": "GUEST_profile",
+                    "dot11beProfileId": "c69f975a-5a16-39c9-9b85-643ac0a06cdb",
+                    "vlanGroupName": "Ans_NP_WL_INT_group_1"
+                },
+                {
+                    "ssidName": "OPEN",
+                    "enableFabric": false,
+                    "flexConnect": {
+                        "enableFlexConnect": true,
+                        "localToVlan": 22
+                    },
+                    "interfaceName": "VLAN_22",
+                    "wlanProfileName": "OPEN_profile",
+                    "policyProfileName": "OPEN_profile",
+                    "dot11beProfileId": "c69f975a-5a16-39c9-9b85-643ac0a06cdb"
+                }
+            ],
+            "additionalInterfaces": [
+                "VLAN_22",
+                "temp_20"
+            ],
+            "apZones": [
+                {
+                    "apZoneName": "AP_Zone_North",
+                    "rfProfileName": "HIGH",
+                    "ssids": [
+                        "GUEST"
+                    ]
+                }
+            ],
+            "featureTemplates": [
+                {
+                    "designName": "Default CleanAir 802.11b Design",
+                    "id": "b17463b1-b0f9-4e7f-a987-c3bb97236dd1",
+                    "ssids": []
+                },
+                {
+                    "designName": "Default CleanAir 6GHz Design",
+                    "id": "dae784a7-7589-4b98-a924-b93c3d5f5604",
+                    "ssids": []
+                },
+                {
+                    "designName": "Default Advanced SSID Design",
+                    "id": "a007b22e-43dc-4d5f-b847-a59d5a7b192d",
+                    "ssids": []
+                }
+            ]
+        }],
+        "version": "1.2"
+    },
+
+    "cli_template_empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+
+    "cli_template_response": {
+        "response": [
+            {
+                "id": "b7494025-20f0-4902-aa72-e76d3e2394c9",
+                "name": "Ans Wireless DayN 1"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_site_list_for_profile1": {
+        "response": [
+            {
+                "id": "dd281fdb-b316-4de9-b96a-71b982f623f6"
+            },
+            {
+                "id": "2bdda35f-0b5b-4352-a9f9-654d3c0bd4ce"
+            },
+            {
+                "id": "ec64358e-f74c-4810-9877-16498ca8bcd0"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_site_all": {
+        "response": [
+            {
+            "id": "73273999-4fde-4376-b071-25ebee51d155",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155",
+            "name": "Global",
+            "nameHierarchy": "Global",
+            "type": "global"
+            },
+            {
+            "id": "531e5175-2c08-41e8-98e3-7ad52419e8ba",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/531e5175-2c08-41e8-98e3-7ad52419e8ba",
+            "parentId": "73273999-4fde-4376-b071-25ebee51d155",
+            "name": "Mexico",
+            "nameHierarchy": "Global/Mexico",
+            "type": "area"
+            },
+            {
+            "id": "b7f3681c-7400-4c8b-8ade-e710eab801cb",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/b7f3681c-7400-4c8b-8ade-e710eab801cb",
+            "parentId": "73273999-4fde-4376-b071-25ebee51d155",
+            "name": "Canada",
+            "nameHierarchy": "Global/Canada",
+            "type": "area"
+            },
+            {
+            "id": "ff16454c-7171-4faa-b5b2-d93e7a217f98",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/ff16454c-7171-4faa-b5b2-d93e7a217f98",
+            "parentId": "73273999-4fde-4376-b071-25ebee51d155",
+            "name": "India",
+            "nameHierarchy": "Global/India",
+            "type": "area"
+            },
+            {
+            "id": "fec0b8f2-dcbe-40d3-aee6-95dcd7a77178",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/ff16454c-7171-4faa-b5b2-d93e7a217f98/fec0b8f2-dcbe-40d3-aee6-95dcd7a77178",
+            "parentId": "ff16454c-7171-4faa-b5b2-d93e7a217f98",
+            "name": "Bangalore",
+            "nameHierarchy": "Global/India/Bangalore",
+            "type": "area"
+            },
+            {
+            "id": "ae2d62ab-badb-41f9-821a-270cd004d08d",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d",
+            "parentId": "0cc72385-0e00-4a5a-b11b-a9b79fe2abd1",
+            "name": "RTP",
+            "nameHierarchy": "Global/USA/RTP",
+            "type": "area"
+            },
+            {
+            "id": "10c7725f-dbaf-40ea-9a2a-94efbeda8524",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524",
+            "parentId": "0cc72385-0e00-4a5a-b11b-a9b79fe2abd1",
+            "name": "SAN-FRANCISCO",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO",
+            "type": "area"
+            },
+            {
+            "id": "08e83afa-d7b0-433f-911b-0bab5259aae7",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7",
+            "parentId": "0cc72385-0e00-4a5a-b11b-a9b79fe2abd1",
+            "name": "New York",
+            "nameHierarchy": "Global/USA/New York",
+            "type": "area"
+            },
+            {
+            "id": "82d73991-7402-4a6b-9134-2d7d06d20f5b",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/82d73991-7402-4a6b-9134-2d7d06d20f5b",
+            "parentId": "73273999-4fde-4376-b071-25ebee51d155",
+            "name": "Vietnam",
+            "nameHierarchy": "Global/Vietnam",
+            "type": "area"
+            },
+            {
+            "id": "336ad0bb-e322-432a-b626-48689ccd1431",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/82d73991-7402-4a6b-9134-2d7d06d20f5b/336ad0bb-e322-432a-b626-48689ccd1431",
+            "parentId": "82d73991-7402-4a6b-9134-2d7d06d20f5b",
+            "name": "Saigon",
+            "nameHierarchy": "Global/Vietnam/Saigon",
+            "type": "area"
+            },
+            {
+            "id": "29b7c963-b901-45ae-86a3-15134a318c0d",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/29b7c963-b901-45ae-86a3-15134a318c0d",
+            "parentId": "73273999-4fde-4376-b071-25ebee51d155",
+            "name": "a_swim",
+            "nameHierarchy": "Global/a_swim",
+            "type": "area"
+            },
+            {
+            "id": "0cc72385-0e00-4a5a-b11b-a9b79fe2abd1",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1",
+            "parentId": "73273999-4fde-4376-b071-25ebee51d155",
+            "name": "USA",
+            "nameHierarchy": "Global/USA",
+            "type": "area"
+            },
+            {
+            "id": "18d688cb-e9ca-4a16-abdc-5923edadfb00",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00",
+            "parentId": "0cc72385-0e00-4a5a-b11b-a9b79fe2abd1",
+            "name": "SAN JOSE",
+            "nameHierarchy": "Global/USA/SAN JOSE",
+            "type": "area"
+            },
+            {
+            "id": "54f02572-5338-417e-bed1-738d5541609e",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/ff16454c-7171-4faa-b5b2-d93e7a217f98/fec0b8f2-dcbe-40d3-aee6-95dcd7a77178/54f02572-5338-417e-bed1-738d5541609e",
+            "parentId": "fec0b8f2-dcbe-40d3-aee6-95dcd7a77178",
+            "name": "bld1",
+            "nameHierarchy": "Global/India/Bangalore/bld1",
+            "type": "building",
+            "latitude": 46.2,
+            "longitude": -121.1,
+            "address": "Bureau of Indian Affairs Road 207, White Swan, Washington 98952, United States",
+            "country": "India"
+            },
+            {
+            "id": "af407062-b499-4bc0-86df-7d81ffb28b02",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02",
+            "parentId": "10c7725f-dbaf-40ea-9a2a-94efbeda8524",
+            "name": "SF_BLD1",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD1",
+            "type": "building",
+            "latitude": 37.78986,
+            "longitude": -122.39695,
+            "address": "Salesforce Tower, 415 Mission St, San Francisco, California 94105, United States",
+            "country": "United States"
+            },
+            {
+            "id": "415e80a4-7cb5-4036-b7f5-724340de98dd",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/415e80a4-7cb5-4036-b7f5-724340de98dd",
+            "parentId": "08e83afa-d7b0-433f-911b-0bab5259aae7",
+            "name": "NY_BLD3",
+            "nameHierarchy": "Global/USA/New York/NY_BLD3",
+            "type": "building",
+            "latitude": 40.751568,
+            "longitude": -73.97565,
+            "address": "Chrysler Building, 405 Lexington Ave, New York, New York 10174, United States",
+            "country": "United States"
+            },
+            {
+            "id": "f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949",
+            "parentId": "08e83afa-d7b0-433f-911b-0bab5259aae7",
+            "name": "NY_BLD4",
+            "nameHierarchy": "Global/USA/New York/NY_BLD4",
+            "type": "building",
+            "latitude": 40.71239,
+            "longitude": -74.00801,
+            "address": "Woolworth Building, 2 Park Pl, New York, New York 10007, United States",
+            "country": "United States"
+            },
+            {
+            "id": "7430b349-e807-4928-a3be-d6b6146ea766",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/7430b349-e807-4928-a3be-d6b6146ea766",
+            "parentId": "08e83afa-d7b0-433f-911b-0bab5259aae7",
+            "name": "NY_BLD1",
+            "nameHierarchy": "Global/USA/New York/NY_BLD1",
+            "type": "building",
+            "latitude": 40.751205,
+            "longitude": -73.99223,
+            "address": "1 Pennsylvania Plaza, New York, New York 10119, United States",
+            "country": "United States"
+            },
+            {
+            "id": "94136080-9dae-41c8-a4de-588358c9303c",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/94136080-9dae-41c8-a4de-588358c9303c",
+            "parentId": "ae2d62ab-badb-41f9-821a-270cd004d08d",
+            "name": "RTP_BLD11",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD11",
+            "type": "building",
+            "latitude": 35.860596,
+            "longitude": -78.88106,
+            "address": "7200-11 Kit Creek Rd, Morrisville, North Carolina 27560, United States",
+            "country": "United States"
+            },
+            {
+            "id": "3797e779-4940-4e65-88fe-bb9267d3692c",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/3797e779-4940-4e65-88fe-bb9267d3692c",
+            "parentId": "ae2d62ab-badb-41f9-821a-270cd004d08d",
+            "name": "RTP_BLD10",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD10",
+            "type": "building",
+            "latitude": 35.85992,
+            "longitude": -78.88293,
+            "address": "7200-10 Kit Creek Rd, Morrisville, North Carolina 27560, United States",
+            "country": "United States"
+            },
+            {
+            "id": "8e4dce85-429e-49eb-8cb2-9a4ba4f465c9",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/8e4dce85-429e-49eb-8cb2-9a4ba4f465c9",
+            "parentId": "18d688cb-e9ca-4a16-abdc-5923edadfb00",
+            "name": "SJ_BLD21",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD21",
+            "type": "building",
+            "latitude": 37.416576,
+            "longitude": -121.917496,
+            "address": "771 Alder Dr, Milpitas, California 95035, United States",
+            "country": "United States"
+            },
+            {
+            "id": "30e2618a-214c-41c5-afa2-7aa593ed177c",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/30e2618a-214c-41c5-afa2-7aa593ed177c",
+            "parentId": "10c7725f-dbaf-40ea-9a2a-94efbeda8524",
+            "name": "SF_BLD3",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD3",
+            "type": "building",
+            "latitude": 37.788216,
+            "longitude": -122.40193,
+            "address": "Palace Hotel, 2 New Montgomery St, San Francisco, California 94105, United States",
+            "country": "United States"
+            },
+            {
+            "id": "a3590552-96df-4483-905a-fb423ee42ecd",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/a3590552-96df-4483-905a-fb423ee42ecd",
+            "parentId": "10c7725f-dbaf-40ea-9a2a-94efbeda8524",
+            "name": "SF_BLD4",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD4",
+            "type": "building",
+            "latitude": 37.77924,
+            "longitude": -122.41897,
+            "address": "San Francisco City Hall, 1 Carlton B Goodlett Pl, San Francisco, California 94102, United States",
+            "country": "United States"
+            },
+            {
+            "id": "bff4d1de-9509-4b9d-98b0-bad94cbebef3",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/bff4d1de-9509-4b9d-98b0-bad94cbebef3",
+            "parentId": "08e83afa-d7b0-433f-911b-0bab5259aae7",
+            "name": "NY_BLD2",
+            "nameHierarchy": "Global/USA/New York/NY_BLD2",
+            "type": "building",
+            "latitude": 40.748466,
+            "longitude": -73.98554,
+            "address": "Empire State Building, 350 5th Ave, New York, New York 10118, United States",
+            "country": "United States"
+            },
+            {
+            "id": "78e107ee-f9ec-4bb0-be0a-5feded2a358e",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/78e107ee-f9ec-4bb0-be0a-5feded2a358e",
+            "parentId": "ae2d62ab-badb-41f9-821a-270cd004d08d",
+            "name": "RTP_BLD12",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD12",
+            "type": "building",
+            "latitude": 35.861183,
+            "longitude": -78.88217,
+            "address": "7200-12 Kit Creek Rd, Morrisville, North Carolina 27560, United States",
+            "country": "United States"
+            },
+            {
+            "id": "ed8fd54d-12f4-4a03-9b55-e6a37de96d3d",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/ed8fd54d-12f4-4a03-9b55-e6a37de96d3d",
+            "parentId": "10c7725f-dbaf-40ea-9a2a-94efbeda8524",
+            "name": "SF_BLD2",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD2",
+            "type": "building",
+            "latitude": 37.79003,
+            "longitude": -122.4009,
+            "address": "Flatiron Building, 548 Market St, San Francisco, California 94104, United States",
+            "country": "United States"
+            },
+            {
+            "id": "95505dd3-ee69-444e-9f86-d98881715d3c",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/82d73991-7402-4a6b-9134-2d7d06d20f5b/336ad0bb-e322-432a-b626-48689ccd1431/95505dd3-ee69-444e-9f86-d98881715d3c",
+            "parentId": "336ad0bb-e322-432a-b626-48689ccd1431",
+            "name": "landmark81",
+            "nameHierarchy": "Global/Vietnam/Saigon/landmark81",
+            "type": "building",
+            "latitude": 10.795393,
+            "longitude": 106.72217,
+            "address": "720 A Dien Bien Phu, Binh Thanh District, Ho Chi Minh City",
+            "country": "Vietnam"
+            },
+            {
+            "id": "b802421a-61e0-413c-9e75-32fae7332306",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/b802421a-61e0-413c-9e75-32fae7332306",
+            "parentId": "18d688cb-e9ca-4a16-abdc-5923edadfb00",
+            "name": "SJ_BLD22",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD22",
+            "type": "building",
+            "latitude": 37.416527,
+            "longitude": -121.91922,
+            "address": "821 Alder Drive, Milpitas, California 95035, United States",
+            "country": "United States"
+            },
+            {
+            "id": "31fb85be-3cfe-4f8f-840c-75a4fea3325e",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/29b7c963-b901-45ae-86a3-15134a318c0d/31fb85be-3cfe-4f8f-840c-75a4fea3325e",
+            "parentId": "29b7c963-b901-45ae-86a3-15134a318c0d",
+            "name": "swim_test2",
+            "nameHierarchy": "Global/a_swim/swim_test2",
+            "type": "building",
+            "latitude": 55.0,
+            "longitude": 55.0,
+            "country": "UNKNOWN"
+            },
+            {
+            "id": "2566baae-5c18-443b-8b85-ebedf116a93d",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/29b7c963-b901-45ae-86a3-15134a318c0d/2566baae-5c18-443b-8b85-ebedf116a93d",
+            "parentId": "29b7c963-b901-45ae-86a3-15134a318c0d",
+            "name": "swim_test1",
+            "nameHierarchy": "Global/a_swim/swim_test1",
+            "type": "building",
+            "latitude": 77.0,
+            "longitude": 77.0,
+            "country": "UNKNOWN"
+            },
+            {
+            "id": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "parentId": "18d688cb-e9ca-4a16-abdc-5923edadfb00",
+            "name": "SJ_BLD23",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23",
+            "type": "building",
+            "latitude": 37.41864,
+            "longitude": -121.9193,
+            "address": "560 McCarthy Blvd, Milpitas, California 95035, United States",
+            "country": "United States"
+            },
+            {
+            "id": "3036414b-0b9d-4f28-8e3d-89d246e84123",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123",
+            "parentId": "18d688cb-e9ca-4a16-abdc-5923edadfb00",
+            "name": "SJ_BLD20",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20",
+            "type": "building",
+            "latitude": 37.415947,
+            "longitude": -121.91633,
+            "address": "725 Alder Drive, Milpitas, California 95035, United States",
+            "country": "United States"
+            },
+            {
+            "id": "d078dbc3-f1d1-4285-9bbb-febbf4688060",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/94136080-9dae-41c8-a4de-588358c9303c/d078dbc3-f1d1-4285-9bbb-febbf4688060",
+            "parentId": "94136080-9dae-41c8-a4de-588358c9303c",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD11/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "590892a6-3954-4f5b-a4dc-45c320e7f63b",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/78e107ee-f9ec-4bb0-be0a-5feded2a358e/590892a6-3954-4f5b-a4dc-45c320e7f63b",
+            "parentId": "78e107ee-f9ec-4bb0-be0a-5feded2a358e",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD12/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "282c98b0-193c-4bd6-8128-e7faf23aac02",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/3797e779-4940-4e65-88fe-bb9267d3692c/282c98b0-193c-4bd6-8128-e7faf23aac02",
+            "parentId": "3797e779-4940-4e65-88fe-bb9267d3692c",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD10/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "068aec71-c975-4d89-90ff-71e2d3af66d2",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/78e107ee-f9ec-4bb0-be0a-5feded2a358e/068aec71-c975-4d89-90ff-71e2d3af66d2",
+            "parentId": "78e107ee-f9ec-4bb0-be0a-5feded2a358e",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD12/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "84290a13-e69e-406f-9e7f-9a4b95e74062",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/3797e779-4940-4e65-88fe-bb9267d3692c/84290a13-e69e-406f-9e7f-9a4b95e74062",
+            "parentId": "3797e779-4940-4e65-88fe-bb9267d3692c",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD10/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "9ca6abc6-21a4-4df7-9c7f-98fd6d3f4850",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/3797e779-4940-4e65-88fe-bb9267d3692c/9ca6abc6-21a4-4df7-9c7f-98fd6d3f4850",
+            "parentId": "3797e779-4940-4e65-88fe-bb9267d3692c",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD10/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "97aa8d17-554d-4423-8d9f-be4d7e624654",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/3797e779-4940-4e65-88fe-bb9267d3692c/97aa8d17-554d-4423-8d9f-be4d7e624654",
+            "parentId": "3797e779-4940-4e65-88fe-bb9267d3692c",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD10/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "6b3a96ac-2560-4d34-bf9d-a09d052e6cf0",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/94136080-9dae-41c8-a4de-588358c9303c/6b3a96ac-2560-4d34-bf9d-a09d052e6cf0",
+            "parentId": "94136080-9dae-41c8-a4de-588358c9303c",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD11/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "4fa779ed-00dd-4b94-bb02-2257719aae33",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/94136080-9dae-41c8-a4de-588358c9303c/4fa779ed-00dd-4b94-bb02-2257719aae33",
+            "parentId": "94136080-9dae-41c8-a4de-588358c9303c",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD11/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "42a88081-35e5-4f0e-8326-b97adaa8d7a5",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/94136080-9dae-41c8-a4de-588358c9303c/42a88081-35e5-4f0e-8326-b97adaa8d7a5",
+            "parentId": "94136080-9dae-41c8-a4de-588358c9303c",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD11/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "2b9ceee6-c8a1-4ea9-ba3b-2afc0ab68bb8",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/78e107ee-f9ec-4bb0-be0a-5feded2a358e/2b9ceee6-c8a1-4ea9-ba3b-2afc0ab68bb8",
+            "parentId": "78e107ee-f9ec-4bb0-be0a-5feded2a358e",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD12/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "f149cd57-87cf-4ac7-af0d-aa26415d62be",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/ae2d62ab-badb-41f9-821a-270cd004d08d/78e107ee-f9ec-4bb0-be0a-5feded2a358e/f149cd57-87cf-4ac7-af0d-aa26415d62be",
+            "parentId": "78e107ee-f9ec-4bb0-be0a-5feded2a358e",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/RTP/RTP_BLD12/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "ec64358e-f74c-4810-9877-16498ca8bcd0",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/ec64358e-f74c-4810-9877-16498ca8bcd0",
+            "parentId": "3036414b-0b9d-4f28-8e3d-89d246e84123",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "ce99c5b9-093e-4775-9423-9eb7e5aece33",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/bff4d1de-9509-4b9d-98b0-bad94cbebef3/ce99c5b9-093e-4775-9423-9eb7e5aece33",
+            "parentId": "bff4d1de-9509-4b9d-98b0-bad94cbebef3",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/New York/NY_BLD2/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "e95dff62-9fac-4a3e-8891-1c0a6525976c",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/e95dff62-9fac-4a3e-8891-1c0a6525976c",
+            "parentId": "3036414b-0b9d-4f28-8e3d-89d246e84123",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "7ffe7c8c-74d6-45c5-bb3e-c3ecb537ec8e",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/7430b349-e807-4928-a3be-d6b6146ea766/7ffe7c8c-74d6-45c5-bb3e-c3ecb537ec8e",
+            "parentId": "7430b349-e807-4928-a3be-d6b6146ea766",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/New York/NY_BLD1/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "6543444d-c1e8-43a6-a13b-7c5f530f805a",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/7430b349-e807-4928-a3be-d6b6146ea766/6543444d-c1e8-43a6-a13b-7c5f530f805a",
+            "parentId": "7430b349-e807-4928-a3be-d6b6146ea766",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/New York/NY_BLD1/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "ecd657f3-f368-455c-a4a0-40baa303e18c",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/bff4d1de-9509-4b9d-98b0-bad94cbebef3/ecd657f3-f368-455c-a4a0-40baa303e18c",
+            "parentId": "bff4d1de-9509-4b9d-98b0-bad94cbebef3",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/New York/NY_BLD2/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "d93d18f4-17d4-47b6-a071-7840727210eb",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/415e80a4-7cb5-4036-b7f5-724340de98dd/d93d18f4-17d4-47b6-a071-7840727210eb",
+            "parentId": "415e80a4-7cb5-4036-b7f5-724340de98dd",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/New York/NY_BLD3/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "dd281fdb-b316-4de9-b96a-71b982f623f6",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/dd281fdb-b316-4de9-b96a-71b982f623f6",
+            "parentId": "3036414b-0b9d-4f28-8e3d-89d246e84123",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "74d77bfe-3d8c-4a0b-b35a-54f2a7e42381",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/bff4d1de-9509-4b9d-98b0-bad94cbebef3/74d77bfe-3d8c-4a0b-b35a-54f2a7e42381",
+            "parentId": "bff4d1de-9509-4b9d-98b0-bad94cbebef3",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/New York/NY_BLD2/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "ff15d13e-168c-4a71-b110-4a4f07069b71",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/415e80a4-7cb5-4036-b7f5-724340de98dd/ff15d13e-168c-4a71-b110-4a4f07069b71",
+            "parentId": "415e80a4-7cb5-4036-b7f5-724340de98dd",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/New York/NY_BLD3/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "a5fc4b8b-7d53-4033-ac1b-42486da2c7fa",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949/a5fc4b8b-7d53-4033-ac1b-42486da2c7fa",
+            "parentId": "f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/New York/NY_BLD4/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "855063d2-975b-4e71-b3d0-dc51bfb39d5d",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/855063d2-975b-4e71-b3d0-dc51bfb39d5d",
+            "parentId": "af407062-b499-4bc0-86df-7d81ffb28b02",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "193797b1-4eb6-4d21-993e-2e678cecce9b",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/ed8fd54d-12f4-4a03-9b55-e6a37de96d3d/193797b1-4eb6-4d21-993e-2e678cecce9b",
+            "parentId": "ed8fd54d-12f4-4a03-9b55-e6a37de96d3d",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD2/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "fe6de022-f32a-49ea-8fe6-af69ed609113",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/ed8fd54d-12f4-4a03-9b55-e6a37de96d3d/fe6de022-f32a-49ea-8fe6-af69ed609113",
+            "parentId": "ed8fd54d-12f4-4a03-9b55-e6a37de96d3d",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD2/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "1b72b9bd-3dd8-4d4f-a767-a427dbb717f3",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/ed8fd54d-12f4-4a03-9b55-e6a37de96d3d/1b72b9bd-3dd8-4d4f-a767-a427dbb717f3",
+            "parentId": "ed8fd54d-12f4-4a03-9b55-e6a37de96d3d",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD2/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "2aafbf30-4514-4b79-83e1-f500abd853ab",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/ed8fd54d-12f4-4a03-9b55-e6a37de96d3d/2aafbf30-4514-4b79-83e1-f500abd853ab",
+            "parentId": "ed8fd54d-12f4-4a03-9b55-e6a37de96d3d",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD2/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "184fb242-83d0-4d64-8130-838214c74b97",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949/184fb242-83d0-4d64-8130-838214c74b97",
+            "parentId": "f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/New York/NY_BLD4/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "9785e8c6-5448-4a84-8e37-d1f834467882",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/415e80a4-7cb5-4036-b7f5-724340de98dd/9785e8c6-5448-4a84-8e37-d1f834467882",
+            "parentId": "415e80a4-7cb5-4036-b7f5-724340de98dd",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/New York/NY_BLD3/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "3cdb35e8-262f-443f-9286-df7d6c90ebff",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949/3cdb35e8-262f-443f-9286-df7d6c90ebff",
+            "parentId": "f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/New York/NY_BLD4/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "2488d293-fc5d-45ed-82d0-d2a160fd8046",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/2488d293-fc5d-45ed-82d0-d2a160fd8046",
+            "parentId": "af407062-b499-4bc0-86df-7d81ffb28b02",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "74266722-51cc-417b-b16c-c5611a6f47cb",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/74266722-51cc-417b-b16c-c5611a6f47cb",
+            "parentId": "af407062-b499-4bc0-86df-7d81ffb28b02",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "bbd3732d-f0db-4f70-a28e-e58d7a429666",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/af407062-b499-4bc0-86df-7d81ffb28b02/bbd3732d-f0db-4f70-a28e-e58d7a429666",
+            "parentId": "af407062-b499-4bc0-86df-7d81ffb28b02",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "927e2d16-645c-4556-9047-e537adab7a33",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/30e2618a-214c-41c5-afa2-7aa593ed177c/927e2d16-645c-4556-9047-e537adab7a33",
+            "parentId": "30e2618a-214c-41c5-afa2-7aa593ed177c",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD3/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "a9f30b04-2a69-4791-902b-140289302d2b",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/30e2618a-214c-41c5-afa2-7aa593ed177c/a9f30b04-2a69-4791-902b-140289302d2b",
+            "parentId": "30e2618a-214c-41c5-afa2-7aa593ed177c",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD3/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "f562fc8b-e4fc-48e0-94c2-5e44f6b95a42",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/a3590552-96df-4483-905a-fb423ee42ecd/f562fc8b-e4fc-48e0-94c2-5e44f6b95a42",
+            "parentId": "a3590552-96df-4483-905a-fb423ee42ecd",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD4/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "10b0d2e6-feaf-4e56-9a0a-e24af6f809e4",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/415e80a4-7cb5-4036-b7f5-724340de98dd/10b0d2e6-feaf-4e56-9a0a-e24af6f809e4",
+            "parentId": "415e80a4-7cb5-4036-b7f5-724340de98dd",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/New York/NY_BLD3/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "3fc9f90c-646d-42b2-9140-1488da6a3e59",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/30e2618a-214c-41c5-afa2-7aa593ed177c/3fc9f90c-646d-42b2-9140-1488da6a3e59",
+            "parentId": "30e2618a-214c-41c5-afa2-7aa593ed177c",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD3/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "0c2398ce-1695-4f04-af8f-d27f20229b5f",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/30e2618a-214c-41c5-afa2-7aa593ed177c/0c2398ce-1695-4f04-af8f-d27f20229b5f",
+            "parentId": "30e2618a-214c-41c5-afa2-7aa593ed177c",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD3/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "01610ae4-cdba-4f65-a992-8c80ba73ed06",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/a3590552-96df-4483-905a-fb423ee42ecd/01610ae4-cdba-4f65-a992-8c80ba73ed06",
+            "parentId": "a3590552-96df-4483-905a-fb423ee42ecd",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD4/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "5bae4351-c468-49b0-8774-7e66f1e4cb7f",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/a3590552-96df-4483-905a-fb423ee42ecd/5bae4351-c468-49b0-8774-7e66f1e4cb7f",
+            "parentId": "a3590552-96df-4483-905a-fb423ee42ecd",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD4/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "fb37253a-9820-47aa-b2b8-d0b237a5dd4a",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/10c7725f-dbaf-40ea-9a2a-94efbeda8524/a3590552-96df-4483-905a-fb423ee42ecd/fb37253a-9820-47aa-b2b8-d0b237a5dd4a",
+            "parentId": "a3590552-96df-4483-905a-fb423ee42ecd",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/SAN-FRANCISCO/SF_BLD4/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "7f70a702-5f48-4892-b821-5a3ab9aee068",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/82d73991-7402-4a6b-9134-2d7d06d20f5b/336ad0bb-e322-432a-b626-48689ccd1431/95505dd3-ee69-444e-9f86-d98881715d3c/7f70a702-5f48-4892-b821-5a3ab9aee068",
+            "parentId": "95505dd3-ee69-444e-9f86-d98881715d3c",
+            "name": "landmark_FLOOR81",
+            "nameHierarchy": "Global/Vietnam/Saigon/landmark81/landmark_FLOOR81",
+            "type": "floor",
+            "floorNumber": 81,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "6b1324ba-d52b-456c-8e1f-aebcec934792",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/7430b349-e807-4928-a3be-d6b6146ea766/6b1324ba-d52b-456c-8e1f-aebcec934792",
+            "parentId": "7430b349-e807-4928-a3be-d6b6146ea766",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/New York/NY_BLD1/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "17ba9696-894b-43e7-b18e-9c774e98dfa8",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/8e4dce85-429e-49eb-8cb2-9a4ba4f465c9/17ba9696-894b-43e7-b18e-9c774e98dfa8",
+            "parentId": "8e4dce85-429e-49eb-8cb2-9a4ba4f465c9",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD21/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "a9e25be1-618e-4e33-a9b8-7f6624a6e83c",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/b802421a-61e0-413c-9e75-32fae7332306/a9e25be1-618e-4e33-a9b8-7f6624a6e83c",
+            "parentId": "b802421a-61e0-413c-9e75-32fae7332306",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD22/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "fbdd6a3a-60bd-4c4f-b6b9-6b192dba42e1",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/8e4dce85-429e-49eb-8cb2-9a4ba4f465c9/fbdd6a3a-60bd-4c4f-b6b9-6b192dba42e1",
+            "parentId": "8e4dce85-429e-49eb-8cb2-9a4ba4f465c9",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD21/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "e7bcedc7-9ddc-4d5b-a741-9fb81e07a563",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/8e4dce85-429e-49eb-8cb2-9a4ba4f465c9/e7bcedc7-9ddc-4d5b-a741-9fb81e07a563",
+            "parentId": "8e4dce85-429e-49eb-8cb2-9a4ba4f465c9",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD21/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "a7ac3b4f-7ed3-4bbe-ab92-7570f7a709f2",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/7430b349-e807-4928-a3be-d6b6146ea766/a7ac3b4f-7ed3-4bbe-ab92-7570f7a709f2",
+            "parentId": "7430b349-e807-4928-a3be-d6b6146ea766",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/New York/NY_BLD1/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "12133be5-77bb-4bd4-993f-8d3518b44d91",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/b802421a-61e0-413c-9e75-32fae7332306/12133be5-77bb-4bd4-993f-8d3518b44d91",
+            "parentId": "b802421a-61e0-413c-9e75-32fae7332306",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD22/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+            "parentId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "d2400a54-eacb-4a0c-8dc6-30e878a288e1",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/b802421a-61e0-413c-9e75-32fae7332306/d2400a54-eacb-4a0c-8dc6-30e878a288e1",
+            "parentId": "b802421a-61e0-413c-9e75-32fae7332306",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD22/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "a5c1c1dc-a4ed-4d21-99d5-7a95a0aac92f",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/bff4d1de-9509-4b9d-98b0-bad94cbebef3/a5c1c1dc-a4ed-4d21-99d5-7a95a0aac92f",
+            "parentId": "bff4d1de-9509-4b9d-98b0-bad94cbebef3",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/New York/NY_BLD2/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "ed0f7aae-ca46-463b-9818-b2cedbcf2432",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/b802421a-61e0-413c-9e75-32fae7332306/ed0f7aae-ca46-463b-9818-b2cedbcf2432",
+            "parentId": "b802421a-61e0-413c-9e75-32fae7332306",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD22/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "0f2db452-3d85-4a66-8b87-0392f45029df",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/08e83afa-d7b0-433f-911b-0bab5259aae7/f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949/0f2db452-3d85-4a66-8b87-0392f45029df",
+            "parentId": "f8c5ab08-8edc-4c41-bb2f-d59bdb9c4949",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/New York/NY_BLD4/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "fddf40da-a043-4770-a5ea-96b685262db8",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/fddf40da-a043-4770-a5ea-96b685262db8",
+            "parentId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "name": "FLOOR3",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR3",
+            "type": "floor",
+            "floorNumber": 3,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "3605bebe-9095-4cc1-bb13-413db70e8840",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/3605bebe-9095-4cc1-bb13-413db70e8840",
+            "parentId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "17178190-aeb1-42a8-83c4-38adbbe9a1fd",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/17178190-aeb1-42a8-83c4-38adbbe9a1fd",
+            "parentId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "35f5c0d6-f575-4b9e-84bb-73e03d00ed84",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/8e4dce85-429e-49eb-8cb2-9a4ba4f465c9/35f5c0d6-f575-4b9e-84bb-73e03d00ed84",
+            "parentId": "8e4dce85-429e-49eb-8cb2-9a4ba4f465c9",
+            "name": "FLOOR2",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD21/FLOOR2",
+            "type": "floor",
+            "floorNumber": 2,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            },
+            {
+            "id": "2bdda35f-0b5b-4352-a9f9-654d3c0bd4ce",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/2bdda35f-0b5b-4352-a9f9-654d3c0bd4ce",
+            "parentId": "3036414b-0b9d-4f28-8e3d-89d246e84123",
+            "name": "FLOOR4",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20/FLOOR4",
+            "type": "floor",
+            "floorNumber": 4,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "dot11be_profile_response1":{
+        "response": {
+            "id": "c69f975a-5a16-39c9-9b85-643ac0a06cdb",
+            "profileName": "Ans NP WL BE 1",
+            "muMimoDownLink": false,
+            "muMimoUpLink": false,
+            "ofdmaDownLink": true,
+            "ofdmaUpLink": true,
+            "ofdmaMultiRu": false,
+            "default": true
+        },
+        "version": "1.0"
+    },
+
+    "get_interface_details1":{
+        "response": [
+                {
+                "id": "mda3vKXb-tL8Y-mLyW-tdfb-mK4ZxZqYnti2vJDmoee5tJeWxZeX",
+                "interfaceName": "VLAN_22",
+                "vlanId": 22
+                }
+            ],
+        "version": "1.0"
+    },
+
+    "get_interface_details2":{
+        "response": [
+                {
+                "id": "mda3DgvT-Cf8Y-mhqW-ztfT-mNaZxZqYnta2DdDLog05CdeWxZeX",
+                "interfaceName": "temp_20",
+                "vlanId": 20
+                }
+            ],
+        "version": "1.0"
+    },
+
+    "playbook_global_filter_profile_base": [
+        {
+            "file_path": "tmp/network_profile_switching_workflow_playbook_profilebase.yml",
+            "global_filters": {
+                "profile_name_list": [
+                    "Campus_Wireless_Profile"
+                ]
+            }
+        }
+    ],
+
+    "playbook_global_filter_template_base": [
+        {
+            "file_path": "tmp/network_profile_switching_workflow_playbook_templatebase.yml",
+            "global_filters": {
+                "day_n_template_list": [
+                    "Ans Wireless DayN 1"
+                ]
+            }
+        }
+    ],
+
+    "playbook_global_filter_site_base": [
+        {
+            "file_path": "tmp/network_profile_switching_workflow_playbook_sitebase.yml",
+            "global_filters": {
+                "site_list": [
+                    "Global/USA/SAN JOSE/SJ_BLD20/FLOOR2"
+                ]
+            }
+        }
+    ],
+
+    "site_attached_profile2": {
+        "response": [
+            {
+                "id": "e95dff62-9fac-4a3e-8891-1c0a6525976c"
+            }
+        ],
+        "version": "1.0"
+    }
+
+}

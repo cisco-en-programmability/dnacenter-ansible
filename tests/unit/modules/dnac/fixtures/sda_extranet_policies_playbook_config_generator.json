@@ -1,0 +1,112 @@
+{
+    "generate_all_configurations_case": [
+        {
+            "generate_all_configurations": true
+        }
+    ],
+    "component_specific_filters_case": [
+        {
+            "component_specific_filters": {
+                "components_list": ["extranet_policies"],
+                "extranet_policies": [
+                    {
+                        "extranet_policy_name": "Test_1"
+                    }
+                ]
+            }
+        }
+    ],
+    "get_sites_response": {
+        "response": [
+            {
+                "id": "ae08122b-203c-4268-b5e8-19ea0c34ea26",
+                "name": "Global",
+                "type": "global"
+            },
+            {
+                "id": "397de100-b003-426d-b326-6875b7c774d8",
+                "parentId": "ae08122b-203c-4268-b5e8-19ea0c34ea26",
+                "name": "India",
+                "nameHierarchy": "Global/India",
+                "type": "area"
+            },
+            {
+                "id": "43c8fe69-1b6c-4b6b-939c-ae1140d46908",
+                "parentId": "397de100-b003-426d-b326-6875b7c774d8",
+                "name": "Tamil_Nadu",
+                "nameHierarchy": "Global/India/Tamil_Nadu",
+                "type": "area"
+            },
+            {
+                "id": "4641882e-63c1-4eae-8895-d93f2f618cf9",
+                "parentId": "43c8fe69-1b6c-4b6b-939c-ae1140d46908",
+                "name": "Chennai",
+                "nameHierarchy": "Global/India/Tamil_Nadu/Chennai",
+                "type": "area"
+            },
+            {
+                "id": "c8fe20c1-b305-4df0-aed7-0b1f43069ae4",
+                "parentId": "4641882e-63c1-4eae-8895-d93f2f618cf9",
+                "name": "BLD_1",
+                "nameHierarchy": "Global/India/Tamil_Nadu/Chennai/BLD_1",
+                "type": "building",
+                "latitude": 13.0843,
+                "longitude": 80.2705,
+                "address": "Chennai,Tamil_Nadu,India",
+                "country": "India"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_extranet_policies_all_response": {
+        "response": [
+            {
+                "id": "35faacb8-6b74-4dae-bb29-55313c1a9ba3",
+                "extranetPolicyName": "Test_1",
+                "fabricIds": [],
+                "providerVirtualNetworkName": "Chennai_VN1",
+                "subscriberVirtualNetworkNames": [
+                    "Chennai_VN10",
+                    "Chennai_VN4"
+                ]
+            },
+            {
+                "id": "45faacb8-7b84-5dbe-cc39-66424d2b0cb4",
+                "extranetPolicyName": "Test_2",
+                "fabricIds": [],
+                "providerVirtualNetworkName": "Chennai_VN5",
+                "subscriberVirtualNetworkNames": [
+                    "Chennai_VN6",
+                    "Chennai_VN3",
+                    "Chennai_VN2"
+                ]
+            },
+            {
+                "id": "55faacb8-8c94-6ecf-dd40-77535e3c1dc5",
+                "extranetPolicyName": "Test_3",
+                "fabricIds": [],
+                "providerVirtualNetworkName": "Chennai_VN7",
+                "subscriberVirtualNetworkNames": [
+                    "Chennai_VN8",
+                    "Chennai_VN9"
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_extranet_policies_filtered_response": {
+        "response": [
+            {
+                "id": "35faacb8-6b74-4dae-bb29-55313c1a9ba3",
+                "extranetPolicyName": "Test_1",
+                "fabricIds": [],
+                "providerVirtualNetworkName": "Chennai_VN1",
+                "subscriberVirtualNetworkNames": [
+                    "Chennai_VN10",
+                    "Chennai_VN4"
+                ]
+            }
+        ],
+        "version": "1.0"
+    }
+}

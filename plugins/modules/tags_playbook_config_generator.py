@@ -28,7 +28,7 @@ options:
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
-    choices: [gathered]
+    choices: ["gathered"]
     default: gathered
   config:
     description:
@@ -73,9 +73,7 @@ options:
             - If not specified, all supported components will be included by default.
             type: list
             elements: str
-            choices:
-              - tag
-              - tag_memberships
+            choices: ["tag" , "tag_memberships"]
           tag:
             description:
             - Filters specific to tag configuration retrieval.
@@ -104,6 +102,24 @@ options:
                 - Retrieves all network devices and interfaces (ports) associated with this tag.
                 - Example Production, Network-Core, Campus-Switches.
                 type: str
+              device_identifier:
+                description:
+                - Specifies the device identifier to use when generating the tag membership configuration.
+                - This determines how devices and interfaces are identified in the output YAML file.
+                - Applies to both network device and interface (port) tag memberships.
+                - If not specified, defaults to serial_number.
+                - "hostname: Uses the device hostname as the identifier"
+                - "serial_number: Uses the device serial number as the identifier (default)"
+                - "mac_address: Uses the device MAC address as the identifier"
+                - "ip_address: Uses the device IP address as the identifier"
+                type: str
+                required: false
+                default: serial_number
+                choices:
+                - hostname
+                - serial_number
+                - mac_address
+                - ip_address
 requirements:
 - dnacentersdk >= 2.4.5
 - python >= 3.9
@@ -350,6 +366,166 @@ EXAMPLES = r"""
               tag:
                 - tag_name: Branch-Office
                 - tag_name: Access-Points
+
+# Example 9: Retrieve all tag memberships with hostname as device identifier
+- name: Generate all tag memberships using hostname identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export all tag memberships with hostnames
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/tags_by_hostname.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - device_identifier: hostname
+      # This will retrieve all tags with their members identified by hostname instead of serial_number
+
+# Example 10: Retrieve specific tag membership with IP address as device identifier
+- name: Generate specific tag membership using IP address identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export specific tag membership with IP addresses
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/production_tag_by_ip.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - tag_name: Production
+                  device_identifier: ip_address
+      # This will retrieve only the 'Production' tag's members with IP addresses
+
+# Example 11: Retrieve tag memberships with MAC address as device identifier
+- name: Generate tag memberships using MAC address identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tag memberships with MAC addresses
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/tags_by_mac.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - tag_name: Campus-Switches
+                  device_identifier: mac_address
+                - tag_name: Core-Routers
+                  device_identifier: mac_address
+      # This will retrieve specific tags' members with MAC addresses
+
+# Example 12: Retrieve tag memberships with default device identifier (serial_number)
+- name: Generate tag memberships with default serial number identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tag memberships with serial numbers (default)
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/tags_by_serial.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - tag_name: Data-Center
+      # When device_identifier is not specified, it defaults to 'serial_number'
+
+# Example 13: Mixed configuration with different device identifiers
+- name: Generate tag configurations with mixed device identifiers
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tags with various device identifier formats
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/mixed_identifiers.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - tag_name: Production
+                  device_identifier: hostname
+                - tag_name: Development
+                  device_identifier: ip_address
+                - tag_name: Testing
+                  device_identifier: mac_address
+                - tag_name: Staging
+      # Different tags can use different device identifiers in the same configuration
 """
 
 RETURN = r"""
@@ -592,7 +768,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "get_function_name": self.get_tag_configuration,
                 },
                 "tag_memberships": {
-                    "filters": ["tag_name", "tag_id"],
+                    "filters": ["tag_name", "tag_id", "device_identifier"],
                     "reverse_mapping_function": self.tag_memberships_temp_spec,
                     "api_function": "get_tag_members_by_id",
                     "api_family": "tag",
@@ -608,6 +784,238 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         return schema
+
+    def fetch_tag_memberships_for_all_tags(
+        self, api_family, api_function, device_identifier="serial_number"
+    ):
+        """
+        Fetches tag membership details for all tags in the cached mapping.
+
+        This method iterates through all tags stored in the tag_name_to_details_mapping
+        and retrieves both network device and interface members for each tag using the
+        specified API family and function.
+
+        Args:
+            api_family (str): The API family name (e.g., "tag").
+            api_function (str): The API function name (e.g., "get_tag_members_by_id").
+            device_identifier (str): The device identifier type (default: "serial_number").
+                Used to specify how devices should be identified in the output.
+
+        Returns:
+            list: A list of dictionaries containing tag membership details. Each dictionary contains:
+                - tag_id (str): The ID of the tag.
+                - tag_name (str): The name of the tag.
+                - network_device_members (list): List of network device members.
+                - interface_members (list): List of interface members.
+                - device_identifier (str): The device identifier type used.
+                Tags without any members are excluded from the returned list.
+        """
+        self.log(
+            f"Starting to process '{len(self.tag_name_to_details_mapping)}' tags (from cache) to retrieve their tag memberships.",
+            "INFO",
+        )
+
+        all_tag_memberships_config = []
+        # Use cached tag details instead of making an API call
+        for tag_index, (tag_name, tag_details) in enumerate(
+            self.tag_name_to_details_mapping.items(), start=1
+        ):
+            self.log(
+                f"Processing tag {tag_index}/{len(self.tag_name_to_details_mapping)}: '{tag_name}'",
+                "DEBUG",
+            )
+            tag_id = tag_details.get("id")
+            self.log(
+                f"Retrieved tag_id: '{tag_id}' for tag: '{tag_name}'",
+                "DEBUG",
+            )
+            params = {"id": tag_id, "member_association_type": "STATIC"}
+            self.log(
+                f"Setting member_association_type to 'STATIC' for tag: '{tag_name}' (ID: '{tag_id}')",
+                "DEBUG",
+            )
+
+            # Execute API call to retrieve network device membership details
+            self.log(
+                f"Preparing to retrieve network device members for tag '{tag_name}' (ID: '{tag_id}')",
+                "DEBUG",
+            )
+            params["member_type"] = "networkdevice"
+            self.log(
+                f"Executing API call with params: {params}",
+                "DEBUG",
+            )
+
+            network_device_members = self.execute_get_with_pagination(
+                api_family, api_function, params
+            )
+            self.log(
+                f"Network device members retrieved for tag '{tag_name}': {len(network_device_members) if network_device_members else 0} member(s) found",
+                "INFO",
+            )
+            self.log(
+                f"Network device members details: {self.pprint(network_device_members)}",
+                "DEBUG",
+            )
+
+            # Execute API call to retrieve interface membership details
+            self.log(
+                f"Preparing to retrieve interface members for tag '{tag_name}' (ID: '{tag_id}')",
+                "DEBUG",
+            )
+            params["member_type"] = "interface"
+            self.log(
+                f"Executing API call with params: {params}",
+                "DEBUG",
+            )
+
+            interface_members = self.execute_get_with_pagination(
+                api_family, api_function, params
+            )
+            self.log(
+                f"Interface members retrieved for tag '{tag_name}': {len(interface_members) if interface_members else 0} member(s) found",
+                "INFO",
+            )
+            self.log(
+                f"Interface members details: {self.pprint(interface_members)}",
+                "DEBUG",
+            )
+
+            # Combine members for this tag
+            tag_membership_details = {
+                "tag_id": tag_id,
+                "tag_name": tag_name,
+                "network_device_members": network_device_members,
+                "interface_members": interface_members,
+                "device_identifier": device_identifier,
+            }
+
+            if not network_device_members and not interface_members:
+                self.log(
+                    f"No members found for tag '{tag_name}'. Skipping addition to final memberships.",
+                    "INFO",
+                )
+                continue
+
+            all_tag_memberships_config.append(tag_membership_details)
+            self.log(
+                f"Successfully added membership details for tag '{tag_name}'. "
+                f"Total members: {len(network_device_members) if network_device_members else 0} device(s), "
+                f"{len(interface_members) if interface_members else 0} interface(s)",
+                "INFO",
+            )
+
+        self.log(
+            f"Completed processing all tags. Found {len(all_tag_memberships_config)} tag(s) with memberships out of "
+            f"{len(self.tag_name_to_details_mapping)} total tag(s).",
+            "INFO",
+        )
+        return all_tag_memberships_config
+
+    def fetch_tag_memberships_for_single_tag(
+        self,
+        tag_name,
+        tag_id,
+        api_family,
+        api_function,
+        device_identifier="serial_number",
+    ):
+        """
+        Fetches tag membership details for a single tag.
+
+        Args:
+            tag_name (str): The name of the tag.
+            tag_id (str): The ID of the tag.
+            api_family (str): The API family name.
+            api_function (str): The API function name.
+            device_identifier (str): The device identifier type (default: "serial_number").
+
+        Returns:
+            dict or None: Tag membership details if members are found, None otherwise.
+        """
+        self.log(
+            f"Fetching memberships for tag '{tag_name}' (ID: '{tag_id}') with device_identifier '{device_identifier}'",
+            "DEBUG",
+        )
+
+        params = {"id": tag_id, "member_association_type": "STATIC"}
+        self.log(
+            f"Setting member_association_type to 'STATIC' for tag: '{tag_name}' (ID: '{tag_id}')",
+            "DEBUG",
+        )
+
+        # Execute API call to retrieve network device membership details
+        self.log(
+            f"Preparing to retrieve network device members for tag '{tag_name}' (ID: '{tag_id}')",
+            "DEBUG",
+        )
+        params["member_type"] = "networkdevice"
+        self.log(
+            f"Executing API call with params: {params}",
+            "DEBUG",
+        )
+
+        network_device_members = self.execute_get_with_pagination(
+            api_family, api_function, params
+        )
+        self.log(
+            f"Network device members retrieved for tag '{tag_name}': {len(network_device_members) if network_device_members else 0} "
+            "member(s) found",
+            "INFO",
+        )
+        self.log(
+            f"Network device members details: {self.pprint(network_device_members)}",
+            "DEBUG",
+        )
+
+        # Execute API call to retrieve interface membership details
+        self.log(
+            f"Preparing to retrieve interface members for tag '{tag_name}' (ID: '{tag_id}')",
+            "DEBUG",
+        )
+
+        params["member_type"] = "interface"
+        self.log(
+            f"Executing API call with params: {params}",
+            "DEBUG",
+        )
+
+        interface_members = self.execute_get_with_pagination(
+            api_family, api_function, params
+        )
+
+        self.log(
+            f"Interface members retrieved for tag '{tag_name}': {len(interface_members) if interface_members else 0} member(s) found",
+            "INFO",
+        )
+        self.log(
+            f"Interface members details: {self.pprint(interface_members)}",
+            "DEBUG",
+        )
+
+        # Combine members for this tag
+        tag_membership_details = {
+            "tag_id": tag_id,
+            "tag_name": tag_name,
+            "network_device_members": network_device_members,
+            "interface_members": interface_members,
+            "device_identifier": device_identifier,
+        }
+
+        if not network_device_members and not interface_members:
+            self.log(
+                f"No members found for tag '{tag_name}'.",
+                "INFO",
+            )
+            return None
+
+        self.log(
+            f"Successfully retrieved membership details for tag '{tag_name}'. "
+            f"Total members: {len(network_device_members) if network_device_members else 0} device(s), "
+            f"{len(interface_members) if interface_members else 0} interface(s)",
+            "INFO",
+        )
+        return tag_membership_details
 
     def get_tag_membership_configuration(
         self, network_element, component_specific_filters=None
@@ -670,7 +1078,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
         # Extract API family and function from network_element
-        final_tag_memberships = []
+        tag_memberships_config = []
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
         self.log(
@@ -692,249 +1100,134 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG",
                 )
 
-                for key, value in filter_param.items():
+                device_identifier = "serial_number"  # Default device identifier
+                tag_name = None
+                tag_id = None
+
+                # Process tag_name
+                if "tag_name" in filter_param:
+                    value = filter_param["tag_name"]
                     self.log(
-                        f"Evaluating filter parameter - key: '{key}', value: '{value}'",
+                        f"Processing tag_name filter with value: '{value}'",
                         "DEBUG",
                     )
-                    if key == "tag_name":
+                    if value in self.tag_name_to_details_mapping:
+                        tag_id = self.tag_name_to_details_mapping[value].get("id")
+                        params["id"] = tag_id
+                        tag_name = value
                         self.log(
-                            f"Processing tag_name filter with value: '{value}'",
-                            "DEBUG",
+                            f"Tag name '{value}' found in mapping. Resolved to tag_id: '{tag_id}'",
+                            "INFO",
                         )
-                        if value in self.tag_name_to_details_mapping:
-                            tag_id = self.tag_name_to_details_mapping[value].get("id")
-                            params["id"] = tag_id
-                            tag_name = value
-                            self.log(
-                                f"Tag name '{value}' found in mapping. Resolved to tag_id: '{tag_id}'",
-                                "INFO",
-                            )
-                        else:
-                            self.log(
-                                f"Tag with name '{value}' does not exist in Cisco Catalyst Center. Skipping.",
-                                "WARNING",
-                            )
-                            continue
-
-                    elif key == "tag_id":
-                        self.log(
-                            f"Processing tag_id filter with value: '{value}'",
-                            "DEBUG",
-                        )
-                        if value in self.tag_id_to_tag_name_mapping:
-                            tag_name = self.tag_id_to_tag_name_mapping[value]
-
-                            self.log(
-                                f"Tag ID '{value}' found in mapping. Resolved to tag_name: '{tag_name}'",
-                                "DEBUG",
-                            )
-
-                            if tag_name in self.tag_name_to_details_mapping:
-                                params["id"] = value
-
-                                self.log(
-                                    f"Tag name '{tag_name}' validated in details mapping. Using tag_id: '{value}'",
-                                    "INFO",
-                                )
-                            else:
-                                self.log(
-                                    f"Tag with ID '{value}', name: {tag_name} does not exist in Cisco Catalyst Center. Skipping.",
-                                    "WARNING",
-                                )
-                                continue
-                        else:
-                            self.log(
-                                f"Tag with ID '{value}' does not exist in Cisco Catalyst Center. Skipping.",
-                                "WARNING",
-                            )
-                            continue
                     else:
                         self.log(
-                            f"Ignoring unsupported filter parameter: {key}",
-                            "DEBUG",
+                            f"Tag with name '{value}' does not exist in Cisco Catalyst Center. Skipping.",
+                            "WARNING",
                         )
                         continue
 
-                    # We are only fetching the static memberships for tags
+                # Process tag_id
+                if "tag_id" in filter_param:
+                    value = filter_param["tag_id"]
                     self.log(
-                        f"Setting member_association_type to 'STATIC' for tag: '{tag_name}' (ID: '{tag_id}')",
+                        f"Processing tag_id filter with value: '{value}'",
                         "DEBUG",
                     )
-                    params["member_association_type"] = "STATIC"
+                    if value not in self.tag_id_to_tag_name_mapping:
+                        self.log(
+                            f"Tag with ID '{value}' does not exist in Cisco Catalyst Center. Skipping.",
+                            "WARNING",
+                        )
+                        continue
 
-                    # Execute API call to retrieve network device membership details
+                    tag_name = self.tag_id_to_tag_name_mapping[value]
+                    params["id"] = value
                     self.log(
-                        f"Preparing to retrieve network device members for tag '{tag_name}' (ID: '{tag_id}')",
-                        "DEBUG",
-                    )
-                    params["member_type"] = "networkdevice"
-                    self.log(
-                        f"Executing API call with params: {params}",
-                        "DEBUG",
-                    )
-
-                    network_device_members = self.execute_get_with_pagination(
-                        api_family, api_function, params
-                    )
-                    self.log(
-                        f"Network device members retrieved for tag '{tag_name}': {len(network_device_members) if network_device_members else 0} "
-                        "member(s) found",
+                        f"Tag ID '{value}' found in mapping. Resolved to tag_name: '{tag_name}'",
                         "INFO",
                     )
+
+                # Process device_identifier
+                if "device_identifier" in filter_param:
+                    value = filter_param["device_identifier"]
                     self.log(
-                        f"Network device members details: {self.pprint(network_device_members)}",
+                        f"Processing device_identifier filter with value: '{value}'",
                         "DEBUG",
                     )
+                    if value not in [
+                        "hostname",
+                        "serial_number",
+                        "mac_address",
+                        "ip_address",
+                    ]:
+                        self.log(
+                            f"Invalid device_identifier value: '{value}'. Must be one of 'hostname', 'serial_number', 'mac_address', or 'ip_address'. "
+                            f"Skipping this filter.",
+                            "WARNING",
+                        )
+                        continue
 
-                    # Execute API call to retrieve interface membership details
+                    device_identifier = value
                     self.log(
-                        f"Preparing to retrieve interface members for tag '{tag_name}' (ID: '{tag_id}')",
-                        "DEBUG",
-                    )
-
-                    params["member_type"] = "interface"
-                    self.log(
-                        f"Executing API call with params: {params}",
-                        "DEBUG",
-                    )
-
-                    interface_members = self.execute_get_with_pagination(
-                        api_family, api_function, params
-                    )
-
-                    self.log(
-                        f"Interface members retrieved for tag '{tag_name}': {len(interface_members) if interface_members else 0} member(s) found",
+                        f"Device identifier set to '{value}' for tag membership retrieval.",
                         "INFO",
                     )
+
+                # Check if only device_identifier is provided without specific tag
+                if not params.get("id"):
+                    # User wants to fetch all tags with the specific device identifier
                     self.log(
-                        f"Interface members details: {self.pprint(interface_members)}",
-                        "DEBUG",
+                        f"No specific tag ID or name provided. Fetching all tags with device_identifier '{device_identifier}'.",
+                        "INFO",
+                    )
+                    all_memberships = self.fetch_tag_memberships_for_all_tags(
+                        api_family, api_function, device_identifier
+                    )
+                    tag_memberships_config.extend(all_memberships)
+                    self.log(
+                        f"Added {len(all_memberships)} tag membership(s) to configuration.",
+                        "INFO",
+                    )
+                else:
+                    # Fetch membership for a specific tag
+                    self.log(
+                        f"Fetching membership for specific tag '{tag_name}' (ID: '{tag_id}') with device_identifier '{device_identifier}'.",
+                        "INFO",
+                    )
+                    tag_membership_details = self.fetch_tag_memberships_for_single_tag(
+                        tag_name,
+                        tag_id,
+                        api_family,
+                        api_function,
+                        device_identifier,
                     )
 
-                    # Combine members for this tag
-                    tag_membership_details = {
-                        "tag_id": tag_id,
-                        "tag_name": tag_name,
-                        "network_device_members": network_device_members,
-                        "interface_members": interface_members,
-                    }
-
-                    if network_device_members or interface_members:
-                        final_tag_memberships.append(tag_membership_details)
+                    if not tag_membership_details:
                         self.log(
-                            f"Successfully added membership details for tag '{tag_name}'. "
-                            f"Total members: {len(network_device_members) if network_device_members else 0} device(s), "
-                            f"{len(interface_members) if interface_members else 0} interface(s)",
+                            f"Skipping tag '{tag_name}' - no memberships found.",
                             "INFO",
                         )
-                    else:
-                        self.log(
-                            f"No members found for tag '{tag_name}'. Skipping addition to final memberships.",
-                            "INFO",
-                        )
+                        continue
 
+                    tag_memberships_config.append(tag_membership_details)
+                    self.log(
+                        f"Successfully added membership details for tag '{tag_name}' to configuration.",
+                        "INFO",
+                    )
         else:
             # Use cached tag details instead of making an API call
             self.log(
                 "No component-specific filters provided. Processing all tags from cached mapping.",
                 "INFO",
             )
-            self.log(
-                f"Total tags to process from cache: {len(self.tag_name_to_details_mapping)}",
-                "INFO",
+            tag_memberships_config = self.fetch_tag_memberships_for_all_tags(
+                api_family, api_function
             )
-
-            for tag_index, (tag_name, tag_details) in enumerate(
-                self.tag_name_to_details_mapping.items(), start=1
-            ):
-                self.log(
-                    f"Processing tag {tag_index}/{len(self.tag_name_to_details_mapping)}: '{tag_name}'",
-                    "DEBUG",
-                )
-                tag_id = tag_details.get("id")
-                self.log(
-                    f"Retrieved tag_id: '{tag_id}' for tag: '{tag_name}'",
-                    "DEBUG",
-                )
-                params = {"id": tag_id, "member_association_type": "STATIC"}
-                self.log(
-                    f"Setting member_association_type to 'STATIC' for tag: '{tag_name}' (ID: '{tag_id}')",
-                    "DEBUG",
-                )
-
-                # Execute API call to retrieve network device membership details
-                self.log(
-                    f"Preparing to retrieve network device members for tag '{tag_name}' (ID: '{tag_id}')",
-                    "DEBUG",
-                )
-                params["member_type"] = "networkdevice"
-                self.log(
-                    f"Executing API call with params: {params}",
-                    "DEBUG",
-                )
-
-                network_device_members = self.execute_get_with_pagination(
-                    api_family, api_function, params
-                )
-                self.log(
-                    f"Network device members retrieved for tag '{tag_name}': {len(network_device_members) if network_device_members else 0} member(s) found",
-                    "INFO",
-                )
-                self.log(
-                    f"Network device members details: {self.pprint(network_device_members)}",
-                    "DEBUG",
-                )
-
-                # Execute API call to retrieve interface membership details
-                self.log(
-                    f"Preparing to retrieve interface members for tag '{tag_name}' (ID: '{tag_id}')",
-                    "DEBUG",
-                )
-                params["member_type"] = "interface"
-                self.log(
-                    f"Executing API call with params: {params}",
-                    "DEBUG",
-                )
-
-                interface_members = self.execute_get_with_pagination(
-                    api_family, api_function, params
-                )
-                self.log(
-                    f"Interface members retrieved for tag '{tag_name}': {len(interface_members) if interface_members else 0} member(s) found",
-                    "INFO",
-                )
-                self.log(
-                    f"Interface members details: {self.pprint(interface_members)}",
-                    "DEBUG",
-                )
-
-                # Combine members for this tag
-                tag_membership_details = {
-                    "tag_id": tag_id,
-                    "tag_name": tag_name,
-                    "network_device_members": network_device_members,
-                    "interface_members": interface_members,
-                }
-
-                if network_device_members or interface_members:
-                    final_tag_memberships.append(tag_membership_details)
-                    self.log(
-                        f"Successfully added membership details for tag '{tag_name}'. "
-                        f"Total members: {len(network_device_members) if network_device_members else 0} device(s), "
-                        f"{len(interface_members) if interface_members else 0} interface(s)",
-                        "INFO",
-                    )
-                else:
-                    self.log(
-                        f"No members found for tag '{tag_name}'. Skipping addition to final memberships.",
-                        "INFO",
-                    )
 
         # Modify Tag Membership details using temp_spec
         tag_memberships_temp_spec = self.tag_memberships_temp_spec()
         tag_memberships_details = self.modify_parameters(
-            tag_memberships_temp_spec, final_tag_memberships
+            tag_memberships_temp_spec, tag_memberships_config
         )
         modified_tag_memberships_details = {"tag_memberships": tag_memberships_details}
         self.log(
@@ -1433,6 +1726,48 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
+        # Get device_identifier from tag_membership_details (default to serial_number)
+        device_identifier = tag_membership_details.get(
+            "device_identifier", "serial_number"
+        )
+        self.log(
+            f"Using device_identifier: '{device_identifier}' for device transformation",
+            "INFO",
+        )
+
+        # Map device_identifier to API field names and output keys (shared for both device and interface members)
+        identifier_mapping = {
+            "hostname": {"api_field": "hostname", "output_key": "hostnames"},
+            "serial_number": {
+                "api_field": "serialNumber",
+                "output_key": "serial_numbers",
+            },
+            "mac_address": {
+                "api_field": "macAddress",
+                "output_key": "mac_addresses",
+            },
+            "ip_address": {
+                "api_field": "managementIpAddress",
+                "output_key": "ip_addresses",
+            },
+        }
+
+        mapping = identifier_mapping.get(device_identifier)
+        if not mapping:
+            self.log(
+                f"Invalid device_identifier '{device_identifier}'. Defaulting to 'serial_number'.",
+                "WARNING",
+            )
+            mapping = identifier_mapping["serial_number"]
+
+        api_field = mapping["api_field"]
+        output_key = mapping["output_key"]
+
+        self.log(
+            f"Using API field '{api_field}' to populate output key '{output_key}'",
+            "DEBUG",
+        )
+
         device_details = []
         network_device_members = tag_membership_details.get(
             "network_device_members", []
@@ -1447,28 +1782,35 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 f"Network device members found: {self.pprint(network_device_members)}",
                 "DEBUG",
             )
-            network_device_serial_numbers = []
+
+            self.log(
+                f"Extracting field '{api_field}' from network device members to populate '{output_key}'",
+                "DEBUG",
+            )
+
+            network_device_identifiers = []
 
             for index, network_device_member in enumerate(
                 network_device_members, start=1
             ):
-                serial_number = network_device_member.get("serialNumber")
+                identifier_value = network_device_member.get(api_field)
                 self.log(
-                    f"Processing network device member {index}/{len(network_device_members)}: serial_number='{serial_number}'",
+                    f"Processing network device member {index}/{len(network_device_members)}: {api_field}='{identifier_value}'",
                     "DEBUG",
                 )
-                network_device_serial_numbers.append(serial_number)
+                network_device_identifiers.append(identifier_value)
 
             self.log(
-                f"Collected {len(network_device_serial_numbers)} network device serial numbers",
+                f"Collected {len(network_device_identifiers)} network device {output_key}",
                 "INFO",
             )
             device_details.append(
                 {
-                    "serial_numbers": network_device_serial_numbers,
+                    output_key: network_device_identifiers,
                 }
             )
 
+        self.log(self.pprint(device_details), "DEBUG")
         interface_members = tag_membership_details.get("interface_members", [])
         if not interface_members:
             self.log(
@@ -1480,7 +1822,13 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 f"Interface members found: {self.pprint(interface_members)}",
                 "DEBUG",
             )
-            parent_network_device_serial_numbers = []
+
+            self.log(
+                f"Extracting field '{api_field}' from interface members' parent devices to populate '{output_key}'",
+                "DEBUG",
+            )
+
+            parent_network_device_identifiers = []
             device_to_ports_mapping = defaultdict(list)
 
             for index, interface_member in enumerate(interface_members, start=1):
@@ -1493,10 +1841,10 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 parent_device_info = self.get_device_details(parent_network_device_id)
                 if parent_device_info:
-                    parent_serial_number = parent_device_info.get("serialNumber")
-                    parent_network_device_serial_numbers.append(parent_serial_number)
+                    parent_identifier_value = parent_device_info.get(api_field)
+                    parent_network_device_identifiers.append(parent_identifier_value)
                     self.log(
-                        f"Retrieved parent device info for device_id '{parent_network_device_id}': serial_number='{parent_serial_number}'",
+                        f"Retrieved parent device info for device_id '{parent_network_device_id}': {api_field}='{parent_identifier_value}'",
                         "DEBUG",
                     )
                 else:
@@ -1504,14 +1852,12 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
-                parent_network_device_serial_number = parent_device_info.get(
-                    "serialNumber"
-                )
-                device_to_ports_mapping[parent_network_device_serial_number].append(
+                parent_network_device_identifier = parent_device_info.get(api_field)
+                device_to_ports_mapping[parent_network_device_identifier].append(
                     port_name
                 )
                 self.log(
-                    f"Added port '{port_name}' to device '{parent_network_device_serial_number}'",
+                    f"Added port '{port_name}' to device '{parent_network_device_identifier}'",
                     "DEBUG",
                 )
 
@@ -1520,14 +1866,14 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO",
             )
 
-            for device_serial_number, port_names in device_to_ports_mapping.items():
+            for device_identifier_value, port_names in device_to_ports_mapping.items():
                 self.log(
-                    f"Creating device entry for serial_number '{device_serial_number}' with {len(port_names)} port(s)",
+                    f"Creating device entry for {api_field} '{device_identifier_value}' with {len(port_names)} port(s)",
                     "DEBUG",
                 )
                 device_details.append(
                     {
-                        "serial_numbers": [device_serial_number],
+                        output_key: [device_identifier_value],
                         "port_names": port_names,
                     }
                 )
