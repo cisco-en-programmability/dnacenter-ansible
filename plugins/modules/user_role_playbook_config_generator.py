@@ -74,6 +74,7 @@ options:
         choices:
         - overwrite
         - append
+        default: overwrite
       generate_all_configurations:
         description:
         - When set to C(true), automatically generates YAML
@@ -92,19 +93,6 @@ options:
           and disaster recovery planning.
         type: bool
         default: false
-      file_path:
-        description:
-        - Absolute or relative path where the YAML configuration
-          file will be saved.
-        - If not provided, the file is saved in the current working
-          directory with auto-generated filename.
-        - Default filename pattern is
-          C(user_role_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example,
-          C(user_role_playbook_config_2025-04-22_21-43-26.yml).
-        - The directory path must exist and be writable.
-        - Supports absolute paths (e.g., C(/tmp/config.yml)) and
-          relative paths (e.g., C(./configs/users.yml)).
         type: str
       component_specific_filters:
         description:
