@@ -21,10 +21,7 @@
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          - generate_all_configurations: true
-            file_path: /Users/priyadharshini/Downloads/events_and_notifications_playbook1
-            component_specific_filters:
-              components_list: ["email_destinations"]
-              destination_filters:
-                destination_names: ["webhook demo 101"]
-                destination_types: ["webhook"]
+          generate_all_configurations: true
+          file_path: /Users/priyadharshini/Downloads/events_and_notifications_playbook1
+          component_specific_filters:
+            components_list: ["webhook_destinations", "email_destinations", "syslog_destinations", "syslog_event_notifications"]

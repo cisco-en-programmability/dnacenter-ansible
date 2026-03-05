@@ -1,10 +1,8 @@
 {
-  "playbook_generate_all_configurations": [
-    {
+  "playbook_generate_all_configurations": {
       "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
       "generate_all_configurations": true
-    }
-  ],
+  },
   "webhook_destinations": {
     "errorMessage": {
       
@@ -608,8 +606,7 @@
       "tenantId": "SYS0"
     }
   ],
-  "playbook_component_specific_filters": [
-    {
+  "playbook_component_specific_filters": {
       "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
       "component_specific_filters": {
         "components_list": [
@@ -617,8 +614,7 @@
           "webhook_event_notifications"
         ]
       }
-    }
-  ],
+  },
   "webhook_destinations1": {
     "errorMessage": {
       
@@ -812,8 +808,7 @@
       "tenantId": "SYS0"
     }
   ],
-  "playbook_invalid_filter": [
-    {
+  "playbook_invalid_filter": {
       "component_specific_filters": {
         "components_list": [
           "webhook_destinatio",
@@ -821,10 +816,8 @@
         ]
       },
       "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook"
-    }
-  ],
-  "playbook_specific_filter": [
-    {
+  },
+  "playbook_specific_filter": {
       "component_specific_filters": {
         "components_list": [
           "webhook_destinations"
@@ -839,8 +832,7 @@
         }
       },
       "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook"
-    }
-  ],
+  },
   "webhook": {
     "errorMessage": {
       
