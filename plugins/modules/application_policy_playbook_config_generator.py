@@ -529,20 +529,20 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return self
 
-    def write_dict_to_yaml(self, data_dict, file_path,
-                           dumper=OrderedDumper, file_mode="overwrite"):
+    def write_dict_to_yaml_with_mode(self, data_dict, file_path,
+                                     file_mode="overwrite", dumper=OrderedDumper):
         """
         Converts a dictionary to YAML format and writes it to a specified file path.
 
-        Overrides the parent write_dict_to_yaml to add file_mode support.
+        Extends the parent write_dict_to_yaml to add file_mode support.
 
         Args:
             data_dict (dict): The dictionary to convert to YAML format.
             file_path (str): The path where the YAML file will be written.
-            dumper: The YAML dumper class to use for serialization
-                (default is OrderedDumper).
             file_mode (str): The file write mode - "overwrite" or "append"
                 (default is "overwrite").
+            dumper: The YAML dumper class to use for serialization
+                (default is OrderedDumper).
 
         Returns:
             bool: True if the YAML file was successfully written, False otherwise.
@@ -4525,7 +4525,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Write to YAML file
             file_mode = yaml_config_generator.get("file_mode", "overwrite")
-            success = self.write_dict_to_yaml(
+            success = self.write_dict_to_yaml_with_mode(
                 final_output, file_path, file_mode=file_mode
             )
 
