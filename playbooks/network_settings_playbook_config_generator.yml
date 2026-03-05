@@ -71,7 +71,7 @@
             components_list: ["global_pool_details"]
             global_pool_details:
               - pool_type: Generic
-              - pool_name: VN4-POOL1
+                pool_name: VN4-POOL1
 
     # Task 2: Reserve Pool Details Only
     - name: Extract reserve pool configurations

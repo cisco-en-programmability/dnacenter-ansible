@@ -93,14 +93,20 @@ options:
                      "device_controllability_details"]
           global_pool_details:
             description:
-            - Global IP Pools to filter by pool name or pool type.
+            - Filter criteria for Global IP Pools. Each list item is a filter dict.
+            - Within each filter dict, all keys use B(AND) logic (e.g., C(pool_name) AND C(pool_type) must both match).
+            - Across filter dicts, B(OR) logic is applied (a pool is included if it matches ANY filter dict).
+            - "Example: C(- pool_name: X, pool_type: LAN) and C(- pool_name: Y, pool_type: Generic) will include
+              pools matching (name=X AND type=LAN) OR (name=Y AND type=Generic)."
+            - If C(global_pool_details) sub-filter is not provided under C(component_specific_filters),
+              all global pools are included.
             type: list
             elements: dict
             required: false
             suboptions:
               pool_name:
                 description:
-                - IP Pool name to filter global pools by name.
+                - IP Pool name to filter global pools by exact name match.
                 type: str
                 required: false
               pool_type:
@@ -131,14 +137,20 @@ options:
           network_management_details:
             description:
             - Network management settings to filter by site.
+            - If C(network_management_details) sub-filter is not provided under C(component_specific_filters),
+              the module defaults to retrieving settings for the B(Global) (root) site only.
+            - To retrieve settings for specific sites, provide a C(site_name_list) with the desired site names.
             type: list
             elements: dict
             required: false
             suboptions:
               site_name_list:
                 description:
-                - Site name to filter network management settings by site.
-                type: str
+                - List of site names to filter network management settings by site.
+                - Each site name must be the full hierarchy path (e.g., C(Global/USA), C(Global/USA/California)).
+                - If not provided, defaults to the B(Global) (root) site only.
+                type: list
+                elements: str
                 required: false
           device_controllability_details:
             description:
@@ -2535,6 +2547,29 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return None
 
+    def is_component_data_empty(self, data):
+        """
+        Check if component data is effectively empty.
+
+        Detects direct empty values (None, [], {}) as well as nested structures
+        where all leaf values are empty (e.g., {"settings": {"ip_pool": []}}).
+
+        Args:
+            data: The component data to check.
+
+        Returns:
+            bool: True if the data is empty or contains only empty collections.
+        """
+        if data is None:
+            return True
+        if isinstance(data, list):
+            return len(data) == 0
+        if isinstance(data, dict):
+            if not data:
+                return True
+            return all(self.is_component_data_empty(v) for v in data.values())
+        return False
+
     def reset_operation_tracking(self):
         """
         Reset operation tracking variables for a new brownfield configuration generation operation.
@@ -3202,26 +3237,23 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Apply component-specific filters
             if component_specific_filters:
-                self.log("Applying component-specific filters with AND logic across {0} filter "
-                         "criteria".format(len(component_specific_filters)),
-                         "INFO")
+                self.log(
+                    "Applying component-specific filters: AND within each filter dict, "
+                    "OR across {0} filter dicts".format(len(component_specific_filters)),
+                    "INFO"
+                )
 
-                # Component filters should work as AND operation across all filter criteria
-                # Each pool must satisfy ALL the filter criteria to be included
-                final_filtered_pools = []
+                # Each filter dict is evaluated independently with AND logic for its keys.
+                # A pool is included if it matches ANY filter dict (OR across dicts).
+                # Example:
+                #   - pool_name: "VN4-POOL1", pool_type: "LAN"   → name AND type must match
+                #   - pool_name: "WSClients_V6", pool_type: "Generic" → name AND type must match
+                # A pool passes if it matches filter 1 OR filter 2.
 
-                # Collect all filter criteria from all filter objects
-                all_pool_name_filters = []
-                all_pool_type_filters = []
-
-                for filter_param in component_specific_filters:
-                    if "pool_name" in filter_param:
-                        all_pool_name_filters.append(filter_param["pool_name"])
-                    if "pool_type" in filter_param:
-                        all_pool_type_filters.append(filter_param["pool_type"])
-
-                self.log("Collected filter criteria - pool_names: {0}, pool_types: {1}".format(
-                    all_pool_name_filters, all_pool_type_filters), "DEBUG")
+                self.log(
+                    "Filter dicts to evaluate: {0}".format(component_specific_filters),
+                    "DEBUG"
+                )
 
                 final_filtered_pools = []
                 pools_filtered_by_component = 0
@@ -3229,54 +3261,54 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 for pool in filtered_pools:
                     pool_name = pool.get("name")
                     pool_type = pool.get("poolType")
-                    matches_all_criteria = True
+                    pool_matched = False
 
-                    # Check name criteria (pool must match at least one name if specified)
-                    if all_pool_name_filters:
-                        if pool_name not in all_pool_name_filters:
-                            matches_all_criteria = False
-                            pools_filtered_by_component += 1
+                    for filter_idx, filter_dict in enumerate(component_specific_filters, start=1):
+                        filter_name = filter_dict.get("pool_name")
+                        filter_type = filter_dict.get("pool_type")
+
+                        # AND logic within this filter dict
+                        name_match = True
+                        type_match = True
+
+                        if filter_name is not None:
+                            name_match = (pool_name == filter_name)
+
+                        if filter_type is not None:
+                            type_match = (pool_type == filter_type)
+
+                        if name_match and type_match:
+                            pool_matched = True
                             self.log(
-                                "Pool '{0}' does not match component name filter: {1}".format(
-                                    pool_name, all_pool_name_filters
+                                "Pool '{0}' (type: '{1}') matched filter dict {2}: {3}".format(
+                                    pool_name, pool_type, filter_idx, filter_dict
+                                ),
+                                "DEBUG"
+                            )
+                            break  # OR logic — first matching filter dict is enough
+                        else:
+                            self.log(
+                                "Pool '{0}' (type: '{1}') did not match filter dict {2}: "
+                                "{3} (name_match={4}, type_match={5})".format(
+                                    pool_name, pool_type, filter_idx, filter_dict,
+                                    name_match, type_match
                                 ),
                                 "DEBUG"
                             )
 
-                    # Check type criteria (pool must match at least one type if specified)
-                    if all_pool_type_filters and matches_all_criteria:
-                        if pool_type not in all_pool_type_filters:
-                            matches_all_criteria = False
-                            pools_filtered_by_component += 1
-                            self.log(
-                                "Pool '{0}' (type: '{1}') does not match component type "
-                                "filter: {2}".format(
-                                    pool_name, pool_type, all_pool_type_filters
-                                ),
-                                "DEBUG"
-                            )
-
-                    # Additional AND logic: if both name and type filters exist,
-                    # pool must satisfy both criteria
-                    if matches_all_criteria and all_pool_name_filters and all_pool_type_filters:
-                        name_match = pool_name in all_pool_name_filters
-                        type_match = pool_type in all_pool_type_filters
-
-                        if not (name_match and type_match):
-                            matches_all_criteria = False
-                            pools_filtered_by_component += 1
-                            self.log(
-                                "Pool '{0}' (type: '{1}') does not satisfy both name AND "
-                                "type criteria".format(pool_name, pool_type),
-                                "DEBUG"
-                            )
-
-                    if matches_all_criteria:
+                    if pool_matched:
                         final_filtered_pools.append(pool)
                         self.log(
-                            "Pool '{0}' (type: '{1}') matched ALL component-specific filter "
-                            "criteria".format(pool_name, pool_type),
+                            "Pool '{0}' (type: '{1}') INCLUDED - matched component-specific "
+                            "filter criteria".format(pool_name, pool_type),
                             "INFO"
+                        )
+                    else:
+                        pools_filtered_by_component += 1
+                        self.log(
+                            "Pool '{0}' (type: '{1}') EXCLUDED - did not match any "
+                            "component-specific filter dict".format(pool_name, pool_type),
+                            "DEBUG"
                         )
 
                 final_global_pools = final_filtered_pools
@@ -3290,9 +3322,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO"
                 )
-
-                final_global_pools = final_filtered_pools
-                self.log("Applied component-specific filters with AND logic, final pools: {0}".format(len(final_global_pools)), "DEBUG")
             else:
                 self.log(
                     "No component-specific filters specified - using {0} pools from "
@@ -9724,12 +9753,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "total_sites_processed": 0,
                     "total_components_processed": 0,
                     "total_successful_operations": 0,
-                    "total_failed_operations": 0,
-                    "sites_with_complete_success": [],
-                    "sites_with_partial_success": [],
-                    "sites_with_complete_failure": [],
-                    "success_details": [],
-                    "failure_details": []
+                    "total_failed_operations": 0
                 }
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
@@ -9886,6 +9910,15 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             component_details = details[component]
 
+            # Skip components that returned no meaningful data
+            if self.is_component_data_empty(component_details):
+                self.log(
+                    "Component '{0}' returned no data — no matching configurations found "
+                    "in Catalyst Center for the given filters. Skipping this component.".format(component),
+                    "WARNING"
+                )
+                continue
+
             if isinstance(component_details, list):
                 self.log(
                     "Component '{0}' returned list with {1} item(s)".format(
@@ -9987,6 +10020,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         consolidated_operation_summary["total_sites_processed"] = len(all_sites)
 
+        # Build slim summary with only totals for msg/response output
+        slim_operation_summary = {
+            "total_sites_processed": consolidated_operation_summary["total_sites_processed"],
+            "total_components_processed": consolidated_operation_summary["total_components_processed"],
+            "total_successful_operations": consolidated_operation_summary["total_successful_operations"],
+            "total_failed_operations": consolidated_operation_summary["total_failed_operations"]
+        }
+
         self.log(
             "Component processing loop completed. Processed {0} component(s), "
             "generated {1} configuration entry/entries, tracked {2} unique site(s)".format(
@@ -10009,7 +10050,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.msg = {
                 "message": "No configurations or components to process for module '{0}'. "
                 "Verify input filters or configuration.".format(self.module_name),
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": slim_operation_summary
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
@@ -10028,7 +10069,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not final_list:
             self.msg = {
                 "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(self.module_name),
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": slim_operation_summary
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
@@ -10072,7 +10113,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "file_path": file_path,
                 "configurations_generated": len(final_list),
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": slim_operation_summary
             }
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
@@ -10096,7 +10137,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "file_path": file_path,
                 "error": error_msg,
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": slim_operation_summary
             }
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
