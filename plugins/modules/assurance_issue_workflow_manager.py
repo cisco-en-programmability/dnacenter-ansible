@@ -891,7 +891,7 @@ response_create:
           "lastUpdatedTime": 1672617600
       }
   }
-#Case 2: Successful updation of issue
+#Case 2: Successful update of issue
 response_update:
   description: Details of the response returned by the assurance settings update API.
   returned: always
