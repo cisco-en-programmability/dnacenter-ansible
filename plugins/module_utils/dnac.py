@@ -1749,14 +1749,16 @@ class DnacBase():
             function='get_task_tree',
             params={"task_id": task_id}
         )
-        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {0}, Response: {1}"
-                 .format(task_id, response), "DEBUG")
+        self.log(f"Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, "
+                 f"and failure reason set to '{all_failure_reason}', "
+                 f"Response: {self.pprint(response)}", "DEBUG")
+
         error_msg = ""
         if response and isinstance(response, dict):
             result = response.get('response')
             error_messages = []
 
-            if all_failure_reason:
+            if all_failure_reason is True:
                 for item in result:
                     if item.get("isError") is True:
                         error_messages.append(item.get("failureReason"))
@@ -2258,7 +2260,7 @@ class DnacBase():
                 if status == "FAILURE":
                     get_task_details_response = self.get_task_details_by_id(task_id)
                     failure_reason = get_task_details_response.get("failureReason")
-                    if all_reasons:
+                    if all_reasons is True:
                         self.msg = self.check_task_tree_response(task_id, True)
                     else:
                         if failure_reason:
