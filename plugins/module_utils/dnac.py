@@ -49,6 +49,7 @@ class DnacBase():
         self.module = module
         module.deprecate(
             msg="The cisco.dnac collection is deprecated. Please migrate to cisco.catalystcenter.",
+            version="7.0.0",
             collection_name="cisco.dnac",
         )
         self.params = module.params
