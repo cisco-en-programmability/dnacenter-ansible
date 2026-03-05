@@ -36,13 +36,12 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `network_settings_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `network_settings_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - Global filters identify target settings by site name, pool name, or pool type.
     - Component-specific filters allow selection of specific network setting features and detailed filtering.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -64,6 +63,14 @@ options:
         - For example, C(network_settings_playbook_config_2026-01-24_12-33-20.yml).
         type: str
         required: false
+      file_mode:
+        description:
+        - Controls how config is written to the YAML file.
+        - C(overwrite) replaces existing file content.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
       component_specific_filters:
         description:
         - Filters to specify which network settings components and features to include in the YAML configuration file.
@@ -180,8 +187,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - component_specific_filters:
-          components_list: ["global_pool_details"]
+      component_specific_filters:
+        components_list: ["global_pool_details"]
 
 - name: Generate YAML Configuration for specific sites
   cisco.dnac.network_settings_playbook_config_generator:
@@ -196,9 +203,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/network_settings_config.yml"
-        component_specific_filters:
-          components_list: ["reserve_pool_details"]
+      file_path: "/tmp/network_settings_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["reserve_pool_details"]
 
 - name: Generate YAML Configuration using explicit components list
   cisco.dnac.network_settings_playbook_config_generator:
@@ -213,9 +221,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/network_settings_config.yml"
-        component_specific_filters:
-          components_list: ["network_management_details"]
+      file_path: "/tmp/network_settings_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["network_management_details"]
 
 - name: Generate YAML Configuration for global pools with no filters
   cisco.dnac.network_settings_playbook_config_generator:
@@ -230,9 +239,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/network_settings_config.yml"
-        component_specific_filters:
-          components_list: ["device_controllability_details"]
+      file_path: "/tmp/network_settings_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["device_controllability_details"]
 
 - name: Generate YAML Configuration for reserve pools using site hierarchy
   cisco.dnac.network_settings_playbook_config_generator:
@@ -247,11 +257,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/reserve_pools_usa.yml"
-        component_specific_filters:
-          components_list: ["reserve_pool_details"]
-          reserve_pool_details:
-            - site_hierarchy: "Global/USA"
+      file_path: "/tmp/reserve_pools_usa.yml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["reserve_pool_details"]
+        reserve_pool_details:
+          - site_hierarchy: "Global/USA"
 """
 
 RETURN = r"""
@@ -369,7 +380,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -462,45 +472,28 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         temp_spec = {
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"]
+            },
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
-        allowed_keys = set(temp_spec.keys())
+        # Validate params
+        self.log("Validating configuration against schema", "DEBUG")
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
-        # Validate that only allowed keys are present in the configuration
-        for config_item in self.config:
-            if not isinstance(config_item, dict):
-                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
 
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
+        self.log("Validating minimum requirements for configuration", "DEBUG")
         self.validate_minimum_requirements(self.config)
 
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
         # Set the validated configuration and update the result with success status
-        self.validated_config = valid_temp
+        self.validated_config = self.config
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
             str(valid_temp)
         )
@@ -9576,58 +9569,17 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
         else:
-            # Validate file_path is a string
-            if not isinstance(file_path, str):
-                error_msg = (
-                    "Invalid file_path parameter - expected str, got {0}. "
-                    "Cannot proceed with YAML generation.".format(
-                        type(file_path).__name__
-                    )
-                )
-                self.log(error_msg, "ERROR")
-                self.msg = {
-                    "message": "YAML config generation failed for module '{0}' - invalid file_path parameter.".format(
-                        self.module_name
-                    ),
-                    "error": error_msg
-                }
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
             self.log(
                 "Using user-provided file path for YAML output: {0}".format(file_path),
-                "INFO"
+                "DEBUG"
             )
 
-            # Validate file path is writable
-            import os
-            directory = os.path.dirname(file_path)
-            if directory and not os.path.exists(directory):
-                self.log(
-                    "Output directory does not exist: {0}. Attempting to create it.".format(
-                        directory
-                    ),
-                    "WARNING"
-                )
-                try:
-                    os.makedirs(directory, exist_ok=True)
-                    self.log(
-                        "Successfully created output directory: {0}".format(directory),
-                        "INFO"
-                    )
-                except Exception as e:
-                    error_msg = "Failed to create output directory: {0}. Error: {1}".format(
-                        directory, str(e)
-                    )
-                    self.log(error_msg, "ERROR")
-                    self.msg = {
-                        "message": "YAML config generation failed for module '{0}' - cannot create output directory.".format(
-                            self.module_name
-                        ),
-                        "error": error_msg
-                    }
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+
+        self.log(
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
+            "DEBUG"
+        )
 
         # Initialize filter dictionaries based on mode
         if generate_all:
@@ -10087,7 +10039,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO"
         )
 
-        write_success = self.write_dict_to_yaml(final_dict, file_path)
+        write_success = self.write_dict_to_yaml(final_dict, file_path, file_mode)
 
         if write_success:
             self.log(
@@ -10453,7 +10405,7 @@ def main():
             - dnac_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
-            - config (list[dict], required): Configuration parameters list
+            - config (dict, required): Configuration parameters dictionary
             - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
@@ -10569,8 +10521,7 @@ def main():
         # ============================================
         "config": {
             "required": True,
-            "type": "list",
-            "elements": "dict"
+            "type": "dict",
         },
         "state": {
             "default": "gathered",
@@ -10714,56 +10665,25 @@ def main():
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ============================================
-    config_list = ccc_network_settings_playbook_generator.validated_config
+    config = ccc_network_settings_playbook_generator.validated_config
 
     ccc_network_settings_playbook_generator.log(
-        "Starting configuration processing loop - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        "Processing configuration for state '{0}'".format(state),
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        ccc_network_settings_playbook_generator.log(
-            "Processing configuration item {0}/{1} for state '{2}'".format(
-                config_index, len(config_list), state
-            ),
-            "INFO"
-        )
+    ccc_network_settings_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
 
-        # Reset values for clean state between configurations
-        ccc_network_settings_playbook_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_network_settings_playbook_generator.reset_values()
+    ccc_network_settings_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
-        # Collect desired state (want) from configuration
-        ccc_network_settings_playbook_generator.log(
-            "Collecting desired state parameters from configuration item {0}".format(
-                config_index
-            ),
-            "DEBUG"
-        )
-        ccc_network_settings_playbook_generator.get_want(
-            config, state
-        ).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        ccc_network_settings_playbook_generator.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1}".format(state, config_index),
-            "INFO"
-        )
-        ccc_network_settings_playbook_generator.get_diff_state_apply[state]().check_return_status()
-
-        ccc_network_settings_playbook_generator.log(
-            "Successfully completed processing for configuration item {0}/{1}".format(
-                config_index, len(config_list)
-            ),
-            "INFO"
-        )
+    ccc_network_settings_playbook_generator.log(
+        "Successfully completed processing configuration",
+        "INFO"
+    )
 
     # ============================================
     # Module Completion and Exit
@@ -10778,11 +10698,9 @@ def main():
 
     ccc_network_settings_playbook_generator.log(
         "Module execution completed successfully at timestamp {0}. Total execution "
-        "time: {1:.2f} seconds. Processed {2} configuration item(s) with final "
-        "status: {3}".format(
+        "time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            len(config_list),
             ccc_network_settings_playbook_generator.status
         ),
         "INFO"
