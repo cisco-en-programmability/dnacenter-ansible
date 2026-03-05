@@ -1240,6 +1240,11 @@ class BrownFieldHelper:
         """
         try:
             import psutil
+        except ImportError:
+            self.log("psutil not available - cannot retrieve ansible command", "WARNING")
+            return "Unknown"
+
+        try:
             current_process = psutil.Process()
 
             # Traverse up the process tree to find ansible-playbook command
