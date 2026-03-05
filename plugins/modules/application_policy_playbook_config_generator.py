@@ -33,11 +33,10 @@ options:
     default: gathered
   config:
     description:
-      - A list of filters for generating YAML playbook compatible with the 'application_policy_workflow_manager'
+      - A dictionary of filters for generating YAML playbook compatible with the 'application_policy_workflow_manager'
         module.
       - Filters specify which components to include in the YAML configuration file.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -56,6 +55,15 @@ options:
             a default file name "application_policy_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
         type: str
         required: false
+      file_mode:
+        description:
+          - Specifies the file write mode for the generated YAML configuration file.
+          - When set to "overwrite", the file will be created or replaced if it already exists.
+          - When set to "append", the new configurations will be appended to the existing file.
+        type: str
+        required: false
+        default: overwrite
+        choices: ["overwrite", "append"]
       component_specific_filters:
         description:
           - Filters to specify which application policy components to include in the YAML configuration file.
@@ -128,7 +136,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
 
 - name: Generate configurations with custom file path
   cisco.dnac.application_policy_playbook_config_generator:
@@ -143,7 +151,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/app_policy_config.yml"
+      file_path: "/tmp/app_policy_config.yml"
 
 - name: Generate specific queuing profiles
   cisco.dnac.application_policy_playbook_config_generator:
@@ -158,11 +166,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/queuing_profiles.yml"
-        component_specific_filters:
-          components_list: ["queuing_profile"]
-          queuing_profile:
-            profile_names_list: ["Enterprise-QoS-Profile", "Wireless-QoS"]
+      file_path: "/tmp/queuing_profiles.yml"
+      component_specific_filters:
+        components_list: ["queuing_profile"]
+        queuing_profile:
+          profile_names_list: ["Enterprise-QoS-Profile", "Wireless-QoS"]
 
 - name: Generate specific application policies
   cisco.dnac.application_policy_playbook_config_generator:
@@ -177,11 +185,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/app_policies.yml"
-        component_specific_filters:
-          components_list: ["application_policy"]
-          application_policy:
-            policy_names_list: ["wired_traffic_policy"]
+      file_path: "/tmp/app_policies.yml"
+      component_specific_filters:
+        components_list: ["application_policy"]
+        application_policy:
+          policy_names_list: ["wired_traffic_policy"]
 
 - name: Generate both queuing profiles and policies with filters
   cisco.dnac.application_policy_playbook_config_generator:
@@ -196,13 +204,31 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/complete_app_policy_config.yml"
-        component_specific_filters:
-          components_list: ["queuing_profile", "application_policy"]
-          queuing_profile:
-            profile_names_list: ["Enterprise-QoS-Profile"]
-          application_policy:
-            policy_names_list: ["wired_traffic_policy", "wireless_traffic_policy"]
+      file_path: "/tmp/complete_app_policy_config.yml"
+      component_specific_filters:
+        components_list: ["queuing_profile", "application_policy"]
+        queuing_profile:
+          profile_names_list: ["Enterprise-QoS-Profile"]
+        application_policy:
+          policy_names_list: ["wired_traffic_policy", "wireless_traffic_policy"]
+
+- name: Generate configurations in append mode
+  cisco.dnac.application_policy_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    config:
+      file_path: "/tmp/app_policy_config.yml"
+      file_mode: append
+      component_specific_filters:
+        components_list: ["queuing_profile"]
 """
 
 RETURN = r"""
@@ -290,7 +316,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Returns:
             self: Instance with updated attributes:
-                - self.validated_config: Validated configuration list
+                - self.validated_config: Validated configuration dictionary
                 - self.msg: Validation result message
                 - self.status: Operation status (success/failed)
         """
@@ -306,14 +332,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             return self
 
         self.log(
-            "Configuration parameter 'config' is present with {0} configuration "
-            "item(s) to validate".format(len(self.config)),
-            "DEBUG"
-        )
-
-        self.log(
-            "Defining temporary specification (temp_spec) for allowed top-level "
-            "configuration parameters",
+            "Configuration parameter 'config' is present - validating structure",
             "DEBUG"
         )
 
@@ -327,149 +346,57 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "type": "str",
                 "required": False
             },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite"
+            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
             },
         }
-        allowed_keys = set(temp_spec.keys())
+
+        # Validate invalid parameters using brownfield_helper's validate_invalid_params
+        self.log(
+            "Validating top-level parameters using validate_invalid_params",
+            "DEBUG"
+        )
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        # Validate file_mode choices
+        file_mode = self.config.get("file_mode", "overwrite")
+        valid_file_modes = ["overwrite", "append"]
+        if file_mode not in valid_file_modes:
+            self.msg = (
+                "Invalid file_mode '{0}'. Allowed values are: {1}.".format(
+                    file_mode, valid_file_modes
+                )
+            )
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
 
         self.log(
-            "Temporary specification defined with {0} allowed top-level parameters: "
-            "{1}".format(len(allowed_keys), list(allowed_keys)),
+            "file_mode validation passed: '{0}'".format(file_mode),
             "DEBUG"
         )
 
-        # Validate that only allowed keys are present in the configuration
-        for config_index, config_item in enumerate(self.config, start=1):
-            self.log(
-                "Validating configuration item {0}/{1} - checking if item is a "
-                "dictionary".format(config_index, len(self.config)),
-                "DEBUG"
-            )
-
-            if not isinstance(config_item, dict):
-                self.log(
-                    "Configuration item {0}/{1} failed type validation - expected "
-                    "dict but got {2}".format(
-                        config_index, len(self.config), type(config_item).__name__
-                    ),
-                    "ERROR"
-                )
-
-                self.msg = (
-                    "Configuration item must be a dictionary, got: {0}".format(
-                        type(config_item).__name__
-                    )
-                )
-
-                self.log(
-                    "Setting operation result to failed due to invalid configuration "
-                    "item type. Error message: {0}".format(self.msg),
-                    "ERROR"
-                )
-
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            self.log(
-                "Configuration item {0}/{1} passed type validation - is a dictionary "
-                "with keys: {2}".format(
-                    config_index, len(self.config), list(config_item.keys())
-                ),
-                "DEBUG"
-            )
-
-            # Check for invalid keys at top level
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            self.log(
-                "Checking configuration item {0}/{1} for invalid top-level keys. "
-                "Found keys: {2}, Allowed keys: {3}, Invalid keys: {4}".format(
-                    config_index, len(self.config), list(config_keys),
-                    list(allowed_keys), list(invalid_keys) if invalid_keys else "none"
-                ),
-                "DEBUG"
-            )
-
-            if invalid_keys:
-                self.log(
-                    "Configuration item {0}/{1} contains {2} invalid top-level "
-                    "parameter(s): {3}. Only these parameters are allowed: {4}".format(
-                        config_index, len(self.config), len(invalid_keys),
-                        list(invalid_keys), list(allowed_keys)
-                    ),
-                    "ERROR"
-                )
-
-                self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
-                    )
-                )
-
-                self.log(
-                    "Setting operation result to failed due to invalid top-level "
-                    "parameters and calling check_return_status to exit. Error "
-                    "message: {0}".format(self.msg),
-                    "ERROR"
-                )
-
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
-
-            self.log(
-                "Configuration item {0}/{1} passed top-level key validation - all "
-                "keys are allowed".format(config_index, len(self.config)),
-                "DEBUG"
-            )
-
         # Validate component_specific_filters nested parameters
         self.log(
-            "Beginning validation of component_specific_filters nested parameters "
-            "for all configuration items",
+            "Validating component_specific_filters nested parameters",
             "DEBUG"
         )
 
         allowed_component_filter_keys = ["components_list", "queuing_profile", "application_policy"]
         allowed_component_choices = ["queuing_profile", "application_policy"]
 
-        self.log(
-            "Allowed component_specific_filters keys: {0}".format(
-                allowed_component_filter_keys
-            ),
-            "DEBUG"
-        )
+        component_filters = self.config.get("component_specific_filters", {})
 
-        self.log(
-            "Allowed component choices for components_list: {0}".format(
-                allowed_component_choices
-            ),
-            "DEBUG"
-        )
-
-        for config_index, config_item in enumerate(self.config, start=1):
-            component_filters = config_item.get("component_specific_filters", {})
-
-            if not component_filters:
-                self.log(
-                    "Configuration item {0}/{1} does not contain "
-                    "component_specific_filters - skipping nested validation".format(
-                        config_index, len(self.config)
-                    ),
-                    "DEBUG"
-                )
-                continue
-
+        if component_filters:
             self.log(
-                "Configuration item {0}/{1} contains component_specific_filters - "
-                "validating nested structure with keys: {2}".format(
-                    config_index, len(self.config), list(component_filters.keys())
-                ),
+                "component_specific_filters present - validating nested structure "
+                "with keys: {0}".format(list(component_filters.keys())),
                 "DEBUG"
             )
 
@@ -477,25 +404,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             filter_keys = set(component_filters.keys())
             invalid_filter_keys = filter_keys - set(allowed_component_filter_keys)
 
-            self.log(
-                "Checking component_specific_filters for invalid keys. Found keys: "
-                "{0}, Allowed keys: {1}, Invalid keys: {2}".format(
-                    list(filter_keys), allowed_component_filter_keys,
-                    list(invalid_filter_keys) if invalid_filter_keys else "none"
-                ),
-                "DEBUG"
-            )
-
             if invalid_filter_keys:
-                self.log(
-                    "Configuration item {0}/{1} component_specific_filters contains "
-                    "{2} invalid key(s): {3}. Allowed keys: {4}".format(
-                        config_index, len(self.config), len(invalid_filter_keys),
-                        list(invalid_filter_keys), allowed_component_filter_keys
-                    ),
-                    "ERROR"
-                )
-
                 self.msg = (
                     "Invalid keys found in 'component_specific_filters': {0}. "
                     "Only the following keys are allowed: {1}. "
@@ -503,51 +412,24 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                         list(invalid_filter_keys), allowed_component_filter_keys
                     )
                 )
-
-                self.log(
-                    "Setting operation result to failed due to invalid "
-                    "component_specific_filters keys and calling check_return_status "
-                    "to exit. Error message: {0}".format(self.msg),
-                    "ERROR"
-                )
-
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
-            self.log(
-                "Configuration item {0}/{1} component_specific_filters passed key "
-                "validation".format(config_index, len(self.config)),
-                "DEBUG"
-            )
-
             # Validate components_list values
             components_list = component_filters.get("components_list", [])
             if components_list:
-                self.log(
-                    "Configuration item {0}/{1} contains components_list with {2} "
-                    "component(s): {3}".format(
-                        config_index, len(self.config), len(components_list),
-                        components_list
-                    ),
-                    "DEBUG"
-                )
-
                 if not isinstance(components_list, list):
-                    self.msg = "'components_list' must be a list, got: {0}".format(type(components_list).__name__)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = (
+                        "'components_list' must be a list, got: {0}".format(
+                            type(components_list).__name__
+                        )
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
                 invalid_components = set(components_list) - set(allowed_component_choices)
-
-                self.log(
-                    "Validating component names in components_list. Found "
-                    "components: {0}, Allowed: {1}, Invalid: {2}".format(
-                        components_list, allowed_component_choices,
-                        list(invalid_components) if invalid_components else "none"
-                    ),
-                    "DEBUG"
-                )
-
                 if invalid_components:
                     self.msg = (
                         "Invalid component names found in 'components_list': {0}. "
@@ -556,42 +438,25 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                             list(invalid_components), allowed_component_choices
                         )
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                self.log(
-                    "Configuration item {0}/{1} components_list passed validation - "
-                    "all component names are valid".format(
-                        config_index, len(self.config)
-                    ),
-                    "DEBUG"
-                )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
                 # Validate queuing_profile nested parameters
                 queuing_profile = component_filters.get("queuing_profile", {})
                 if queuing_profile:
-                    self.log(
-                        "Configuration item {0}/{1} contains queuing_profile filters - "
-                        "validating nested parameters".format(config_index, len(self.config)),
-                        "DEBUG"
-                    )
-
                     if not isinstance(queuing_profile, dict):
-                        self.msg = "'queuing_profile' must be a dictionary, got: {0}".format(type(queuing_profile).__name__)
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        self.msg = (
+                            "'queuing_profile' must be a dictionary, got: {0}".format(
+                                type(queuing_profile).__name__
+                            )
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
                     allowed_qp_keys = ["profile_names_list"]
-                    qp_keys = set(queuing_profile.keys())
-                    invalid_qp_keys = qp_keys - set(allowed_qp_keys)
-
-                    self.log(
-                        "Validating queuing_profile keys. Found keys: {0}, Allowed "
-                        "keys: {1}, Invalid keys: {2}".format(
-                            list(qp_keys), allowed_qp_keys,
-                            list(invalid_qp_keys) if invalid_qp_keys else "none"
-                        ),
-                        "DEBUG"
-                    )
-
+                    invalid_qp_keys = set(queuing_profile.keys()) - set(allowed_qp_keys)
                     if invalid_qp_keys:
                         self.msg = (
                             "Invalid keys found in 'queuing_profile': {0}. "
@@ -600,50 +465,26 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 list(invalid_qp_keys), allowed_qp_keys
                             )
                         )
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                    self.log(
-                        "Configuration item {0}/{1} queuing_profile passed key "
-                        "validation".format(config_index, len(self.config)),
-                        "DEBUG"
-                    )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
                 # Validate application_policy nested parameters
                 application_policy = component_filters.get("application_policy", {})
                 if application_policy:
-                    self.log(
-                        "Configuration item {0}/{1} contains application_policy filters - "
-                        "validating nested parameters".format(config_index, len(self.config)),
-                        "DEBUG"
-                    )
-
                     if not isinstance(application_policy, dict):
-                        self.msg = "'application_policy' must be a dictionary, got: {0}".format(type(application_policy).__name__)
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        self.msg = (
+                            "'application_policy' must be a dictionary, got: {0}".format(
+                                type(application_policy).__name__
+                            )
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
                     allowed_ap_keys = ["policy_names_list"]
-                    ap_keys = set(application_policy.keys())
-                    invalid_ap_keys = ap_keys - set(allowed_ap_keys)
-
-                    self.log(
-                        "Validating application_policy keys. Found keys: {0}, Allowed "
-                        "keys: {1}, Invalid keys: {2}".format(
-                            list(ap_keys), allowed_ap_keys,
-                            list(invalid_ap_keys) if invalid_ap_keys else "none"
-                        ),
-                        "DEBUG"
-                    )
-
+                    invalid_ap_keys = set(application_policy.keys()) - set(allowed_ap_keys)
                     if invalid_ap_keys:
-                        self.log(
-                            "Configuration item {0}/{1} application_policy contains {2} "
-                            "invalid key(s): {3}. Allowed keys: {4}".format(
-                                config_index, len(self.config), len(invalid_ap_keys),
-                                list(invalid_ap_keys), allowed_ap_keys
-                            ),
-                            "ERROR"
-                        )
-
                         self.msg = (
                             "Invalid keys found in 'application_policy': {0}. "
                             "Only the following keys are allowed: {1}. "
@@ -651,99 +492,34 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                                 list(invalid_ap_keys), allowed_ap_keys
                             )
                         )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
-                        self.log(
-                            "Setting operation result to failed due to invalid "
-                            "application_policy keys and calling check_return_status to "
-                            "exit. Error message: {0}".format(self.msg),
-                            "ERROR"
-                        )
-
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                    self.log(
-                        "Configuration item {0}/{1} application_policy passed key "
-                        "validation".format(config_index, len(self.config)),
-                        "DEBUG"
-                    )
-                else:
-                    self.log(
-                        "Configuration item {0}/{1} does not contain application_policy "
-                        "filters - skipping validation".format(
-                            config_index, len(self.config)
-                        ),
-                        "DEBUG"
-                    )
-
+        # Run schema validation using validate_config_dict
         self.log(
-            "Completed validation of component_specific_filters for all {0} "
-            "configuration item(s)".format(len(self.config)),
+            "Running schema validation using validate_config_dict with temp_spec",
             "DEBUG"
         )
 
-        # Run schema validation using validate_list_of_dicts
-        self.log(
-            "Running schema validation using validate_list_of_dicts with temp_spec "
-            "for type checking and default value assignment",
-            "DEBUG"
-        )
-
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        self.log(
-            "Schema validation using validate_list_of_dicts completed. Valid items: "
-            "{0}, Invalid parameters: {1}".format(
-                len(valid_temp) if valid_temp else 0,
-                invalid_params if invalid_params else "none"
-            ),
-            "DEBUG"
-        )
+        valid_config = self.validate_config_dict(self.config, temp_spec)
 
         # Validate minimum requirements
         self.log(
             "Running validate_minimum_requirements to check for required fields",
             "DEBUG"
         )
+        self.validate_minimum_requirements(valid_config)
 
-        self.validate_minimum_requirements(valid_temp)
-
-        # Check for invalid parameters from schema validation
-        if invalid_params:
-            self.log(
-                "Schema validation found {0} invalid parameter(s): {1}".format(
-                    len(invalid_params), invalid_params
-                ),
-                "ERROR"
-            )
-
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-
-            self.log(
-                "Setting operation result to failed due to schema validation errors. "
-                "Error message: {0}".format(self.msg),
-                "ERROR"
-            )
-
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        self.validated_config = valid_temp
+        self.validated_config = valid_config
 
         self.log(
             "All validation checks passed successfully. Validated configuration "
-            "contains {0} item(s)".format(len(self.validated_config)),
+            "is ready for processing",
             "INFO"
         )
 
         self.msg = "Successfully validated playbook configuration parameters"
-
-        self.log(
-            "Setting operation result to success. Success message: {0}".format(
-                self.msg
-            ),
-            "INFO"
-        )
-
         self.set_operation_result("success", False, self.msg, "INFO")
 
         self.log(
@@ -753,6 +529,83 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         return self
+
+    def write_dict_to_yaml(self, data_dict, file_path,
+                           dumper=OrderedDumper, file_mode="overwrite"):
+        """
+        Converts a dictionary to YAML format and writes it to a specified file path.
+
+        Overrides the parent write_dict_to_yaml to add file_mode support.
+
+        Args:
+            data_dict (dict): The dictionary to convert to YAML format.
+            file_path (str): The path where the YAML file will be written.
+            dumper: The YAML dumper class to use for serialization
+                (default is OrderedDumper).
+            file_mode (str): The file write mode - "overwrite" or "append"
+                (default is "overwrite").
+
+        Returns:
+            bool: True if the YAML file was successfully written, False otherwise.
+        """
+        self.log(
+            "Starting to write dictionary to YAML file at: {0} "
+            "with file_mode: {1}".format(file_path, file_mode),
+            "DEBUG",
+        )
+        try:
+            self.log(
+                "Starting conversion of dictionary to YAML format.",
+                "INFO"
+            )
+
+            yaml_content = yaml.dump(
+                data_dict,
+                Dumper=dumper,
+                default_flow_style=False,
+                indent=2,
+                allow_unicode=True,
+                sort_keys=False,
+            )
+
+            if file_mode == "append":
+                yaml_content = "\n" + yaml_content
+            else:
+                yaml_content = "---\n" + yaml_content
+
+            self.log(
+                "Dictionary successfully converted to YAML format.",
+                "DEBUG"
+            )
+
+            # Ensure the directory exists
+            self.ensure_directory_exists(file_path)
+
+            write_mode = "a" if file_mode == "append" else "w"
+
+            self.log(
+                "Preparing to write YAML content to file: {0} "
+                "with mode: {1}".format(file_path, write_mode),
+                "INFO"
+            )
+            with open(file_path, write_mode) as yaml_file:
+                yaml_file.write(yaml_content)
+
+            self.log(
+                "Successfully written YAML content to {0}.".format(
+                    file_path
+                ),
+                "INFO"
+            )
+            return True
+
+        except Exception as e:
+            self.msg = (
+                "An error occurred while writing to {0}: {1}".format(
+                    file_path, str(e)
+                )
+            )
+            self.fail_and_exit(self.msg)
 
     def get_workflow_elements_schema(self):
         """
@@ -4672,7 +4525,10 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
             # Write to YAML file
-            success = self.write_dict_to_yaml(final_output, file_path)
+            file_mode = yaml_config_generator.get("file_mode", "overwrite")
+            success = self.write_dict_to_yaml(
+                final_output, file_path, file_mode=file_mode
+            )
 
             if success:
                 self.msg = "YAML config generation succeeded for module '{0}'.".format(
@@ -4812,7 +4668,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         operations_failed = 0
 
         # Get configuration from validated_config
-        config = self.validated_config[0] if self.validated_config else {}
+        config = self.validated_config if self.validated_config else {}
 
         self.log(
             "Extracted configuration from validated_config. Config keys: {0}".format(
@@ -5171,8 +5027,7 @@ def main():
         # ============================================
         "config": {
             "required": True,
-            "type": "list",
-            "elements": "dict"
+            "type": "dict"
         },
         "state": {
             "default": "gathered",
@@ -5299,69 +5154,52 @@ def main():
     # Input Parameter Validation
     # ============================================
     ccc_app_policy_generator.log(
-        "Starting input validation for {0} configuration item(s)".format(
-            len(ccc_app_policy_generator.config)
-        ),
+        "Starting input validation for configuration",
         "INFO"
     )
 
     ccc_app_policy_generator.validate_input().check_return_status()
 
     ccc_app_policy_generator.log(
-        "Input validation completed successfully for all configuration items",
+        "Input validation completed successfully",
         "INFO"
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ============================================
-    config_list = ccc_app_policy_generator.validated_config
+    config = ccc_app_policy_generator.validated_config
 
     ccc_app_policy_generator.log(
-        "Starting configuration processing for {0} validated configuration item(s)".format(
-            len(config_list)
-        ),
+        "Starting configuration processing for validated configuration",
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        ccc_app_policy_generator.log(
-            "Processing configuration {0}/{1}".format(
-                config_index, len(config_list)
-            ),
-            "INFO"
-        )
+    # Reset values for clean state
+    ccc_app_policy_generator.log(
+        "Resetting module state variables for clean configuration processing",
+        "DEBUG"
+    )
+    ccc_app_policy_generator.reset_values()
 
-        # Reset values for clean state between configurations
-        ccc_app_policy_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_app_policy_generator.reset_values()
+    # Collect desired state (want) from configuration
+    ccc_app_policy_generator.log(
+        "Collecting desired state parameters from configuration",
+        "DEBUG"
+    )
+    ccc_app_policy_generator.get_want(config, state).check_return_status()
 
-        # Collect desired state (want) from configuration
-        ccc_app_policy_generator.log(
-            "Collecting desired state parameters from configuration item {0}".format(
-                config_index
-            ),
-            "DEBUG"
-        )
-        ccc_app_policy_generator.get_want(config, state).check_return_status()
+    # Execute state-specific operation (gathered workflow)
+    ccc_app_policy_generator.log(
+        "Executing state-specific operation for '{0}' workflow".format(state),
+        "INFO"
+    )
+    ccc_app_policy_generator.get_diff_state_apply[state]().check_return_status()
 
-        # Execute state-specific operation (gathered workflow)
-        ccc_app_policy_generator.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1}".format(state, config_index),
-            "INFO"
-        )
-        ccc_app_policy_generator.get_diff_state_apply[state]().check_return_status()
-
-        ccc_app_policy_generator.log(
-            "Successfully completed processing for configuration item {0}/{1}".format(
-                config_index, len(config_list)
-            ),
-            "INFO"
-        )
+    ccc_app_policy_generator.log(
+        "Successfully completed configuration processing",
+        "INFO"
+    )
 
     # ============================================
     # Module Completion and Exit
@@ -5381,10 +5219,9 @@ def main():
 
     ccc_app_policy_generator.log(
         "Module completed at timestamp {0}. Total execution time: {1:.2f} seconds. "
-        "Processed {2} configuration item(s) with final status: {3}".format(
+        "Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            len(config_list),
             ccc_app_policy_generator.status
         ),
         "INFO"
