@@ -25,3 +25,4 @@ test.yaml
 sanity_fixes.py
 .yamlfmt
 .github/copilot-instructions.md
+ai-assistant-catalyst-center-ansible-iac/

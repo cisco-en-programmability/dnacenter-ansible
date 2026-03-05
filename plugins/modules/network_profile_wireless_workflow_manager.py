@@ -2413,7 +2413,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def parse_input_data_for_payload(self, wireless_data, payload_data):
         """
-        Parse input playbook data to payload for the profile creation and updation.
+        Parse input playbook data to payload for the profile creation and update.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -3371,7 +3371,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of wireless profile in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of wireless profile in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.

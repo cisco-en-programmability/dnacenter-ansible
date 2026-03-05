@@ -1,0 +1,78 @@
+---
+# Generate playbook configuration for accesspoint workflow on Cisco Catalyst Center
+- name: Generate the playbook for the Accesspoint workflow manger
+  hosts: localhost
+  connection: local
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate Access Point configuration workflow playbook
+      cisco.dnac.accesspoint_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: gathered
+        config:
+          # ========================================================================================
+          # Scenario 1: Generate all all Access Point configurations
+          # ========================================================================================
+          - file_path: "tmp/accesspoint_workflow_playbook.yml"
+            generate_all_configurations: true
+
+          # ========================================================================================
+          # Scenario 2: Generate Access Point provision configurations based on Site list filters
+          # ========================================================================================
+          - file_path: "tmp/accesspoint_workflow_playbook_site_base.yml"
+            global_filters:
+              site_list:
+                - Global/USA/SAN JOSE/SJ_BLD23/FLOOR1
+                - Global/USA/SAN JOSE/SJ_BLD23/FLOOR2
+                - Global/USA/SAN JOSE/SJ_BLD23/FLOOR4
+
+          # ========================================================================================
+          # Scenario 3: Generate Access Point provision based on hostname list filters
+          # ========================================================================================
+          - file_path: "tmp/accesspoint_workflow_playbook_hostname_base.yml"
+            global_filters:
+              provision_hostname_list:
+                - Cisco_9120AXE_IP4-01-Test2
+                - Test_AP
+
+          # ========================================================================================
+          # Scenario 4: Generate Access Point configurations based on hostname list filters
+          # ========================================================================================
+          - file_path: "tmp/accesspoint_workflow_playbook_apconfig_base.yml"
+            global_filters:
+              accesspoint_config_list:
+                - Test_AP
+                - Cisco_9120AXE_IP4-01-Test2
+
+          # ========================================================================================
+          # Scenario 5: Generate Access Point provision configurations based on access point hostname filters
+          # ========================================================================================
+          - file_path: "tmp/accesspoint_workflow_playbook_host_provision_base.yml"
+            global_filters:
+              accesspoint_provision_config_list:
+                - AP687D.B402.1614-AP-Test6
+                - Test_AP1
+
+          # ========================================================================================
+          # Scenario 6: Generate access point configurations based on mac address list filters
+          # ========================================================================================
+          - file_path: "tmp/accesspoint_workflow_playbook_mac_address_base.yml"
+            global_filters:
+              accesspoint_provision_config_mac_list:
+                - a4:88:73:d0:53:60
+                - 2c:e3:8e:af:d2:e0
+
+      register: result_custom_path
+      tags: [generate_all, custom_path]
