@@ -158,7 +158,7 @@
               - "network_management_details"
               - "device_controllability_details"
 
-# Example 4: Multiple Configuration Files - Now requires separate tasks since config is a dict
+# Example 4: Multiple Configuration Files
 - name: Multiple Configurations - Generate separate files per component
   hosts: localhost
   vars_files:
@@ -180,12 +180,9 @@
         state: gathered
         config:
           file_path: "generated_files/all_global_pools.yml"
-          file_mode: "overwrite"
+          file_mode: "append"
           component_specific_filters:
             components_list: ["global_pool_details"]
-            global_pool_details:
-              - pool_type: "Generic"
-              - pool_type: "LAN"
 
     - name: Generate reserve pool configuration file
       cisco.dnac.network_settings_playbook_config_generator:
@@ -201,13 +198,9 @@
         state: gathered
         config:
           file_path: "generated_files/reserve_pool.yml"
-          file_mode: "overwrite"
+          file_mode: "append"
           component_specific_filters:
             components_list: ["reserve_pool_details"]
-            reserve_pool_details:
-              - site_name: "Global/US/California"
-              - pool_type: "LAN"
-              - pool_name: "Production_Reserve_Pool"
 
     - name: Generate network management configuration file
       cisco.dnac.network_settings_playbook_config_generator:
@@ -223,29 +216,6 @@
         state: gathered
         config:
           file_path: "generated_files/production_network_mgmt.yml"
-          file_mode: "overwrite"
+          file_mode: "append"
           component_specific_filters:
             components_list: ["network_management_details"]
-            network_management_details:
-              - site_name: "Global"
-              - ntp_server: "pool.ntp.org"
-
-    - name: Generate device controllability configuration file
-      cisco.dnac.network_settings_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: "{{ dnac_log_level }}"
-        state: gathered
-        config:
-          file_path: "generated_files/device_controllability_settings.yml"
-          file_mode: "overwrite"
-          component_specific_filters:
-            components_list: ["device_controllability_details"]
-            device_controllability_details:
-              - site_name: "Global"
