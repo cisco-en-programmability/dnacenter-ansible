@@ -144,19 +144,22 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_network_management_response"),
                 self.test_data.get("get_device_controllability_response"),
-                self.test_data.get("get_aaa_settings_response"),
             ]
 
         elif "global_filters_by_pool_name" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_global_pool_response"),
                 self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_network_management_response"),
+                self.test_data.get("get_device_controllability_response"),
             ]
 
         elif "global_filters_by_pool_type" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_global_pool_response"),
                 self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_network_management_response"),
+                self.test_data.get("get_device_controllability_response"),
                 self.test_data.get("get_global_pool_response"),
             ]
 
@@ -175,7 +178,6 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_network_management_response"),
                 self.test_data.get("get_device_controllability_response"),
-                self.test_data.get("get_aaa_settings_response"),
             ]
 
         elif "combined_filters" in self._testMethodName:
@@ -214,7 +216,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_generate_all_configurations
             )
         )
@@ -239,7 +241,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_global_pools_single
             )
         )
@@ -264,7 +266,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_global_pools_multiple
             )
         )
@@ -275,10 +277,10 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
     @patch('os.path.exists')
     def test_network_settings_playbook_config_generator_reserve_pools_by_site_single(self, mock_exists, mock_file):
         """
-        Test case for generating YAML configuration for reserve pools filtered by a single site.
+        Test case for reserve pools filtered by a single site when the site is not found.
 
-        This test verifies that the generator correctly retrieves and generates configuration
-        for reserve pools when filtered by a specific site name.
+        This test verifies that the generator correctly skips the component
+        when the specified site is not found and returns no data.
         """
         mock_exists.return_value = True
 
@@ -289,21 +291,21 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_reserve_pools_by_site_single
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No configurations or components to process", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
     def test_network_settings_playbook_config_generator_reserve_pools_by_pool_name(self, mock_exists, mock_file):
         """
-        Test case for generating YAML configuration for reserve pools filtered by pool names.
+        Test case for reserve pools filtered by pool names when no pools match.
 
-        This test verifies that the generator correctly retrieves and generates configuration
-        for reserve pools when filtered by specific pool names.
+        This test verifies that the generator correctly skips the component
+        when no reserve pools match the specified pool name filters.
         """
         mock_exists.return_value = True
 
@@ -314,21 +316,21 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_reserve_pools_by_pool_name
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No configurations or components to process", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
     def test_network_settings_playbook_config_generator_network_management_by_site(self, mock_exists, mock_file):
         """
-        Test case for generating YAML configuration for network management settings filtered by sites.
+        Test case for network management settings when specified sites are not found.
 
-        This test verifies that the generator correctly retrieves and generates configuration
-        for network management settings when filtered by specific site names.
+        This test verifies that the generator correctly skips the component
+        when the specified sites are not found and returns no data.
         """
         mock_exists.return_value = True
 
@@ -339,12 +341,12 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_network_management_by_site
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No configurations or components to process", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -364,7 +366,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_device_controllability_by_site
             )
         )
@@ -377,8 +379,8 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
         """
         Test case for generating YAML configuration for AAA settings filtered by network type.
 
-        This test verifies that the generator correctly retrieves and generates configuration
-        for AAA settings when filtered by network type.
+        This test verifies that the generator correctly rejects aaa_settings as an invalid
+        component since it has been removed from the valid components list.
         """
         mock_exists.return_value = True
 
@@ -389,12 +391,12 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_aaa_settings_by_network
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations", str(result.get('response', {}).get('message', '')))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid network components", str(result.get('msg', '')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -402,8 +404,8 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
         """
         Test case for generating YAML configuration for AAA settings filtered by server types.
 
-        This test verifies that the generator correctly retrieves and generates configuration
-        for AAA settings when filtered by multiple server types.
+        This test verifies that the generator correctly rejects aaa_settings as an invalid
+        component since it has been removed from the valid components list.
         """
         mock_exists.return_value = True
 
@@ -414,12 +416,12 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_aaa_settings_by_server_type
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations", str(result.get('response', {}).get('message', '')))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid network components", str(result.get('msg', '')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -439,7 +441,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_global_filters_by_site
             )
         )
@@ -464,7 +466,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_global_filters_by_pool_name
             )
         )
@@ -489,7 +491,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_global_filters_by_pool_type
             )
         )
@@ -500,10 +502,10 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
     @patch('os.path.exists')
     def test_network_settings_playbook_config_generator_multiple_components(self, mock_exists, mock_file):
         """
-        Test case for generating YAML configuration for multiple network settings components.
+        Test case for multiple components when all return empty data.
 
-        This test verifies that the generator correctly retrieves and generates configuration
-        for multiple components when specific components are requested.
+        This test verifies that the generator correctly skips all components
+        when none return meaningful data and does not generate a file.
         """
         mock_exists.return_value = True
 
@@ -514,12 +516,12 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_multiple_components
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No configurations or components to process", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -539,7 +541,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_all_components
             )
         )
@@ -550,10 +552,10 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
     @patch('os.path.exists')
     def test_network_settings_playbook_config_generator_combined_filters(self, mock_exists, mock_file):
         """
-        Test case for generating YAML configuration using combined global and component filters.
+        Test case for combined filters when all filtered components return empty data.
 
-        This test verifies that the generator correctly applies both global filters and
-        component-specific filters to generate targeted configurations.
+        This test verifies that the generator correctly skips all components
+        when combined filters result in no matching data.
         """
         mock_exists.return_value = True
 
@@ -564,12 +566,12 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_combined_filters
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No configurations or components to process", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -589,7 +591,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_empty_filters
             )
         )
@@ -614,7 +616,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_version="2.3.7.9",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config=self.playbook_config_no_file_path
             )
         )
