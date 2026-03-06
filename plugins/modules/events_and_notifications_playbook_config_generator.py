@@ -81,6 +81,7 @@ options:
         choices:
         - overwrite
         - append
+        default: overwrite
       generate_all_configurations:
         description:
         - When True, automatically retrieves all events and notifications
@@ -178,15 +179,36 @@ options:
                 elements: str
               destination_types:
                 description:
-                - List of destination types for documentation and validation
-                  purposes.
-                - Valid types correspond to component categories - webhook,
-                  email, syslog, snmp.
-                - Type-specific filtering achieved through components_list
-                  selection.
+                - Specifies which destination component types the
+                  C(destination_names) filter applies to.
+                - Use this when you want name-based filtering for some
+                  destination types but want to retrieve all destinations
+                  for other types in C(components_list).
+                - For example, with C(components_list) set to
+                  C([webhook_destinations, email_destinations]) and
+                  C(destination_types) set to C([webhook]) and
+                  C(destination_names) set to C([my-webhook-1]), only
+                  webhook destinations matching "my-webhook-1" are
+                  filtered while all email destinations are retrieved
+                  without any name filtering.
+                - Each value must correspond to a component in
+                  C(components_list). For example C(webhook) requires
+                  C(webhook_destinations), C(email) requires
+                  C(email_destinations), C(syslog) requires
+                  C(syslog_destinations), and C(snmp) requires
+                  C(snmp_destinations).
+                - Validation fails if a destination type does not have
+                  its corresponding component present in
+                  C(components_list).
+                - Valid types are C(webhook), C(email), C(syslog),
+                  C(snmp).
                 type: list
                 elements: str
-                choices: [webhook, email, syslog, snmp]
+                choices:
+                - webhook
+                - email
+                - syslog
+                - snmp
           notification_filters:
             description:
             - Filters for event notification subscription configurations based
@@ -213,15 +235,33 @@ options:
                 elements: str
               notification_types:
                 description:
-                - List of notification types for documentation and filtering
-                  context.
-                - Valid types - webhook, email, syslog corresponding to event
-                  subscription types.
-                - Type-specific filtering primarily controlled through
-                  components_list selection.
+                - Specifies which notification component types the
+                  C(subscription_names) filter applies to.
+                - Use this when you want name-based filtering for some
+                  notification types but want to retrieve all subscriptions
+                  for other types in C(components_list).
+                - For example, with C(components_list) set to
+                  C([webhook_event_notifications,
+                  email_event_notifications]) and C(notification_types)
+                  set to C([webhook]) and C(subscription_names) set to
+                  C([Critical Alerts]), only webhook event notifications
+                  matching "Critical Alerts" are filtered while all email
+                  event notifications are retrieved without name filtering.
+                - Each value must correspond to a component in
+                  C(components_list). For example C(webhook) requires
+                  C(webhook_event_notifications), C(email) requires
+                  C(email_event_notifications), and C(syslog) requires
+                  C(syslog_event_notifications).
+                - Validation fails if a notification type does not have
+                  its corresponding component present in
+                  C(components_list).
+                - Valid types are C(webhook), C(email), C(syslog).
                 type: list
                 elements: str
-                choices: [webhook, email, syslog]
+                choices:
+                - webhook
+                - email
+                - syslog
           itsm_filters:
             description:
             - Filters for ITSM integration settings based on instance name
@@ -290,6 +330,13 @@ notes:
   not in components_list are never retrieved regardless of destination_names
   or destination_types values. If destination_names contains only names
   belonging to an unselected component type, those names are ignored.
+- Each destination_types value must have its matching component in
+  components_list (webhook requires webhook_destinations, email requires
+  email_destinations, etc.). A mismatch causes a validation error.
+- Similarly, each notification_types value must have its matching component
+  in components_list (webhook requires webhook_event_notifications, email
+  requires email_event_notifications, etc.). A mismatch causes a validation
+  error.
 
 seealso:
 - module: cisco.dnac.events_and_notifications_workflow_manager
@@ -801,6 +848,30 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
+                    # Cross-validate destination_types against components_list
+                    if components_list:
+                        dest_type_to_component = {
+                            "webhook": "webhook_destinations",
+                            "email": "email_destinations",
+                            "syslog": "syslog_destinations",
+                            "snmp": "snmp_destinations",
+                        }
+                        mismatched_dest_types = [
+                            dt for dt in destination_types
+                            if dest_type_to_component.get(dt) not in components_list
+                        ]
+                        if mismatched_dest_types:
+                            self.msg = (
+                                "destination_types {0} does not match components_list {1}. "
+                                "Each destination_type must have its corresponding component "
+                                "in components_list (e.g. 'email' requires 'email_destinations'). "
+                                "Please update destination_types or components_list and try again.".format(
+                                    mismatched_dest_types, components_list
+                                )
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
+
             # Validate notification_filters
             allowed_notification_filter_keys = {"subscription_names", "notification_types"}
             notification_filters = component_filters.get("notification_filters")
@@ -833,6 +904,29 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
+
+                    # Cross-validate notification_types against components_list
+                    if components_list:
+                        notif_type_to_component = {
+                            "webhook": "webhook_event_notifications",
+                            "email": "email_event_notifications",
+                            "syslog": "syslog_event_notifications",
+                        }
+                        mismatched_notif_types = [
+                            nt for nt in notification_types
+                            if notif_type_to_component.get(nt) not in components_list
+                        ]
+                        if mismatched_notif_types:
+                            self.msg = (
+                                "notification_types {0} does not match components_list {1}. "
+                                "Each notification_type must have its corresponding component "
+                                "in components_list (e.g. 'email' requires 'email_event_notifications'). "
+                                "Please update notification_types or components_list and try again.".format(
+                                    mismatched_notif_types, components_list
+                                )
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
 
             # Validate itsm_filters
             allowed_itsm_filter_keys = {"instance_names"}
