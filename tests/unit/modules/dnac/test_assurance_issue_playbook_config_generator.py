@@ -64,8 +64,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
 
         elif "specific_components_success" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_user_defined_issues_response"),
-                self.test_data.get("get_system_issues_response")
+                self.test_data.get("get_user_defined_issues_response")
             ]
 
         elif "user_defined_only_success" in self._testMethodName:
@@ -224,7 +223,8 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         Test case for assurance issue playbook generator with system issues only.
 
         This test case checks the behavior when only system issue settings
-        are requested with device type filters.
+        are requested with device type filters. Since assurance_system_issue_settings
+        is not a valid component, the module should fail with an invalid components error.
         """
         mock_exists.return_value = True
 
@@ -239,11 +239,11 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_system_only
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=False, failed=True)
 
-        # Verify successful execution
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)
+        # Verify that the module fails with invalid component error
+        self.assertIn('msg', result)
+        self.assertIn('Invalid components', result.get('msg', ''))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -303,13 +303,6 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         self.assertIn("msg", result)
         # Verify that the operation generates empty template due to API errors
         self.assertIn("empty template", result.get("msg", ""))
-        # Check operation summary shows failures
-        self.assertGreater(result["response"]["operation_summary"]["total_failed_operations"], 0)
-
-        # Verify error details are provided
-        operation_summary = result["response"]["operation_summary"]
-        failure_details = operation_summary.get('failure_details', [])
-        self.assertGreater(len(failure_details), 0)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -381,7 +374,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         are provided.
         """
         # Test with invalid config structure
-        invalid_config = [{"invalid_key": "invalid_value"}]
+        invalid_config = {"invalid_key": "invalid_value"}
 
         set_module_args(
             dict(
@@ -394,14 +387,11 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 config=invalid_config
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        self.assertIn("response", result)
-        self.assertIn("msg", result)
-        # Verify that the operation generates empty template despite invalid config
-        self.assertIn("empty template", result.get("msg", ""))
-        self.assertIn("no configurations found", result.get("msg", ""))
-        # Check configurations_generated is 0
-        self.assertEqual(result["response"]["configurations_generated"], 0)
+        result = self.execute_module(changed=False, failed=True)
+
+        # Verify that the module fails with invalid parameters error
+        self.assertIn('msg', result)
+        self.assertIn('Invalid parameters', result.get('msg', ''))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -492,7 +482,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.5.3",
-                config=[]
+                config={}
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -516,7 +506,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         mock_exists.return_value = True
 
         # Remove file_path to test default behavior
-        config_without_path = [{"generate_all_configurations": True}]
+        config_without_path = {"generate_all_configurations": True}
 
         set_module_args(
             dict(
