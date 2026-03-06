@@ -1,10 +1,8 @@
 {
-    "playbook_pnp_generate_all_configurations": [
-        {
-            "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
-            "generate_all_configurations": true
-        }
-    ],
+    "playbook_pnp_generate_all_configurations": {
+        "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
+        "generate_all_configurations": true
+    },
     "PnPdevices": [
         {
             "version": 0,
@@ -1153,20 +1151,15 @@
         }
     ],
 
-    "playbook_component_global_specific_filter": [
-        {
-            "component_specific_filters": {
-                "components_list": [
-                    "device_info"
-                ]
-            },
-            "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
-            "generate_all_configurations": true,
-            "global_filters": {
-                "site_name": "Global/USA/SAN JOSE/SJ_BLD20"
-            }
-        }
-    ],
+    "playbook_component_global_specific_filter": {
+        "component_specific_filters": {
+            "components_list": [
+                "device_info"
+            ]
+        },
+        "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
+        "generate_all_configurations": true
+    },
     "PnPdevices1": 
     [
         {
@@ -2319,20 +2312,18 @@
     "site_response2": {"response": {"parentId": "18d688cb-e9ca-4a16-abdc-5923edadfb00", "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123/", "additionalInfo": [{"nameSpace": "Location", "attributes": {"country": "United States", "address": "725 Alder Drive, Milpitas, California 95035, United States", "latitude": "37.415947", "addressInheritedFrom": "3036414b-0b9d-4f28-8e3d-89d246e84123", "type": "building", "longitude": "-121.91633"}}], "name": "SJ_BLD20", "instanceTenantId": "68593aeecd0f400013b8604e", "id": "3036414b-0b9d-4f28-8e3d-89d246e84123", "siteHierarchy": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/3036414b-0b9d-4f28-8e3d-89d246e84123", "siteNameHierarchy": "Global/USA/SAN JOSE/SJ_BLD20"}},
     "site_response3": {"response": {"parentId": "18d688cb-e9ca-4a16-abdc-5923edadfb00", "siteHierarchyId": "/73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/", "additionalInfo": [{"nameSpace": "ETA", "attributes": {"member.compatibleWithNaasOnly.direct": "0", "member.etaCapable.direct": "2", "member.etaReady.direct": "2", "member.etaEnabledNaasOnly.direct": "0", "ETAReady": "true", "member.etaNotReady.direct": "0", "member.etaReadyNotEnabled.direct": "2", "member.etaEnabled.direct": "0"}}, {"nameSpace": "Location", "attributes": {"country": "United States", "address": "560 McCarthy Blvd, Milpitas, California 95035, United States", "latitude": "37.41864", "addressInheritedFrom": "ca6442ab-00e7-4454-b52c-cba2137fa66f", "type": "building", "longitude": "-121.9193"}}], "name": "SJ_BLD23", "instanceTenantId": "68593aeecd0f400013b8604e", "id": "ca6442ab-00e7-4454-b52c-cba2137fa66f", "siteHierarchy": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f", "siteNameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23"}},
 
-    "playbook_no_config": [
-        {
-            "component_specific_filters": {
-                "components_list": [
-                    "device_info"
-                ]
-            },
-            "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
-            "generate_all_configurations": true,
-            "global_filters": {
-                "device_state": [
-                    "Unclaimed"
-                ]
-            }
+    "playbook_no_config": {
+        "component_specific_filters": {
+            "components_list": [
+                "device_info"
+            ]
+        },
+        "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
+        "generate_all_configurations": true,
+        "global_filters": {
+            "device_state": [
+                "Unclaimed"
+            ]
         }
-    ]
+    }
 }
