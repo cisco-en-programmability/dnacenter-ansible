@@ -49,13 +49,12 @@ options:
     default: gathered
   config:
     description:
-      - A list of filters for generating YAML playbook compatible with the 'discovery_workflow_manager'
+      - A dictionary of filters for generating YAML playbook compatible with the 'discovery_workflow_manager'
         module.
       - Filters specify which discovery tasks and configurations to include in the YAML configuration file.
       - Global filters identify target discoveries by name or discovery type.
       - Component-specific filters allow selection of specific discovery features and detailed filtering.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -78,6 +77,18 @@ options:
           - For example, C(discovery_playbook_config_2026-01-24_12-33-20.yml).
         type: str
         required: false
+      file_mode:
+        description:
+          - Specifies the file write mode for the generated YAML configuration file.
+          - When set to C(overwrite), the file will be created or replaced if it already exists.
+          - When set to C(append), the generated content will be appended to the existing file.
+          - Default mode is C(overwrite).
+        type: str
+        required: false
+        default: overwrite
+        choices:
+          - overwrite
+          - append
       global_filters:
         description:
           - Global filters to apply when generating the YAML configuration file.
@@ -167,7 +178,7 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
 
 # Generate configurations for specific discovery tasks by name
 - name: Generate specific discovery configurations by name
@@ -181,14 +192,15 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - file_path: "/tmp/specific_discoveries.yml"
-        global_filters:
-          discovery_name_list:
-            - "Multi_global"
-            - "Single IP Discovery"
-            - "CDP_Test_1"
+      file_path: "/tmp/specific_discoveries.yml"
+      file_mode: overwrite
+      global_filters:
+        discovery_name_list:
+          - "Multi_global"
+          - "Single IP Discovery"
+          - "CDP_Test_1"
 
-# Generate configurations for specific discovery types
+# Generate configurations for specific discovery types with append mode
 - name: Generate configurations by discovery type
   cisco.dnac.discovery_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
@@ -200,11 +212,12 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - file_path: "/tmp/cdp_lldp_discoveries.yml"
-        global_filters:
-          discovery_type_list:
-            - "CDP"
-            - "LLDP"
+      file_path: "/tmp/cdp_lldp_discoveries.yml"
+      file_mode: append
+      global_filters:
+        discovery_type_list:
+          - "CDP"
+          - "LLDP"
 """
 
 RETURN = r"""
@@ -285,7 +298,6 @@ from collections import OrderedDict
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper import (
     BrownFieldHelper
@@ -342,6 +354,8 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.module_name = "discovery"
         self.supported_states = ["gathered"]
         self._global_credentials_lookup = None
+        self.valid_global_filter_keys = {"discovery_name_list", "discovery_type_list"}
+        self.valid_discovery_types = {"Single", "Range", "CDP", "LLDP", "CIDR"}
 
         # Discovery workflow manager module schema
         self.module_schema = {
@@ -407,59 +421,97 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         temp_spec = {
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
+            "file_mode": {"type": "str", "required": False, "default": "overwrite"},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
-        allowed_keys = set(temp_spec.keys())
+        # Step 1: Validate config is a dict and wrap in list for compatibility
+        config_list = self.validate_config_dict(self.config, temp_spec)
 
-        # Validate that only allowed keys are present in the configuration
-        for config_item in self.config:
-            if not isinstance(config_item, dict):
-                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+        # Step 2: Validate that only allowed keys are present
+        self.validate_invalid_params(self.config, temp_spec.keys())
 
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
+        # Step 3: Validate minimum requirements (global_filters or generate_all)
         self.validate_minimum_requirement_for_global_filters(self.config)
-
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        self.validate_global_filters_suboptions(self.config.get("global_filters"))
 
         self.log(
             "Input validation completed successfully for "
-            "{0} configuration item(s)".format(
-                len(self.config)
-            ),
+            "discovery playbook configuration",
             "INFO"
         )
 
         # Set the validated configuration and update the result with success status
-        self.validated_config = valid_temp
+        self.validated_config = config_list
         self.msg = "Successfully validated playbook configuration"
-        "       parameters using 'validated_input': {0}".format(
-            str(valid_temp)
-        )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+
+    def validate_global_filters_suboptions(self, global_filters):
+        """
+        Validate supported keys and values under global_filters.
+
+        Args:
+            global_filters (dict): Global filters provided in input config.
+        """
+        if global_filters is None:
+            return
+
+        if not isinstance(global_filters, dict):
+            self.fail_and_exit(
+                "Invalid 'global_filters' value. Expected type 'dict', got '{0}'.".format(
+                    type(global_filters).__name__
+                )
+            )
+
+        invalid_keys = sorted(set(global_filters.keys()) - self.valid_global_filter_keys)
+        if invalid_keys:
+            self.fail_and_exit(
+                "Invalid key(s) under 'global_filters': {0}. Valid keys are: {1}.".format(
+                    invalid_keys, sorted(self.valid_global_filter_keys)
+                )
+            )
+
+        discovery_name_list = global_filters.get("discovery_name_list")
+        if discovery_name_list is not None:
+            if not isinstance(discovery_name_list, list):
+                self.fail_and_exit(
+                    "Invalid 'global_filters.discovery_name_list' value. Expected type 'list', got '{0}'.".format(
+                        type(discovery_name_list).__name__
+                    )
+                )
+            invalid_names = [
+                name for name in discovery_name_list
+                if not isinstance(name, str) or not name.strip()
+            ]
+            if invalid_names:
+                self.fail_and_exit(
+                    "Invalid values under 'global_filters.discovery_name_list': {0}. "
+                    "Only non-empty strings are allowed.".format(invalid_names)
+                )
+
+        discovery_type_list = global_filters.get("discovery_type_list")
+        if discovery_type_list is not None:
+            if not isinstance(discovery_type_list, list):
+                self.fail_and_exit(
+                    "Invalid 'global_filters.discovery_type_list' value. Expected type 'list', got '{0}'.".format(
+                        type(discovery_type_list).__name__
+                    )
+                )
+
+            invalid_types = [
+                discovery_type for discovery_type in discovery_type_list
+                if not isinstance(discovery_type, str)
+                or discovery_type.strip() not in self.valid_discovery_types
+            ]
+            if invalid_types:
+                self.fail_and_exit(
+                    "Invalid values under 'global_filters.discovery_type_list': {0}. "
+                    "Valid values are: {1}.".format(
+                        invalid_types, sorted(self.valid_discovery_types)
+                    )
+                )
 
     def get_global_credentials_lookup(self):
         """
@@ -1549,9 +1601,12 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Filter by discovery types (only if names not provided)
         elif discovery_type_list:
             self.log(f"Filtering by discovery types: {discovery_type_list}", "DEBUG")
+            normalized_discovery_type_list = {
+                discovery_type.strip().upper() for discovery_type in discovery_type_list
+            }
             filtered_discoveries = [
                 discovery for discovery in filtered_discoveries
-                if discovery.get('discoveryType') in discovery_type_list
+                if str(discovery.get('discoveryType', '')).upper() in normalized_discovery_type_list
             ]
             self.log(f"After type filtering: {len(filtered_discoveries)} discoveries", "DEBUG")
             # Log which discoveries were found by type
@@ -1717,7 +1772,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return result
 
-    def write_yaml_with_comments(self, yaml_data, file_path, header_comments):
+    def write_yaml_with_comments(self, yaml_data, file_path, header_comments, file_mode="overwrite"):
         """
         Write YAML data to a file with header comments prepended.
 
@@ -1733,6 +1788,8 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 the YAML file will be saved.
             header_comments (str): Multi-line comment string
                 to prepend to the YAML content.
+            file_mode (str): File write mode - 'overwrite' or
+                'append'. Default is 'overwrite'.
 
         Returns:
             dict: A dictionary containing:
@@ -1812,10 +1869,20 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
             # Combine header comments with YAML content
-            full_content = header_comments + '\n\n' + yaml_content
+            # Add YAML document separator before config
+            full_content = header_comments + '\n\n---\n' + yaml_content
+
+            # Determine write mode based on file_mode parameter
+            write_mode = 'a' if file_mode == 'append' else 'w'
+            self.log(
+                "Writing YAML file in '{0}' mode (file_mode={1})".format(
+                    write_mode, file_mode
+                ),
+                "DEBUG"
+            )
 
             # Write to file
-            with open(file_path, 'w', encoding='utf-8') as file:
+            with open(file_path, write_mode, encoding='utf-8') as file:
                 file.write(full_content)
 
             self.log(f"Successfully wrote YAML file with comments: {file_path}", "DEBUG")
@@ -1859,7 +1926,14 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting discovery playbook generation", "INFO")
 
-        config = self.config[0] if self.config else {}
+        config = self.config if isinstance(self.config, dict) else {}
+
+        # Determine file mode
+        file_mode = config.get('file_mode', 'overwrite')
+        self.log(
+            "File mode set to: {0}".format(file_mode),
+            "DEBUG"
+        )
 
         # Determine file path
         file_path = config.get('file_path')
@@ -1989,7 +2063,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         header_comments = self.generate_yaml_header_comments(discoveries_data)
 
         # Write YAML file with comments
-        success = self.write_yaml_with_comments(yaml_data, file_path, header_comments)
+        success = self.write_yaml_with_comments(yaml_data, file_path, header_comments, file_mode)
 
         if success:
             self.result["response"] = {
@@ -2176,8 +2250,7 @@ def main():
         # Playbook Configuration Parameters
         "config": {
             "required": True,
-            "type": "list",
-            "elements": "dict"
+            "type": "dict",
         },
         "state": {
             "default": "gathered",
@@ -2213,14 +2286,14 @@ def main():
     ccc_discovery_playbook_generator.log(
         "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
         "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
-        "config_items={6}".format(
+        "config_keys={6}".format(
             module.params.get("dnac_host"),
             module.params.get("dnac_port"),
             module.params.get("dnac_username"),
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
+            list(module.params.get("config", {}).keys())
         ),
         "DEBUG"
     )
@@ -2329,28 +2402,18 @@ def main():
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ============================================
-    config_list = ccc_discovery_playbook_generator.config
+    config = ccc_discovery_playbook_generator.config
 
     ccc_discovery_playbook_generator.log(
-        "Starting configuration processing loop - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        "Starting configuration processing for discovery playbook generation "
+        "with keys: {0}".format(list(config.keys()) if isinstance(config, dict) else "N/A"),
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        ccc_discovery_playbook_generator.log(
-            "Processing configuration item {0}/{1}: Starting discovery configuration "
-            "extraction for item with keys: {2}".format(
-                config_index, len(config_list), list(config.keys())
-            ),
-            "INFO"
-        )
-
-        # Process the gathered state directly
-
-        ccc_discovery_playbook_generator.get_diff_gathered(config).check_return_status()
+    # Process the gathered state directly
+    ccc_discovery_playbook_generator.get_diff_gathered(config).check_return_status()
 
     # ============================================
     # Module Completion and Exit
@@ -2365,11 +2428,9 @@ def main():
 
     ccc_discovery_playbook_generator.log(
         "Module execution completed successfully at timestamp {0}. Total execution "
-        "time: {1:.2f} seconds. Processed {2} configuration item(s) with final "
-        "status: {3}".format(
+        "time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            len(config_list),
             ccc_discovery_playbook_generator.status
         ),
         "INFO"
