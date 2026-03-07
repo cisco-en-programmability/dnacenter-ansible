@@ -213,8 +213,8 @@ EXAMPLES = r"""
       file_mode: "overwrite"
       global_filters:
         profile_name_list:
-         - Campus_Switch_Profile
-         - Enterprise_Switch_Profile
+          - Campus_Switch_Profile
+          - Enterprise_Switch_Profile
 
 - name: Generate YAML Configuration with default file path based on Day-N templates filters
   cisco.dnac.network_profile_switching_playbook_config_generator:
@@ -232,8 +232,8 @@ EXAMPLES = r"""
       file_mode: "overwrite"
       global_filters:
         day_n_template_list:
-         - Periodic_Config_Audit
-         - Security_Compliance_Check
+          - Periodic_Config_Audit
+          - Security_Compliance_Check
 
 - name: Generate YAML Configuration with default file path based on site list filters
   cisco.dnac.network_profile_switching_playbook_config_generator:
@@ -252,8 +252,8 @@ EXAMPLES = r"""
       file_mode: "overwrite"
       global_filters:
         site_list:
-         - Global/India/Chennai/Main_Office
-         - Global/USA/San_Francisco/Regional_HQ
+          - Global/India/Chennai/Main_Office
+          - Global/USA/San_Francisco/Regional_HQ
 
 - name: Generate YAML Configuration with default file path based on site and Day-N templates list filters
   cisco.dnac.network_profile_switching_playbook_config_generator:
@@ -272,11 +272,11 @@ EXAMPLES = r"""
       file_mode: "overwrite"
       global_filters:
         site_list:
-         - Global/India/Chennai/Main_Office
-         - Global/USA/San_Francisco/Regional_HQ
+          - Global/India/Chennai/Main_Office
+          - Global/USA/San_Francisco/Regional_HQ
         day_n_template_list:
-         - Periodic_Config_Audit
-         - Security_Compliance_Check
+          - Periodic_Config_Audit
+          - Security_Compliance_Check
 """
 
 RETURN = r"""
