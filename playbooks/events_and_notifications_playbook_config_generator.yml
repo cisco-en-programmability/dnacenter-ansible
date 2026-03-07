@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - "vars/credentials.yml"
   tasks:
     - name: Generate YAML Configuration for Events and Notifications Settings
       cisco.dnac.events_and_notifications_playbook_config_generator:
@@ -21,7 +21,6 @@
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          - generate_all_configurations: true
-            file_path: /Users/priyadharshini/Downloads/events_and_notifications_playbook1
-            component_specific_filters:
-              components_list: ["webhook_destinations", "email_destinations", "syslog_destinations", "syslog_event_notifications"]
+          file_path: /Users/priyadharshini/Downloads/events_and_notifications_playbook1
+          component_specific_filters:
+            components_list: ["webhook_destinations", "email_destinations", "syslog_destinations", "syslog_event_notifications"]

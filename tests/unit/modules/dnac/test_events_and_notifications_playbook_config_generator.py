@@ -188,12 +188,12 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Invalid components found in components_list: ['webhook_destinatio']. "
-            "Only the following components are allowed: "
-            "['webhook_destinations', 'email_destinations', 'syslog_destinations', "
-            "'snmp_destinations', 'itsm_settings', 'webhook_event_notifications', "
-            "'email_event_notifications', 'syslog_event_notifications']. "
-            "Please remove the invalid components and try again."
+            "Invalid component(s) in 'components_list': ['webhook_destinatio']. "
+            "Allowed components are: "
+            "['email_destinations', 'email_event_notifications', 'itsm_settings', "
+            "'snmp_destinations', 'syslog_destinations', 'syslog_event_notifications', "
+            "'webhook_destinations', 'webhook_event_notifications']. "
+            "Please provide valid component names and try again."
         )
 
     def test_events_and_notifications_playbook_specific_filter(self):
