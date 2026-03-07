@@ -21,6 +21,7 @@
         dnac_task_poll_interval: 1
         state: gathered
         config:
-          - file_path: "tmp/brownfield_provision_workflow_playbook_config.yml"
-            component_specific_filters:
-              components_list: ["wired", "wireless"]
+          file_path: "provision/global_single_ip"
+          global_filters:
+            management_ip_address:
+              - "204.1.2.9"
