@@ -3189,6 +3189,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
                 yaml_file.write(header)
+                yaml_file.write("\n---\n")
                 self.log(
                     "Header comments written successfully to file. Proceeding with YAML "
                     "serialization of configuration dictionary. Checking YAML library "
