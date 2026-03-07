@@ -167,10 +167,17 @@ class TestDnacProvisionPlaybookGenerator(TestDnacModule):
                 config=self.playbook_global_filters
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        print(result)
+        result = self.execute_module(changed=True, failed=False)
+        expected_file_path = (
+            "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/"
+            "playbooks/brownfield_provision_workflow_playbook.yml"
+        )
         self.assertEqual(
-            result.get("msg"),
-            "No devices found matching the provided filters for module 'provision_workflow_manager'. Global filters: "
-            "{'management_ip_address': ['204.192.4.200']}, Component filters: {'components_list': ['wired', 'wireless']}"
+            result.get("response"),
+            {
+                "YAML config generation Task succeeded for module 'provision_workflow_manager'.": {
+                    "file_path": expected_file_path,
+                    "devices_count": 6
+                }
+            }
         )
