@@ -40,15 +40,14 @@ options:
     default: gathered
   config:
     description:
-      - A list of filters for generating YAML playbook compatible
+      - A dictionary of filters for generating YAML playbook compatible
         with the 'accesspoint_playbook_config_generator'
         module.
       - Filters specify which components to include in the YAML
         configuration file.
       - Either 'generate_all_configurations' or 'global_filters'
         must be specified to identify target access points.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -80,6 +79,15 @@ options:
             C(accesspoint_playbook_config_2025-04-22_21-43-26.yml).
           - Supports both absolute and relative file paths.
         type: str
+      file_mode:
+        description:
+          - Determines how the output YAML configuration file is written.
+          - When set to C(overwrite), the file will be replaced with new content.
+          - When set to C(append), new content will be added to the existing file.
+        type: str
+        required: false
+        default: overwrite
+        choices: ["overwrite", "append"]
       global_filters:
         description:
           - Global filters to apply when generating the YAML
@@ -212,7 +220,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
+      file_mode: overwrite
 
 - name: Auto-generate YAML Configuration for all Access Point provision and configuration with custom file path
   cisco.dnac.accesspoint_playbook_config_generator:
@@ -227,8 +236,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "tmp/accesspoint_workflow_playbook.yml"
-        generate_all_configurations: true
+      file_path: "tmp/accesspoint_workflow_playbook.yml"
+      file_mode: "overwrite"
+      generate_all_configurations: true
 
 - name: Generate YAML Configuration with file path based on site list filters
   cisco.dnac.accesspoint_playbook_config_generator:
@@ -243,11 +253,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "tmp/accesspoint_workflow_playbook_site_base.yml"
-        global_filters:
-          site_list:
-            - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
-            - Global/USA/SAN JOSE/SJ_BLD20/FLOOR2
+      file_path: "tmp/accesspoint_workflow_playbook_site_base.yml"
+      file_mode: "append"
+      global_filters:
+        site_list:
+          - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
+          - Global/USA/SAN JOSE/SJ_BLD20/FLOOR2
 
 - name: Generate YAML provision config with file path based on hostname list filters
   cisco.dnac.accesspoint_playbook_config_generator:
@@ -262,10 +273,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - global_filters:
-          provision_hostname_list:
-            - test_ap_1
-            - test_ap_2
+      file_mode: "overwrite"
+      global_filters:
+        provision_hostname_list:
+          - test_ap_1
+          - test_ap_2
 
 - name: Generate YAML Configuration with file path based on hostname list
   cisco.dnac.accesspoint_playbook_config_generator:
@@ -280,10 +292,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - global_filters:
-          accesspoint_config_list:
-            - Test_ap_1
-            - Test_ap_2
+      file_mode: "overwrite"
+      global_filters:
+        accesspoint_config_list:
+          - Test_ap_1
+          - Test_ap_2
 
 - name: Generate YAML provision and configuration with default file path based on hostname list
   cisco.dnac.accesspoint_playbook_config_generator:
@@ -298,10 +311,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - global_filters:
-          accesspoint_provision_config_list:
-            - Test_ap_1
-            - Test_ap_2
+      file_mode: "overwrite"
+      global_filters:
+        accesspoint_provision_config_list:
+          - Test_ap_1
+          - Test_ap_2
 
 - name: Generate YAML accesspoint provision Configuration based on MAC Address list
   cisco.dnac.accesspoint_playbook_config_generator:
@@ -316,10 +330,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - global_filters:
-          accesspoint_provision_config_mac_list:
-            - a4:88:73:d4:dd:80
-            - a4:88:73:d4:dd:81
+      file_mode: "overwrite"
+      global_filters:
+        accesspoint_provision_config_mac_list:
+          - a4:88:73:d4:dd:80
+          - a4:88:73:d4:dd:81
 """
 
 RETURN = r"""
@@ -372,7 +387,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 import copy
@@ -442,53 +456,10 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             object: Self instance with updated attributes:
                 - self.status: "success" or "failed" validation status
                 - self.msg: Detailed validation result message
-                - self.validated_config: Validated and normalized configuration list
-
-        Side Effects:
-            - Calls validate_list_of_dicts() for schema validation
-            - Calls validate_minimum_requirements() for business logic validation
-            - Calls set_operation_result() to update operation status
-            - Logs validation progress at DEBUG, INFO, ERROR levels
-
-        Validation Steps:
-            1. Check configuration availability (empty config is valid)
-            2. Define expected schema with allowed parameters
-            3. Validate each config item is a dictionary
-            4. Check for invalid/unknown parameter keys
-            5. Validate minimum requirements (generate_all or global_filters)
-            6. Perform schema-based validation (types, defaults, required fields)
-            7. Validate global_filters structure if provided
-            8. Ensure at least one filter list has values
-            9. Validate filter values are lists of strings
-            10. Store validated configuration and return success
-
-        Allowed Parameters:
-            - generate_all_configurations (bool, optional, default=False):
-                Auto-generate for all access points
-            - file_path (str, optional):
-                Custom output path for YAML file
-            - global_filters (dict, optional):
-                Filter criteria for targeted extraction
-
-        Global Filters Structure:
-            - site_list (list[str]): Floor site hierarchies
-            - provision_hostname_list (list[str]): Provisioned AP hostnames
-            - accesspoint_config_list (list[str]): AP configuration hostnames
-            - accesspoint_provision_config_list (list[str]): Combined provision/config hostnames
-            - accesspoint_provision_config_mac_list (list[str]): AP MAC addresses
-
-        Error Conditions:
-            - Configuration item not a dictionary → TYPE ERROR
-            - Invalid parameter keys found → INVALID PARAMS ERROR
-            - No generate_all and no global_filters → MISSING REQUIREMENT ERROR
-            - Invalid parameter types in schema validation → TYPE VALIDATION ERROR
-            - global_filters not a dictionary → STRUCTURE ERROR
-            - No valid filter lists with values → EMPTY FILTERS ERROR
-            - Filter value not a list → FILTER TYPE ERROR
+                - self.validated_config: Validated configuration dictionary
 
         Notes:
             - Empty configuration (self.config is None/empty) returns success
-            - validate_list_of_dicts applies type coercion and defaults
             - Filter priority not validated here (handled in process_global_filters)
             - At least one filter must have values when global_filters provided
         """
@@ -509,11 +480,14 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log(self.msg, "INFO")
             return self
 
-        self.log(
-            f"Configuration provided with {len(self.config)} item(s). Starting detailed "
-            f"validation process for each configuration item.",
-            "INFO"
-        )
+        if not isinstance(self.config, dict):
+            self.msg = (
+                "Configuration must be a dictionary, got: {0}. Please provide "
+                "configuration as a dictionary.".format(type(self.config).__name__)
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
         # Expected schema for configuration parameters
         # Define expected schema for configuration parameters
@@ -527,66 +501,20 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "type": "str",
                 "required": False
             },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"]
+            },
             "global_filters": {
                 "type": "dict",
                 "required": False
             },
         }
 
-        allowed_keys = set(temp_spec.keys())
-        self.log(
-            f"Defined validation schema with {len(allowed_keys)} allowed parameter(s): "
-            f"{list(allowed_keys)}. Any parameters outside this set will trigger validation error.",
-            "DEBUG"
-        )
-
-        # Validate that only allowed keys are present in each configuration item
-        self.log(
-            "Starting per-item key validation to check for invalid/unknown parameters.",
-            "DEBUG"
-        )
-
-        # Validate that only allowed keys are present in the configuration
-        for config_index, config_item in enumerate(self.config, start=1):
-            self.log(
-                f"Validating configuration item {config_index}/{len(self.config)} for type "
-                f"and allowed keys.",
-                "DEBUG"
-            )
-
-            if not isinstance(config_item, dict):
-                self.msg = (
-                    f"Configuration item {config_index}/{len(self.config)} must be a dictionary, "
-                    f"got: {type(config_item).__name__}. Each configuration entry must be a "
-                    f"dictionary with valid parameters."
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    f"Invalid parameters found in playbook configuration: {list(invalid_keys)}. "
-                    f"Only the following parameters are allowed: {list(allowed_keys)}. "
-                    f"Please remove the invalid parameters and try again."
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            self.log(
-                f"Configuration item {config_index}/{len(self.config)} passed key validation. "
-                f"All keys are valid.",
-                "DEBUG"
-            )
-
-        self.log(
-            f"Completed per-item key validation. All {len(self.config)} configuration item(s) "
-            f"have valid parameter keys.",
-            "INFO"
-        )
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
+        self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
         # Validate minimum requirements (generate_all or global_filters)
         self.log(
@@ -596,7 +524,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            self.validate_minimum_requirement_for_global_filters(self.config)
+            self.validate_minimum_requirement_for_global_filters(valid_temp)
             self.log(
                 "Minimum requirements validation passed. Configuration has either "
                 "generate_all_configurations or valid global_filters.",
@@ -612,121 +540,68 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Perform schema-based validation using validate_list_of_dicts
-        self.log(
-            f"Starting schema-based validation using validate_list_of_dicts(). Validating "
-            f"parameter types, defaults, and required fields against schema: {temp_spec}",
-            "DEBUG"
-        )
-
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        self.log(
-            f"Schema validation completed. Valid configurations: "
-            f"{len(valid_temp) if valid_temp else 0}, Invalid parameters: {bool(invalid_params)}",
-            "DEBUG"
-        )
-
-        if invalid_params:
-            self.msg = (
-                f"Invalid parameters found during schema validation: {invalid_params}. Please check "
-                f"parameter types and values. Expected types: generate_all_configurations "
-                f"(bool), file_path (str), global_filters (dict)."
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        # Validate global_filters structure if provided
-        self.log(
-            "Validating global_filters structure for configuration items that include filters.",
-            "DEBUG"
-        )
-
-        for config_index, config_item in enumerate(valid_temp, start=1):
-            global_filters = config_item.get("global_filters")
-
-            if global_filters:
-                self.log(
-                    f"Configuration item {config_index}/{len(valid_temp)} has global_filters. "
-                    f"Validating filter structure.",
-                    "DEBUG"
+        global_filters = valid_temp.get("global_filters")
+        if global_filters:
+            if not isinstance(global_filters, dict):
+                self.msg = (
+                    "global_filters must be a dictionary, got: {0}. Please provide "
+                    "global_filters as a dictionary with filter lists.".format(
+                        type(global_filters).__name__
+                    )
                 )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-                if not isinstance(global_filters, dict):
+            valid_filter_keys = [
+                "site_list",
+                "provision_hostname_list",
+                "accesspoint_config_list",
+                "accesspoint_provision_config_list",
+                "accesspoint_provision_config_mac_list"
+            ]
+            provided_filters = {
+                key: global_filters.get(key)
+                for key in valid_filter_keys
+                if global_filters.get(key)
+            }
+
+            if not provided_filters:
+                self.msg = (
+                    "global_filters provided but no valid filter lists have values. At "
+                    "least one of {0} must contain values.".format(valid_filter_keys)
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            for filter_key, filter_value in provided_filters.items():
+                if not isinstance(filter_value, list):
                     self.msg = (
-                        f"global_filters in configuration item {config_index}/{len(valid_temp)} "
-                        f"must be a dictionary, got: {type(global_filters).__name__}. Please "
-                        f"provide global_filters as a dictionary with filter lists."
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                # Check that at least one filter list is provided and has values
-                valid_filter_keys = [
-                    "site_list",
-                    "provision_hostname_list",
-                    "accesspoint_config_list",
-                    "accesspoint_provision_config_list",
-                    "accesspoint_provision_config_mac_list"
-                ]
-                provided_filters = {
-                    key: global_filters.get(key)
-                    for key in valid_filter_keys
-                    if global_filters.get(key)
-                }
-
-                if not provided_filters:
-                    self.msg = (
-                        f"global_filters in configuration item {config_index}/{len(valid_temp)} "
-                        f"provided but no valid filter lists have values. At least one of the "
-                        f"following must be provided: {valid_filter_keys}. Please add at least "
-                        f"one filter list with values."
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                # Validate that filter values are lists
-                for filter_key, filter_value in provided_filters.items():
-                    if not isinstance(filter_value, list):
-                        self.msg = (
-                            f"global_filters.{filter_key} in configuration item "
-                            f"{config_index}/{len(valid_temp)} must be a list, got: "
-                            f"{type(filter_value).__name__}. Please provide filter as a list "
-                            f"of strings."
+                        "global_filters.{0} must be a list, got: {1}. Please provide "
+                        "filter values as a list of strings.".format(
+                            filter_key, type(filter_value).__name__
                         )
-                        self.log(self.msg, "ERROR")
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
-
-                self.log(
-                    f"Configuration item {config_index}/{len(valid_temp)} global_filters "
-                    f"structure validated successfully. Provided filters: "
-                    f"{list(provided_filters.keys())}",
-                    "INFO"
-                )
-            else:
-                self.log(
-                    f"Configuration item {config_index}/{len(valid_temp)} does not have "
-                    f"global_filters. Assuming generate_all_configurations mode.",
-                    "DEBUG"
-                )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
         # Set validated configuration and return success
         self.validated_config = valid_temp
 
         self.msg = (
-            f"Successfully validated {len(valid_temp)} configuration item(s) for access point "
-            f"playbook generation. Validated configuration: {str(valid_temp)}"
+            "Successfully validated configuration for access point playbook generation. "
+            "Validated configuration: {0}".format(str(valid_temp))
         )
 
         self.log(
-            f"Input validation completed successfully. Total items validated: {len(valid_temp)}, "
-            f"Items with generate_all: "
-            f"{sum(1 for item in valid_temp if item.get('generate_all_configurations'))}, "
-            f"Items with global_filters: {sum(1 for item in valid_temp if item.get('global_filters'))}",
+            "Input validation completed successfully. generate_all: {0}, "
+            "has_global_filters: {1}, file_mode: {2}".format(
+                bool(valid_temp.get("generate_all_configurations")),
+                bool(valid_temp.get("global_filters")),
+                valid_temp.get("file_mode", "overwrite")
+            ),
             "INFO"
         )
 
@@ -2511,6 +2386,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"this location after configuration aggregation and formatting.",
             "DEBUG"
         )
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
 
         # Initialize filter dictionaries and result list
         self.log(
@@ -2631,7 +2507,7 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        if self.write_dict_to_yaml(final_dict, file_path):
+        if self.write_dict_to_yaml(final_dict, file_path, file_mode):
             self.msg = {
                 f"YAML config generation task succeeded for module '{self.module_name}'.": {"file_path": file_path}
             }
@@ -3253,7 +3129,7 @@ def main():
             - dnac_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
-            - config (list[dict], required): Configuration parameters list
+            - config (dict, required): Configuration parameters dictionary
             - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
@@ -3370,8 +3246,7 @@ def main():
         # ============================================
         "config": {
             "required": True,
-            "type": "list",
-            "elements": "dict"
+            "type": "dict"
         },
         "state": {
             "default": "gathered",
@@ -3411,7 +3286,7 @@ def main():
         f"dnac_verify={module.params.get('dnac_verify')}, "
         f"dnac_version={module.params.get('dnac_version')}, "
         f"state={module.params.get('state')}, "
-        f"config_items={len(module.params.get('config', []))}",
+        f"has_config={bool(module.params.get('config'))}",
         "DEBUG"
     )
 
@@ -3504,59 +3379,23 @@ def main():
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ============================================
-    config_list = ccc_accesspoint_playbook_generator.validated_config
+    config = ccc_accesspoint_playbook_generator.validated_config
 
     ccc_accesspoint_playbook_generator.log(
-        f"Starting configuration processing loop - will process {len(config_list)} configuration "
-        f"item(s) from playbook",
+        f"Starting configuration processing for state '{state}'",
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        ccc_accesspoint_playbook_generator.log(
-            f"Processing configuration item {config_index}/{len(config_list)} for state '{state}'",
-            "INFO"
-        )
-
-        # Reset values for clean state between configurations
-        ccc_accesspoint_playbook_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_accesspoint_playbook_generator.reset_values()
-
-        # Collect desired state (want) from configuration
-        ccc_accesspoint_playbook_generator.log(
-            f"Collecting desired state parameters from configuration item {config_index}",
-            "DEBUG"
-        )
-        ccc_accesspoint_playbook_generator.get_want(
-            config, state
-        ).check_return_status()
-
-        # Collect current state (have) from Catalyst Center
-        ccc_accesspoint_playbook_generator.log(
-            f"Collecting current state from Catalyst Center for configuration item {config_index}",
-            "DEBUG"
-        )
-        ccc_accesspoint_playbook_generator.get_have(
-            config
-        ).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        ccc_accesspoint_playbook_generator.log(
-            f"Executing state-specific operation for '{state}' workflow on "
-            f"configuration item {config_index}",
-            "INFO"
-        )
-        ccc_accesspoint_playbook_generator.get_diff_state_apply[state]().check_return_status()
-
-        ccc_accesspoint_playbook_generator.log(
-            f"Successfully completed processing for configuration item {config_index}/{len(config_list)}",
-            "INFO"
-        )
+    ccc_accesspoint_playbook_generator.reset_values()
+    ccc_accesspoint_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
+    ccc_accesspoint_playbook_generator.get_have(
+        config
+    ).check_return_status()
+    ccc_accesspoint_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     # ============================================
     # Module Completion and Exit
@@ -3571,7 +3410,7 @@ def main():
 
     ccc_accesspoint_playbook_generator.log(
         f"Module execution completed successfully at timestamp {completion_timestamp}. "
-        f"Total execution time: {module_duration:.2f} seconds. Processed {len(config_list)} "
+        f"Total execution time: {module_duration:.2f} seconds. Processed 1 "
         f"configuration item(s) with final status: {ccc_accesspoint_playbook_generator.status}",
         "INFO"
     )
