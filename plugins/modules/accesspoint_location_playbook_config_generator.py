@@ -263,6 +263,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/accesspoint_location_playbook_config_planned_ap_base.yml"
       file_mode: "overwrite"
       global_filters:
         planned_accesspoint_list:
@@ -282,6 +283,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/accesspoint_location_playbook_config_real_ap_base.yml"
       file_mode: "overwrite"
       global_filters:
         real_accesspoint_list:
@@ -301,6 +303,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/accesspoint_location_playbook_config_model_base.yml"
       file_mode: "overwrite"
       global_filters:
         accesspoint_model_list:
@@ -320,6 +323,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/accesspoint_location_playbook_config_mac_base.yml"
       file_mode: "overwrite"
       global_filters:
         mac_address_list:
