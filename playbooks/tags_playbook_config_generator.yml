@@ -164,3 +164,134 @@
               tag_memberships:
                 - tag_name: Campus-Switches
                 - tag_name: Core-Routers
+
+# Example 7: Retrieve all tag memberships using hostname as device identifier
+- name: Generate tag memberships with hostname identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export all tag memberships identified by hostname
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/tags_by_hostname.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - device_identifier: hostname
+      # This will retrieve all tags with their members identified by hostname.
+
+# Example 8: Retrieve specific tag membership with IP address as device identifier
+- name: Generate specific tag membership using IP address identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export specific tag membership with IP addresses
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/production_tag_by_ip.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - tag_name: Production
+                  device_identifier: ip_address
+      # This will retrieve only the 'Production' tag's members with IP addresses
+
+# Example 9: Retrieve tag memberships with MAC address as device identifier
+- name: Generate tag memberships using MAC address identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tag memberships with MAC addresses
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/tags_by_mac.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - tag_name: Campus-Switches
+                  device_identifier: mac_address
+                - tag_name: Core-Routers
+                  device_identifier: mac_address
+      # This will retrieve specific tags' members with MAC addresses
+
+# Example 10: Mixed configuration with different device identifiers per tag
+- name: Generate tag configurations with mixed device identifiers
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tags with various device identifier formats
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          - file_path: "/tmp/mixed_identifiers.yaml"
+            component_specific_filters:
+              components_list: ["tag_memberships"]
+              tag_memberships:
+                - tag_name: Production
+                  device_identifier: hostname
+                - tag_name: Development
+                  device_identifier: ip_address
+                - tag_name: Testing
+                  device_identifier: mac_address
+                - tag_name: Staging
+      # Different tags can use different device identifiers in the same configuration
+      # When device_identifier is not specified (e.g., Staging), it defaults to 'serial_number'

@@ -112,6 +112,16 @@ options:
                 - "serial_number: Uses the device serial number as the identifier (default)"
                 - "mac_address: Uses the device MAC address as the identifier"
                 - "ip_address: Uses the device IP address as the identifier"
+                - >-
+                  Fallback Behavior: If the chosen device_identifier value is not available
+                  (None or empty) for a particular device, the module will automatically attempt
+                  to resolve the device using alternative identifiers in the following order:
+                  serial_number -> ip_address -> mac_address -> hostname
+                  (skipping the primary identifier in the fallback chain).
+                  If a fallback identifier is used, the output key in the generated YAML will
+                  change to match the fallback identifier (e.g., 'serial_numbers' instead of 'hostnames').
+                  If no identifier can be resolved for a device, that device is skipped with a warning.
+                  All fallback events are logged at WARNING level for visibility.
                 type: str
                 required: false
                 default: serial_number
@@ -1684,42 +1694,72 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         This method processes network device and interface members from tag membership details
         and organizes them into a structured format suitable for YAML playbook generation.
-        Network devices are grouped by serial numbers, and interfaces are mapped to their
+        Network devices are grouped by their resolved identifier, and interfaces are mapped to their
         parent devices with associated port names.
 
         Args:
             tag_membership_details (dict): Dictionary containing tag membership information with keys:
                 - "network_device_members" (list): List of network device member dictionaries,
-                    each containing "serialNumber" key.
+                    each containing device fields like serialNumber, hostname, macAddress, etc.
                 - "interface_members" (list): List of interface member dictionaries, each containing:
                     - "deviceId" (str): Parent device ID for the interface.
                     - "portName" (str): Name of the port/interface.
+                - "device_identifier" (str, optional): The preferred identifier type to use.
+                    Defaults to "serial_number". Supported values:
+                    "serial_number", "ip_address", "mac_address", "hostname".
 
         Returns:
             list: A list of device detail dictionaries with the following structure:
                 - For network devices without ports:
                     {
-                        "serial_numbers": [<serial_number>, ...]
+                        "<output_key>": [<identifier_value>, ...]
                     }
                 - For devices with interfaces:
                     {
-                        "serial_numbers": [<serial_number>],
+                        "<output_key>": [<identifier_value>],
                         "port_names": [<port_name>, ...]
                     }
+                Where <output_key> is one of: "serial_numbers", "ip_addresses",
+                "mac_addresses", or "hostnames" depending on the resolved identifier.
 
         Description:
             The method performs the following operations:
-            1. Extracts serial numbers from network device members and creates a device entry.
-            2. Processes interface members by:
-                - Retrieving parent device details using device ID.
-                - Building a mapping of device serial numbers to their port names.
-                - Creating separate device entries for each device with its associated ports.
-            3. Returns an empty list if no members are found.
+            1. Determines the primary device identifier and its corresponding API field.
+            2. For each network device member:
+                - Attempts to resolve the device identifier using the primary field.
+                - If the primary identifier is None/empty, falls back to alternative
+                  identifiers in the following order:
+                  serial_number -> ip_address -> mac_address -> hostname
+                  (skipping the primary identifier in the fallback chain).
+                - If no identifier can be resolved, the device is skipped with a warning.
+                - The output_key changes to match the fallback identifier used.
+            3. For each interface member:
+                - Retrieves parent device details via API.
+                - Applies the same fallback resolution as network device members.
+                - Maps resolved devices to their associated port names.
+                - If parent device details cannot be retrieved, the interface is skipped
+                  with a warning.
+            4. Returns an empty list if no members are found.
+
+        Fallback Behavior:
+            When the primary device_identifier field is None or empty for a device, the method
+            automatically attempts to resolve an alternative identifier. The fallback order is
+            determined by the identifier_mapping dictionary order:
+                1. serial_number (serialNumber)
+                2. ip_address (managementIpAddress)
+                3. mac_address (macAddress)
+                4. hostname (hostname)
+            The primary identifier is skipped in the fallback chain. The first non-empty
+            value found is used, and the output_key is updated accordingly. For example, if
+            device_identifier is "hostname" but hostname is None, the method will try
+            serial_number first, then ip_address, then mac_address.
+            Devices where no identifier can be resolved at all are skipped with a warning log.
 
         Note:
-            - If parent device details cannot be retrieved for an interface, the method
-            fails immediately with an error message.
-            - Network devices without interfaces are listed separately from those with interfaces.
+            - When fallback occurs, the output_key in the result dict changes to match the
+              fallback identifier (e.g., "serial_numbers" instead of "hostnames").
+            - Devices resolved via different identifiers are grouped separately in the output.
+            - All fallback events are logged at WARNING level for visibility.
         """
         self.log(
             f"Transforming device details: {self.pprint(tag_membership_details)}",
@@ -1737,19 +1777,19 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Map device_identifier to API field names and output keys (shared for both device and interface members)
         identifier_mapping = {
-            "hostname": {"api_field": "hostname", "output_key": "hostnames"},
             "serial_number": {
                 "api_field": "serialNumber",
                 "output_key": "serial_numbers",
-            },
-            "mac_address": {
-                "api_field": "macAddress",
-                "output_key": "mac_addresses",
             },
             "ip_address": {
                 "api_field": "managementIpAddress",
                 "output_key": "ip_addresses",
             },
+            "mac_address": {
+                "api_field": "macAddress",
+                "output_key": "mac_addresses",
+            },
+            "hostname": {"api_field": "hostname", "output_key": "hostnames"},
         }
 
         mapping = identifier_mapping.get(device_identifier)
@@ -1788,27 +1828,47 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
 
-            network_device_identifiers = []
+            # Group identifiers by their resolved output_key (handles fallback to different identifier types)
+            grouped_identifiers = defaultdict(list)
 
             for index, network_device_member in enumerate(
                 network_device_members, start=1
             ):
-                identifier_value = network_device_member.get(api_field)
                 self.log(
-                    f"Processing network device member {index}/{len(network_device_members)}: {api_field}='{identifier_value}'",
+                    f"Processing network device member {index}/{len(network_device_members)}: "
+                    f"{api_field}='{network_device_member.get(api_field)}'",
                     "DEBUG",
                 )
-                network_device_identifiers.append(identifier_value)
 
-            self.log(
-                f"Collected {len(network_device_identifiers)} network device {output_key}",
-                "INFO",
-            )
-            device_details.append(
-                {
-                    output_key: network_device_identifiers,
-                }
-            )
+                resolved_identifier = self.resolve_device_identifier(
+                    device_data=network_device_member,
+                    api_field=api_field,
+                    output_key=output_key,
+                    device_identifier=device_identifier,
+                    identifier_mapping=identifier_mapping,
+                    context_label=f"network device member {index}/{len(network_device_members)}",
+                )
+                if not resolved_identifier:
+                    self.log(
+                        f"Skipping network device member {index}/{len(network_device_members)} "
+                        f"as no valid device identifier could be resolved.",
+                        "WARNING",
+                    )
+                    continue
+
+                resolved_value, resolved_output_key = resolved_identifier
+                grouped_identifiers[resolved_output_key].append(resolved_value)
+
+            for resolved_key, identifiers in grouped_identifiers.items():
+                self.log(
+                    f"Collected {len(identifiers)} network device identifier(s) under '{resolved_key}'",
+                    "INFO",
+                )
+                device_details.append(
+                    {
+                        resolved_key: identifiers,
+                    }
+                )
 
         self.log(self.pprint(device_details), "DEBUG")
         interface_members = tag_membership_details.get("interface_members", [])
@@ -1840,24 +1900,45 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 parent_device_info = self.get_device_details(parent_network_device_id)
-                if parent_device_info:
-                    parent_identifier_value = parent_device_info.get(api_field)
-                    parent_network_device_identifiers.append(parent_identifier_value)
+                if not parent_device_info:
                     self.log(
-                        f"Retrieved parent device info for device_id '{parent_network_device_id}': {api_field}='{parent_identifier_value}'",
-                        "DEBUG",
+                        f"Unable to retrieve parent device details for device ID: {parent_network_device_id}. "
+                        f"Skipping this interface member.",
+                        "WARNING",
                     )
-                else:
-                    self.msg = f"Unable to retrieve parent device details for device ID: {parent_network_device_id}"
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
+                    continue
 
-                parent_network_device_identifier = parent_device_info.get(api_field)
-                device_to_ports_mapping[parent_network_device_identifier].append(
+                self.log(
+                    f"Retrieved parent device info for device_id '{parent_network_device_id}': "
+                    f"{api_field}='{parent_device_info.get(api_field)}'",
+                    "DEBUG",
+                )
+
+                resolved_identifier = self.resolve_device_identifier(
+                    device_data=parent_device_info,
+                    api_field=api_field,
+                    output_key=output_key,
+                    device_identifier=device_identifier,
+                    identifier_mapping=identifier_mapping,
+                    context_label=f"parent device '{parent_network_device_id}'",
+                )
+                if not resolved_identifier:
+                    self.log(
+                        f"Skipping interface member {index}/{len(interface_members)} "
+                        f"(device_id='{parent_network_device_id}', port_name='{port_name}') "
+                        f"as no valid device identifier could be resolved.",
+                        "WARNING",
+                    )
+                    continue
+
+                resolved_value, resolved_output_key = resolved_identifier
+                parent_network_device_identifiers.append(resolved_value)
+
+                device_to_ports_mapping[(resolved_output_key, resolved_value)].append(
                     port_name
                 )
                 self.log(
-                    f"Added port '{port_name}' to device '{parent_network_device_identifier}'",
+                    f"Added port '{port_name}' to device '{resolved_value}' (output_key: '{resolved_output_key}')",
                     "DEBUG",
                 )
 
@@ -1866,14 +1947,17 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO",
             )
 
-            for device_identifier_value, port_names in device_to_ports_mapping.items():
+            for (
+                resolved_key,
+                device_identifier_value,
+            ), port_names in device_to_ports_mapping.items():
                 self.log(
-                    f"Creating device entry for {api_field} '{device_identifier_value}' with {len(port_names)} port(s)",
+                    f"Creating device entry for '{resolved_key}': '{device_identifier_value}' with {len(port_names)} port(s)",
                     "DEBUG",
                 )
                 device_details.append(
                     {
-                        output_key: [device_identifier_value],
+                        resolved_key: [device_identifier_value],
                         "port_names": port_names,
                     }
                 )
@@ -1883,6 +1967,140 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
         return device_details
+
+    def resolve_device_identifier(
+        self,
+        device_data,
+        api_field,
+        output_key,
+        device_identifier,
+        identifier_mapping,
+        context_label,
+    ):
+        """
+        Resolve a device identifier value from device data, falling back to alternative identifiers if needed.
+
+        When the primary identifier field is None or empty, this method iterates through the
+        remaining identifier mappings and returns the first non-empty value found. Both the
+        resolved value and its corresponding output_key are returned, since the output_key
+        changes when a fallback identifier is used.
+
+        Args:
+            device_data (dict): Dictionary containing device fields (e.g., serialNumber, hostname).
+            api_field (str): The primary API field name to look up (e.g., "serialNumber").
+            output_key (str): The primary output key (e.g., "serial_numbers").
+            device_identifier (str): The primary identifier key to skip during fallback (e.g., "serial_number").
+            identifier_mapping (dict): Full mapping of identifier keys to their api_field/output_key dicts.
+            context_label (str): A label for log messages identifying the device (e.g., "network device member 3/10").
+
+        Returns:
+            tuple or None: A tuple of (resolved_value, resolved_output_key) if a value is found,
+                           or None if no identifier could be resolved.
+
+        Fallback Order:
+            When the primary identifier is None/empty, fallback identifiers are tried in the
+            order they appear in identifier_mapping (skipping the primary):
+                1. serial_number  -> API field: "serialNumber",         output_key: "serial_numbers"
+                2. ip_address     -> API field: "managementIpAddress",  output_key: "ip_addresses"
+                3. mac_address    -> API field: "macAddress",           output_key: "mac_addresses"
+                4. hostname       -> API field: "hostname",             output_key: "hostnames"
+            The first non-empty value found is returned along with its corresponding output_key.
+
+        Example:
+            If device_identifier="hostname" and hostname is None in device_data, but
+            serialNumber="ABC123" exists:
+                Returns: ("ABC123", "serial_numbers")
+                Logs WARNING about falling back from hostname to serialNumber.
+
+            If all identifier fields are None/empty:
+                Returns: None
+                Logs WARNING with full device data.
+        """
+        self.log(
+            f"Resolving device identifier for {context_label}: "
+            f"primary api_field='{api_field}', output_key='{output_key}', "
+            f"device_identifier='{device_identifier}'.",
+            "DEBUG",
+        )
+
+        # Sentinel values that should be treated as missing/invalid identifiers
+        invalid_identifier_values = {
+            "None",
+            "NA",
+            "N/A",
+            "none",
+            "na",
+            "n/a",
+            "",
+            "NONE",
+        }
+        self.log(
+            f"Using invalid identifier sentinel values for validation: {invalid_identifier_values}",
+            "DEBUG",
+        )
+
+        identifier_value = device_data.get(api_field)
+        if (
+            identifier_value
+            and str(identifier_value).strip() not in invalid_identifier_values
+        ):
+            self.log(
+                f"Successfully resolved device identifier for {context_label}: "
+                f"{api_field}='{identifier_value}' (output_key: '{output_key}').",
+                "DEBUG",
+            )
+            return (identifier_value, output_key)
+
+        self.log(
+            f"Primary device identifier '{api_field}' is None/empty/invalid (value: '{identifier_value}') "
+            f"for {context_label}. Attempting fallback resolution.",
+            "DEBUG",
+        )
+
+        # Fallback: try other device identifiers
+        self.log(
+            f"Starting fallback resolution for {context_label}. "
+            f"Will iterate through {len(identifier_mapping) - 1} alternative identifier(s).",
+            "DEBUG",
+        )
+        for fallback_key, fallback_mapping in identifier_mapping.items():
+            if fallback_key == device_identifier:
+                self.log(
+                    f"Skipping primary identifier '{fallback_key}' during fallback for {context_label}.",
+                    "DEBUG",
+                )
+                continue
+            fallback_api_field = fallback_mapping["api_field"]
+            fallback_value = device_data.get(fallback_api_field)
+            self.log(
+                f"Trying fallback identifier '{fallback_key}' (api_field: '{fallback_api_field}') "
+                f"for {context_label}: value='{fallback_value}'.",
+                "DEBUG",
+            )
+            if (
+                fallback_value
+                and str(fallback_value).strip() not in invalid_identifier_values
+            ):
+                self.log(
+                    f"Device identifier '{api_field}' not found for {context_label}. "
+                    f"Falling back to '{fallback_api_field}' (output_key: '{fallback_mapping['output_key']}') "
+                    f"with value '{fallback_value}'.",
+                    "WARNING",
+                )
+                return (fallback_value, fallback_mapping["output_key"])
+            else:
+                self.log(
+                    f"Fallback identifier '{fallback_key}' also invalid for {context_label} "
+                    f"(value: '{fallback_value}'). Continuing to next fallback.",
+                    "DEBUG",
+                )
+
+        self.log(
+            f"No valid device identifier found for {context_label}. "
+            f"Skipping. Device data: {self.pprint(device_data)}",
+            "WARNING",
+        )
+        return None
 
     def get_device_details(self, device_id):
         """
