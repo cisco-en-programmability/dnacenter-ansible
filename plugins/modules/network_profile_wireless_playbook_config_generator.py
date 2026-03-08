@@ -274,6 +274,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_wireless_playbook_config_profile_base.yml"
       file_mode: "overwrite"
       global_filters:
         profile_name_list:
@@ -293,6 +294,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_wireless_playbook_config_dayn_template_base.yml"
       file_mode: "overwrite"
       global_filters:
         day_n_template_list:
@@ -312,6 +314,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_wireless_playbook_config_site_base.yml"
       file_mode: "overwrite"
       global_filters:
         site_list:
@@ -331,6 +334,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_wireless_playbook_config_ssid_base.yml"
       file_mode: "overwrite"
       global_filters:
         ssid_list:
@@ -350,6 +354,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_wireless_playbook_config_ap_zone_base.yml"
       file_mode: "overwrite"
       global_filters:
         ap_zone_list:
@@ -369,6 +374,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_wireless_playbook_config_feature_template_base.yml"
       file_mode: "overwrite"
       global_filters:
         feature_template_list:
@@ -388,6 +394,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_wireless_playbook_config_additional_interface_base.yml"
       file_mode: "overwrite"
       global_filters:
         additional_interface_list:
