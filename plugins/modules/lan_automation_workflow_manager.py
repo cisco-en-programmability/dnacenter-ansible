@@ -5121,10 +5121,10 @@ class LanAutomation(DnacBase):
         pnp_authorization = lan_automation.get("pnpAuthorization", False)
         device_serials = [
             serial.upper()
-            for serial in lan_automation.get("deviceSerialNumberAuthorization", [])
+            for serial in (lan_automation.get("deviceSerialNumberAuthorization") or [])
         ] or [
             device.get("deviceSerialNumber", "").upper()
-            for device in lan_automation.get("discoveryDevices", [])
+            for device in (lan_automation.get("discoveryDevices") or [])
         ]
 
         self.log("LAN Automation Config: {}".format(lan_automation), "DEBUG")
