@@ -210,6 +210,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_switching_playbook_config_profile_base.yml"
       file_mode: "overwrite"
       global_filters:
         profile_name_list:
@@ -229,6 +230,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/network_profile_switching_playbook_config_dayn_template_base.yml"
       file_mode: "overwrite"
       global_filters:
         day_n_template_list:
@@ -248,7 +250,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      file_path: "/tmp/complete_switch_profile_config.yml"
+      file_path: "tmp/network_profile_switching_playbook_config_site_base.yml"
       file_mode: "overwrite"
       global_filters:
         site_list:
