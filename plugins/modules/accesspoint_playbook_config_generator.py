@@ -273,6 +273,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/accesspoint_workflow_playbook_hostname_provision_base.yml"
       file_mode: "overwrite"
       global_filters:
         provision_hostname_list:
@@ -292,6 +293,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/accesspoint_workflow_playbook_hostname_base.yml"
       file_mode: "overwrite"
       global_filters:
         accesspoint_config_list:
@@ -311,6 +313,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/accesspoint_workflow_playbook_hostname_provision_base.yml"
       file_mode: "overwrite"
       global_filters:
         accesspoint_provision_config_list:
@@ -330,6 +333,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
+      file_path: "tmp/accesspoint_workflow_playbook_mac_base.yml"
       file_mode: "overwrite"
       global_filters:
         accesspoint_provision_config_mac_list:
