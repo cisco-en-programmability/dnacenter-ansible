@@ -1771,7 +1771,7 @@ options:
                     between mesh access points over
                     the 5 GHz frequency band.
                 type: str
-                choices: ["auto", "802.11abg", "802.12ac", "802.11ax", "802.11n"]
+                choices: ["auto", "802.11abg", "802.11ac", "802.11ax", "802.11n"]
                 default: "auto"
               ghz_2_4_backhaul_data_rates:
                 description:
@@ -7551,6 +7551,7 @@ class WirelessDesign(DnacBase):
                         "dca_channels_list": {"type": "list"},
                         "supported_data_rates_list": {"type": "list"},
                         "mandatory_data_rates_list": {"type": "list"},
+                        "standard_power_service": {"type": "bool"},
                         "minimum_power_level": {"type": "int"},
                         "maximum_power_level": {"type": "int"},
                         "rx_sop_threshold": {"type": "str"},
@@ -10671,7 +10672,7 @@ class WirelessDesign(DnacBase):
             "scan_defer_time": "scanDeferTime",
             "max_clients": "maxClients",
             "max_clients_per_radio": "maxClientsPerRadio",
-            "max_clients_per_ap": "maxClientsPerAP",
+            "max_clients_per_ap": "maxClientsPerAp",
             "idle_threshold": "idleThreshold",
             "fast_transition_reassociation_timeout": "fastTransitionReassociationTimeout",
 
@@ -10684,7 +10685,7 @@ class WirelessDesign(DnacBase):
             # steering / agile multiband / fastlane
             "wifi_to_cellular_steering": "wifiToCellularSteering",
             "wifi_alliance_agile_multiband": "wifiAllianceAgileMultiband",
-            "fastlane_asr": "fastlaneAsr",
+            "fastlane_asr": "fastlaneASR",
 
             # 11v / AP admin / caching / security guards
             "dot11v_bss_max_idle_protected": "dot11vBssMaxIdleProtected",
@@ -14857,9 +14858,9 @@ class WirelessDesign(DnacBase):
                     "DEBUG",
                 )
                 if vlan_id is not None:
-                    if not (1 <= vlan_id <= 4094):
+                    if not (0 <= vlan_id <= 4094):
                         self.msg = (
-                            "The 'vlan_id' must be between 1 and 4094. "
+                            "The 'vlan_id' must be between 0 and 4094. "
                             "Provided 'vlan_id': {}"
                         ).format(vlan_id)
                         self.fail_and_exit(self.msg)
@@ -15317,7 +15318,7 @@ class WirelessDesign(DnacBase):
         valid_radio_band_types_5ghz = [
             "auto",
             "802.11abg",
-            "802.12ac",
+            "802.11ac",
             "802.11ax",
             "802.11n",
         ]
