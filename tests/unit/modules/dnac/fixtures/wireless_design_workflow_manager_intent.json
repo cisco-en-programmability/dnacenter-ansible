@@ -380,6 +380,16 @@
             ]
         }
     ],
+    "playbook_config_interfaces_vlan_id_zero_no_change":[
+        {
+            "interfaces":[
+                {
+                    "interface_name":"management",
+                    "vlan_id":0
+                }
+            ]
+        }
+    ],
     "playbook_config_create_power_profiles":[
         {
             "power_profiles":[
