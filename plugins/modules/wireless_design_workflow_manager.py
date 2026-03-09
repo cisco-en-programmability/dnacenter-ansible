@@ -10672,7 +10672,7 @@ class WirelessDesign(DnacBase):
             "scan_defer_time": "scanDeferTime",
             "max_clients": "maxClients",
             "max_clients_per_radio": "maxClientsPerRadio",
-            "max_clients_per_ap": "maxClientsPerAP",
+            "max_clients_per_ap": "maxClientsPerAp",
             "idle_threshold": "idleThreshold",
             "fast_transition_reassociation_timeout": "fastTransitionReassociationTimeout",
 
@@ -10685,7 +10685,7 @@ class WirelessDesign(DnacBase):
             # steering / agile multiband / fastlane
             "wifi_to_cellular_steering": "wifiToCellularSteering",
             "wifi_alliance_agile_multiband": "wifiAllianceAgileMultiband",
-            "fastlane_asr": "fastlaneAsr",
+            "fastlane_asr": "fastlaneASR",
 
             # 11v / AP admin / caching / security guards
             "dot11v_bss_max_idle_protected": "dot11vBssMaxIdleProtected",
