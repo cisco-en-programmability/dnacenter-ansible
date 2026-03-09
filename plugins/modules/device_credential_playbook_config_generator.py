@@ -60,8 +60,7 @@ options:
       filters for targeted credential extraction.
     - At least one of generate_all_configurations or component_specific_filters
       with components_list must be specified to identify target credentials.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -88,6 +87,14 @@ options:
         - Directory created automatically if path does not exist.
         - Supports YAML file extension (.yml or .yaml).
         type: str
+      file_mode:
+        description:
+        - Controls how config is written to the YAML file.
+        - C(overwrite) replaces existing file content.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
       component_specific_filters:
         description:
         - Component-based filters for targeted credential extraction.
@@ -281,7 +288,8 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.device_credential_playbook_config_generator:
@@ -296,8 +304,9 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "device_credential_config.yml"
+      generate_all_configurations: true
+      file_path: "device_credential_config.yml"
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with specific component global credential filters
   cisco.dnac.device_credential_playbook_config_generator:
@@ -312,17 +321,18 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - generate_all_configurations: false
-        file_path: "device_credential_config.yml"
-        component_specific_filters:
-          components_list: ["global_credential_details"]
-          global_credential_details:
-            cli_credential:
-              - description: test
-            https_read:
-              - description: http_read
-            https_write:
-              - description: http_write
+      generate_all_configurations: false
+      file_path: "device_credential_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["global_credential_details"]
+        global_credential_details:
+          cli_credential:
+            - description: test
+          https_read:
+            - description: http_read
+          https_write:
+            - description: http_write
 
 - name: Generate YAML Configuration with specific component assign credentials to site filters
   cisco.dnac.device_credential_playbook_config_generator:
@@ -337,13 +347,14 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - file_path: "device_credential_config.yml"
-        component_specific_filters:
-          components_list: ["assign_credentials_to_site"]
-          assign_credentials_to_site:
-            site_name:
-              - "Global/India/Assam"
-              - "Global/India/Haryana"
+      file_path: "device_credential_config.yml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["assign_credentials_to_site"]
+        assign_credentials_to_site:
+          site_name:
+            - "Global/India/Assam"
+            - "Global/India/Haryana"
 
 - name: Generate YAML Configuration with both global credential and assign credentials to site filters
   cisco.dnac.device_credential_playbook_config_generator:
@@ -358,20 +369,21 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - file_path: "device_credential_config.yml"
-        component_specific_filters:
-          components_list: ["global_credential_details", "assign_credentials_to_site"]
-          global_credential_details:
-            cli_credential:
-              - description: test
-            https_read:
-              - description: http_read
-            https_write:
-              - description: http_write
-          assign_credentials_to_site:
-            site_name:
-              - "Global/India/Assam"
-              - "Global/India/TamilNadu"
+      file_path: "device_credential_config.yml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["global_credential_details", "assign_credentials_to_site"]
+        global_credential_details:
+          cli_credential:
+            - description: test
+          https_read:
+            - description: http_read
+          https_write:
+            - description: http_write
+        assign_credentials_to_site:
+          site_name:
+            - "Global/India/Assam"
+            - "Global/India/TamilNadu"
 """
 
 RETURN = r"""
@@ -452,11 +464,11 @@ response_3:
   type: dict
   sample:
     response: >-
-      Validation Error in entry 1: 'component_specific_filters' must be
+      Validation Error: 'component_specific_filters' must be
       provided with 'components_list' key when 'generate_all_configurations'
       is set to False.
     msg: >-
-      Validation Error in entry 1: 'component_specific_filters' must be
+      Validation Error: 'component_specific_filters' must be
       provided with 'components_list' key when 'generate_all_configurations'
       is set to False.
     status: failed
@@ -493,7 +505,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 
 
@@ -665,6 +676,12 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "required": False,
                 "default": False
             },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"]
+            },
             "file_path": {
                 "type": "str",
                 "required": False
@@ -680,24 +697,8 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Validate params
         self.log("Validating configuration against schema.", "DEBUG")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-        self.log(
-            "Validation result - valid: {0}, invalid: {1}".format(
-                valid_temp, invalid_params
-            ),
-            "DEBUG",
-        )
-        if invalid_params:
-            self.log(
-                "Schema validation failed. Invalid parameters detected: {0}. These "
-                "parameters do not conform to expected types or structure.".format(
-                    invalid_params
-                ),
-                "ERROR"
-            )
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.log(
             "Schema validation passed successfully. All parameters conform to expected "
             "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
@@ -2107,6 +2108,12 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "write_dict_to_yaml() operation.".format(file_path),
             "INFO"
         )
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+
+        self.log(
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
+            "DEBUG"
+        )
 
         self.log(
             "Initializing filter dictionaries from yaml_config_generator parameters. "
@@ -2355,7 +2362,7 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
+        if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, dumper=OrderedDumper):
             self.log(
                 "YAML file write operation succeeded. File created at: {0}. File "
                 "contains {1} configuration(s) with header comments and formatted "
@@ -2609,7 +2616,7 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -2651,15 +2658,13 @@ def main():
         "Validated configuration parameters: {0}".format(str(config)), "DEBUG"
     )
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_device_credential_playbook_config_generator.validated_config:
-        ccc_device_credential_playbook_config_generator.reset_values()
-        ccc_device_credential_playbook_config_generator.get_want(
-            config, state
-        ).check_return_status()
-        ccc_device_credential_playbook_config_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+    config = ccc_device_credential_playbook_config_generator.validated_config
+    ccc_device_credential_playbook_config_generator.get_want(
+        config, state
+    ).check_return_status()
+    ccc_device_credential_playbook_config_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     module.exit_json(**ccc_device_credential_playbook_config_generator.result)
 
