@@ -1232,13 +1232,47 @@ class BrownFieldHelper:
                 try:
                     cmdline = process.cmdline()
                     if cmdline and any('ansible-playbook' in arg for arg in cmdline):
-                        full_command = ' '.join(cmdline)
+                        # Parse cmdline list to find the playbook (first positional .yml/.yaml arg).
+                        # We must skip option values so that e.g. "-i inventory.yml" is not mistaken
+                        # for the playbook.
+                        flags_with_values = {
+                            '-i', '--inventory', '--inventory-file',
+                            '-e', '--extra-vars',
+                            '--vault-password-file', '--vault-id',
+                            '-f', '--forks', '-l', '--limit',
+                            '-t', '--tags', '--skip-tags',
+                            '-u', '--user', '--private-key', '--key-file',
+                            '-T', '--timeout', '-c', '--connection',
+                            '-M', '--module-path',
+                            '--become-method', '--become-user',
+                            '--start-at-task',
+                            '--ssh-common-args', '--ssh-extra-args',
+                            '--sftp-extra-args', '--scp-extra-args',
+                        }
+                        playbook_path = None
+                        skip_next = False
+                        for arg in cmdline:
+                            if skip_next:
+                                skip_next = False
+                                continue
+                            # Handle "--flag=value" forms — skip the whole token
+                            if '=' in arg and arg.split('=', 1)[0] in flags_with_values:
+                                continue
+                            if arg in flags_with_values:
+                                skip_next = True
+                                continue
+                            if arg.startswith('-'):
+                                # Boolean flag or unknown option — skip
+                                continue
+                            # Skip the ansible-playbook executable itself
+                            if 'ansible-playbook' in arg:
+                                continue
+                            # First positional .yml/.yaml argument is the playbook
+                            if re.search(r'\.ya?ml$', arg):
+                                playbook_path = arg
+                                break
 
-                        # Extract YAML file path using regex - matches both relative and absolute paths
-                        # Matches patterns like: file.yml, playbooks/file.yml, ./path/to/file.yaml, /absolute/path/file.yml
-                        match = re.search(r'((?:[\w\-./]+/)?[\w\-]+\.ya?ml)', full_command)
-                        if match:
-                            playbook_path = match.group(1)
+                        if playbook_path:
 
                             # Get the absolute path
                             if playbook_path.startswith('/'):
