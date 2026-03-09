@@ -58,7 +58,6 @@ options:
     - At least one of generate_all_configurations or component_specific_filters
       with components_list must be specified to identify target configurations.
     type: dict
-    elements: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -2573,7 +2572,6 @@ def main():
         f"Starting configuration processing loop - will process {len(config_list)} configuration item(s) from playbook",
         "INFO"
     )
-
 
     config = catc_sda_host_port_onboarding_playbook_config_generator.validated_config
     catc_sda_host_port_onboarding_playbook_config_generator.get_want(
