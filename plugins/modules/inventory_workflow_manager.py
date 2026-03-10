@@ -1413,6 +1413,7 @@ class Inventory(DnacBase):
         ) = ([], [], [])
         self.cred_updated_not_required, self.device_role_already_updated = [], []
         self.ap_rebooted_successfully = []
+        self.udf_already_added = []
 
     def validate_input(self):
         """
@@ -1616,7 +1617,7 @@ class Inventory(DnacBase):
                     "Received API response from 'get_device_list': {0}".format(
                         str(response)
                     ),
-                    "DEBUG",
+                    "error",
                 )
                 if not response:
                     self.log(
@@ -1683,7 +1684,7 @@ class Inventory(DnacBase):
             "DEBUG",
         )
         udf = response.get("response")
-
+        self.log(self.config, "DEBUG")
         if len(udf) == 1:
             return True
 
@@ -6182,17 +6183,27 @@ class Inventory(DnacBase):
 
         if self.config[0].get("role"):
             devices_to_update_role = self.get_device_ips_from_config_priority()
-            device_exist = self.is_device_exist_for_update(devices_to_update_role)
+            # Only validate device existence if we are NOT also adding devices in this run.
+            # When devices are being added in the same playbook run, the role update will
+            # happen after the device add operation completes.
+            if not devices_to_add:
+                device_exist = self.is_device_exist_for_update(devices_to_update_role)
 
-            if not device_exist:
-                self.msg = """Unable to update device role because the device(s) listed: {0} are not present in the Cisco
-                            Catalyst Center.""".format(
-                    str(devices_to_update_role)
+                if not device_exist:
+                    self.msg = """Unable to update device role because the device(s) listed: {0} are not present in the Cisco
+                                Catalyst Center.""".format(
+                        str(devices_to_update_role)
+                    )
+                    self.status = "failed"
+                    self.result["response"] = self.msg
+                    self.log(self.msg, "ERROR")
+                    return self
+            else:
+                self.log(
+                    "Skipping role pre-validation for device(s) {0} as they are being added in this run. "
+                    "Role will be updated after device addition.".format(str(devices_to_update_role)),
+                    "INFO",
                 )
-                self.status = "failed"
-                self.result["response"] = self.msg
-                self.log(self.msg, "ERROR")
-                return self
 
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
@@ -6537,7 +6548,7 @@ class Inventory(DnacBase):
 
                 # Check if the Global User defined field exist if not then create it with given field name
                 udf_exist = self.is_udf_exist(field_name)
-                self.log(udf_exist)
+                
                 if not udf_exist:
                     # Create the Global UDF
                     self.log(
@@ -6547,7 +6558,12 @@ class Inventory(DnacBase):
                         "DEBUG",
                     )
                     self.create_user_defined_field(udf).check_return_status()
-
+                self.log(
+                    "Global User Defined Field '{0}' is present in Cisco Catalyst Center".format(
+                        field_name
+                    ),
+                    "DEBUG",
+                )
                 # Get device Id based on config priority
                 device_ips = self.get_device_ips_from_config_priority()
                 device_ids = self.get_device_ids(device_ips)
@@ -6561,16 +6577,24 @@ class Inventory(DnacBase):
                     self.log(self.msg, "INFO")
                     return self
 
-                # Now add code for adding Global UDF to device with Id
-                self.add_field_to_devices(device_ids, udf).check_return_status()
+                check_udf_added_to_device = self.check_udf_added_to_device(device_ids, field_name)
 
-                self.result["changed"] = True
-                self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(
-                    field_name
-                )
-                self.udf_added.append(field_name)
-                self.log(self.msg, "INFO")
-
+                if not check_udf_added_to_device:
+                    # Now add code for adding Global UDF to device with Id
+                    self.add_field_to_devices(device_ids, udf).check_return_status()
+                    self.result["changed"] = True
+                    self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(
+                        field_name
+                    )
+                    self.udf_added.append(field_name)
+                    self.log(self.msg, "INFO")
+                else:
+                    self.result["changed"] = False
+                    self.msg = "Global User Defined Field(UDF) named '{0}' is already added to the device.".format(
+                        field_name
+                    )
+                    self.udf_already_added.append(field_name)
+                    self.log(self.msg, "INFO")
         # Once Wired device get added we will assign device to site and Provisioned it
         if self.config[0].get("provision_wired_device"):
             self.provisioned_wired_device().check_return_status()
@@ -6832,6 +6856,52 @@ class Inventory(DnacBase):
                     self.no_update_in_maintenance.remove(device_ip)
 
         return self
+
+    def check_udf_added_to_device(self, device_ids, udf_field_name):
+        """
+        Check whether a user-defined field (UDF) exists on a specific device.
+
+        Parameters:
+            device_ids (list): List of device UUIDs. The first ID is used for lookup.
+            udf_field_name (str): UDF key name to verify on the device.
+
+        Returns:
+            bool: `True` if the UDF key exists on the device, otherwise `False`.
+
+        Description:
+            This method fetches device details from Cisco Catalyst Center using
+            `retrieve_network_devices` with `USER_DEFINED_FIELDS` view, then checks
+            whether the requested UDF key is present in the device's
+            `userDefinedFields` dictionary.
+        """
+        device_id = device_ids[0]
+        api_response = self.dnac._exec(
+            family="devices",
+            function="retrieve_network_devices",
+            op_modifies=True,
+            params={"id": device_id, "views": "USER_DEFINED_FIELDS"},
+        )
+
+        self.log(
+            "Received API response from 'retrieve_network_devices': {0}".format(
+                str(api_response)
+            ),
+            "DEBUG",
+        )
+        self.log("UDF to be added: {0}".format(udf_field_name), "DEBUG")
+
+        devices = api_response.get("response", [])
+        user_defined_fields = (
+            devices[0].get("userDefinedFields", {})
+            if devices and isinstance(devices[0], dict)
+            else {}
+        )
+
+        udf_exists = udf_field_name in user_defined_fields
+        self.log("UDF exists: {0}".format(udf_exists), "DEBUG")
+
+        return udf_exists
+
 
     def get_diff_deleted(self, config):
         """
@@ -7642,6 +7712,12 @@ class Inventory(DnacBase):
                 "', '".join(self.udf_added)
             )
             result_msg_list_changed.append(udf_added)
+
+        if self.udf_already_added:
+            udf_already_added = "Global User Defined Field(UDF) named '{0}' has already been added to the device.".format(
+                "', '".join(self.udf_already_added)
+            )
+            result_msg_list_not_changed.append(udf_already_added)
 
         if self.ap_rebooted_successfully:
             ap_rebooted_successfully = "AP Device(s) {0} successfully rebooted!".format(

@@ -34,6 +34,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
     playbook_delete_a_device = test_data.get("playbook_delete_a_device")
     playbook_add_existing_devices = test_data.get("playbook_add_existing_devices")
     playbook_add_udf = test_data.get("playbook_add_udf")
+    playbook_add_udf_ = test_data.get("playbook_add_udf_")
     playbook_provision_failed_for_site = test_data.get("playbook_provision_failed_for_site")
     playbook_delete_provisioned_device = test_data.get("playbook_delete_provisioned_device")
     playbook_update_interface_details = test_data.get("playbook_update_interface_details")
@@ -105,20 +106,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list3_existing_devices"),
                 self.test_data.get("get_device_list4_existing_devices"),
                 self.test_data.get("add_existing_devices_response"),]
-        elif "playbook_add_udf" in self._testMethodName:
+        elif "playbook_add_udf_" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_device_list1_add_udf"),
-                self.test_data.get("get_device_list2_add_udf"),
-                self.test_data.get("get_all_user_defined_fields"),
-                self.test_data.get("create_user_defined_field"),
-                self.test_data.get("get_device_list3_add_udf"),
-                self.test_data.get("get_device_list4_add_udf"),
-                self.test_data.get("add_user_defined_field_to_device1"),
-                self.test_data.get("add_user_defined_field_to_device2"),
-                self.test_data.get("get_device_list5_add_udf"),
-                self.test_data.get("get_device_list6_add_udf"),
-                self.test_data.get("get_all_user_defined_fields2"),
-                self.test_data.get("add_udf_response"),]
+                self.test_data.get("get_device_list_udf_2"),
+                self.test_data.get("get_device_list_udf"),
+                self.test_data.get("get_all_user_defined_fields_udf"),
+                self.test_data.get("get_device_list_udf_1"),
+                self.test_data.get("retrieve_network_devices"),
+                self.test_data.get("add_user_defined_field_to_device"), ]
         elif "playbook_provision_failed_for_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_provision_failed_for_site"),
@@ -398,7 +393,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "device(s) '70.2.2.2, 80.2.2.2' already present in the cisco catalyst center"
         )
 
-    def test_inventory_workflow_manager_playbook_add_udf(self):
+    def test_inventory_workflow_manager_playbook_add_udf_(self):
         """
         Test case for add device with full crendentials.
 
@@ -410,17 +405,17 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                dnac_version="2.3.7.6",
+                dnac_version="3.1.3.0",
                 state="merged",
-                config_verify=True,
-                config=self.playbook_add_udf
+                config_verify=False,
+                config=self.playbook_add_udf_
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Global User Defined Field(UDF) named 'Test123' has been successfully added to the device."
+            "Global User Defined Field(UDF) named 'To_test_udf' has been successfully added to the device."
         )
 
     def test_inventory_workflow_manager_playbook_provision_failed_for_site(self):
