@@ -142,47 +142,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Generate YAML configuration with site_name_hierarchy only
-  cisco.dnac.site_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      file_path: "/tmp/case1_site_name_hierarchy_only.yaml"
-      file_mode: "overwrite"
-      component_specific_filters:
-        components_list: ["site"]
-        site:
-          - site_name_hierarchy: "Global/USA/San Jose"
-
-- name: Generate YAML configuration with parent_name_hierarchy only
-  cisco.dnac.site_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      file_path: "/tmp/case2_parent_name_hierarchy_only.yaml"
-      file_mode: "overwrite"
-      component_specific_filters:
-        components_list: ["site"]
-        site:
-          - parent_name_hierarchy: "Global/USA"
-
-- name: Generate YAML configuration with relative site_name_hierarchy and parent_name_hierarchy
+- name: Scenario 1 - Generate YAML configuration by separate parent and site hierarchy entries
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -200,13 +160,13 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["site"]
         site:
+          - parent_name_hierarchy:
+              - "Global/USAsdfsfs"
           - site_name_hierarchy:
-              - "San Francisco"
-              - "San Jose"
-            parent_name_hierarchy:
-              - "Global/USA"
+              - "Global/USA/San Francisco"
+              - "Global/USA/San Jose"
 
-- name: Generate YAML configuration with no hierarchy input
+- name: Scenario 2 - Generate YAML configuration without hierarchy keys
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -224,7 +184,7 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["site"]
 
-- name: Generate YAML configuration with site_name_hierarchy and site_type list
+- name: Scenario 3 - Generate YAML configuration by site hierarchy and site type
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -247,7 +207,7 @@ EXAMPLES = r"""
               - "building"
               - "floor"
 
-- name: Generate YAML configuration with parent_name_hierarchy and site_type
+- name: Scenario 4 - Generate YAML configuration by parent hierarchy and site type
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -267,9 +227,9 @@ EXAMPLES = r"""
         site:
           - parent_name_hierarchy: "Global/USA"
             site_type:
-              - "building"
+              - "floor"
 
-- name: Generate YAML configuration with all filters
+- name: Scenario 5 - Generate YAML configuration by site hierarchy, parent hierarchy, and site type
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -287,13 +247,13 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["site"]
         site:
-          - site_name_hierarchy: "Global/USA/San Jose"
-            parent_name_hierarchy: "Global/USA"
+          - site_name_hierarchy: "Global/USA/San Francisco"
+          - parent_name_hierarchy: "Global/USA"
             site_type:
               - "building"
               - "floor"
 
-- name: Generate YAML configuration with site_type only
+- name: Scenario 6 - Generate YAML configuration by site type only
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -314,7 +274,7 @@ EXAMPLES = r"""
           - site_type:
               - "area"
 
-- name: Auto-generate YAML configuration for all sites
+- name: Scenario 7 - Auto-generate YAML configuration for all sites with file path
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -331,7 +291,7 @@ EXAMPLES = r"""
       file_path: "/tmp/case9_all_sites.yaml"
       file_mode: "overwrite"
 
-- name: Auto-generate YAML configuration with default file path
+- name: Scenario 8 - Validation failure example for generate_all_configurations false
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -344,7 +304,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      generate_all_configurations: true
+      generate_all_configurations: false
 """
 
 
