@@ -182,8 +182,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["sda_fabric_transits"]
         sda_fabric_transits:
-        - transit_type: "IP_BASED_TRANSIT"
-        - transit_type: "SDA_LISP_BGP_TRANSIT"
+          - transit_type: "IP_BASED_TRANSIT"
+          - transit_type: "SDA_LISP_BGP_TRANSIT"
 
 - name: Generate YAML Configuration for fabric transits with name filter
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -202,8 +202,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["sda_fabric_transits"]
         sda_fabric_transits:
-        - name: "Transit1"
-        - name: "Transit2"
+          - name: "Transit1"
+          - name: "Transit2"
 
 - name: Generate YAML Configuration for fabric transits with name and type filter
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -222,10 +222,10 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["sda_fabric_transits"]
         sda_fabric_transits:
-        - name: "Transit1"
-          transit_type: "IP_BASED_TRANSIT"
-        - name: "Transit2"
-          transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
+          - name: "Transit1"
+            transit_type: "IP_BASED_TRANSIT"
+          - name: "Transit2"
+            transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
 """
 
 

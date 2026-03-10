@@ -198,7 +198,7 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["fabric_sites"]
         fabric_sites:
-        - site_name_hierarchy: "Global/USA/California/San Jose"
+          - site_name_hierarchy: "Global/USA/California/San Jose"
 
 - name: Generate YAML Configuration with specific fabric zones components only
   cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
@@ -235,7 +235,7 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["fabric_zones"]
         fabric_zones:
-        - site_name_hierarchy: "Global/USA/California/San Jose"
+          - site_name_hierarchy: "Global/USA/California/San Jose"
 
 - name: Generate YAML Configuration for all components
   cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
@@ -998,7 +998,7 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         additional_config_headers = [
-            "When generate_all_configurations is true, all fabric sites are listed first, followed by all fabric zones.",
+            "When generate_all_configurations is true, all fabric sites are listed first, followed by all fabric zones."
         ]
 
         if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, notes=additional_config_headers):
