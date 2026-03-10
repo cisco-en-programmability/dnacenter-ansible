@@ -266,8 +266,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["fabric_vlan"]
         fabric_vlan:
-        - vlan_name: "vlan_1"
-        - vlan_name: "vlan_2"
+          - vlan_name: "vlan_1"
+          - vlan_name: "vlan_2"
 
 - name: Generate YAML Configuration for fabric vlans and virtual networks with multiple filters
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -286,11 +286,11 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["fabric_vlan", "virtual_networks"]
         fabric_vlan:
-        - vlan_name: "vlan_1"
-        - vlan_name: "vlan_2"
+          - vlan_name: "vlan_1"
+          - vlan_name: "vlan_2"
         virtual_networks:
-        - vn_name: "vn_1"
-        - vn_name: "vn_2"
+          - vn_name: "vn_1"
+          - vn_name: "vn_2"
 
 - name: Generate YAML Configuration for all components with no filters
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -326,8 +326,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["fabric_vlan"]
         fabric_vlan:
-        - vlan_id: 1031
-        - vlan_id: 1038
+          - vlan_id: 1031
+          - vlan_id: 1038
 
 - name: Generate YAML Configuration for fabric vlans with both VLAN name and ID filters
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -346,10 +346,10 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["fabric_vlan"]
         fabric_vlan:
-        - vlan_name: "Chennai-VN6-Pool1"
-          vlan_id: 1031
-        - vlan_name: "Chennai-VN9-Pool2"
-          vlan_id: 1038
+          - vlan_name: "Chennai-VN6-Pool1"
+            vlan_id: 1031
+          - vlan_name: "Chennai-VN9-Pool2"
+            vlan_id: 1038
 
 - name: Generate YAML Configuration for virtual networks with specific VN names
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -368,8 +368,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["virtual_networks"]
         virtual_networks:
-        - vn_name: "VN1"
-        - vn_name: "VN3"
+          - vn_name: "VN1"
+          - vn_name: "VN3"
 
 - name: Generate YAML Configuration for anycast gateways with VN name filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -408,8 +408,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["anycast_gateways"]
         anycast_gateways:
-        - ip_pool_name: "Chennai-VN3-Pool1"
-        - ip_pool_name: "Chennai-VN1-Pool2"
+          - ip_pool_name: "Chennai-VN3-Pool1"
+          - ip_pool_name: "Chennai-VN1-Pool2"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN ID and IP pool filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -428,9 +428,9 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["anycast_gateways"]
         anycast_gateways:
-        - vlan_id: 1032
-        - vlan_id: 1033
-        - ip_pool_name: "Chennai-VN1-Pool2"
+          - vlan_id: 1032
+          - vlan_id: 1033
+          - ip_pool_name: "Chennai-VN1-Pool2"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN name filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -449,8 +449,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["anycast_gateways"]
         anycast_gateways:
-        - vlan_name: "Chennai-VN1-Pool2"
-        - vlan_name: "Chennai-VN7-Pool1"
+          - vlan_name: "Chennai-VN1-Pool2"
+          - vlan_name: "Chennai-VN7-Pool1"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN name and ID combination
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -469,10 +469,10 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["anycast_gateways"]
         anycast_gateways:
-        - vlan_name: "Chennai-VN1-Pool2"
-          vlan_id: 1022
-        - vlan_name: "Chennai-VN7-Pool1"
-          vlan_id: 1033
+          - vlan_name: "Chennai-VN1-Pool2"
+            vlan_id: 1022
+          - vlan_name: "Chennai-VN7-Pool1"
+            vlan_id: 1033
 
 - name: Generate YAML Configuration for anycast gateways with comprehensive filters
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -491,14 +491,14 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["anycast_gateways"]
         anycast_gateways:
-        - vlan_name: "Chennai-VN1-Pool2"
-          vlan_id: 1022
-          ip_pool_name: "Chennai-VN1-Pool2"
-          vn_name: "Chennai_VN1"
-        - vlan_name: "Chennai-VN7-Pool1"
-          vlan_id: 1033
-          ip_pool_name: "Chennai-VN7-Pool1"
-          vn_name: "Chennai_VN7"
+          - vlan_name: "Chennai-VN1-Pool2"
+            vlan_id: 1022
+            ip_pool_name: "Chennai-VN1-Pool2"
+            vn_name: "Chennai_VN1"
+          - vlan_name: "Chennai-VN7-Pool1"
+            vlan_id: 1033
+            ip_pool_name: "Chennai-VN7-Pool1"
+            vn_name: "Chennai_VN7"
 """
 
 
