@@ -585,9 +585,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
 )
-from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
-    validate_list_of_dicts,
-)
 from collections import defaultdict
 import time
 
