@@ -1755,7 +1755,7 @@ class BrownFieldHelper:
         return self
 
     def execute_get_with_pagination(
-        self, api_family, api_function, params, offset=1, limit=500, use_strings=False
+        self, api_family, api_function, params = {}, offset=1, limit=500, use_strings=False
     ):
         """
         Executes a paginated GET request using the specified API family, function, and parameters.
