@@ -6548,7 +6548,7 @@ class Inventory(DnacBase):
 
                 # Check if the Global User defined field exist if not then create it with given field name
                 udf_exist = self.is_udf_exist(field_name)
-                
+
                 if not udf_exist:
                     # Create the Global UDF
                     self.log(
@@ -6901,7 +6901,6 @@ class Inventory(DnacBase):
         self.log("UDF exists: {0}".format(udf_exists), "DEBUG")
 
         return udf_exists
-
 
     def get_diff_deleted(self, config):
         """
