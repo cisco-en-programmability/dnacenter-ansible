@@ -32,12 +32,11 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `tags_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `tags_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -57,6 +56,15 @@ options:
           a default file name "tags_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
         - For example, "tags_playbook_config_2026-01-24_12-33-20.yml".
         type: str
+      file_mode:
+        description:
+        - Controls how config is written to the YAML file.
+        - C(overwrite) replaces existing file content.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
+        required: false
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
@@ -172,7 +180,7 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - generate_all_configurations: true
+          generate_all_configurations: true
 
 # Example 2: Generate all configurations with custom file path
 - name: Generate complete brownfield tag configuration with custom filename
@@ -197,8 +205,9 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/complete_tags_config.yaml"
-            generate_all_configurations: true
+          file_path: "/tmp/complete_tags_config.yaml"
+          generate_all_configurations: true
+          file_mode: "overwrite"
 
 # Example 3: Generate only tag configurations without memberships
 - name: Generate tag definitions only
@@ -223,9 +232,10 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag"]
+          file_path: "/tmp/catc_tags.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag"]
 
 # Example 4: Generate only tag membership configurations
 - name: Generate tag memberships only
@@ -250,9 +260,10 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
+          file_path: "/tmp/catc_tags.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag_memberships"]
 
 # Example 5: Generate both tags and memberships together
 - name: Generate tags and their memberships
@@ -277,9 +288,10 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
+          file_path: "/tmp/catc_tags.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
 
 # Example 6: Filter specific tags by name
 - name: Generate configuration for specific tags by name
@@ -304,12 +316,13 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
-              tag:
-                - tag_name: Production
-                - tag_name: Data-Center
+          file_path: "/tmp/catc_tags.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
+            tag:
+              - tag_name: Production
+              - tag_name: Data-Center
 
 # Example 7: Filter specific tag memberships by tag name
 - name: Generate memberships for specific tags
@@ -334,22 +347,23 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
-              tag_memberships:
-                - tag_name: Campus-Switches
-                - tag_name: Core-Routers
+          file_path: "/tmp/catc_tags.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
+            tag_memberships:
+              - tag_name: Campus-Switches
+              - tag_name: Core-Routers
 
-# Example 8: Multiple configurations in a single playbook
-- name: Generate multiple tag configuration files
+# Example 8: Generate tag configuration with append mode
+- name: Generate and append tag configuration
   hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
-    - name: Generate multiple brownfield tag configurations
+    - name: Append tag configurations to existing file
       cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -364,18 +378,13 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/all_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag"]
-          - file_path: "/tmp/all_memberships.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-          - file_path: "/tmp/specific_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
-              tag:
-                - tag_name: Branch-Office
-                - tag_name: Access-Points
+          file_path: "/tmp/all_tags.yaml"
+          file_mode: "append"
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
+            tag:
+              - tag_name: Branch-Office
+              - tag_name: Access-Points
 
 # Example 9: Retrieve all tag memberships with hostname as device identifier
 - name: Generate all tag memberships using hostname identifier
@@ -400,11 +409,12 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/tags_by_hostname.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - device_identifier: hostname
+          file_path: "/tmp/tags_by_hostname.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - device_identifier: hostname
       # This will retrieve all tags with their members identified by hostname instead of serial_number
 
 # Example 10: Retrieve specific tag membership with IP address as device identifier
@@ -430,12 +440,13 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/production_tag_by_ip.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - tag_name: Production
-                  device_identifier: ip_address
+          file_path: "/tmp/production_tag_by_ip.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Production
+                device_identifier: ip_address
       # This will retrieve only the 'Production' tag's members with IP addresses
 
 # Example 11: Retrieve tag memberships with MAC address as device identifier
@@ -461,14 +472,15 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/tags_by_mac.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - tag_name: Campus-Switches
-                  device_identifier: mac_address
-                - tag_name: Core-Routers
-                  device_identifier: mac_address
+          file_path: "/tmp/tags_by_mac.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Campus-Switches
+                device_identifier: mac_address
+              - tag_name: Core-Routers
+                device_identifier: mac_address
       # This will retrieve specific tags' members with MAC addresses
 
 # Example 12: Retrieve tag memberships with default device identifier (serial_number)
@@ -494,11 +506,12 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/tags_by_serial.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - tag_name: Data-Center
+          file_path: "/tmp/tags_by_serial.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Data-Center
       # When device_identifier is not specified, it defaults to 'serial_number'
 
 # Example 13: Mixed configuration with different device identifiers
@@ -524,17 +537,18 @@ EXAMPLES = r"""
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
         config:
-          - file_path: "/tmp/mixed_identifiers.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - tag_name: Production
-                  device_identifier: hostname
-                - tag_name: Development
-                  device_identifier: ip_address
-                - tag_name: Testing
-                  device_identifier: mac_address
-                - tag_name: Staging
+          file_path: "/tmp/mixed_identifiers.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Production
+                device_identifier: hostname
+              - tag_name: Development
+                device_identifier: ip_address
+              - tag_name: Testing
+                device_identifier: mac_address
+              - tag_name: Staging
       # Different tags can use different device identifiers in the same configuration
 """
 
@@ -714,16 +728,24 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "default": False,
             },
             "file_path": {"type": "str", "required": False},
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"],
+            },
             "component_specific_filters": {"type": "dict", "required": False},
         }
 
         # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        self.log("Validating configuration against schema", "DEBUG")
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        self.log("Validating minimum requirements for configuration", "DEBUG")
+        self.validate_minimum_requirements(self.config)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -2709,6 +2731,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
+
         file_path = yaml_config_generator.get("file_path")
         if not file_path:
             self.log(
@@ -2718,8 +2741,13 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+
         self.log(
-            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(
+                file_path, file_mode
+            ),
+            "DEBUG",
         )
 
         self.log("Initializing filter dictionaries", "DEBUG")
@@ -2842,7 +2870,9 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        if self.write_dict_to_yaml(yaml_config_dict, file_path):
+        if self.write_dict_to_yaml(
+            yaml_config_dict, file_path, file_mode, OrderedDumper
+        ):
             self.msg = (
                 f"YAML configuration file generated successfully for module '{self.module_name}'. "
                 f"File: {file_path}, "
@@ -2977,7 +3007,7 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -3012,13 +3042,10 @@ def main():
 
     # Validate the input parameters and check the return statusk
     ccc_tags_playbook_generator.validate_input().check_return_status()
-    config = ccc_tags_playbook_generator.validated_config
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_tags_playbook_generator.validated_config:
-        ccc_tags_playbook_generator.reset_values()
-        ccc_tags_playbook_generator.get_want(config, state).check_return_status()
-        ccc_tags_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    config = ccc_tags_playbook_generator.validated_config
+    ccc_tags_playbook_generator.get_want(config, state).check_return_status()
+    ccc_tags_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_tags_playbook_generator.result)
 
