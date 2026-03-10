@@ -6,7 +6,17 @@
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Generate the playbook for site hierarchy (area, building, floor) from Cisco Catalyst Center
+    # NOTE:
+    # - config accepts exactly one dictionary.
+    # - list-style config (for example, config: [ ... ]) is not supported.
+    # ====================================================================================
+    # Scenario 1: Sites - Filter by Site Name Hierarchy and Parent Name Hierarchy
+    # On valid input, parent_name_hierarchy is passed with /* to the API and the API
+    # query uses each site_name_hierarchy as the primary filter.
+    # Result expectation: values given in parent_name_hierarchy retrieved separately along with its childrens
+    # and values given in site_name_hierarchy retrieved separately, childrens are not included. Final output is the union of these two sets.
+    # ====================================================================================
+    - name: Generate site hierarchy configurations by Site Name Hierarchy and Parent Name Hierarchy
       cisco.dnac.site_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -19,120 +29,195 @@
         dnac_log: true
         state: gathered
         config:
-          # ====================================================================================
-          # Scenario 1: Sites - Filter by Site Name Hierarchy
-          # Fetches site hierarchy entries using the exact site_name_hierarchy value.
-          # ====================================================================================
-          # - file_path: "/tmp/case1_site_name_hierarchy_only.yaml"
-          #   component_specific_filters:
-          #     components_list: ["site"]
-          #     site:
-          #       - site_name_hierarchy: "Global/USA/San Jose"
+          file_path: "/tmp/case1_site_and_parent_only.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["site"]
+            site:
+              - parent_name_hierarchy:
+                  - "Global/USAsdfsfs"
+              - site_name_hierarchy:
+                  - "Global/USA/San Francisco"
+                  - "Global/USA/San Jose"
 
-          # ====================================================================================
-          # Scenario 2: Sites - Filter by Parent Name Hierarchy
-          # Fetches descendant sites under parent_name_hierarchy by using parent_name_hierarchy/.*
-          # as the API hierarchy scope.
-          # ====================================================================================
-          # - file_path: "/tmp/case2_parent_name_hierarchy_only.yaml"
-          #   component_specific_filters:
-          #     components_list: ["site"]
-          #     site:
-          #       - parent_name_hierarchy: "Global/USA"
+    # ====================================================================================
+    # Scenario 2: Sites - Filter Without Hierarchy Keys
+    # Fetches all site hierarchy entries when site_name_hierarchy and
+    # parent_name_hierarchy are not provided.
+    # ====================================================================================
+    - name: Generate site hierarchy configurations without Hierarchy Filters
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          file_path: "/tmp/case2_no_hierarchy_filters.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["site"]
 
-          # ====================================================================================
-          # Scenario 3: Sites - Filter by Site Name Hierarchy and Parent Name Hierarchy
-          # Validates that parent_name_hierarchy is a strict path-prefix of site_name_hierarchy.
-          # On valid input, parent_name_hierarchy is used for validation and the API query uses
-          # site_name_hierarchy as the primary filter.
-          # ====================================================================================
-          # - file_path: "/tmp/case3_site_and_parent_only.yaml"
-          #   component_specific_filters:
-          #     components_list: ["site"]
-          #     site:
-          #       - site_name_hierarchy: "Global/USA/San Francisco"
-          #         parent_name_hierarchy: "Global/USA"
+    # ====================================================================================
+    # Scenario 3: Sites - Filter by Site Name Hierarchy and Site Type
+    # Executes one get_sites API call per site_type value while keeping
+    # the same site_name_hierarchy filter.
+    # Result expectation: values given in site_name_hierarchy retrieved separately
+    # and if they are part of site_type given then its included in the output otherwise will be skipped.
+    # ====================================================================================
+    - name: Generate site hierarchy configurations by Site Name Hierarchy and Site Type
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          file_path: "/tmp/case3_site_name_and_site_type.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["site"]
+            site:
+              - site_name_hierarchy: "Global/USA/San Jose"
+                site_type:
+                  - "building"
+                  - "floor"
 
-          # ====================================================================================
-          # Scenario 4: Sites - No Hierarchy Filters
-          # Fetches all site hierarchy entries when site_name_hierarchy and
-          # parent_name_hierarchy are not provided.
-          # ====================================================================================
-          # - file_path: "/tmp/case4_no_hierarchy_filters.yaml"
-          #   component_specific_filters:
-          #     components_list: ["site"]
+    # ====================================================================================
+    # Scenario 4: Sites - Filter by Parent Name Hierarchy and Site Type
+    # Executes one get_sites API call per parent_name_hierarchy/.* as the hierarchy scope and site_type value
+    # Result expectation: values given in parent_name_hierarchy retrieved separately along with its childrens
+    # and if they are part of site_type given then its included in the output otherwise will be skipped.
+    # ====================================================================================
+    - name: Generate site hierarchy configurations by Parent Name Hierarchy and Site Type
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          file_path: "/tmp/case4_parent_name_and_site_type.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["site"]
+            site:
+              - parent_name_hierarchy: "Global/USA"
+                site_type:
+                  - "floor"
 
-          # ====================================================================================
-          # Scenario 5: Sites - Site Name Hierarchy with Site Type
-          # Executes one get_sites API call per site_type value while keeping
-          # the same site_name_hierarchy filter.
-          # ====================================================================================
-          # - file_path: "/tmp/case5_site_name_and_site_type.yaml"
-          #   component_specific_filters:
-          #     components_list: ["site"]
-          #     site:
-          #       - site_name_hierarchy: "Global/USA/San Jose"
-          #         site_type:
-          #           - "building"
-          #           - "floor"
+    # ====================================================================================
+    # Scenario 5: Sites - Retrieve by Site Name Hierarchy, Parent Name Hierarchy, and Site Type
+    # Executes get_sites API calls by iterating through site_name_hierarchy and parent_name_hierarchy values separately while applying site_type filters to each API call.
+    # On valid input, executes one get_sites API call per site_name_hierarchy, parent_name_hierarchy and
+    # result will be filtered by site_type. Final output is the union of site hierarchy entries retrieved by site_name_hierarchy and parent_name_hierarchy filters.
+    # ====================================================================================
+    - name: Generate site hierarchy configurations by Site Name Hierarchy, Parent Name Hierarchy, and Site Type
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          file_path: "/tmp/case5_all_filters.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["site"]
+            site:
+              - site_name_hierarchy: "Global/USA/San Francisco"
+              - parent_name_hierarchy: "Global/USA"
+                site_type:
+                  - "building"
+                  - "floor"
 
-          # ====================================================================================
-          # Scenario 6: Sites - Parent Name Hierarchy with Site Type
-          # Executes one get_sites API call per site_type value using
-          # parent_name_hierarchy/.* as the hierarchy scope.
-          # ====================================================================================
-          # - file_path: "/tmp/case6_parent_name_and_site_type.yaml"
-          #   component_specific_filters:
-          #     components_list: ["site"]
-          #     site:
-          #       - parent_name_hierarchy: "Global/USA"
-          #         site_type:
-          #           - "floor"
+    # ====================================================================================
+    # Scenario 6: Sites - Filter by Site Type Only
+    # Fetches site hierarchy entries by site_type without hierarchy filters.
+    # ====================================================================================
+    - name: Generate site hierarchy configurations by Site Type
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          file_path: "/tmp/case6_site_type_only.yaml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["site"]
+            site:
+              - site_type:
+                  - "area"
 
-          # ====================================================================================
-          # Scenario 7: Sites - Site Name Hierarchy, Parent Name Hierarchy, and Site Type
-          # Validates parent_name_hierarchy as a strict prefix of site_name_hierarchy.
-          # On valid input, executes one get_sites API call per site_type value using
-          # site_name_hierarchy as the primary hierarchy filter.
-          # ====================================================================================
-          # - file_path: "/tmp/case7_all_filters.yaml"
-          #   component_specific_filters:
-          #     components_list: ["site"]
-          #     site:
-          #       - site_name_hierarchy: "Global/USA/San Francisco"
-          #         parent_name_hierarchy: "Global/USA"
-          #         site_type:
-          #           - "building"
-          #           - "floor"
+    # ====================================================================================
+    # Scenario 7: Sites - Generate All Configurations with File Path
+    # Fetches all site hierarchy entries and writes the generated playbook
+    # to the user-provided file path.
+    # ====================================================================================
+    - name: Generate site hierarchy configurations for All Sites with Custom File Path
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          generate_all_configurations: true
+          file_path: "/tmp/case7_all_sites.yaml"
+          file_mode: "overwrite"
 
-          # ====================================================================================
-          # Scenario 8: Sites - Site Type Only
-          # Fetches site hierarchy entries by site_type without hierarchy filters.
-          # ====================================================================================
-          # - file_path: "/tmp/case8_site_type_only.yaml"
-          #   component_specific_filters:
-          #     components_list: ["site"]
-          #     site:
-          #       - site_type:
-          #           - "area"
-
-          # ====================================================================================
-          # Scenario 9: Generate All Configurations with File Path
-          # Fetches all site hierarchy entries and writes the generated playbook
-          # to the user-provided file path.
-          # ====================================================================================
-          # - generate_all_configurations: true
-          #   file_path: "/tmp/case9_all_sites.yaml"
-
-          # ====================================================================================
-          # Scenario 10: Generate All Configurations with Default File Path
-          # Fetches all site hierarchy entries and writes output using the default
-          # file name pattern "site_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml"
-          # in the current working directory.
-          # ====================================================================================
-          - generate_all_configurations: true
-
-      register: result
+    # ====================================================================================
+    # Scenario 8: Sites - Generate All Configurations with Default File Path
+    # Fetches all site hierarchy entries and writes output using the default
+    # file name pattern "site_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml"
+    # in the current working directory.
+    # ====================================================================================
+    - name: Generate site hierarchy configurations for All Sites with Default File Path
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          generate_all_configurations: false
 
       tags:
         - site_playbook_config_generator_testing

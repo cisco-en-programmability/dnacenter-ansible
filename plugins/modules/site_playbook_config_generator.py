@@ -41,12 +41,11 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `site_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `site_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -66,6 +65,15 @@ options:
           a default file name  "site_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
         - For example, "site_playbook_config_2026-02-24_12-33-20.yml".
         type: str
+      file_mode:
+        description:
+        - Controls how configuration is written to the YAML file.
+        - C(overwrite) replaces existing file content with the latest generated configuration.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
+        required: false
       component_specific_filters:
         description:
           - Filters to specify which components to include in the YAML configuration
@@ -89,17 +97,27 @@ options:
               - Contains site filter expressions for site hierarchy extraction.
               - Supported keys in each list item are C(site_name_hierarchy),
                 C(parent_name_hierarchy), and C(site_type).
+              - Multiple list items are processed independently and merged as a
+                union in the final output.
             type: list
             elements: dict
             suboptions:
               site_name_hierarchy:
                 description:
                   - Site name hierarchy filter.
-                type: str
+                  - Supports either a single hierarchy string or a list of hierarchy strings.
+                  - When used with C(parent_name_hierarchy) in the same filter item,
+                    values can be full hierarchies (for example C(Global/USA/San Jose))
+                    or relative hierarchies (for example C(San Jose)). Relative values
+                    are resolved using the parent hierarchy prefix.
+                type: raw
               parent_name_hierarchy:
                 description:
                   - Parent site name hierarchy filter.
-                type: str
+                  - Supports either a single hierarchy string or a list of hierarchy strings.
+                  - When used with C(site_name_hierarchy) in the same filter item,
+                    only one parent hierarchy value is allowed.
+                type: raw
               site_type:
                 description:
                   - Site type filter.
@@ -137,11 +155,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/case1_site_name_hierarchy_only.yaml"
-        component_specific_filters:
-          components_list: ["site"]
-          site:
-            - site_name_hierarchy: "Global/USA/San Jose"
+      file_path: "/tmp/case1_site_name_hierarchy_only.yaml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["site"]
+        site:
+          - site_name_hierarchy: "Global/USA/San Jose"
 
 - name: Generate YAML configuration with parent_name_hierarchy only
   cisco.dnac.site_playbook_config_generator:
@@ -156,13 +175,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/case2_parent_name_hierarchy_only.yaml"
-        component_specific_filters:
-          components_list: ["site"]
-          site:
-            - parent_name_hierarchy: "Global/USA"
+      file_path: "/tmp/case2_parent_name_hierarchy_only.yaml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["site"]
+        site:
+          - parent_name_hierarchy: "Global/USA"
 
-- name: Generate YAML configuration with site_name_hierarchy and parent_name_hierarchy
+- name: Generate YAML configuration with relative site_name_hierarchy and parent_name_hierarchy
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -175,12 +195,16 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/case3_site_and_parent_only.yaml"
-        component_specific_filters:
-          components_list: ["site"]
-          site:
-            - site_name_hierarchy: "Global/USA/San Jose"
-              parent_name_hierarchy: "Global/USA"
+      file_path: "/tmp/case3_site_and_parent_only.yaml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["site"]
+        site:
+          - site_name_hierarchy:
+              - "San Francisco"
+              - "San Jose"
+            parent_name_hierarchy:
+              - "Global/USA"
 
 - name: Generate YAML configuration with no hierarchy input
   cisco.dnac.site_playbook_config_generator:
@@ -195,9 +219,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/case4_no_hierarchy_filters.yaml"
-        component_specific_filters:
-          components_list: ["site"]
+      file_path: "/tmp/case4_no_hierarchy_filters.yaml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["site"]
 
 - name: Generate YAML configuration with site_name_hierarchy and site_type list
   cisco.dnac.site_playbook_config_generator:
@@ -212,14 +237,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/case5_site_name_and_site_type.yaml"
-        component_specific_filters:
-          components_list: ["site"]
-          site:
-            - site_name_hierarchy: "Global/USA/San Jose"
-              site_type:
-                - "building"
-                - "floor"
+      file_path: "/tmp/case5_site_name_and_site_type.yaml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["site"]
+        site:
+          - site_name_hierarchy: "Global/USA/San Jose"
+            site_type:
+              - "building"
+              - "floor"
 
 - name: Generate YAML configuration with parent_name_hierarchy and site_type
   cisco.dnac.site_playbook_config_generator:
@@ -234,13 +260,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/case6_parent_name_and_site_type.yaml"
-        component_specific_filters:
-          components_list: ["site"]
-          site:
-            - parent_name_hierarchy: "Global/USA"
-              site_type:
-                - "building"
+      file_path: "/tmp/case6_parent_name_and_site_type.yaml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["site"]
+        site:
+          - parent_name_hierarchy: "Global/USA"
+            site_type:
+              - "building"
 
 - name: Generate YAML configuration with all filters
   cisco.dnac.site_playbook_config_generator:
@@ -255,15 +282,16 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/case7_all_filters.yaml"
-        component_specific_filters:
-          components_list: ["site"]
-          site:
-            - site_name_hierarchy: "Global/USA/San Jose"
-              parent_name_hierarchy: "Global/USA"
-              site_type:
-                - "building"
-                - "floor"
+      file_path: "/tmp/case7_all_filters.yaml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["site"]
+        site:
+          - site_name_hierarchy: "Global/USA/San Jose"
+            parent_name_hierarchy: "Global/USA"
+            site_type:
+              - "building"
+              - "floor"
 
 - name: Generate YAML configuration with site_type only
   cisco.dnac.site_playbook_config_generator:
@@ -278,12 +306,13 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/case8_site_type_only.yaml"
-        component_specific_filters:
-          components_list: ["site"]
-          site:
-            - site_type:
-                - "area"
+      file_path: "/tmp/case8_site_type_only.yaml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["site"]
+        site:
+          - site_type:
+              - "area"
 
 - name: Auto-generate YAML configuration for all sites
   cisco.dnac.site_playbook_config_generator:
@@ -298,8 +327,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "/tmp/case9_all_sites.yaml"
+      generate_all_configurations: true
+      file_path: "/tmp/case9_all_sites.yaml"
+      file_mode: "overwrite"
 
 - name: Auto-generate YAML configuration with default file path
   cisco.dnac.site_playbook_config_generator:
@@ -314,7 +344,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
 """
 
 
@@ -390,9 +420,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
-    validate_list_of_dicts,
 )
 import time
 import logging
@@ -540,11 +567,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validate top-level configuration objects before workflow execution begins.
+        Validate top-level configuration object before workflow execution begins.
 
         Validation includes required container structure checks and field-type
         enforcement for known keys such as `generate_all_configurations`,
-        `file_path`, `component_specific_filters`, and `global_filters`.
+        `file_path`, `file_mode`, `component_specific_filters`, and `global_filters`.
 
         Args:
             self: Instance context containing module params and result setters.
@@ -557,29 +584,26 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             - Sets `self.msg`/`self.status` for both success and failure paths.
             - Calls `set_operation_result` to persist operation outcomes.
         """
-        # Begin module-level payload validation so downstream execution can assume
-        # a predictable structure and avoid defensive checks in every method.
         self.log("Starting validation of input configuration parameters.", "INFO")
 
-        # If the user did not provide config entries, this module chooses a
-        # non-failing success path and records a descriptive status message.
         if not self.config:
             self.log(
                 "Configuration payload is not available in playbook input; "
                 "skipping schema validation.",
                 "INFO",
             )
-            self.status = "success"
             self.msg = "Configuration is not available in the playbook for validation"
-            self.log(f"{self.msg}", "ERROR")
-            self.log(
-                "Validation stopped because configuration payload is missing.",
-                "INFO",
-            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Declare the minimal accepted schema for one config dictionary so the
-        # shared validator can catch unknown keys and type mismatches early.
+        if not isinstance(self.config, dict):
+            self.msg = (
+                "Configuration must be a dictionary, got: {0}. Please provide "
+                "configuration as a dictionary.".format(type(self.config).__name__)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
         temp_spec = {
             "generate_all_configurations": {
                 "type": "bool",
@@ -587,24 +611,22 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "default": False,
             },
             "file_path": {"type": "str", "required": False},
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"],
+            },
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
-        # Execute schema validation over the complete config list and collect
-        # invalid keys in one pass.
         self.log("Validating configuration against schema.", "INFO")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
+        self.validate_invalid_params(self.config, temp_spec.keys())
+        self.validate_minimum_requirements(valid_temp)
 
-        for config_entry in valid_temp:
-            structure_errors = self.validate_component_specific_filters_structure(
-                config_entry
-            )
-            if structure_errors:
-                invalid_params.extend(structure_errors)
-
-        # Fail fast when unknown/invalid keys are present to prevent ambiguous
-        # runtime behavior later in normalization and API execution.
+        invalid_params = self.validate_component_specific_filters_structure(valid_temp)
         if invalid_params:
             self.log(
                 "Validation detected invalid parameters in configuration payload.",
@@ -618,8 +640,6 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             return self
 
-        # Persist normalized validator output for subsequent processing stages
-        # (`get_want` and gather execution workflow).
         self.validated_config = valid_temp
         self.msg = (
             "Successfully validated playbook configuration parameters using 'validated_input': "
@@ -1362,6 +1382,32 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return normalized_value
 
+    def normalize_hierarchy_values(self, hierarchy_value):
+        """
+        Normalize one-or-many hierarchy values into a deduplicated list.
+
+        Args:
+            hierarchy_value (Any): Single hierarchy value or list of values.
+
+        Returns:
+            list: Ordered normalized hierarchy values without duplicates.
+        """
+        if hierarchy_value is None:
+            return []
+
+        values = (
+            hierarchy_value if isinstance(hierarchy_value, list) else [hierarchy_value]
+        )
+        normalized_values = []
+        seen_values = set()
+        for value in values:
+            normalized_value = self.normalize_hierarchy_path(value)
+            if not normalized_value or normalized_value in seen_values:
+                continue
+            seen_values.add(normalized_value)
+            normalized_values.append(normalized_value)
+        return normalized_values
+
     def hierarchy_matches_scope(self, hierarchy_value, scope_value):
         """
         Determine whether a hierarchy value satisfies a scope expression.
@@ -1607,12 +1653,12 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         component_specific_filters:
           components_list: ["site"]
           site:
-            - site_name_hierarchy: <str>            # optional
-              parent_name_hierarchy: <str>          # optional
+            - site_name_hierarchy: <str | list[str]>            # optional
+              parent_name_hierarchy: <str | list[str]>          # optional
               site_type: ["area"|"building"|"floor"]  # optional
 
         Args:
-            config (dict): One validated config entry from playbook input.
+            config (dict): Validated top-level config dictionary from playbook input.
 
         Returns:
             list: Validation error messages. Empty list means valid.
@@ -1683,24 +1729,103 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
             site_name_hierarchy = filter_entry.get("site_name_hierarchy")
-            if site_name_hierarchy is not None and not isinstance(
-                site_name_hierarchy, str
-            ):
-                errors.append(
-                    "'site_name_hierarchy' in 'component_specific_filters.site[{0}]' must be a string.".format(
-                        index
+            site_name_hierarchy_valid_type = True
+            if site_name_hierarchy is not None:
+                if isinstance(site_name_hierarchy, list):
+                    if not site_name_hierarchy:
+                        site_name_hierarchy_valid_type = False
+                        errors.append(
+                            "'site_name_hierarchy' in 'component_specific_filters.site[{0}]' "
+                            "must not be an empty list.".format(index)
+                        )
+                    elif any(
+                        not isinstance(site_hierarchy_value, str)
+                        for site_hierarchy_value in site_name_hierarchy
+                    ):
+                        site_name_hierarchy_valid_type = False
+                        errors.append(
+                            "'site_name_hierarchy' in 'component_specific_filters.site[{0}]' "
+                            "must be a string or a list of strings.".format(index)
+                        )
+                elif not isinstance(site_name_hierarchy, str):
+                    site_name_hierarchy_valid_type = False
+                    errors.append(
+                        "'site_name_hierarchy' in 'component_specific_filters.site[{0}]' "
+                        "must be a string or a list of strings.".format(index)
                     )
-                )
 
             parent_name_hierarchy = filter_entry.get("parent_name_hierarchy")
-            if parent_name_hierarchy is not None and not isinstance(
-                parent_name_hierarchy, str
-            ):
-                errors.append(
-                    "'parent_name_hierarchy' in 'component_specific_filters.site[{0}]' must be a string.".format(
-                        index
+            parent_name_hierarchy_valid_type = True
+            if parent_name_hierarchy is not None:
+                if isinstance(parent_name_hierarchy, list):
+                    if not parent_name_hierarchy:
+                        parent_name_hierarchy_valid_type = False
+                        errors.append(
+                            "'parent_name_hierarchy' in 'component_specific_filters.site[{0}]' "
+                            "must not be an empty list.".format(index)
+                        )
+                    elif any(
+                        not isinstance(parent_hierarchy_value, str)
+                        for parent_hierarchy_value in parent_name_hierarchy
+                    ):
+                        parent_name_hierarchy_valid_type = False
+                        errors.append(
+                            "'parent_name_hierarchy' in 'component_specific_filters.site[{0}]' "
+                            "must be a string or a list of strings.".format(index)
+                        )
+                elif not isinstance(parent_name_hierarchy, str):
+                    parent_name_hierarchy_valid_type = False
+                    errors.append(
+                        "'parent_name_hierarchy' in 'component_specific_filters.site[{0}]' "
+                        "must be a string or a list of strings.".format(index)
                     )
+
+            if site_name_hierarchy is not None and parent_name_hierarchy is not None:
+                parent_hierarchy_values = (
+                    parent_name_hierarchy
+                    if isinstance(parent_name_hierarchy, list)
+                    else [parent_name_hierarchy]
                 )
+                if len(parent_hierarchy_values) > 1:
+                    errors.append(
+                        "'parent_name_hierarchy' in 'component_specific_filters.site[{0}]' "
+                        "must contain exactly one value when used with "
+                        "'site_name_hierarchy'. Use separate 'site' list items for "
+                        "multiple parent hierarchy values.".format(index)
+                    )
+                elif (
+                    site_name_hierarchy_valid_type
+                    and parent_name_hierarchy_valid_type
+                ):
+                    normalized_parent_values = self.normalize_hierarchy_values(
+                        parent_name_hierarchy
+                    )
+                    normalized_site_values = self.normalize_hierarchy_values(
+                        site_name_hierarchy
+                    )
+                    if (
+                        normalized_parent_values
+                        and normalized_site_values
+                        and len(normalized_parent_values) == 1
+                    ):
+                        parent_hierarchy_value = normalized_parent_values[0]
+                        _, invalid_site_hierarchy_values = (
+                            self.resolve_site_hierarchy_values_with_parent(
+                                parent_hierarchy_value, normalized_site_values
+                            )
+                        )
+                        if invalid_site_hierarchy_values:
+                            errors.append(
+                                "Validation Error: The 'parent_name_hierarchy' must be a strict "
+                                "path-prefix of 'site_name_hierarchy'. Please verify and "
+                                "correct the hierarchy values in your configuration. "
+                                "Invalid values in 'component_specific_filters.site[{0}]': "
+                                "parent_name_hierarchy='{1}', site_name_hierarchy={2}.".format(
+                                    index,
+                                    parent_hierarchy_value,
+                                    invalid_site_hierarchy_values,
+                                )
+                            )
 
             site_type = filter_entry.get("site_type")
             if site_type is not None:
@@ -2026,22 +2151,40 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             if detail_type not in site_type_filters:
                 return False
 
-        expression_name_hierarchy = filter_expression.get("site_name_hierarchy")
-        if expression_name_hierarchy:
-            if not self.matches_name_hierarchy_filter(
-                detail, expression_name_hierarchy
-            ):
+        expression_name_hierarchy_values = self.normalize_hierarchy_values(
+            filter_expression.get("site_name_hierarchy")
+        )
+        expression_parent_hierarchy_values = self.normalize_hierarchy_values(
+            filter_expression.get("parent_name_hierarchy")
+        )
+
+        if expression_name_hierarchy_values and expression_parent_hierarchy_values:
+            if len(expression_parent_hierarchy_values) != 1:
+                return False
+            parent_hierarchy_value = expression_parent_hierarchy_values[0]
+            (
+                expression_name_hierarchy_values,
+                invalid_site_hierarchy_values,
+            ) = self.resolve_site_hierarchy_values_with_parent(
+                parent_hierarchy_value, expression_name_hierarchy_values
+            )
+            if invalid_site_hierarchy_values:
                 return False
 
-        # When site_name_hierarchy is provided, it is treated as the primary
-        # hierarchy selector and parent filter is not additionally applied.
-        if expression_name_hierarchy:
+        if expression_name_hierarchy_values:
+            if not any(
+                self.matches_name_hierarchy_filter(detail, site_hierarchy_value)
+                for site_hierarchy_value in expression_name_hierarchy_values
+            ):
+                return False
+            # When site_name_hierarchy is provided, it is treated as the primary
+            # hierarchy selector and parent filter is not additionally applied.
             return True
 
-        expression_parent_hierarchy = filter_expression.get("parent_name_hierarchy")
-        if expression_parent_hierarchy:
-            if not self.matches_parent_name_hierarchy_scope(
-                detail, expression_parent_hierarchy
+        if expression_parent_hierarchy_values:
+            if not any(
+                self.matches_parent_name_hierarchy_scope(detail, parent_hierarchy_value)
+                for parent_hierarchy_value in expression_parent_hierarchy_values
             ):
                 return False
 
@@ -2223,23 +2366,193 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             bool: True when parent is a strict prefix of site path.
         """
+        validation_start_time = time.time()
+        self.log(
+            "Parent/site hierarchy validation entry: parent_name_hierarchy={0}, "
+            "site_name_hierarchy={1}, start_time={2:.6f}.".format(
+                parent_name_hierarchy, site_name_hierarchy, validation_start_time
+            ),
+            "DEBUG",
+        )
         normalized_parent = self.normalize_hierarchy_path(parent_name_hierarchy)
         normalized_site = self.normalize_hierarchy_path(site_name_hierarchy)
+        is_valid = bool(
+            normalized_parent
+            and normalized_site
+            and normalized_site.startswith(normalized_parent + "/")
+        )
+        validation_end_time = time.time()
+        self.log(
+            "Parent/site hierarchy validation exit: normalized_parent={0}, "
+            "normalized_site={1}, is_valid={2}, end_time={3:.6f}, "
+            "duration_seconds={4:.6f}.".format(
+                normalized_parent,
+                normalized_site,
+                is_valid,
+                validation_end_time,
+                validation_end_time - validation_start_time,
+            ),
+            "DEBUG",
+        )
+        return is_valid
+
+    def resolve_site_hierarchy_with_parent(
+        self, parent_name_hierarchy, site_name_hierarchy
+    ):
+        """
+        Resolve one site hierarchy value against a parent hierarchy value.
+
+        Resolution behavior:
+        - If site value is already a full hierarchy under parent, use as-is.
+        - Otherwise, treat site value as relative and prefix parent hierarchy.
+        - If site appears absolute from the same root but is outside the parent
+          scope, mark as invalid by returning None.
+
+        Args:
+            parent_name_hierarchy (str): Parent hierarchy value.
+            site_name_hierarchy (str): Site hierarchy value (full or relative).
+
+        Returns:
+            str | None: Resolved full site hierarchy when valid; otherwise None.
+        """
+        resolution_start_time = time.time()
+        self.log(
+            "Site hierarchy resolution entry: parent_name_hierarchy={0}, "
+            "site_name_hierarchy={1}, start_time={2:.6f}.".format(
+                parent_name_hierarchy, site_name_hierarchy, resolution_start_time
+            ),
+            "DEBUG",
+        )
+        normalized_parent = self.normalize_hierarchy_path(parent_name_hierarchy)
+        normalized_site = self.normalize_hierarchy_path(site_name_hierarchy)
+        resolved_site = None
+        resolution_mode = "unresolved"
+
         if not normalized_parent or not normalized_site:
-            return False
-        return normalized_site.startswith(normalized_parent + "/")
+            resolution_mode = "invalid_input"
+        elif normalized_site.startswith(normalized_parent + "/"):
+            if self.is_valid_parent_site_hierarchy(normalized_parent, normalized_site):
+                resolved_site = normalized_site
+                resolution_mode = "already_scoped"
+            else:
+                resolution_mode = "already_scoped_not_descendant"
+        else:
+            parent_root = normalized_parent.split("/", 1)[0]
+            if normalized_site == parent_root or normalized_site.startswith(
+                parent_root + "/"
+            ):
+                resolution_mode = "absolute_outside_parent_scope"
+            else:
+                candidate_site = normalized_parent + "/" + normalized_site
+                if self.is_valid_parent_site_hierarchy(normalized_parent, candidate_site):
+                    resolved_site = candidate_site
+                    resolution_mode = "relative_prefixed"
+                else:
+                    resolution_mode = "relative_prefixed_not_descendant"
+
+        resolution_end_time = time.time()
+        self.log(
+            "Site hierarchy resolution exit: normalized_parent={0}, normalized_site={1}, "
+            "resolution_mode={2}, resolved_site={3}, end_time={4:.6f}, "
+            "duration_seconds={5:.6f}.".format(
+                normalized_parent,
+                normalized_site,
+                resolution_mode,
+                resolved_site,
+                resolution_end_time,
+                resolution_end_time - resolution_start_time,
+            ),
+            "DEBUG",
+        )
+        return resolved_site
+
+    def resolve_site_hierarchy_values_with_parent(
+        self, parent_name_hierarchy, site_name_hierarchy_values
+    ):
+        """
+        Resolve a list of site hierarchy values against a parent hierarchy.
+
+        Args:
+            parent_name_hierarchy (str): Parent hierarchy value.
+            site_name_hierarchy_values (list): Full/relative site hierarchy values.
+
+        Returns:
+            tuple: `(resolved_values, invalid_values)` where:
+                - resolved_values: deduplicated resolved site hierarchies
+                - invalid_values: values that could not be resolved as descendants
+        """
+        resolution_start_time = time.time()
+        input_count = (
+            len(site_name_hierarchy_values)
+            if isinstance(site_name_hierarchy_values, list)
+            else 0
+        )
+        self.log(
+            "Batch site hierarchy resolution entry: parent_name_hierarchy={0}, "
+            "input_value_count={1}, start_time={2:.6f}.".format(
+                parent_name_hierarchy, input_count, resolution_start_time
+            ),
+            "INFO",
+        )
+        resolved_values = []
+        invalid_values = []
+        seen_resolved_values = set()
+        duplicates_skipped = 0
+
+        for site_name_hierarchy_value in site_name_hierarchy_values:
+            resolved_value = self.resolve_site_hierarchy_with_parent(
+                parent_name_hierarchy, site_name_hierarchy_value
+            )
+            if not resolved_value:
+                invalid_values.append(site_name_hierarchy_value)
+                continue
+            if resolved_value in seen_resolved_values:
+                duplicates_skipped += 1
+                continue
+            seen_resolved_values.add(resolved_value)
+            resolved_values.append(resolved_value)
+
+        resolution_end_time = time.time()
+        self.log(
+            "Batch site hierarchy resolution exit: parent_name_hierarchy={0}, "
+            "input_value_count={1}, resolved_value_count={2}, invalid_value_count={3}, "
+            "duplicates_skipped={4}, end_time={5:.6f}, duration_seconds={6:.6f}.".format(
+                parent_name_hierarchy,
+                input_count,
+                len(resolved_values),
+                len(invalid_values),
+                duplicates_skipped,
+                resolution_end_time,
+                resolution_end_time - resolution_start_time,
+            ),
+            "INFO",
+        )
+        self.log(
+            "Batch site hierarchy resolution payload (debug): resolved_values={0}, "
+            "invalid_values={1}.".format(resolved_values, invalid_values),
+            "DEBUG",
+        )
+        return resolved_values, invalid_values
 
     def build_site_query_plan_for_filter(self, filter_expression):
         """
         Build API query params from one site filter expression.
 
         The filter expression is interpreted using one common rule set:
-        - `site_name_hierarchy` is used directly as `nameHierarchy`.
-        - `parent_name_hierarchy` becomes `nameHierarchy=<parent>/.*` when
-          `site_name_hierarchy` is absent.
-        - When both hierarchy keys are present, parent must be a strict prefix
-          of site; then parent is ignored and site is used.
+        - `site_name_hierarchy` accepts one value or a list of values and each
+          value is used directly as `nameHierarchy`.
+        - `parent_name_hierarchy` accepts one value or a list of values and each
+          value becomes `nameHierarchy=<parent>/.*` when `site_name_hierarchy` is
+          absent.
+        - When both hierarchy keys are present, `parent_name_hierarchy` must
+          resolve to one value.
+        - With both hierarchy keys, `site_name_hierarchy` values can be full
+          paths or relative paths. Relative values are prefixed by parent and
+          the resolved paths must remain strict descendants of parent.
         - `site_type` expands query params to one API call per type value.
+        - Union behavior across multiple `component_specific_filters.site` list
+          items is handled by the caller (`get_sites_configuration`) by
+          concatenating per-item query plans.
 
         Args:
             filter_expression (dict): One item from component_specific_filters.site.
@@ -2247,39 +2560,96 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             list: List of API params dictionaries for get_sites.
         """
+        planning_start_time = time.time()
+        self.log(
+            "Site query plan entry: filter_expression={0}, start_time={1:.6f}.".format(
+                filter_expression, planning_start_time
+            ),
+            "INFO",
+        )
         if not isinstance(filter_expression, dict):
+            planning_end_time = time.time()
+            self.log(
+                "Site query plan exit: skipped because filter_expression is not dict "
+                "(type={0}), query_plan_count=0, end_time={1:.6f}, "
+                "duration_seconds={2:.6f}.".format(
+                    type(filter_expression).__name__,
+                    planning_end_time,
+                    planning_end_time - planning_start_time,
+                ),
+                "WARNING",
+            )
             return []
 
-        site_name_hierarchy = self.normalize_hierarchy_path(
+        site_name_hierarchy_values = self.normalize_hierarchy_values(
             filter_expression.get("site_name_hierarchy")
         )
-        parent_name_hierarchy = self.normalize_hierarchy_path(
+        parent_name_hierarchy_values = self.normalize_hierarchy_values(
             filter_expression.get("parent_name_hierarchy")
         )
         site_type_list = filter_expression.get("site_type")
         deduped_site_type_list = site_type_list
 
-        if site_name_hierarchy and parent_name_hierarchy:
-            if not self.is_valid_parent_site_hierarchy(
-                parent_name_hierarchy, site_name_hierarchy
-            ):
+        if site_name_hierarchy_values and parent_name_hierarchy_values:
+            if len(parent_name_hierarchy_values) != 1:
                 self.log(
-                    "Skipping site filter because parent_name_hierarchy '{0}' is not "
-                    "a valid strict prefix of site_name_hierarchy '{1}'.".format(
-                        parent_name_hierarchy, site_name_hierarchy
+                    "Skipping site filter because parent_name_hierarchy contains "
+                    "multiple values while site_name_hierarchy is also provided. "
+                    "Use one parent value with site_name_hierarchy or split into "
+                    "separate site filter expressions.",
+                    "WARNING",
+                )
+                planning_end_time = time.time()
+                self.log(
+                    "Site query plan exit: skipped due to invalid parent/site "
+                    "combination, parent_value_count={0}, site_value_count={1}, "
+                    "query_plan_count=0, end_time={2:.6f}, duration_seconds={3:.6f}.".format(
+                        len(parent_name_hierarchy_values),
+                        len(site_name_hierarchy_values),
+                        planning_end_time,
+                        planning_end_time - planning_start_time,
                     ),
                     "WARNING",
                 )
                 return []
-            parent_name_hierarchy = None
-
-        effective_name_hierarchy = None
-        if site_name_hierarchy:
-            effective_name_hierarchy = site_name_hierarchy
-        elif parent_name_hierarchy:
-            normalized_parent = self.normalize_hierarchy_path(parent_name_hierarchy)
-            if normalized_parent:
-                effective_name_hierarchy = normalized_parent + "/.*"
+            parent_hierarchy_value = parent_name_hierarchy_values[0]
+            (
+                effective_name_hierarchy_values,
+                invalid_site_hierarchy_values,
+            ) = self.resolve_site_hierarchy_values_with_parent(
+                parent_hierarchy_value, site_name_hierarchy_values
+            )
+            if invalid_site_hierarchy_values:
+                self.log(
+                    "Skipping site filter because parent_name_hierarchy '{0}' is not "
+                    "a valid scope for site_name_hierarchy value(s) {1}. Provide "
+                    "site_name_hierarchy as full descendant paths under parent or "
+                    "as relative descendant paths.".format(
+                        parent_hierarchy_value, invalid_site_hierarchy_values
+                    ),
+                    "WARNING",
+                )
+                planning_end_time = time.time()
+                self.log(
+                    "Site query plan exit: skipped due to unresolved site hierarchy "
+                    "values, invalid_value_count={0}, query_plan_count=0, end_time={1:.6f}, "
+                    "duration_seconds={2:.6f}.".format(
+                        len(invalid_site_hierarchy_values),
+                        planning_end_time,
+                        planning_end_time - planning_start_time,
+                    ),
+                    "WARNING",
+                )
+                return []
+        elif site_name_hierarchy_values:
+            effective_name_hierarchy_values = list(site_name_hierarchy_values)
+        elif parent_name_hierarchy_values:
+            effective_name_hierarchy_values = [
+                parent_hierarchy_value + "/.*"
+                for parent_hierarchy_value in parent_name_hierarchy_values
+            ]
+        else:
+            effective_name_hierarchy_values = [None]
 
         if isinstance(site_type_list, list) and site_type_list:
             deduped_site_type_list = []
@@ -2307,13 +2677,36 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             if isinstance(deduped_site_type_list, list) and deduped_site_type_list
             else [None]
         )
-        for site_type in type_values:
-            params = {}
-            if effective_name_hierarchy:
-                params["nameHierarchy"] = effective_name_hierarchy
-            if site_type:
-                params["type"] = site_type
-            query_plan.append(params)
+        for effective_name_hierarchy in effective_name_hierarchy_values:
+            for site_type in type_values:
+                params = {}
+                if effective_name_hierarchy:
+                    params["nameHierarchy"] = effective_name_hierarchy
+                if site_type:
+                    params["type"] = site_type
+                query_plan.append(params)
+
+        planning_end_time = time.time()
+        self.log(
+            "Site query plan exit: site_value_count={0}, parent_value_count={1}, "
+            "site_type_count={2}, effective_hierarchy_count={3}, query_plan_count={4}, "
+            "end_time={5:.6f}, duration_seconds={6:.6f}.".format(
+                len(site_name_hierarchy_values),
+                len(parent_name_hierarchy_values),
+                len(deduped_site_type_list)
+                if isinstance(deduped_site_type_list, list)
+                else 0,
+                len(effective_name_hierarchy_values),
+                len(query_plan),
+                planning_end_time,
+                planning_end_time - planning_start_time,
+            ),
+            "INFO",
+        )
+        self.log(
+            "Site query plan payload (debug): {0}".format(query_plan),
+            "DEBUG",
+        )
         return query_plan
 
     def get_sites_configuration(self, network_element, component_specific_filters=None):
@@ -3455,7 +3848,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         of operation-specific argument objects.
 
         Args:
-            config (dict): Single validated config object from playbook input.
+            config (dict): Validated top-level config dictionary from playbook input.
             state (str): Requested state, expected to be `gathered`.
 
         Returns:
@@ -3467,8 +3860,8 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         self.log(f"Creating Parameters for API Calls with state: {state}", "INFO")
 
-        # Reset cached unified payload so each config entry is processed
-        # independently.
+        # Reset cached unified payload before processing the incoming
+        # single config dictionary for this execution.
         self._normalized_component_specific_filters = {}
         self._unified_site_records_cache = None
         self._unified_site_records_cache_key = None
@@ -3603,7 +3996,7 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -3652,23 +4045,18 @@ def main():
         ccc_site_playbook_generator.msg = "State {0} is invalid".format(state)
         ccc_site_playbook_generator.check_return_status()
 
-    # Validate and normalize incoming config list before per-entry processing.
+    # Validate and normalize incoming config dictionary before processing.
     ccc_site_playbook_generator.validate_input().check_return_status()
     config = ccc_site_playbook_generator.validated_config
 
-    # Process each validated config entry independently so one entry's internal
-    # mutations do not leak into another.
-    for config in ccc_site_playbook_generator.validated_config:
-        ccc_site_playbook_generator.log(
-            "Processing one validated configuration entry from user input. "
-            f"Resolved entry payload: {config}",
-            "DEBUG",
-        )
-        # Reset helper state maps, prepare desired state, and execute gathered
-        # diff flow for the current config object.
-        ccc_site_playbook_generator.reset_values()
-        ccc_site_playbook_generator.get_want(config, state).check_return_status()
-        ccc_site_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    ccc_site_playbook_generator.log(
+        "Processing validated configuration dictionary from user input. "
+        f"Resolved payload: {config}",
+        "DEBUG",
+    )
+    ccc_site_playbook_generator.reset_values()
+    ccc_site_playbook_generator.get_want(config, state).check_return_status()
+    ccc_site_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     ccc_site_playbook_generator.log(
         "Main workflow completed; final Ansible response payload is ready.",
