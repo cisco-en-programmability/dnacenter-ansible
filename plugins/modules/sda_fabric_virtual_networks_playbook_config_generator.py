@@ -34,12 +34,11 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `sda_fabric_virtual_networks_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `sda_fabric_virtual_networks_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If C(components_list) is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -60,6 +59,14 @@ options:
           a default file name  C(sda_fabric_virtual_networks_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - For example, C(sda_fabric_virtual_networks_playbook_config_2026-02-20_13-45-05.yml).
         type: str
+      file_mode:
+        description:
+        - Controls how config is written to the YAML file.
+        - C(overwrite) replaces existing file content.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration file.
@@ -170,7 +177,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -185,8 +193,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "/tmp/all_config.yml"
+      generate_all_configurations: true
+      file_path: "/tmp/all_config.yml"
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with specific fabric vlan components only
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -201,9 +210,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_vlan_components_config.yml"
-        component_specific_filters:
-          components_list: ["fabric_vlan"]
+      file_path: "/tmp/catc_fabric_vlan_components_config.yml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["fabric_vlan"]
 
 - name: Generate YAML Configuration with specific virtual networks components only
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -218,9 +228,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yml"
-        component_specific_filters:
-          components_list: ["virtual_networks"]
+      file_path: "/tmp/catc_virtual_networks_components_config.yml"
+      component_specific_filters:
+        components_list: ["virtual_networks"]
 
 - name: Generate YAML Configuration with specific anycast gateways components only
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -235,9 +245,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
-        component_specific_filters:
-          components_list: ["anycast_gateways"]
+      file_path: "/tmp/catc_anycast_gateways_components_config.yml"
+      component_specific_filters:
+        components_list: ["anycast_gateways"]
 
 - name: Generate YAML Configuration for fabric vlans with vlan name filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -252,12 +262,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_vlans_components_config.yml"
-        component_specific_filters:
-          components_list: ["fabric_vlan"]
-          fabric_vlan:
-            - vlan_name: "vlan_1"
-            - vlan_name: "vlan_2"
+      file_path: "/tmp/catc_fabric_vlans_components_config.yml"
+      component_specific_filters:
+        components_list: ["fabric_vlan"]
+        fabric_vlan:
+        - vlan_name: "vlan_1"
+        - vlan_name: "vlan_2"
 
 - name: Generate YAML Configuration for fabric vlans and virtual networks with multiple filters
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -272,15 +282,15 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_multiple_components_config.yml"
-        component_specific_filters:
-          components_list: ["fabric_vlan", "virtual_networks"]
-          fabric_vlan:
-            - vlan_name: "vlan_1"
-            - vlan_name: "vlan_2"
-          virtual_networks:
-            - vn_name: "vn_1"
-            - vn_name: "vn_2"
+      file_path: "/tmp/catc_multiple_components_config.yml"
+      component_specific_filters:
+        components_list: ["fabric_vlan", "virtual_networks"]
+        fabric_vlan:
+        - vlan_name: "vlan_1"
+        - vlan_name: "vlan_2"
+        virtual_networks:
+        - vn_name: "vn_1"
+        - vn_name: "vn_2"
 
 - name: Generate YAML Configuration for all components with no filters
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -295,9 +305,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_all_components_config.yml"
-        component_specific_filters:
-          components_list: ["fabric_vlan", "virtual_networks", "anycast_gateways"]
+      file_path: "/tmp/catc_all_components_config.yml"
+      component_specific_filters:
+        components_list: ["fabric_vlan", "virtual_networks", "anycast_gateways"]
 
 - name: Generate YAML Configuration for fabric vlans with VLAN IDs filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -312,12 +322,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_vlan_components_config.yml"
-        component_specific_filters:
-          components_list: ["fabric_vlan"]
-          fabric_vlan:
-            - vlan_id: 1031
-            - vlan_id: 1038
+      file_path: "/tmp/catc_fabric_vlan_components_config.yml"
+      component_specific_filters:
+        components_list: ["fabric_vlan"]
+        fabric_vlan:
+        - vlan_id: 1031
+        - vlan_id: 1038
 
 - name: Generate YAML Configuration for fabric vlans with both VLAN name and ID filters
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -332,14 +342,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_vlan_components_config.yml"
-        component_specific_filters:
-          components_list: ["fabric_vlan"]
-          fabric_vlan:
-            - vlan_name: "Chennai-VN6-Pool1"
-              vlan_id: 1031
-            - vlan_name: "Chennai-VN9-Pool2"
-              vlan_id: 1038
+      file_path: "/tmp/catc_fabric_vlan_components_config.yml"
+      component_specific_filters:
+        components_list: ["fabric_vlan"]
+        fabric_vlan:
+        - vlan_name: "Chennai-VN6-Pool1"
+          vlan_id: 1031
+        - vlan_name: "Chennai-VN9-Pool2"
+          vlan_id: 1038
 
 - name: Generate YAML Configuration for virtual networks with specific VN names
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -354,12 +364,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_virtual_networks_components_config.yml"
-        component_specific_filters:
-          components_list: ["virtual_networks"]
-          virtual_networks:
-            - vn_name: "VN1"
-            - vn_name: "VN3"
+      file_path: "/tmp/catc_virtual_networks_components_config.yml"
+      component_specific_filters:
+        components_list: ["virtual_networks"]
+        virtual_networks:
+        - vn_name: "VN1"
+        - vn_name: "VN3"
 
 - name: Generate YAML Configuration for anycast gateways with VN name filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -374,12 +384,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
-        component_specific_filters:
-          components_list: ["anycast_gateways"]
-          anycast_gateways:
-            - vn_name: "Chennai_VN1"
-            - vn_name: "Chennai_VN3"
+      file_path: "/tmp/catc_anycast_gateways_components_config.yml"
+      component_specific_filters:
+        components_list: ["anycast_gateways"]
+        anycast_gateways:
+        - vn_name: "Chennai_VN1"
+        - vn_name: "Chennai_VN3"
 
 - name: Generate YAML Configuration for anycast gateways with IP pool name filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -394,12 +404,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
-        component_specific_filters:
-          components_list: ["anycast_gateways"]
-          anycast_gateways:
-            - ip_pool_name: "Chennai-VN3-Pool1"
-            - ip_pool_name: "Chennai-VN1-Pool2"
+      file_path: "/tmp/catc_anycast_gateways_components_config.yml"
+      component_specific_filters:
+        components_list: ["anycast_gateways"]
+        anycast_gateways:
+        - ip_pool_name: "Chennai-VN3-Pool1"
+        - ip_pool_name: "Chennai-VN1-Pool2"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN ID and IP pool filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -414,13 +424,13 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
-        component_specific_filters:
-          components_list: ["anycast_gateways"]
-          anycast_gateways:
-            - vlan_id: 1032
-            - vlan_id: 1033
-            - ip_pool_name: "Chennai-VN1-Pool2"
+      file_path: "/tmp/catc_anycast_gateways_components_config.yml"
+      component_specific_filters:
+        components_list: ["anycast_gateways"]
+        anycast_gateways:
+        - vlan_id: 1032
+        - vlan_id: 1033
+        - ip_pool_name: "Chennai-VN1-Pool2"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN name filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -435,12 +445,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
-        component_specific_filters:
-          components_list: ["anycast_gateways"]
-          anycast_gateways:
-            - vlan_name: "Chennai-VN1-Pool2"
-            - vlan_name: "Chennai-VN7-Pool1"
+      file_path: "/tmp/catc_anycast_gateways_components_config.yml"
+      component_specific_filters:
+        components_list: ["anycast_gateways"]
+        anycast_gateways:
+        - vlan_name: "Chennai-VN1-Pool2"
+        - vlan_name: "Chennai-VN7-Pool1"
 
 - name: Generate YAML Configuration for anycast gateways with VLAN name and ID combination
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -455,14 +465,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
-        component_specific_filters:
-          components_list: ["anycast_gateways"]
-          anycast_gateways:
-            - vlan_name: "Chennai-VN1-Pool2"
-              vlan_id: 1022
-            - vlan_name: "Chennai-VN7-Pool1"
-              vlan_id: 1033
+      file_path: "/tmp/catc_anycast_gateways_components_config.yml"
+      component_specific_filters:
+        components_list: ["anycast_gateways"]
+        anycast_gateways:
+        - vlan_name: "Chennai-VN1-Pool2"
+          vlan_id: 1022
+        - vlan_name: "Chennai-VN7-Pool1"
+          vlan_id: 1033
 
 - name: Generate YAML Configuration for anycast gateways with comprehensive filters
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
@@ -477,18 +487,18 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_anycast_gateways_components_config.yml"
-        component_specific_filters:
-          components_list: ["anycast_gateways"]
-          anycast_gateways:
-            - vlan_name: "Chennai-VN1-Pool2"
-              vlan_id: 1022
-              ip_pool_name: "Chennai-VN1-Pool2"
-              vn_name: "Chennai_VN1"
-            - vlan_name: "Chennai-VN7-Pool1"
-              vlan_id: 1033
-              ip_pool_name: "Chennai-VN7-Pool1"
-              vn_name: "Chennai_VN7"
+      file_path: "/tmp/catc_anycast_gateways_components_config.yml"
+      component_specific_filters:
+        components_list: ["anycast_gateways"]
+        anycast_gateways:
+        - vlan_name: "Chennai-VN1-Pool2"
+          vlan_id: 1022
+          ip_pool_name: "Chennai-VN1-Pool2"
+          vn_name: "Chennai_VN1"
+        - vlan_name: "Chennai-VN7-Pool1"
+          vlan_id: 1033
+          ip_pool_name: "Chennai-VN7-Pool1"
+          vn_name: "Chennai_VN7"
 """
 
 
@@ -526,10 +536,10 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
              when 'generate_all_configurations' is set to False.",
         "response":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
              when 'generate_all_configurations' is set to False."
     }
 """
@@ -540,9 +550,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
-    validate_list_of_dicts
 )
 import time
 from collections import OrderedDict
@@ -598,6 +605,12 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "type": "str",
                 "required": False
             },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"]
+            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
@@ -606,12 +619,7 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Validate params
         self.log("Validating configuration against schema", "DEBUG")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
@@ -1559,55 +1567,53 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_virtual_networks_playbook_config_generator = VirtualNetworksPlaybookConfigGenerator(module)
+    config_generator = VirtualNetworksPlaybookConfigGenerator(module)
     if (
-        ccc_virtual_networks_playbook_config_generator.compare_dnac_versions(
-            ccc_virtual_networks_playbook_config_generator.get_ccc_version(), "2.3.7.9"
+        config_generator.compare_dnac_versions(
+            config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_virtual_networks_playbook_config_generator.msg = (
+        config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for SDA FABRIC VIRTUAL NETWORKS Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_virtual_networks_playbook_config_generator.get_ccc_version()
+                config_generator.get_ccc_version()
             )
         )
-        ccc_virtual_networks_playbook_config_generator.set_operation_result(
-            "failed", False, ccc_virtual_networks_playbook_config_generator.msg, "ERROR"
+        config_generator.set_operation_result(
+            "failed", False, config_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_virtual_networks_playbook_config_generator.params.get("state")
+    state = config_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_virtual_networks_playbook_config_generator.supported_states:
-        ccc_virtual_networks_playbook_config_generator.status = "invalid"
-        ccc_virtual_networks_playbook_config_generator.msg = "State {0} is invalid".format(
+    if state not in config_generator.supported_states:
+        config_generator.status = "invalid"
+        config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_virtual_networks_playbook_config_generator.check_return_status()
+        config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
-    ccc_virtual_networks_playbook_config_generator.validate_input().check_return_status()
+    config_generator.validate_input().check_return_status()
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_virtual_networks_playbook_config_generator.validated_config:
-        ccc_virtual_networks_playbook_config_generator.reset_values()
-        ccc_virtual_networks_playbook_config_generator.get_want(
-            config, state
-        ).check_return_status()
-        ccc_virtual_networks_playbook_config_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+    config = config_generator.validated_config
+    config_generator.get_want(
+        config, state
+    ).check_return_status()
+    config_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
-    module.exit_json(**ccc_virtual_networks_playbook_config_generator.result)
+    module.exit_json(**config_generator.result)
 
 
 if __name__ == "__main__":
