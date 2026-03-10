@@ -388,8 +388,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["anycast_gateways"]
         anycast_gateways:
-        - vn_name: "Chennai_VN1"
-        - vn_name: "Chennai_VN3"
+          - vn_name: "Chennai_VN1"
+          - vn_name: "Chennai_VN3"
 
 - name: Generate YAML Configuration for anycast gateways with IP pool name filter
   cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
