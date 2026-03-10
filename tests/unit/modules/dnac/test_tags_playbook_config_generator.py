@@ -178,6 +178,6 @@ class TestDnacTagsPlaybookConfigGenerator(TestDnacModule):
 
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "component_specific_filters must be provided with components_list key",
+            "'component_specific_filters' must be provided with 'components_list' key",
             str(result.get("msg")),
         )
