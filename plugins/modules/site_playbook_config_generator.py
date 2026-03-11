@@ -99,6 +99,9 @@ options:
                 C(parent_name_hierarchy), and C(site_type).
               - Multiple list items are processed independently and merged as a
                 union in the final output.
+              - C(site_name_hierarchy) and C(parent_name_hierarchy) cannot be
+                used together in the same site list item. Use separate site
+                list items to avoid ambiguous retrieval behavior.
             type: list
             elements: dict
             suboptions:
@@ -106,23 +109,20 @@ options:
                 description:
                   - Site name hierarchy filter.
                   - Supports either a single hierarchy string or a list of hierarchy strings.
-                  - When used with C(parent_name_hierarchy) in the same filter item,
-                    values can be full hierarchies (for example C(Global/USA/San Jose))
-                    or relative hierarchies (for example C(San Jose)). Relative values
-                    are resolved using the parent hierarchy prefix.
                 type: raw
               parent_name_hierarchy:
                 description:
                   - Parent site name hierarchy filter.
                   - Supports either a single hierarchy string or a list of hierarchy strings.
-                  - When used with C(site_name_hierarchy) in the same filter item,
-                    only one parent hierarchy value is allowed.
                 type: raw
               site_type:
                 description:
                   - Site type filter.
                   - Valid values are "area", "building", and "floor".
                   - Can be a list to match multiple site types.
+                  - When specified in one site filter item, the same values are
+                    applied to sibling hierarchy-only site filter items in the
+                    same request to keep union output type-consistent.
                 type: list
                 elements: str
 requirements:
@@ -1741,51 +1741,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
 
             if site_name_hierarchy is not None and parent_name_hierarchy is not None:
-                parent_hierarchy_values = (
-                    parent_name_hierarchy
-                    if isinstance(parent_name_hierarchy, list)
-                    else [parent_name_hierarchy]
+                errors.append(
+                    "Validation Error: 'site_name_hierarchy' and "
+                    "'parent_name_hierarchy' cannot be provided together in "
+                    "'component_specific_filters.site[{0}]'. Use separate "
+                    "'site' list items for parent and site hierarchy retrieval "
+                    "to avoid ambiguity.".format(index)
                 )
-                if len(parent_hierarchy_values) > 1:
-                    errors.append(
-                        "'parent_name_hierarchy' in 'component_specific_filters.site[{0}]' "
-                        "must contain exactly one value when used with "
-                        "'site_name_hierarchy'. Use separate 'site' list items for "
-                        "multiple parent hierarchy values.".format(index)
-                    )
-                elif (
-                    site_name_hierarchy_valid_type
-                    and parent_name_hierarchy_valid_type
-                ):
-                    normalized_parent_values = self.normalize_hierarchy_values(
-                        parent_name_hierarchy
-                    )
-                    normalized_site_values = self.normalize_hierarchy_values(
-                        site_name_hierarchy
-                    )
-                    if (
-                        normalized_parent_values
-                        and normalized_site_values
-                        and len(normalized_parent_values) == 1
-                    ):
-                        parent_hierarchy_value = normalized_parent_values[0]
-                        _, invalid_site_hierarchy_values = (
-                            self.resolve_site_hierarchy_values_with_parent(
-                                parent_hierarchy_value, normalized_site_values
-                            )
-                        )
-                        if invalid_site_hierarchy_values:
-                            errors.append(
-                                "Validation Error: The 'parent_name_hierarchy' must be a strict "
-                                "path-prefix of 'site_name_hierarchy'. Please verify and "
-                                "correct the hierarchy values in your configuration. "
-                                "Invalid values in 'component_specific_filters.site[{0}]': "
-                                "parent_name_hierarchy='{1}', site_name_hierarchy={2}.".format(
-                                    index,
-                                    parent_hierarchy_value,
-                                    invalid_site_hierarchy_values,
-                                )
-                            )
 
             site_type = filter_entry.get("site_type")
             if site_type is not None:
@@ -2119,17 +2081,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         if expression_name_hierarchy_values and expression_parent_hierarchy_values:
-            if len(expression_parent_hierarchy_values) != 1:
-                return False
-            parent_hierarchy_value = expression_parent_hierarchy_values[0]
-            (
-                expression_name_hierarchy_values,
-                invalid_site_hierarchy_values,
-            ) = self.resolve_site_hierarchy_values_with_parent(
-                parent_hierarchy_value, expression_name_hierarchy_values
-            )
-            if invalid_site_hierarchy_values:
-                return False
+            # Ambiguous by design: parent and site hierarchy retrieval must be
+            # expressed in separate filter items.
+            return False
 
         if expression_name_hierarchy_values:
             if not any(
@@ -2504,11 +2458,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         - `parent_name_hierarchy` accepts one value or a list of values and each
           value becomes `nameHierarchy=<parent>/.*` when `site_name_hierarchy` is
           absent.
-        - When both hierarchy keys are present, `parent_name_hierarchy` must
-          resolve to one value.
-        - With both hierarchy keys, `site_name_hierarchy` values can be full
-          paths or relative paths. Relative values are prefixed by parent and
-          the resolved paths must remain strict descendants of parent.
+        - `site_name_hierarchy` and `parent_name_hierarchy` in the same filter
+          expression are treated as invalid and skipped, because retrieval is
+          supported only as separate filter expressions for unambiguous union.
         - `site_type` expands query params to one API call per type value.
         - Union behavior across multiple `component_specific_filters.site` list
           items is handled by the caller (`get_sites_configuration`) by
@@ -2551,56 +2503,27 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         deduped_site_type_list = site_type_list
 
         if site_name_hierarchy_values and parent_name_hierarchy_values:
-            if len(parent_name_hierarchy_values) != 1:
-                self.log(
-                    "Skipping site filter because parent_name_hierarchy contains "
-                    "multiple values while site_name_hierarchy is also provided. "
-                    "Use one parent value with site_name_hierarchy or split into "
-                    "separate site filter expressions.",
-                    "WARNING",
-                )
-                planning_end_time = time.time()
-                self.log(
-                    "Site query plan exit: skipped due to invalid parent/site "
-                    "combination, parent_value_count={0}, site_value_count={1}, "
-                    "query_plan_count=0, end_time={2:.6f}, duration_seconds={3:.6f}.".format(
-                        len(parent_name_hierarchy_values),
-                        len(site_name_hierarchy_values),
-                        planning_end_time,
-                        planning_end_time - planning_start_time,
-                    ),
-                    "WARNING",
-                )
-                return []
-            parent_hierarchy_value = parent_name_hierarchy_values[0]
-            (
-                effective_name_hierarchy_values,
-                invalid_site_hierarchy_values,
-            ) = self.resolve_site_hierarchy_values_with_parent(
-                parent_hierarchy_value, site_name_hierarchy_values
+            self.log(
+                "Skipping site filter because 'site_name_hierarchy' and "
+                "'parent_name_hierarchy' were both provided in one filter "
+                "expression. Use separate 'site' list items to avoid "
+                "ambiguous retrieval behavior.",
+                "WARNING",
             )
-            if invalid_site_hierarchy_values:
-                self.log(
-                    "Skipping site filter because parent_name_hierarchy '{0}' is not "
-                    "a valid scope for site_name_hierarchy value(s) {1}. Provide "
-                    "site_name_hierarchy as full descendant paths under parent or "
-                    "as relative descendant paths.".format(
-                        parent_hierarchy_value, invalid_site_hierarchy_values
-                    ),
-                    "WARNING",
-                )
-                planning_end_time = time.time()
-                self.log(
-                    "Site query plan exit: skipped due to unresolved site hierarchy "
-                    "values, invalid_value_count={0}, query_plan_count=0, end_time={1:.6f}, "
-                    "duration_seconds={2:.6f}.".format(
-                        len(invalid_site_hierarchy_values),
-                        planning_end_time,
-                        planning_end_time - planning_start_time,
-                    ),
-                    "WARNING",
-                )
-                return []
+            planning_end_time = time.time()
+            self.log(
+                "Site query plan exit: skipped due to ambiguous parent/site "
+                "combination in one filter expression, parent_value_count={0}, "
+                "site_value_count={1}, query_plan_count=0, end_time={2:.6f}, "
+                "duration_seconds={3:.6f}.".format(
+                    len(parent_name_hierarchy_values),
+                    len(site_name_hierarchy_values),
+                    planning_end_time,
+                    planning_end_time - planning_start_time,
+                ),
+                "WARNING",
+            )
+            return []
         elif site_name_hierarchy_values:
             effective_name_hierarchy_values = list(site_name_hierarchy_values)
         elif parent_name_hierarchy_values:
@@ -2696,6 +2619,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         component_specific_filters = self.resolve_component_filters(
+            component_specific_filters
+        )
+        component_specific_filters = self.apply_global_site_type_to_site_filters(
             component_specific_filters
         )
 
@@ -2863,6 +2789,114 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "Site retrieval workflow completed and mapped payload assembled.", "INFO"
         )
         return mapped_configurations
+
+    def apply_global_site_type_to_site_filters(self, component_specific_filters):
+        """
+        Propagate declared site_type values across sibling site filter expressions.
+
+        Behavior:
+        - Collect all unique site_type values declared in the current `site` filter
+          list (preserving order).
+        - For filter items that define hierarchy selectors but omit `site_type`,
+          inject the collected site_type list so final retrieval semantics are
+          consistent across the union of site filters.
+
+        Args:
+            component_specific_filters (list | None): Site filter expressions after
+                wrapper resolution.
+
+        Returns:
+            list | None: Updated filter list with propagated site_type where needed.
+        """
+        start_time = time.time()
+        if not isinstance(component_specific_filters, list):
+            end_time = time.time()
+            self.log(
+                "Global site_type propagation skipped: filter container is not a list "
+                "(type={0}), start_time={1:.6f}, end_time={2:.6f}, duration_seconds={3:.6f}.".format(
+                    type(component_specific_filters).__name__,
+                    start_time,
+                    end_time,
+                    end_time - start_time,
+                ),
+                "DEBUG",
+            )
+            return component_specific_filters
+
+        global_site_types = []
+        seen_site_types = set()
+        filters_with_site_type = 0
+        for filter_expression in component_specific_filters:
+            if not isinstance(filter_expression, dict):
+                continue
+            site_type_values = filter_expression.get("site_type")
+            if not isinstance(site_type_values, list) or not site_type_values:
+                continue
+            filters_with_site_type += 1
+            for site_type_value in site_type_values:
+                if site_type_value in seen_site_types:
+                    continue
+                seen_site_types.add(site_type_value)
+                global_site_types.append(site_type_value)
+
+        if not global_site_types:
+            end_time = time.time()
+            self.log(
+                "Global site_type propagation completed with no-op: "
+                "filters_total={0}, filters_with_site_type={1}, "
+                "filters_updated=0, start_time={2:.6f}, end_time={3:.6f}, "
+                "duration_seconds={4:.6f}.".format(
+                    len(component_specific_filters),
+                    filters_with_site_type,
+                    start_time,
+                    end_time,
+                    end_time - start_time,
+                ),
+                "INFO",
+            )
+            return component_specific_filters
+
+        updated_filters = []
+        filters_updated = 0
+        for filter_expression in component_specific_filters:
+            if not isinstance(filter_expression, dict):
+                updated_filters.append(filter_expression)
+                continue
+
+            has_hierarchy_selector = bool(
+                filter_expression.get("site_name_hierarchy")
+                or filter_expression.get("parent_name_hierarchy")
+            )
+            has_site_type = bool(
+                isinstance(filter_expression.get("site_type"), list)
+                and filter_expression.get("site_type")
+            )
+
+            if has_hierarchy_selector and not has_site_type:
+                updated_expression = dict(filter_expression)
+                updated_expression["site_type"] = list(global_site_types)
+                updated_filters.append(updated_expression)
+                filters_updated += 1
+                continue
+
+            updated_filters.append(filter_expression)
+
+        end_time = time.time()
+        self.log(
+            "Global site_type propagation completed: filters_total={0}, "
+            "filters_with_site_type={1}, filters_updated={2}, global_site_types={3}, "
+            "start_time={4:.6f}, end_time={5:.6f}, duration_seconds={6:.6f}.".format(
+                len(component_specific_filters),
+                filters_with_site_type,
+                filters_updated,
+                global_site_types,
+                start_time,
+                end_time,
+                end_time - start_time,
+            ),
+            "INFO",
+        )
+        return updated_filters
 
     def get_areas_configuration(self, network_element, component_specific_filters=None):
         """

@@ -173,7 +173,9 @@
       ],
       "site": [
         {
-          "site_name_hierarchy": "Global/USA",
+          "site_name_hierarchy": "Global/USA"
+        },
+        {
           "parent_name_hierarchy": "Global",
           "site_type": [
             "area"
@@ -255,6 +257,13 @@
       "site": [
         {
           "site_name_hierarchy": "Global/USA/.*",
+          "site_type": [
+            "area",
+            "building",
+            "floor"
+          ]
+        },
+        {
           "parent_name_hierarchy": "Global/USA",
           "site_type": [
             "area",
@@ -349,6 +358,13 @@
       "site": [
         {
           "site_name_hierarchy": "Global/USA/.*",
+          "site_type": [
+            "area",
+            "building",
+            "floor"
+          ]
+        },
+        {
           "parent_name_hierarchy": "Global/USA",
           "site_type": [
             "area",
