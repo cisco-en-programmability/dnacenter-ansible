@@ -127,7 +127,6 @@ EXAMPLES = r"""
     state: gathered
     config:
       generate_all_configurations: true
-      file_mode: "overwrite"
 
 - name: Generate YAML Configuration for all components with File Path specified
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -160,6 +159,7 @@ EXAMPLES = r"""
     state: gathered
     config:
       generate_all_configurations: false
+      file_path: "/tmp/ise_radius_integration_config.yaml"
       file_mode: "append"
       component_specific_filters:
         components_list: ["authentication_policy_server"]
