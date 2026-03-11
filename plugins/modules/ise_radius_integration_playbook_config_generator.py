@@ -221,9 +221,9 @@ EXAMPLES = r"""
       file_mode: "append"
       component_specific_filters:
         components_list: ["authentication_policy_server"]
-          authentication_policy_server:
-            server_type: "ISE"
-            server_ip_address: 10.197.156.10
+        authentication_policy_server:
+          server_type: "ISE"
+          server_ip_address: 10.197.156.10
 """
 
 RETURN = r"""
