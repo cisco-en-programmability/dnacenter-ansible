@@ -1650,7 +1650,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self,
     ):
         """
-        Ensure multi-value parent_name_hierarchy is rejected when site_name_hierarchy is also provided.
+        Ensure same-item parent/site hierarchy keys are rejected as ambiguous.
         """
         site_generator = self.module.SitePlaybookGenerator.__new__(
             self.module.SitePlaybookGenerator
@@ -1679,16 +1679,16 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
         self.assertTrue(
             errors,
-            "Expected validation errors when parent_name_hierarchy contains multiple values "
-            "along with site_name_hierarchy.",
+            "Expected validation errors when parent_name_hierarchy and "
+            "site_name_hierarchy are present in the same site filter item.",
         )
-        self.assertIn("must contain exactly one value", errors[0])
+        self.assertIn("cannot be provided together", errors[0])
 
     def test_validate_component_specific_filters_structure_parent_site_prefix_mismatch_invalid(
         self,
     ):
         """
-        Ensure parent/site hierarchy mismatch fails validation with explicit error message.
+        Ensure same-item parent/site hierarchy keys fail validation, regardless of values.
         """
         site_generator = self.module.SitePlaybookGenerator.__new__(
             self.module.SitePlaybookGenerator
@@ -1709,14 +1709,14 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             }
         )
         self.assertTrue(errors)
-        self.assertIn("Validation Error: The 'parent_name_hierarchy' must be a strict", errors[0])
-        self.assertIn("path-prefix of 'site_name_hierarchy'", errors[0])
+        self.assertIn("cannot be provided together", errors[0])
 
-    def test_validate_component_specific_filters_structure_site_list_and_single_parent_valid(
+    def test_validate_component_specific_filters_structure_site_list_and_single_parent_invalid(
         self,
     ):
         """
-        Ensure site_name_hierarchy list with a single parent_name_hierarchy value is valid.
+        Ensure site_name_hierarchy list with a single parent_name_hierarchy value
+        in one item is rejected as ambiguous.
         """
         site_generator = self.module.SitePlaybookGenerator.__new__(
             self.module.SitePlaybookGenerator
@@ -1741,17 +1741,14 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             }
         )
 
-        self.assertEqual(
-            errors,
-            [],
-            "Expected no validation errors for site_name_hierarchy list with one parent_name_hierarchy value.",
-        )
+        self.assertTrue(errors)
+        self.assertIn("cannot be provided together", errors[0])
 
     def test_build_site_query_plan_for_filter_resolves_relative_site_name_with_parent(
         self,
     ):
         """
-        Ensure relative site_name_hierarchy values are resolved using parent_name_hierarchy prefix.
+        Ensure same-item parent/site hierarchy filter is skipped as ambiguous.
         """
         site_generator = self.module.SitePlaybookGenerator.__new__(
             self.module.SitePlaybookGenerator
@@ -1766,13 +1763,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             }
         )
 
-        self.assertEqual(
-            query_plan,
-            [
-                {"nameHierarchy": "Global/USA/San Francisco", "type": "floor"},
-                {"nameHierarchy": "Global/USA/San Jose", "type": "floor"},
-            ],
-        )
+        self.assertEqual(query_plan, [])
 
     def test_build_site_query_plan_for_filter_parent_site_prefix_mismatch_returns_empty(
         self,
@@ -1795,7 +1786,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     def test_site_record_matches_filter_expression_with_relative_site_and_parent(self):
         """
-        Ensure record matching supports relative site_name_hierarchy with parent_name_hierarchy.
+        Ensure same-item parent/site hierarchy expression does not match records.
         """
         site_generator = self.module.SitePlaybookGenerator.__new__(
             self.module.SitePlaybookGenerator
@@ -1807,7 +1798,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             "parentNameHierarchy": "Global/USA",
             "type": "area",
         }
-        self.assertTrue(
+        self.assertFalse(
             site_generator.site_record_matches_filter_expression(
                 detail,
                 {
@@ -1824,7 +1815,8 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self, mock_exists, mock_file
     ):
         """
-        Verify API invocation resolves relative site_name_hierarchy values with parent prefix.
+        Verify module fails validation when parent/site hierarchy keys are used
+        together in one site filter item.
         """
         mock_exists.return_value = True
 
@@ -1842,23 +1834,32 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             },
         }
 
-        self.run_module_with_config_and_validate_success(relative_hierarchy_config)
-        self.assertEqual(self.run_dnac_exec.call_count, 1)
-        self.assert_get_sites_api_call(
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=relative_hierarchy_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("cannot be provided together", str(result.get("msg")))
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
             0,
-            {
-                "nameHierarchy": "Global/USA/San Jose",
-                "type": "area",
-                "offset": 1,
-                "limit": 500,
-            },
+            "Expected no API execution when same-item parent/site hierarchy is provided.",
         )
 
     def test_site_playbook_config_generator_parent_site_prefix_mismatch_fails_validation(
         self,
     ):
         """
-        Validate module fails early with explicit validation error for parent/site prefix mismatch.
+        Validate module fails early when parent/site hierarchy keys are both set
+        in one site filter item.
         """
         prefix_mismatch_config = {
             "component_specific_filters": {
@@ -1885,8 +1886,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "Validation Error: The 'parent_name_hierarchy' must be a strict "
-            "path-prefix of 'site_name_hierarchy'",
+            "cannot be provided together",
             str(result.get("msg")),
         )
         self.assertEqual(
@@ -2041,7 +2041,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self,
     ):
         """
-        Ensure duplicate relative/full site_name_hierarchy values collapse after resolution.
+        Ensure same-item parent/site hierarchy query plans are rejected as ambiguous.
         """
         site_generator = self.module.SitePlaybookGenerator.__new__(
             self.module.SitePlaybookGenerator
@@ -2059,10 +2059,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 "site_type": ["building"],
             }
         )
-        self.assertEqual(
-            query_plan,
-            [{"nameHierarchy": "Global/USA/San Jose", "type": "building"}],
-        )
+        self.assertEqual(query_plan, [])
 
     def test_build_site_query_plan_for_filter_parent_list_with_site_type_cross_product(
         self,
@@ -2238,6 +2235,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             0,
             {
                 "nameHierarchy": "Global/USA/.*",
+                "type": "floor",
                 "offset": 1,
                 "limit": 500,
             },
@@ -2246,6 +2244,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             1,
             {
                 "nameHierarchy": "Global/India/.*",
+                "type": "floor",
                 "offset": 1,
                 "limit": 500,
             },
@@ -2355,11 +2354,12 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         }
 
         self.run_module_with_config_and_validate_success(scenario5_config)
-        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        self.assertEqual(self.run_dnac_exec.call_count, 4)
         self.assert_get_sites_api_call(
             0,
             {
                 "nameHierarchy": "Global/USA/San Francisco",
+                "type": "building",
                 "offset": 1,
                 "limit": 500,
             },
@@ -2367,8 +2367,8 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self.assert_get_sites_api_call(
             1,
             {
-                "nameHierarchy": "Global/USA/.*",
-                "type": "building",
+                "nameHierarchy": "Global/USA/San Francisco",
+                "type": "floor",
                 "offset": 1,
                 "limit": 500,
             },
@@ -2377,8 +2377,115 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             2,
             {
                 "nameHierarchy": "Global/USA/.*",
+                "type": "building",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            3,
+            {
+                "nameHierarchy": "Global/USA/.*",
                 "type": "floor",
                 "offset": 1,
                 "limit": 500,
             },
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_scenario5_floor_site_type_applies_to_union(
+        self, mock_exists, mock_file
+    ):
+        """
+        Validate Scenario 5 floor-only expectation:
+        parent and exact-site retrievals are unioned first and then constrained
+        by floor site_type across both entries.
+        """
+        mock_exists.return_value = True
+        scenario5_floor_only_config = {
+            "file_path": "/tmp/case5_all_filters.yaml",
+            "file_mode": "overwrite",
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {"site_name_hierarchy": "Global/USA/San Francisco"},
+                    {
+                        "parent_name_hierarchy": ["Global/USA", "Global/India"],
+                        "site_type": ["floor"],
+                    },
+                ],
+            },
+        }
+
+        self.run_module_with_config_and_validate_success(scenario5_floor_only_config)
+        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/USA/San Francisco",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            1,
+            {
+                "nameHierarchy": "Global/USA/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            2,
+            {
+                "nameHierarchy": "Global/India/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+
+    def test_site_playbook_config_generator_scenario9_same_item_parent_and_site_fails_validation(
+        self,
+    ):
+        """
+        Validate updated playbook Scenario 9:
+        a single site filter item containing both site_name_hierarchy and
+        parent_name_hierarchy is rejected as ambiguous.
+        """
+        scenario9_invalid_config = {
+            "file_path": "/tmp/case9_fail_test.yaml",
+            "file_mode": "overwrite",
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {
+                        "site_name_hierarchy": "Global/USA/San Francisco",
+                        "parent_name_hierarchy": "Global/Japan",
+                        "site_type": ["building", "floor"],
+                    }
+                ],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=scenario9_invalid_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("cannot be provided together", str(result.get("msg")))
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution for ambiguous same-item parent/site hierarchy filter.",
         )
