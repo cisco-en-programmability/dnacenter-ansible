@@ -1265,6 +1265,7 @@ class BrownFieldHelper:
                                 )
                                 skip_next = False
                                 continue
+
                             # Handle "--flag=value" forms — skip the whole token
                             if '=' in arg and arg.split('=', 1)[0] in flags_with_values:
                                 self.log(
@@ -1272,6 +1273,7 @@ class BrownFieldHelper:
                                     "DEBUG"
                                 )
                                 continue
+
                             if arg in flags_with_values:
                                 self.log(
                                     "Token '{0}' is a known option flag requiring a value - will skip next token".format(arg),
@@ -1279,6 +1281,7 @@ class BrownFieldHelper:
                                 )
                                 skip_next = True
                                 continue
+
                             if arg.startswith('-'):
                                 self.log(
                                     "Skipping token '{0}' - boolean flag or unknown option".format(arg),
@@ -1286,6 +1289,7 @@ class BrownFieldHelper:
                                 )
                                 # Boolean flag or unknown option — skip
                                 continue
+
                             # Skip the ansible-playbook executable itself
                             if 'ansible-playbook' in arg:
                                 self.log(
@@ -1293,6 +1297,7 @@ class BrownFieldHelper:
                                     "DEBUG"
                                 )
                                 continue
+
                             # First positional .yml/.yaml argument is the playbook
                             if re.search(r'\.ya?ml$', arg):
                                 self.log(
@@ -1301,11 +1306,6 @@ class BrownFieldHelper:
                                 )
                                 playbook_path = arg
                                 break
-                            else:
-                                self.log(
-                                    "Skipping positional token '{0}' - does not end with .yml/.yaml".format(arg),
-                                    "DEBUG"
-                                )
 
                         if playbook_path:
 

@@ -3,6 +3,9 @@
 # Copyright (c) 2026, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+
 """Ansible module to generate YAML configurations for Wired Campus Automation Module."""
 
 DOCUMENTATION = r"""
@@ -103,8 +106,7 @@ options:
       - A list of filters for generating YAML playbook compatible with the 'inventory_workflow_manager' module.
       - Filters specify which devices and credentials to include in the YAML configuration file.
       - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -125,6 +127,14 @@ options:
           a default file name  C(inventory_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - For example, C(inventory_playbook_config_2026-01-24_12-33-20.yml).
         type: str
+      file_mode:
+        description:
+        - Controls how config is written to the YAML file.
+        - C(overwrite) replaces existing file content.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
       global_filters:
         description:
         - Global filters to apply when generating the YAML configuration file.
@@ -295,8 +305,9 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "./inventory_devices_all.yml"
+      generate_all_configurations: true
+      file_mode: "overwrite"
+      file_path: "./inventory_devices_all.yml"
 
 - name: Generate inventory playbook for specific devices by IP address
   cisco.dnac.inventory_playbook_config_generator:
@@ -309,11 +320,12 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - global_filters:
-          ip_address_list:
-            - "10.195.225.40"
-            - "10.195.225.42"
-        file_path: "./inventory_devices_by_ip.yml"
+      global_filters:
+        ip_address_list:
+          - "10.195.225.40"
+          - "10.195.225.42"
+      file_mode: "overwrite"
+      file_path: "./inventory_devices_by_ip.yml"
 
 - name: Generate inventory playbook for devices by hostname
   cisco.dnac.inventory_playbook_config_generator:
@@ -326,12 +338,13 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - global_filters:
-          hostname_list:
-            - "cat9k_1"
-            - "cat9k_2"
-            - "switch_1"
-        file_path: "./inventory_devices_by_hostname.yml"
+      global_filters:
+        hostname_list:
+          - "cat9k_1"
+          - "cat9k_2"
+          - "switch_1"
+      file_mode: "overwrite"
+      file_path: "./inventory_devices_by_hostname.yml"
 
 - name: Generate inventory playbook for devices by serial number
   cisco.dnac.inventory_playbook_config_generator:
@@ -344,11 +357,12 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - global_filters:
-          serial_number_list:
-            - "FCW2147L0AR1"
-            - "FCW2147L0AR2"
-        file_path: "./inventory_devices_by_serial.yml"
+      global_filters:
+        serial_number_list:
+          - "FCW2147L0AR1"
+          - "FCW2147L0AR2"
+      file_mode: "overwrite"
+      file_path: "./inventory_devices_by_serial.yml"
 
 - name: Generate inventory playbook for mixed device filtering
   cisco.dnac.inventory_playbook_config_generator:
@@ -361,12 +375,13 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - global_filters:
-          ip_address_list:
-            - "10.195.225.40"
-          hostname_list:
-            - "cat9k_1"
-        file_path: "./inventory_devices_mixed_filter.yml"
+      global_filters:
+        ip_address_list:
+          - "10.195.225.40"
+        hostname_list:
+          - "cat9k_1"
+      file_mode: "overwrite"
+      file_path: "./inventory_devices_mixed_filter.yml"
 
 - name: Generate inventory playbook with default file path
   cisco.dnac.inventory_playbook_config_generator:
@@ -379,9 +394,10 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - global_filters:
-          ip_address_list:
-            - "10.195.225.40"
+      global_filters:
+        ip_address_list:
+          - "10.195.225.40"
+      file_mode: "overwrite"
 
 - name: Generate inventory playbook for multiple devices
   cisco.dnac.inventory_playbook_config_generator:
@@ -394,13 +410,14 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - global_filters:
-          ip_address_list:
-            - "10.195.225.40"
-            - "10.195.225.41"
-            - "10.195.225.42"
-            - "10.195.225.43"
-        file_path: "./inventory_devices_multiple.yml"
+      global_filters:
+        ip_address_list:
+          - "10.195.225.40"
+          - "10.195.225.41"
+          - "10.195.225.42"
+          - "10.195.225.43"
+      file_mode: "overwrite"
+      file_path: "./inventory_devices_multiple.yml"
 
 - name: Generate inventory playbook for ACCESS role devices only
   cisco.dnac.inventory_playbook_config_generator:
@@ -413,10 +430,11 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - component_specific_filters:
-          components_list: ["device_details"]
-          device_details:
-            - role: "ACCESS"
+      component_specific_filters:
+        components_list: ["device_details"]
+        device_details:
+          - role: "ACCESS"
+        file_mode: "overwrite"
         file_path: "./inventory_access_role_devices.yml"
 
 - name: Generate inventory playbook with auto-populated provision_wired_device
@@ -430,8 +448,9 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "./inventory_with_provisioning.yml"
+      generate_all_configurations: true
+      file_mode: "overwrite"
+      file_path: "./inventory_with_provisioning.yml"
 
 - name: Generate inventory playbook with interface filtering
   cisco.dnac.inventory_playbook_config_generator:
@@ -444,16 +463,17 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - global_filters:
-          ip_address_list:
-            - "10.195.225.40"
-            - "10.195.225.42"
-        component_specific_filters:
-          interface_details:
-            interface_name:
-              - "Vlan100"
-              - "GigabitEthernet1/0/1"
-        file_path: "./inventory_interface_filtered.yml"
+      global_filters:
+        ip_address_list:
+          - "10.195.225.40"
+          - "10.195.225.42"
+      component_specific_filters:
+        interface_details:
+          interface_name:
+            - "Vlan100"
+            - "GigabitEthernet1/0/1"
+      file_mode: "overwrite"
+      file_path: "./inventory_interface_filtered.yml"
 
 - name: Generate inventory playbook for specific interface on single device
   cisco.dnac.inventory_playbook_config_generator:
@@ -466,13 +486,14 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - global_filters:
-          ip_address_list:
-            - "10.195.225.40"
-        component_specific_filters:
-          interface_details:
-            interface_name: "Loopback0"
-        file_path: "./inventory_loopback_interface.yml"
+      global_filters:
+        ip_address_list:
+          - "10.195.225.40"
+      component_specific_filters:
+        interface_details:
+          interface_name: "Loopback0"
+      file_mode: "overwrite"
+      file_path: "./inventory_loopback_interface.yml"
 
 - name: Generate complete inventory with all components and interface filter
   cisco.dnac.inventory_playbook_config_generator:
@@ -485,16 +506,17 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - component_specific_filters:
-          components_list: ["device_details", "provision_device", "interface_details"]
-          device_details:
-            role: "ACCESS"
-          interface_details:
-            interface_name:
-              - "GigabitEthernet1/0/1"
-              - "GigabitEthernet1/0/2"
-              - "GigabitEthernet1/0/3"
-        file_path: "./inventory_access_with_interfaces.yml"
+      component_specific_filters:
+        components_list: ["device_details", "provision_device", "interface_details"]
+        device_details:
+          role: "ACCESS"
+        interface_details:
+          interface_name:
+            - "GigabitEthernet1/0/1"
+            - "GigabitEthernet1/0/2"
+            - "GigabitEthernet1/0/3"
+      file_mode: "overwrite"
+      file_path: "./inventory_access_with_interfaces.yml"
 
 - name: Generate UDF output filtered by name (single string)
   cisco.dnac.inventory_playbook_config_generator:
@@ -507,11 +529,12 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - component_specific_filters:
-          components_list: ["user_defined_fields"]
-          user_defined_fields:
-            name: "Cisco Switches"
-        file_path: "./inventory_udf_name_single.yml"
+      component_specific_filters:
+        components_list: ["user_defined_fields"]
+        user_defined_fields:
+          name: "Cisco Switches"
+      file_mode: "overwrite"
+      file_path: "./inventory_udf_name_single.yml"
 
 - name: Generate UDF output filtered by name (list)
   cisco.dnac.inventory_playbook_config_generator:
@@ -524,11 +547,12 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - component_specific_filters:
-          components_list: ["user_defined_fields"]
-          user_defined_fields:
-            name: ["Cisco Switches", "To_test_udf"]
-        file_path: "./inventory_udf_name_list.yml"
+      component_specific_filters:
+        components_list: ["user_defined_fields"]
+        user_defined_fields:
+          name: ["Cisco Switches", "To_test_udf"]
+      file_mode: "overwrite"
+      file_path: "./inventory_udf_name_list.yml"
 
 - name: Generate UDF output filtered by value (single string)
   cisco.dnac.inventory_playbook_config_generator:
@@ -541,11 +565,12 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - component_specific_filters:
-          components_list: ["user_defined_fields"]
-          user_defined_fields:
-            value: "2234"
-        file_path: "./inventory_udf_value_single.yml"
+      component_specific_filters:
+        components_list: ["user_defined_fields"]
+        user_defined_fields:
+          value: "2234"
+      file_mode: "overwrite"
+      file_path: "./inventory_udf_value_single.yml"
 
 - name: Generate UDF output filtered by value (list)
   cisco.dnac.inventory_playbook_config_generator:
@@ -558,11 +583,12 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
     config:
-      - component_specific_filters:
-          components_list: ["user_defined_fields"]
-          user_defined_fields:
-            value: ["2234", "value12345", "value321"]
-        file_path: "./inventory_udf_value_list.yml"
+      component_specific_filters:
+        components_list: ["user_defined_fields"]
+        user_defined_fields:
+          value: ["2234", "value12345", "value321"]
+      file_mode: "overwrite"
+      file_path: "./inventory_udf_value_list.yml"
 """
 RETURN = r"""
 # Case_1: Success Scenario
@@ -665,26 +691,36 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False
+            },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"]
+            },
+            "file_path": {
+                "type": "str",
+                "required": False
+            },
+            "component_specific_filters": {
+                "type": "dict",
+                "required": False
+            },
+            "global_filters": {
+                "type": "dict",
+                "required": False},
         }
-
-        # Import validate_list_of_dicts function here to avoid circular imports
-        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
 
         # Validate params
         self.log("Validating configuration against schema.", "DEBUG")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
         self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config, require_global_filters=True)
+        self.validate_minimum_requirements(self.config)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -3072,7 +3108,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         self.log("Separating configs from final_list with {0} total items".format(len(final_list)), "DEBUG")
 
         for idx, config in enumerate(final_list):
-            self.log("Config {0}: keys = {1}".format(idx, list(config.keys()) if isinstance(config, dict) else type(config)), "DEBUG")
+            self.log("Config {0}: keys = {1}".format(idx, list(config.keys()) if isinstance(config, dict) else config.__class__.__name__), "DEBUG")
             # Check if this is the main provision_wired_device config (not the null field in device configs)
             if isinstance(config, dict) and "provision_wired_device" in config and isinstance(config.get("provision_wired_device"), list):
                 provision_config = config
@@ -3234,8 +3270,14 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("success", False, self.msg, "WARNING")
             return self
 
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+
+        self.log(
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
+            "DEBUG"
+        )
         self.log("Writing final dictionaries to file: {0}".format(file_path), "INFO")
-        write_result = self.write_dicts_to_yaml(dicts_to_write, file_path)
+        write_result = self.write_dicts_to_yaml(dicts_to_write, file_path, file_mode, dumper=OrderedDumper)
         if write_result:
             self.msg = {
                 "YAML config generation Task succeeded for module '{0}'.".format(
@@ -3253,7 +3295,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         return self
 
-    def write_dicts_to_yaml(self, dicts_list, file_path, dumper=None):
+    def write_dicts_to_yaml(self, dicts_list, file_path, file_mode, dumper=None):
         """
         Writes multiple dictionaries as separate YAML documents to a file.
         Each dictionary becomes a separate YAML document separated by ---.
@@ -3343,7 +3385,20 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 self.log("YAML write skipped: no valid documents after normalization.", "WARNING")
                 return False
 
-            final_yaml = "---\n" + "\n---\n".join(serialized_documents) + "\n"
+            if file_mode not in ("overwrite", "append"):
+                self.msg = (
+                    "Invalid file_mode '{0}'. Supported values are 'overwrite' and 'append'."
+                    .format(file_mode)
+                )
+                self.fail_and_exit(self.msg)
+
+            if file_mode == "overwrite":
+                open_mode = "w"
+            else:
+                open_mode = "a"
+
+            header_comments = self.add_header_comments()
+            final_yaml = header_comments + "\n---\n" + "\n---\n".join(serialized_documents) + "\n"
 
             self.ensure_directory_exists(file_path)
             with open(file_path, "w", encoding="utf-8") as yaml_file:
@@ -3900,7 +3955,7 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -3938,15 +3993,13 @@ def main():
     # Validate the input parameters and check the return statusk
     ccc_inventory_playbook_generator.validate_input().check_return_status()
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_inventory_playbook_generator.validated_config:
-        ccc_inventory_playbook_generator.reset_values()
-        ccc_inventory_playbook_generator.get_want(
-            config, state
-        ).check_return_status()
-        ccc_inventory_playbook_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+    config = ccc_inventory_playbook_generator.validated_config
+    ccc_inventory_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
+    ccc_inventory_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     module.exit_json(**ccc_inventory_playbook_generator.result)
 
