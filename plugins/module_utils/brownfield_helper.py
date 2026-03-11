@@ -1232,13 +1232,82 @@ class BrownFieldHelper:
                 try:
                     cmdline = process.cmdline()
                     if cmdline and any('ansible-playbook' in arg for arg in cmdline):
-                        full_command = ' '.join(cmdline)
+                        # Parse cmdline list to find the playbook (first positional .yml/.yaml arg).
+                        # We must skip option values so that e.g. "-i inventory.yml" is not mistaken
+                        # for the playbook.
+                        flags_with_values = {
+                            '-i', '--inventory', '--inventory-file',
+                            '-e', '--extra-vars',
+                            '--vault-password-file', '--vault-id',
+                            '-f', '--forks', '-l', '--limit',
+                            '-t', '--tags', '--skip-tags',
+                            '-u', '--user', '--private-key', '--key-file',
+                            '-T', '--timeout', '-c', '--connection',
+                            '-M', '--module-path',
+                            '--become-method', '--become-user',
+                            '--start-at-task',
+                            '--ssh-common-args', '--ssh-extra-args',
+                            '--sftp-extra-args', '--scp-extra-args',
+                        }
+                        playbook_path = None
+                        skip_next = False
+                        self.log(
+                            "Parsing cmdline tokens to identify playbook path. "
+                            "Total tokens: {0}, cmdline: {1}".format(len(cmdline), cmdline),
+                            "DEBUG"
+                        )
+                        for arg in cmdline:
+                            self.log("Processing cmdline token: '{0}'".format(arg), "DEBUG")
+                            if skip_next:
+                                self.log(
+                                    "Skipping token '{0}' - it is a value for a preceding option flag".format(arg),
+                                    "DEBUG"
+                                )
+                                skip_next = False
+                                continue
 
-                        # Extract YAML file path using regex - matches both relative and absolute paths
-                        # Matches patterns like: file.yml, playbooks/file.yml, ./path/to/file.yaml, /absolute/path/file.yml
-                        match = re.search(r'((?:[\w\-./]+/)?[\w\-]+\.ya?ml)', full_command)
-                        if match:
-                            playbook_path = match.group(1)
+                            # Handle "--flag=value" forms — skip the whole token
+                            if '=' in arg and arg.split('=', 1)[0] in flags_with_values:
+                                self.log(
+                                    "Skipping token '{0}' - matched '--flag=value' form for known option".format(arg),
+                                    "DEBUG"
+                                )
+                                continue
+
+                            if arg in flags_with_values:
+                                self.log(
+                                    "Token '{0}' is a known option flag requiring a value - will skip next token".format(arg),
+                                    "DEBUG"
+                                )
+                                skip_next = True
+                                continue
+
+                            if arg.startswith('-'):
+                                self.log(
+                                    "Skipping token '{0}' - boolean flag or unknown option".format(arg),
+                                    "DEBUG"
+                                )
+                                # Boolean flag or unknown option — skip
+                                continue
+
+                            # Skip the ansible-playbook executable itself
+                            if 'ansible-playbook' in arg:
+                                self.log(
+                                    "Skipping token '{0}' - ansible-playbook executable".format(arg),
+                                    "DEBUG"
+                                )
+                                continue
+
+                            # First positional .yml/.yaml argument is the playbook
+                            if re.search(r'\.ya?ml$', arg):
+                                self.log(
+                                    "Found playbook path: '{0}' - first positional .yml/.yaml argument".format(arg),
+                                    "DEBUG"
+                                )
+                                playbook_path = arg
+                                break
+
+                        if playbook_path:
 
                             # Get the absolute path
                             if playbook_path.startswith('/'):
