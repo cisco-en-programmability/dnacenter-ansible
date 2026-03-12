@@ -431,7 +431,7 @@ options:
                       - Each VLAN can have its own STP parameters.
                       - VLAN must exist before STP instance configuration.
                     type: int
-                    required: true
+                    required: false
                   stp_instance_priority:
                     description:
                       - Bridge priority for this VLAN's STP instance.
@@ -729,7 +729,7 @@ options:
                       - VLAN must exist before configuring IGMP Snooping.
                       - Each VLAN can have independent IGMP Snooping settings.
                     type: int
-                    required: true
+                    required: false
                   enable_igmp_snooping:
                     description:
                       - Enable IGMP Snooping for this specific VLAN.
@@ -2390,7 +2390,7 @@ class WiredCampusAutomation(DnacBase):
                         "type": "list",
                         "elements": "dict",
                         "suboptions": {
-                            "stp_instance_vlan_id": {"type": "int", "required": True},
+                            "stp_instance_vlan_id": {"type": "int"},
                             "stp_instance_priority": {"type": "int"},
                             "enable_stp": {"type": "bool"},
                             "stp_instance_max_age_timer": {"type": "int"},
@@ -2432,7 +2432,7 @@ class WiredCampusAutomation(DnacBase):
                         "type": "list",
                         "elements": "dict",
                         "suboptions": {
-                            "igmp_snooping_vlan_id": {"type": "int", "required": True},
+                            "igmp_snooping_vlan_id": {"type": "int"},
                             "enable_igmp_snooping": {"type": "bool"},
                             "igmp_snooping_querier": {"type": "bool"},
                             "igmp_snooping_querier_address": {"type": "str"},
@@ -2980,7 +2980,7 @@ class WiredCampusAutomation(DnacBase):
                 "stp_instance_vlan_id": {
                     "type": "int",
                     "range": (1, 4094),
-                    "required": True,
+                    "required": False,
                 },  # Added type: int
                 "stp_instance_priority": {
                     "type": "int",
@@ -3077,7 +3077,7 @@ class WiredCampusAutomation(DnacBase):
                 "igmp_snooping_vlan_id": {
                     "type": "int",
                     "range": (1, 4094),
-                    "required": True,
+                    "required": False,
                 },  # Added type: int
                 "enable_igmp_snooping": {"type": "bool", "required": False},
                 "igmp_snooping_immediate_leave": {"type": "bool", "required": False},
@@ -5490,6 +5490,14 @@ class WiredCampusAutomation(DnacBase):
 
             # Process each STP instance
             for instance in stp_instances:
+                if instance.get("stp_instance_vlan_id") is None:
+                    self.log(
+                        "Skipping STP instance entry because 'stp_instance_vlan_id' is not provided. "
+                        "Each STP instance should specify a VLAN ID for proper configuration.",
+                        "WARNING",
+                    )
+                    continue
+
                 self.log(
                     "Processing STP instance for VLAN {0}".format(
                         instance.get("stp_instance_vlan_id")
@@ -5822,6 +5830,16 @@ class WiredCampusAutomation(DnacBase):
 
                 # Process each VLAN configuration
                 for vlan_index, vlan_config in enumerate(igmp_snooping_vlans):
+                    if vlan_config.get("igmp_snooping_vlan_id") is None:
+                        self.log(
+                            "Skipping IGMP Snooping VLAN entry at index {0} because 'igmp_snooping_vlan_id' is not provided. "
+                            "Each IGMP Snooping VLAN should specify a VLAN ID for proper configuration.".format(
+                                vlan_index
+                            ),
+                            "WARNING",
+                        )
+                        continue
+
                     self.log(
                         "Processing IGMP Snooping VLAN configuration at index {0}".format(
                             vlan_index
@@ -8667,6 +8685,13 @@ class WiredCampusAutomation(DnacBase):
         for desired_instance in desired_instances:
             vlan_id = desired_instance.get("vlanId")
             if vlan_id is None:
+                self.log(
+                    "Skipping {0} entry during comparison because 'vlanId' is not provided. "
+                    "Each instance should specify a VLAN ID for proper configuration.".format(
+                        instance_type
+                    ),
+                    "WARNING",
+                )
                 continue
 
             current_instance = current_by_vlan.get(vlan_id)
@@ -9385,7 +9410,13 @@ class WiredCampusAutomation(DnacBase):
             # Add or update with desired instances
             for desired_item in desired_items:
                 vlan_id = desired_item.get("vlanId")
-                if vlan_id:
+                if not vlan_id:
+                    self.log(
+                        "Skipping STP instance during merge because 'vlanId' is not provided. "
+                        "Each STP instance should specify a VLAN ID for proper configuration.",
+                        "WARNING",
+                    )
+                else:
                     if vlan_id in merged_by_vlan:
                         # Update existing instance
                         merged_by_vlan[vlan_id].update(desired_item)
@@ -10041,7 +10072,13 @@ class WiredCampusAutomation(DnacBase):
         # Step 2: Apply user's desired changes ONLY for user-specified VLANs
         for desired_vlan in desired_vlans:
             vlan_id = desired_vlan.get("vlanId")
-            if vlan_id:
+            if not vlan_id:
+                self.log(
+                    "Skipping IGMP Snooping VLAN entry during merge because 'vlanId' is not provided. "
+                    "Each IGMP Snooping VLAN should specify a VLAN ID for proper configuration.",
+                    "WARNING",
+                )
+            else:
                 self.log("Processing user-specified VLAN {0}".format(vlan_id), "DEBUG")
 
                 if vlan_id in final_vlan_dict:
@@ -10571,7 +10608,13 @@ class WiredCampusAutomation(DnacBase):
         # Step 2: Apply user's desired changes ONLY for user-specified VLANs
         for desired_vlan in desired_vlans:
             vlan_id = desired_vlan.get("vlanId")
-            if vlan_id:
+            if not vlan_id:
+                self.log(
+                    "Skipping MLD Snooping VLAN entry during merge because 'vlanId' is not provided. "
+                    "Each MLD Snooping VLAN should specify a VLAN ID for proper configuration.",
+                    "WARNING",
+                )
+            else:
                 self.log("Processing user-specified VLAN {0}".format(vlan_id), "DEBUG")
 
                 if vlan_id in final_vlan_dict:
