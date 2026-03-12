@@ -380,6 +380,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "wireless_design_workflow_manager"
+        self.country_code_map = None
 
     def validate_input(self):
         """
@@ -486,7 +487,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         "interface_name": {"type": "str"},
                         "vlan_id": {"type": "int"}
                     },
-                    "temp_spec_function": self.wireless_interfaces_temp_spec,
+                    "reverse_mapping_function": self.wireless_interfaces_temp_spec,
                     "api_function": "get_interfaces",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_interfaces,
@@ -495,7 +496,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "filters": {
                         "power_profile_name": {"type": "str"}
                     },
-                    "temp_spec_function": self.wireless_power_profiles_temp_spec,
+                    "reverse_mapping_function": self.wireless_power_profiles_temp_spec,
                     "api_function": "get_power_profiles",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_power_profiles,
@@ -504,7 +505,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "filters": {
                         "ap_profile_name": {"type": "str"}
                     },
-                    "temp_spec_function": self.wireless_access_point_profiles_temp_spec,
+                    "reverse_mapping_function": self.wireless_access_point_profiles_temp_spec,
                     "api_function": "get_ap_profiles",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_access_point_profiles,
@@ -513,7 +514,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "filters": {
                         "rf_profile_name": {"type": "str"}
                     },
-                    "temp_spec_function": self.wireless_radio_frequency_profiles_temp_spec,
+                    "reverse_mapping_function": self.wireless_radio_frequency_profiles_temp_spec,
                     "api_function": "get_rf_profiles",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_radio_frequency_profiles,
@@ -522,7 +523,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "filters": {
                         "anchor_group_name": {"type": "str"}
                     },
-                    "temp_spec_function": self.wireless_anchor_groups_temp_spec,
+                    "reverse_mapping_function": self.wireless_anchor_groups_temp_spec,
                     "api_function": "get_anchor_groups",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_anchor_groups,
@@ -554,7 +555,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "filters": {
                         "profile_name": {"type": "str"}
                     },
-                    "temp_spec_function": self.wireless_802_11_be_profiles_temp_spec,
+                    "reverse_mapping_function": self.wireless_802_11_be_profiles_temp_spec,
                     "api_function": "get80211be_profiles",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_802_11_be_profiles
@@ -563,7 +564,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "filters": {
                         "site_name_hierarchy": {"type": "str"}
                     },
-                    "temp_spec_function": self.wireless_flex_connect_config_temp_spec,
+                    "reverse_mapping_function": self.wireless_flex_connect_config_temp_spec,
                     "api_function": "get_native_vlan_settings_by_site",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_flex_connect_configurations
@@ -2014,149 +2015,156 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        transformed_value = {
-            "AF": "Afghanistan",
-            "AL": "Albania",
-            "DZ": "Algeria",
-            "AO": "Angola",
-            "AR": "Argentina",
-            "AU": "Australia",
-            "AT": "Austria",
-            "BS": "Bahamas",
-            "BH": "Bahrain",
-            "BD": "Bangladesh",
-            "BB": "Barbados",
-            "BY": "Belarus",
-            "BE": "Belgium",
-            "BT": "Bhutan",
-            "BO": "Bolivia",
-            "BA": "Bosnia",
-            "BW": "Botswana",
-            "BR": "Brazil",
-            "BN": "Brunei",
-            "BG": "Bulgaria",
-            "BI": "Burundi",
-            "KH": "Cambodia",
-            "CM": "Cameroon",
-            "CA": "Canada",
-            "CL": "Chile",
-            "CN": "China",
-            "CO": "Colombia",
-            "CR": "Costa Rica",
-            "HR": "Croatia",
-            "CU": "Cuba",
-            "CY": "Cyprus",
-            "CZ": "Czech Republic",
-            "CD": "Democratic Republic of the Congo",
-            "DK": "Denmark",
-            "DO": "Dominican Republic",
-            "EC": "Ecuador",
-            "EG": "Egypt",
-            "SV": "El Salvador",
-            "EE": "Estonia",
-            "ET": "Ethiopia",
-            "FJ": "Fiji",
-            "FI": "Finland",
-            "FR": "France",
-            "GA": "Gabon",
-            "GE": "Georgia",
-            "DE": "Germany",
-            "GH": "Ghana",
-            "GI": "Gibraltar",
-            "GR": "Greece",
-            "GT": "Guatemala",
-            "HN": "Honduras",
-            "HK": "Hong Kong",
-            "HU": "Hungary",
-            "IS": "Iceland",
-            "IN": "India",
-            "ID": "Indonesia",
-            "IQ": "Iraq",
-            "IE": "Ireland",
-            "IM": "Isle of Man",
-            "IL": "Israel",
-            "IT": "Italy",
-            "CI": "Ivory Coast (Cote dIvoire)",
-            "JM": "Jamaica",
-            "J2": "Japan 2(P)",
-            "J4": "Japan 4(Q)",
-            "JE": "Jersey",
-            "JO": "Jordan",
-            "KZ": "Kazakhstan",
-            "KE": "Kenya",
-            "KR": "Korea Extended (CK)",
-            "XK": "Kosovo",
-            "KW": "Kuwait",
-            "LA": "Laos",
-            "LV": "Latvia",
-            "LB": "Lebanon",
-            "LY": "Libya",
-            "LI": "Liechtenstein",
-            "LT": "Lithuania",
-            "LU": "Luxembourg",
-            "MO": "Macao",
-            "MK": "Macedonia",
-            "MY": "Malaysia",
-            "MT": "Malta",
-            "MU": "Mauritius",
-            "MX": "Mexico",
-            "MD": "Moldova",
-            "MC": "Monaco",
-            "MN": "Mongolia",
-            "ME": "Montenegro",
-            "MA": "Morocco",
-            "MM": "Myanmar",
-            "NA": "Namibia",
-            "NP": "Nepal",
-            "NL": "Netherlands",
-            "NZ": "New Zealand",
-            "NI": "Nicaragua",
-            "NG": "Nigeria",
-            "NO": "Norway",
-            "OM": "Oman",
-            "PK": "Pakistan",
-            "PA": "Panama",
-            "PY": "Paraguay",
-            "PE": "Peru",
-            "PH": "Philippines",
-            "PL": "Poland",
-            "PT": "Portugal",
-            "PR": "Puerto Rico",
-            "QA": "Qatar",
-            "RO": "Romania",
-            "RU": "Russian Federation",
-            "SM": "San Marino",
-            "SA": "Saudi Arabia",
-            "RS": "Serbia",
-            "SG": "Singapore",
-            "SK": "Slovak Republic",
-            "SI": "Slovenia",
-            "ZA": "South Africa",
-            "ES": "Spain",
-            "LK": "Sri Lanka",
-            "SD": "Sudan",
-            "SE": "Sweden",
-            "CH": "Switzerland",
-            "TW": "Taiwan",
-            "TH": "Thailand",
-            "TT": "Trinidad",
-            "TN": "Tunisia",
-            "TR": "Turkey",
-            "UG": "Uganda",
-            "UA": "Ukraine",
-            "AE": "United Arab Emirates",
-            "GB": "United Kingdom",
-            "TZ": "United Republic of Tanzania",
-            "US": "United States",
-            "UY": "Uruguay",
-            "UZ": "Uzbekistan",
-            "VA": "Vatican City State",
-            "VE": "Venezuela",
-            "VN": "Vietnam",
-            "YE": "Yemen",
-            "ZM": "Zambia",
-            "ZW": "Zimbabwe",
-        }.get(country_code, None)
+        if self.country_code_map is None:
+            self.log(
+                "Country code mapping is not initialized. Building country code map for access point country code transformation.",
+                "DEBUG"
+            )
+            self.country_code_map = {
+                "AF": "Afghanistan",
+                "AL": "Albania",
+                "DZ": "Algeria",
+                "AO": "Angola",
+                "AR": "Argentina",
+                "AU": "Australia",
+                "AT": "Austria",
+                "BS": "Bahamas",
+                "BH": "Bahrain",
+                "BD": "Bangladesh",
+                "BB": "Barbados",
+                "BY": "Belarus",
+                "BE": "Belgium",
+                "BT": "Bhutan",
+                "BO": "Bolivia",
+                "BA": "Bosnia",
+                "BW": "Botswana",
+                "BR": "Brazil",
+                "BN": "Brunei",
+                "BG": "Bulgaria",
+                "BI": "Burundi",
+                "KH": "Cambodia",
+                "CM": "Cameroon",
+                "CA": "Canada",
+                "CL": "Chile",
+                "CN": "China",
+                "CO": "Colombia",
+                "CR": "Costa Rica",
+                "HR": "Croatia",
+                "CU": "Cuba",
+                "CY": "Cyprus",
+                "CZ": "Czech Republic",
+                "CD": "Democratic Republic of the Congo",
+                "DK": "Denmark",
+                "DO": "Dominican Republic",
+                "EC": "Ecuador",
+                "EG": "Egypt",
+                "SV": "El Salvador",
+                "EE": "Estonia",
+                "ET": "Ethiopia",
+                "FJ": "Fiji",
+                "FI": "Finland",
+                "FR": "France",
+                "GA": "Gabon",
+                "GE": "Georgia",
+                "DE": "Germany",
+                "GH": "Ghana",
+                "GI": "Gibraltar",
+                "GR": "Greece",
+                "GT": "Guatemala",
+                "HN": "Honduras",
+                "HK": "Hong Kong",
+                "HU": "Hungary",
+                "IS": "Iceland",
+                "IN": "India",
+                "ID": "Indonesia",
+                "IQ": "Iraq",
+                "IE": "Ireland",
+                "IM": "Isle of Man",
+                "IL": "Israel",
+                "IT": "Italy",
+                "CI": "Ivory Coast (Cote dIvoire)",
+                "JM": "Jamaica",
+                "J2": "Japan 2(P)",
+                "J4": "Japan 4(Q)",
+                "JE": "Jersey",
+                "JO": "Jordan",
+                "KZ": "Kazakhstan",
+                "KE": "Kenya",
+                "KR": "Korea Extended (CK)",
+                "XK": "Kosovo",
+                "KW": "Kuwait",
+                "LA": "Laos",
+                "LV": "Latvia",
+                "LB": "Lebanon",
+                "LY": "Libya",
+                "LI": "Liechtenstein",
+                "LT": "Lithuania",
+                "LU": "Luxembourg",
+                "MO": "Macao",
+                "MK": "Macedonia",
+                "MY": "Malaysia",
+                "MT": "Malta",
+                "MU": "Mauritius",
+                "MX": "Mexico",
+                "MD": "Moldova",
+                "MC": "Monaco",
+                "MN": "Mongolia",
+                "ME": "Montenegro",
+                "MA": "Morocco",
+                "MM": "Myanmar",
+                "NA": "Namibia",
+                "NP": "Nepal",
+                "NL": "Netherlands",
+                "NZ": "New Zealand",
+                "NI": "Nicaragua",
+                "NG": "Nigeria",
+                "NO": "Norway",
+                "OM": "Oman",
+                "PK": "Pakistan",
+                "PA": "Panama",
+                "PY": "Paraguay",
+                "PE": "Peru",
+                "PH": "Philippines",
+                "PL": "Poland",
+                "PT": "Portugal",
+                "PR": "Puerto Rico",
+                "QA": "Qatar",
+                "RO": "Romania",
+                "RU": "Russian Federation",
+                "SM": "San Marino",
+                "SA": "Saudi Arabia",
+                "RS": "Serbia",
+                "SG": "Singapore",
+                "SK": "Slovak Republic",
+                "SI": "Slovenia",
+                "ZA": "South Africa",
+                "ES": "Spain",
+                "LK": "Sri Lanka",
+                "SD": "Sudan",
+                "SE": "Sweden",
+                "CH": "Switzerland",
+                "TW": "Taiwan",
+                "TH": "Thailand",
+                "TT": "Trinidad",
+                "TN": "Tunisia",
+                "TR": "Turkey",
+                "UG": "Uganda",
+                "UA": "Ukraine",
+                "AE": "United Arab Emirates",
+                "GB": "United Kingdom",
+                "TZ": "United Republic of Tanzania",
+                "US": "United States",
+                "UY": "Uruguay",
+                "UZ": "Uzbekistan",
+                "VA": "Vatican City State",
+                "VE": "Venezuela",
+                "VN": "Vietnam",
+                "YE": "Yemen",
+                "ZM": "Zambia",
+                "ZW": "Zimbabwe",
+            }
+
+        transformed_value = self.country_code_map.get(country_code)
 
         self.log(
             "Completed access point country code transformation. Input value: {0}, transformed value: {1}"
@@ -2688,9 +2696,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless ssids.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless ssids with network element: {0} and component-specific filters: {1}".format(
@@ -2849,9 +2855,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless interfaces.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless interfaces with network element: {0} and component-specific filters: {1}".format(
@@ -2986,9 +2990,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless power profiles.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless power profiles with network element: {0} and component-specific filters: {1}".format(
@@ -3120,9 +3122,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless access point profiles.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless access point profiles with network element: {0} and component-specific filters: {1}".format(
@@ -3254,9 +3254,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless radio frequency profiles.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless radio frequency profiles with network element: {0} and component-specific filters: {1}".format(
@@ -3388,9 +3386,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless anchor groups.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless anchor groups with network element: {0} and component-specific filters: {1}".format(
@@ -3520,9 +3516,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless feature template config.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless feature template config with network element: {0} and component-specific filters: {1}".format(
@@ -3710,9 +3704,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless 802.11be profiles.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless 802.11be profiles with network element: {0} and component-specific filters: {1}".format(
@@ -3842,9 +3834,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             dict: A dictionary containing the modified details of wireless flex connect configurations.
         """
 
-        component_specific_filters = None
-        if "component_specific_filters" in filters:
-            component_specific_filters = filters.get("component_specific_filters")
+        component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             "Starting to retrieve wireless flex connect configurations with network element: {0} and component-specific filters: {1}".format(
