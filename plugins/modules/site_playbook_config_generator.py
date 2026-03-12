@@ -1069,6 +1069,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             signature = self.build_filter_signature(filter_item)
             if signature in seen_signatures:
                 duplicates_ignored += 1
+                self.log(
+                    "Skipping duplicate filter expression at index {0}; "
+                    "signature already processed.".format(index),
+                    "DEBUG",
+                )
                 continue
             seen_signatures.add(signature)
             deduped_filters.append(filter_item)
@@ -1353,6 +1358,10 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             list: Ordered normalized hierarchy values without duplicates.
         """
         if hierarchy_value is None:
+            self.log(
+                "Normalizing hierarchy values - received None input; returning empty list.",
+                "DEBUG",
+            )
             return []
 
         values = (
@@ -1360,12 +1369,44 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         normalized_values = []
         seen_values = set()
-        for value in values:
+        duplicates_skipped = 0
+        empty_skipped = 0
+
+        for value_index, value in enumerate(values):
             normalized_value = self.normalize_hierarchy_path(value)
-            if not normalized_value or normalized_value in seen_values:
+            if not normalized_value:
+                empty_skipped += 1
+                self.log(
+                    "Skipping hierarchy value during normalization because "
+                    "the normalized output is empty. input_value={0}, "
+                    "index={1}.".format(value, value_index),
+                    "DEBUG",
+                )
                 continue
+
+            if normalized_value in seen_values:
+                duplicates_skipped += 1
+                self.log(
+                    "Skipping duplicate normalized hierarchy value: {0} "
+                    "(index={1}).".format(normalized_value, value_index),
+                    "DEBUG",
+                )
+                continue
+
             seen_values.add(normalized_value)
             normalized_values.append(normalized_value)
+
+        self.log(
+            "normalize_hierarchy_values summary: input_count={0}, "
+            "output_count={1}, duplicates_skipped={2}, "
+            "empty_skipped={3}.".format(
+                len(values),
+                len(normalized_values),
+                duplicates_skipped,
+                empty_skipped,
+            ),
+            "INFO",
+        )
         return normalized_values
 
     def hierarchy_matches_scope(self, hierarchy_value, scope_value):
@@ -1552,13 +1593,20 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         duplicates_skipped = 0
         non_dict_passthrough = 0
         incomplete_key_passthrough = 0
-        for detail in details:
+        for detail_index, detail in enumerate(details):
             processed_records += 1
             # Pass through non-dict records unchanged because they do not expose
             # stable dedupe keys.
             if not isinstance(detail, dict):
                 non_dict_passthrough += 1
                 deduped.append(detail)
+                self.log(
+                    "Skipping dedupe key evaluation for non-dict detail; "
+                    "record is preserved as-is at index {0}: {1}.".format(
+                        detail_index, detail
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             # Resolve dedupe key components from explicit fields first, then
@@ -1574,12 +1622,24 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             if not name or parent_value is None:
                 incomplete_key_passthrough += 1
                 deduped.append(detail)
+                self.log(
+                    "Skipping dedupe for record missing required key fields "
+                    "at index {0} (name={1}, parent={2}); record is preserved.".format(
+                        detail_index, name, parent_value
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             key = (name, parent_value)
             # Skip duplicates once key is already seen.
             if key in seen:
                 duplicates_skipped += 1
+                self.log(
+                    "Skipping duplicate record at index {0} for dedupe "
+                    "key {1}.".format(detail_index, key),
+                    "DEBUG",
+                )
                 continue
 
             seen.add(key)
@@ -1678,6 +1738,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                         index
                     )
                 )
+                self.log(
+                    "Skipping site filter validation for non-dict entry at "
+                    "index {0}: {1}.".format(index, filter_entry),
+                    "DEBUG",
+                )
                 continue
 
             unknown_filter_keys = sorted(set(filter_entry.keys()) - allowed_filter_keys)
@@ -1775,12 +1840,30 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                     duplicate_site_types = []
                     seen_site_types = set()
-                    for site_type_value in site_type:
+                    for site_type_index, site_type_value in enumerate(site_type):
                         if not isinstance(site_type_value, str):
+                            self.log(
+                                "Skipping non-string site_type value while "
+                                "checking duplicates in "
+                                "'component_specific_filters.site[{0}]' at "
+                                "site_type index {1}: {2}.".format(
+                                    index, site_type_index, site_type_value
+                                ),
+                                "DEBUG",
+                            )
                             continue
                         if site_type_value in seen_site_types:
                             if site_type_value not in duplicate_site_types:
                                 duplicate_site_types.append(site_type_value)
+                            self.log(
+                                "Skipping duplicate site_type value while "
+                                "checking duplicates in "
+                                "'component_specific_filters.site[{0}]' at "
+                                "site_type index {1}: {2}.".format(
+                                    index, site_type_index, site_type_value
+                                ),
+                                "DEBUG",
+                            )
                             continue
                         seen_site_types.add(site_type_value)
                     if duplicate_site_types:
@@ -2043,7 +2126,12 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         component_specific_filters = self._normalized_component_specific_filters or {}
         filter_expressions = []
-        for component in self.get_supported_components():
+        for component_index, component in enumerate(self.get_supported_components()):
+            self.log(
+                "Collecting unified filter expressions from component index "
+                "{0}: {1}.".format(component_index, component),
+                "DEBUG",
+            )
             component_filters = component_specific_filters.get(component)
             if isinstance(component_filters, list):
                 filter_expressions.extend(component_filters)
@@ -2159,11 +2247,18 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             )
         else:
             filtered_records = []
-            for detail in all_records:
-                for filter_expression in filter_expressions:
+            for detail_index, detail in enumerate(all_records):
+                for filter_index, filter_expression in enumerate(filter_expressions):
                     if self.site_record_matches_filter_expression(
                         detail, filter_expression
                     ):
+                        self.log(
+                            "Unified filter match found for detail index {0} "
+                            "with filter index {1}.".format(
+                                detail_index, filter_index
+                            ),
+                            "DEBUG",
+                        )
                         filtered_records.append(detail)
                         break
 
@@ -2174,12 +2269,19 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         by_type = {component: [] for component in self.get_supported_components()}
         unknown_type_records = 0
-        for detail in filtered_records:
+        for detail_index, detail in enumerate(filtered_records):
             detail_type = self.get_site_type_value(detail)
             if detail_type in by_type:
                 by_type[detail_type].append(detail)
             else:
                 unknown_type_records += 1
+                self.log(
+                    "Encountered unknown site type while building unified "
+                    "cache at detail index {0}: {1}.".format(
+                        detail_index, detail_type
+                    ),
+                    "DEBUG",
+                )
 
         self._unified_site_records_cache = {
             "all_records": all_records,
@@ -2358,7 +2460,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 resolution_mode = "absolute_outside_parent_scope"
             else:
                 candidate_site = normalized_parent + "/" + normalized_site
-                if self.is_valid_parent_site_hierarchy(normalized_parent, candidate_site):
+                if self.is_valid_parent_site_hierarchy(
+                    normalized_parent, candidate_site
+                ):
                     resolved_site = candidate_site
                     resolution_mode = "relative_prefixed"
                 else:
@@ -2413,15 +2517,29 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         seen_resolved_values = set()
         duplicates_skipped = 0
 
-        for site_name_hierarchy_value in site_name_hierarchy_values:
+        for site_name_index, site_name_hierarchy_value in enumerate(
+            site_name_hierarchy_values
+        ):
             resolved_value = self.resolve_site_hierarchy_with_parent(
                 parent_name_hierarchy, site_name_hierarchy_value
             )
             if not resolved_value:
                 invalid_values.append(site_name_hierarchy_value)
+                self.log(
+                    "Skipping unresolved site_name_hierarchy value '{0}' "
+                    "for parent '{1}' at index {2}.".format(
+                        site_name_hierarchy_value, parent_name_hierarchy, site_name_index
+                    ),
+                    "DEBUG",
+                )
                 continue
             if resolved_value in seen_resolved_values:
                 duplicates_skipped += 1
+                self.log(
+                    "Skipping duplicate resolved site hierarchy value '{0}' "
+                    "at index {1}.".format(resolved_value, site_name_index),
+                    "DEBUG",
+                )
                 continue
             seen_resolved_values.add(resolved_value)
             resolved_values.append(resolved_value)
@@ -2538,10 +2656,17 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             deduped_site_type_list = []
             duplicate_site_types = []
             seen_site_types = set()
-            for site_type in site_type_list:
+            for site_type_index, site_type in enumerate(site_type_list):
                 if site_type in seen_site_types:
                     if site_type not in duplicate_site_types:
                         duplicate_site_types.append(site_type)
+                    self.log(
+                        "Skipping duplicate site_type '{0}' while preparing "
+                        "site query plan at index {1}.".format(
+                            site_type, site_type_index
+                        ),
+                        "DEBUG",
+                    )
                     continue
                 seen_site_types.add(site_type)
                 deduped_site_type_list.append(site_type)
@@ -2560,8 +2685,23 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             if isinstance(deduped_site_type_list, list) and deduped_site_type_list
             else [None]
         )
-        for effective_name_hierarchy in effective_name_hierarchy_values:
-            for site_type in type_values:
+        for hierarchy_index, effective_name_hierarchy in enumerate(
+            effective_name_hierarchy_values
+        ):
+            self.log(
+                "Building site query plan for effective hierarchy index {0}: {1}.".format(
+                    hierarchy_index, effective_name_hierarchy
+                ),
+                "DEBUG",
+            )
+            for site_type_index, site_type in enumerate(type_values):
+                self.log(
+                    "Building site query plan entry for hierarchy index {0}, "
+                    "site_type index {1}, site_type {2}.".format(
+                        hierarchy_index, site_type_index, site_type
+                    ),
+                    "DEBUG",
+                )
                 params = {}
                 if effective_name_hierarchy:
                     params["nameHierarchy"] = effective_name_hierarchy
@@ -2576,9 +2716,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "end_time={5:.6f}, duration_seconds={6:.6f}.".format(
                 len(site_name_hierarchy_values),
                 len(parent_name_hierarchy_values),
-                len(deduped_site_type_list)
-                if isinstance(deduped_site_type_list, list)
-                else 0,
+                (
+                    len(deduped_site_type_list)
+                    if isinstance(deduped_site_type_list, list)
+                    else 0
+                ),
                 len(effective_name_hierarchy_values),
                 len(query_plan),
                 planning_end_time,
@@ -2657,12 +2799,24 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             site_counters["filters_processed"] = self.get_record_count(
                 component_specific_filters
             )
-            for filter_expression in component_specific_filters:
+            for index, filter_expression in enumerate(component_specific_filters):
+                self.log(
+                    "Processing site filter expression at query-planning stage "
+                    "index {0}: {1}".format(index, filter_expression),
+                    "DEBUG",
+                )
                 filter_query_plan = self.build_site_query_plan_for_filter(
                     filter_expression
                 )
                 if not filter_query_plan:
                     site_counters["filters_skipped"] += 1
+                    self.log(
+                        "Skipping site filter expression at query-planning "
+                        "stage index {0} because it produced no query candidates.".format(
+                            index
+                        ),
+                        "DEBUG",
+                    )
                     continue
                 site_query_plan.extend(filter_query_plan)
         else:
@@ -2680,7 +2834,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         all_site_details = []
-        for query_params in site_query_plan:
+        for query_index, query_params in enumerate(site_query_plan):
+            self.log(
+                "Executing site query plan entry index {0} with params {1}.".format(
+                    query_index, query_params
+                ),
+                "DEBUG",
+            )
             site_counters["api_calls"] += 1
             site_records = self.execute_sites_api_with_timing(
                 api_family,
@@ -2711,15 +2871,30 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         records_by_type = {
             component: [] for component in self.get_supported_components()
         }
-        for detail in filtered_site_details:
+        for detail_index, detail in enumerate(filtered_site_details):
+            self.log(
+                "Classifying deduped site detail at index {0}.".format(detail_index),
+                "DEBUG",
+            )
             detail_type = self.get_site_type_value(detail)
             if detail_type in records_by_type:
                 records_by_type[detail_type].append(detail)
             else:
                 site_counters["unknown_type_records"] += 1
+                self.log(
+                    "Encountered unsupported site type at filtered detail "
+                    "index {0}: {1}.".format(detail_index, detail_type),
+                    "DEBUG",
+                )
 
         mapped_configurations = []
-        for component in self.get_supported_components():
+        for component_index, component in enumerate(self.get_supported_components()):
+            self.log(
+                "Mapping site records for component index {0}: {1}.".format(
+                    component_index, component
+                ),
+                "DEBUG",
+            )
             records_before_dedupe = self.get_record_count(records_by_type[component])
             deduped_records = self.dedupe_site_details(
                 records_by_type[component], "{0}s".format(component)
@@ -2826,15 +3001,39 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         global_site_types = []
         seen_site_types = set()
         filters_with_site_type = 0
-        for filter_expression in component_specific_filters:
+        for index, filter_expression in enumerate(component_specific_filters):
+            self.log(
+                "Collecting global site_type values from filter index {0}: {1}.".format(
+                    index, filter_expression
+                ),
+                "DEBUG",
+            )
             if not isinstance(filter_expression, dict):
+                self.log(
+                    "Skipping global site_type collection for non-dict filter at index {0}.".format(
+                        index
+                    ),
+                    "DEBUG",
+                )
                 continue
             site_type_values = filter_expression.get("site_type")
             if not isinstance(site_type_values, list) or not site_type_values:
+                self.log(
+                    "Skipping global site_type collection for filter index {0}: "
+                    "'site_type' is missing or empty.".format(index),
+                    "DEBUG",
+                )
                 continue
             filters_with_site_type += 1
-            for site_type_value in site_type_values:
+            for site_type_index, site_type_value in enumerate(site_type_values):
                 if site_type_value in seen_site_types:
+                    self.log(
+                        "Skipping duplicate global site_type value '{0}' from "
+                        "filter index {1} at site_type index {2}.".format(
+                            site_type_value, index, site_type_index
+                        ),
+                        "DEBUG",
+                    )
                     continue
                 seen_site_types.add(site_type_value)
                 global_site_types.append(site_type_value)
@@ -2858,9 +3057,20 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         updated_filters = []
         filters_updated = 0
-        for filter_expression in component_specific_filters:
+        for index, filter_expression in enumerate(component_specific_filters):
+            self.log(
+                "Applying global site_type propagation on filter index {0}: {1}.".format(
+                    index, filter_expression
+                ),
+                "DEBUG",
+            )
             if not isinstance(filter_expression, dict):
                 updated_filters.append(filter_expression)
+                self.log(
+                    "Skipping global site_type injection for non-dict filter at "
+                    "index {0}; preserving original entry.".format(index),
+                    "DEBUG",
+                )
                 continue
 
             has_hierarchy_selector = bool(
@@ -2877,6 +3087,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 updated_expression["site_type"] = list(global_site_types)
                 updated_filters.append(updated_expression)
                 filters_updated += 1
+                self.log(
+                    "Skipping default append path after injecting propagated "
+                    "site_type values for filter index {0}.".format(index),
+                    "DEBUG",
+                )
                 continue
 
             updated_filters.append(filter_expression)
@@ -2914,7 +3129,6 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             list: Mapped area configuration objects ready for YAML serialization.
         """
 
-        self.log("Starting area retrieval workflow.", "INFO")
         self.log(
             f"Starting to retrieve areas with network element: {network_element} and component-specific filters: {component_specific_filters}",
             "INFO",
@@ -3003,11 +3217,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Build a query plan keyed by API params so identical queries are
             # executed once and post-filters are applied from the shared payload.
             query_plan = OrderedDict()
-            for filter_param in component_specific_filters:
+            for index, filter_param in enumerate(component_specific_filters):
                 area_counters["filters_processed"] += 1
                 self.log(
                     "Processing area filter expression at query-planning stage: "
-                    "{0}".format(filter_param),
+                    "index {0}, value {1}".format(index, filter_param),
                     "DEBUG",
                 )
                 params, post_filters = self.build_site_query_context(
@@ -3030,6 +3244,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 post_filter_signature = self.build_filter_signature(post_filters)
                 if post_filter_signature in query_plan[query_cache_key]["entries"]:
                     area_counters["query_plan_entries_collapsed"] += 1
+                    self.log(
+                        "Skipping duplicate area post-filter signature for "
+                        "query bucket {0} at filter index {1}.".format(
+                            query_cache_key, index
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 query_plan[query_cache_key]["entries"][post_filter_signature] = {
@@ -3050,7 +3271,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO",
                     )
 
-            for bucket in query_plan.values():
+            for bucket_index, bucket in enumerate(query_plan.values()):
+                self.log(
+                    "Processing area query bucket index {0} with params {1}.".format(
+                        bucket_index, bucket.get("params")
+                    ),
+                    "DEBUG",
+                )
                 area_counters["api_calls"] += 1
                 area_details = self.execute_sites_api_with_timing(
                     api_family,
@@ -3075,7 +3302,14 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Area detail payload (debug): {0}".format(area_details), "DEBUG"
                 )
 
-                for entry in bucket.get("entries", {}).values():
+                for entry_index, entry in enumerate(
+                    bucket.get("entries", {}).values()
+                ):
+                    self.log(
+                        "Processing area post-filter entry index {0} in "
+                        "bucket index {1}.".format(entry_index, bucket_index),
+                        "DEBUG",
+                    )
                     post_filters = entry.get("post_filters") or {}
                     if post_filters:
                         self.log(
@@ -3289,11 +3523,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Build a query plan keyed by API params so identical queries are
             # executed once and post-filters are applied from the shared payload.
             query_plan = OrderedDict()
-            for filter_param in component_specific_filters:
+            for index, filter_param in enumerate(component_specific_filters):
                 building_counters["filters_processed"] += 1
                 self.log(
                     "Processing building filter expression at query-planning "
-                    "stage: {0}".format(filter_param),
+                    "stage: index {0}, value {1}".format(index, filter_param),
                     "DEBUG",
                 )
                 params, post_filters = self.build_site_query_context(
@@ -3317,6 +3551,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 post_filter_signature = self.build_filter_signature(post_filters)
                 if post_filter_signature in query_plan[query_cache_key]["entries"]:
                     building_counters["query_plan_entries_collapsed"] += 1
+                    self.log(
+                        "Skipping duplicate building post-filter signature for "
+                        "query bucket {0} at filter index {1}.".format(
+                            query_cache_key, index
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 query_plan[query_cache_key]["entries"][post_filter_signature] = {
@@ -3337,7 +3578,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO",
                     )
 
-            for bucket in query_plan.values():
+            for bucket_index, bucket in enumerate(query_plan.values()):
+                self.log(
+                    "Processing building query bucket index {0} with params {1}.".format(
+                        bucket_index, bucket.get("params")
+                    ),
+                    "DEBUG",
+                )
                 building_counters["api_calls"] += 1
                 building_details = self.execute_sites_api_with_timing(
                     api_family,
@@ -3363,7 +3610,14 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG",
                 )
 
-                for entry in bucket.get("entries", {}).values():
+                for entry_index, entry in enumerate(
+                    bucket.get("entries", {}).values()
+                ):
+                    self.log(
+                        "Processing building post-filter entry index {0} in "
+                        "bucket index {1}.".format(entry_index, bucket_index),
+                        "DEBUG",
+                    )
                     post_filters = entry.get("post_filters") or {}
                     if post_filters:
                         self.log(
@@ -3581,11 +3835,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Build a query plan keyed by API params so identical queries are
             # executed once and post-filters are applied from the shared payload.
             query_plan = OrderedDict()
-            for filter_param in component_specific_filters:
+            for index, filter_param in enumerate(component_specific_filters):
                 floor_counters["filters_processed"] += 1
                 self.log(
                     "Processing floor filter expression at query-planning "
-                    "stage: {0}".format(filter_param),
+                    "stage: index {0}, value {1}".format(index, filter_param),
                     "DEBUG",
                 )
                 params, post_filters = self.build_site_query_context(
@@ -3609,6 +3863,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 post_filter_signature = self.build_filter_signature(post_filters)
                 if post_filter_signature in query_plan[query_cache_key]["entries"]:
                     floor_counters["query_plan_entries_collapsed"] += 1
+                    self.log(
+                        "Skipping duplicate floor post-filter signature for "
+                        "query bucket {0} at filter index {1}.".format(
+                            query_cache_key, index
+                        ),
+                        "DEBUG",
+                    )
                     continue
 
                 query_plan[query_cache_key]["entries"][post_filter_signature] = {
@@ -3629,7 +3890,13 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO",
                     )
 
-            for bucket in query_plan.values():
+            for bucket_index, bucket in enumerate(query_plan.values()):
+                self.log(
+                    "Processing floor query bucket index {0} with params {1}.".format(
+                        bucket_index, bucket.get("params")
+                    ),
+                    "DEBUG",
+                )
                 floor_counters["api_calls"] += 1
                 floor_details = self.execute_sites_api_with_timing(
                     api_family,
@@ -3654,7 +3921,14 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Floor detail payload (debug): {0}".format(floor_details), "DEBUG"
                 )
 
-                for entry in bucket.get("entries", {}).values():
+                for entry_index, entry in enumerate(
+                    bucket.get("entries", {}).values()
+                ):
+                    self.log(
+                        "Processing floor post-filter entry index {0} in "
+                        "bucket index {1}.".format(entry_index, bucket_index),
+                        "DEBUG",
+                    )
                     post_filters = entry.get("post_filters") or {}
                     if post_filters:
                         self.log(
