@@ -31,43 +31,44 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, the file will be saved in the current working directory with
+        a default file name "application_policy_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
+    type: str
+    required: false
+  file_mode:
+    description:
+      - Specifies the file write mode for the generated YAML configuration file.
+      - Relevant only when C(file_path) is provided.
+      - When set to C(overwrite), the file will be created or replaced if it already exists.
+      - When set to C(append), the new configurations will be appended to the existing file.
+    type: str
+    required: false
+    default: overwrite
   config:
     description:
       - A dictionary of filters for generating YAML playbook compatible with the 'application_policy_workflow_manager'
         module.
       - Filters specify which components to include in the YAML configuration file.
     type: dict
-    required: true
+    required: false
     suboptions:
       generate_all_configurations:
         description:
           - When set to True, automatically generates YAML configurations for all application policies and queuing profiles.
           - This mode discovers all configured policies and profiles in Cisco Catalyst Center.
-          - When enabled, the config parameter becomes optional and will use default values if not specified.
-          - A default filename will be generated automatically if file_path is not specified.
+          - When config is omitted, this option defaults to True.
         type: bool
         required: false
         default: false
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current working directory with
-            a default file name "application_policy_workflow_manager_playbook_<DD_Mon_YYYY_HH_MM_SS_MS>.yml".
-        type: str
-        required: false
-      file_mode:
-        description:
-          - Specifies the file write mode for the generated YAML configuration file.
-          - When set to "overwrite", the file will be created or replaced if it already exists.
-          - When set to "append", the new configurations will be appended to the existing file.
-        type: str
-        required: false
-        default: overwrite
-        choices: ["overwrite", "append"]
       component_specific_filters:
         description:
           - Filters to specify which application policy components to include in the YAML configuration file.
           - Allows granular selection of specific components and their parameters.
+          - Mandatory when C(generate_all_configurations=False).
+          - Also required when C(config) is provided as an empty dictionary.
         type: dict
         required: false
         suboptions:
@@ -75,7 +76,8 @@ options:
             description:
               - List of components to include in the YAML configuration file.
               - Valid values are ["queuing_profile", "application_policy"]
-              - If not specified, all supported components are included.
+              - Required and non-empty when no component-specific filter block is provided.
+              - If component-specific filters are provided, missing components are auto-added.
             type: list
             elements: str
             required: false
@@ -135,8 +137,6 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      generate_all_configurations: true
 
 - name: Generate configurations with custom file path
   cisco.dnac.application_policy_playbook_config_generator:
@@ -150,8 +150,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      file_path: "/tmp/app_policy_config.yml"
+    file_path: "/tmp/app_policy_config.yml"
 
 - name: Generate specific queuing profiles
   cisco.dnac.application_policy_playbook_config_generator:
@@ -165,8 +164,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/queuing_profiles.yml"
     config:
-      file_path: "/tmp/queuing_profiles.yml"
       component_specific_filters:
         components_list: ["queuing_profile"]
         queuing_profile:
@@ -184,8 +183,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/app_policies.yml"
     config:
-      file_path: "/tmp/app_policies.yml"
       component_specific_filters:
         components_list: ["application_policy"]
         application_policy:
@@ -203,8 +202,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/complete_app_policy_config.yml"
     config:
-      file_path: "/tmp/complete_app_policy_config.yml"
       component_specific_filters:
         components_list: ["queuing_profile", "application_policy"]
         queuing_profile:
@@ -224,9 +223,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/app_policy_config.yml"
+    file_mode: append
     config:
-      file_path: "/tmp/app_policy_config.yml"
-      file_mode: append
       component_specific_filters:
         components_list: ["queuing_profile"]
 """
@@ -310,8 +309,8 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Validates input configuration parameters for application policy playbook generation.
 
-        Performs comprehensive validation of playbook configuration structure, parameters,
-        and nested filters to ensure they conform to the expected schema.
+        Validates and normalizes top-level file settings and config filters.
+        File settings are accepted only at top-level module parameters.
 
         Returns:
             self: Instance with updated attributes:
@@ -324,193 +323,217 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             "policy playbook generation",
             "DEBUG"
         )
-
-        if not self.config:
-            self.msg = "config parameter is required for application_policy_playbook_config_generator module"
+        config = self.config
+        config_provided = config is not None
+        if config is None:
+            self.log(
+                "config is not provided. Defaulting to "
+                "{'generate_all_configurations': True}.",
+                "INFO"
+            )
+            config = {"generate_all_configurations": True}
+            
+        elif not isinstance(config, dict):
+            self.msg = (
+                "config must be a dictionary when provided. Got: {0}.".format(
+                    type(config).__name__
+                )
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+        if config_provided and config == {}:
+            self.msg = (
+                "'component_specific_filters' is mandatory when 'config' is provided as an empty dictionary."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+        allowed_config_keys = {"generate_all_configurations", "component_specific_filters"}
+        invalid_config_keys = set(config.keys()) - allowed_config_keys
+        if invalid_config_keys:
+            if "file_path" in invalid_config_keys or "file_mode" in invalid_config_keys:
+                self.msg = (
+                    "file_path and file_mode must be provided as top-level module "
+                    "parameters, not under config."
+                )
+            else:
+                self.msg = (
+                    "Invalid keys found in 'config': {0}. Allowed keys are: {1}.".format(
+                        sorted(list(invalid_config_keys)), sorted(list(allowed_config_keys))
+                    )
+                )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        self.log(
-            "Configuration parameter 'config' is present - validating structure",
-            "DEBUG"
-        )
-
-        temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite"
-            },
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            },
-        }
-
-        # Validate invalid parameters using brownfield_helper's validate_invalid_params
-        self.log(
-            "Validating top-level parameters using validate_invalid_params",
-            "DEBUG"
-        )
-        self.validate_invalid_params(self.config, temp_spec.keys())
-
-        # Validate file_mode choices
-        file_mode = self.config.get("file_mode", "overwrite")
+        file_path = self.params.get("file_path")
+        file_mode = self.params.get("file_mode", "overwrite")
         valid_file_modes = ["overwrite", "append"]
-        if file_mode not in valid_file_modes:
+
+        if file_path and file_mode not in valid_file_modes:
             self.msg = (
                 "Invalid file_mode '{0}'. Allowed values are: {1}.".format(
                     file_mode, valid_file_modes
                 )
             )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        self.log(
-            "file_mode validation passed: '{0}'".format(file_mode),
-            "DEBUG"
-        )
-
-        # Validate component_specific_filters nested parameters
-        self.log(
-            "Validating component_specific_filters nested parameters",
-            "DEBUG"
-        )
-
-        allowed_component_filter_keys = ["components_list", "queuing_profile", "application_policy"]
-        allowed_component_choices = ["queuing_profile", "application_policy"]
-
-        component_filters = self.config.get("component_specific_filters", {})
-
-        if component_filters:
+        if not file_path and file_mode != "overwrite":
             self.log(
-                "component_specific_filters present - validating nested structure "
-                "with keys: {0}".format(list(component_filters.keys())),
-                "DEBUG"
+                "file_mode='{0}' is ignored because file_path is not provided.".format(
+                    file_mode
+                ),
+                "WARNING"
             )
 
-            # Validate component_specific_filters keys
-            filter_keys = set(component_filters.keys())
-            invalid_filter_keys = filter_keys - set(allowed_component_filter_keys)
+        generate_all = config.get("generate_all_configurations", False)
+        if not isinstance(generate_all, bool):
+            self.msg = (
+                "'generate_all_configurations' must be a boolean, got: {0}.".format(
+                    type(generate_all).__name__
+                )
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-            if invalid_filter_keys:
+        allowed_component_filter_keys = {"components_list", "queuing_profile", "application_policy"}
+        allowed_component_choices = {"queuing_profile", "application_policy"}
+        component_filters = config.get("component_specific_filters")
+
+        if not generate_all and component_filters is None:
+            self.msg = (
+                "'component_specific_filters' is mandatory when "
+                "'generate_all_configurations' is False."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        normalized_component_filters = None
+        if component_filters is not None:
+            if not isinstance(component_filters, dict):
                 self.msg = (
-                    "Invalid keys found in 'component_specific_filters': {0}. "
-                    "Only the following keys are allowed: {1}. "
-                    "Please correct the parameter names and try again.".format(
-                        list(invalid_filter_keys), allowed_component_filter_keys
+                    "'component_specific_filters' must be a dictionary, got: {0}.".format(
+                        type(component_filters).__name__
                     )
                 )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-            # Validate components_list values
-            components_list = component_filters.get("components_list", [])
-            if components_list:
+            normalized_component_filters = dict(component_filters)
+            invalid_filter_keys = set(normalized_component_filters.keys()) - allowed_component_filter_keys
+            if invalid_filter_keys:
+                self.msg = (
+                    "Invalid keys found in 'component_specific_filters': {0}. Allowed keys are: {1}.".format(
+                        sorted(list(invalid_filter_keys)),
+                        sorted(list(allowed_component_filter_keys))
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            components_list = normalized_component_filters.get("components_list")
+            normalized_components_list = []
+            if components_list is not None:
                 if not isinstance(components_list, list):
                     self.msg = (
-                        "'components_list' must be a list, got: {0}".format(
+                        "'components_list' must be a list, got: {0}.".format(
                             type(components_list).__name__
                         )
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
-                invalid_components = set(components_list) - set(allowed_component_choices)
+                invalid_components = set(components_list) - allowed_component_choices
                 if invalid_components:
                     self.msg = (
                         "Invalid component names found in 'components_list': {0}. "
-                        "Only the following components are allowed: {1}. "
-                        "Please correct the component names and try again.".format(
-                            list(invalid_components), allowed_component_choices
+                        "Allowed values are: {1}.".format(
+                            sorted(list(invalid_components)),
+                            sorted(list(allowed_component_choices))
                         )
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                normalized_components_list = list(components_list)
 
-                # Validate queuing_profile nested parameters
-                queuing_profile = component_filters.get("queuing_profile", {})
-                if queuing_profile:
-                    if not isinstance(queuing_profile, dict):
-                        self.msg = (
-                            "'queuing_profile' must be a dictionary, got: {0}".format(
-                                type(queuing_profile).__name__
-                            )
+            component_blocks = []
+
+            if "queuing_profile" in normalized_component_filters:
+                queuing_profile = normalized_component_filters.get("queuing_profile")
+                if not isinstance(queuing_profile, dict):
+                    self.msg = (
+                        "'queuing_profile' must be a dictionary, got: {0}.".format(
+                            type(queuing_profile).__name__
                         )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                invalid_qp_keys = set(queuing_profile.keys()) - {"profile_names_list"}
+                if invalid_qp_keys:
+                    self.msg = (
+                        "Invalid keys found in 'queuing_profile': {0}. Allowed keys are: "
+                        "['profile_names_list'].".format(sorted(list(invalid_qp_keys)))
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                profile_names_list = queuing_profile.get("profile_names_list")
+                if profile_names_list is not None and not isinstance(profile_names_list, list):
+                    self.msg = (
+                        "'profile_names_list' must be a list when provided."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                component_blocks.append("queuing_profile")
 
-                    allowed_qp_keys = ["profile_names_list"]
-                    invalid_qp_keys = set(queuing_profile.keys()) - set(allowed_qp_keys)
-                    if invalid_qp_keys:
-                        self.msg = (
-                            "Invalid keys found in 'queuing_profile': {0}. "
-                            "Only the following keys are allowed: {1}. "
-                            "Please correct the parameter names and try again.".format(
-                                list(invalid_qp_keys), allowed_qp_keys
-                            )
+            if "application_policy" in normalized_component_filters:
+                application_policy = normalized_component_filters.get("application_policy")
+                if not isinstance(application_policy, dict):
+                    self.msg = (
+                        "'application_policy' must be a dictionary, got: {0}.".format(
+                            type(application_policy).__name__
                         )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                invalid_ap_keys = set(application_policy.keys()) - {"policy_names_list"}
+                if invalid_ap_keys:
+                    self.msg = (
+                        "Invalid keys found in 'application_policy': {0}. Allowed keys are: "
+                        "['policy_names_list'].".format(sorted(list(invalid_ap_keys)))
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                policy_names_list = application_policy.get("policy_names_list")
+                if policy_names_list is not None and not isinstance(policy_names_list, list):
+                    self.msg = (
+                        "'policy_names_list' must be a list when provided."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                component_blocks.append("application_policy")
 
-                # Validate application_policy nested parameters
-                application_policy = component_filters.get("application_policy", {})
-                if application_policy:
-                    if not isinstance(application_policy, dict):
-                        self.msg = (
-                            "'application_policy' must be a dictionary, got: {0}".format(
-                                type(application_policy).__name__
-                            )
-                        )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+            if component_blocks:
+                for component_name in component_blocks:
+                    if component_name not in normalized_components_list:
+                        normalized_components_list.append(component_name)
+                normalized_component_filters["components_list"] = normalized_components_list
+            elif not normalized_components_list:
+                self.msg = (
+                    "'components_list' must be provided with at least one component "
+                    "when no component-specific filter block is defined."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+            else:
+                normalized_component_filters["components_list"] = normalized_components_list
 
-                    allowed_ap_keys = ["policy_names_list"]
-                    invalid_ap_keys = set(application_policy.keys()) - set(allowed_ap_keys)
-                    if invalid_ap_keys:
-                        self.msg = (
-                            "Invalid keys found in 'application_policy': {0}. "
-                            "Only the following keys are allowed: {1}. "
-                            "Please correct the parameter names and try again.".format(
-                                list(invalid_ap_keys), allowed_ap_keys
-                            )
-                        )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+        normalized_config = {"generate_all_configurations": generate_all}
+        if normalized_component_filters is not None:
+            normalized_config["component_specific_filters"] = normalized_component_filters
+        if file_path:
+            normalized_config["file_path"] = file_path
+            normalized_config["file_mode"] = file_mode
 
-        # Run schema validation using validate_config_dict
-        self.log(
-            "Running schema validation using validate_config_dict with temp_spec",
-            "DEBUG"
-        )
-
-        valid_config = self.validate_config_dict(self.config, temp_spec)
-
-        # Validate minimum requirements
-        self.log(
-            "Running validate_minimum_requirements to check for required fields",
-            "DEBUG"
-        )
-        self.validate_minimum_requirements(valid_config)
-
-        self.validated_config = valid_config
+        self.validated_config = normalized_config
 
         self.log(
             "All validation checks passed successfully. Validated configuration "
@@ -4887,7 +4910,7 @@ def main():
         4. Validate Catalyst Center version compatibility (>= 2.3.7.6)
         5. Validate and sanitize state parameter
         6. Execute input parameter validation
-        7. Process each configuration item in the playbook
+        7. Process validated configuration parameters
         8. Execute state-specific operations (gathered workflow)
         9. Return results via module.exit_json()
 
@@ -4913,7 +4936,9 @@ def main():
             - dnac_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
-            - config (list[dict], required): Configuration parameters list
+            - file_path (str, optional): Output file path for generated YAML
+            - file_mode (str, default="overwrite"): Output write mode (used when file_path is set)
+            - config (dict, optional): Component filter configuration
             - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
@@ -5024,8 +5049,17 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "type": "str",
+            "required": False
+        },
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite"
+        },
         "config": {
-            "required": True,
+            "required": False,
             "type": "dict"
         },
         "state": {
@@ -5058,6 +5092,8 @@ def main():
         "INFO"
     )
 
+    config_param = module.params.get("config")
+    config_items_count = len(config_param) if isinstance(config_param, dict) else 0
     ccc_app_policy_generator.log(
         "Module initialized at timestamp {0} with parameters: dnac_host={1}, "
         "dnac_port={2}, dnac_username={3}, dnac_verify={4}, dnac_version={5}, "
@@ -5069,7 +5105,8 @@ def main():
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
+            module.params.get("config"),
+            config_items_count
         ),
         "DEBUG"
     )
