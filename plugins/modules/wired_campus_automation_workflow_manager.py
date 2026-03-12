@@ -5489,18 +5489,18 @@ class WiredCampusAutomation(DnacBase):
             self.log("Created STP instances container structure", "DEBUG")
 
             # Process each STP instance
-            for instance in stp_instances:
+            for index, instance in enumerate(stp_instances, start=1):
                 if instance.get("stp_instance_vlan_id") is None:
                     self.log(
-                        "Skipping STP instance entry because 'stp_instance_vlan_id' is not provided. "
-                        "Each STP instance should specify a VLAN ID for proper configuration.",
+                        "Skipping STP instance entry at index {0} because 'stp_instance_vlan_id' is not provided. "
+                        "Each STP instance should specify a VLAN ID for proper configuration.".format(index),
                         "WARNING",
                     )
                     continue
 
                 self.log(
-                    "Processing STP instance for VLAN {0}".format(
-                        instance.get("stp_instance_vlan_id")
+                    "Processing STP instance for VLAN {0} at index {1}".format(
+                        instance.get("stp_instance_vlan_id"), index
                     ),
                     "DEBUG",
                 )
@@ -8682,13 +8682,13 @@ class WiredCampusAutomation(DnacBase):
                 current_by_vlan[vlan_id] = instance
 
         # Check each desired instance
-        for desired_instance in desired_instances:
+        for index, desired_instance in enumerate(desired_instances, start=1):
             vlan_id = desired_instance.get("vlanId")
             if vlan_id is None:
                 self.log(
-                    "Skipping {0} entry during comparison because 'vlanId' is not provided. "
+                    "Skipping {0} entry at index {1} during comparison because 'vlanId' is not provided. "
                     "Each instance should specify a VLAN ID for proper configuration.".format(
-                        instance_type
+                        instance_type, index
                     ),
                     "WARNING",
                 )
@@ -8698,8 +8698,8 @@ class WiredCampusAutomation(DnacBase):
 
             if not current_instance:
                 self.log(
-                    "VLAN {0} not found in current instances - update needed".format(
-                        vlan_id
+                    "VLAN {0} at index {1} not found in current instances - update needed".format(
+                        vlan_id, index
                     ),
                     "DEBUG",
                 )
@@ -9408,28 +9408,34 @@ class WiredCampusAutomation(DnacBase):
             )
 
             # Add or update with desired instances
-            for desired_item in desired_items:
+            for index, desired_item in enumerate(desired_items, start=1):
                 vlan_id = desired_item.get("vlanId")
                 if not vlan_id:
                     self.log(
-                        "Skipping STP instance during merge because 'vlanId' is not provided. "
-                        "Each STP instance should specify a VLAN ID for proper configuration.",
+                        "Skipping STP instance at index {0} during merge because 'vlanId' is not provided. "
+                        "Each STP instance should specify a VLAN ID for proper configuration.".format(index),
                         "WARNING",
                     )
+                    continue
+
+                if vlan_id in merged_by_vlan:
+                    # Update existing instance
+                    merged_by_vlan[vlan_id].update(desired_item)
+                    self.log(
+                        "Updated STP instance for VLAN {0} at index {1}".format(
+                            vlan_id, index
+                        ),
+                        "DEBUG"
+                    )
                 else:
-                    if vlan_id in merged_by_vlan:
-                        # Update existing instance
-                        merged_by_vlan[vlan_id].update(desired_item)
-                        self.log(
-                            "Updated STP instance for VLAN {0}".format(vlan_id), "DEBUG"
-                        )
-                    else:
-                        # Add new instance
-                        merged_by_vlan[vlan_id] = desired_item
-                        self.log(
-                            "Added new STP instance for VLAN {0}".format(vlan_id),
-                            "DEBUG",
-                        )
+                    # Add new instance
+                    merged_by_vlan[vlan_id] = desired_item
+                    self.log(
+                        "Added new STP instance for VLAN {0} at index {1}".format(
+                            vlan_id, index
+                        ),
+                        "DEBUG",
+                    )
 
             # Convert back to list and sort by VLAN ID for consistency
             merged_instances["items"] = sorted(
@@ -10070,105 +10076,111 @@ class WiredCampusAutomation(DnacBase):
             "DEBUG",
         )
         # Step 2: Apply user's desired changes ONLY for user-specified VLANs
-        for desired_vlan in desired_vlans:
+        for index, desired_vlan in enumerate(desired_vlans, start=1):
             vlan_id = desired_vlan.get("vlanId")
             if not vlan_id:
                 self.log(
-                    "Skipping IGMP Snooping VLAN entry during merge because 'vlanId' is not provided. "
-                    "Each IGMP Snooping VLAN should specify a VLAN ID for proper configuration.",
+                    "Skipping IGMP Snooping VLAN entry at index {0} during merge because 'vlanId' is not provided. "
+                    "Each IGMP Snooping VLAN should specify a VLAN ID for proper configuration.".format(index),
                     "WARNING",
                 )
+                continue
+
+            self.log(
+                "Processing user-specified VLAN {0} at index {1}".format(
+                    vlan_id, index
+                ),
+                "DEBUG",
+            )
+
+            if vlan_id in final_vlan_dict:
+                # VLAN exists in current intended config - UPDATE with user's desired parameters
+                final_vlan = final_vlan_dict[vlan_id]
+                self.log(
+                    "VLAN {0} exists in current intended config - updating with user's desired values".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
+                )
+
+                # Update ONLY the parameters provided by the user
+                igmp_vlan_params = [
+                    "isIgmpSnoopingEnabled",
+                    "isImmediateLeaveEnabled",
+                    "isQuerierEnabled",
+                    "querierAddress",
+                    "querierQueryInterval",
+                    "querierVersion",
+                ]
+
+                for param in igmp_vlan_params:
+                    if param in desired_vlan:
+                        old_value = final_vlan.get(param)
+                        new_value = desired_vlan[param]
+                        # FIX: Only update if values are different
+                        if old_value != new_value:
+                            final_vlan[param] = new_value
+                            parameters_updated += 1
+                            self.log(
+                                "VLAN {0}: Updated parameter '{1}' from current '{2}' to user's desired '{3}' (values differ)".format(
+                                    vlan_id, param, old_value, new_value
+                                ),
+                                "DEBUG",
+                            )
+                        else:
+                            self.log(
+                                "VLAN {0}: Parameter '{1}' already matches desired value '{2}' - no update needed".format(
+                                    vlan_id, param, new_value
+                                ),
+                                "DEBUG",
+                            )
+
+                # Handle mrouter configuration if provided by user
+                if "igmpSnoopingVlanMrouters" in desired_vlan:
+                    final_vlan["igmpSnoopingVlanMrouters"] = copy.deepcopy(
+                        desired_vlan["igmpSnoopingVlanMrouters"]
+                    )
+                    self.log(
+                        "VLAN {0}: Applied user's mrouter configuration".format(
+                            vlan_id
+                        ),
+                        "DEBUG",
+                    )
+                elif "igmpSnoopingVlanMrouters" not in final_vlan:
+                    final_vlan["igmpSnoopingVlanMrouters"] = {
+                        "configType": "SET",
+                        "items": [],
+                    }
+                    self.log(
+                        "VLAN {0}: Added default mrouter structure".format(vlan_id),
+                        "DEBUG",
+                    )
+
             else:
-                self.log("Processing user-specified VLAN {0}".format(vlan_id), "DEBUG")
+                # VLAN doesn't exist in current intended config - ADD new VLAN
+                self.log(
+                    "VLAN {0} does not exist in current intended config - adding new VLAN".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
+                )
+                new_vlan_config = copy.deepcopy(desired_vlan)
 
-                if vlan_id in final_vlan_dict:
-                    # VLAN exists in current intended config - UPDATE with user's desired parameters
-                    final_vlan = final_vlan_dict[vlan_id]
-                    self.log(
-                        "VLAN {0} exists in current intended config - updating with user's desired values".format(
-                            vlan_id
-                        ),
-                        "DEBUG",
-                    )
+                # Ensure required structure for new VLAN
+                if "configType" not in new_vlan_config:
+                    new_vlan_config["configType"] = "IGMP_SNOOPING_VLAN"
 
-                    # Update ONLY the parameters provided by the user
-                    igmp_vlan_params = [
-                        "isIgmpSnoopingEnabled",
-                        "isImmediateLeaveEnabled",
-                        "isQuerierEnabled",
-                        "querierAddress",
-                        "querierQueryInterval",
-                        "querierVersion",
-                    ]
+                if "igmpSnoopingVlanMrouters" not in new_vlan_config:
+                    new_vlan_config["igmpSnoopingVlanMrouters"] = {
+                        "configType": "SET",
+                        "items": [],
+                    }
 
-                    for param in igmp_vlan_params:
-                        if param in desired_vlan:
-                            old_value = final_vlan.get(param)
-                            new_value = desired_vlan[param]
-                            # FIX: Only update if values are different
-                            if old_value != new_value:
-                                final_vlan[param] = new_value
-                                parameters_updated += 1
-                                self.log(
-                                    "VLAN {0}: Updated parameter '{1}' from current '{2}' to user's desired '{3}' (values differ)".format(
-                                        vlan_id, param, old_value, new_value
-                                    ),
-                                    "DEBUG",
-                                )
-                            else:
-                                self.log(
-                                    "VLAN {0}: Parameter '{1}' already matches desired value '{2}' - no update needed".format(
-                                        vlan_id, param, new_value
-                                    ),
-                                    "DEBUG",
-                                )
-
-                    # Handle mrouter configuration if provided by user
-                    if "igmpSnoopingVlanMrouters" in desired_vlan:
-                        final_vlan["igmpSnoopingVlanMrouters"] = copy.deepcopy(
-                            desired_vlan["igmpSnoopingVlanMrouters"]
-                        )
-                        self.log(
-                            "VLAN {0}: Applied user's mrouter configuration".format(
-                                vlan_id
-                            ),
-                            "DEBUG",
-                        )
-                    elif "igmpSnoopingVlanMrouters" not in final_vlan:
-                        final_vlan["igmpSnoopingVlanMrouters"] = {
-                            "configType": "SET",
-                            "items": [],
-                        }
-                        self.log(
-                            "VLAN {0}: Added default mrouter structure".format(vlan_id),
-                            "DEBUG",
-                        )
-
-                else:
-                    # VLAN doesn't exist in current intended config - ADD new VLAN
-                    self.log(
-                        "VLAN {0} does not exist in current intended config - adding new VLAN".format(
-                            vlan_id
-                        ),
-                        "DEBUG",
-                    )
-                    new_vlan_config = copy.deepcopy(desired_vlan)
-
-                    # Ensure required structure for new VLAN
-                    if "configType" not in new_vlan_config:
-                        new_vlan_config["configType"] = "IGMP_SNOOPING_VLAN"
-
-                    if "igmpSnoopingVlanMrouters" not in new_vlan_config:
-                        new_vlan_config["igmpSnoopingVlanMrouters"] = {
-                            "configType": "SET",
-                            "items": [],
-                        }
-
-                    final_vlan_dict[vlan_id] = new_vlan_config
-                    self.log(
-                        "Added new VLAN {0} to final intended config".format(vlan_id),
-                        "DEBUG",
-                    )
+                final_vlan_dict[vlan_id] = new_vlan_config
+                self.log(
+                    "Added new VLAN {0} to final intended config".format(vlan_id),
+                    "DEBUG",
+                )
 
         # Convert final result back to list format sorted by VLAN ID
         final_vlans = sorted(final_vlan_dict.values(), key=lambda x: x.get("vlanId", 0))
@@ -10606,137 +10618,143 @@ class WiredCampusAutomation(DnacBase):
         )
 
         # Step 2: Apply user's desired changes ONLY for user-specified VLANs
-        for desired_vlan in desired_vlans:
+        for index, desired_vlan in enumerate(desired_vlans, start=1):
             vlan_id = desired_vlan.get("vlanId")
             if not vlan_id:
                 self.log(
-                    "Skipping MLD Snooping VLAN entry during merge because 'vlanId' is not provided. "
-                    "Each MLD Snooping VLAN should specify a VLAN ID for proper configuration.",
+                    "Skipping MLD Snooping VLAN entry at index {0} during merge because 'vlanId' is not provided. "
+                    "Each MLD Snooping VLAN should specify a VLAN ID for proper configuration.".format(index),
                     "WARNING",
                 )
+                continue
+
+            self.log(
+                "Processing user-specified VLAN {0} at index {1}".format(
+                    vlan_id, index
+                ),
+                "DEBUG",
+            )
+
+            if vlan_id in final_vlan_dict:
+                # VLAN exists in current intended config - UPDATE with user's desired parameters
+                final_vlan = final_vlan_dict[vlan_id]
+                self.log(
+                    "VLAN {0} exists in current intended config - updating with user's desired values".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
+                )
+
+                # Update ONLY the parameters provided by the user
+                mld_vlan_params = [
+                    "isMldSnoopingEnabled",
+                    "isImmediateLeaveEnabled",
+                    "isQuerierEnabled",
+                    "querierAddress",
+                    "querierQueryInterval",
+                    "querierVersion",
+                ]
+
+                for param in mld_vlan_params:
+                    if param in desired_vlan:
+                        old_value = final_vlan.get(param)
+                        new_value = desired_vlan[param]
+
+                        # FIX: Skip empty querierAddress when querier is disabled
+                        if (
+                            param == "querierAddress"
+                            and not new_value
+                            and not desired_vlan.get("isQuerierEnabled", False)
+                        ):
+                            # Remove empty querierAddress when querier is disabled
+                            if param in final_vlan:
+                                del final_vlan[param]
+                            self.log(
+                                "Removed empty querierAddress for VLAN {0} (querier disabled)".format(
+                                    vlan_id
+                                ),
+                                "DEBUG",
+                            )
+                            continue
+
+                        # Only update if values are different
+                        if old_value != new_value:
+                            final_vlan[param] = new_value
+                            parameters_updated += 1
+                            self.log(
+                                "VLAN {0}: Updated parameter '{1}' from current '{2}' to user's desired '{3}' (values differ)".format(
+                                    vlan_id, param, old_value, new_value
+                                ),
+                                "DEBUG",
+                            )
+                        else:
+                            self.log(
+                                "VLAN {0}: Parameter '{1}' already matches desired value '{2}' - no update needed".format(
+                                    vlan_id, param, new_value
+                                ),
+                                "DEBUG",
+                            )
+
+                # Handle mrouter configuration if provided by user
+                if "mldSnoopingVlanMrouters" in desired_vlan:
+                    final_vlan["mldSnoopingVlanMrouters"] = copy.deepcopy(
+                        desired_vlan["mldSnoopingVlanMrouters"]
+                    )
+                    self.log(
+                        "VLAN {0}: Applied user's mrouter configuration".format(
+                            vlan_id
+                        ),
+                        "DEBUG",
+                    )
+                elif "mldSnoopingVlanMrouters" not in final_vlan:
+                    final_vlan["mldSnoopingVlanMrouters"] = {
+                        "configType": "SET",
+                        "items": [],
+                    }
+                    self.log(
+                        "VLAN {0}: Added default mrouter structure".format(vlan_id),
+                        "DEBUG",
+                    )
+
             else:
-                self.log("Processing user-specified VLAN {0}".format(vlan_id), "DEBUG")
+                # VLAN doesn't exist in current intended config - ADD new VLAN
+                self.log(
+                    "VLAN {0} does not exist in current intended config - adding new VLAN".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
+                )
+                new_vlan_config = copy.deepcopy(desired_vlan)
 
-                if vlan_id in final_vlan_dict:
-                    # VLAN exists in current intended config - UPDATE with user's desired parameters
-                    final_vlan = final_vlan_dict[vlan_id]
+                # Ensure required structure for new VLAN
+                if "configType" not in new_vlan_config:
+                    new_vlan_config["configType"] = "MLD_SNOOPING_VLAN"
+
+                # FIX: Remove empty querierAddress if querier is disabled for new VLANs
+                if (
+                    "querierAddress" in new_vlan_config
+                    and not new_vlan_config["querierAddress"]
+                    and not new_vlan_config.get("isQuerierEnabled", False)
+                ):
+                    del new_vlan_config["querierAddress"]
                     self.log(
-                        "VLAN {0} exists in current intended config - updating with user's desired values".format(
+                        "Removed empty querierAddress from new VLAN {0} (querier disabled)".format(
                             vlan_id
                         ),
                         "DEBUG",
                     )
 
-                    # Update ONLY the parameters provided by the user
-                    mld_vlan_params = [
-                        "isMldSnoopingEnabled",
-                        "isImmediateLeaveEnabled",
-                        "isQuerierEnabled",
-                        "querierAddress",
-                        "querierQueryInterval",
-                        "querierVersion",
-                    ]
+                if "mldSnoopingVlanMrouters" not in new_vlan_config:
+                    new_vlan_config["mldSnoopingVlanMrouters"] = {
+                        "configType": "SET",
+                        "items": [],
+                    }
 
-                    for param in mld_vlan_params:
-                        if param in desired_vlan:
-                            old_value = final_vlan.get(param)
-                            new_value = desired_vlan[param]
-
-                            # FIX: Skip empty querierAddress when querier is disabled
-                            if (
-                                param == "querierAddress"
-                                and not new_value
-                                and not desired_vlan.get("isQuerierEnabled", False)
-                            ):
-                                # Remove empty querierAddress when querier is disabled
-                                if param in final_vlan:
-                                    del final_vlan[param]
-                                self.log(
-                                    "Removed empty querierAddress for VLAN {0} (querier disabled)".format(
-                                        vlan_id
-                                    ),
-                                    "DEBUG",
-                                )
-                                continue
-
-                            # Only update if values are different
-                            if old_value != new_value:
-                                final_vlan[param] = new_value
-                                parameters_updated += 1
-                                self.log(
-                                    "VLAN {0}: Updated parameter '{1}' from current '{2}' to user's desired '{3}' (values differ)".format(
-                                        vlan_id, param, old_value, new_value
-                                    ),
-                                    "DEBUG",
-                                )
-                            else:
-                                self.log(
-                                    "VLAN {0}: Parameter '{1}' already matches desired value '{2}' - no update needed".format(
-                                        vlan_id, param, new_value
-                                    ),
-                                    "DEBUG",
-                                )
-
-                    # Handle mrouter configuration if provided by user
-                    if "mldSnoopingVlanMrouters" in desired_vlan:
-                        final_vlan["mldSnoopingVlanMrouters"] = copy.deepcopy(
-                            desired_vlan["mldSnoopingVlanMrouters"]
-                        )
-                        self.log(
-                            "VLAN {0}: Applied user's mrouter configuration".format(
-                                vlan_id
-                            ),
-                            "DEBUG",
-                        )
-                    elif "mldSnoopingVlanMrouters" not in final_vlan:
-                        final_vlan["mldSnoopingVlanMrouters"] = {
-                            "configType": "SET",
-                            "items": [],
-                        }
-                        self.log(
-                            "VLAN {0}: Added default mrouter structure".format(vlan_id),
-                            "DEBUG",
-                        )
-
-                else:
-                    # VLAN doesn't exist in current intended config - ADD new VLAN
-                    self.log(
-                        "VLAN {0} does not exist in current intended config - adding new VLAN".format(
-                            vlan_id
-                        ),
-                        "DEBUG",
-                    )
-                    new_vlan_config = copy.deepcopy(desired_vlan)
-
-                    # Ensure required structure for new VLAN
-                    if "configType" not in new_vlan_config:
-                        new_vlan_config["configType"] = "MLD_SNOOPING_VLAN"
-
-                    # FIX: Remove empty querierAddress if querier is disabled for new VLANs
-                    if (
-                        "querierAddress" in new_vlan_config
-                        and not new_vlan_config["querierAddress"]
-                        and not new_vlan_config.get("isQuerierEnabled", False)
-                    ):
-                        del new_vlan_config["querierAddress"]
-                        self.log(
-                            "Removed empty querierAddress from new VLAN {0} (querier disabled)".format(
-                                vlan_id
-                            ),
-                            "DEBUG",
-                        )
-
-                    if "mldSnoopingVlanMrouters" not in new_vlan_config:
-                        new_vlan_config["mldSnoopingVlanMrouters"] = {
-                            "configType": "SET",
-                            "items": [],
-                        }
-
-                    final_vlan_dict[vlan_id] = new_vlan_config
-                    self.log(
-                        "Added new VLAN {0} to final intended config".format(vlan_id),
-                        "DEBUG",
-                    )
+                final_vlan_dict[vlan_id] = new_vlan_config
+                self.log(
+                    "Added new VLAN {0} to final intended config".format(vlan_id),
+                    "DEBUG",
+                )
 
         # Convert final result back to list format sorted by VLAN ID
         final_vlans = sorted(final_vlan_dict.values(), key=lambda x: x.get("vlanId", 0))
