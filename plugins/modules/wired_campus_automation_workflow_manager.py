@@ -12231,7 +12231,7 @@ class WiredCampusAutomation(DnacBase):
         Returns:
             bool: True if values match, False otherwise
         """
-        if not isinstance(desired, type(current)) and not isinstance(current, type(desired)):
+        if not isinstance(desired, current.__class__) and not isinstance(current, desired.__class__):
             self.log(
                 "Type mismatch detected: desired={0}, current={1}".format(
                     type(desired).__name__, type(current).__name__
