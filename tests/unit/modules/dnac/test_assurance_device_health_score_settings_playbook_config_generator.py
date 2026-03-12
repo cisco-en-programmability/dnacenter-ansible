@@ -39,7 +39,8 @@ def get_mock_module():
         'dnac_version': '2.3.7.6',
         'dnac_debug': False,
         'state': 'gathered',
-        'config': {'generate_all_configurations': True}
+        'file_mode': 'overwrite',
+        'config': None
     }
     mock_module.exit_json = MagicMock()
     mock_module.fail_json = MagicMock()
@@ -162,10 +163,12 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "dnac_verify": False,
             "dnac_version": "2.3.7.6",
             "state": "gathered",
+            "file_path": "/tmp/test.yml",
+            "file_mode": "overwrite",
             "config": {
-                "generate_all_configurations": True,
-                "file_path": "/tmp/test.yml",
-                "file_mode": "overwrite"
+                "component_specific_filters": {
+                    "components_list": ["device_health_score_settings"]
+                }
             }
         }
 
@@ -198,10 +201,12 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             dnac_verify=False,
             dnac_version="2.3.7.6",
             state="gathered",
+            file_path="/tmp/test.yml",
+            file_mode="overwrite",
             config={
-                "generate_all_configurations": True,
-                "file_path": "/tmp/test.yml",
-                "file_mode": "overwrite"
+                "component_specific_filters": {
+                    "components_list": ["device_health_score_settings"]
+                }
             }
         )
 
@@ -230,7 +235,8 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                     # Create mock module
                     mock_module = MagicMock()
                     mock_module.params = {
-                        "config": {"generate_all_configurations": True}
+                        "file_mode": "overwrite",
+                        "config": None
                     }
 
                     # Test class instantiation
@@ -438,12 +444,13 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             'dnac_version': '2.3.7.6',
             'state': 'gathered',
             'config_verify': True,
+            'file_path': '/tmp/comprehensive_test.yml',
+            'file_mode': 'overwrite',
             'config': {
-                'file_path': '/tmp/comprehensive_test.yml',
-                'file_mode': 'overwrite',
                 'component_specific_filters': {
-                    'device_families': ['UNIFIED_AP', 'ROUTER'],
-                    'kpi_names': ['CPU Utilization', 'Memory Utilization']
+                    'device_health_score_settings': {
+                        'device_families': ['UNIFIED_AP', 'ROUTER']
+                    }
                 }
             }
         }
@@ -475,6 +482,80 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             self.assertTrue(hasattr(test_module, 'OrderedDumper'))
 
         print("Comprehensive integration scenario tested")
+
+    def _build_validation_generator(self):
+        with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__', return_value=None):
+            with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__', return_value=None):
+                with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.log', return_value=None):
+                    generator = test_module.AssuranceDeviceHealthScorePlaybookGenerator(MagicMock())
+
+        generator.status = "success"
+        generator.msg = ""
+        generator.result = {}
+        generator.log = MagicMock()
+
+        def _set_operation_result(status, changed, msg, level):
+            generator.status = status
+            generator.msg = msg
+            return generator
+
+        generator.set_operation_result = _set_operation_result
+        return generator
+
+    def test_components_list_auto_add_when_component_filter_present(self):
+        generator = self._build_validation_generator()
+        component_specific_filters = {
+            "components_list": [],
+            "device_health_score_settings": {
+                "device_families": ["ROUTER"]
+            }
+        }
+        result = generator.validate_component_specific_filters(component_specific_filters)
+        self.assertTrue(result)
+        self.assertIn("device_health_score_settings", component_specific_filters["components_list"])
+
+    def test_components_list_empty_without_filters_fails(self):
+        generator = self._build_validation_generator()
+        result = generator.validate_component_specific_filters({"components_list": []})
+        self.assertFalse(result)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("components_list", generator.msg)
+
+    def test_component_list_typo_fails(self):
+        generator = self._build_validation_generator()
+        result = generator.validate_component_specific_filters({"component_list": []})
+        self.assertFalse(result)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("components_list", generator.msg)
+
+    def test_validate_config_requirements_requires_component_filters_when_config_provided(self):
+        generator = self._build_validation_generator()
+        generator.validate_config_requirements({}, True)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("component_specific_filters is required", generator.msg)
+
+    def test_components_list_with_empty_component_filter_generates_all(self):
+        generator = self._build_validation_generator()
+        response_data = [
+            {"deviceFamily": "ROUTER", "kpiName": "CPU Utilization"},
+            {"deviceFamily": "SWITCH_AND_HUB", "kpiName": "Memory Utilization"},
+        ]
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": {},
+        }
+        filtered = generator.apply_health_score_filters(response_data, component_specific_filters)
+        self.assertEqual(len(filtered), len(response_data))
+
+    def test_device_health_score_settings_none_treated_as_empty_filter(self):
+        generator = self._build_validation_generator()
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": None
+        }
+        result = generator.validate_component_specific_filters(component_specific_filters)
+        self.assertTrue(result)
+        self.assertEqual(component_specific_filters["device_health_score_settings"], {})
 
 
 if __name__ == '__main__':
