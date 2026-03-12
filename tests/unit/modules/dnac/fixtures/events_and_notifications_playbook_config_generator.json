@@ -865,5 +865,17 @@
       }
     ],
     "createdTimeStamp": 1765532819100
-  }
+  },
+
+  "playbook_itsm": {
+      "component_specific_filters": {
+          "components_list": [
+              "itsm_settings"
+          ]
+      },
+      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook1"
+  },
+  "itsm_response1": {"page": 1, "pageSize": 50, "totalPages": 1, "data": [{"_id": "69ae9d36a48743007a38b7b8", "id": "04b5-cabb-488a-a224", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "Playbook itsm demo 01", "uniqueKey": "ServiceNowConnection-Playbook itsm demo 01-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "createdDate": 1773051190370, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0}, {"_id": "69ae9f68a48743007a38b7ba", "id": "338e-7970-47fb-9b3a", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "ITSM_Demo_test 02", "uniqueKey": "ServiceNowConnection-ITSM_Demo_test 02-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "createdDate": 1773051752971, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0}], "totalRecords": 2},
+  "itsm_response2": {"_id": "69ae9d36a48743007a38b7b8", "id": "04b5-cabb-488a-a224", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "Playbook itsm demo 01", "uniqueKey": "ServiceNowConnection-Playbook itsm demo 01-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "data": {"ConnectionSettings": {"Url": "https://ventest1.service-now.com/", "Auth_UserName": "svcaccount", "Auth_Password": ""}}, "createdDate": 1773051190370, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0, "tenantId": "SYS0"},
+  "itsm_response3": {"_id": "69ae9f68a48743007a38b7ba", "id": "338e-7970-47fb-9b3a", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "ITSM_Demo_test 02", "uniqueKey": "ServiceNowConnection-ITSM_Demo_test 02-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "data": {"ConnectionSettings": {"Url": "https://ciscotest13.servicenow.com", "Auth_UserName": "svcaccount", "Auth_Password": ""}}, "createdDate": 1773051752971, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0, "tenantId": "SYS0"}
 }
