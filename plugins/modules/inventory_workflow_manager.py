@@ -6587,14 +6587,12 @@ class Inventory(DnacBase):
                         field_name
                     )
                     self.udf_added.append(field_name)
-                    self.log(self.msg, "INFO")
                 else:
                     self.result["changed"] = False
                     self.msg = "Global User Defined Field(UDF) named '{0}' is already added to the device.".format(
                         field_name
                     )
                     self.udf_already_added.append(field_name)
-                    self.log(self.msg, "INFO")
         # Once Wired device get added we will assign device to site and Provisioned it
         if self.config[0].get("provision_wired_device"):
             self.provisioned_wired_device().check_return_status()
@@ -6874,6 +6872,7 @@ class Inventory(DnacBase):
             whether the requested UDF key is present in the device's
             `userDefinedFields` dictionary.
         """
+        self.log("Checking if UDF '{0}' is already added to the device with ID '{1}'".format(udf_field_name, device_ids[0]), "DEBUG")
         device_id = device_ids[0]
         api_response = self.dnac._exec(
             family="devices",
