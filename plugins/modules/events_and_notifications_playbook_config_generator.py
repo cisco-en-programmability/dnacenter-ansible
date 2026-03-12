@@ -1060,7 +1060,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
                 "reverse_mapping_function": self.itsm_settings_reverse_mapping_function,
                 "api_function": "get_all_itsm_integration_settings",
-                "api_family": "event_management",
+                "api_family": "itsm_integration",
                 "get_function_name": self.get_itsm_settings,
             },
             "webhook_event_notifications": {
@@ -3580,12 +3580,16 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_all_itsm_settings(self, api_family, api_function):
         """
-        Retrieves all ITSM integration settings from the API.
+        Retrieves all ITSM integration settings from the API with full connection details.
 
         Description:
             This helper method fetches ITSM integration configurations from Cisco Catalyst Center.
-            It handles different response formats and extracts ITSM configuration data
-            including connection settings and authentication details.
+            It first calls get_all_itsm_integration_settings to obtain the list of ITSM instances,
+            then for each instance calls get_itsm_integration_setting_by_id to retrieve full
+            connection details (URL, username, password). The connection settings are normalized
+            from API PascalCase format (ConnectionSettings.Url, Auth_UserName, Auth_Password)
+            to the snake_case format expected by itsm_settings_temp_spec (connectionSettings.url,
+            username, password).
 
         Args:
             api_family (str): The API family identifier for ITSM settings.
@@ -3609,47 +3613,73 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
             )
             self.log(
-                "Received API response for ITSM settings. Response type: {0}. "
+                "Received API response for ITSM settings. Response {0}. "
                 "Processing response structure to extract ITSM configuration data.".format(
-                    type(response).__name__
+                    response
                 ),
                 "DEBUG"
             )
 
+            itsm_settings = []
+
             if isinstance(response, dict):
-                itsm_settings = response.get("response", [])
-
-                if isinstance(itsm_settings, list):
-                    self.log(
-                        "Extracted {0} ITSM setting(s) from response field. Returning "
-                        "ITSM configurations for processing.".format(len(itsm_settings)),
-                        "INFO"
-                    )
-                    return itsm_settings
-                else:
-                    self.log(
-                        "Response field has unexpected format. Expected list, got: {0}. "
-                        "Returning empty list for graceful handling.".format(
-                            type(itsm_settings).__name__
-                        ),
-                        "WARNING"
-                    )
-                    return []
+                itsm_settings = response.get("data") or response.get("response", [])
             elif isinstance(response, list):
-                self.log(
-                    "API response is list format with {0} ITSM setting(s). Returning "
-                    "settings list directly for processing.".format(len(response)),
-                    "INFO"
-                )
-                return response
+                itsm_settings = response
 
-            else:
+            if not isinstance(itsm_settings, list):
                 self.log(
-                    "API response has unexpected format. Response type: {0}. Returning "
-                    "empty list for graceful handling.".format(type(response).__name__),
+                    "ITSM settings has unexpected format. Expected list, got: {0}. "
+                    "Returning empty list for graceful handling.".format(
+                        type(itsm_settings).__name__
+                    ),
                     "WARNING"
                 )
                 return []
+
+            self.log(
+                "Extracted {0} ITSM setting(s) from listing API. Now retrieving full "
+                "details for each instance using get_itsm_integration_setting_by_id.".format(
+                    len(itsm_settings)
+                ),
+                "INFO"
+            )
+
+            detailed_settings = []
+            for item in itsm_settings:
+                if not isinstance(item, dict):
+                    continue
+
+                instance_id = item.get("id")
+                instance_name = item.get("name", "unknown")
+
+                if not instance_id:
+                    self.log(
+                        "Skipping ITSM instance '{0}' - no 'id' field found in listing "
+                        "response.".format(instance_name),
+                        "WARNING"
+                    )
+                    continue
+
+                detail = self.get_itsm_setting_detail_by_id(instance_id, instance_name)
+                if detail:
+                    detailed_settings.append(detail)
+                else:
+                    self.log(
+                        "Could not retrieve full details for ITSM instance '{0}' "
+                        "(ID: {1}). Falling back to listing data.".format(
+                            instance_name, instance_id
+                        ),
+                        "WARNING"
+                    )
+                    detailed_settings.append(item)
+
+            self.log(
+                "Completed ITSM detail retrieval. {0} of {1} instance(s) have full "
+                "connection details.".format(len(detailed_settings), len(itsm_settings)),
+                "INFO"
+            )
+            return detailed_settings
 
         except Exception as e:
             self.log(
@@ -3660,6 +3690,95 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "ERROR"
             )
             self.set_operation_result("failed", True, self.msg, "ERROR")
+            return []
+
+    def get_itsm_setting_detail_by_id(self, instance_id, instance_name):
+        """
+        Retrieves full ITSM integration setting details by instance ID.
+
+        Description:
+            This method calls the get_itsm_integration_setting_by_id API to fetch
+            complete ITSM configuration details including connection settings (URL,
+            username, password) for a specific ITSM instance. The API response contains
+            ConnectionSettings in PascalCase format which is normalized to the snake_case
+            format expected by itsm_settings_temp_spec.
+
+        Args:
+            instance_id (str): The unique identifier of the ITSM integration setting.
+            instance_name (str): The display name of the ITSM instance (used for logging).
+
+        Returns:
+            dict: A dictionary containing full ITSM setting details with normalized
+            connectionSettings (url, username, password), or None if retrieval fails.
+        """
+        self.log(
+            "Fetching full details for ITSM instance '{0}' (ID: {1}) using "
+            "get_itsm_integration_setting_by_id.".format(instance_name, instance_id),
+            "DEBUG"
+        )
+
+        try:
+            detail_response = self.dnac._exec(
+                family="itsm_integration",
+                function="get_itsm_integration_setting_by_id",
+                op_modifies=False,
+                params={"instance_id": instance_id},
+            )
+            self.log(
+                "Received API response for ITSM instance '{0}'. Response: "
+                "{1}.".format(instance_name, detail_response),
+                "DEBUG"
+            )
+
+            detail = detail_response
+            if isinstance(detail_response, dict) and not detail_response.get("name"):
+                detail = detail_response.get("data") or detail_response.get(
+                    "response", detail_response
+                )
+                if isinstance(detail, list) and detail:
+                    detail = detail[0]
+
+            if not isinstance(detail, dict):
+                self.log(
+                    "Unexpected detail response format for ITSM instance '{0}'. "
+                    "Expected dict, got: {1}.".format(
+                        instance_name, type(detail).__name__
+                    ),
+                    "WARNING"
+                )
+                return None
+
+            conn_data = detail.get("data", {})
+            conn_settings = (
+                conn_data.get("ConnectionSettings", {})
+                if isinstance(conn_data, dict) else {}
+            )
+
+            detail["connectionSettings"] = {
+                "url": conn_settings.get("Url", ""),
+                "username": conn_settings.get("Auth_UserName", ""),
+                "password": self.redact_password(
+                    conn_settings.get("Auth_Password") or "REDACTED"
+                ),
+            }
+            self.log(
+                "Normalized ConnectionSettings for ITSM instance '{0}'. "
+                "URL: {1}, Username: {2}.".format(
+                    instance_name,
+                    conn_settings.get("Url", "N/A"),
+                    conn_settings.get("Auth_UserName", "N/A")
+                ),
+                "DEBUG"
+            )
+            return detail
+
+        except Exception as detail_err:
+            self.log(
+                "Failed to retrieve details for ITSM instance '{0}' (ID: {1}). "
+                "Error: {2}.".format(instance_name, instance_id, str(detail_err)),
+                "WARNING"
+            )
+            return None
 
     def get_webhook_event_notifications(self, network_element, filters):
         """
