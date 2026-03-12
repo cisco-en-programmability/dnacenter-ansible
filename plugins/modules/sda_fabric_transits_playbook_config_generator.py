@@ -390,7 +390,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "network_elements": {
                 "sda_fabric_transits": {
                     "filters": ["name", "transit_type"],
-                    "temp_spec_function": self.fabric_transit_temp_spec,
+                    "reverse_mapping_function": self.fabric_transit_temp_spec,
                     "api_function": "get_transit_networks",
                     "api_family": "sda",
                     "get_function_name": self.get_fabric_transits_configuration,
