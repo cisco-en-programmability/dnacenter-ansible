@@ -57,6 +57,7 @@ options:
       - The append option adds new content to the end of existing file.
       - Defaults to overwrite if not specified.
       - file_mode is only applicable when file_path is provided.
+    type: str
     required: false
     default: overwrite
     choices:
