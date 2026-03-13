@@ -25,4 +25,3 @@
         config:
           component_specific_filters:
             components_list: ["nfs_configuration"]
-               
