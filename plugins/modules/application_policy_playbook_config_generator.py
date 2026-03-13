@@ -52,23 +52,16 @@ options:
       - A dictionary of filters for generating YAML playbook compatible with the 'application_policy_workflow_manager'
         module.
       - Filters specify which components to include in the YAML configuration file.
+      - When provided, only C(component_specific_filters) is allowed.
+      - To generate all configurations, omit C(config).
     type: dict
     required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML configurations for all application policies and queuing profiles.
-          - This mode discovers all configured policies and profiles in Cisco Catalyst Center.
-          - When config is omitted, this option defaults to True.
-        type: bool
-        required: false
-        default: false
       component_specific_filters:
         description:
           - Filters to specify which application policy components to include in the YAML configuration file.
           - Allows granular selection of specific components and their parameters.
-          - Mandatory when C(generate_all_configurations=False).
-          - Also required when C(config) is provided as an empty dictionary.
+          - Mandatory when C(config) is provided.
         type: dict
         required: false
         suboptions:
@@ -327,11 +320,10 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         config_provided = config is not None
         if config is None:
             self.log(
-                "config is not provided. Defaulting to "
-                "{'generate_all_configurations': True}.",
+                "config is not provided. Defaulting to generate all configurations.",
                 "INFO"
             )
-            config = {"generate_all_configurations": True}
+            config = {}
             
         elif not isinstance(config, dict):
             self.msg = (
@@ -347,7 +339,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
-        allowed_config_keys = {"generate_all_configurations", "component_specific_filters"}
+        allowed_config_keys = {"component_specific_filters"}
         invalid_config_keys = set(config.keys()) - allowed_config_keys
         if invalid_config_keys:
             if "file_path" in invalid_config_keys or "file_mode" in invalid_config_keys:
@@ -385,24 +377,15 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "WARNING"
             )
 
-        generate_all = config.get("generate_all_configurations", False)
-        if not isinstance(generate_all, bool):
-            self.msg = (
-                "'generate_all_configurations' must be a boolean, got: {0}.".format(
-                    type(generate_all).__name__
-                )
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        generate_all = not config_provided
 
         allowed_component_filter_keys = {"components_list", "queuing_profile", "application_policy"}
         allowed_component_choices = {"queuing_profile", "application_policy"}
         component_filters = config.get("component_specific_filters")
 
-        if not generate_all and component_filters is None:
+        if config_provided and component_filters is None:
             self.msg = (
-                "'component_specific_filters' is mandatory when "
-                "'generate_all_configurations' is False."
+                "'component_specific_filters' is mandatory when 'config' is provided."
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
