@@ -1946,6 +1946,15 @@ class NetworkDevicesInfo(DnacBase):
         if not site_name:
             return []
 
+        # Verify site exists in Catalyst Center before determining type
+        site_response = self.get_site(site_name)
+        if not site_response or not site_response.get("response"):
+            self.msg = (
+                "The site '{0}' does not exist in Cisco Catalyst Center. "
+                "Please verify the site_hierarchy value in your configuration."
+            ).format(site_name)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         # Determine site type
         site_type = self.get_sites_type(site_name)
         if not site_type:

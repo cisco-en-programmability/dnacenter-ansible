@@ -11621,19 +11621,42 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
                 "The network devices filtered from the provided filters are: ['204.1.216.9']",
                 [
                     {
-                        "device_link_mismatch_info": [
+                        'device_link_mismatch_info': [
                             {
-                                "device_ip": "204.1.216.9",
-                                "speed-duplex": [
+                                'device_ip': '204.1.216.9',
+                                'vlan': [
                                     {
-                                        "device_ip": "204.1.216.9",
-                                        "link_mismatch_details": []
+                                        'device_ip': '204.1.216.9',
+                                        'link_mismatch_details': [
+                                            {
+                                                'id': '17178190-aeb1-42a8-83c4-38adbbe9a1fd',
+                                                'siteHierarchyId': (
+                                                    '73273999-4fde-4376-b071-25ebee51d155/'
+                                                    '0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/'
+                                                    '18d688cb-e9ca-4a16-abdc-5923edadfb00/'
+                                                    'ca6442ab-00e7-4454-b52c-cba2137fa66f/'
+                                                    '17178190-aeb1-42a8-83c4-38adbbe9a1fd'
+                                                ),
+                                                'parentId': 'ca6442ab-00e7-4454-b52c-cba2137fa66f',
+                                                'name': 'FLOOR2',
+                                                'nameHierarchy': 'Global/USA/SAN JOSE/SJ_BLD23/FLOOR2',
+                                                'type': 'floor',
+                                                'floorNumber': 2,
+                                                'rfModel': 'Cubes And Walled Offices',
+                                                'width': 100.0,
+                                                'length': 100.0,
+                                                'height': 10.0,
+                                                'unitsOfMeasure': 'feet'
+                                            }
+                                        ]
                                     }
                                 ],
-                                "vlan": [
+                                'speed-duplex': [
                                     {
-                                        "device_ip": "204.1.216.9",
-                                        "link_mismatch_details": []
+                                        'device_ip': '204.1.216.9',
+                                        'link_mismatch_details': [
+
+                                        ]
                                     }
                                 ]
                             }
