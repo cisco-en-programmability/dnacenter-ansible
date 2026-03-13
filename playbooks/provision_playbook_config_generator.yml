@@ -20,8 +20,10 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "provision/global_single_ip.yml"
+        file_mode: append
         config:
-          file_path: "provision/global_single_ip"
-          global_filters:
-            management_ip_address:
-              - "204.1.2.9"
+          component_specific_filters:
+            components_list: ["wired"]
+            wired:
+              - management_ip_address: "204.1.2.9"
