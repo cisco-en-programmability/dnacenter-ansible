@@ -318,7 +318,7 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
                 if choice:
                     if curr_item not in choice:
                         invalid_params.append(
-                            "{0} : Invalid choice provided".format(curr_item)
+                            f"{curr_item} : Invalid choice provided. Valid choices are {', '.join(choice)}"
                         )
 
                 no_log = filtered_param_spec[param].get("no_log")
@@ -390,7 +390,9 @@ def validate_list_of_dicts(param_list, spec, module=None):
             choice = spec[param].get("choices")
             if choice:
                 if item not in choice:
-                    invalid_params.append("{0} : Invalid choice provided".format(item))
+                    invalid_params.append(
+                        f"{item} : Invalid choice provided. Valid choices are {', '.join(choice)}"
+                    )
 
             no_log = spec[param].get("no_log")
             if no_log:

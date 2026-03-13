@@ -1963,3 +1963,11 @@ releases:
         - Changes in wireless_design_workflow_manager module
         - Standardized README format and content to match Catalyst Center Ansible collection documentation practices.
         - Added build_ignore configuration to optimize Ansible Galaxy collection packaging.
+
+  6.48.1:
+    release_date: "2026-03-05"
+    changes:
+      release_summary: Deprecation of the cisco.dnac collection in favor of cisco.catalystcenter.
+      deprecated_features:
+        - The cisco.dnac collection is now deprecated. Please migrate to cisco.catalystcenter, which provides the same functionality under the updated Cisco Catalyst Center branding.
+        - All modules now emit a deprecation warning at runtime directing users to cisco.catalystcenter.
