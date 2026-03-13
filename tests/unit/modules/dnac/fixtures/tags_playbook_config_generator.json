@@ -2,9 +2,6 @@
     "generate_all_configurations_case_1": {
         "generate_all_configurations": true
     },
-    "missing_filters_with_generate_all_false": {
-        "generate_all_configurations": false
-    },
     "get_sites_case_1": {
         "response": [
             {
