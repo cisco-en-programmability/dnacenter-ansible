@@ -1,4 +1,3 @@
----
 # Example 1: Generate all configurations for all tags and tag memberships
 - name: Generate complete brownfield tag configuration
   hosts: dnac_servers
@@ -21,10 +20,35 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          generate_all_configurations: true
+        # No config provided - generates all configurations
 
-# Example 2: Generate only tag configurations without memberships
+# Example 2: Generate all configurations with custom file path
+- name: Generate complete brownfield tag configuration with custom filename
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate all tag configurations to a specific file
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        file_path: "/tmp/complete_tags_config.yaml"
+        file_mode: "overwrite"
+        # No config provided - generates all configurations
+
+# Example 3: Generate only tag configurations without memberships
 - name: Generate tag definitions only
   hosts: dnac_servers
   vars_files:
@@ -46,11 +70,13 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
           component_specific_filters:
             components_list: ["tag"]
 
-# Example 3: Generate only tag membership configurations
+# Example 4: Generate only tag membership configurations
 - name: Generate tag memberships only
   hosts: dnac_servers
   vars_files:
@@ -72,11 +98,13 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
           component_specific_filters:
             components_list: ["tag_memberships"]
 
-# Example 4: Generate both tags and memberships together
+# Example 5: Generate both tags and memberships together
 - name: Generate tags and their memberships
   hosts: dnac_servers
   vars_files:
@@ -98,11 +126,46 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
           component_specific_filters:
             components_list: ["tag", "tag_memberships"]
 
-# Example 5: Filter specific tags by name
+# Example 6: Auto-populate components_list from component filters
+- name: Generate configuration with auto-populated components_list
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tags by providing filters without explicit components_list
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            # No components_list specified, but tag filters are provided
+            # The 'tag' component will be automatically added to components_list
+            tag:
+              - tag_name: Production
+              - tag_name: Data-Center
+      # This will automatically include 'tag' in components_list and retrieve only those tags
+
+# Example 7: Filter specific tags by name
 - name: Generate configuration for specific tags by name
   hosts: dnac_servers
   vars_files:
@@ -124,14 +187,16 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
           component_specific_filters:
-            components_list: ["tag"]
+            components_list: ["tag", "tag_memberships"]
             tag:
               - tag_name: Production
               - tag_name: Data-Center
 
-# Example 6: Filter specific tag memberships by tag name
+# Example 8: Filter specific tag memberships by tag name
 - name: Generate memberships for specific tags
   hosts: dnac_servers
   vars_files:
@@ -153,24 +218,24 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/catc_tags.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
-            components_list: ["tag_memberships"]
+            components_list: ["tag", "tag_memberships"]
             tag_memberships:
               - tag_name: Campus-Switches
               - tag_name: Core-Routers
 
-# Example 7: Retrieve all tag memberships using hostname as device identifier
-- name: Generate tag memberships with hostname identifier
+# Example 9: Generate tag configuration with append mode
+- name: Generate and append tag configuration
   hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
-    - name: Export all tag memberships identified by hostname
+    - name: Append tag configurations to existing file
       cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -184,16 +249,47 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/all_tags.yaml"
+        file_mode: "append"
         config:
-          file_path: "/tmp/tags_by_hostname.yaml"
-          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
+            tag:
+              - tag_name: Branch-Office
+              - tag_name: Access-Points
+
+# Example 10: Retrieve all tag memberships with hostname as device identifier
+- name: Generate all tag memberships using hostname identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export all tag memberships with hostnames
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        file_path: "/tmp/tags_by_hostname.yaml"
+        file_mode: "overwrite"
+        config:
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
               - device_identifier: hostname
-      # This will retrieve all tags with their members identified by hostname.
+      # This will retrieve all tags with their members identified by hostname instead of serial_number
 
-# Example 8: Retrieve specific tag membership with IP address as device identifier
+# Example 11: Retrieve specific tag membership with IP address as device identifier
 - name: Generate specific tag membership using IP address identifier
   hosts: dnac_servers
   vars_files:
@@ -215,9 +311,9 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/production_tag_by_ip.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/production_tag_by_ip.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
@@ -225,7 +321,7 @@
                 device_identifier: ip_address
       # This will retrieve only the 'Production' tag's members with IP addresses
 
-# Example 9: Retrieve tag memberships with MAC address as device identifier
+# Example 12: Retrieve tag memberships with MAC address as device identifier
 - name: Generate tag memberships using MAC address identifier
   hosts: dnac_servers
   vars_files:
@@ -247,9 +343,9 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/tags_by_mac.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/tags_by_mac.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
@@ -259,7 +355,38 @@
                 device_identifier: mac_address
       # This will retrieve specific tags' members with MAC addresses
 
-# Example 10: Mixed configuration with different device identifiers per tag
+# Example 13: Retrieve tag memberships with default device identifier (serial_number)
+- name: Generate tag memberships with default serial number identifier
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tag memberships with serial numbers (default)
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        file_path: "/tmp/tags_by_serial.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Data-Center
+      # When device_identifier is not specified, it defaults to 'serial_number'
+
+# Example 14: Mixed configuration with different device identifiers
 - name: Generate tag configurations with mixed device identifiers
   hosts: dnac_servers
   vars_files:
@@ -281,9 +408,9 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/mixed_identifiers.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/mixed_identifiers.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
@@ -295,4 +422,3 @@
                 device_identifier: mac_address
               - tag_name: Staging
       # Different tags can use different device identifiers in the same configuration
-      # When device_identifier is not specified (e.g., Staging), it defaults to 'serial_number'
