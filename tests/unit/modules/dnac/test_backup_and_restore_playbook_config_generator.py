@@ -32,7 +32,6 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
     playbook_nfs_configuration_details = test_data.get("playbook_nfs_configuration_details")
     playbook_backup_configuration_details = test_data.get("playbook_backup_configuration_details")
     playbook_specific_nfs_backup_configuration_details = test_data.get("playbook_specific_nfs_backup_configuration_details")
-    playbook_generate_all_configuration = test_data.get("playbook_generate_all_configuration")
     playbook_negative_scenario_lower_version = test_data.get("playbook_negative_scenario_lower_version")
     playbook_negative_scenario2 = test_data.get("playbook_negative_scenario2")
     playbook_config_omitted = test_data.get("playbook_config_omitted")
