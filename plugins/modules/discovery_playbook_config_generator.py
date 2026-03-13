@@ -25,9 +25,9 @@ description:
 - Supports selective filtering by discovery name,
   discovery type, or discovery status to generate
   targeted playbooks.
-- Enables complete infrastructure discovery with
-  auto-generation mode when
-  C(generate_all_configurations) is enabled.
+- Enables complete infrastructure discovery through
+  internal auto-discovery mode when C(config) is not
+  provided.
 - Resolves credential IDs to human-readable descriptions
   and usernames for generated playbooks.
 - Requires Cisco Catalyst Center version 2.3.7.9 or
@@ -47,55 +47,40 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, a default filename is generated.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - File write mode for YAML output.
+      - Relevant only when C(file_path) is provided.
+    type: str
+    required: false
+    default: overwrite
+    choices:
+      - overwrite
+      - append
   config:
     description:
       - A dictionary of filters for generating YAML playbook compatible with the 'discovery_workflow_manager'
         module.
-      - Filters specify which discovery tasks and configurations to include in the YAML configuration file.
+      - If config is provided, C(global_filters) is mandatory.
+      - If config is omitted, module runs in internal auto-discovery mode.
       - Global filters identify target discoveries by name or discovery type.
-      - Component-specific filters allow selection of specific discovery features and detailed filtering.
+      - Component-specific filters remain supported internally.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML configurations for all discovery tasks.
-          - This mode discovers all existing discovery configurations in Cisco Catalyst Center.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete discovery playbook configuration infrastructure documentation.
-          - Note - This will include all discovery tasks regardless of their current status.
-          - When set to False, at least one of 'global_filters' or 'component_specific_filters' must be provided.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current working directory with
-            a default file name C(discovery_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example, C(discovery_playbook_config_2026-01-24_12-33-20.yml).
-        type: str
-        required: false
-      file_mode:
-        description:
-          - Specifies the file write mode for the generated YAML configuration file.
-          - When set to C(overwrite), the file will be created or replaced if it already exists.
-          - When set to C(append), the generated content will be appended to the existing file.
-          - Default mode is C(overwrite).
-        type: str
-        required: false
-        default: overwrite
-        choices:
-          - overwrite
-          - append
       global_filters:
         description:
           - Global filters to apply when generating the YAML configuration file.
           - These filters identify which discovery tasks to extract configurations from.
-          - If not specified, all discovery tasks will be included.
+          - Mandatory when C(config) is provided.
         type: dict
-        required: false
+        required: true
         suboptions:
           discovery_name_list:
             description:
@@ -177,8 +162,6 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
-    config:
-      generate_all_configurations: true
 
 # Generate configurations for specific discovery tasks by name
 - name: Generate specific discovery configurations by name
@@ -191,9 +174,9 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
+    file_path: "/tmp/specific_discoveries.yml"
+    file_mode: overwrite
     config:
-      file_path: "/tmp/specific_discoveries.yml"
-      file_mode: overwrite
       global_filters:
         discovery_name_list:
           - "Multi_global"
@@ -211,9 +194,9 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
+    file_path: "/tmp/cdp_lldp_discoveries.yml"
+    file_mode: append
     config:
-      file_path: "/tmp/cdp_lldp_discoveries.yml"
-      file_mode: append
       global_filters:
         discovery_type_list:
           - "CDP"
@@ -411,18 +394,16 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting input validation for discovery playbook generator", "INFO")
 
-        if not self.config:
-            self.msg = "Configuration is required"
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self.check_return_status()
+        config_provided = self.params.get("config") is not None
+        if not config_provided:
+            self.config = {}
+            self.log(
+                "Config not provided. Internal auto-discovery mode enabled.",
+                "INFO"
+            )
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "file_mode": {"type": "str", "required": False, "default": "overwrite"},
-            "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
@@ -432,8 +413,15 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Step 2: Validate that only allowed keys are present
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        # Step 3: Validate minimum requirements (global_filters or generate_all)
-        self.validate_minimum_requirement_for_global_filters(self.config)
+        # Step 3: If config is provided, global_filters is mandatory
+        if config_provided and not config_list.get("global_filters"):
+            self.msg = (
+                "Validation failed: global_filters is required when config is provided."
+            )
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self.check_return_status()
+
         self.validate_global_filters_suboptions(self.config.get("global_filters"))
 
         self.log(
@@ -1904,10 +1892,6 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             config (dict): A single config entry containing:
-                - generate_all_configurations (bool): Whether
-                to include all discoveries.
-                - file_path (str): Output file path. If not
-                provided, a default timestamped path is used.
                 - global_filters (dict): Filters by discovery
                 name or type.
                 - component_specific_filters (dict): Filters
@@ -1927,16 +1911,17 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Starting discovery playbook generation", "INFO")
 
         config = self.config if isinstance(self.config, dict) else {}
+        auto_discovery_mode = self.params.get("config") is None
 
         # Determine file mode
-        file_mode = config.get('file_mode', 'overwrite')
+        file_mode = self.params.get('file_mode', 'overwrite')
         self.log(
             "File mode set to: {0}".format(file_mode),
             "DEBUG"
         )
 
         # Determine file path
-        file_path = config.get('file_path')
+        file_path = self.params.get('file_path')
 
         if not file_path:
             self.log(
@@ -2006,19 +1991,18 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         global_filters = config.get('global_filters', {})
         component_specific_filters = config.get('component_specific_filters', {})
 
-        # Handle generate_all_configurations flag
-        if config.get('generate_all_configurations', False):
-            global_filters = {}  # No filtering when generating all
-            self.log("Generate all configurations enabled - including all discoveries", "INFO")
+        # Handle internal auto-discovery when config is omitted
+        if auto_discovery_mode:
+            global_filters = {}
+            self.log("Auto-discovery mode enabled - including all discoveries", "INFO")
         else:
-            # Validate that filters are provided when generate_all_configurations is False
-            if not global_filters and not component_specific_filters:
+            # Validate that global_filters are provided when config is provided
+            if not global_filters:
                 self.result["response"] = {
                     "status": "validation_error",
-                    "message": "Component filters are required when 'generate_all_configurations' is set to false. "
-                              "Please provide either 'global_filters' or 'component_specific_filters' to specify which discoveries to include."
+                    "message": "global_filters is required when config is provided."
                 }
-                self.msg = "Validation failed: Component filters required when generate_all_configurations=false"
+                self.msg = "Validation failed: global_filters is required when config is provided."
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
@@ -2247,9 +2231,19 @@ def main():
             "type": "bool",
             "default": False
         },
+        "file_path": {
+            "required": False,
+            "type": "str",
+        },
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         # Playbook Configuration Parameters
         "config": {
-            "required": True,
+            "required": False,
             "type": "dict",
         },
         "state": {
@@ -2283,6 +2277,9 @@ def main():
         "INFO"
     )
 
+    config_params = module.params.get("config") or {}
+    config_keys = list(config_params.keys()) if isinstance(config_params, dict) else []
+
     ccc_discovery_playbook_generator.log(
         "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
         "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
@@ -2293,7 +2290,7 @@ def main():
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            list(module.params.get("config", {}).keys())
+            config_keys
         ),
         "DEBUG"
     )
