@@ -23,7 +23,6 @@
         file_path: "/Users/priyadharshini/Downloads/configuration_details_info"
         file_mode: overwrite
         config:
-          generate_all_configurations: true
           component_specific_filters:
             components_list: ["nfs_configuration"]
                
