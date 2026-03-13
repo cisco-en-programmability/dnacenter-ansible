@@ -573,6 +573,14 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
+                filter_value = list(dict.fromkeys(filter_value))
+                provided_filters[filter_key] = filter_value
+                valid_temp["global_filters"] = provided_filters
+                self.log(
+                    f"global_filters.{filter_key} deduplicated values: {filter_value}",
+                    "DEBUG"
+                )
+
         # Set validated configuration and return success
         self.validated_config = valid_temp
 
