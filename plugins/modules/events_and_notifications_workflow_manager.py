@@ -2357,6 +2357,11 @@ class Events(DnacBase):
             playbook_params["headers"] = []
             for header in custom_header:
                 playbook_params["headers"].append(header)
+        else:
+            # Headers not specified in playbook — set to empty list so that
+            # any existing headers on the destination are detected as a change
+            # and removed during update.
+            playbook_params["headers"] = []
 
         return playbook_params
 
