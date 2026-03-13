@@ -1,3 +1,4 @@
+---
 # Example 1: Generate all configurations for all tags and tag memberships
 - name: Generate complete brownfield tag configuration
   hosts: dnac_servers
