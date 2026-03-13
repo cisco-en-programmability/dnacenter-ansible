@@ -570,7 +570,6 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters used by validate_config_dict
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
         }
 
