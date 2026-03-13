@@ -1,8 +1,14 @@
 {
   "playbook_generate_all_configurations": {
-      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
-      "generate_all_configurations": true
+      "generate_all_configurations": true,
+      "component_specific_filters": {
+          "components_list": [
+              "webhook_destinations"
+          ]
+      }
   },
+  "playbook_config_empty": {},
+  "expected_error_missing_component_specific_filters": "Validation Error: 'component_specific_filters' is mandatory when 'config' is provided. Please provide 'config.component_specific_filters' with either 'components_list' or component filter blocks.",
   "webhook_destinations": {
     "errorMessage": {
       
@@ -607,7 +613,6 @@
     }
   ],
   "playbook_component_specific_filters": {
-      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
       "component_specific_filters": {
         "components_list": [
           "webhook_destinations",
@@ -814,8 +819,7 @@
           "webhook_destinatio",
           "webhook_event_notifications"
         ]
-      },
-      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook"
+      }
   },
   "playbook_specific_filter": {
       "component_specific_filters": {
@@ -830,8 +834,7 @@
             "webhook"
           ]
         }
-      },
-      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook"
+      }
   },
   "webhook": {
     "errorMessage": {
@@ -872,8 +875,15 @@
           "components_list": [
               "itsm_settings"
           ]
-      },
-      "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook1"
+      }
+  },
+  "playbook_component_with_empty_filter": {
+      "component_specific_filters": {
+          "components_list": [
+              "webhook_destinations"
+          ],
+          "destination_filters": {}
+      }
   },
   "itsm_response1": {"page": 1, "pageSize": 50, "totalPages": 1, "data": [{"_id": "69ae9d36a48743007a38b7b8", "id": "04b5-cabb-488a-a224", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "Playbook itsm demo 01", "uniqueKey": "ServiceNowConnection-Playbook itsm demo 01-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "createdDate": 1773051190370, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0}, {"_id": "69ae9f68a48743007a38b7ba", "id": "338e-7970-47fb-9b3a", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "ITSM_Demo_test 02", "uniqueKey": "ServiceNowConnection-ITSM_Demo_test 02-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "createdDate": 1773051752971, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0}], "totalRecords": 2},
   "itsm_response2": {"_id": "69ae9d36a48743007a38b7b8", "id": "04b5-cabb-488a-a224", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "Playbook itsm demo 01", "uniqueKey": "ServiceNowConnection-Playbook itsm demo 01-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "data": {"ConnectionSettings": {"Url": "https://ventest1.service-now.com/", "Auth_UserName": "svcaccount", "Auth_Password": ""}}, "createdDate": 1773051190370, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0, "tenantId": "SYS0"},
