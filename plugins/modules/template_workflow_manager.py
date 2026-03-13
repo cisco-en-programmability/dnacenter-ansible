@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni, A Mohamed Rafeek']
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni, A Mohamed Rafeek, Vivek Raj']
 
 DOCUMENTATION = r"""
 ---
