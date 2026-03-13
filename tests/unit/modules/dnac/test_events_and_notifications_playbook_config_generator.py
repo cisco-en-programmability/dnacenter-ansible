@@ -35,6 +35,11 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
     playbook_invalid_filter = test_data.get("playbook_invalid_filter")
     playbook_specific_filter = test_data.get("playbook_specific_filter")
     playbook_itsm = test_data.get("playbook_itsm")
+    playbook_config_empty = test_data.get("playbook_config_empty")
+    playbook_component_with_empty_filter = test_data.get("playbook_component_with_empty_filter")
+    expected_error_missing_component_specific_filters = test_data.get(
+        "expected_error_missing_component_specific_filters"
+    )
 
     def setUp(self):
         super(TestDnacEventsAndNotificationsPlaybookGenerator, self).setUp()
@@ -58,7 +63,10 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
         Load fixtures for user.
         """
 
-        if "playbook_generate_all_configurations" in self._testMethodName:
+        if (
+            "playbook_generate_all_configurations" in self._testMethodName
+            or "config_omitted_defaults_generate_all" in self._testMethodName
+        ):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("webhook_destinations"),
                 self.test_data.get("email_destinations"),
@@ -97,6 +105,11 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 self.test_data.get("itsm_response3"),
             ]
 
+        if "empty_component_filter_block" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("webhook"),
+            ]
+
     def test_events_and_notifications_playbook_generate_all_configurations(self):
         """
         Test the Events and Notifications Playbook Generator's ability to generate all configurations.
@@ -124,7 +137,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.6",
-                config=self.playbook_generate_all_configurations
+                file_path="/tmp/events_and_notifications_playbook",
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -135,7 +148,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 "components_processed": 8,
                 "components_skipped": 0,
                 "configurations_count": 12,
-                "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+                "file_path": "/tmp/events_and_notifications_playbook",
                 "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
                 "status": "success"
             }
@@ -159,6 +172,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.6",
+                file_path="/tmp/events_and_notifications_playbook",
                 config=self.playbook_component_specific_filters
             )
         )
@@ -170,7 +184,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 "components_processed": 2,
                 "components_skipped": 0,
                 "configurations_count": 3,
-                "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+                "file_path": "/tmp/events_and_notifications_playbook",
                 "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
                 "status": "success"
             }
@@ -192,6 +206,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.6",
+                file_path="/tmp/events_and_notifications_playbook",
                 config=self.playbook_invalid_filter
             )
         )
@@ -226,6 +241,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.6",
+                file_path="/tmp/events_and_notifications_playbook",
                 config=self.playbook_specific_filter
             )
         )
@@ -237,7 +253,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 1,
-                "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook",
+                "file_path": "/tmp/events_and_notifications_playbook",
                 "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
                 "status": "success"
             }
@@ -262,6 +278,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.6",
+                file_path="/tmp/events_and_notifications_playbook1",
                 config=self.playbook_itsm
             )
         )
@@ -273,8 +290,90 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 2,
-                "file_path": "/Users/priyadharshini/Downloads/events_and_notifications_playbook1",
+                "file_path": "/tmp/events_and_notifications_playbook1",
                 "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
                 "status": "success"
             }
         )
+
+    def test_events_and_notifications_playbook_config_omitted_defaults_generate_all(self):
+        """
+        Test omitted config behavior defaults to generate-all mode.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.6",
+                file_path="/tmp/events_and_notifications_playbook",
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(result.get("response", {}).get("status"), "success")
+        self.assertEqual(result.get("response", {}).get("components_processed"), 8)
+
+    def test_events_and_notifications_playbook_config_empty_fails_missing_component_specific_filters(self):
+        """
+        Test explicit empty config raises mandatory component_specific_filters error.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.6",
+                file_path="/tmp/events_and_notifications_playbook",
+                config=self.playbook_config_empty,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("response"),
+            self.expected_error_missing_component_specific_filters,
+        )
+
+    def test_events_and_notifications_playbook_config_with_generate_all_fails(self):
+        """
+        Test explicit generate_all_configurations under config is rejected.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.6",
+                file_path="/tmp/events_and_notifications_playbook",
+                config=self.playbook_generate_all_configurations,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid parameters found in configuration", result.get("response"))
+        self.assertIn("generate_all_configurations", result.get("response"))
+
+    def test_events_and_notifications_playbook_empty_component_filter_block_treated_as_all_for_component(self):
+        """
+        Test empty destination_filters block still retrieves all records for listed component.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.6",
+                file_path="/tmp/events_and_notifications_playbook",
+                config=self.playbook_component_with_empty_filter,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(result.get("response", {}).get("status"), "success")
+        self.assertEqual(result.get("response", {}).get("components_processed"), 1)
+        self.assertEqual(result.get("response", {}).get("configurations_count"), 2)

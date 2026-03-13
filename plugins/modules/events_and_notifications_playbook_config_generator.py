@@ -25,8 +25,6 @@ description:
   execution.
 - Supports comprehensive filtering capabilities including component-specific
   filters, destination name filters, and notification subscription filters.
-- Enables automated brownfield discovery by retrieving all configured
-  components when generate_all_configurations is enabled.
 - Resolves site IDs to hierarchical site names and event IDs to event names
   for human-readable playbook generation.
 - Creates structured playbook files ready for modification and redeployment
@@ -49,71 +47,59 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Absolute or relative path where generated YAML configuration file
+      will be saved.
+    - If not provided, file is saved in current working directory with
+      auto-generated filename.
+    - Filename format when auto-generated is
+      C(events_and_notifications_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - Example auto-generated filename
+      "events_and_notifications_playbook_config_2025-04-22_21-43-26.yml".
+    - Parent directories are created automatically if they do not exist.
+    type: str
+    required: false
+  file_mode:
+    description:
+    - File write mode for the generated YAML configuration file.
+    - The overwrite option replaces existing file content with new content.
+    - The append option adds new content to the end of existing file.
+    - Relevant only when C(file_path) is provided.
+    - Defaults to overwrite if not specified.
+    type: str
+    choices:
+    - overwrite
+    - append
+    default: overwrite
+    required: false
   config:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the
       C(events_and_notifications_workflow_manager) module.
-    - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included,
-      regardless of the filters.
+    - If C(config) is omitted, module internally sets
+      C(generate_all_configurations=true) and retrieves all supported components.
+    - If C(config) is provided, C(component_specific_filters) is mandatory.
     type: dict
-    required: true
+    required: false
     suboptions:
-      file_path:
-        description:
-        - Absolute or relative path where generated YAML configuration file
-          will be saved.
-        - If not provided, file is saved in current working directory with
-          auto-generated filename.
-        - Filename format when auto-generated is
-          C(events_and_notifications_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - Example auto-generated filename
-          "events_and_notifications_playbook_config_2025-04-22_21-43-26.yml".
-        - Parent directories are created automatically if they do not exist.
-        type: str
-      file_mode:
-        description:
-        - File write mode for the generated YAML configuration file.
-        - The overwrite option replaces existing file content with new content.
-        - The append option adds new content to the end of existing file.
-        - Defaults to overwrite if not specified.
-        type: str
-        choices:
-        - overwrite
-        - append
-        default: overwrite
-      generate_all_configurations:
-        description:
-        - When True, automatically retrieves all events and notifications
-          configurations from Catalyst Center.
-        - Discovers all webhook destinations, email destinations, syslog
-          destinations, SNMP destinations, ITSM settings, and event
-          subscriptions.
-        - When True, any component_specific_filters provided in the
-          playbook are ignored and all components are retrieved.
-        - Useful for complete brownfield infrastructure documentation and
-          discovery workflows.
-        - When False, requires explicit component_specific_filters
-          configuration with components_list.
-        type: bool
-        default: false
       component_specific_filters:
         description:
         - Filter configuration controlling which components are included in
           generated YAML playbook.
+        - Mandatory when C(config) is provided.
         - When components_list is specified, only listed components are
           retrieved regardless of other filters.
         - Destination and notification filters provide name-based filtering
           within selected components.
-        - Ignored when generate_all_configurations is True.
-        - Required when generate_all_configurations is False to specify which
-          components to retrieve.
         type: dict
         suboptions:
           components_list:
             description:
             - List of component types to include in generated YAML playbook
               file.
+            - Optional, but conditionally required when no other filter blocks
+              are provided under C(component_specific_filters).
             - Each component type corresponds to specific API endpoint and
               configuration structure.
             - Valid component types
@@ -130,8 +116,6 @@ options:
                 configurations
               - C(syslog_event_notifications) - Syslog event subscription
                 configurations
-            - When not specified with generate_all_configurations True, all
-              component types are included.
             type: list
             elements: str
             choices:
@@ -330,13 +314,9 @@ notes:
   not in components_list are never retrieved regardless of destination_names
   or destination_types values. If destination_names contains only names
   belonging to an unselected component type, those names are ignored.
-- Each destination_types value must have its matching component in
-  components_list (webhook requires webhook_destinations, email requires
-  email_destinations, etc.). A mismatch causes a validation error.
-- Similarly, each notification_types value must have its matching component
-  in components_list (webhook requires webhook_event_notifications, email
-  requires email_event_notifications, etc.). A mismatch causes a validation
-  error.
+- If destination_types or notification_types imply components that are not
+  present in components_list, the module auto-adds those components
+  internally before retrieval.
 
 seealso:
 - module: cisco.dnac.events_and_notifications_workflow_manager
@@ -356,9 +336,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_path: "/tmp/catc_events_notifications_config.yaml"
+    file_path: "/tmp/catc_events_notifications_config.yaml"
 
 - name: Generate YAML Configuration for destinations only
   cisco.dnac.events_and_notifications_playbook_config_generator:
@@ -372,8 +350,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_destinations_config.yaml"
     config:
-      file_path: "/tmp/catc_destinations_config.yaml"
       component_specific_filters:
         components_list: ["webhook_destinations", "email_destinations", "syslog_destinations"]
 
@@ -389,8 +367,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_webhook_config.yaml"
     config:
-      file_path: "/tmp/catc_webhook_config.yaml"
       component_specific_filters:
         components_list: ["webhook_destinations", "webhook_event_notifications"]
         destination_filters:
@@ -409,9 +387,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/combined_filters_config.yaml"
+    file_mode: append
     config:
-      file_path: "/tmp/combined_filters_config.yaml"
-      file_mode: append
       component_specific_filters:
         components_list: ["webhook_destinations", "webhook_event_notifications", "email_destinations", "email_event_notifications"]
         destination_filters:
@@ -693,24 +671,27 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = (
-                "Configuration is not available in the playbook for validation. No parameters "
-                "provided for events and notifications generation workflow."
+        config_provided = self.params.get("config") is not None
+        incoming_config = self.params.get("config")
+        if not config_provided:
+            self.config = {"generate_all_configurations": True}
+            self.log(
+                "Config is omitted. Applying internal default: "
+                "{'generate_all_configurations': True}.",
+                "INFO",
             )
-            self.log(self.msg, "INFO")
-            return self
+        else:
+            self.config = incoming_config if incoming_config is not None else {}
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "file_path": {"type": "str", "required": False},
-            "file_mode": {"type": "str", "required": False, "default": "overwrite"},
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "component_specific_filters": {"type": "dict", "required": False},
         }
 
         allowed_keys = set(temp_spec.keys())
+        if config_provided:
+            allowed_keys = {"component_specific_filters"}
 
         # Validate that config is a dict (not a list)
         if not isinstance(self.config, dict):
@@ -733,8 +714,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Step 1: Validate invalid params using BrownFieldHelper
         self.validate_invalid_params(self.config, allowed_keys)
 
-        # Step 2: Validate file_mode if provided
-        file_mode = self.config.get("file_mode")
+        # Step 2: Validate top-level file_mode if provided
+        file_mode = self.params.get("file_mode")
         if file_mode is not None and file_mode not in ("overwrite", "append"):
             self.msg = (
                 "Invalid value for 'file_mode': '{0}'. "
@@ -745,6 +726,20 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Step 3: Validate config dict using BrownFieldHelper
         validated_config = self.validate_config_dict(self.config, temp_spec)
+        if not isinstance(validated_config, dict):
+            validated_config = dict(self.config)
+        self.validated_config = validated_config
+
+        component_filters = validated_config.get("component_specific_filters")
+        if config_provided and component_filters is None:
+            self.msg = (
+                "Validation Error: 'component_specific_filters' is mandatory when "
+                "'config' is provided. Please provide "
+                "'config.component_specific_filters' with either "
+                "'components_list' or component filter blocks."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
         self.log(
             "Schema validation completed successfully. Validated configuration: {0}".format(
@@ -760,10 +755,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG"
         )
-        self.validate_minimum_requirements(validated_config)
 
         # Validate nested component_specific_filters structure
-        component_filters = validated_config.get("component_specific_filters")
         if component_filters and isinstance(component_filters, dict):
             self.log(
                 "Validating nested component_specific_filters keys: {0}".format(
@@ -814,6 +807,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+            if components_list is None:
+                components_list = []
 
             # Validate destination_filters
             allowed_destination_filter_keys = {"destination_names", "destination_types"}
@@ -848,30 +843,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                    # Cross-validate destination_types against components_list
-                    if components_list:
-                        dest_type_to_component = {
-                            "webhook": "webhook_destinations",
-                            "email": "email_destinations",
-                            "syslog": "syslog_destinations",
-                            "snmp": "snmp_destinations",
-                        }
-                        mismatched_dest_types = [
-                            dt for dt in destination_types
-                            if dest_type_to_component.get(dt) not in components_list
-                        ]
-                        if mismatched_dest_types:
-                            self.msg = (
-                                "destination_types {0} does not match components_list {1}. "
-                                "Each destination_type must have its corresponding component "
-                                "in components_list (e.g. 'email' requires 'email_destinations'). "
-                                "Please update destination_types or components_list and try again.".format(
-                                    mismatched_dest_types, components_list
-                                )
-                            )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-
             # Validate notification_filters
             allowed_notification_filter_keys = {"subscription_names", "notification_types"}
             notification_filters = component_filters.get("notification_filters")
@@ -905,29 +876,6 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                    # Cross-validate notification_types against components_list
-                    if components_list:
-                        notif_type_to_component = {
-                            "webhook": "webhook_event_notifications",
-                            "email": "email_event_notifications",
-                            "syslog": "syslog_event_notifications",
-                        }
-                        mismatched_notif_types = [
-                            nt for nt in notification_types
-                            if notif_type_to_component.get(nt) not in components_list
-                        ]
-                        if mismatched_notif_types:
-                            self.msg = (
-                                "notification_types {0} does not match components_list {1}. "
-                                "Each notification_type must have its corresponding component "
-                                "in components_list (e.g. 'email' requires 'email_event_notifications'). "
-                                "Please update notification_types or components_list and try again.".format(
-                                    mismatched_notif_types, components_list
-                                )
-                            )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-
             # Validate itsm_filters
             allowed_itsm_filter_keys = {"instance_names"}
             itsm_filters = component_filters.get("itsm_filters")
@@ -944,6 +892,72 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+            destination_filters_present = isinstance(destination_filters, dict)
+            notification_filters_present = isinstance(notification_filters, dict)
+            itsm_filters_present = isinstance(itsm_filters, dict)
+            any_filter_block_present = (
+                destination_filters_present or notification_filters_present or itsm_filters_present
+            )
+
+            inferred_components = set(components_list)
+            if destination_filters_present:
+                destination_types = destination_filters.get("destination_types")
+                if destination_types:
+                    destination_type_map = {
+                        "webhook": "webhook_destinations",
+                        "email": "email_destinations",
+                        "syslog": "syslog_destinations",
+                        "snmp": "snmp_destinations",
+                    }
+                    inferred_components.update(
+                        [destination_type_map[dt] for dt in destination_types]
+                    )
+                else:
+                    if not components_list:
+                        inferred_components.update(
+                            {
+                                "webhook_destinations",
+                                "email_destinations",
+                                "syslog_destinations",
+                                "snmp_destinations",
+                            }
+                        )
+
+            if notification_filters_present:
+                notification_types = notification_filters.get("notification_types")
+                if notification_types:
+                    notification_type_map = {
+                        "webhook": "webhook_event_notifications",
+                        "email": "email_event_notifications",
+                        "syslog": "syslog_event_notifications",
+                    }
+                    inferred_components.update(
+                        [notification_type_map[nt] for nt in notification_types]
+                    )
+                else:
+                    if not components_list:
+                        inferred_components.update(
+                            {
+                                "webhook_event_notifications",
+                                "email_event_notifications",
+                                "syslog_event_notifications",
+                            }
+                        )
+
+            if itsm_filters_present:
+                inferred_components.add("itsm_settings")
+
+            if any_filter_block_present:
+                component_filters["components_list"] = sorted(inferred_components)
+            elif not components_list:
+                self.msg = (
+                    "Validation Error: 'components_list' is mandatory and must be non-empty "
+                    "when no component filter blocks are provided under "
+                    "'component_specific_filters'."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
         # Set the validated configuration and update the result with success status
         self.validated_config = validated_config
@@ -5267,7 +5281,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         operation_name,
                         params.get("file_path", "not specified"),
                         params.get("generate_all_configurations", False),
-                        len(params.get("component_specific_filters", {}).get(
+                        len((params.get("component_specific_filters") or {}).get(
                             "components_list", []
                         ))
                     ),
@@ -5486,8 +5500,18 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "required": False,
+            "type": "str",
+        },
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         "config": {
-            "required": True,
+            "required": False,
             "type": "dict",
         },
         "state": {
@@ -5531,7 +5555,11 @@ def main():
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
+            (
+                len(module.params.get("config"))
+                if isinstance(module.params.get("config"), dict)
+                else 0
+            )
         ),
         "DEBUG"
     )
@@ -5637,83 +5665,45 @@ def main():
     # Configuration Processing and Default Handling
     # ============================================
     config_item = ccc_events_and_notifications_playbook_generator.validated_config
-
+    config_provided = module.params.get("config") is not None
+    if not isinstance(config_item, dict):
+        config_item = {}
+    if not config_item and not config_provided:
+        config_item = {"generate_all_configurations": True}
+    if config_provided and config_item.get("component_specific_filters") is None:
+        ccc_events_and_notifications_playbook_generator.msg = (
+            "Validation Error: 'component_specific_filters' is mandatory when "
+            "'config' is provided. Please provide "
+            "'config.component_specific_filters' with either "
+            "'components_list' or component filter blocks."
+        )
+        ccc_events_and_notifications_playbook_generator.set_operation_result(
+            "failed", False, ccc_events_and_notifications_playbook_generator.msg, "ERROR"
+        ).check_return_status()
     ccc_events_and_notifications_playbook_generator.log(
         "Starting configuration processing and default handling for single config dict.",
         "INFO"
     )
 
-    # Handle generate_all_configurations and set component defaults
-    if config_item.get("generate_all_configurations", False):
-        ccc_events_and_notifications_playbook_generator.log(
-            "generate_all_configurations=True detected. Ignoring any user-provided "
-            "component_specific_filters and including all components.",
-            "INFO"
-        )
-
-        # Override component_specific_filters when generate_all_configurations is True
-        config_item["component_specific_filters"] = {
-            "components_list": [
-                "webhook_destinations", "email_destinations", "syslog_destinations",
-                "snmp_destinations", "itsm_settings", "webhook_event_notifications",
-                "email_event_notifications", "syslog_event_notifications"
-            ]
-        }
-        ccc_events_and_notifications_playbook_generator.log(
-            "Set component_specific_filters for generate_all mode with all {0} components. "
-            "Any user-provided filters are ignored.".format(
-                len(config_item["component_specific_filters"]["components_list"])
-            ),
-            "DEBUG"
-        )
-
-    elif config_item.get("component_specific_filters") is None:
-        ccc_events_and_notifications_playbook_generator.log(
-            "No component_specific_filters provided in normal mode. "
-            "Applying default configuration to retrieve all events and notifications components.",
-            "INFO"
-        )
-
-        # Existing fallback logic for when no filters are specified
-        ccc_events_and_notifications_playbook_generator.msg = (
-            "No valid configurations found in the provided parameters."
-        )
-
-        config_item["component_specific_filters"] = {
-            "components_list": [
-                "webhook_destinations", "email_destinations", "syslog_destinations",
-                "snmp_destinations", "itsm_settings", "webhook_event_notifications",
-                "email_event_notifications", "syslog_event_notifications"
-            ]
-        }
-
-        ccc_events_and_notifications_playbook_generator.log(
-            "Applied default component_specific_filters: {0} components".format(
-                len(config_item["component_specific_filters"]["components_list"])
-            ),
-            "DEBUG"
-        )
-    else:
-        ccc_events_and_notifications_playbook_generator.log(
-            "component_specific_filters already provided in normal mode - "
-            "using existing filters: {0}".format(
-                config_item.get("component_specific_filters")
-            ),
-            "DEBUG"
-        )
+    # Keep file_path and file_mode as top-level module args and inject into
+    # validated config for downstream workflow execution.
+    if module.params.get("file_path") is not None:
+        config_item["file_path"] = module.params.get("file_path")
+    if module.params.get("file_mode") is not None:
+        config_item["file_mode"] = module.params.get("file_mode")
 
     # Update validated config after default handling
     ccc_events_and_notifications_playbook_generator.validated_config = config_item
 
     ccc_events_and_notifications_playbook_generator.log(
-        "Configuration preprocessing completed. Updated validated_config with default component handling.",
+        "Configuration preprocessing completed. Updated validated_config with top-level file args.",
         "INFO"
     )
 
     # ============================================
     # Execute State-Specific Operations
     # ============================================
-    components_list = config_item.get("component_specific_filters", {}).get("components_list", "all")
+    components_list = (config_item.get("component_specific_filters") or {}).get("components_list", "all")
 
     ccc_events_and_notifications_playbook_generator.log(
         "Processing configuration for state '{0}' with components: {1}".format(
