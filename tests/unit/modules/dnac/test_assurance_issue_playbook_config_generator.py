@@ -264,6 +264,8 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.5.3",
+                file_path="/tmp/test_issues.yml",
+                file_mode="overwrite",
                 config=self.playbook_config_with_file_path
             )
         )
@@ -427,6 +429,8 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                             dnac_log=True,
                             state="gathered",
                             dnac_version="2.3.5.3",
+                            file_path="/tmp/test_issues.yml",
+                            file_mode="overwrite",
                             config=self.playbook_config_with_file_path
                         )
                     )
@@ -481,18 +485,77 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
-                dnac_version="2.3.5.3",
-                config={}
+                dnac_version="2.3.5.3"
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertIn("response", result)
         self.assertIn("msg", result)
-        # Verify that the operation generates empty template with no configurations
-        self.assertIn("empty template", result.get("msg", ""))
-        self.assertIn("no configurations found", result.get("msg", ""))
-        # Check configurations_generated is 0
-        self.assertEqual(result["response"]["configurations_generated"], 0)
+        self.assertIn("YAML config generation", result.get("msg", ""))
+
+    def test_assurance_issue_playbook_generator_config_without_component_specific_filters(self):
+        """
+        Test case for assurance issue playbook generator with config provided but
+        component_specific_filters missing.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.5.3",
+                config={}
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("component_specific_filters is required", result.get("msg", ""))
+
+    def test_assurance_issue_playbook_generator_generate_all_rejected(self):
+        """
+        Test case for assurance issue playbook generator with removed
+        generate_all_configurations key in config.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.5.3",
+                config={"generate_all_configurations": True}
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid parameters found in configuration", result.get("msg", ""))
+
+    def test_assurance_issue_playbook_generator_empty_components_list_rejected(self):
+        """
+        Test case for assurance issue playbook generator with empty components_list
+        and no component filter blocks.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.5.3",
+                config={
+                    "component_specific_filters": {
+                        "components_list": []
+                    }
+                }
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "component_specific_filters must include a non-empty components_list",
+            result.get("msg", "")
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -506,7 +569,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         mock_exists.return_value = True
 
         # Remove file_path to test default behavior
-        config_without_path = {"generate_all_configurations": True}
+        config_without_path = self.playbook_config_specific_components
 
         set_module_args(
             dict(
