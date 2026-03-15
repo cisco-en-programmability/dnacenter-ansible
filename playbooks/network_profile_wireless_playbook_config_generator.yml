@@ -21,10 +21,8 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
-        config:
-          file_mode: "overwrite"
-          file_path: "tmp/network_profile_wireless_workflow_playbook.yml"
-          generate_all_configurations: true
+        file_mode: "overwrite"
+        file_path: "tmp/network_profile_wireless_workflow_playbook.yml"
 
     # Example 2: Generate wireless profile configurations by profile names
     - name: Generate wireless profile configurations by profile names
@@ -41,15 +39,15 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/network_profile_wireless_workflow_playbook_profilebase.yml"
+        file_mode: "append"
         config:
-          file_path: "tmp/network_profile_wireless_workflow_playbook_profilebase.yml"
-          file_mode: "append"
           global_filters:
             profile_name_list:
               - nw_profile_2
               - Ansible Wireless Profile Solution
 
-    # # Example 3: Generate wireless profile configurations by SSIDs
+    # Example 3: Generate wireless profile configurations by SSIDs
     - name: Generate wireless profile configurations by SSIDs
       cisco.dnac.network_profile_wireless_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
@@ -64,15 +62,15 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/network_profile_wireless_workflow_playbook_ssidbase.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "tmp/network_profile_wireless_workflow_playbook_ssidbase.yml"
-          file_mode: "overwrite"
           global_filters:
             ssid_list:
               - GUEST
               - Corporate_WiFi
 
-    # # Example 4: Generate wireless profile configurations by AP zones
+    # Example 4: Generate wireless profile configurations by AP zones
     - name: Generate wireless profile configurations by AP zones
       cisco.dnac.network_profile_wireless_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
@@ -87,15 +85,15 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/network_profile_wireless_workflow_playbook_apzonebase.yml"
+        file_mode: "append"
         config:
-          file_path: "tmp/network_profile_wireless_workflow_playbook_apzonebase.yml"
-          file_mode: "append"
           global_filters:
             ap_zone_list:
               - AP_Zone_North
               - HQ_AP_Zone
 
-    # # Example 5: Generate wireless profile configurations by feature templates
+    # Example 5: Generate wireless profile configurations by feature templates
     - name: Generate wireless profile configurations by feature templates
       cisco.dnac.network_profile_wireless_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
@@ -110,15 +108,15 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/network_profile_wireless_workflow_playbook_feature_template_base.yml"
+        file_mode: "append"
         config:
-          file_path: "tmp/network_profile_wireless_workflow_playbook_feature_template_base.yml"
-          file_mode: "append"
           global_filters:
             feature_template_list:
               - Default AAA_Radius_Attributes_Configuration
               - Default CleanAir 6GHz Design
 
-    # # Example 6: Generate wireless profile configurations by day-n templates
+    # Example 6: Generate wireless profile configurations by day-n templates
     - name: Generate wireless profile configurations by day-n templates
       cisco.dnac.network_profile_wireless_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
@@ -133,14 +131,14 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/network_profile_wireless_workflow_playbook_templatebase.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "tmp/network_profile_wireless_workflow_playbook_templatebase.yml"
-          file_mode: "overwrite"
           global_filters:
             day_n_template_list:
               - Ans Wireless DayN 1
 
-    # # Example 7: Generate wireless profile configurations by additional interfaces
+    # Example 7: Generate wireless profile configurations by additional interfaces
     - name: Generate wireless profile configurations by additional interfaces
       cisco.dnac.network_profile_wireless_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
@@ -155,14 +153,14 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/network_profile_wireless_workflow_playbook_interfacebase.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "tmp/network_profile_wireless_workflow_playbook_interfacebase.yml"
-          file_mode: "overwrite"
           global_filters:
             additional_interface_list:
               - VLAN_22
 
-    # # Example 8: Generate wireless profile configurations by sites
+    # Example 8: Generate wireless profile configurations by sites
     - name: Generate wireless profile configurations by sites
       cisco.dnac.network_profile_wireless_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
@@ -177,9 +175,9 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/network_profile_wireless_workflow_playbook_sitebase.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "tmp/network_profile_wireless_workflow_playbook_sitebase.yml"
-          file_mode: "overwrite"
           global_filters:
             site_list:
               - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
