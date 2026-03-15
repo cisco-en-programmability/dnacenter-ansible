@@ -1,9 +1,5 @@
 {
-    "playbook_config_generate_all_profile":
-        {
-        "generate_all_configurations": true,
-        "file_path": "/tmp/test_demo.yaml"
-        },
+    "playbook_config_generate_all_profile": null,
 
     "all_wireless_profiles": {
             "response": [
@@ -1417,8 +1413,6 @@
 
     "playbook_global_filter_profile_base":
         {
-            "file_path": "tmp/network_profile_switching_workflow_playbook_profilebase.yml",
-            "file_mode": "overwrite",
             "global_filters": {
                 "profile_name_list": [
                     "Campus_Wireless_Profile"
@@ -1428,8 +1422,6 @@
 
     "playbook_global_filter_template_base":
         {
-            "file_path": "tmp/network_profile_switching_workflow_playbook_templatebase.yml",
-            "file_mode": "append",
             "global_filters": {
                 "day_n_template_list": [
                     "Ans Wireless DayN 1"
@@ -1439,7 +1431,6 @@
 
     "playbook_global_filter_site_base":
         {
-            "file_path": "tmp/network_profile_switching_workflow_playbook_sitebase.yml",
             "global_filters": {
                 "site_list": [
                     "Global/USA/SAN JOSE/SJ_BLD20/FLOOR2"
