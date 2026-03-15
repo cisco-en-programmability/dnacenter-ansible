@@ -1930,6 +1930,13 @@ class BrownFieldHelper:
                     )
                     break
 
+                if isinstance(response_data, dict):
+                    self.log(
+                        "API response is a dictionary; converting it to a single-item list for consistent processing.",
+                        "DEBUG"
+                    )
+                    response_data = [response_data]
+
                 # Extend the results list with the response data
                 results.extend(response_data)
 
