@@ -25,9 +25,9 @@ description:
 - Supports selective filtering by discovery name,
   discovery type, or discovery status to generate
   targeted playbooks.
-- Enables complete infrastructure discovery with
-  auto-generation mode when
-  C(generate_all_configurations) is enabled.
+- Enables complete infrastructure discovery through
+  internal auto-discovery mode when C(config) is not
+  provided.
 - Resolves credential IDs to human-readable descriptions
   and usernames for generated playbooks.
 - Requires Cisco Catalyst Center version 2.3.7.9 or
@@ -47,55 +47,40 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, a default filename is generated.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - File write mode for YAML output.
+      - Relevant only when C(file_path) is provided.
+    type: str
+    required: false
+    default: overwrite
+    choices:
+      - overwrite
+      - append
   config:
     description:
       - A dictionary of filters for generating YAML playbook compatible with the 'discovery_workflow_manager'
         module.
-      - Filters specify which discovery tasks and configurations to include in the YAML configuration file.
+      - If config is provided, C(global_filters) is mandatory.
+      - If config is omitted, module runs in internal auto-discovery mode.
       - Global filters identify target discoveries by name or discovery type.
-      - Component-specific filters allow selection of specific discovery features and detailed filtering.
+      - Component-specific filters remain supported internally.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML configurations for all discovery tasks.
-          - This mode discovers all existing discovery configurations in Cisco Catalyst Center.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete discovery playbook configuration infrastructure documentation.
-          - Note - This will include all discovery tasks regardless of their current status.
-          - When set to False, at least one of 'global_filters' or 'component_specific_filters' must be provided.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current working directory with
-            a default file name C(discovery_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example, C(discovery_playbook_config_2026-01-24_12-33-20.yml).
-        type: str
-        required: false
-      file_mode:
-        description:
-          - Specifies the file write mode for the generated YAML configuration file.
-          - When set to C(overwrite), the file will be created or replaced if it already exists.
-          - When set to C(append), the generated content will be appended to the existing file.
-          - Default mode is C(overwrite).
-        type: str
-        required: false
-        default: overwrite
-        choices:
-          - overwrite
-          - append
       global_filters:
         description:
           - Global filters to apply when generating the YAML configuration file.
           - These filters identify which discovery tasks to extract configurations from.
-          - If not specified, all discovery tasks will be included.
+          - Mandatory when C(config) is provided.
         type: dict
-        required: false
+        required: true
         suboptions:
           discovery_name_list:
             description:
@@ -177,8 +162,6 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
-    config:
-      generate_all_configurations: true
 
 # Generate configurations for specific discovery tasks by name
 - name: Generate specific discovery configurations by name
@@ -191,9 +174,9 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
+    file_path: "/tmp/specific_discoveries.yml"
+    file_mode: overwrite
     config:
-      file_path: "/tmp/specific_discoveries.yml"
-      file_mode: overwrite
       global_filters:
         discovery_name_list:
           - "Multi_global"
@@ -211,9 +194,9 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
+    file_path: "/tmp/cdp_lldp_discoveries.yml"
+    file_mode: append
     config:
-      file_path: "/tmp/cdp_lldp_discoveries.yml"
-      file_mode: append
       global_filters:
         discovery_type_list:
           - "CDP"
@@ -287,13 +270,6 @@ response_3:
 
 import time
 import os
-import datetime
-try:
-    import yaml
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-    yaml = None
 from collections import OrderedDict
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -411,18 +387,16 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting input validation for discovery playbook generator", "INFO")
 
-        if not self.config:
-            self.msg = "Configuration is required"
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self.check_return_status()
+        config_provided = self.params.get("config") is not None
+        if not config_provided:
+            self.config = {}
+            self.log(
+                "Config not provided. Internal auto-discovery mode enabled.",
+                "INFO"
+            )
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "file_mode": {"type": "str", "required": False, "default": "overwrite"},
-            "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
@@ -432,8 +406,15 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Step 2: Validate that only allowed keys are present
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        # Step 3: Validate minimum requirements (global_filters or generate_all)
-        self.validate_minimum_requirement_for_global_filters(self.config)
+        # Step 3: If config is provided, global_filters is mandatory
+        if config_provided and not config_list.get("global_filters"):
+            self.msg = (
+                "Validation failed: global_filters is required when config is provided."
+            )
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self.check_return_status()
+
         self.validate_global_filters_suboptions(self.config.get("global_filters"))
 
         self.log(
@@ -1648,250 +1629,6 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return filtered_discoveries
 
-    def generate_yaml_header_comments(self, discoveries_data):
-        """
-        Generate header comments for the YAML playbook file.
-
-        Builds a summary block that includes Catalyst Center host
-        info, generation timestamp, discovery type breakdown,
-        IP range counts, and credential type usage. This header
-        is prepended to the generated YAML file for documentation.
-
-        Args:
-            discoveries_data (list): List of discovery
-                configuration dicts retrieved from Catalyst
-                Center. Each dict should contain keys like
-                'discoveryType', 'ipAddressList', and
-                'globalCredentialIdList'.
-
-        Returns:
-            str: Multi-line header comment string to prepend
-                to the generated YAML file.
-
-        Notes:
-            - Malformed (non-dict) entries in discoveries_data
-            are skipped with a warning log.
-            - If ipAddressList is None or empty, it contributes
-            zero to the IP range count.
-        """
-        self.log(f"Generating YAML header comments with params: total_discoveries={len(discoveries_data)}", "DEBUG")
-        # Get Catalyst Center host information
-        dnac_host = self.params.get('dnac_host', 'Unknown')
-        dnac_version = self.params.get('dnac_version', 'Unknown')
-
-        # Generate summary statistics
-        discovery_types = {}
-        ip_ranges_count = 0
-        credential_types = set()
-
-        for idx, discovery in enumerate(discoveries_data):
-            self.log(
-                "Processing discovery index={0} for header "
-                "summary, discovery={1}".format(
-                    idx, discovery.get('name', 'Unknown')
-                    if isinstance(discovery, dict)
-                    else 'Invalid entry'
-                ),
-                "DEBUG"
-            )
-            # Count discovery types
-            if not isinstance(discovery, dict):
-                self.log(
-                    "Skipping non-dict discovery entry at "
-                    "index={0} during header generation".format(
-                        idx
-                    ),
-                    "WARNING"
-                )
-                continue
-            disc_type = discovery.get('discoveryType', 'Unknown')
-            discovery_types[disc_type] = discovery_types.get(disc_type, 0) + 1
-
-            # Count IP ranges
-            ip_ranges = discovery.get('ipAddressList', [])
-            if ip_ranges:
-                if isinstance(ip_ranges, str):
-                    ip_ranges_count += len(ip_ranges.split(','))
-                elif isinstance(ip_ranges, list):
-                    ip_ranges_count += len(ip_ranges)
-
-            # Collect credential types
-            if discovery.get('globalCredentialIdList'):
-                credential_types.add('Global Credentials')
-            if discovery.get('discoverySpecificCredentials'):
-                credential_types.add('Discovery Specific Credentials')
-
-        # Build header comments
-        timestamp = datetime.datetime.now().strftime(
-            '%Y-%m-%d %H:%M:%S'
-        )
-        header = [
-            "# Generated Discovery Playbook Configuration",
-            "# =========================================",
-            "#",
-            "# Source Catalyst Center: {0}".format(
-                dnac_host
-            ),
-            "# Catalyst Center Version: {0}".format(
-                dnac_version
-            ),
-            "# Generated on: {0}".format(timestamp),
-            "#",
-            "# Configuration Summary:",
-            "# - Total Discoveries: {0}".format(
-                len(discoveries_data)
-            ),
-            "# - Total IP Ranges: {0}".format(
-                ip_ranges_count
-            ),
-        ]
-
-        header.extend([
-            "#",
-            "# Compatible with the "
-            "'discovery_workflow_manager' module.",
-            "# Use this playbook to recreate or manage "
-            "discovery configurations.",
-            "#",
-        ])
-
-        if discovery_types:
-            header.append("# - Discovery Types:")
-            for disc_type, count in discovery_types.items():
-                header.append(f"#   - {disc_type}: {count}")
-
-        if credential_types:
-            header.append("# - Credential Types: {0}".format(', '.join(sorted(credential_types))))
-
-        result = '\n'.join(header)
-        self.log(
-            "YAML header comments generated successfully "
-            "with total_lines={0}".format(len(header)),
-            "DEBUG"
-        )
-
-        return result
-
-    def write_yaml_with_comments(self, yaml_data, file_path, header_comments, file_mode="overwrite"):
-        """
-        Write YAML data to a file with header comments prepended.
-
-        Combines the generated header comments with the YAML
-        configuration data and writes the result to the
-        specified file path. Creates parent directories if
-        they do not exist.
-
-        Args:
-            yaml_data (str): The YAML-formatted configuration
-                string to write.
-            file_path (str): Absolute or relative path where
-                the YAML file will be saved.
-            header_comments (str): Multi-line comment string
-                to prepend to the YAML content.
-            file_mode (str): File write mode - 'overwrite' or
-                'append'. Default is 'overwrite'.
-
-        Returns:
-            dict: A dictionary containing:
-                - "status" (str): "success" or "failed".
-                - "file_path" (str): The resolved file path.
-                - "error" (str): Error message if failed.
-        """
-        self.log(
-            "Writing YAML configuration to "
-            "file_path={0}, yaml_data_length={1}, "
-            "header_comments_length={2}".format(
-                file_path,
-                len(yaml_data) if yaml_data else 0,
-                len(header_comments)
-                if header_comments else 0
-            ),
-            "DEBUG"
-        )
-
-        if not yaml_data:
-            self.log(
-                "No YAML data provided to write — "
-                "skipping file creation for "
-                "file_path={0}".format(file_path),
-                "WARNING"
-            )
-            return {
-                "status": "failed",
-                "file_path": file_path,
-                "error": "No YAML data provided"
-            }
-
-        if not file_path:
-            self.log(
-                "No file path specified — cannot write "
-                "YAML configuration",
-                "ERROR"
-            )
-            return {
-                "status": "failed",
-                "file_path": file_path,
-                "error": "No file path specified"
-            }
-
-        try:
-            # Validate YAML library is available
-            if not HAS_YAML:
-                self.log("YAML library not available - cannot generate YAML file", "ERROR")
-                return {
-                    "status": "failed",
-                    "file_path": file_path,
-                    "error": "YAML library not available"
-                }
-
-            # Configure YAML dumper to avoid Python object references
-            yaml.add_representer(OrderedDict, lambda dumper, data: dumper.represent_dict(data.items()))
-
-            # Convert OrderedDict to regular dict to avoid Python object serialization
-            def convert_ordereddict(obj):
-                if isinstance(obj, OrderedDict):
-                    return dict(obj)
-                elif isinstance(obj, list):
-                    return [convert_ordereddict(item) for item in obj]
-                elif isinstance(obj, dict):
-                    return {key: convert_ordereddict(value) for key, value in obj.items()}
-                return obj
-
-            clean_data = convert_ordereddict(yaml_data)
-
-            # Generate clean YAML content
-            yaml_content = yaml.dump(
-                clean_data,
-                default_flow_style=False,
-                sort_keys=False,
-                indent=2,
-                allow_unicode=True
-            )
-
-            # Combine header comments with YAML content
-            # Add YAML document separator before config
-            full_content = header_comments + '\n\n---\n' + yaml_content
-
-            # Determine write mode based on file_mode parameter
-            write_mode = 'a' if file_mode == 'append' else 'w'
-            self.log(
-                "Writing YAML file in '{0}' mode (file_mode={1})".format(
-                    write_mode, file_mode
-                ),
-                "DEBUG"
-            )
-
-            # Write to file
-            with open(file_path, write_mode, encoding='utf-8') as file:
-                file.write(full_content)
-
-            self.log(f"Successfully wrote YAML file with comments: {file_path}", "DEBUG")
-            return True
-
-        except Exception as e:
-            self.log(f"Error writing YAML file with comments: {str(e)}", "ERROR")
-            return False
-
     def get_diff_gathered(self, config):
         """
         Orchestrate the gathering of discovery configurations
@@ -1904,10 +1641,6 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             config (dict): A single config entry containing:
-                - generate_all_configurations (bool): Whether
-                to include all discoveries.
-                - file_path (str): Output file path. If not
-                provided, a default timestamped path is used.
                 - global_filters (dict): Filters by discovery
                 name or type.
                 - component_specific_filters (dict): Filters
@@ -1927,16 +1660,17 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Starting discovery playbook generation", "INFO")
 
         config = self.config if isinstance(self.config, dict) else {}
+        auto_discovery_mode = self.params.get("config") is None
 
         # Determine file mode
-        file_mode = config.get('file_mode', 'overwrite')
+        file_mode = self.params.get('file_mode', 'overwrite')
         self.log(
             "File mode set to: {0}".format(file_mode),
             "DEBUG"
         )
 
         # Determine file path
-        file_path = config.get('file_path')
+        file_path = self.params.get('file_path')
 
         if not file_path:
             self.log(
@@ -2006,19 +1740,18 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         global_filters = config.get('global_filters', {})
         component_specific_filters = config.get('component_specific_filters', {})
 
-        # Handle generate_all_configurations flag
-        if config.get('generate_all_configurations', False):
-            global_filters = {}  # No filtering when generating all
-            self.log("Generate all configurations enabled - including all discoveries", "INFO")
+        # Handle internal auto-discovery when config is omitted
+        if auto_discovery_mode:
+            global_filters = {}
+            self.log("Auto-discovery mode enabled - including all discoveries", "INFO")
         else:
-            # Validate that filters are provided when generate_all_configurations is False
-            if not global_filters and not component_specific_filters:
+            # Validate that global_filters are provided when config is provided
+            if not global_filters:
                 self.result["response"] = {
                     "status": "validation_error",
-                    "message": "Component filters are required when 'generate_all_configurations' is set to false. "
-                              "Please provide either 'global_filters' or 'component_specific_filters' to specify which discoveries to include."
+                    "message": "global_filters is required when config is provided."
                 }
-                self.msg = "Validation failed: Component filters required when generate_all_configurations=false"
+                self.msg = "Validation failed: global_filters is required when config is provided."
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
@@ -2059,11 +1792,19 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "config": discovery_details
         }
 
-        # Generate header comments
-        header_comments = self.generate_yaml_header_comments(discoveries_data)
-
-        # Write YAML file with comments
-        success = self.write_yaml_with_comments(yaml_data, file_path, header_comments, file_mode)
+        # Write YAML file using BrownFieldHelper shared header generation.
+        header_notes = [
+            "Configuration Summary:",
+            "- Total Discoveries: {0}".format(len(discoveries_data)),
+            "Compatible with the 'discovery_workflow_manager' module.",
+            "Use this playbook to recreate or manage discovery configurations.",
+        ]
+        success = self.write_dict_to_yaml(
+            yaml_data,
+            file_path,
+            file_mode=file_mode,
+            notes=header_notes,
+        )
 
         if success:
             self.result["response"] = {
@@ -2247,9 +1988,19 @@ def main():
             "type": "bool",
             "default": False
         },
+        "file_path": {
+            "required": False,
+            "type": "str",
+        },
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         # Playbook Configuration Parameters
         "config": {
-            "required": True,
+            "required": False,
             "type": "dict",
         },
         "state": {
@@ -2283,6 +2034,9 @@ def main():
         "INFO"
     )
 
+    config_params = module.params.get("config") or {}
+    config_keys = list(config_params.keys()) if isinstance(config_params, dict) else []
+
     ccc_discovery_playbook_generator.log(
         "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
         "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
@@ -2293,7 +2047,7 @@ def main():
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            list(module.params.get("config", {}).keys())
+            config_keys
         ),
         "DEBUG"
     )
