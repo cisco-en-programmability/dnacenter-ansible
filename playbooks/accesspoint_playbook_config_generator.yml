@@ -21,10 +21,8 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
-        config:
-          file_path: "tmp/accesspoint_workflow_playbook.yml"
-          file_mode: overwrite
-          generate_all_configurations: true
+        file_path: "tmp/accesspoint_workflow_playbook.yml"
+        file_mode: overwrite
 
     # Example 2: Generate access point provision configurations by sites
     - name: Generate access point provision configurations by sites
@@ -41,9 +39,9 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/accesspoint_workflow_playbook_site_base.yml"
+        file_mode: "append"
         config:
-          file_path: "tmp/accesspoint_workflow_playbook_site_base.yml"
-          file_mode: "append"
           global_filters:
             site_list:
               - Global/USA/SAN JOSE/SJ_BLD23/FLOOR1
@@ -65,9 +63,9 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/accesspoint_workflow_playbook_hostname_base.yml"
+        file_mode: "append"
         config:
-          file_path: "tmp/accesspoint_workflow_playbook_hostname_base.yml"
-          file_mode: "append"
           global_filters:
             provision_hostname_list:
               - AP6849.9275.2910
@@ -88,9 +86,9 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/accesspoint_workflow_playbook_apconfig_base.yml"
+        file_mode: overwrite
         config:
-          file_path: "tmp/accesspoint_workflow_playbook_apconfig_base.yml"
-          file_mode: overwrite
           global_filters:
             accesspoint_config_list:
               - AP6849.9275.2910
@@ -111,9 +109,9 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/accesspoint_workflow_playbook_host_provision_base.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "tmp/accesspoint_workflow_playbook_host_provision_base.yml"
-          file_mode: "overwrite"
           global_filters:
             accesspoint_provision_config_list:
               - AP687D.B402.1614-AP-Test6
@@ -134,10 +132,10 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/accesspoint_workflow_playbook_mac_address_base.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "tmp/accesspoint_workflow_playbook_mac_address_base.yml"
-          file_mode: "overwrite"
           global_filters:
             accesspoint_provision_config_mac_list:
-              - a4:88:73:d0:53:60
+              - c8:28:e5:40:96:00
               - 2c:e3:8e:af:d2:e0
