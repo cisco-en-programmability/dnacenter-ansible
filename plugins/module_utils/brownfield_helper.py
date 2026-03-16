@@ -535,6 +535,90 @@ class BrownFieldHelper:
         )
         return True
 
+    def auto_populate_and_validate_components_list(self, component_specific_filters):
+        """
+        Auto-populate components_list from component filters and validate that it's not empty.
+        
+        This method checks if component-specific filters (like 'tag', 'tag_memberships', etc.)
+        are provided without explicitly including them in 'components_list'. If so, those 
+        components are automatically added to 'components_list'. After auto-population,
+        it validates that components_list is not empty.
+        
+        This method modifies component_specific_filters in-place.
+        
+        Args:
+            component_specific_filters (dict): Dictionary containing component-specific filters.
+                Expected to contain 'components_list' and optionally component filter keys.
+                Modified in-place to add missing components to components_list.
+        
+        Returns:
+            None
+            
+        Raises:
+            SystemExit: If components_list is empty after auto-population.
+        
+        Example:
+            Given:
+                component_specific_filters = {
+                    'tag': [{'tag_name': 'Production'}]
+                }
+            After auto-population:
+                component_specific_filters = {
+                    'components_list': ['tag'],
+                    'tag': [{'tag_name': 'Production'}]
+                }
+        """
+        if not component_specific_filters:
+            self.log(
+                "No component_specific_filters provided, skipping auto-population and validation",
+                "DEBUG"
+            )
+            return
+            
+        self.log(
+            "Processing component_specific_filters to auto-populate components_list if needed",
+            "DEBUG"
+        )
+        
+        # Get the current components_list or initialize as empty
+        components_list = component_specific_filters.get("components_list", [])
+        self.log(f"Initial components_list: {components_list}", "DEBUG")
+        
+        # Check for component filters (excluding 'components_list' key)
+        component_filter_keys = [
+            key for key in component_specific_filters.keys() 
+            if key != "components_list"
+        ]
+        self.log(f"Found component filters: {component_filter_keys}", "DEBUG")
+        
+        # Add missing components to components_list
+        for component_key in component_filter_keys:
+            if component_key not in components_list:
+                components_list.append(component_key)
+                self.log(
+                    f"Auto-added component '{component_key}' to components_list because filters were provided for it",
+                    "INFO"
+                )
+        
+        # Update the components_list in the config
+        component_specific_filters["components_list"] = components_list
+        self.log(f"Final components_list after auto-population: {components_list}", "DEBUG")
+        
+        # Validate that components_list is not empty
+        if not components_list:
+            self.msg = (
+                "Validation Error: component_specific_filters is provided but no components "
+                "are specified. Either provide 'components_list' with at least one component, "
+                "or provide filters for specific components."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+        
+        self.log(
+            f"Successfully validated components_list with {len(components_list)} component(s): {components_list}",
+            "INFO"
+        )
+
     def validate_params(self, config):
         """
         Validates the parameters provided for the YAML configuration generator.
