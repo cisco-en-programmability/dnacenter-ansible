@@ -19,7 +19,8 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          - generate_all_configurations: true
+          generate_all_configurations: true
+          file_mode: "overwrite"
 
     - name: Generate YAML Configuration with File Path specified
       cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -34,8 +35,9 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          - generate_all_configurations: true
-            file_path: "host_onboarding_playbook.yml"
+          generate_all_configurations: true
+          file_path: "host_onboarding_playbook.yml"
+          file_mode: "overwrite"
 
     - name: Generate YAML Configuration with specific component port assignments filters
       cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -50,13 +52,14 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          - generate_all_configurations: false
-            file_path: "host_onboarding_playbook.yml"
-            component_specific_filters:
-              components_list: ["port_assignments"]
-              port_assignments:
-                fabric_site_name_hierarchy:
-                  - "Global/Site_India/Karnataka/Bangalore"
+          generate_all_configurations: false
+          file_path: "host_onboarding_playbook.yml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["port_assignments"]
+            port_assignments:
+              fabric_site_name_hierarchy:
+                - "Global/Site_India/Karnataka/Bangalore"
 
     - name: Generate YAML Configuration with specific component port channels filters
       cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -71,13 +74,14 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          - generate_all_configurations: false
-            file_path: "host_onboarding_playbook.yml"
-            component_specific_filters:
-              components_list: ["port_channels"]
-              port_channels:
-                fabric_site_name_hierarchy:
-                  - "Global/Site_India/Karnataka/Bangalore"
+          generate_all_configurations: false
+          file_path: "host_onboarding_playbook.yml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["port_channels"]
+            port_channels:
+              fabric_site_name_hierarchy:
+                - "Global/Site_India/Karnataka/Bangalore"
 
     - name: Generate YAML Configuration with specific component wireless ssids filters
       cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -92,10 +96,11 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          - generate_all_configurations: false
-            file_path: "host_onboarding_playbook.yml"
-            component_specific_filters:
-              components_list: ["wireless_ssids"]
-              wireless_ssids:
-                fabric_site_name_hierarchy:
-                  - "Global/Site_India/Karnataka/Bangalore"
+          generate_all_configurations: false
+          file_path: "host_onboarding_playbook.yml"
+          file_mode: "overwrite"
+          component_specific_filters:
+            components_list: ["wireless_ssids"]
+            wireless_ssids:
+              fabric_site_name_hierarchy:
+                - "Global/Site_India/Karnataka/Bangalore"

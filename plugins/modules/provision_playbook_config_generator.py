@@ -31,47 +31,33 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, a default filename is generated in the current working directory.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - Controls how generated YAML is written when C(file_path) is provided.
+      - C(overwrite) creates or replaces the file.
+      - C(append) appends to an existing file.
+    type: str
+    required: false
+    default: overwrite
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `provision_workflow_manager`
-      module.
-    - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
-    required: true
+    - Configuration dictionary controlling component filters for provisioned device extraction.
+    - When provided, only C(component_specific_filters) is supported.
+    - To generate all configurations, omit C(config).
+    type: dict
+    required: false
     suboptions:
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current working directory with
-            a default file name C(provision_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example, C(provision_playbook_config_2026-01-24_12-33-20.yml).
-        type: str
-      generate_all_configurations:
-        description:
-        - When set to C(true), generates a comprehensive YAML playbook containing all provisioned devices
-          from Cisco Catalyst Center, including both wired and wireless devices.
-        - This option ignores all filter parameters (C(global_filters) and C(component_specific_filters))
-          and retrieves complete configuration for all devices across all sites.
-        - If not provided or set to C(false), filters will be applied to retrieve specific devices.
-        type: bool
-        default: false
-      global_filters:
-        description:
-        - Global filters to apply across all components.
-        type: dict
-        suboptions:
-          management_ip_address:
-            description:
-            - Management IP address to filter devices globally.
-            - Can specify single IP or list of IPs.
-            type: list
-            elements: str
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
           file.
+        - Mandatory when C(config) is provided.
         - If "components_list" is specified, only those components are included,
           regardless of other filters.
         type: dict
@@ -82,7 +68,8 @@ options:
             - Valid values are
               - Wired Devices "wired"
               - Wireless Devices "wireless"
-            - If not specified, all components are included.
+            - Required and non-empty when no component-specific filter block is provided.
+            - If wired/wireless filter blocks are provided, missing component names are auto-added.
             - For example, ["wired", "wireless"].
             type: list
             elements: str
@@ -150,7 +137,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Generate YAML Configuration with File Path specified
+- name: Generate YAML for all provisioned devices (omit config)
   cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -162,10 +149,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - file_path: "/tmp/catc_provision_config.yaml"
+    file_path: "/tmp/catc_all_provisioned_devices.yaml"
 
-- name: Generate YAML Configuration for ALL provisioned devices (ignores all filters)
+- name: Generate YAML with specific wired component
   cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -177,11 +163,12 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_provision_config.yaml"
     config:
-      - file_path: "/tmp/catc_all_provisioned_devices.yaml"
-        generate_all_configurations: true
+      component_specific_filters:
+        components_list: ["wired"]
 
-- name: Generate YAML Configuration with specific wired devices filter
+- name: Generate YAML for wireless devices with site filter
   cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -193,12 +180,15 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_site_wireless_config.yaml"
     config:
-      - file_path: "/tmp/catc_provision_config.yaml"
-        component_specific_filters:
-          components_list: ["wired"]
+      component_specific_filters:
+        components_list: ["wireless"]
+        wireless:
+          - site_name_hierarchy:
+              - "Global/USA/San Francisco/BGL_18"
 
-- name: Generate YAML Configuration for devices with IP address filter (global)
+- name: Generate YAML in append mode
   cisco.dnac.provision_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -210,104 +200,11 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_provision_config.yaml"
+    file_mode: append
     config:
-      - file_path: "/tmp/catc_provision_config.yaml"
-        global_filters:
-          management_ip_address:
-            - "204.192.3.40"
-            - "204.192.12.201"
-
-- name: Generate YAML Configuration for wired devices with multiple site filters
-  cisco.dnac.provision_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_provision_config.yaml"
-        component_specific_filters:
-          components_list: ["wired"]
-          wired:
-            - site_name_hierarchy:
-                - "Global/USA/San Francisco/BGL_18"
-                - "Global/USA/San Jose/SJ_BLD20"
-
-- name: Generate YAML Configuration for all wired devices
-  cisco.dnac.provision_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_provision_config.yaml"
-        component_specific_filters:
-          components_list: ["wired"]
-
-- name: Generate YAML Configuration for wireless devices only
-  cisco.dnac.provision_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_wireless_config.yaml"
-        component_specific_filters:
-          components_list: ["wireless"]
-
-- name: Generate YAML Configuration for both wired and wireless devices
-  cisco.dnac.provision_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_all_devices_config.yaml"
-        component_specific_filters:
-          components_list: ["wired", "wireless"]
-
-- name: Generate YAML Configuration for wireless devices with specific site filter
-  cisco.dnac.provision_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/catc_site_wireless_config.yaml"
-        component_specific_filters:
-          components_list: ["wireless"]
-          wireless:
-            - site_name_hierarchy:
-                - "Global/USA/San Francisco/BGL_18"
+      component_specific_filters:
+        components_list: ["wired", "wireless"]
 """
 
 RETURN = r"""
@@ -411,6 +308,103 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return site_id_name_mapping
 
+    def write_dict_to_yaml(self, data_dict, file_path, dumper=OrderedDumper, file_mode="overwrite"):
+        """
+        Converts a dictionary to YAML format and writes it to a specified file path.
+        Overrides BrownFieldHelper.write_dict_to_yaml to add file_mode support.
+
+        Args:
+            data_dict (dict): The dictionary to convert to YAML format.
+            file_path (str): The path where the YAML file will be written.
+            dumper: The YAML dumper class to use for serialization.
+            file_mode (str): 'overwrite' replaces file, 'append' adds to existing file.
+
+        Returns:
+            bool: True if the YAML file was successfully written, False otherwise.
+        """
+        self.log(
+            "Starting to write dictionary to YAML file at: {0} (mode: {1})".format(
+                file_path, file_mode
+            ),
+            "DEBUG",
+        )
+        try:
+            self.log("Starting conversion of dictionary to YAML format.", "INFO")
+            yaml_content = yaml.dump(
+                data_dict,
+                Dumper=dumper,
+                default_flow_style=False,
+                indent=2,
+                allow_unicode=True,
+                sort_keys=False,
+            )
+            yaml_content = "---\n" + yaml_content
+            self.log("Dictionary successfully converted to YAML format.", "DEBUG")
+
+            self.ensure_directory_exists(file_path)
+
+            write_mode = "a" if file_mode == "append" else "w"
+            self.log(
+                "Preparing to write YAML content to file: {0} (write_mode: {1})".format(
+                    file_path, write_mode
+                ),
+                "INFO",
+            )
+            with open(file_path, write_mode) as yaml_file:
+                yaml_file.write(yaml_content)
+
+            self.log(
+                "Successfully written YAML content to {0}.".format(file_path), "INFO"
+            )
+            return True
+
+        except Exception as e:
+            self.msg = "An error occurred while writing to {0}: {1}".format(
+                file_path, str(e)
+            )
+            self.fail_and_exit(self.msg)
+
+    def validate_config_dict(self, config_dict, temp_spec):
+        """
+        Validates a single configuration dictionary against the provided specification.
+
+        Wraps the dictionary into a list and delegates to validate_list_of_dicts,
+        then returns the validated dictionary with defaults applied.
+
+        Args:
+            config_dict (dict): A single configuration dictionary to validate.
+            temp_spec (dict): The specification dictionary defining expected parameters,
+                types, defaults, and requirements.
+
+        Returns:
+            dict: The validated configuration dictionary with defaults filled in.
+        """
+        self.log(
+            "Validating config dictionary with list-based validator: {0}".format(
+                config_dict
+            ),
+            "DEBUG",
+        )
+
+        validated_list, invalid_params = validate_list_of_dicts(
+            [config_dict], temp_spec
+        )
+
+        if invalid_params:
+            self.msg = "Invalid parameters in playbook config: {0}".format(
+                invalid_params
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        valid_config = validated_list[0]
+        self.log(
+            "Completed config dictionary validation. Validated config: {0}".format(
+                valid_config
+            ),
+            "DEBUG",
+        )
+        return valid_config
+
     def validate_input(self):
         """
         Validates the input configuration parameters for the playbook.
@@ -421,98 +415,250 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.validated_config: If successful, a validated version of the "config" parameter.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
-
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
-            return self
-
-        # Expected schema for configuration parameters
-        temp_spec = {
-            "file_path": {"type": "str", "required": False},
-            "generate_all_configurations": {"type": "bool", "required": False},
-            "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
-        }
-        allowed_keys = set(temp_spec.keys())
-
-        # Validate that only allowed keys are present in the configuration
-        for config_item in self.config:
-            if not isinstance(config_item, dict):
-                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
-                    )
+        config = self.config
+        config_provided = config is not None
+        if config is None:
+            self.log(
+                "config is not provided. Defaulting to generate all provisioned devices.",
+                "INFO"
+            )
+            config = {}
+        elif not isinstance(config, dict):
+            self.msg = (
+                "config must be a dictionary when provided. Got: {0}.".format(
+                    type(config).__name__
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        self.validate_minimum_requirements(valid_temp)
+        if config_provided and config == {}:
+            self.msg = (
+                "'component_specific_filters' is mandatory when 'config' is provided as an empty dictionary."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        # Validate component_specific_filters nested parameters
-        allowed_filter_keys = ["management_ip_address", "site_name_hierarchy", "device_family"]
-        for config_item in self.config:
-            component_filters = config_item.get("component_specific_filters", {})
+        allowed_config_keys = {"component_specific_filters"}
+        invalid_config_keys = set(config.keys()) - allowed_config_keys
+        if invalid_config_keys:
+            if "file_path" in invalid_config_keys or "file_mode" in invalid_config_keys:
+                self.msg = (
+                    "file_path and file_mode must be provided as top-level module "
+                    "parameters, not under config."
+                )
+            else:
+                self.msg = (
+                    "Invalid keys found in 'config': {0}. Allowed keys are: {1}.".format(
+                        sorted(list(invalid_config_keys)),
+                        sorted(list(allowed_config_keys))
+                    )
+                )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-            # Validate wired filter parameters
-            if "wired" in component_filters:
-                wired_filters = component_filters["wired"]
-                if isinstance(wired_filters, list):
-                    for filter_item in wired_filters:
-                        if isinstance(filter_item, dict):
-                            invalid_filter_keys = set(filter_item.keys()) - set(allowed_filter_keys)
-                            if invalid_filter_keys:
-                                self.msg = (
-                                    "Invalid filter parameters found in 'wired' filters: {0}. "
-                                    "Only the following filter parameters are allowed: {1}. "
-                                    "Please correct the parameter names and try again.".format(
-                                        list(invalid_filter_keys), allowed_filter_keys
-                                    )
-                                )
-                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        valid_config = {}
+        file_path = self.params.get("file_path")
+        file_mode = self.params.get("file_mode", "overwrite")
 
-            # Validate wireless filter parameters
-            if "wireless" in component_filters:
-                wireless_filters = component_filters["wireless"]
-                if isinstance(wireless_filters, list):
-                    for filter_item in wireless_filters:
-                        if isinstance(filter_item, dict):
-                            invalid_filter_keys = set(filter_item.keys()) - set(allowed_filter_keys)
-                            if invalid_filter_keys:
-                                self.msg = (
-                                    "Invalid filter parameters found in 'wireless' filters: {0}. "
-                                    "Only the following filter parameters are allowed: {1}. "
-                                    "Please correct the parameter names and try again.".format(
-                                        list(invalid_filter_keys), allowed_filter_keys
-                                    )
-                                )
-                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        valid_file_modes = ["overwrite", "append"]
+        if file_path and file_mode not in valid_file_modes:
+            self.msg = (
+                "Invalid value for 'file_mode': '{0}'. Valid choices are: {1}".format(
+                    file_mode, valid_file_modes
+                )
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        # Set the validated configuration and update the result with success status
-        self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
-        )
+        if not file_path and file_mode != "overwrite":
+            self.log(
+                "file_mode='{0}' is ignored because file_path is not provided.".format(file_mode),
+                "WARNING"
+            )
+
+        component_filters = config.get("component_specific_filters")
+        if config_provided and component_filters is None:
+            self.msg = "'component_specific_filters' is mandatory when 'config' is provided."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        allowed_component_filter_keys = {"components_list", "wired", "wireless"}
+        allowed_component_choices = {"wired", "wireless"}
+
+        normalized_component_filters = None
+        if component_filters is not None:
+            if not isinstance(component_filters, dict):
+                self.msg = (
+                    "'component_specific_filters' must be a dictionary, got: {0}.".format(
+                        type(component_filters).__name__
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            normalized_component_filters = dict(component_filters)
+            invalid_filter_keys = set(normalized_component_filters.keys()) - allowed_component_filter_keys
+            if invalid_filter_keys:
+                self.msg = (
+                    "Invalid keys found in 'component_specific_filters': {0}. Allowed keys are: {1}.".format(
+                        sorted(list(invalid_filter_keys)),
+                        sorted(list(allowed_component_filter_keys))
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            components_list = normalized_component_filters.get("components_list")
+            normalized_components_list = []
+            if components_list is not None:
+                if not isinstance(components_list, list):
+                    self.msg = (
+                        "'components_list' must be a list, got: {0}.".format(
+                            type(components_list).__name__
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                invalid_components = set(components_list) - allowed_component_choices
+                if invalid_components:
+                    self.msg = (
+                        "Invalid component names found in 'components_list': {0}. "
+                        "Allowed values are: {1}.".format(
+                            sorted(list(invalid_components)),
+                            sorted(list(allowed_component_choices))
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                normalized_components_list = list(components_list)
+
+            allowed_filter_keys = ["management_ip_address", "site_name_hierarchy", "device_family"]
+            valid_wired_families = ["Switches and Hubs", "Routers"]
+            valid_wireless_families = ["Wireless Controller"]
+            component_blocks = []
+
+            def is_valid_ipv4(ip):
+                """Return True if ip is a valid IPv4 address."""
+                parts = str(ip).split(".")
+                if len(parts) != 4:
+                    return False
+                for part in parts:
+                    if not part.isdigit():
+                        return False
+                    if not 0 <= int(part) <= 255:
+                        return False
+                return True
+
+            if "wired" in normalized_component_filters:
+                wired_filters = normalized_component_filters["wired"]
+                if not isinstance(wired_filters, list):
+                    self.msg = "'wired' filters must be a list of dictionaries."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                for filter_item in wired_filters:
+                    if not isinstance(filter_item, dict):
+                        self.msg = "'wired' filters must contain dictionaries only."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+                    invalid_keys = set(filter_item.keys()) - set(allowed_filter_keys)
+                    if invalid_keys:
+                        self.msg = (
+                            "Invalid filter parameters found in 'wired' filters: {0}. "
+                            "Allowed filter parameters are: {1}.".format(
+                                sorted(list(invalid_keys)), allowed_filter_keys
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+                    device_family = filter_item.get("device_family")
+                    if device_family is not None and device_family not in valid_wired_families:
+                        self.msg = (
+                            "Invalid 'device_family' value '{0}' in wired filters. "
+                            "Valid choices are: {1}.".format(device_family, valid_wired_families)
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+                    mgmt_ip = filter_item.get("management_ip_address")
+                    if mgmt_ip is not None and not is_valid_ipv4(mgmt_ip):
+                        self.msg = (
+                            "Invalid IPv4 address '{0}' in wired filters.management_ip_address. "
+                            "Must be a valid IPv4 address (e.g. '192.168.1.1').".format(mgmt_ip)
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+                component_blocks.append("wired")
+
+            if "wireless" in normalized_component_filters:
+                wireless_filters = normalized_component_filters["wireless"]
+                if not isinstance(wireless_filters, list):
+                    self.msg = "'wireless' filters must be a list of dictionaries."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                for filter_item in wireless_filters:
+                    if not isinstance(filter_item, dict):
+                        self.msg = "'wireless' filters must contain dictionaries only."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    invalid_keys = set(filter_item.keys()) - set(allowed_filter_keys)
+                    if invalid_keys:
+                        self.msg = (
+                            "Invalid filter parameters found in 'wireless' filters: {0}. "
+                            "Allowed filter parameters are: {1}.".format(
+                                sorted(list(invalid_keys)), allowed_filter_keys
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    device_family = filter_item.get("device_family")
+                    if device_family is not None and device_family not in valid_wireless_families:
+                        self.msg = (
+                            "Invalid 'device_family' value '{0}' in wireless filters. "
+                            "Valid choices are: {1}.".format(device_family, valid_wireless_families)
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    mgmt_ip = filter_item.get("management_ip_address")
+                    if mgmt_ip is not None and not is_valid_ipv4(mgmt_ip):
+                        self.msg = (
+                            "Invalid IPv4 address '{0}' in wireless filters.management_ip_address. "
+                            "Must be a valid IPv4 address (e.g. '192.168.1.1').".format(mgmt_ip)
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                component_blocks.append("wireless")
+
+            if component_blocks:
+                self.log("Component-specific filter blocks found for: {0}".format(component_blocks), "DEBUG")
+                for idx, component_name in enumerate(component_blocks):
+                    if component_name not in normalized_components_list:
+                        normalized_components_list.append(component_name)
+                        self.log("Added component at index {0}: {1}".format(idx, component_name), "DEBUG")
+                normalized_component_filters["components_list"] = normalized_components_list
+            elif not normalized_components_list:
+                self.msg = (
+                    "'components_list' must be provided with at least one component "
+                    "when no component-specific filter block is defined."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+            else:
+                normalized_component_filters["components_list"] = normalized_components_list
+
+            valid_config["component_specific_filters"] = normalized_component_filters
+
+        if file_path:
+            valid_config["file_path"] = file_path
+            valid_config["file_mode"] = file_mode
+
+        self.validated_config = valid_config
+        self.msg = "Successfully validated playbook configuration parameters."
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
@@ -524,14 +670,14 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
             "network_elements": {
                 "wired": {
                     "filters": ["management_ip_address", "site_name_hierarchy", "device_family"],
-                    "temp_spec_function": self.wired_devices_temp_spec,
+                    "reverse_mapping_function": self.wired_devices_temp_spec,
                     "api_function": "get_provisioned_devices",
                     "api_family": "sda",
                     "get_function_name": self.get_wired_devices,
                 },
                 "wireless": {
                     "filters": ["management_ip_address", "site_name_hierarchy", "device_family"],
-                    "temp_spec_function": self.wireless_devices_temp_spec,
+                    "reverse_mapping_function": self.wireless_devices_temp_spec,
                     "api_function": "get_provisioned_devices",
                     "api_family": "sda",
                     "get_function_name": self.get_wireless_devices,
@@ -670,7 +816,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Found {0} wireless devices".format(len(wireless_devices)), "INFO")
 
         # Check if generate_all_configurations is enabled
-        generate_all = self.config[0].get("generate_all_configurations", False) if self.config else False
+        generate_all = self.config.get("generate_all_configurations", False) if self.config else False
 
         # Apply component-specific filters only if generate_all_configurations is not enabled
         if not generate_all and component_specific_filters:
@@ -1823,16 +1969,29 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("File path determined: {0}".format(file_path), "DEBUG")
 
-        # Get global and component-specific filters
-        global_filters = yaml_config_generator.get("global_filters") or {}
-        component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+        # When generate_all_configurations is True, ignore all filters and retrieve everything
+        generate_all = yaml_config_generator.get("generate_all_configurations", False)
+        if generate_all:
+            self.log(
+                "generate_all_configurations is True - ignoring all global_filters and "
+                "component_specific_filters, retrieving all provisioned devices.",
+                "INFO"
+            )
+            global_filters = {}
+            component_specific_filters = {}
+        else:
+            # Get global and component-specific filters
+            global_filters = yaml_config_generator.get("global_filters") or {}
+            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
 
         self.log("Global filters: {0}".format(global_filters), "DEBUG")
         self.log("Component-specific filters: {0}".format(component_specific_filters), "DEBUG")
 
         # Retrieve the supported network elements for the module
         module_supported_network_elements = self.module_schema.get("network_elements", {})
-        components_list = component_specific_filters.get("components_list", module_supported_network_elements.keys())
+        # Use `or` so that an empty list ([]) also falls back to all supported components,
+        # treating empty filters the same as generate_all_configurations = True.
+        components_list = component_specific_filters.get("components_list") or list(module_supported_network_elements.keys())
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         # Collect all devices
@@ -1892,8 +2051,12 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         final_dict = {"config": all_devices}
         self.log("Final dictionary created with {0} devices".format(len(all_devices)), "DEBUG")
 
+        # Determine file_mode from config
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        self.log("File mode for YAML output: {0}".format(file_mode), "DEBUG")
+
         # WRITE TO THE CORRECT FILE PATH
-        if self.write_dict_to_yaml(final_dict, file_path):
+        if self.write_dict_to_yaml(final_dict, file_path, file_mode=file_mode):
             self.msg = {
                 "YAML config generation Task succeeded for module '{0}'.".format(self.module_name):
                 {"file_path": file_path, "devices_count": len(all_devices)}
@@ -2048,7 +2211,9 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {"type": "str", "required": False, "default": "overwrite"},
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -2090,25 +2255,10 @@ def main():
     ccc_provision_playbook_generator.validate_input().check_return_status()
     config = ccc_provision_playbook_generator.validated_config
 
-    # FIXED: Preserve file_path when adding default components_list
-    if len(config) == 1:
-        current_config = config[0]
-
-        # If component_specific_filters is missing, add default
-        if current_config.get("component_specific_filters") is None:
-            current_config['component_specific_filters'] = {
-                'components_list': ["wired", "wireless"]
-            }
-            ccc_provision_playbook_generator.validated_config = [current_config]
-            ccc_provision_playbook_generator.msg = (
-                "No 'component_specific_filters' found. Adding default components: ['wired', 'wireless']"
-            )
-
-    # Iterate over the validated configuration parameters
-    for config in ccc_provision_playbook_generator.validated_config:
-        ccc_provision_playbook_generator.reset_values()
-        ccc_provision_playbook_generator.get_want(config, state).check_return_status()
-        ccc_provision_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    # Process the validated configuration (single dict, not list)
+    ccc_provision_playbook_generator.reset_values()
+    ccc_provision_playbook_generator.get_want(config, state).check_return_status()
+    ccc_provision_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_provision_playbook_generator.result)
 
