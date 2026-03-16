@@ -596,11 +596,13 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.msg = "'wireless' filters must be a list of dictionaries."
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
                 for filter_item in wireless_filters:
                     if not isinstance(filter_item, dict):
                         self.msg = "'wireless' filters must contain dictionaries only."
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
+
                     invalid_keys = set(filter_item.keys()) - set(allowed_filter_keys)
                     if invalid_keys:
                         self.msg = (
@@ -611,6 +613,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
+
                     device_family = filter_item.get("device_family")
                     if device_family is not None and device_family not in valid_wireless_families:
                         self.msg = (
@@ -619,6 +622,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
+
                     mgmt_ip = filter_item.get("management_ip_address")
                     if mgmt_ip is not None and not is_valid_ipv4(mgmt_ip):
                         self.msg = (
@@ -627,12 +631,15 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
+
                 component_blocks.append("wireless")
 
             if component_blocks:
-                for component_name in component_blocks:
+                self.log("Component-specific filter blocks found for: {0}".format(component_blocks), "DEBUG")
+                for idx, component_name in enumerate(component_blocks):
                     if component_name not in normalized_components_list:
                         normalized_components_list.append(component_name)
+                        self.log("Added component at index {0}: {1}".format(idx, component_name), "DEBUG")
                 normalized_component_filters["components_list"] = normalized_components_list
             elif not normalized_components_list:
                 self.msg = (
