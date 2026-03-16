@@ -50,7 +50,6 @@ options:
   config:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the `template_workflow_manager` module.
-    - Filters specify which components to include in the YAML configuration file.
     - If config is not provided or empty, all configurations for all projects and templates will be generated.
     - This is useful for complete brownfield infrastructure discovery and documentation.
     - IMPORTANT NOTE - When config is not provided or empty, it will only retrieve committed templates.
@@ -370,11 +369,11 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components.",
         "response":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components."
     }
 """
 
@@ -1158,11 +1157,6 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
-
-        # If components_list is empty, default to all supported components
-        if not components_list:
-            self.log("No components specified; processing all supported components.", "DEBUG")
-            components_list = list(module_supported_network_elements.keys())
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
