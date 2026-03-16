@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: diagnostic_validation_workflows_count_info
-short_description: Information module for Diagnostic
-  Validation Workflows Count
+short_description: Information module for Diagnostic Validation Workflows Count
 description:
   - Get all Diagnostic Validation Workflows Count.
-  - Retrieves the count of workflows that have been
-    successfully submitted and are currently available.
+  - Retrieves the count of workflows that have been successfully submitted and are currently available.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,35 +21,26 @@ options:
     type: dict
   startTime:
     description:
-      - StartTime query parameter. Workflows started
-        after the given time (as milliseconds since
-        UNIX epoch).
+      - StartTime query parameter. Workflows started after the given time (as milliseconds since UNIX epoch).
     type: float
   endTime:
     description:
-      - EndTime query parameter. Workflows started before
-        the given time (as milliseconds since UNIX epoch).
+      - EndTime query parameter. Workflows started before the given time (as milliseconds since UNIX epoch).
     type: float
   runStatus:
     description:
       - >
-        RunStatus query parameter. Execution status
-        of the workflow. If the workflow is successfully
-        submitted, runStatus is `PENDING`. If the workflow
-        execution has started, runStatus is `IN_PROGRESS`.
-        If the workflow executed is completed with all
-        validations executed, runStatus is `COMPLETED`.
-        If the workflow execution fails while running
-        validations, runStatus is `FAILED`.
+        RunStatus query parameter. Execution status of the workflow. If the workflow is successfully submitted,
+        runStatus is `PENDING`. If the workflow execution has started, runStatus is `IN_PROGRESS`. If the
+        workflow executed is completed with all validations executed, runStatus is `COMPLETED`. If the workflow
+        execution fails while running validations, runStatus is `FAILED`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Health
-      and Performance RetrievesTheCountOfValidationWorkflows
-    description: Complete reference of the RetrievesTheCountOfValidationWorkflows
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance RetrievesTheCountOfValidationWorkflows
+    description: Complete reference of the RetrievesTheCountOfValidationWorkflows API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-validation-workflows
 notes:
   - SDK Method used are
@@ -84,9 +73,21 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "count": 0
-      },
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "description": "string",
+          "runStatus": "string",
+          "submitTime": 0,
+          "startTime": 0,
+          "endTime": 0,
+          "validationStatus": "string",
+          "validationSetIds": [
+            "string"
+          ]
+        }
+      ],
       "version": "string"
     }
 """

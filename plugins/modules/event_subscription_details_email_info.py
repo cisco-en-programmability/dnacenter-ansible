@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_details_email_info
-short_description: Information module for Event Subscription
-  Details Email
+short_description: Information module for Event Subscription Details Email
 description:
   - Get all Event Subscription Details Email.
-  - Gets the list of subscription details for specified
-    connectorType.
+  - Gets the list of subscription details for specified connectorType.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,21 +25,17 @@ options:
     type: str
   instanceId:
     description:
-      - InstanceId query parameter. Instance Id of the
-        specific configuration.
+      - InstanceId query parameter. Instance Id of the specific configuration.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The number of Email
-        Subscription detail's to offset in the resultset
-        whose default value 0.
+        Offset query parameter. The number of Email Subscription detail's to offset in the resultset whose
+        default value 0.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of Email Subscription
-        detail's to limit in the resultset whose default
-        value 10.
+      - Limit query parameter. The number of Email Subscription detail's to limit in the resultset whose default value 10.
     type: int
   sortBy:
     description:
@@ -52,13 +46,11 @@ options:
       - Order query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetEmailSubscriptionDetails
-    description: Complete reference of the GetEmailSubscriptionDetails
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetEmailSubscriptionDetails
+    description: Complete reference of the GetEmailSubscriptionDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-email-subscription-details
 notes:
   - SDK Method used are

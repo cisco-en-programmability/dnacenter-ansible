@@ -7,64 +7,46 @@
 DOCUMENTATION = r"""
 ---
 module: images_id_sites_site_id_tag_golden
-short_description: Resource module for Images Id Sites
-  Site Id Tag Golden
+short_description: Resource module for Images Id Sites Site Id Tag Golden
 description:
-  - Manage operation create of the resource Images Id
-    Sites Site Id Tag Golden. - > Creates golden image
-    tagging specifically for a particular device type
-    or supervisor engine module. Conditions for tagging
-    the golden image.
+  - Manage operation create of the resource Images Id Sites Site Id Tag Golden.
+  - Creates golden image tagging specifically for a particular device type or supervisor engine module.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   deviceRoles:
-    description: Device Roles. Available value will
-      be CORE, DISTRIBUTION, UNKNOWN, ACCESS, BORDER
-      ROUTER.
+    description: Device Roles. Available value will be CORE, DISTRIBUTION, UNKNOWN, ACCESS, BORDER ROUTER.
     elements: str
     type: list
   deviceTags:
-    description: Device tags can be fetched fom API
-      https //developer.cisco.com/docs/dna-center/#!get-tag.
+    description: Device tags can be fetched fom API https //developer.cisco.com/docs/dna-center/#!get-tag.
     elements: str
     type: list
   id:
-    description: Id path parameter. Software image identifier
-      is used for golden tagging or intent to tag it.
-      The value of `id` can be obtained from the response
-      of the API `/dna/intent/api/v1/images?imported=true&isAddonImages=false`
-      for the base image and `/dna/images/{id}/addonImages`
-      where `id` will be the software image identifier
-      of the base image.
+    description: Id path parameter. Software image identifier is used for golden tagging or intent to tag it. The value of
+      `id` can be obtained from the response of the API `/dna/intent/api/v1/images?imported=true&isAddonImages=false` for
+      the base image and `/dna/images/{id}/addonImages` where `id` will be the software image identifier of the base image.
     type: str
   productNameOrdinal:
-    description: The product name ordinal is a unique
-      value for each network device product. `productNameOrdinal`
-      can be obtained from the response of API `/dna/intent/api/v1/siteWiseProductNam...
+    description: The product name ordinal is a unique value for each network device product. `productNameOrdinal` can be obtained
+      from the response of API `/dna/intent/api/v1/siteWiseProductNam...
     type: float
   siteId:
-    description: SiteId path parameter. Site identifier
-      for tagged image or intent to tag it. The default
-      value is global site id. See https //developer.cisco.com/docs/dna-center(#!get-site)
-      for `siteId`.
+    description: SiteId path parameter. Site identifier for tagged image or intent to tag it. The default value is global
+      site id. See https //developer.cisco.com/docs/dna-center(#!get-site) for `siteId`.
     type: str
   supervisorProductNameOrdinal:
-    description: The supervisor engine module ordinal
-      is a unique value for each supervisor module.
-      `supervisorProductNameOrdinal` can be obtained
-      from the response of API `/dna/intent/api/v1/siteWiseProductNames?siteId=<siteId>`.
+    description: The supervisor engine module ordinal is a unique value for each supervisor module. `supervisorProductNameOrdinal`
+      can be obtained from the response of API `/dna/intent/api/v1/siteWiseProductNames?siteId=<siteId>`.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) TaggingGoldenImage
-    description: Complete reference of the TaggingGoldenImage
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TaggingGoldenImage
+    description: Complete reference of the TaggingGoldenImage API.
     link: https://developer.cisco.com/docs/dna-center/#!tagging-golden-image
 notes:
   - SDK Method used are

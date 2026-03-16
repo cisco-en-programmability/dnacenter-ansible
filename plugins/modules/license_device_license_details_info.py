@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: license_device_license_details_info
-short_description: Information module for License Device
-  License Details
+short_description: Information module for License Device License Details
 description:
   - Get all License Device License Details.
   - Get detailed license information of a device.
@@ -25,13 +24,11 @@ options:
       - Device_uuid path parameter. Id of device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      DeviceLicenseDetails
-    description: Complete reference of the DeviceLicenseDetails
-      API.
+  - name: Cisco DNA Center documentation for Licenses DeviceLicenseDetails
+    description: Complete reference of the DeviceLicenseDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!device-license-details
 notes:
   - SDK Method used are

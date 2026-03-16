@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: site_wise_product_names_info
-short_description: Information module for Site Wise
-  Product Names
+short_description: Information module for Site Wise Product Names
 description:
-  - Get all Site Wise Product Names. - > Provides network
-    device product names for a site. The default value
-    of `siteId` is global. The response will include
-    the network device count and image summary.
+  - Get all Site Wise Product Names. - > Provides network device product names for a site. The default value of `siteId` is
+    global. The response will include the network device count and image summary.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,42 +22,33 @@ options:
   siteId:
     description:
       - >
-        SiteId query parameter. Site identifier to get
-        the list of all available products under the
-        site. The default value is the global site.
-        See https //developer.cisco.com/docs/dna-center/get-site
-        for siteId.
+        SiteId query parameter. Site identifier to get the list of all available products under the site. The
+        default value is the global site. See https //developer.cisco.com/docs/dna-center/get-site for siteId.
     type: str
   productName:
     description:
       - >
-        ProductName query parameter. Filter with network
-        device product name. Supports partial case-insensitive
-        search. A minimum of 3 characters are required
-        for search.
+        ProductName query parameter. Filter with network device product name. Supports partial case-insensitive
+        search. A minimum of 3 characters are required for search.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. The minimum value is 1.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. The
+        minimum value is 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. The minimum and maximum
-        values are 1 and 500, respectively.
-    type: float
+        Limit query parameter. The number of records to show for this page. The minimum and maximum values are 1
+        and 500, respectively.
+    type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) ReturnsNetworkDeviceProductNamesForASite
-    description: Complete reference of the ReturnsNetworkDeviceProductNamesForASite
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsNetworkDeviceProductNamesForASite
+    description: Complete reference of the ReturnsNetworkDeviceProductNamesForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!returns-network-device-product-names-for-a-site
 notes:
   - SDK Method used are
@@ -94,19 +82,21 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "id": "string",
-        "productNameOrdinal": 0,
-        "productName": "string",
-        "supervisorProductName": "string",
-        "supervisorProductNameOrdinal": 0,
-        "networkDeviceCount": 0,
-        "imageSummary": {
-          "installedImageCount": 0,
-          "goldenImageCount": 0,
-          "installedImageAdvisorCount": 0
+      "response": [
+        {
+          "id": "string",
+          "productNameOrdinal": 0,
+          "productName": "string",
+          "supervisorProductName": "string",
+          "supervisorProductNameOrdinal": 0,
+          "networkDeviceCount": 0,
+          "imageSummary": {
+            "installedImageCount": 0,
+            "goldenImageCount": 0,
+            "installedImageAdvisorCount": 0
+          }
         }
-      },
+      ],
       "version": "string"
     }
 """

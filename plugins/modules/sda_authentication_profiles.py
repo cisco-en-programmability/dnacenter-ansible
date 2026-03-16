@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_authentication_profiles
-short_description: Resource module for Sda Authentication
-  Profiles
+short_description: Resource module for Sda Authentication Profiles
 description:
-  - Manage operation update of the resource Sda Authentication
-    Profiles.
-  - Updates an authentication profile based on user
-    input.
+  - Manage operation update of the resource Sda Authentication Profiles.
+  - Updates an authentication profile based on user input.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,28 +24,21 @@ options:
         description: First authentication method.
         type: str
       authenticationProfileName:
-        description: The default host authentication
-          template (updating this field is not allowed).
+        description: The default host authentication template (updating this field is not allowed).
         type: str
       dot1xToMabFallbackTimeout:
         description: 802.1x Timeout.
         type: int
       fabricId:
-        description: ID of the fabric this authentication
-          profile is assigned to (updating this field
-          is not allowed). To update a global authentication
-          profile, either remove this property or set
-          its value to null.
+        description: ID of the fabric this authentication profile is assigned to (updating this field is not allowed). To
+          update a global authentication profile, either remove this property or set its value to null.
         type: str
       id:
-        description: ID of the authentication profile
-          (updating this field is not allowed).
+        description: ID of the authentication profile (updating this field is not allowed).
         type: str
       isBpduGuardEnabled:
-        description: Enable/disable BPDU Guard. Only
-          applicable when authenticationProfileName
-          is set to "Closed Authentication" (defaults
-          to true).
+        description: Enable/disable BPDU Guard. Only applicable when authenticationProfileName is set to "Closed Authentication"
+          (defaults to true).
         type: bool
       isVoiceVlanEnabled:
         description: Enable/disable Voice Vlan.
@@ -60,36 +50,28 @@ options:
         description: Sda Authentication Profiles's preAuthAcl.
         suboptions:
           accessContracts:
-            description: Sda Authentication Profiles's
-              accessContracts.
+            description: Sda Authentication Profiles's accessContracts.
             elements: dict
             suboptions:
               action:
                 description: Contract behaviour.
                 type: str
               port:
-                description: Port for the access contract.
-                  The port can only be used once in
-                  the Access Contract list.
+                description: Port for the access contract. The port can only be used once in the Access Contract list.
                 type: str
               protocol:
-                description: Protocol for the access
-                  contract. "TCP" and "TCP_UDP" are
-                  only allowed when the contract port
+                description: Protocol for the access contract. "TCP" and "TCP_UDP" are only allowed when the contract port
                   is "domain".
                 type: str
             type: list
           description:
-            description: Description of this Pre-Authentication
-              ACL.
+            description: Description of this Pre-Authentication ACL.
             type: str
           enabled:
-            description: Enable/disable Pre-Authentication
-              ACL.
+            description: Enable/disable Pre-Authentication ACL.
             type: bool
           implicitAction:
-            description: Implicit behaviour unless overridden
-              (defaults to "DENY").
+            description: Implicit behaviour unless overridden (defaults to "DENY").
             type: str
         type: dict
       wakeOnLan:
@@ -97,12 +79,11 @@ options:
         type: bool
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA UpdateAuthenticationProfile
-    description: Complete reference of the UpdateAuthenticationProfile
-      API.
+    description: Complete reference of the UpdateAuthenticationProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-authentication-profile
 notes:
   - SDK Method used are

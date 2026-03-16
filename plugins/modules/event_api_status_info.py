@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: event_api_status_info
-short_description: Information module for Event Api
-  Status
+short_description: Information module for Event Api Status
 description:
   - Get Event Api Status by id.
-  - Get the Status of events API calls with provided
-    executionId as mandatory path parameter.
+  - Get the Status of events API calls with provided executionId as mandatory path parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - ExecutionId path parameter. Execution ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetStatusAPIForEvents
-    description: Complete reference of the GetStatusAPIForEvents
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetStatusAPIForEvents
+    description: Complete reference of the GetStatusAPIForEvents API.
     link: https://developer.cisco.com/docs/dna-center/#!get-status-api-for-events
 notes:
   - SDK Method used are

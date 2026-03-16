@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_site_info
-short_description: Information module for Sda Fabric
-  Site
+short_description: Information module for Sda Fabric Site
 description:
   - Get all Sda Fabric Site.
   - Get Site info from SDA Fabric.
@@ -22,16 +21,14 @@ options:
     type: dict
   siteNameHierarchy:
     description:
-      - SiteNameHierarchy query parameter. Site Name
-        Hierarchy.
+      - SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetSiteFromSDAFabric
-    description: Complete reference of the GetSiteFromSDAFabric
-      API.
+    description: Complete reference of the GetSiteFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-from-sda-fabric
 notes:
   - SDK Method used are

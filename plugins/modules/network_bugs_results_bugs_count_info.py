@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_bugs_count_info
-short_description: Information module for Network Bugs
-  Results Bugs Count
+short_description: Information module for Network Bugs Results Bugs Count
 description:
   - Get all Network Bugs Results Bugs Count.
   - Get count of network bugs.
@@ -26,23 +25,18 @@ options:
     type: str
   deviceCount:
     description:
-      - DeviceCount query parameter. Return network
-        bugs with deviceCount greater than this deviceCount.
+      - DeviceCount query parameter. Return network bugs with deviceCount greater than this deviceCount.
     type: float
   severity:
     description:
-      - Severity query parameter. Return network bugs
-        with this severity. Available values CATASTROPHIC,
-        SEVERE, MODERATE.
+      - Severity query parameter. Return network bugs with this severity. Available values CATASTROPHIC, SEVERE, MODERATE.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfNetworkBugs
-    description: Complete reference of the GetCountOfNetworkBugs
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfNetworkBugs
+    description: Complete reference of the GetCountOfNetworkBugs API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bugs
 notes:
   - SDK Method used are

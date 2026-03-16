@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: application_sets_count_info
-short_description: Information module for Application
-  Sets Count
+short_description: Information module for Application Sets Count
 description:
   - Get all Application Sets Count.
   - Get the number of existing application-sets.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplicationSetsCount
-    description: Complete reference of the GetApplicationSetsCount
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationSetsCount
+    description: Complete reference of the GetApplicationSetsCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-count
 notes:
   - SDK Method used are

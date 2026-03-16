@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_export_template
-short_description: Resource module for Configuration
-  Template Export Template
+short_description: Resource module for Configuration Template Export Template
 description:
-  - Manage operation create of the resource Configuration
-    Template Export Template.
+  - Manage operation create of the resource Configuration Template Export Template.
   - Exports the templates for given templateIds.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -19,18 +17,15 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Configuration Template Export Template's
-      payload.
+    description: Configuration Template Export Template's payload.
     elements: dict
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates ExportsTheTemplatesForAGivenCriteria
-    description: Complete reference of the ExportsTheTemplatesForAGivenCriteria
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates ExportsTheTemplatesForAGivenCriteria
+    description: Complete reference of the ExportsTheTemplatesForAGivenCriteria API.
     link: https://developer.cisco.com/docs/dna-center/#!exports-the-templates-for-a-given-criteria
 notes:
   - SDK Method used are

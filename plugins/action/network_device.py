@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -54,7 +53,7 @@ argument_spec.update(
         snmpPrivPassphrase=dict(type="str"),
         snmpPrivProtocol=dict(type="str"),
         snmpROCommunity=dict(type="str"),
-        snmpRwCommunity=dict(type="str"),
+        snmpRWCommunity=dict(type="str"),
         snmpRetry=dict(type="int"),
         snmpTimeout=dict(type="int"),
         snmpUserName=dict(type="str"),
@@ -99,7 +98,7 @@ class NetworkDevice(object):
             snmpPrivPassphrase=params.get("snmpPrivPassphrase"),
             snmpPrivProtocol=params.get("snmpPrivProtocol"),
             snmpROCommunity=params.get("snmpROCommunity"),
-            snmpRwCommunity=params.get("snmpRwCommunity"),
+            snmpRWCommunity=params.get("snmpRWCommunity"),
             snmpRetry=params.get("snmpRetry"),
             snmpTimeout=params.get("snmpTimeout"),
             snmpUserName=params.get("snmpUserName"),
@@ -219,7 +218,7 @@ class NetworkDevice(object):
         )
         new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
         new_object_params["snmpROCommunity"] = self.new_object.get("snmpROCommunity")
-        new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
+        new_object_params["snmpRWCommunity"] = self.new_object.get("snmpRWCommunity")
         new_object_params["snmpRetry"] = self.new_object.get("snmpRetry")
         new_object_params["snmpTimeout"] = self.new_object.get("snmpTimeout")
         new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
@@ -261,7 +260,7 @@ class NetworkDevice(object):
         )
         new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
         new_object_params["snmpROCommunity"] = self.new_object.get("snmpROCommunity")
-        new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
+        new_object_params["snmpRWCommunity"] = self.new_object.get("snmpRWCommunity")
         new_object_params["snmpRetry"] = self.new_object.get("snmpRetry")
         new_object_params["snmpTimeout"] = self.new_object.get("snmpTimeout")
         new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
@@ -353,7 +352,7 @@ class NetworkDevice(object):
             ("snmpPrivPassphrase", "snmpPrivPassphrase"),
             ("snmpPrivProtocol", "snmpPrivProtocol"),
             ("snmpROCommunity", "snmpROCommunity"),
-            ("snmpRwCommunity", "snmpRwCommunity"),
+            ("snmpRWCommunity", "snmpRWCommunity"),
             ("snmpRetry", "snmpRetry"),
             ("snmpTimeout", "snmpTimeout"),
             ("snmpUserName", "snmpUserName"),
@@ -460,7 +459,7 @@ class ActionModule(ActionBase):
         response = None
 
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -473,7 +472,7 @@ class ActionModule(ActionBase):
                 dnac.object_created()
 
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

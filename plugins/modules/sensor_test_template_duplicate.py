@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sensor_test_template_duplicate
-short_description: Resource module for Sensor Test Template
-  Duplicate
+short_description: Resource module for Sensor Test Template Duplicate
 description:
-  - Manage operation update of the resource Sensor Test
-    Template Duplicate.
-  - Intent API to duplicate an existing SENSOR test
-    template.
+  - Manage operation update of the resource Sensor Test Template Duplicate.
+  - Intent API to duplicate an existing SENSOR test template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,13 +23,11 @@ options:
     description: Source test template name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      DuplicateSensorTestTemplate
-    description: Complete reference of the DuplicateSensorTestTemplate
-      API.
+  - name: Cisco DNA Center documentation for Sensors DuplicateSensorTestTemplate
+    description: Complete reference of the DuplicateSensorTestTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!duplicate-sensor-test-template
 notes:
   - SDK Method used are
@@ -158,7 +153,7 @@ dnac_response:
                     "endPort": 0,
                     "udpBandwidth": 0,
                     "probeType": "string",
-                    "numPackets": 0,
+                    "numPackets": "string",
                     "pathToDownload": "string",
                     "transferType": "string",
                     "sharedSecret": "string",
@@ -231,7 +226,7 @@ dnac_response:
                     "endPort": 0,
                     "udpBandwidth": 0,
                     "probeType": "string",
-                    "numPackets": 0,
+                    "numPackets": "string",
                     "pathToDownload": "string",
                     "transferType": "string",
                     "sharedSecret": "string",

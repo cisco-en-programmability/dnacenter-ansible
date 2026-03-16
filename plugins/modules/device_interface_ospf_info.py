@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: device_interface_ospf_info
-short_description: Information module for Device Interface
-  Ospf
+short_description: Information module for Device Interface Ospf
 description:
   - Get all Device Interface Ospf.
   - Returns the interfaces that has OSPF enabled.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetOSPFInterfaces
-    description: Complete reference of the GetOSPFInterfaces
-      API.
+  - name: Cisco DNA Center documentation for Devices GetOSPFInterfaces
+    description: Complete reference of the GetOSPFInterfaces API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ospf-interfaces
 notes:
   - SDK Method used are

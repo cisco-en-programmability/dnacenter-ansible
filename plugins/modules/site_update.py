@@ -10,9 +10,8 @@ module: site_update
 short_description: Resource module for Site Update
 description:
   - Manage operation update of the resource Site Update.
-  - Update site area/building/floor with specified hierarchy
-    and new values.
-version_added: '3.1.0'
+  - Update site area/building/floor with specified hierarchy and new values.
+version_added: '6.46.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -27,87 +26,72 @@ options:
         description: Site Update's area.
         suboptions:
           name:
-            description: Area name.
+            description: Name of the area (eg Area1).
             type: str
           parentName:
-            description: Parent hierarchical name (Example
-              Global/USA/CA).
+            description: Parent hierarchical name (Example Global/USA/CA).
             type: str
         type: dict
       building:
         description: Site Update's building.
         suboptions:
           address:
-            description: Building address (Example 4900
-              Marie P. Debartolo Way, Santa Clara, California
-              95054, United States).
+            description: Address of the building to be created.
             type: str
           country:
-            description: Country name. This field is
-              mandatory for air-gapped networks (Example
-              United States).
+            description: Country (eg United States).
             type: str
           latitude:
-            description: Building latitude (Example
-              37.403712).
+            description: Latitude coordinate of the building (eg 37.338).
             type: float
           longitude:
-            description: Building longitude (Example
-              -121.971063).
+            description: Longitude coordinate of the building (eg -121.832).
             type: float
           name:
-            description: Building name.
+            description: Name of the building (eg building1).
             type: str
           parentName:
-            description: Parent hierarchical name (Example
-              Global/USA/CA/SantaClara).
+            description: Parent hierarchical name (Example Global/USA/CA/SantaClara).
             type: str
         type: dict
       floor:
         description: Site Update's floor.
         suboptions:
           floorNumber:
-            description: Floor Number (Example 3).
+            description: Floor number. (eg 5).
             type: float
           height:
-            description: Floor height in feet (Example
-              10).
+            description: Height of the floor. Unit of measure is ft. (eg 15).
             type: float
           length:
-            description: Floor length in feet (Example
-              100).
+            description: Length of the floor. Unit of measure is ft. (eg 100).
             type: float
           name:
-            description: Floor name.
+            description: Name of the floor (eg floor-1).
             type: str
           parentName:
-            description: Parent hierarchical name (Example
-              Global/USA/CA/SantaClara/Academic).
+            description: Parent hierarchical name (Example Global/USA/CA/SantaClara/Academic).
             type: str
           rfModel:
-            description: RF model (Example Cubes And
-              Walled Offices).
+            description: Type of floor (eg Cubes And Walled Offices0.
             type: str
           width:
-            description: Floor width in feet (Example
-              200).
+            description: Width of the floor. Unit of measure is ft. (eg 100).
             type: float
         type: dict
     type: dict
   siteId:
-    description: SiteId path parameter. Site id to which
-      site details to be updated.
+    description: SiteId path parameter. Site id to which site details to be updated.
     type: str
   type:
     description: Site type.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites UpdateSite
-    description: Complete reference of the UpdateSite
-      API.
+    description: Complete reference of the UpdateSite API.
     link: https://developer.cisco.com/docs/dna-center/#!update-site
 notes:
   - SDK Method used are

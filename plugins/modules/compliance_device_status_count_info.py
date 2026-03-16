@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: compliance_device_status_count_info
-short_description: Information module for Compliance
-  Device Status Count
+short_description: Information module for Compliance Device Status Count
 description:
   - Get all Compliance Device Status Count.
   - Return Compliance Status Count.
@@ -23,20 +22,15 @@ options:
   complianceStatus:
     description:
       - >
-        ComplianceStatus query parameter. Specify "Compliance
-        status(es)" separated by commas. The Compliance
-        status can be 'COMPLIANT', 'NON_COMPLIANT',
-        'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE',
-        'ERROR'.
+        ComplianceStatus query parameter. Specify "Compliance status(es)" separated by commas. The Compliance
+        status can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetComplianceStatusCount
-    description: Complete reference of the GetComplianceStatusCount
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetComplianceStatusCount
+    description: Complete reference of the GetComplianceStatusCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status-count
 notes:
   - SDK Method used are

@@ -33863,5 +33863,55 @@
     "id": "019a3888-0d37-7585-9b41-4af1a8797dec"
   },
   "version": "1.0"
-}
+},
+
+"playbook_80211be_add": [
+                {
+                    "802_11_be_profiles": [
+                        {
+                            "mu_mimo_down_link": false,
+                            "mu_mimo_up_link": false,
+                            "ofdma_down_link": true,
+                            "ofdma_multi_ru": false,
+                            "ofdma_up_link": true,
+                            "profile_name": "sample_design"
+                        }
+                    ]
+                }
+            ],
+"802_11_BE_PROFILES_get": {"response": [{"id": "34e7b147-5d32-33d3-a041-6cf61faaeca0", "profileName": "test_802.11be", "muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true, "ofdmaMultiRu": true, "default": true}, {"id": "c69f975a-5a16-39c9-9b85-643ac0a06cdb", "profileName": "Ans NP WL BE 1", "muMimoDownLink": false, "muMimoUpLink": false, "ofdmaDownLink": true, "ofdmaUpLink": true, "ofdmaMultiRu": false, "default": true}], "version": "1.0"} 
+,"802_11_BE_PROFILES_create": {"response": {"taskId": "019b4543-bfb9-722b-a5a0-a10a5ab78f53", "url": "/api/v1/task/019b4543-bfb9-722b-a5a0-a10a5ab78f53"}, "version": "1.0"} 
+,"task_019b4543-bfb9-722b-a5a0-a10a5ab78f53": {"response": {"endTime": 1763035101234, "status": "SUCCESS", "startTime": 1763035101229, "resultLocation": "/dna/intent/api/v1/tasks/019b4543-bfb9-722b-a5a0-a10a5ab78f53/detail", "id": "019b4543-bfb9-722b-a5a0-a10a5ab78f53"}, "version": "1.0"}
+,
+"playbook_80211be_update": [
+                {
+                    "802_11_be_profiles": [
+                        {
+                            "mu_mimo_down_link": false,
+                            "mu_mimo_up_link": false,
+                            "ofdma_down_link": true,
+                            "ofdma_multi_ru": false,
+                            "ofdma_up_link": false,
+                            "profile_name": "sample_design"
+                        }
+                    ]
+                }
+            ],
+"802_11_BE_PROFILES_get_update": {"response": [{"id": "34e7b147-5d32-33d3-a041-6cf61faaeca0", "profileName": "test_802.11be", "muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true, "ofdmaMultiRu": true, "default": true}, {"id": "c69f975a-5a16-39c9-9b85-643ac0a06cdb", "profileName": "Ans NP WL BE 1", "muMimoDownLink": false, "muMimoUpLink": false, "ofdmaDownLink": true, "ofdmaUpLink": true, "ofdmaMultiRu": false, "default": true}, {"id": "34f1d2e4-1c5e-3f4b-9f4e-2f45e8b6c123", "profileName": "sample_design", "muMimoDownLink": false, "muMimoUpLink": false, "ofdmaDownLink": true, "ofdmaUpLink": true, "ofdmaMultiRu": false, "default": false}], "version": "1.0"} 
+,"802_11_BE_PROFILES_update_get": {"response": {"id": "34f1d2e4-1c5e-3f4b-9f4e-2f45e8b6c123", "profileName": "sample_design", "muMimoDownLink": false, "muMimoUpLink": false, "ofdmaDownLink": true, "ofdmaUpLink": true, "ofdmaMultiRu": false, "default": false}, "version":  "1.0"},
+"802_11_BE_PROFILES_update": {"response": {"taskId": "019b46a2-3f4e-7c5d-8a1e-1234567890ab", "url": "/api/v1/task/019b46a2-3f4e-7c5d-8a1e-1234567890ab"}, "version": "1.0"} 
+,"task_019b46a2-3f4e-7c5d-8a1e-1234567890ab": {"response": {"endTime": 1763036123456, "status": "SUCCESS", "startTime": 1763036123450, "resultLocation": "/dna/intent/api/v1/tasks/019b46a2-3f4e-7c5d-8a1e-1234567890ab/detail", "id": "019b46a2-3f4e-7c5d-8a1e-1234567890ab"}, "version": "1.0"},
+
+"playbook_80211be_delete": [
+                {
+                    "802_11_be_profiles": [
+                        {
+                            "profile_name": "sample_design"
+                        }
+                    ]
+                }
+            ]
+,"802_11_BE_PROFILES_get_delete": {"response": [{"id": "5ba7d872-6a79-329e-839e-cb253dc70b60", "profileName": "sample_design", "muMimoDownLink": false, "muMimoUpLink": false, "ofdmaDownLink": true, "ofdmaUpLink": false, "ofdmaMultiRu": false, "default": true}, {"id": "34e7b147-5d32-33d3-a041-6cf61faaeca0", "profileName": "test_802.11be", "muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true, "ofdmaMultiRu": true, "default": true}, {"id": "c69f975a-5a16-39c9-9b85-643ac0a06cdb", "profileName": "Ans NP WL BE 1", "muMimoDownLink": false, "muMimoUpLink": false, "ofdmaDownLink": true, "ofdmaUpLink": true, "ofdmaMultiRu": false, "default": true}], "version": "1.0"},
+"802_11_BE_PROFILES_delete": {"response": {"taskId": "019b454e-aae5-7d65-9316-ac49ff056b3f", "url": "/api/v1/task/019b454e-aae5-7d65-9316-ac49ff056b3f"}, "version": "1.0"},
+"task_019b454e-aae5-7d65-9316-ac49ff056b3f": {"response": {"endTime": 1763037123456, "status": "SUCCESS", "startTime": 1763037123452, "resultLocation": "/dna/intent/api/v1/tasks/019b454e-aae5-7d65-9316-ac49ff056b3f/detail", "id": "019b454e-aae5-7d65-9316-ac49ff056b3f"}, "version": "1.0"}
         }

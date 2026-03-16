@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: planned_access_points_info
-short_description: Information module for Planned Access
-  Points
+short_description: Information module for Planned Access Points
 description:
   - Get all Planned Access Points.
-  - Provides a list of Planned Access Points for the
-    Floor it is requested for.
+  - Provides a list of Planned Access Points for the Floor it is requested for.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,37 +21,28 @@ options:
     type: dict
   floorId:
     description:
-      - FloorId path parameter. The instance UUID of
-        the floor hierarchy element.
+      - FloorId path parameter. The instance UUID of the floor hierarchy element.
     type: str
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page;The minimum is 1, and
-        the maximum is 500.
-    type: float
+      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: int
   offset:
     description:
       - >
-        Offset query parameter. The page offset for
-        the response. E.g. If limit=100, offset=0 will
-        return first 100 records, offset=1 will return
-        next 100 records, etc.
-    type: float
+        Offset query parameter. The page offset for the response. E.g. If limit=100, offset=0 will return first
+        100 records, offset=1 will return next 100 records, etc.
+    type: int
   radios:
     description:
-      - Radios query parameter. Whether to include the
-        planned radio details of the planned access
-        points.
+      - Radios query parameter. Whether to include the planned radio details of the planned access points.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetPlannedAccessPointsForFloor
-    description: Complete reference of the GetPlannedAccessPointsForFloor
-      API.
+  - name: Cisco DNA Center documentation for Devices GetPlannedAccessPointsForFloor
+    description: Complete reference of the GetPlannedAccessPointsForFloor API.
     link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-floor
 notes:
   - SDK Method used are
@@ -90,15 +79,15 @@ dnac_response:
       "response": [
         {
           "attributes": {
-            "id": 0,
-            "instanceUuid": "string",
-            "name": "string",
-            "typeString": "string",
+            "createDate": 0,
             "domain": "string",
             "heirarchyName": "string",
+            "id": 0,
+            "instanceUuid": "string",
+            "macAddress": "string",
+            "name": "string",
             "source": "string",
-            "createDate": 0,
-            "macAddress": "string"
+            "typeString": "string"
           },
           "location": {
             "altitude": 0,
@@ -113,24 +102,24 @@ dnac_response:
           "radioCount": 0,
           "radios": [
             {
-              "attributes": {
-                "id": 0,
-                "instanceUuid": "string",
-                "slotId": 0,
-                "ifTypeString": "string",
-                "ifTypeSubband": "string",
-                "channel": 0,
-                "channelString": "string",
-                "ifMode": "string",
-                "txPowerLevel": 0
-              },
               "antenna": {
-                "name": "string",
-                "type": "string",
-                "mode": "string",
                 "azimuthAngle": 0,
                 "elevationAngle": 0,
-                "gain": 0
+                "gain": 0,
+                "mode": "string",
+                "name": "string",
+                "type": "string"
+              },
+              "attributes": {
+                "channel": 0,
+                "channelString": "string",
+                "id": 0,
+                "ifMode": "string",
+                "ifTypeString": "string",
+                "ifTypeSubband": "string",
+                "instanceUuid": "string",
+                "slotId": 0,
+                "txPowerLevel": 0
               },
               "isSensor": true
             }

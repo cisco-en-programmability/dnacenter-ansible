@@ -24,13 +24,11 @@ options:
       - PolicyScope query parameter. Policy scope name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplicationPolicy
-    description: Complete reference of the GetApplicationPolicy
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicy
+    description: Complete reference of the GetApplicationPolicy API.
     link: https://developer.cisco.com/docs/dna-center/#!get-application-policy
 notes:
   - SDK Method used are
@@ -80,14 +78,14 @@ dnac_response:
           "qualifier": "string",
           "resourceVersion": 0,
           "targetIdList": [
-            {}
+            "string"
           ],
           "type": "string",
           "cfsChangeInfo": [
-            {}
+            "string"
           ],
           "customProvisions": [
-            {}
+            "string"
           ],
           "deletePolicyStatus": "string",
           "internal": true,
@@ -119,13 +117,13 @@ dnac_response:
                   "string"
                 ],
                 "ssid": [
-                  {}
+                  "string"
                 ]
               }
             ]
           },
           "contractList": [
-            {}
+            "string"
           ],
           "exclusiveContract": {
             "id": "string",

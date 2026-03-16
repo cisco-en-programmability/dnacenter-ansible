@@ -5,4 +5,7 @@ exclude_paths:
   - playbooks/image_details.yml
   - playbooks/input_events_and_notification.yml
   - playbooks/sda_fabric.yml
+  - playbooks/vars/
+  - playbooks/test.yml
+  - playbooks/test_*.yml
   - tests

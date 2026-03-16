@@ -11,11 +11,8 @@ short_description: Information module for Network Device
 description:
   - Get all Network Device.
   - Get Network Device by id.
-  - Returns list of network devices based on filter
-    criteria such as management IP address, mac address,
-    hostname, etc.
-  - Returns the network device details for the given
-    device ID.
+  - Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
+  - Returns the network device details for the given device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -177,10 +174,8 @@ options:
   id:
     description:
       - >
-        Id query parameter. Accepts comma separated
-        ids and return list of network-devices for the
-        given ids. If invalid or not-found ids are provided,
-        null entry will be returned in the list.
+        Id query parameter. Accepts comma separated ids and return list of network-devices for the given ids. If
+        invalid or not-found ids are provided, null entry will be returned in the list.
     type: str
   deviceSupportLevel:
     description:
@@ -188,27 +183,21 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. Offset >= 1 X gives
-        results from Xth device onwards.
+      - Offset query parameter. Offset >= 1 X gives results from Xth device onwards.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceByID
-    description: Complete reference of the GetDeviceByID
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceByID
+    description: Complete reference of the GetDeviceByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceList
-    description: Complete reference of the GetDeviceList
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceList
+    description: Complete reference of the GetDeviceList API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-list
 notes:
   - SDK Method used are

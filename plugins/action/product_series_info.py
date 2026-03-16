@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -30,8 +29,9 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(
     dict(
         name=dict(type="str"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
+        productSeriesOrdinal=dict(type="float"),
         headers=dict(type="dict"),
     )
 )
@@ -76,6 +76,7 @@ class ActionModule(ActionBase):
             name=params.get("name"),
             offset=params.get("offset"),
             limit=params.get("limit"),
+            product_series_ordinal=params.get("productSeriesOrdinal"),
             headers=params.get("headers"),
         )
         return new_object
@@ -90,11 +91,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="software_image_management_swim",
-            function="retrieves_the_list_of_network_device_product_series",
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("productSeriesOrdinal")
+        if id:
+            response = dnac.exec(
+                family="software_image_management_swim",
+                function="retrieve_network_device_product_series",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="software_image_management_swim",
+                function="retrieves_the_list_of_network_device_product_series",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result

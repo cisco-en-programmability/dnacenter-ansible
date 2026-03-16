@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: license_virtual_account_details_info
-short_description: Information module for License Virtual
-  Account Details
+short_description: Information module for License Virtual Account Details
 description:
   - Get all License Virtual Account Details.
   - Get virtual account details of a smart account.
@@ -22,17 +21,14 @@ options:
     type: dict
   smart_account_id:
     description:
-      - Smart_account_id path parameter. Id of smart
-        account.
+      - Smart_account_id path parameter. Id of smart account.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      VirtualAccountDetails
-    description: Complete reference of the VirtualAccountDetails
-      API.
+  - name: Cisco DNA Center documentation for Licenses VirtualAccountDetails
+    description: Complete reference of the VirtualAccountDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!virtual-account-details
 notes:
   - SDK Method used are

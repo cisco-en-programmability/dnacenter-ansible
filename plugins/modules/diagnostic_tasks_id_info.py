@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: diagnostic_tasks_id_info
-short_description: Information module for Diagnostic
-  Tasks Id
+short_description: Information module for Diagnostic Tasks Id
 description:
   - Get Diagnostic Tasks Id by id.
-  - This API retrieves the diagnostic task identified
-    by the specified `id`.
+  - This API retrieves the diagnostic task identified by the specified `id`.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,17 +21,14 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The `id` of the diagnostic
-        task to be retrieved.
+      - Id path parameter. The `id` of the diagnostic task to be retrieved.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Health
-      and Performance RetrievesDiagnosticTaskByID
-    description: Complete reference of the RetrievesDiagnosticTaskByID
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance RetrievesDiagnosticTaskByID
+    description: Complete reference of the RetrievesDiagnosticTaskByID API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-diagnostic-task-by-id
 notes:
   - SDK Method used are

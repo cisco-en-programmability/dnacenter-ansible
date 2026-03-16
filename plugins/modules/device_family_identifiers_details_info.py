@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: device_family_identifiers_details_info
-short_description: Information module for Device Family
-  Identifiers Details
+short_description: Information module for Device Family Identifiers Details
 description:
   - Get all Device Family Identifiers Details.
-  - API to get Device Family Identifiers for all Device
-    Families that can be used for tagging an image golden.
+  - API to get Device Family Identifiers for all Device Families that can be used for tagging an image golden.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) GetDeviceFamilyIdentifiers
-    description: Complete reference of the GetDeviceFamilyIdentifiers
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetDeviceFamilyIdentifiers
+    description: Complete reference of the GetDeviceFamilyIdentifiers API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-family-identifiers
 notes:
   - SDK Method used are

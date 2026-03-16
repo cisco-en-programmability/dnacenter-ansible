@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_control_plane_device_info
-short_description: Information module for Sda Fabric
-  Control Plane Device
+short_description: Information module for Sda Fabric Control Plane Device
 description:
   - Get all Sda Fabric Control Plane Device.
   - Get control plane device from SDA Fabric.
@@ -26,12 +25,11 @@ options:
       - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetControlPlaneDeviceFromSDAFabric
-    description: Complete reference of the GetControlPlaneDeviceFromSDAFabric
-      API.
+    description: Complete reference of the GetControlPlaneDeviceFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-control-plane-device-from-sda-fabric
 notes:
   - SDK Method used are

@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_resync_interval_settings_id_info
-short_description: Information module for Network Devices
-  Resync Interval Settings Id
+short_description: Information module for Network Devices Resync Interval Settings Id
 description:
-  - Get all Network Devices Resync Interval Settings
-    Id.
-  - Fetch the reysnc interval for the given network
-    device id.
+  - Get all Network Devices Resync Interval Settings Id.
+  - Fetch the reysnc interval for the given network device id.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,13 +24,11 @@ options:
       - Id path parameter. The id of the network device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetResyncIntervalForTheNetworkDevice
-    description: Complete reference of the GetResyncIntervalForTheNetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices GetResyncIntervalForTheNetworkDevice
+    description: Complete reference of the GetResyncIntervalForTheNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-resync-interval-for-the-network-device
 notes:
   - SDK Method used are
@@ -44,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Devices Resync Interval Settings
-    Id
+- name: Get all Network Devices Resync Interval Settings Id
   cisco.dnac.network_devices_resync_interval_settings_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

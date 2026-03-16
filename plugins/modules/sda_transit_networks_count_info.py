@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_transit_networks_count_info
-short_description: Information module for Sda Transit
-  Networks Count
+short_description: Information module for Sda Transit Networks Count
 description:
   - Get all Sda Transit Networks Count.
-  - Returns the count of transit networks that match
-    the provided query parameters.
+  - Returns the count of transit networks that match the provided query parameters.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,17 +22,15 @@ options:
   type:
     description:
       - >
-        Type query parameter. Type of the transit network.
-        Allowed values are IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT,
-        SDA_LISP_BGP_TRANSIT.
+        Type query parameter. Type of the transit network. Allowed values are IP_BASED_TRANSIT,
+        SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetTransitNetworksCount
-    description: Complete reference of the GetTransitNetworksCount
-      API.
+    description: Complete reference of the GetTransitNetworksCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-transit-networks-count
 notes:
   - SDK Method used are

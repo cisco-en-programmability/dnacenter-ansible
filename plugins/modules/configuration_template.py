@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template
-short_description: Resource module for Configuration
-  Template
+short_description: Resource module for Configuration Template
 description:
-  - Manage operations update and delete of the resource
-    Configuration Template.
+  - Manage operations update and delete of the resource Configuration Template.
   - Deletes the template by its id.
   - API to update a template.
 version_added: '3.1.0'
@@ -138,11 +136,10 @@ options:
                 description: UUID of selection.
                 type: str
               selectionType:
-                description: Type of selection(SINGLE_SELECT
-                  or MULTI_SELECT).
+                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                 type: str
               selectionValues:
-                description: Selection values.
+                description: Configuration Template's selectionValues.
                 type: dict
             type: dict
         type: list
@@ -237,11 +234,10 @@ options:
                 description: UUID of selection.
                 type: str
               selectionType:
-                description: Type of selection(SINGLE_SELECT
-                  or MULTI_SELECT).
+                description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                 type: str
               selectionValues:
-                description: Selection values.
+                description: Configuration Template's selectionValues.
                 type: dict
             type: dict
         type: list
@@ -273,8 +269,7 @@ options:
         type: str
     type: list
   failurePolicy:
-    description: Define failure policy if template provisioning
-      fails.
+    description: Define failure policy if template provisioning fails.
     type: str
   id:
     description: UUID of template.
@@ -380,11 +375,10 @@ options:
             description: UUID of selection.
             type: str
           selectionType:
-            description: Type of selection(SINGLE_SELECT
-              or MULTI_SELECT).
+            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
             type: str
           selectionValues:
-            description: Selection values.
+            description: Configuration Template's selectionValues.
             type: dict
         type: dict
     type: list
@@ -412,8 +406,7 @@ options:
     description: Template content.
     type: str
   templateId:
-    description: TemplateId path parameter. TemplateId(UUID)
-      of template to be deleted.
+    description: TemplateId path parameter. TemplateId(UUID) of template to be deleted.
     type: str
   templateParams:
     description: Configuration Template's templateParams.
@@ -492,11 +485,10 @@ options:
             description: UUID of selection.
             type: str
           selectionType:
-            description: Type of selection(SINGLE_SELECT
-              or MULTI_SELECT).
+            description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
             type: str
           selectionValues:
-            description: Selection values.
+            description: Configuration Template's selectionValues.
             type: dict
         type: dict
     type: list
@@ -504,12 +496,10 @@ options:
     description: Configuration Template's validationErrors.
     suboptions:
       rollbackTemplateErrors:
-        description: Validation or design conflicts
-          errors of rollback template.
+        description: Validation or design conflicts errors of rollback template.
         type: dict
       templateErrors:
-        description: Validation or design conflicts
-          errors.
+        description: Validation or design conflicts errors.
         type: dict
       templateId:
         description: UUID of template.
@@ -522,32 +512,27 @@ options:
     description: Current version of template.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates DeletesTheTemplate
-    description: Complete reference of the DeletesTheTemplate
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates DeletesTheTemplate
+    description: Complete reference of the DeletesTheTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-the-template
-  - name: Cisco DNA Center documentation for Configuration
-      Templates UpdateTemplate
-    description: Complete reference of the UpdateTemplate
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates UpdateTemplate
+    description: Complete reference of the UpdateTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!update-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.deletes_the_template,
     configuration_templates.ConfigurationTemplates.update_template,
   - Paths used are
-    post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
     delete /dna/intent/api/v1/template-programmer/template/{templateId},
     put /dna/intent/api/v1/template-programmer/template,
 """
 
 EXAMPLES = r"""
 ---
-- name: Create or Update
+- name: Update all
   cisco.dnac.configuration_template:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -7,15 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: assurance_tasks_count_info
-short_description: Information module for Assurance
-  Tasks Count
+short_description: Information module for Assurance Tasks Count
 description:
-  - Get all Assurance Tasks Count. - > returns a count
-    of the number of assurance tasks that are not expired
-    For detailed information about the usage of the
-    API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceTasks-1.0.0-resolved.yaml.
+  - Get all Assurance Tasks Count.
+  - returns a count of the number of assurance tasks that are not expired.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,16 +21,14 @@ options:
     type: dict
   status:
     description:
-      - Status query parameter. Used to get a subset
-        of tasks by their status.
+      - Status query parameter. Used to get a subset of tasks by their status.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task RetrieveACountOfTheNumberOfAssuranceTasksThatCurrentlyExist
-    description: Complete reference of the RetrieveACountOfTheNumberOfAssuranceTasksThatCurrentlyExist
-      API.
+    description: Complete reference of the RetrieveACountOfTheNumberOfAssuranceTasksThatCurrentlyExist API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-count-of-the-number-of-assurance-tasks-that-currently-exist
 notes:
   - SDK Method used are

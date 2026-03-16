@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_config_count_info
-short_description: Information module for Network Device
-  Config Count
+short_description: Information module for Network Device Config Count
 description:
   - Get all Network Device Config Count.
   - Returns the count of device configs.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceConfigCount
-    description: Complete reference of the GetDeviceConfigCount
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceConfigCount
+    description: Complete reference of the GetDeviceConfigCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-config-count
 notes:
   - SDK Method used are

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: product_names_count_info
-short_description: Information module for Product Names
-  Count
+short_description: Information module for Product Names Count
 description:
   - Get all Product Names Count.
   - Count of product names based on filter criteria.
@@ -23,24 +22,19 @@ options:
   productName:
     description:
       - >
-        ProductName query parameter. Filter with network
-        device product name. Supports partial case-insensitive
-        search. A minimum of 3 characters are required
-        for search.
+        ProductName query parameter. Filter with network device product name. Supports partial case-insensitive
+        search. A minimum of 3 characters are required for search.
     type: str
   productId:
     description:
-      - ProductId query parameter. Filter with product
-        ID (PID).
+      - ProductId query parameter. Filter with product ID (PID).
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) CountOfNetworkProductNames
-    description: Complete reference of the CountOfNetworkProductNames
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkProductNames
+    description: Complete reference of the CountOfNetworkProductNames API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-network-product-names
 notes:
   - SDK Method used are
@@ -73,7 +67,8 @@ dnac_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "taskId": "string",
+        "url": "string"
       },
       "version": "string"
     }

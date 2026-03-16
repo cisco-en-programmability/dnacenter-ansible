@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: pnp_global_settings
 short_description: Resource module for Pnp Global Settings
 description:
-  - Manage operation update of the resource Pnp Global
-    Settings.
+  - Manage operation update of the resource Pnp Global Settings.
   - Updates the user's list of global PnP settings.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -90,13 +89,11 @@ options:
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) UpdatePnPGlobalSettings
-    description: Complete reference of the UpdatePnPGlobalSettings
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPGlobalSettings
+    description: Complete reference of the UpdatePnPGlobalSettings API.
     link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-global-settings
 notes:
   - SDK Method used are

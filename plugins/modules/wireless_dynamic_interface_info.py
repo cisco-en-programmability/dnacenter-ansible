@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_dynamic_interface_info
-short_description: Information module for Wireless Dynamic
-  Interface
+short_description: Information module for Wireless Dynamic Interface
 description:
   - Get all Wireless Dynamic Interface.
   - Get one or all dynamic interfaces.
@@ -23,18 +22,15 @@ options:
   interface_name:
     description:
       - >
-        Interface-name query parameter. Dynamic-interface
-        name, if not specified all the existing dynamic
+        Interface-name query parameter. Dynamic-interface name, if not specified all the existing dynamic
         interfaces will be retrieved.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetDynamicInterface
-    description: Complete reference of the GetDynamicInterface
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetDynamicInterface
+    description: Complete reference of the GetDynamicInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!get-dynamic-interface
 notes:
   - SDK Method used are

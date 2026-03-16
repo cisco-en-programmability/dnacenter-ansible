@@ -19,34 +19,23 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  invokeSource:
-    description:
-      - >
-        InvokeSource query parameter. The source that
-        invokes this API. The value of this query parameter
-        must be set to "external".
-    type: str
   authSource:
     description:
       - >
-        AuthSource query parameter. The source that
-        authenticates the user. The value of this query
-        parameter can be set to "internal" or "external".
-        If not provided, then all users will be returned
-        in the response.
+        AuthSource query parameter. The source that authenticates the user. The value of this query parameter
+        can be set to "internal" or "external". If not provided, then all users will be returned in the
+        response.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and
-      Roles GetUsersAPI
-    description: Complete reference of the GetUsersAPI
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-users-api
+  - name: Cisco DNA Center documentation for User and Roles GetUsers
+    description: Complete reference of the GetUsers API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-users
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.get_users_api,
+    userand_roles.UserandRoles.get_users,
   - Paths used are
     get /dna/system/api/v1/user,
 """
@@ -63,7 +52,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    invokeSource: string
     authSource: string
   register: result
 """
@@ -85,7 +73,10 @@ dnac_response:
           ],
           "userId": "string",
           "email": "string",
-          "username": "string"
+          "username": "string",
+          "rds": [
+            "string"
+          ]
         }
       ]
     }
