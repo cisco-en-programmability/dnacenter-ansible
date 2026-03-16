@@ -7,13 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_assign_access_point_positions
-short_description: Resource module for Floors Floor
-  Id Planned Access Point Positions Assign Access Point
-  Positions
+short_description: Resource module for Floors Floor Id Planned Access Point Positions Assign Access Point Positions
 description:
-  - Manage operation create of the resource Floors Floor
-    Id Planned Access Point Positions Assign Access
-    Point Positions.
+  - Manage operation create of the resource Floors Floor Id Planned Access Point Positions Assign Access Point Positions.
   - Assign Planned Access Points to operations ones.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -24,8 +20,7 @@ options:
     description: FloorId path parameter. Floor Id.
     type: str
   payload:
-    description: Floors Floor Id Planned Access Point
-      Positions Assign Access Point Positions's payload.
+    description: Floors Floor Id Planned Access Point Positions Assign Access Point Positions's payload.
     elements: dict
     suboptions:
       accessPointId:
@@ -36,13 +31,11 @@ options:
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      AssignPlannedAccessPointsToOperationsOnesV2
-    description: Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2
+    description: Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones-v-2
 notes:
   - SDK Method used are
@@ -76,8 +69,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

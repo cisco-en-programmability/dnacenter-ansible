@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -29,7 +28,6 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        invokeSource=dict(type="str"),
         authSource=dict(type="str"),
         headers=dict(type="dict"),
     )
@@ -72,7 +70,6 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            invoke_source=params.get("invokeSource"),
             auth_source=params.get("authSource"),
             headers=params.get("headers"),
         )
@@ -90,7 +87,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="user_and_roles",
-            function="get_users_api",
+            function="get_users",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

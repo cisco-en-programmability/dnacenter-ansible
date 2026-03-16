@@ -532,7 +532,7 @@ response_1:
       },
       "version": "str"
     }
-# Case_2: Successful updation of SDA fabric transit
+# Case_2: Successful update of SDA fabric transit
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -1521,7 +1521,7 @@ class FabricTransit(DnacBase):
                 task_name = "add_transit_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1647,7 +1647,7 @@ class FabricTransit(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
             if not task_id:
                 self.msg = (
-                    "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                 )
@@ -1739,7 +1739,7 @@ class FabricTransit(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
             if not task_id:
                 self.msg = (
-                    "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                 )

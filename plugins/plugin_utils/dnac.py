@@ -14,7 +14,10 @@ except ImportError:
 else:
     DNAC_SDK_IS_INSTALLED = True
 from ansible.module_utils.basic import env_fallback
-from ansible.module_utils._text import to_native
+from ansible.module_utils.common.text.converters import to_native
+from ansible.utils.display import Display
+
+display = Display()
 
 try:
     import logging
@@ -166,7 +169,7 @@ def dnac_argument_spec():
             type="bool", fallback=(env_fallback, ["DNAC_VERIFY"]), default=True
         ),
         dnac_version=dict(
-            type="str", fallback=(env_fallback, ["DNAC_VERSION"]), default="2.3.7.6"
+            type="str", fallback=(env_fallback, ["DNAC_VERSION"]), default="3.1.6.0"
         ),
         dnac_debug=dict(
             type="bool", fallback=(env_fallback, ["DNAC_DEBUG"]), default=False
@@ -182,6 +185,11 @@ def dnac_argument_spec():
 
 class DNACSDK(object):
     def __init__(self, params):
+        display.deprecated(
+            "The cisco.dnac collection is deprecated. Please migrate to cisco.catalystcenter.",
+            version="7.0.0",
+            collection_name="cisco.dnac",
+        )
         self.result = dict(changed=False, result="")
         self.validate_response_schema = params.get("validate_response_schema")
         if DNAC_SDK_IS_INSTALLED:

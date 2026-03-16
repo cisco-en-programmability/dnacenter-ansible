@@ -3,7 +3,7 @@
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Get Fabric devices info from Cisco Catalyst Center
       cisco.dnac.fabric_devices_info_workflow_manager:
