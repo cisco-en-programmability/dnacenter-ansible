@@ -38,48 +38,40 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, the file will be saved in the current
+        working directory with a default file name
+        C(accesspoint_location_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+      - For example,
+        C(accesspoint_location_playbook_config_2025-04-22_21-43-26.yml).
+      - Supports both absolute and relative file paths.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - Determines how the output YAML configuration file is written.
+      - Relevant only when C(file_path) is provided.
+      - When set to C(overwrite), the file will be replaced with new content.
+      - When set to C(append), new content will be added to the existing file.
+    type: str
+    required: false
+    default: overwrite
+    choices: ["overwrite", "append"]
   config:
     description:
-      - A list of filters for generating YAML playbook compatible
+      - A dictionary of filters for generating YAML playbook compatible
         with the 'accesspoint_location_playbook_config_generator'
         module.
       - Filters specify which components to include in the YAML
         configuration file.
-      - Either 'generate_all_configurations' or 'global_filters'
-        must be specified to identify target access point locations.
-    type: list
-    elements: dict
-    required: true
+      - If C(config) is provided, C(global_filters) is mandatory.
+      - If C(config) is omitted, internal auto-discovery mode is used
+        and generate_all_configurations defaults to C(True).
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML
-            configurations for all access point locations and all
-            supported features.
-          - This mode discovers all floor locations with access points
-            in Cisco Catalyst Center and extracts all supported
-            configurations.
-          - When enabled, the config parameter becomes optional
-            and will use default values if not provided.
-          - A default filename will be generated automatically
-            if file_path is not specified.
-          - This is useful for complete planned accesspoint location
-            and documentation.
-          - Any provided global_filters will be IGNORED in this
-            mode.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current
-            working directory with a default file name
-            C(accesspoint_location_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example,
-            C(accesspoint_location_playbook_config_2025-04-22_21-43-26.yml).
-          - Supports both absolute and relative file paths.
-        type: str
       global_filters:
         description:
           - Global filters to apply when generating the YAML
@@ -202,8 +194,6 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration for all Access Point Location with custom file path
   cisco.dnac.accesspoint_location_playbook_config_generator:
@@ -217,9 +207,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - file_path: "tmp/accesspoint_location_playbook_config.yml"
-        generate_all_configurations: true
+    file_path: "tmp/accesspoint_location_playbook_config.yml"
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with file path based on site list filters
   cisco.dnac.accesspoint_location_playbook_config_generator:
@@ -233,12 +222,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_site_base.yml"
+    file_mode: "overwrite"
     config:
-      - file_path: "tmp/accesspoint_location_playbook_config_site_base.yml"
-        global_filters:
-          site_list:
-            - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
-            - Global/USA/SAN JOSE/SJ_BLD20/FLOOR2
+      global_filters:
+        site_list:
+          - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
+          - Global/USA/SAN JOSE/SJ_BLD20/FLOOR2
 
 - name: Generate YAML Configuration with file path based on planned access point list
   cisco.dnac.accesspoint_location_playbook_config_generator:
@@ -252,11 +242,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_planned_ap_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          planned_accesspoint_list:
-            - test_ap_location
-            - test_ap2_location
+      global_filters:
+        planned_accesspoint_list:
+          - test_ap_location
+          - test_ap2_location
 
 - name: Generate YAML Configuration with file path based on real access point list
   cisco.dnac.accesspoint_location_playbook_config_generator:
@@ -270,11 +262,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_real_ap_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          real_accesspoint_list:
-            - Test_ap
-            - AP687D.B402.1614-AP-Test6
+      global_filters:
+        real_accesspoint_list:
+          - Test_ap
+          - AP687D.B402.1614-AP-Test6
 
 - name: Generate YAML Configuration with default file path based on access point model list
   cisco.dnac.accesspoint_location_playbook_config_generator:
@@ -288,11 +282,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_model_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          accesspoint_model_list:
-            - AP9120E
-            - AP9130E
+      global_filters:
+        accesspoint_model_list:
+          - AP9120E
+          - AP9130E
 
 - name: Generate YAML Configuration with default file path based on MAC Address list
   cisco.dnac.accesspoint_location_playbook_config_generator:
@@ -306,11 +302,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_mac_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          mac_address_list:
-            - a4:88:73:d4:dd:80
-            - a4:88:73:d4:dd:81
+      global_filters:
+        mac_address_list:
+          - a4:88:73:d4:dd:80
+          - a4:88:73:d4:dd:81
 """
 
 RETURN = r"""
@@ -363,7 +361,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 import copy
@@ -432,7 +429,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Returns:
             object: Self instance with updated attributes:
-                - self.validated_config: List of validated configuration dictionaries
+                - self.validated_config: Validated configuration dictionary
                 - self.msg: Success or failure message
                 - self.status: Validation status ("success" or "failed")
                 - Operation result set via set_operation_result()
@@ -444,40 +441,32 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO"
         )
 
-        if not self.config:
+        config_provided = self.params.get("config") is not None
+        if not config_provided:
+            self.config = {"generate_all_configurations": True}
+            self.validated_config = self.config
             self.msg = (
-                "Configuration is not available in the playbook for validation. This is "
-                "valid for certain workflows that don't require configuration parameters."
+                "Config not provided. Defaulting to generate_all_configurations=True "
+                "for complete access point location discovery."
             )
             self.log(self.msg, "INFO")
-            self.status = "success"
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        if not isinstance(self.config, list):
+        if not isinstance(self.config, dict):
             self.msg = (
-                "Configuration must be a list of dictionaries, got: {0}. Please provide "
-                "configuration as a list.".format(type(self.config).__name__)
+                "Configuration must be a dictionary, got: {0}. Please provide "
+                "configuration as a dictionary.".format(type(self.config).__name__)
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        self.log(
-            "Configuration list provided with {0} item(s) to validate. Starting "
-            "per-item validation.".format(len(self.config)),
-            "DEBUG"
-        )
-
-        # Define expected schema for configuration parameters
         temp_spec = {
             "generate_all_configurations": {
                 "type": "bool",
                 "required": False,
                 "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
             },
             "global_filters": {
                 "type": "dict",
@@ -485,204 +474,75 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             },
         }
 
-        allowed_keys = set(temp_spec.keys())
-        self.log(
-            "Defined validation schema with {0} allowed parameter(s): {1}".format(
-                len(allowed_keys), list(allowed_keys)
-            ),
-            "DEBUG"
-        )
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
+        self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
-        # Validate that only allowed keys are present in each configuration item
-        self.log(
-            "Starting per-item key validation to check for invalid/unknown parameters.",
-            "DEBUG"
-        )
-
-        for config_index, config_item in enumerate(self.config, start=1):
-            self.log(
-                "Validating configuration item {0}/{1} for type and allowed keys.".format(
-                    config_index, len(self.config)
-                ),
-                "DEBUG"
-            )
-            if not isinstance(config_item, dict):
-                self.msg = (
-                    f"Configuration item {config_index}/{len(self.config)} must be a "
-                    f"dictionary, got: {type(config_item).__name__}. Each "
-                    "configuration entry must be a dictionary with valid parameters."
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    "Invalid parameters found in playbook configuration item "
-                    f"{config_index}/{len(self.config)}: {list(invalid_keys)}. "
-                    f"Only the following parameters are allowed: {list(allowed_keys)}. "
-                    "Please remove the invalid parameters and try again."
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            self.log(
-                "Configuration item {0}/{1} passed key validation. All keys are valid.".format(
-                    config_index, len(self.config)
-                ),
-                "DEBUG"
-            )
-
-        self.log(
-            "Completed per-item key validation. All {0} configuration item(s) have valid "
-            "parameter keys.".format(len(self.config)),
-            "INFO"
-        )
-
-        # Validate minimum requirements (generate_all or global_filters)
-        self.log(
-            "Validating minimum requirements to ensure either generate_all_configurations "
-            "or global_filters is provided.",
-            "DEBUG"
-        )
-
-        try:
-            self.validate_minimum_requirement_for_global_filters(self.config)
-            self.log(
-                "Minimum requirements validation passed. Configuration has either "
-                "generate_all_configurations or valid global_filters.",
-                "INFO"
-            )
-        except Exception as e:
+        if valid_temp.get("generate_all_configurations"):
             self.msg = (
-                "Minimum requirements validation failed: {0}. Please ensure either "
-                "generate_all_configurations is true or global_filters is provided with "
-                "at least one filter list.".format(str(e))
+                "generate_all_configurations cannot be used when config is provided. "
+                "Omit config to generate all access point location configurations."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Perform schema-based validation using validate_list_of_dicts
-        self.log(
-            "Starting schema-based validation using validate_list_of_dicts(). Validating "
-            "parameter types, defaults, and required fields against schema: {0}".format(temp_spec),
-            "DEBUG"
-        )
-
-        # Import validate_list_of_dicts function here to avoid circular imports
-        # from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
-
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-        self.log(
-            "Schema validation completed. Valid configurations: {0}, Invalid parameters: {1}".format(
-                len(valid_temp) if valid_temp else 0,
-                bool(invalid_params)
-            ),
-            "DEBUG"
-        )
-
-        if invalid_params:
+        if not valid_temp.get("global_filters"):
             self.msg = (
-                "Invalid parameters found during schema validation: {0}. Please check "
-                "parameter types and values. Expected types: generate_all_configurations "
-                "(bool), file_path (str), global_filters (dict).".format(invalid_params)
+                "Validation failed: global_filters is required when config is provided."
             )
+            self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Validate global_filters structure if provided
-        self.log(
-            "Validating global_filters structure for configuration items that include filters.",
-            "DEBUG"
-        )
-        for config_index, config_item in enumerate(valid_temp, start=1):
-            global_filters = config_item.get("global_filters")
-
-            if global_filters:
-                self.log(
-                    "Configuration item {0}/{1} has global_filters. Validating filter structure.".format(
-                        config_index, len(valid_temp)
-                    ),
-                    "DEBUG"
+        global_filters = valid_temp.get("global_filters")
+        if global_filters:
+            if not isinstance(global_filters, dict):
+                self.msg = (
+                    "global_filters must be a dictionary, got: {0}. Please provide "
+                    "global_filters as a dictionary with filter lists.".format(
+                        type(global_filters).__name__
+                    )
                 )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-                if not isinstance(global_filters, dict):
+            valid_filter_keys = [
+                "site_list", "planned_accesspoint_list", "real_accesspoint_list",
+                "accesspoint_model_list", "mac_address_list"
+            ]
+            provided_filters = {
+                key: global_filters.get(key)
+                for key in valid_filter_keys
+                if global_filters.get(key)
+            }
+
+            if not provided_filters:
+                self.msg = (
+                    "global_filters provided but no valid filter lists have values. "
+                    "At least one of {0} must contain values.".format(valid_filter_keys)
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            for filter_key, filter_value in provided_filters.items():
+                if not isinstance(filter_value, list):
                     self.msg = (
-                        "global_filters in configuration item {0}/{1} must be a dictionary, "
-                        "got: {2}. Please provide global_filters as a dictionary with filter lists.".format(
-                            config_index, len(valid_temp), type(global_filters).__name__
+                        "global_filters.{0} must be a list, got: {1}. Please provide "
+                        "filter values as a list of strings.".format(
+                            filter_key, type(filter_value).__name__
                         )
                     )
                     self.log(self.msg, "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                # Check that at least one filter list is provided and has values
-                valid_filter_keys = [
-                    "site_list", "planned_accesspoint_list", "real_accesspoint_list",
-                    "accesspoint_model_list", "mac_address_list"
-                ]
-                provided_filters = {
-                    key: global_filters.get(key)
-                    for key in valid_filter_keys
-                    if global_filters.get(key)
-                }
-
-                if not provided_filters:
-                    self.msg = (
-                        "global_filters in configuration item {0}/{1} provided but no valid "
-                        "filter lists have values. At least one of the following must be provided: "
-                        "{2}. Please add at least one filter list with values.".format(
-                            config_index, len(valid_temp), valid_filter_keys
-                        )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                # Validate that filter values are lists (except hostname_filter and site_name_filter)
-                for filter_key, filter_value in provided_filters.items():
-                    if filter_key in ["hostname_filter", "site_name_filter"]:
-                        # These can be strings
-                        if not isinstance(filter_value, str):
-                            self.msg = (
-                                "global_filters.{0} in configuration item {1}/{2} must be a string, "
-                                "got: {3}. Please provide {0} as a string value.".format(
-                                    filter_key, config_index, len(valid_temp), type(filter_value).__name__
-                                )
-                            )
-                            self.log(self.msg, "ERROR")
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-                    else:
-                        # Other filters must be lists
-                        if not isinstance(filter_value, list):
-                            self.msg = (
-                                "global_filters.{0} in configuration item {1}/{2} must be a list, "
-                                "got: {3}. Please provide filter as a list of strings.".format(
-                                    filter_key, config_index, len(valid_temp), type(filter_value).__name__
-                                )
-                            )
-                            self.log(self.msg, "ERROR")
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-
+                filter_value = list(dict.fromkeys(filter_value))
+                provided_filters[filter_key] = filter_value
+                valid_temp["global_filters"] = provided_filters
                 self.log(
-                    "Configuration item {0}/{1} global_filters structure validated successfully. "
-                    "Provided filters: {2}".format(
-                        config_index, len(valid_temp), list(provided_filters.keys())
-                    ),
-                    "INFO"
-                )
-            else:
-                self.log(
-                    "Configuration item {0}/{1} does not have global_filters. Assuming "
-                    "generate_all_configurations mode.".format(config_index, len(valid_temp)),
+                    f"global_filters.{filter_key} deduplicated values: {filter_value}",
                     "DEBUG"
                 )
 
@@ -690,18 +550,16 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.validated_config = valid_temp
 
         self.msg = (
-            "Successfully validated {0} configuration item(s) for access point location "
-            "playbook generation. Validated configuration: {1}".format(
-                len(valid_temp), str(valid_temp)
-            )
+            "Successfully validated configuration for access point location playbook "
+            "generation. Validated configuration: {0}".format(str(valid_temp))
         )
 
         self.log(
-            "Input validation completed successfully. Total items validated: {0}, "
-            "Items with generate_all: {1}, Items with global_filters: {2}".format(
-                len(valid_temp),
-                sum(1 for item in valid_temp if item.get("generate_all_configurations")),
-                sum(1 for item in valid_temp if item.get("global_filters"))
+            "Input validation completed successfully. generate_all: {0}, "
+            "has_global_filters: {1}, file_mode: {2}".format(
+                bool(valid_temp.get("generate_all_configurations")),
+                bool(valid_temp.get("global_filters")),
+                self.params.get("file_mode", "overwrite")
             ),
             "INFO"
         )
@@ -720,7 +578,6 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             config (dict): Configuration parameters from validated playbook containing:
                 - generate_all_configurations (bool, optional): Generate all configurations flag
-                - file_path (str, optional): Output file path for YAML playbook
                 - global_filters (dict, optional): Filter criteria for AP selection
 
         Returns:
@@ -761,7 +618,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Validate file_path if provided
-        file_path = config.get("file_path")
+        file_path = self.params.get("file_path")
         if file_path:
             self.log(
                 "Validating file_path parameter: '{file_path}'. Checking directory existence and "
@@ -872,11 +729,9 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             config (dict): Configuration parameters from Ansible playbook containing:
                   - generate_all_configurations: Mode flag (optional, bool)
-                  - file_path: Output file path (optional, str)
                   - global_filters: Filter criteria (optional, dict)
                   Example: {
                     "generate_all_configurations": False,
-                    "file_path": "/tmp/ap_locations.yml",
                     "global_filters": {
                       "site_list": ["Global/USA/San Jose/Building1/Floor1"],
                       "accesspoint_model_list": ["C9130AXI-B"]
@@ -2799,17 +2654,18 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             yaml_config_generator (dict): Configuration parameters containing:
-                                        - file_path: Output file path (optional, str)
                                         - generate_all_configurations: Mode flag (optional, bool)
                                         - global_filters: Filter criteria (optional, dict)
                                         Example: {
-                                            "file_path": "/tmp/ap_locations.yml",
                                             "generate_all_configurations": False,
                                             "global_filters": {
                                                 "site_list": ["Global/USA/Building1/Floor1"],
                                                 "accesspoint_model_list": ["C9130AXI-B"]
                                             }
                                         }
+            Note:
+                The output file path and write mode are controlled by module parameters
+                C(file_path) and C(file_mode), not by the config dictionary.
 
         Returns:
             object: Self instance with updated attributes:
@@ -2893,10 +2749,10 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
-                "No custom file_path provided by user in yaml_config_generator parameters. "
+                "No custom file_path provided by user in module parameters. "
                 "Initiating automatic filename generation with timestamp format. Default filename "
                 "pattern: accesspoint_location_playbook_config_YYYY-MM-DD_HH-MM-SS.yml",
                 "DEBUG"
@@ -2909,12 +2765,13 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
         else:
             self.log(
-                f"Using user-provided custom file_path for YAML output: {file_path}. File will be "
+                f"Using user-provided custom file_path from module parameters for YAML output: {file_path}. File will be "
                 f"created at specified path (absolute or relative path supported).",
                 "INFO"
             )
 
         self.log(f"YAML configuration file path determined: {file_path}", "DEBUG")
+        file_mode = self.params.get("file_mode", "overwrite")
 
         self.log("Initializing filter processing workflow", "DEBUG")
         # Set empty filters to retrieve everything
@@ -3010,7 +2867,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        if self.write_dict_to_yaml(final_dict, file_path):
+        if self.write_dict_to_yaml(final_dict, file_path, file_mode):
             self.msg = {
                 f"YAML config generation Task succeeded for module '{self.module_name}'.": {
                     "file_path": file_path
@@ -3795,7 +3652,9 @@ def main():
             - dnac_task_poll_interval (int, optional): Task polling interval in seconds (default: 2)
 
         Configuration Parameters:
-            - config (list of dict, required): Filter configuration for AP selection
+            - file_path (str, optional): Output file path for YAML configuration
+            - file_mode (str, optional): File write mode ("overwrite" or "append")
+            - config (dict, optional): Filter configuration for AP selection
             - state (str, optional): Operation state, must be "gathered" (default: "gathered")
 
     Returns:
@@ -3891,8 +3750,8 @@ def main():
             dnac_verify: False
             state: gathered
             config:
-              - yaml_file_path: "output/ap_locations.yml"
-                site_name_filter: "Global/San Jose"
+              yaml_file_path: "output/ap_locations.yml"
+              site_name_filter: "Global/San Jose"
         ```
 
     Performance Considerations:
@@ -3940,7 +3799,14 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -3994,25 +3860,19 @@ def main():
     ccc_accesspoint_location_playbook_generator.validate_input().check_return_status()
 
     # ========================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ========================================
-    # Iterate over the validated configuration parameters
-    for config in ccc_accesspoint_location_playbook_generator.validated_config:
-        # Reset internal values before processing each config item
-        ccc_accesspoint_location_playbook_generator.reset_values()
-
-        # Get desired state (parse and validate filters)
-        ccc_accesspoint_location_playbook_generator.get_want(
-            config, state).check_return_status()
-
-        # Get current state (query Catalyst Center APIs)
-        ccc_accesspoint_location_playbook_generator.get_have(
-            config).check_return_status()
-
-        # Apply state-specific logic (generate playbook)
-        ccc_accesspoint_location_playbook_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+    config = ccc_accesspoint_location_playbook_generator.validated_config
+    ccc_accesspoint_location_playbook_generator.reset_values()
+    ccc_accesspoint_location_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
+    ccc_accesspoint_location_playbook_generator.get_have(
+        config
+    ).check_return_status()
+    ccc_accesspoint_location_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     # ========================================
     # Result Return

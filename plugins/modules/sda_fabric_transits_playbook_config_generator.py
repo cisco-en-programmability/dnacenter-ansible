@@ -32,12 +32,11 @@ options:
     default: gathered
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `sda_fabric_transits_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `sda_fabric_transits_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -58,6 +57,14 @@ options:
           a default file name  C(sda_fabric_transits_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - For example, C(sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml).
         type: str
+      file_mode:
+        description:
+        - Controls how config is written to the YAML file.
+        - C(overwrite) replaces existing file content.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration file.
@@ -120,7 +127,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -135,8 +143,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "/tmp/all_config.yml"
+      generate_all_configurations: true
+      file_path: "/tmp/all_config.yml"
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with specific fabric transits components only
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -151,9 +160,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_transits_config.yml"
-        component_specific_filters:
-          components_list: ["sda_fabric_transits"]
+      file_path: "/tmp/catc_fabric_transits_config.yml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["sda_fabric_transits"]
 
 - name: Generate YAML Configuration for fabric transits with transit type filter
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -168,12 +178,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_transits_config.yml"
-        component_specific_filters:
-          components_list: ["sda_fabric_transits"]
-          sda_fabric_transits:
-            - transit_type: "IP_BASED_TRANSIT"
-            - transit_type: "SDA_LISP_BGP_TRANSIT"
+      file_path: "/tmp/catc_fabric_transits_config.yml"
+      component_specific_filters:
+        components_list: ["sda_fabric_transits"]
+        sda_fabric_transits:
+          - transit_type: "IP_BASED_TRANSIT"
+          - transit_type: "SDA_LISP_BGP_TRANSIT"
 
 - name: Generate YAML Configuration for fabric transits with name filter
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -188,12 +198,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_transits_config.yaml"
-        component_specific_filters:
-          components_list: ["sda_fabric_transits"]
-          sda_fabric_transits:
-            - name: "Transit1"
-            - name: "Transit2"
+      file_path: "/tmp/catc_fabric_transits_config.yaml"
+      component_specific_filters:
+        components_list: ["sda_fabric_transits"]
+        sda_fabric_transits:
+          - name: "Transit1"
+          - name: "Transit2"
 
 - name: Generate YAML Configuration for fabric transits with name and type filter
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -208,14 +218,14 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
     config:
-      - file_path: "/tmp/catc_fabric_transits_config.yaml"
-        component_specific_filters:
-          components_list: ["sda_fabric_transits"]
-          sda_fabric_transits:
-            - name: "Transit1"
-              transit_type: "IP_BASED_TRANSIT"
-            - name: "Transit2"
-              transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
+      file_path: "/tmp/catc_fabric_transits_config.yaml"
+      component_specific_filters:
+        components_list: ["sda_fabric_transits"]
+        sda_fabric_transits:
+          - name: "Transit1"
+            transit_type: "IP_BASED_TRANSIT"
+          - name: "Transit2"
+            transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
 """
 
 
@@ -253,10 +263,10 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
              when 'generate_all_configurations' is set to False.",
         "response":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
              when 'generate_all_configurations' is set to False."
     }
 """
@@ -267,9 +277,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
-    validate_list_of_dicts,
 )
 import time
 from collections import OrderedDict
@@ -326,6 +333,12 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "type": "str",
                 "required": False
             },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"]
+            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
@@ -334,12 +347,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Validate params
         self.log("Validating configuration against schema", "DEBUG")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
@@ -382,7 +390,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "network_elements": {
                 "sda_fabric_transits": {
                     "filters": ["name", "transit_type"],
-                    "temp_spec_function": self.fabric_transit_temp_spec,
+                    "reverse_mapping_function": self.fabric_transit_temp_spec,
                     "api_function": "get_transit_networks",
                     "api_family": "sda",
                     "get_function_name": self.get_fabric_transits_configuration,
@@ -810,57 +818,55 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_sda_fabric_transits_playbook_config_generator = SdaFabricTransitsPlaybookConfigGenerator(
+    config_generator = SdaFabricTransitsPlaybookConfigGenerator(
         module
     )
     if (
-        ccc_sda_fabric_transits_playbook_config_generator.compare_dnac_versions(
-            ccc_sda_fabric_transits_playbook_config_generator.get_ccc_version(), "2.3.7.9"
+        config_generator.compare_dnac_versions(
+            config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
-        ccc_sda_fabric_transits_playbook_config_generator.msg = (
+        config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for SDA FABRIC TRANSITS Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_sda_fabric_transits_playbook_config_generator.get_ccc_version()
+                config_generator.get_ccc_version()
             )
         )
-        ccc_sda_fabric_transits_playbook_config_generator.set_operation_result(
-            "failed", False, ccc_sda_fabric_transits_playbook_config_generator.msg, "ERROR"
+        config_generator.set_operation_result(
+            "failed", False, config_generator.msg, "ERROR"
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_sda_fabric_transits_playbook_config_generator.params.get("state")
+    state = config_generator.params.get("state")
 
     # Check if the state is valid
-    if state not in ccc_sda_fabric_transits_playbook_config_generator.supported_states:
-        ccc_sda_fabric_transits_playbook_config_generator.status = "invalid"
-        ccc_sda_fabric_transits_playbook_config_generator.msg = "State {0} is invalid".format(
+    if state not in config_generator.supported_states:
+        config_generator.status = "invalid"
+        config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_sda_fabric_transits_playbook_config_generator.check_recturn_status()
+        config_generator.check_recturn_status()
 
     # Validate the input parameters and check the return statusk
-    ccc_sda_fabric_transits_playbook_config_generator.validate_input().check_return_status()
+    config_generator.validate_input().check_return_status()
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_sda_fabric_transits_playbook_config_generator.validated_config:
-        ccc_sda_fabric_transits_playbook_config_generator.reset_values()
-        ccc_sda_fabric_transits_playbook_config_generator.get_want(
-            config, state
-        ).check_return_status()
-        ccc_sda_fabric_transits_playbook_config_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+    config = config_generator.validated_config
+    config_generator.get_want(
+        config, state
+    ).check_return_status()
+    config_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
-    module.exit_json(**ccc_sda_fabric_transits_playbook_config_generator.result)
+    module.exit_json(**config_generator.result)
 
 
 if __name__ == "__main__":

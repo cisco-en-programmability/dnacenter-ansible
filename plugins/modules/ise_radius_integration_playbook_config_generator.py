@@ -38,8 +38,7 @@ options:
     - Filters specify which components to include in the YAML configuration file.
     - When C(components_list) is provided, only those components are included,
       regardless of other filters or C(generate_all_configurations).
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -58,6 +57,15 @@ options:
           a default file name C(ise_radius_integration_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
         - For example, C(ise_radius_integration_playbook_config_2026-01-24_12-33-20.yml).
         type: str
+      file_mode:
+        description:
+        - Determines how the output YAML configuration file is written.
+        - When set to C(overwrite), the file will be replaced with new content.
+        - When set to C(append), new content will be added to the existing file.
+        type: str
+        required: false
+        default: overwrite
+        choices: ["overwrite", "append"]
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
@@ -118,7 +126,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
 
 - name: Generate YAML Configuration for all components with File Path specified
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -133,8 +141,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "/tmp/ise_radius_integration_config.yaml"
+      generate_all_configurations: true
+      file_path: "/tmp/ise_radius_integration_config.yaml"
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration for mentioned components without File Path specified
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -149,9 +158,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: false
-        component_specific_filters:
-          components_list: ["authentication_policy_server"]
+      generate_all_configurations: false
+      file_path: "/tmp/ise_radius_integration_config.yaml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["authentication_policy_server"]
 
 - name: Generate YAML Configuration for mentioned components with component and specific server_type filter
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -166,11 +177,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "/tmp/ise_radius_integration_config.yaml"
-        component_specific_filters:
-          components_list: ["authentication_policy_server"]
-          authentication_policy_server:
-            server_type: "ISE"
+      file_path: "/tmp/ise_radius_integration_config.yaml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["authentication_policy_server"]
+        authentication_policy_server:
+          server_type: "ISE"
 
 - name: Generate YAML Configuration for mentioned components with component and specific server_ip_address filter
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -185,11 +197,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "/tmp/ise_radius_integration_config.yaml"
-        component_specific_filters:
-          components_list: ["authentication_policy_server"]
-          authentication_policy_server:
-            server_ip_address: 10.197.156.10
+      file_path: "/tmp/ise_radius_integration_config.yaml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["authentication_policy_server"]
+        authentication_policy_server:
+          server_ip_address: 10.197.156.10
 
 - name: Generate YAML Configuration for mentioned components with component and specific server_type and server_ip_address filter
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -204,12 +217,13 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "/tmp/ise_radius_integration_config.yaml"
-        component_specific_filters:
-          components_list: ["authentication_policy_server"]
-          authentication_policy_server:
-            server_type: "ISE"
-            server_ip_address: 10.197.156.10
+      file_path: "/tmp/ise_radius_integration_config.yaml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["authentication_policy_server"]
+        authentication_policy_server:
+          server_type: "ISE"
+          server_ip_address: 10.197.156.10
 """
 
 RETURN = r"""
@@ -245,10 +259,10 @@ response_2:
   type: list
   sample: >
     {
-        "msg": "Validation Error in entry 1: 'component_specific_filters' must be provided with
-            'components_list' key when 'generate_all_configurations' is set to False.",
-        "response": "Validation Error in entry 1: 'component_specific_filters' must be provided with
-            'components_list' key when 'generate_all_configurations' is set to False."
+        "msg": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
+                when 'generate_all_configurations' is set to False.",
+        "response": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
+                     when 'generate_all_configurations' is set to False."
     }
 """
 from ansible.module_utils.basic import AnsibleModule
@@ -355,36 +369,21 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False,
-            },
+            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "file_path": {"type": "str", "required": False},
+            "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
 
-        # Import validate_list_of_dicts function here to avoid circular imports
-        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-            validate_list_of_dicts,
-        )
-
-        # Validate params
+        # Validate the config dict using brownfield helper
         self.log("Validating configuration against schema.", "DEBUG")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
 
-        self.log(
-            "Validating minimum requirements against provided config: {0}".format(
-                self.config
-            ),
-            "DEBUG",
-        )
+        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
         self.validate_minimum_requirements(self.config)
 
         # Set the validated configuration and update the result with success status
@@ -392,7 +391,7 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
             str(valid_temp)
         )
-        self.set_operation_result("success", False, self.msg, "DEBUG")
+        self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
     def transform_cisco_ise_dtos(self, ise_radius_integration_details):
@@ -1183,64 +1182,64 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "config": {"type": "dict", "required": True},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_ise_radius_integration_playbook_config_generator = (
+    config_generator = (
         IseRadiusIntegrationPlaybookGenerator(module)
     )
     if (
-        ccc_ise_radius_integration_playbook_config_generator.compare_dnac_versions(
-            ccc_ise_radius_integration_playbook_config_generator.get_ccc_version(),
+        config_generator.compare_dnac_versions(
+            config_generator.get_ccc_version(),
             "2.3.7.9",
         )
         < 0
     ):
-        ccc_ise_radius_integration_playbook_config_generator.msg = (
+        config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
             "for IseRadiusIntegrationPlaybookGenerator Module. Supported versions start from '2.3.7.9' onwards. ".format(
-                ccc_ise_radius_integration_playbook_config_generator.get_ccc_version()
+                config_generator.get_ccc_version()
             )
         )
-        ccc_ise_radius_integration_playbook_config_generator.set_operation_result(
+        config_generator.set_operation_result(
             "failed",
             False,
-            ccc_ise_radius_integration_playbook_config_generator.msg,
+            config_generator.msg,
             "ERROR",
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
-    state = ccc_ise_radius_integration_playbook_config_generator.params.get("state")
+    state = config_generator.params.get("state")
     # Check if the state is valid
     if (
         state
-        not in ccc_ise_radius_integration_playbook_config_generator.supported_states
+        not in config_generator.supported_states
     ):
-        ccc_ise_radius_integration_playbook_config_generator.status = "invalid"
-        ccc_ise_radius_integration_playbook_config_generator.msg = (
+        config_generator.status = "invalid"
+        config_generator.msg = (
             "State {0} is invalid".format(state)
         )
-        ccc_ise_radius_integration_playbook_config_generator.check_return_status()
+        config_generator.check_return_status()
 
-    # Validate the input parameters and check the return statusk
-    ccc_ise_radius_integration_playbook_config_generator.validate_input().check_return_status()
+    # Validate the input parameters and check the return status
+    config_generator.validate_input().check_return_status()
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_ise_radius_integration_playbook_config_generator.validated_config:
-        ccc_ise_radius_integration_playbook_config_generator.reset_values()
+    # Process the validated configuration dictionary
+    config = config_generator.validated_config
 
-        ccc_ise_radius_integration_playbook_config_generator.get_want(
-            config, state
-        ).check_return_status()
-        ccc_ise_radius_integration_playbook_config_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+    config_generator.reset_values()
+    config_generator.get_want(
+        config, state
+    ).check_return_status()
+    config_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
-    module.exit_json(**ccc_ise_radius_integration_playbook_config_generator.result)
+    module.exit_json(**config_generator.result)
 
 
 if __name__ == "__main__":

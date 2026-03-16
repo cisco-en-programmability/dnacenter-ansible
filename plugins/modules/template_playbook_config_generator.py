@@ -148,7 +148,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.template_playbook_config_generator:
@@ -163,9 +163,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "tmp/catc_templates_config.yml"
-        file_mode: "overwrite"
+      generate_all_configurations: true
+      file_path: "tmp/catc_templates_config.yml"
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with specific template projects only
   cisco.dnac.template_playbook_config_generator:
@@ -180,10 +180,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        file_mode: "overwrite"
-        component_specific_filters:
-          components_list: ["projects"]
+      file_path: "tmp/catc_templates_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["projects"]
 
 - name: Generate YAML Configuration with specific configuration templates only
   cisco.dnac.template_playbook_config_generator:
@@ -198,10 +198,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        file_mode: "append"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
+      file_path: "tmp/catc_templates_config.yml"
+      file_mode: "append"
+      component_specific_filters:
+        components_list: ["configuration_templates"]
 
 - name: Generate YAML Configuration for projects with project name filter
   cisco.dnac.template_playbook_config_generator:
@@ -216,12 +216,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["projects"]
-          projects:
-            - name: "Project_A"
-            - name: "Project_B"
+      file_path: "tmp/catc_templates_config.yml"
+      component_specific_filters:
+        components_list: ["projects"]
+        projects:
+          - name: "Project_A"
+          - name: "Project_B"
 
 - name: Generate YAML Configuration for templates with template name filter
   cisco.dnac.template_playbook_config_generator:
@@ -236,12 +236,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - template_name: "Template_1"
-            - template_name: "Template_2"
+      file_path: "tmp/catc_templates_config.yml"
+      component_specific_filters:
+      components_list: ["configuration_templates"]
+      configuration_templates:
+        - template_name: "Template_1"
+        - template_name: "Template_2"
 
 - name: Generate YAML Configuration for templates with project name filter
   cisco.dnac.template_playbook_config_generator:
@@ -256,12 +256,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - project_name: "Project_A"
-            - project_name: "Project_B"
+      file_path: "tmp/catc_templates_config.yml"
+      component_specific_filters:
+        components_list: ["configuration_templates"]
+        configuration_templates:
+          - project_name: "Project_A"
+          - project_name: "Project_B"
 
 - name: Generate YAML Configuration for templates with uncommitted filter
   cisco.dnac.template_playbook_config_generator:
@@ -276,11 +276,11 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - include_uncommitted: true
+      file_path: "tmp/catc_templates_config.yml"
+      component_specific_filters:
+        components_list: ["configuration_templates"]
+        configuration_templates:
+          - include_uncommitted: true
 
 - name: Generate YAML Configuration for templates with template name and project name
   cisco.dnac.template_playbook_config_generator:
@@ -295,12 +295,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - project_name: "Project_A"
-              template_name: "Template_1"
+      file_path: "tmp/catc_templates_config.yml"
+      component_specific_filters:
+        components_list: ["configuration_templates"]
+        configuration_templates:
+          - project_name: "Project_A"
+            template_name: "Template_1"
 
 - name: Generate YAML Configuration for templates with comprehensive filters
   cisco.dnac.template_playbook_config_generator:
@@ -315,13 +315,13 @@ EXAMPLES = r"""
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - template_name: "Template_1"
-              project_name: "Project_A"
-              include_uncommitted: true
+      file_path: "tmp/catc_templates_config.yml"
+      component_specific_filters:
+        components_list: ["configuration_templates"]
+        configuration_templates:
+          - template_name: "Template_1"
+            project_name: "Project_A"
+            include_uncommitted: true
 """
 
 RETURN = r"""
@@ -845,18 +845,21 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "Missing API family or function in network element: {0}".format(network_element),
                 "ERROR"
             )
-            return {"projects": []}
-
-        final_template_projects = []
+            return {}
 
         self.log(
-            "Getting template projects using API family '{0}' and API function '{1}'.".format(
+            "Getting all template projects using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
             "DEBUG"
         )
 
-        params = {}
+        template_project_details = self.execute_get_with_pagination(
+            api_family, api_function
+        )
+
+        final_template_projects = []
+
         if component_specific_filters:
             self.log(
                 "Started Processing {0} filter(s) for projects retrieval".format(
@@ -866,8 +869,6 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             )
 
             for filter_param in component_specific_filters:
-                if "name" in filter_param:
-                    params["name"] = filter_param["name"]
 
                 unsupported_keys = set(filter_param.keys()) - {"name"}
                 if unsupported_keys:
@@ -876,16 +877,21 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         "WARNING"
                     )
 
+                filtered_projects = []
                 self.log(
-                    "Fetching projects with parameters: {0}".format(params),
+                    "Fetching projects with filter_param: {0}".format(filter_param),
                     "DEBUG"
                 )
-                template_project_details = self.execute_get_with_pagination(
-                    api_family, api_function, params
-                )
 
-                if template_project_details:
-                    final_template_projects.extend(template_project_details)
+                if "name" in filter_param:
+                    filtered_projects.extend(
+                        project
+                        for project in template_project_details
+                        if project.get("name") == filter_param["name"]
+                    )
+
+                if filtered_projects:
+                    final_template_projects.extend(filtered_projects)
                     self.log(
                         "Retrieved {0} project(s): {1}".format(
                             len(template_project_details), template_project_details
@@ -894,10 +900,9 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     )
                 else:
                     self.log(
-                        "No projects found for parameters: {0}".format(params),
+                        "No projects found with filter_param: {0}".format(filter_param),
                         "DEBUG"
                     )
-                params.clear()
 
             self.log(
                 "Completed Processing {0} filter(s) for projects retrieval".format(
@@ -906,12 +911,6 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
         else:
-            self.log("Fetching all project details from Catalyst Center", "DEBUG")
-
-            template_project_details = self.execute_get_with_pagination(
-                api_family, api_function, params
-            )
-
             if template_project_details:
                 final_template_projects.extend(template_project_details)
                 self.log(
@@ -936,7 +935,8 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         modified_template_project_details = {}
-        modified_template_project_details['projects'] = template_project_details
+        if template_project_details:
+            modified_template_project_details['projects'] = template_project_details
 
         self.log(
             "Completed retrieving template project(s): {0}".format(

@@ -25,8 +25,6 @@ description:
   execution.
 - Supports comprehensive filtering capabilities including component-specific
   filters, destination name filters, and notification subscription filters.
-- Enables automated brownfield discovery by retrieving all configured
-  components when generate_all_configurations is enabled.
 - Resolves site IDs to hierarchical site names and event IDs to event names
   for human-readable playbook generation.
 - Creates structured playbook files ready for modification and redeployment
@@ -49,64 +47,59 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Absolute or relative path where generated YAML configuration file
+      will be saved.
+    - If not provided, file is saved in current working directory with
+      auto-generated filename.
+    - Filename format when auto-generated is
+      C(events_and_notifications_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - Example auto-generated filename
+      "events_and_notifications_playbook_config_2025-04-22_21-43-26.yml".
+    - Parent directories are created automatically if they do not exist.
+    type: str
+    required: false
+  file_mode:
+    description:
+    - File write mode for the generated YAML configuration file.
+    - The overwrite option replaces existing file content with new content.
+    - The append option adds new content to the end of existing file.
+    - Relevant only when C(file_path) is provided.
+    - Defaults to overwrite if not specified.
+    type: str
+    choices:
+    - overwrite
+    - append
+    default: overwrite
+    required: false
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `events_and_notifications_workflow_manager`
-      module.
-    - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
-    required: true
+    - A dictionary of filters for generating YAML playbook compatible with the
+      C(events_and_notifications_workflow_manager) module.
+    - If C(config) is omitted, the module retrieves all supported components
+      and generates configurations for every available component type.
+    - If C(config) is provided, C(component_specific_filters) is mandatory.
+    type: dict
+    required: false
     suboptions:
-      file_path:
-        description:
-        - Absolute or relative path where generated YAML configuration file
-          will be saved.
-        - If not provided, file is saved in current working directory with
-          auto-generated filename.
-        - Filename format when auto-generated is
-          C(events_and_notifications_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - Example auto-generated filename
-          "events_and_notifications_playbook_config_2025-04-22_21-43-26.yml".
-        - Parent directories are created automatically if they do not exist.
-        - File is overwritten if it already exists at the specified path.
-        type: str
-      generate_all_configurations:
-        description:
-        - When True, automatically retrieves all events and notifications
-          configurations from Catalyst Center.
-        - Discovers all webhook destinations, email destinations, syslog
-          destinations, SNMP destinations, ITSM settings, and event
-          subscriptions.
-        - Makes component_specific_filters optional by using default values
-          when not provided.
-        - Sets default components_list to all supported component types if
-          not explicitly specified.
-        - Useful for complete brownfield infrastructure documentation and
-          discovery workflows.
-        - When False, requires explicit component_specific_filters
-          configuration with components_list.
-        type: bool
-        default: false
       component_specific_filters:
         description:
         - Filter configuration controlling which components are included in
           generated YAML playbook.
+        - Mandatory when C(config) is provided.
         - When components_list is specified, only listed components are
           retrieved regardless of other filters.
         - Destination and notification filters provide name-based filtering
           within selected components.
-        - Optional when generate_all_configurations is True, uses defaults if
-          not provided.
-        - Required when generate_all_configurations is False to specify which
-          components to retrieve.
         type: dict
         suboptions:
           components_list:
             description:
             - List of component types to include in generated YAML playbook
               file.
+            - Optional, but conditionally required when no other filter blocks
+              are provided under C(component_specific_filters).
             - Each component type corresponds to specific API endpoint and
               configuration structure.
             - Valid component types
@@ -123,10 +116,6 @@ options:
                 configurations
               - C(syslog_event_notifications) - Syslog event subscription
                 configurations
-            - When not specified with generate_all_configurations True, all
-              component types are included.
-            - Order of components in list determines order in generated YAML
-              playbook structure.
             type: list
             elements: str
             choices:
@@ -144,12 +133,19 @@ options:
               matching.
             - Applies to webhook_destinations, email_destinations,
               syslog_destinations, and snmp_destinations components.
-            - When destination_names provided and matches found, only matching
-              destinations are included.
-            - When destination_names provided but no matches found, all
-              destinations are included for comprehensive coverage.
-            - Destination type filters currently informational, type-specific
-              filtering handled by components_list.
+            - When C(destination_filters) is provided, the corresponding
+              destination components are automatically added to
+              C(components_list) if not already present. If
+              C(destination_types) is specified, only those types are added.
+              If C(destination_types) is omitted, all four destination
+              component types are added.
+            - Filtering is applied independently per component type selected
+              in components_list.
+            - Each component type only retrieves destinations of its own type
+              and applies destination_names filter within that scope.
+            - When destination_names provided and at least one name matches
+              a destination within a component type, only matching destinations
+              of that type are included.
             type: dict
             suboptions:
               destination_names:
@@ -158,36 +154,58 @@ options:
                   configurations.
                 - Names must match exactly as configured in Catalyst Center
                   (case-sensitive).
-                - Applies smart filtering - includes all destinations when
-                  specified names not found.
-                - Works across all destination types selected in
-                  components_list.
+                - Only components listed in components_list are retrieved.
+                  The destination_names filter is applied only within those
+                  selected component types. Names belonging to a component
+                  type that is not in components_list are completely ignored.
+                - If a destination name matches a destination within a
+                  selected component type, only matching destinations of
+                  that type are included in the output.
                 - Empty list or not specified retrieves all destinations for
                   selected component types.
                 type: list
                 elements: str
               destination_types:
                 description:
-                - List of destination types for documentation and validation
-                  purposes.
-                - Valid types correspond to component categories - webhook,
-                  email, syslog, snmp.
-                - Type-specific filtering achieved through components_list
-                  selection.
-                - Included for playbook clarity and future extensibility.
+                - Specifies which destination component types the
+                  C(destination_names) filter applies to.
+                - Components implied by C(destination_types) are
+                  automatically added to C(components_list) if not
+                  already present. For example C(webhook) auto-adds
+                  C(webhook_destinations).
+                - Use this when you want name-based filtering for some
+                  destination types but want to retrieve all destinations
+                  for other types in C(components_list).
+                - For example, with C(components_list) set to
+                  C([webhook_destinations, email_destinations]) and
+                  C(destination_types) set to C([webhook]) and
+                  C(destination_names) set to C([my-webhook-1]), only
+                  webhook destinations matching "my-webhook-1" are
+                  filtered while all email destinations are retrieved
+                  without any name filtering.
+                - Valid types are C(webhook), C(email), C(syslog),
+                  C(snmp).
                 type: list
                 elements: str
-                choices: [webhook, email, syslog, snmp]
+                choices:
+                - webhook
+                - email
+                - syslog
+                - snmp
           notification_filters:
             description:
             - Filters for event notification subscription configurations based
               on name or type.
             - Applies to webhook_event_notifications,
               email_event_notifications, and syslog_event_notifications.
+            - When C(notification_filters) is provided, the corresponding
+              notification components are automatically added to
+              C(components_list) if not already present. If
+              C(notification_types) is specified, only those types are added.
+              If C(notification_types) is omitted, all three notification
+              component types are added.
             - When subscription_names provided, filters notifications to
               include only matching subscriptions.
-            - Notification type filters align with components_list selection
-              for type-specific retrieval.
             type: dict
             suboptions:
               subscription_names:
@@ -204,23 +222,36 @@ options:
                 elements: str
               notification_types:
                 description:
-                - List of notification types for documentation and filtering
-                  context.
-                - Valid types - webhook, email, syslog corresponding to event
-                  subscription types.
-                - Type-specific filtering primarily controlled through
-                  components_list selection.
-                - Included for playbook documentation and future filtering
-                  enhancements.
+                - Specifies which notification component types the
+                  C(subscription_names) filter applies to.
+                - Components implied by C(notification_types) are
+                  automatically added to C(components_list) if not
+                  already present. For example C(webhook) auto-adds
+                  C(webhook_event_notifications).
+                - Use this when you want name-based filtering for some
+                  notification types but want to retrieve all subscriptions
+                  for other types in C(components_list).
+                - For example, with C(components_list) set to
+                  C([webhook_event_notifications,
+                  email_event_notifications]) and C(notification_types)
+                  set to C([webhook]) and C(subscription_names) set to
+                  C([Critical Alerts]), only webhook event notifications
+                  matching "Critical Alerts" are filtered while all email
+                  event notifications are retrieved without name filtering.
+                - Valid types are C(webhook), C(email), C(syslog).
                 type: list
                 elements: str
-                choices: [webhook, email, syslog]
+                choices:
+                - webhook
+                - email
+                - syslog
           itsm_filters:
             description:
             - Filters for ITSM integration settings based on instance name
               matching.
-            - Applies only to itsm_settings component when included in
-              components_list.
+            - When C(itsm_filters) is provided, the C(itsm_settings)
+              component is automatically added to C(components_list) if
+              not already present.
             - Filters ITSM integration instances by configured instance names.
             - Empty list or not specified retrieves all configured ITSM
               integration instances.
@@ -276,10 +307,17 @@ notes:
   API.
 - Pagination is automatically handled for large datasets in webhook, SNMP,
   and event subscriptions.
-- Module supports both check mode and normal execution mode with identical
-  behavior.
 - Generated playbooks are compatible with
-  events_and_notifications_workflow_manager module v6.44.0+.
+  events_and_notifications_workflow_manager module.
+- When filter blocks (C(destination_filters), C(notification_filters),
+  C(itsm_filters)) are provided, the corresponding components are
+  automatically added to C(components_list) if not already present.
+  This means C(components_list) is optional when filter blocks are provided.
+- If no filter blocks are provided, C(components_list) is mandatory and
+  must be non-empty.
+- Destination name filtering in destination_filters.destination_names is
+  applied only within component types present in the final
+  components_list (including auto-added components).
 
 seealso:
 - module: cisco.dnac.events_and_notifications_workflow_manager
@@ -299,9 +337,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - generate_all_configurations: true
-        file_path: "/tmp/catc_events_notifications_config.yaml"
+    file_path: "/tmp/catc_events_notifications_config.yaml"
 
 - name: Generate YAML Configuration for destinations only
   cisco.dnac.events_and_notifications_playbook_config_generator:
@@ -315,10 +351,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_destinations_config.yaml"
     config:
-      - file_path: "/tmp/catc_destinations_config.yaml"
-        component_specific_filters:
-          components_list: ["webhook_destinations", "email_destinations", "syslog_destinations"]
+      component_specific_filters:
+        components_list: ["webhook_destinations", "email_destinations", "syslog_destinations"]
 
 - name: Generate YAML Configuration for specific webhook destinations
   cisco.dnac.events_and_notifications_playbook_config_generator:
@@ -332,13 +368,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_webhook_config.yaml"
     config:
-      - file_path: "/tmp/catc_webhook_config.yaml"
-        component_specific_filters:
-          components_list: ["webhook_destinations", "webhook_event_notifications"]
-          destination_filters:
-            destination_names: ["webhook-dest-1", "webhook-dest-2"]
-            destination_types: ["webhook"]
+      component_specific_filters:
+        components_list: ["webhook_destinations", "webhook_event_notifications"]
+        destination_filters:
+          destination_names: ["webhook-dest-1", "webhook-dest-2"]
+          destination_types: ["webhook"]
 
 - name: Generate YAML Configuration with combined filters
   cisco.dnac.events_and_notifications_playbook_config_generator:
@@ -352,16 +388,35 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/combined_filters_config.yaml"
+    file_mode: append
     config:
-      - file_path: "/tmp/combined_filters_config.yaml"
-        component_specific_filters:
-          components_list: ["webhook_destinations", "webhook_event_notifications", "email_destinations", "email_event_notifications"]
-          destination_filters:
-            destination_names: ["Production Webhook", "Alert Email Server"]
-            destination_types: ["webhook", "email"]
-          notification_filters:
-            subscription_names: ["Critical System Alerts", "Network Health Monitoring"]
-            notification_types: ["webhook", "email"]
+      component_specific_filters:
+        components_list: ["webhook_destinations", "webhook_event_notifications", "email_destinations", "email_event_notifications"]
+        destination_filters:
+          destination_names: ["Production Webhook", "Alert Email Server"]
+          destination_types: ["webhook", "email"]
+        notification_filters:
+          subscription_names: ["Critical System Alerts", "Network Health Monitoring"]
+          notification_types: ["webhook", "email"]
+
+- name: Generate YAML Configuration for ITSM settings using filter block (auto-adds itsm_settings to components_list)
+  cisco.dnac.events_and_notifications_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/catc_itsm_config.yaml"
+    config:
+      component_specific_filters:
+        itsm_filters:
+          instance_names: ["ServiceNow Instance 1", "BMC Remedy Prod"]
 """
 
 RETURN = r"""
@@ -409,7 +464,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -636,330 +690,303 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = (
-                "Configuration is not available in the playbook for validation. No parameters "
-                "provided for events and notifications generation workflow."
+        config_provided = self.params.get("config") is not None
+        incoming_config = self.params.get("config")
+        if not config_provided:
+            self.config = {"generate_all_configurations": True}
+            self.log(
+                "Config is omitted. Applying internal default: "
+                "{'generate_all_configurations': True}.",
+                "INFO",
             )
-            self.log(self.msg, "INFO")
-            return self
+        else:
+            self.config = incoming_config if incoming_config is not None else {}
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "file_path": {"type": "str", "required": False},
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
-        }
-
-        # Define allowed nested keys for component_specific_filters
-        allowed_component_filter_keys = {
-            "components_list",
-            "destination_filters",
-            "notification_filters",
-            "itsm_filters"
-        }
-
-        # Define allowed nested keys for each filter type
-        allowed_destination_filter_keys = {
-            "destination_names",
-            "destination_types"
-        }
-
-        allowed_notification_filter_keys = {
-            "subscription_names",
-            "notification_types"
-        }
-
-        allowed_itsm_filter_keys = {
-            "instance_names"
         }
 
         allowed_keys = set(temp_spec.keys())
+        if config_provided:
+            allowed_keys = {"component_specific_filters"}
+
+        # Validate that config is a dict (not a list)
+        if not isinstance(self.config, dict):
+            self.msg = (
+                "Configuration must be a dictionary, got: {0}. "
+                "Please update your playbook - 'config' should be a dict, not a list.".format(
+                    type(self.config).__name__
+                )
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
         self.log(
-            "Starting iteration over {0} configuration item(s) for validation. Each item will "
-            "be checked for type compliance, allowed keys, and nested structure validity.".format(
-                len(self.config)
+            "Validating top-level configuration keys against allowed keys: {0}".format(
+                list(allowed_keys)
             ),
             "DEBUG"
         )
 
-        # Validate that only allowed keys are present in the configuration
-        for config_index, config_item in enumerate(self.config, start=1):
+        # Step 1: Validate invalid params using BrownFieldHelper
+        self.validate_invalid_params(self.config, allowed_keys)
+
+        # Step 2: Validate top-level file_mode if provided
+        file_mode = self.params.get("file_mode")
+        if file_mode is not None and file_mode not in ("overwrite", "append"):
+            self.msg = (
+                "Invalid value for 'file_mode': '{0}'. "
+                "Allowed values are: ['overwrite', 'append'].".format(file_mode)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Step 3: Validate config dict using BrownFieldHelper
+        validated_config = self.validate_config_dict(self.config, temp_spec)
+        if not isinstance(validated_config, dict):
+            validated_config = dict(self.config)
+        self.validated_config = validated_config
+
+        component_filters = validated_config.get("component_specific_filters")
+        if config_provided and component_filters is None:
+            self.msg = (
+                "Validation Error: 'component_specific_filters' is mandatory when "
+                "'config' is provided. Please provide "
+                "'config.component_specific_filters' with either "
+                "'components_list' or component filter blocks."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        self.log(
+            "Schema validation completed successfully. Validated configuration: {0}".format(
+                str(validated_config)
+            ),
+            "DEBUG"
+        )
+
+        # Step 4: Validate minimum requirements using BrownFieldHelper
+        self.log(
+            "Validating minimum requirements against provided config: {0}".format(
+                validated_config
+            ),
+            "DEBUG"
+        )
+
+        # Validate nested component_specific_filters structure
+        if component_filters and isinstance(component_filters, dict):
             self.log(
-                "Validating configuration item {0}/{1}. Checking item type and structure for "
-                "compliance with expected dictionary format.".format(
-                    config_index, len(self.config)
+                "Validating nested component_specific_filters keys: {0}".format(
+                    list(component_filters.keys())
                 ),
                 "DEBUG"
             )
-            if not isinstance(config_item, dict):
-                self.msg = (
-                    "Configuration item {0} must be a dictionary, got: {1}. Each configuration "
-                    "item must be a dictionary containing generation parameters and filters.".format(
-                        config_index, type(config_item).__name__
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
 
-            # Check for invalid keys at top level
-            config_keys = set(config_item.keys())
-            self.log(
-                "Configuration item {0} top-level keys validation passed. All keys {1} are "
-                "allowed. Proceeding with nested component_specific_filters validation.".format(
-                    config_index, list(config_keys)
-                ),
-                "DEBUG"
-            )
-            invalid_keys = config_keys - allowed_keys
+            # Define allowed nested keys for component_specific_filters
+            allowed_component_filter_keys = {
+                "components_list",
+                "destination_filters",
+                "notification_filters",
+                "itsm_filters"
+            }
 
-            if invalid_keys:
+            # Check for invalid keys in component_specific_filters
+            component_filter_keys = set(component_filters.keys())
+            invalid_component_keys = component_filter_keys - allowed_component_filter_keys
+
+            if invalid_component_keys:
                 self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
+                    "Invalid parameters found in 'component_specific_filters': {0}. "
                     "Only the following parameters are allowed: {1}. "
                     "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
+                        list(invalid_component_keys), list(allowed_component_filter_keys)
                     )
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            # Validate nested component_specific_filters structure
-            component_filters = config_item.get("component_specific_filters")
-            if component_filters and isinstance(component_filters, dict):
-                self.log(
-                    "Configuration item {0} contains component_specific_filters with {1} key(s): "
-                    "{2}. Validating nested filter keys against allowed component filter keys.".format(
-                        config_index, len(component_filters), list(component_filters.keys())
-                    ),
-                    "DEBUG"
-                )
-
-                # Check for invalid keys in component_specific_filters
-                component_filter_keys = set(component_filters.keys())
-                invalid_component_keys = component_filter_keys - allowed_component_filter_keys
-
-                if invalid_component_keys:
+            # Validate components_list values against allowed choices
+            allowed_components = {
+                "webhook_destinations", "email_destinations", "syslog_destinations",
+                "snmp_destinations", "itsm_settings", "webhook_event_notifications",
+                "email_event_notifications", "syslog_event_notifications"
+            }
+            components_list = component_filters.get("components_list")
+            if components_list and isinstance(components_list, list):
+                invalid_components = [c for c in components_list if c not in allowed_components]
+                if invalid_components:
                     self.msg = (
-                        "Invalid parameters found in 'component_specific_filters': {0}. "
+                        "Invalid component(s) in 'components_list': {0}. "
+                        "Allowed components are: {1}. "
+                        "Please provide valid component names and try again.".format(
+                            invalid_components, sorted(allowed_components)
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+            if components_list is None:
+                components_list = []
+
+            # Validate destination_filters
+            allowed_destination_filter_keys = {"destination_names", "destination_types"}
+            destination_filters = component_filters.get("destination_filters")
+            if destination_filters and isinstance(destination_filters, dict):
+                dest_filter_keys = set(destination_filters.keys())
+                invalid_dest_keys = dest_filter_keys - allowed_destination_filter_keys
+                if invalid_dest_keys:
+                    self.msg = (
+                        "Invalid parameters found in 'destination_filters': {0}. "
                         "Only the following parameters are allowed: {1}. "
                         "Please remove the invalid parameters and try again.".format(
-                            list(invalid_component_keys), list(allowed_component_filter_keys)
+                            list(invalid_dest_keys), list(allowed_destination_filter_keys)
                         )
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                self.log(
-                    "Component filter keys validation passed for item {0}. All keys {1} are "
-                    "allowed. Proceeding with destination_filters validation.".format(
-                        config_index, list(component_filter_keys)
-                    ),
-                    "DEBUG"
+                # Validate destination_types values against allowed choices
+                allowed_destination_types = {"webhook", "email", "syslog", "snmp"}
+                destination_types = destination_filters.get("destination_types")
+                if destination_types and isinstance(destination_types, list):
+                    invalid_dest_types = [dt for dt in destination_types if dt not in allowed_destination_types]
+                    if invalid_dest_types:
+                        self.msg = (
+                            "Invalid destination type(s) in 'destination_types': {0}. "
+                            "Allowed types are: {1}. "
+                            "Please provide valid destination types and try again.".format(
+                                invalid_dest_types, sorted(allowed_destination_types)
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+            # Validate notification_filters
+            allowed_notification_filter_keys = {"subscription_names", "notification_types"}
+            notification_filters = component_filters.get("notification_filters")
+            if notification_filters and isinstance(notification_filters, dict):
+                notif_filter_keys = set(notification_filters.keys())
+                invalid_notif_keys = notif_filter_keys - allowed_notification_filter_keys
+                if invalid_notif_keys:
+                    self.msg = (
+                        "Invalid parameters found in 'notification_filters': {0}. "
+                        "Only the following parameters are allowed: {1}. "
+                        "Please remove the invalid parameters and try again.".format(
+                            list(invalid_notif_keys), list(allowed_notification_filter_keys)
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                # Validate notification_types values against allowed choices
+                allowed_notification_types = {"webhook", "email", "syslog"}
+                notification_types = notification_filters.get("notification_types")
+                if notification_types and isinstance(notification_types, list):
+                    invalid_notif_types = [nt for nt in notification_types if nt not in allowed_notification_types]
+                    if invalid_notif_types:
+                        self.msg = (
+                            "Invalid notification type(s) in 'notification_types': {0}. "
+                            "Allowed types are: {1}. "
+                            "Please provide valid notification types and try again.".format(
+                                invalid_notif_types, sorted(allowed_notification_types)
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+            # Validate itsm_filters
+            allowed_itsm_filter_keys = {"instance_names"}
+            itsm_filters = component_filters.get("itsm_filters")
+            if itsm_filters and isinstance(itsm_filters, dict):
+                itsm_filter_keys = set(itsm_filters.keys())
+                invalid_itsm_keys = itsm_filter_keys - allowed_itsm_filter_keys
+                if invalid_itsm_keys:
+                    self.msg = (
+                        "Invalid parameters found in 'itsm_filters': {0}. "
+                        "Only the following parameters are allowed: {1}. "
+                        "Please remove the invalid parameters and try again.".format(
+                            list(invalid_itsm_keys), list(allowed_itsm_filter_keys)
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+            destination_filters_present = isinstance(destination_filters, dict)
+            notification_filters_present = isinstance(notification_filters, dict)
+            itsm_filters_present = isinstance(itsm_filters, dict)
+            any_filter_block_present = (
+                destination_filters_present or notification_filters_present or itsm_filters_present
+            )
+
+            inferred_components = set(components_list)
+            if destination_filters_present:
+                destination_types = destination_filters.get("destination_types")
+                if destination_types:
+                    destination_type_map = {
+                        "webhook": "webhook_destinations",
+                        "email": "email_destinations",
+                        "syslog": "syslog_destinations",
+                        "snmp": "snmp_destinations",
+                    }
+                    inferred_components.update(
+                        [destination_type_map[dt] for dt in destination_types]
+                    )
+                else:
+                    if not components_list:
+                        inferred_components.update(
+                            {
+                                "webhook_destinations",
+                                "email_destinations",
+                                "syslog_destinations",
+                                "snmp_destinations",
+                            }
+                        )
+
+            if notification_filters_present:
+                notification_types = notification_filters.get("notification_types")
+                if notification_types:
+                    notification_type_map = {
+                        "webhook": "webhook_event_notifications",
+                        "email": "email_event_notifications",
+                        "syslog": "syslog_event_notifications",
+                    }
+                    inferred_components.update(
+                        [notification_type_map[nt] for nt in notification_types]
+                    )
+                else:
+                    if not components_list:
+                        inferred_components.update(
+                            {
+                                "webhook_event_notifications",
+                                "email_event_notifications",
+                                "syslog_event_notifications",
+                            }
+                        )
+
+            if itsm_filters_present:
+                inferred_components.add("itsm_settings")
+
+            if any_filter_block_present:
+                component_filters["components_list"] = sorted(inferred_components)
+            elif not components_list:
+                self.msg = (
+                    "Validation Error: 'components_list' is mandatory and must be non-empty "
+                    "when no component filter blocks are provided under "
+                    "'component_specific_filters'."
                 )
-
-                # Validate destination_filters
-                destination_filters = component_filters.get("destination_filters")
-                if destination_filters:
-                    self.log(
-                        "Configuration item {0} contains destination_filters. Type: {1}. "
-                        "Processing filter items for key validation supporting both dict and "
-                        "list formats.".format(config_index, type(destination_filters).__name__),
-                        "DEBUG"
-                    )
-                    filters_to_check = []
-                    if isinstance(destination_filters, dict):
-                        filters_to_check = [destination_filters]
-
-                    elif isinstance(destination_filters, list):
-                        filters_to_check = destination_filters
-
-                    self.log(
-                        "Destination filters converted to list format with {0} filter item(s) "
-                        "for validation. Iterating through items to check allowed keys.".format(
-                            len(filters_to_check)
-                        ),
-                        "DEBUG"
-                    )
-
-                    # Validate each filter in the list/dict
-                    for filter_index, filter_item in enumerate(filters_to_check, start=1):
-                        self.log(
-                            "Validating destination filter item {0}/{1} with keys: {2}. Checking "
-                            "against allowed destination filter keys.".format(
-                                filter_index, len(filters_to_check), list(filter_item.keys())
-                            ),
-                            "DEBUG"
-                        )
-                        dest_filter_keys = set(filter_item.keys())
-                        invalid_dest_keys = dest_filter_keys - allowed_destination_filter_keys
-
-                        if invalid_dest_keys:
-                            self.msg = (
-                                "Invalid parameters found in 'destination_filters': {0}. "
-                                "Only the following parameters are allowed: {1}. "
-                                "Please remove the invalid parameters and try again.".format(
-                                    list(invalid_dest_keys), list(allowed_destination_filter_keys)
-                                )
-                            )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-                    self.log(
-                        "Destination filter item {0}/{1} validation passed. All keys {2} are "
-                        "allowed.".format(
-                            filter_index, len(filters_to_check), list(dest_filter_keys)
-                        ),
-                        "DEBUG"
-                    )
-
-                # Validate notification_filters (similar fix)
-                notification_filters = component_filters.get("notification_filters")
-                if notification_filters:
-                    # Handle both dict and list formats
-                    filters_to_check = []
-                    if isinstance(notification_filters, dict):
-                        filters_to_check = [notification_filters]
-
-                    elif isinstance(notification_filters, list):
-                        filters_to_check = notification_filters
-
-                    self.log(
-                        "Notification filters converted to list format with {0} filter item(s) "
-                        "for validation. Iterating through items to check allowed keys.".format(
-                            len(filters_to_check)
-                        ),
-                        "DEBUG"
-                    )
-
-                    # Validate each filter in the list/dict
-                    for filter_index, filter_item in enumerate(filters_to_check, start=1):
-                        self.log(
-                            "Validating notification filter item {0}/{1} with keys: {2}. Checking "
-                            "against allowed notification filter keys.".format(
-                                filter_index, len(filters_to_check), list(filter_item.keys())
-                            ),
-                            "DEBUG"
-                        )
-                        notif_filter_keys = set(filter_item.keys())
-                        invalid_notif_keys = notif_filter_keys - allowed_notification_filter_keys
-                        if invalid_notif_keys:
-                            self.msg = (
-                                "Invalid parameters found in 'notification_filters': {0}. "
-                                "Only the following parameters are allowed: {1}. "
-                                "Please remove the invalid parameters and try again.".format(
-                                    list(invalid_notif_keys), list(allowed_notification_filter_keys)
-                                )
-                            )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-                    self.log(
-                        "Notification filter item {0}/{1} validation passed. All keys {2} are "
-                        "allowed.".format(
-                            filter_index, len(filters_to_check), list(notif_filter_keys)
-                        ),
-                        "DEBUG"
-                    )
-
-                # Validate itsm_filters (similar fix)
-                itsm_filters = component_filters.get("itsm_filters")
-                if itsm_filters:
-                    self.log(
-                        "Configuration item {0} contains itsm_filters. Type: {1}. Processing "
-                        "filter items for key validation supporting both dict and list "
-                        "formats.".format(config_index, type(itsm_filters).__name__),
-                        "DEBUG"
-                    )
-                    filters_to_check = []
-                    if isinstance(itsm_filters, dict):
-                        filters_to_check = [itsm_filters]
-
-                    elif isinstance(itsm_filters, list):
-                        filters_to_check = itsm_filters
-
-                    self.log(
-                        "ITSM filters converted to list format with {0} filter item(s) for "
-                        "validation. Iterating through items to check allowed keys.".format(
-                            len(filters_to_check)
-                        ),
-                        "DEBUG"
-                    )
-
-                    # Validate each filter in the list/dict
-                    for filter_index, filter_item in enumerate(filters_to_check, start=1):
-                        self.log(
-                            "Validating ITSM filter item {0}/{1} with keys: {2}. Checking against "
-                            "allowed ITSM filter keys.".format(
-                                filter_index, len(filters_to_check), list(filter_item.keys())
-                            ),
-                            "DEBUG"
-                        )
-                        itsm_filter_keys = set(filter_item.keys())
-                        invalid_itsm_keys = itsm_filter_keys - allowed_itsm_filter_keys
-
-                        if invalid_itsm_keys:
-                            self.msg = (
-                                "Invalid parameters found in 'itsm_filters': {0}. "
-                                "Only the following parameters are allowed: {1}. "
-                                "Please remove the invalid parameters and try again.".format(
-                                    list(invalid_itsm_keys), list(allowed_itsm_filter_keys)
-                                )
-                            )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-                    self.log(
-                        "ITSM filter item {0}/{1} validation passed. All keys {2} are "
-                        "allowed.".format(
-                            filter_index, len(filters_to_check), list(itsm_filter_keys)
-                        ),
-                        "DEBUG"
-                    )
-
-        self.log(
-            "Configuration item {0}/{1} nested filter validation completed successfully. All "
-            "nested keys validated against allowed key sets.".format(
-                config_index, len(self.config)
-            ),
-            "DEBUG"
-        )
-
-        self.log(
-            "All {0} configuration item(s) passed top-level and nested key validation. "
-            "Proceeding with minimum requirements validation via validate_minimum_requirements().".format(
-                len(self.config)
-            ),
-            "DEBUG"
-        )
-
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
-
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        self.log(
-            "Schema validation completed successfully. All parameters conform to expected types "
-            "and requirements. Validated configuration: {0}".format(str(valid_temp)),
-            "DEBUG"
-        )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
         # Set the validated configuration and update the result with success status
-        self.validated_config = valid_temp
+        self.validated_config = validated_config
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
+            str(validated_config)
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         self.log(
             "Input validation completed successfully. Returning self instance with validated_config "
-            "populated containing {0} configuration item(s) ready for processing in generation "
-            "workflow.".format(len(self.validated_config)),
+            "ready for processing in generation workflow.",
             "INFO"
         )
         return self
@@ -1066,7 +1093,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
                 "reverse_mapping_function": self.itsm_settings_reverse_mapping_function,
                 "api_function": "get_all_itsm_integration_settings",
-                "api_family": "event_management",
+                "api_family": "itsm_integration",
                 "get_function_name": self.get_itsm_settings,
             },
             "webhook_event_notifications": {
@@ -2799,10 +2826,15 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             if destination_names:
                 self.log(
                     "Applying destination name filter: {0}. Searching for matching "
-                    "emails in retrieved configurations.".format(destination_names),
+                    "emails by primarySMTPConfig.userName or secondarySMTPConfig.userName "
+                    "in retrieved configurations.".format(destination_names),
                     "DEBUG"
                 )
-                matching_configs = [config for config in email_configs if config.get("name") in destination_names]
+                matching_configs = [
+                    config for config in email_configs
+                    if config.get("primarySMTPConfig", {}).get("userName") in destination_names
+                    or config.get("secondarySMTPConfig", {}).get("userName") in destination_names
+                ]
                 if matching_configs:
                     final_email_configs = matching_configs
                     self.log(
@@ -3581,12 +3613,16 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_all_itsm_settings(self, api_family, api_function):
         """
-        Retrieves all ITSM integration settings from the API.
+        Retrieves all ITSM integration settings from the API with full connection details.
 
         Description:
             This helper method fetches ITSM integration configurations from Cisco Catalyst Center.
-            It handles different response formats and extracts ITSM configuration data
-            including connection settings and authentication details.
+            It first calls get_all_itsm_integration_settings to obtain the list of ITSM instances,
+            then for each instance calls get_itsm_integration_setting_by_id to retrieve full
+            connection details (URL, username, password). The connection settings are normalized
+            from API PascalCase format (ConnectionSettings.Url, Auth_UserName, Auth_Password)
+            to the snake_case format expected by itsm_settings_temp_spec (connectionSettings.url,
+            username, password).
 
         Args:
             api_family (str): The API family identifier for ITSM settings.
@@ -3610,47 +3646,92 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 op_modifies=False,
             )
             self.log(
-                "Received API response for ITSM settings. Response type: {0}. "
+                "Received API response for ITSM settings. Response {0}. "
                 "Processing response structure to extract ITSM configuration data.".format(
-                    type(response).__name__
+                    response
                 ),
                 "DEBUG"
             )
 
+            itsm_settings = []
+
             if isinstance(response, dict):
-                itsm_settings = response.get("response", [])
-
-                if isinstance(itsm_settings, list):
-                    self.log(
-                        "Extracted {0} ITSM setting(s) from response field. Returning "
-                        "ITSM configurations for processing.".format(len(itsm_settings)),
-                        "INFO"
-                    )
-                    return itsm_settings
-                else:
-                    self.log(
-                        "Response field has unexpected format. Expected list, got: {0}. "
-                        "Returning empty list for graceful handling.".format(
-                            type(itsm_settings).__name__
-                        ),
-                        "WARNING"
-                    )
-                    return []
+                itsm_settings = response.get("data") or response.get("response", [])
             elif isinstance(response, list):
-                self.log(
-                    "API response is list format with {0} ITSM setting(s). Returning "
-                    "settings list directly for processing.".format(len(response)),
-                    "INFO"
-                )
-                return response
+                itsm_settings = response
 
-            else:
+            if not isinstance(itsm_settings, list):
                 self.log(
-                    "API response has unexpected format. Response type: {0}. Returning "
-                    "empty list for graceful handling.".format(type(response).__name__),
+                    "ITSM settings has unexpected format. Expected list, got: {0}. "
+                    "Returning empty list for graceful handling.".format(
+                        type(itsm_settings).__name__
+                    ),
                     "WARNING"
                 )
                 return []
+
+            self.log(
+                "Extracted {0} ITSM setting(s) from listing API. Now retrieving full "
+                "details for each instance using get_itsm_integration_setting_by_id.".format(
+                    len(itsm_settings)
+                ),
+                "INFO"
+            )
+
+            detailed_settings = []
+            for idx, item in enumerate(itsm_settings, start=1):
+                if not isinstance(item, dict):
+                    self.log(
+                        "Skipping ITSM entry {0}/{1} - not a valid dictionary.".format(
+                            idx, len(itsm_settings)
+                        ),
+                        "WARNING"
+                    )
+                    continue
+
+                instance_id = item.get("id")
+                instance_name = item.get("name", "unknown")
+
+                if not instance_id:
+                    self.log(
+                        "Skipping ITSM instance {0}/{1} '{2}' - no 'id' field found in "
+                        "listing response.".format(idx, len(itsm_settings), instance_name),
+                        "WARNING"
+                    )
+                    continue
+
+                self.log(
+                    "Processing ITSM instance {0}/{1} - name: '{2}', ID: '{3}'. "
+                    "Fetching full details.".format(
+                        idx, len(itsm_settings), instance_name, instance_id
+                    ),
+                    "DEBUG"
+                )
+
+                detail = self.get_itsm_setting_detail_by_id(instance_id, instance_name)
+                if not detail:
+                    self.log(
+                        "Could not retrieve full details for ITSM instance {0}/{1} '{2}' "
+                        "(ID: {3}). Falling back to listing data.".format(
+                            idx, len(itsm_settings), instance_name, instance_id
+                        ),
+                        "WARNING"
+                    )
+                    detailed_settings.append(item)
+
+                detailed_settings.append(detail)
+                self.log(
+                    "Successfully retrieved full details for ITSM instance {0}/{1} "
+                    "'{2}'.".format(idx, len(itsm_settings), instance_name),
+                    "DEBUG"
+                )
+
+            self.log(
+                "Completed ITSM detail retrieval. {0} of {1} instance(s) have full "
+                "connection details.".format(len(detailed_settings), len(itsm_settings)),
+                "INFO"
+            )
+            return detailed_settings
 
         except Exception as e:
             self.log(
@@ -3661,6 +3742,95 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "ERROR"
             )
             self.set_operation_result("failed", True, self.msg, "ERROR")
+            return []
+
+    def get_itsm_setting_detail_by_id(self, instance_id, instance_name):
+        """
+        Retrieves full ITSM integration setting details by instance ID.
+
+        Description:
+            This method calls the get_itsm_integration_setting_by_id API to fetch
+            complete ITSM configuration details including connection settings (URL,
+            username, password) for a specific ITSM instance. The API response contains
+            ConnectionSettings in PascalCase format which is normalized to the snake_case
+            format expected by itsm_settings_temp_spec.
+
+        Args:
+            instance_id (str): The unique identifier of the ITSM integration setting.
+            instance_name (str): The display name of the ITSM instance (used for logging).
+
+        Returns:
+            dict: A dictionary containing full ITSM setting details with normalized
+            connectionSettings (url, username, password), or None if retrieval fails.
+        """
+        self.log(
+            "Fetching full details for ITSM instance '{0}' (ID: {1}) using "
+            "get_itsm_integration_setting_by_id.".format(instance_name, instance_id),
+            "DEBUG"
+        )
+
+        try:
+            detail_response = self.dnac._exec(
+                family="itsm_integration",
+                function="get_itsm_integration_setting_by_id",
+                op_modifies=False,
+                params={"instance_id": instance_id},
+            )
+            self.log(
+                "Received API response for ITSM instance '{0}'. Response: "
+                "{1}.".format(instance_name, detail_response),
+                "DEBUG"
+            )
+
+            detail = detail_response
+            if isinstance(detail_response, dict) and not detail_response.get("name"):
+                detail = detail_response.get("data") or detail_response.get(
+                    "response", detail_response
+                )
+                if isinstance(detail, list) and detail:
+                    detail = detail[0]
+
+            if not isinstance(detail, dict):
+                self.log(
+                    "Unexpected detail response format for ITSM instance '{0}'. "
+                    "Expected dict, got: {1}.".format(
+                        instance_name, type(detail).__name__
+                    ),
+                    "WARNING"
+                )
+                return None
+
+            conn_data = detail.get("data", {})
+            conn_settings = (
+                conn_data.get("ConnectionSettings", {})
+                if isinstance(conn_data, dict) else {}
+            )
+
+            detail["connectionSettings"] = {
+                "url": conn_settings.get("Url", ""),
+                "username": conn_settings.get("Auth_UserName", ""),
+                "password": self.redact_password(
+                    conn_settings.get("Auth_Password") or "REDACTED"
+                ),
+            }
+            self.log(
+                "Normalized ConnectionSettings for ITSM instance '{0}'. "
+                "URL: {1}, Username: {2}.".format(
+                    instance_name,
+                    conn_settings.get("Url", "N/A"),
+                    conn_settings.get("Auth_UserName", "N/A")
+                ),
+                "DEBUG"
+            )
+            return detail
+
+        except Exception as detail_err:
+            self.log(
+                "Failed to retrieve details for ITSM instance '{0}' (ID: {1}). "
+                "Error: {2}.".format(instance_name, instance_id, str(detail_err)),
+                "WARNING"
+            )
+            return None
 
     def get_webhook_event_notifications(self, network_element, filters):
         """
@@ -4660,6 +4830,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         file_path = yaml_config_generator.get("file_path")
 
+        # Extract file_mode with default of 'overwrite'
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        self.log("File mode for YAML generation: '{0}'.".format(file_mode), "DEBUG")
+
         if not file_path:
             file_path = self.generate_filename()
             self.log(
@@ -4678,12 +4852,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Set defaults for generate_all_configurations mode
         if generate_all:
             self.log(
-                "Generate all configurations mode enabled. Automatically including all "
-                "supported event and notification components for comprehensive discovery.",
+                "Generate all configurations mode enabled. Ignoring any user-provided "
+                "component_specific_filters and including all supported components.",
                 "INFO"
             )
-            if not component_specific_filters.get("components_list"):
-                component_specific_filters["components_list"] = [
+            component_specific_filters = {
+                "components_list": [
                     "webhook_destinations",
                     "email_destinations",
                     "syslog_destinations",
@@ -4693,13 +4867,14 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "email_event_notifications",
                     "syslog_event_notifications"
                 ]
-                self.log(
-                    "Set default components list with all {0} supported component types "
-                    "for complete configuration capture.".format(
-                        len(component_specific_filters["components_list"])
-                    ),
-                    "DEBUG"
-                )
+            }
+            self.log(
+                "Set components list with all {0} supported component types "
+                "for complete configuration capture. Any user-provided filters are ignored.".format(
+                    len(component_specific_filters["components_list"])
+                ),
+                "DEBUG"
+            )
 
         # Validate components_list
         components_list = component_specific_filters.get("components_list", [])
@@ -4851,7 +5026,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
 
-                if self.write_dict_to_yaml(playbook_data, file_path):
+                if self.write_dict_to_yaml(playbook_data, file_path, file_mode):
                     success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
 
                     response_data = {
@@ -5064,9 +5239,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         want["yaml_config_generator"] = config
         self.log(
             "Structured 'want' configuration created with yaml_config_generator containing: "
-            "file_path={0}, generate_all_configurations={1}, component_filters_present={2}".format(
+            "file_path={0}, component_filters_present={1}".format(
                 config.get("file_path", "not specified"),
-                config.get("generate_all_configurations", False),
                 bool(config.get("component_specific_filters"))
             ),
             "DEBUG"
@@ -5144,7 +5318,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         operation_name,
                         params.get("file_path", "not specified"),
                         params.get("generate_all_configurations", False),
-                        len(params.get("component_specific_filters", {}).get(
+                        len((params.get("component_specific_filters") or {}).get(
                             "components_list", []
                         ))
                     ),
@@ -5363,10 +5537,19 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "required": False,
+            "type": "str",
+        },
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         "config": {
-            "required": True,
-            "type": "list",
-            "elements": "dict"
+            "required": False,
+            "type": "dict",
         },
         "state": {
             "default": "gathered",
@@ -5409,7 +5592,11 @@ def main():
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
+            (
+                len(module.params.get("config"))
+                if isinstance(module.params.get("config"), dict)
+                else 0
+            )
         ),
         "DEBUG"
     )
@@ -5514,159 +5701,76 @@ def main():
     # ============================================
     # Configuration Processing and Default Handling
     # ============================================
-    config_list = ccc_events_and_notifications_playbook_generator.validated_config
-
+    config_item = ccc_events_and_notifications_playbook_generator.validated_config
+    config_provided = module.params.get("config") is not None
+    if not isinstance(config_item, dict):
+        config_item = {}
+    if not config_item and not config_provided:
+        config_item = {"generate_all_configurations": True}
+    if config_provided and config_item.get("component_specific_filters") is None:
+        ccc_events_and_notifications_playbook_generator.msg = (
+            "Validation Error: 'component_specific_filters' is mandatory when "
+            "'config' is provided. Please provide "
+            "'config.component_specific_filters' with either "
+            "'components_list' or component filter blocks."
+        )
+        ccc_events_and_notifications_playbook_generator.set_operation_result(
+            "failed", False, ccc_events_and_notifications_playbook_generator.msg, "ERROR"
+        ).check_return_status()
     ccc_events_and_notifications_playbook_generator.log(
-        "Starting configuration processing and default handling - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        "Starting configuration processing and default handling for single config dict.",
         "INFO"
     )
 
-    # Handle generate_all_configurations and set component defaults
-    for config_index, config_item in enumerate(config_list, start=1):
-        ccc_events_and_notifications_playbook_generator.log(
-            "Processing configuration item {0}/{1} for generate_all_configurations and default component handling".format(
-                config_index, len(config_list)
-            ),
-            "DEBUG"
-        )
-
-        if config_item.get("generate_all_configurations", False):
-            ccc_events_and_notifications_playbook_generator.log(
-                "Configuration item {0}: generate_all_configurations=True detected. Setting default "
-                "components to include all events and notifications components".format(
-                    config_index
-                ),
-                "INFO"
-            )
-
-            # Set default components when generate_all_configurations is True
-            if not config_item.get("component_specific_filters"):
-                config_item["component_specific_filters"] = {
-                    "components_list": [
-                        "webhook_destinations", "email_destinations", "syslog_destinations",
-                        "snmp_destinations", "itsm_settings", "webhook_event_notifications",
-                        "email_event_notifications", "syslog_event_notifications"
-                    ]
-                }
-                ccc_events_and_notifications_playbook_generator.log(
-                    "Configuration item {0}: Set default component_specific_filters for generate_all mode: {1}".format(
-                        config_index, len(config_item["component_specific_filters"]["components_list"])
-                    ),
-                    "DEBUG"
-                )
-            else:
-                ccc_events_and_notifications_playbook_generator.log(
-                    "Configuration item {0}: component_specific_filters already provided in generate_all mode - "
-                    "using existing filters: {1}".format(
-                        config_index, config_item.get("component_specific_filters")
-                    ),
-                    "DEBUG"
-                )
-
-        elif config_item.get("component_specific_filters") is None:
-            ccc_events_and_notifications_playbook_generator.log(
-                "Configuration item {0}: No component_specific_filters provided in normal mode. "
-                "Applying default configuration to retrieve all events and notifications components".format(
-                    config_index
-                ),
-                "INFO"
-            )
-
-            # Existing fallback logic for when no filters are specified
-            ccc_events_and_notifications_playbook_generator.msg = (
-                "No valid configurations found in the provided parameters."
-            )
-
-            config_item["component_specific_filters"] = {
-                "components_list": [
-                    "webhook_destinations", "email_destinations", "syslog_destinations",
-                    "snmp_destinations", "itsm_settings", "webhook_event_notifications",
-                    "email_event_notifications", "syslog_event_notifications"
-                ]
-            }
-
-            ccc_events_and_notifications_playbook_generator.log(
-                "Configuration item {0}: Applied default component_specific_filters: {1} components".format(
-                    config_index, len(config_item["component_specific_filters"]["components_list"])
-                ),
-                "DEBUG"
-            )
-        else:
-            ccc_events_and_notifications_playbook_generator.log(
-                "Configuration item {0}: component_specific_filters already provided in normal mode - "
-                "using existing filters: {1}".format(
-                    config_index, config_item.get("component_specific_filters")
-                ),
-                "DEBUG"
-            )
+    # Keep file_path and file_mode as top-level module args and inject into
+    # validated config for downstream workflow execution.
+    if module.params.get("file_path") is not None:
+        config_item["file_path"] = module.params.get("file_path")
+    if module.params.get("file_mode") is not None:
+        config_item["file_mode"] = module.params.get("file_mode")
 
     # Update validated config after default handling
-    ccc_events_and_notifications_playbook_generator.validated_config = config_list
+    ccc_events_and_notifications_playbook_generator.validated_config = config_item
 
     ccc_events_and_notifications_playbook_generator.log(
-        "Configuration preprocessing completed. Updated validated_config with default component "
-        "handling. Final configuration count: {0}".format(len(config_list)),
+        "Configuration preprocessing completed. Updated validated_config with top-level file args.",
         "INFO"
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Execute State-Specific Operations
     # ============================================
-    final_config_list = ccc_events_and_notifications_playbook_generator.validated_config
+    components_list = (config_item.get("component_specific_filters") or {}).get("components_list", "all")
 
     ccc_events_and_notifications_playbook_generator.log(
-        "Starting configuration processing loop - will process {0} final configuration "
-        "item(s) after default handling".format(len(final_config_list)),
+        "Processing configuration for state '{0}' with components: {1}".format(
+            state,
+            len(components_list) if isinstance(components_list, list) else components_list
+        ),
         "INFO"
     )
 
-    for config_index, config_item in enumerate(final_config_list, start=1):
-        components_list = config_item.get("component_specific_filters", {}).get("components_list", "all")
+    # Reset values for clean state
+    ccc_events_and_notifications_playbook_generator.reset_values()
 
-        ccc_events_and_notifications_playbook_generator.log(
-            "Processing configuration item {0}/{1} for state '{2}' with components: {3}".format(
-                config_index, len(final_config_list), state,
-                len(components_list) if isinstance(components_list, list) else components_list
-            ),
-            "INFO"
-        )
+    # Collect desired state (want) from configuration
+    ccc_events_and_notifications_playbook_generator.get_want(
+        config_item, state
+    ).check_return_status()
 
-        # Reset values for clean state between configurations
-        ccc_events_and_notifications_playbook_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_events_and_notifications_playbook_generator.reset_values()
+    # Execute state-specific operation (gathered workflow)
+    ccc_events_and_notifications_playbook_generator.log(
+        "Executing state-specific operation for '{0}' workflow - will retrieve destinations, "
+        "ITSM settings, and event subscriptions from Catalyst Center".format(state),
+        "INFO"
+    )
+    ccc_events_and_notifications_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
-        # Collect desired state (want) from configuration
-        ccc_events_and_notifications_playbook_generator.log(
-            "Collecting desired state parameters from configuration item {0} - "
-            "building want dictionary for events and notifications operations".format(
-                config_index
-            ),
-            "DEBUG"
-        )
-        ccc_events_and_notifications_playbook_generator.get_want(
-            config_item, state
-        ).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        ccc_events_and_notifications_playbook_generator.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1} - will retrieve destinations, ITSM settings, "
-            "and event subscriptions from Catalyst Center".format(state, config_index),
-            "INFO"
-        )
-        ccc_events_and_notifications_playbook_generator.get_diff_state_apply[state]().check_return_status()
-
-        ccc_events_and_notifications_playbook_generator.log(
-            "Successfully completed processing for configuration item {0}/{1} - "
-            "events and notifications data extraction and YAML generation completed".format(
-                config_index, len(final_config_list)
-            ),
-            "INFO"
-        )
+    ccc_events_and_notifications_playbook_generator.log(
+        "Successfully completed processing - events and notifications data extraction "
+        "and YAML generation completed.",
+        "INFO"
+    )
 
     # ============================================
     # Module Completion and Exit
@@ -5681,11 +5785,9 @@ def main():
 
     ccc_events_and_notifications_playbook_generator.log(
         "Events and notifications playbook generator module execution completed successfully "
-        "at timestamp {0}. Total execution time: {1:.2f} seconds. Processed {2} "
-        "configuration item(s) with final status: {3}".format(
+        "at timestamp {0}. Total execution time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            len(final_config_list),
             ccc_events_and_notifications_playbook_generator.status
         ),
         "INFO"

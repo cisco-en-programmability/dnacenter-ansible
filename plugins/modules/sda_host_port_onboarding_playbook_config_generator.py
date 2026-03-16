@@ -57,8 +57,7 @@ options:
       filters for targeted SDA host port onboarding extraction.
     - At least one of generate_all_configurations or component_specific_filters
       with components_list must be specified to identify target configurations.
-    type: list
-    elements: dict
+    type: dict
     required: true
     suboptions:
       generate_all_configurations:
@@ -85,6 +84,14 @@ options:
         - Directory created automatically if path does not exist.
         - Supports YAML file extension (.yml or .yaml).
         type: str
+      file_mode:
+        description:
+        - Controls how config is written to the YAML file.
+        - C(overwrite) replaces existing file content.
+        - C(append) appends generated YAML content to the existing file.
+        type: str
+        choices: ["overwrite", "append"]
+        default: "overwrite"
       component_specific_filters:
         description:
         - Component-based filters for targeted SDA host port onboarding extraction.
@@ -209,7 +216,8 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - generate_all_configurations: true
+      generate_all_configurations: true
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -224,8 +232,9 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - generate_all_configurations: true
-        file_path: "sda_host_port_onboarding_config.yml"
+      generate_all_configurations: true
+      file_path: "sda_host_port_onboarding_config.yml"
+      file_mode: "overwrite"
 
 - name: Generate YAML Configuration with specific component port assignments filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -240,14 +249,15 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - generate_all_configurations: false
-        file_path: "port_assignments_config.yml"
-        component_specific_filters:
-          components_list: ["port_assignments"]
-          port_assignments:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
-              - "Global/USA/RTP/Building2"
+      generate_all_configurations: false
+      file_path: "port_assignments_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["port_assignments"]
+        port_assignments:
+          fabric_site_name_hierarchy:
+            - "Global/USA/San Jose/Building1"
+            - "Global/USA/RTP/Building2"
 
 - name: Generate YAML Configuration with port channels component
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -262,12 +272,13 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - file_path: "port_channels_config.yml"
-        component_specific_filters:
-          components_list: ["port_channels"]
-          port_channels:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
+      file_path: "port_channels_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["port_channels"]
+        port_channels:
+          fabric_site_name_hierarchy:
+            - "Global/USA/San Jose/Building1"
 
 - name: Generate YAML Configuration with wireless SSIDs component
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -282,13 +293,14 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - file_path: "wireless_ssids_config.yml"
-        component_specific_filters:
-          components_list: ["wireless_ssids"]
-          wireless_ssids:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
-              - "Global/USA/RTP/Building2"
+      file_path: "wireless_ssids_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["wireless_ssids"]
+        wireless_ssids:
+          fabric_site_name_hierarchy:
+            - "Global/USA/San Jose/Building1"
+            - "Global/USA/RTP/Building2"
 
 - name: Generate YAML Configuration with multiple components and fabric site filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -303,18 +315,19 @@ EXAMPLES = r"""
     dnac_log_level: DEBUG
     state: gathered
     config:
-      - file_path: "complete_sda_config.yml"
-        component_specific_filters:
-          components_list: ["port_assignments", "port_channels", "wireless_ssids"]
-          port_assignments:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
-          port_channels:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
-          wireless_ssids:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
+      file_path: "complete_sda_config.yml"
+      file_mode: "overwrite"
+      component_specific_filters:
+        components_list: ["port_assignments", "port_channels", "wireless_ssids"]
+        port_assignments:
+          fabric_site_name_hierarchy:
+            - "Global/USA/San Jose/Building1"
+        port_channels:
+          fabric_site_name_hierarchy:
+            - "Global/USA/San Jose/Building1"
+        wireless_ssids:
+          fabric_site_name_hierarchy:
+            - "Global/USA/San Jose/Building1"
 """
 
 RETURN = r"""
@@ -351,10 +364,10 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
              when 'generate_all_configurations' is set to False.",
         "response":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
              when 'generate_all_configurations' is set to False."
     }
 """
@@ -365,7 +378,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -530,6 +542,12 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "required": False,
                 "default": False
             },
+            "file_mode": {
+                "type": "str",
+                "required": False,
+                "default": "overwrite",
+                "choices": ["overwrite", "append"]
+            },
             "file_path": {
                 "type": "str",
                 "required": False
@@ -542,13 +560,13 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Validate params
         self.log("Validating configuration against schema.", "DEBUG")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
-        if invalid_params:
-            self.msg = f"Invalid parameters in playbook: {invalid_params}"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
+        self.log(
+            "Schema validation passed successfully. All parameters conform to expected "
+            "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
+            "DEBUG"
+        )
         self.log(f"Validating minimum requirements against provided config: {self.config}", "DEBUG")
         self.validate_minimum_requirements(self.config)
 
@@ -1879,6 +1897,12 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             f"YAML configuration file path determined: {file_path}. Path will be used for write_dict_to_yaml() operation.",
             "INFO"
         )
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+
+        self.log(
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
+            "DEBUG"
+        )
 
         self.log(
             "Initializing filter extraction from yaml_config_generator parameters. "
@@ -2098,7 +2122,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
+        if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, dumper=OrderedDumper):
             self.log(
                 f"YAML file write operation succeeded. File created at: {file_path}. "
                 f"File contains {len(final_config_list)} configuration(s) with "
@@ -2405,8 +2429,7 @@ def main():
         # ============================================
         "config": {
             "required": True,
-            "type": "list",
-            "elements": "dict"
+            "type": "dict",
         },
         "state": {
             "default": "gathered",
@@ -2550,41 +2573,13 @@ def main():
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Processing configuration item {config_index}/{len(config_list)} for state '{state}'",
-            "INFO"
-        )
-
-        # Reset values for clean state between configurations
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        catc_sda_host_port_onboarding_playbook_config_generator.reset_values()
-
-        # Collect desired state (want) from configuration
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Collecting desired state parameters from configuration item {config_index}",
-            "DEBUG"
-        )
-        catc_sda_host_port_onboarding_playbook_config_generator.get_want(
-            config, state
-        ).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Executing state-specific operation for '{state}' workflow on configuration item {config_index}",
-            "INFO"
-        )
-        catc_sda_host_port_onboarding_playbook_config_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
-
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Successfully completed processing for configuration item {config_index}/{len(config_list)}",
-            "INFO"
-        )
+    config = catc_sda_host_port_onboarding_playbook_config_generator.validated_config
+    catc_sda_host_port_onboarding_playbook_config_generator.get_want(
+        config, state
+    ).check_return_status()
+    catc_sda_host_port_onboarding_playbook_config_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     # ============================================
     # Module Completion and Exit
