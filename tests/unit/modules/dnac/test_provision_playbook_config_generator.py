@@ -164,10 +164,10 @@ class TestDnacProvisionPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
-                file_path = (
-            "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/"
-            "playbooks/brownfield_provision_workflow_playbook.yml"
-        ),  
+                file_path=(
+                    "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/"
+                    "playbooks/brownfield_provision_workflow_playbook.yml"
+                ),
                 file_mode="overwrite",
             )
         )
