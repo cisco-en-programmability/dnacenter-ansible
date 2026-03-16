@@ -1,6 +1,5 @@
 {
   "playbook_config_ssids_with_filters": {
-    "file_path": "tmp/test_wireless_design.yml",
     "component_specific_filters": {
       "components_list": [
         "ssids"
@@ -15,7 +14,6 @@
     }
   },
   "playbook_config_interfaces_with_filters": {
-    "file_path": "tmp/test_wireless_design.yml",
     "component_specific_filters": {
       "components_list": [
         "interfaces"
@@ -29,7 +27,6 @@
     }
   },
   "playbook_config_feature_template_with_filters": {
-    "file_path": "tmp/test_wireless_design.yml",
     "component_specific_filters": {
       "components_list": [
         "feature_template_config"
@@ -43,7 +40,6 @@
     }
   },
   "playbook_config_flex_connect_with_filters": {
-    "file_path": "tmp/test_wireless_design.yml",
     "component_specific_filters": {
       "components_list": [
         "flex_connect_configuration"
@@ -56,10 +52,9 @@
     }
   },
   "playbook_config_invalid_minimum_requirements": {
-    "file_path": "tmp/test_wireless_design.yml"
+    "component_list": []
   },
   "playbook_config_interfaces_without_filters": {
-    "file_path": "tmp/test_wireless_design.yml",
     "component_specific_filters": {
       "components_list": [
         "interfaces"
@@ -67,7 +62,6 @@
     }
   },
   "playbook_config_feature_template_type_only": {
-    "file_path": "tmp/test_wireless_design.yml",
     "component_specific_filters": {
       "components_list": [
         "feature_template_config"
@@ -80,7 +74,6 @@
     }
   },
   "playbook_config_feature_template_invalid_type": {
-    "file_path": "tmp/test_wireless_design.yml",
     "component_specific_filters": {
       "components_list": [
         "feature_template_config"
