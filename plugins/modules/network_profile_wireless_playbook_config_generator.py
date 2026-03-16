@@ -39,6 +39,27 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, the file will be saved in the current
+        working directory with a default file name
+        C(network_profile_wireless_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+      - For example,
+        C(network_profile_wireless_playbook_config_2025-11-12_21-43-26.yml).
+      - Supports both absolute and relative file paths.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - Determines how the output YAML configuration file is written.
+      - Relevant only when C(file_path) is provided.
+      - When set to C(overwrite), the file will be replaced with new content.
+      - When set to C(append), new content will be added to the existing file.
+    type: str
+    required: false
+    default: overwrite
+    choices: ["overwrite", "append"]
   config:
     description:
       - A dictionary of filters for generating YAML playbook compatible
@@ -46,49 +67,12 @@ options:
         module.
       - Filters specify which components to include in the YAML
         configuration file.
-      - Either 'generate_all_configurations' or 'global_filters'
-        must be specified to identify target wireless profiles.
+      - If C(config) is provided, C(global_filters) is mandatory.
+      - If C(config) is omitted, internal auto-discovery mode is used
+        and generate_all_configurations defaults to C(True).
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML
-            configurations for all wireless profiles and all
-            supported features.
-          - This mode discovers all managed devices in Cisco
-            Catalyst Center and extracts all supported
-            configurations.
-          - When enabled, the config parameter becomes optional
-            and will use default values if not provided.
-          - A default filename will be generated automatically
-            if file_path is not specified.
-          - This is useful for complete network wireless profile
-            and documentation.
-          - Any provided global_filters will be IGNORED in this
-            mode.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current
-            working directory with a default file name
-            C(<module_name>playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example,
-            'network_profile_wireless_playbook_config_2025-11-12_21-43-26.yml'.
-          - Supports both absolute and relative file paths.
-        type: str
-      file_mode:
-        description:
-          - Determines how the output YAML configuration file is written.
-          - When set to C(overwrite), the file will be replaced with new content.
-          - When set to C(append), new content will be added to the existing file.
-        type: str
-        required: false
-        default: overwrite
-        choices: ["overwrite", "append"]
       global_filters:
         description:
           - Global filters to apply when generating the YAML
@@ -241,8 +225,6 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration with custom file path
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -256,10 +238,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      file_path: "/tmp/complete_wireless_profile_config.yml"
-      file_mode: "overwrite"
-      generate_all_configurations: true
+    file_path: "/tmp/complete_wireless_profile_config.yml"
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with default file path for given wireless profiles
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -273,9 +253,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_profile_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/network_profile_wireless_playbook_config_profile_base.yml"
-      file_mode: "overwrite"
       global_filters:
         profile_name_list:
           - "Campus_Wireless_Profile"
@@ -293,9 +273,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_dayn_template_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/network_profile_wireless_playbook_config_dayn_template_base.yml"
-      file_mode: "overwrite"
       global_filters:
         day_n_template_list:
           - "Periodic_Config_Audit"
@@ -313,9 +293,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_site_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/network_profile_wireless_playbook_config_site_base.yml"
-      file_mode: "overwrite"
       global_filters:
         site_list:
           - "Global/India/Chennai/Main_Office"
@@ -333,9 +313,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_ssid_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/network_profile_wireless_playbook_config_ssid_base.yml"
-      file_mode: "overwrite"
       global_filters:
         ssid_list:
           - "SSID1"
@@ -353,9 +333,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_ap_zone_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/network_profile_wireless_playbook_config_ap_zone_base.yml"
-      file_mode: "overwrite"
       global_filters:
         ap_zone_list:
           - "AP_Zone1"
@@ -373,9 +353,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_feature_template_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/network_profile_wireless_playbook_config_feature_template_base.yml"
-      file_mode: "overwrite"
       global_filters:
         feature_template_list:
           - "Default AAA_Radius_Attributes_Configuration"
@@ -393,9 +373,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_additional_interface_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/network_profile_wireless_playbook_config_additional_interface_base.yml"
-      file_mode: "overwrite"
       global_filters:
         additional_interface_list:
           - "VLAN_22"
@@ -521,11 +501,16 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             "DEBUG"
         )
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
+        config_provided = self.params.get("config") is not None
+        if not config_provided:
+            self.config = {"generate_all_configurations": True}
+            self.validated_config = self.config
+            self.msg = (
+                "Config not provided. Defaulting to generate_all_configurations=True "
+                "for complete wireless profile discovery."
+            )
             self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         if not isinstance(self.config, dict):
@@ -537,22 +522,11 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Define expected schema for configuration parameters
         temp_spec = {
             "generate_all_configurations": {
                 "type": "bool",
                 "required": False,
                 "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"]
             },
             "global_filters": {
                 "type": "dict",
@@ -563,25 +537,18 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
-        # Validate minimum requirements (generate_all or global_filters)
-        self.log(
-            "Validating minimum requirements to ensure either generate_all_configurations "
-            "or global_filters is provided.",
-            "DEBUG"
-        )
-
-        try:
-            self.validate_minimum_requirement_for_global_filters(valid_temp)
-            self.log(
-                "Minimum requirements validation passed. Configuration has either "
-                "generate_all_configurations or valid global_filters.",
-                "INFO"
-            )
-        except Exception as e:
+        if valid_temp.get("generate_all_configurations"):
             self.msg = (
-                "Minimum requirements validation failed: {0}. Please ensure either "
-                "generate_all_configurations is true or global_filters is provided with "
-                "at least one filter list.".format(str(e))
+                "generate_all_configurations cannot be used when config is provided. "
+                "Omit config to generate all wireless profile configurations."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        if not valid_temp.get("global_filters"):
+            self.msg = (
+                "Validation failed: global_filters is required when config is provided."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -630,7 +597,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             "has_global_filters: {1}, file_mode: {2}".format(
                 bool(valid_temp.get("generate_all_configurations")),
                 bool(valid_temp.get("global_filters")),
-                valid_temp.get("file_mode", "overwrite")
+                self.params.get("file_mode", "overwrite")
             ),
             "INFO"
         )
@@ -2137,15 +2104,15 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                                         - generate_all_configurations (bool, optional):
                                         Auto-discovery mode flag enabling complete
                                         infrastructure extraction
-                                        - file_path (str, optional): Output YAML file
-                                        path, defaults to auto-generated timestamped
-                                        filename if not provided
                                         - global_filters (dict, optional): Filter
                                         criteria with profile_name_list,
                                         day_n_template_list, site_list, ssid_list,
                                         ap_zone_list, feature_template_list,
                                         additional_interface_list for targeted
                                         extraction
+            Note:
+                The output file path and write mode are controlled by module parameters
+                C(file_path) and C(file_mode), not by the config dictionary.
 
         Returns:
             object: Self instance with updated attributes:
@@ -2187,11 +2154,11 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             "DEBUG"
         )
 
-        file_path = yaml_config_generator.get("file_path")
+        file_path = self.params.get("file_path")
 
         if not file_path:
             self.log(
-                "No file_path provided in configuration. Generating default filename "
+                "No file_path provided in module parameters. Generating default filename "
                 "with pattern <module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml in "
                 "current working directory.",
                 "DEBUG"
@@ -2206,7 +2173,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             )
         else:
             self.log(
-                f"Using user-provided file_path: {file_path}. File will be created at "
+                f"Using user-provided file_path from module parameters: {file_path}. File will be created at "
                 "specified location with directory creation if needed.",
                 "DEBUG"
             )
@@ -2216,7 +2183,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             "write_dict_to_yaml() operation.",
             "INFO"
         )
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        file_mode = self.params.get("file_mode", "overwrite")
 
         self.log("Initializing filter dictionaries", "DEBUG")
         # Set empty filters to retrieve everything
@@ -3166,15 +3133,14 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         This function creates API call parameters based on specified state by validating
         input configuration against expected schema, processing global filters and
-        generation flags, constructing yaml_config_generator parameters with file path
-        and filter specifications, and populating want dictionary for downstream YAML
+        generation flags, constructing yaml_config_generator parameters with filter
+        specifications, and populating want dictionary for downstream YAML
         generation workflow execution in get_diff_gathered operation.
 
         Args:
             config (dict): Configuration data containing:
                         - generate_all_configurations (bool, optional): Auto-discovery
                             mode flag for complete infrastructure extraction
-                        - file_path (str, optional): Output YAML file path
                         - global_filters (dict, optional): Filter criteria with
                             profile_name_list, day_n_template_list, site_list,
                             ssid_list, ap_zone_list, feature_template_list,
@@ -3211,8 +3177,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         self.log(
             "yaml_config_generator parameters added to want "
             f"dictionary: {self.pprint(want['yaml_config_generator'])}. Dictionary "
-            "contains complete configuration for YAML generation including filters and "
-            "file path specifications.",
+            "contains complete configuration for YAML generation including filters.",
             "INFO"
         )
 
@@ -3619,7 +3584,9 @@ def main():
             - dnac_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
-            - config (dict, required): Configuration parameters dictionary
+            - file_path (str, optional): Output file path for YAML configuration
+            - file_mode (str, optional): File write mode ("overwrite" or "append")
+            - config (dict, optional): Configuration parameters dictionary
             - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
@@ -3734,8 +3701,18 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "type": "str",
+            "required": False
+        },
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"]
+        },
         "config": {
-            "required": True,
+            "required": False,
             "type": "dict"
         },
         "state": {

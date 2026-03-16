@@ -140,6 +140,7 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
+                file_path="/Users/syedkahm/Downloads/pnp_device_info",
                 config=self.playbook_no_config
             )
         )
