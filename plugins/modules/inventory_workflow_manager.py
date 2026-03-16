@@ -593,6 +593,7 @@ options:
               - Maintenance purpose and details.
               - A brief description of the maintenance schedule, specifying its
                 purpose or any relevant details.
+              - Description can be created but cannot be updated later for maintenance schedules.
             type: str
           start_time:
             description:
@@ -758,13 +759,16 @@ options:
                 date/time and the current time.
               - Format - "YYYY-MM-DD HH:MM:SS".
             type: str
+            required: false
           recurrence_interval:
             description:
               - Days between recurring maintenance windows.
               - Interval for recurrence in days. The interval must be longer than
                 the duration of the maintenance schedules and must be within the
                 range 1 to 365 (inclusive).
+              - recurrence_interval is required if recurrence_end_time is provided.
             type: int
+            required: false
 requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
@@ -1392,7 +1396,8 @@ class Inventory(DnacBase):
             self.maintenance_scheduled,
             self.maintenance_updated,
             self.no_update_in_maintenance,
-        ) = ([], [], [])
+            self.ip_not_found,
+        ) = ([], [], [], [])
         self.maintenance_deleted, self.no_maintenance_schedule = [], []
         (
             self.ip_address_for_update,
@@ -1408,6 +1413,7 @@ class Inventory(DnacBase):
         ) = ([], [], [])
         self.cred_updated_not_required, self.device_role_already_updated = [], []
         self.ap_rebooted_successfully = []
+        self.udf_already_added = []
 
     def validate_input(self):
         """
@@ -1611,7 +1617,7 @@ class Inventory(DnacBase):
                     "Received API response from 'get_device_list': {0}".format(
                         str(response)
                     ),
-                    "DEBUG",
+                    "error",
                 )
                 if not response:
                     self.log(
@@ -1678,7 +1684,7 @@ class Inventory(DnacBase):
             "DEBUG",
         )
         udf = response.get("response")
-
+        self.log(self.config, "DEBUG")
         if len(udf) == 1:
             return True
 
@@ -3265,7 +3271,7 @@ class Inventory(DnacBase):
             )
 
         except Exception as e:
-            self.msg = """An exception occured while fetching the details for wireless provisioning of
+            self.msg = """An exception occurred while fetching the details for wireless provisioning of
                 device '{0}' due to - {1}""".format(
                 device_ip_address, str(e)
             )
@@ -3481,7 +3487,11 @@ class Inventory(DnacBase):
                 "http_username",
                 "http_password",
             ],
-            "THIRD_PARTY_DEVICE": ["ip_address_list"],
+            "THIRD_PARTY_DEVICE": [
+                "ip_address_list",
+                "type",
+                "snmp_version",
+            ],
         }
 
         params_list = params_dict.get(device_type, [])
@@ -3684,6 +3694,13 @@ class Inventory(DnacBase):
                 if response:
                     response = response.get("response")
                     if not response:
+                        self.ip_not_found.append(device_ip)
+                        self.log(
+                            "Device with IP address '{0}' not found in Cisco Catalyst Center.".format(
+                                device_ip
+                            ),
+                            "ERROR",
+                        )
                         continue
                     device_id = response[0]["id"]
                     device_ids.append(device_id)
@@ -4273,11 +4290,11 @@ class Inventory(DnacBase):
                                 self.status = "failed"
                                 failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
-                                    self.msg = "Interface Updation get failed because of {0}".format(
+                                    self.msg = "Interface Update get failed because of {0}".format(
                                         failure_reason
                                     )
                                 else:
-                                    self.msg = "Interface Updation get failed"
+                                    self.msg = "Interface Update get failed"
                                 self.log(self.msg, "ERROR")
                                 self.result["response"] = self.msg
                                 break
@@ -4289,7 +4306,7 @@ class Inventory(DnacBase):
                     self.log(error_message, "INFO")
                     self.status = "success"
                     self.result["changed"] = False
-                    self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
+                    self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Update required"
                     self.log(self.msg, "INFO")
                     self.response_list.append(self.msg)
 
@@ -4324,11 +4341,11 @@ class Inventory(DnacBase):
                 self.status = "failed"
                 failure_reason = execution_details.get("failureReason")
                 if failure_reason:
-                    self.msg = "Device new management IP updation for device '{0}' get failed due to {1}".format(
+                    self.msg = "Device new management IP update for device '{0}' get failed due to {1}".format(
                         device_ip, failure_reason
                     )
                 else:
-                    self.msg = "Device new management IP updation for device '{0}' get failed".format(
+                    self.msg = "Device new management IP update for device '{0}' get failed".format(
                         device_ip
                     )
                 self.log(self.msg, "ERROR")
@@ -4374,12 +4391,12 @@ class Inventory(DnacBase):
                 failure_reason = execution_details.get("failureReason")
                 if failure_reason:
                     self.msg = (
-                        "Device Updation for device '{0}' get failed due to {1}".format(
+                        "Device Update for device '{0}' get failed due to {1}".format(
                             device_ip, failure_reason
                         )
                     )
                 else:
-                    self.msg = "Device Updation for device '{0}' get failed".format(
+                    self.msg = "Device Update for device '{0}' get failed".format(
                         device_ip
                     )
                 self.log(self.msg, "ERROR")
@@ -5108,7 +5125,7 @@ class Inventory(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while scheduling the maintenance for the device(s) '{0}' in the Cisco Catalyst "
+                "An exception occurred while scheduling the maintenance for the device(s) '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(device_ips, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -5229,7 +5246,7 @@ class Inventory(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while checking the scheduling the maintenance for the device '{0}' "
+                "An exception occurred while checking the scheduling the maintenance for the device '{0}' "
                 " needs update or not in the Cisco Catalyst Center: {1}"
             ).format(device_ip, str(e))
             self.log(self.msg, "ERROR")
@@ -5560,7 +5577,7 @@ class Inventory(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while updating the maintenance schedule for the device '{0}' in the Cisco Catalyst "
+                "An exception occurred while updating the maintenance schedule for the device '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(device_ip, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -5652,7 +5669,7 @@ class Inventory(DnacBase):
 
         return self
 
-    def parse_for_add_network_device_params(self, device_params):
+    def parse_for_add_network_device_params(self, device_params, type=None):
         """
         Parse the network device parameters from the provided dictionary.
 
@@ -5713,6 +5730,11 @@ class Inventory(DnacBase):
                 device_params.pop("snmpPrivPassphrase", None)
                 device_params.pop("snmpPrivProtocol", None)
 
+        if type:
+            device_params["type"] = type
+
+        self.log("Parsed network device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def parse_for_add_compute_device_params(self, device_params):
@@ -5750,6 +5772,9 @@ class Inventory(DnacBase):
         for param in params_to_remove:
             device_params.pop(param, None)
 
+        device_params["type"] = "COMPUTE_DEVICE"
+        self.log("Parsed compute device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def add_inventory_device(self, device_params, devices_to_add, device_to_add_in_ccc):
@@ -5764,7 +5789,7 @@ class Inventory(DnacBase):
         Returns:
             object: An instance of the class with updated results and status.
         """
-        self.log("Adding device to inventory: {0}".format(str(device_params)), "INFO")
+        self.log("Adding device to inventory: {0}".format(self.pprint(device_params)), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -6158,17 +6183,27 @@ class Inventory(DnacBase):
 
         if self.config[0].get("role"):
             devices_to_update_role = self.get_device_ips_from_config_priority()
-            device_exist = self.is_device_exist_for_update(devices_to_update_role)
+            # Only validate device existence if we are NOT also adding devices in this run.
+            # When devices are being added in the same playbook run, the role update will
+            # happen after the device add operation completes.
+            if not devices_to_add:
+                device_exist = self.is_device_exist_for_update(devices_to_update_role)
 
-            if not device_exist:
-                self.msg = """Unable to update device role because the device(s) listed: {0} are not present in the Cisco
-                            Catalyst Center.""".format(
-                    str(devices_to_update_role)
+                if not device_exist:
+                    self.msg = """Unable to update device role because the device(s) listed: {0} are not present in the Cisco
+                                Catalyst Center.""".format(
+                        str(devices_to_update_role)
+                    )
+                    self.status = "failed"
+                    self.result["response"] = self.msg
+                    self.log(self.msg, "ERROR")
+                    return self
+            else:
+                self.log(
+                    "Skipping role pre-validation for device(s) {0} as they are being added in this run. "
+                    "Role will be updated after device addition.".format(str(devices_to_update_role)),
+                    "INFO",
                 )
-                self.status = "failed"
-                self.result["response"] = self.msg
-                self.log(self.msg, "ERROR")
-                return self
 
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
@@ -6224,6 +6259,8 @@ class Inventory(DnacBase):
                 self.parse_for_add_network_device_params(device_params)
             elif device_type == "COMPUTE_DEVICE":
                 self.parse_for_add_compute_device_params(device_params)
+            elif device_type == "THIRD_PARTY_DEVICE":
+                self.parse_for_add_network_device_params(device_params, "THIRD_PARTY_DEVICE")
 
             device_params["ipAddress"] = config["ip_address_list"]
             device_to_add_in_ccc = device_params["ipAddress"]
@@ -6295,7 +6332,7 @@ class Inventory(DnacBase):
                             execution_details = self.get_task_details(task_id)
                             progress = execution_details.get("progress")
 
-                            if "successfully" in progress or "succesfully" in progress:
+                            if "successfully" in progress or "successfully" in progress:
                                 self.status = "success"
                                 self.log(
                                     "Device '{0}' role updated successfully to '{1}'".format(
@@ -6310,11 +6347,11 @@ class Inventory(DnacBase):
                                 self.status = "failed"
                                 failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
-                                    self.msg = "Device role updation get failed because of {0}".format(
+                                    self.msg = "Device role update get failed because of {0}".format(
                                         failure_reason
                                     )
                                 else:
-                                    self.msg = "Device role updation get failed"
+                                    self.msg = "Device role update get failed"
                                 self.log(self.msg, "ERROR")
                                 self.result["response"] = self.msg
                                 break
@@ -6511,7 +6548,7 @@ class Inventory(DnacBase):
 
                 # Check if the Global User defined field exist if not then create it with given field name
                 udf_exist = self.is_udf_exist(field_name)
-                self.log(udf_exist)
+
                 if not udf_exist:
                     # Create the Global UDF
                     self.log(
@@ -6521,7 +6558,12 @@ class Inventory(DnacBase):
                         "DEBUG",
                     )
                     self.create_user_defined_field(udf).check_return_status()
-
+                self.log(
+                    "Global User Defined Field '{0}' is present in Cisco Catalyst Center".format(
+                        field_name
+                    ),
+                    "DEBUG",
+                )
                 # Get device Id based on config priority
                 device_ips = self.get_device_ips_from_config_priority()
                 device_ids = self.get_device_ids(device_ips)
@@ -6535,16 +6577,22 @@ class Inventory(DnacBase):
                     self.log(self.msg, "INFO")
                     return self
 
-                # Now add code for adding Global UDF to device with Id
-                self.add_field_to_devices(device_ids, udf).check_return_status()
+                check_udf_added_to_device = self.check_udf_added_to_device(device_ids, field_name)
 
-                self.result["changed"] = True
-                self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(
-                    field_name
-                )
-                self.udf_added.append(field_name)
-                self.log(self.msg, "INFO")
-
+                if not check_udf_added_to_device:
+                    # Now add code for adding Global UDF to device with Id
+                    self.add_field_to_devices(device_ids, udf).check_return_status()
+                    self.result["changed"] = True
+                    self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(
+                        field_name
+                    )
+                    self.udf_added.append(field_name)
+                else:
+                    self.result["changed"] = False
+                    self.msg = "Global User Defined Field(UDF) named '{0}' is already added to the device.".format(
+                        field_name
+                    )
+                    self.udf_already_added.append(field_name)
         # Once Wired device get added we will assign device to site and Provisioned it
         if self.config[0].get("provision_wired_device"):
             self.provisioned_wired_device().check_return_status()
@@ -6600,6 +6648,15 @@ class Inventory(DnacBase):
                 self.fail_and_exit(self.msg)
 
             network_device_ids = self.get_device_ids(network_device_ips)
+            if not network_device_ids:
+                self.msg = (
+                    "None of the provided device IPs: {0} exist in Cisco Catalyst Center.".format(
+                        network_device_ips
+                    )
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
             device_ip_id_map = self.get_device_ips_from_device_ids(network_device_ids)
             # Find out the devices for which maintenance already schedule and not schedule yet
             schedule_device_ids, unscheduled_device_ids = (
@@ -6607,6 +6664,8 @@ class Inventory(DnacBase):
                     network_device_ids, device_ip_id_map
                 )
             )
+
+            self.validate_device_maintenance_params(maintenance_config)
 
             if unscheduled_device_ids:
                 device_ips = []
@@ -6620,7 +6679,7 @@ class Inventory(DnacBase):
                     ),
                     "INFO",
                 )
-                self.validate_device_maintenance_params(maintenance_config)
+
                 maintenance_payload = self.create_schedule_maintenance_payload(
                     maintenance_config, unscheduled_device_ids, device_ips
                 )
@@ -6795,6 +6854,52 @@ class Inventory(DnacBase):
                     self.no_update_in_maintenance.remove(device_ip)
 
         return self
+
+    def check_udf_added_to_device(self, device_ids, udf_field_name):
+        """
+        Check whether a user-defined field (UDF) exists on a specific device.
+
+        Parameters:
+            device_ids (list): List of device UUIDs. The first ID is used for lookup.
+            udf_field_name (str): UDF key name to verify on the device.
+
+        Returns:
+            bool: `True` if the UDF key exists on the device, otherwise `False`.
+
+        Description:
+            This method fetches device details from Cisco Catalyst Center using
+            `retrieve_network_devices` with `USER_DEFINED_FIELDS` view, then checks
+            whether the requested UDF key is present in the device's
+            `userDefinedFields` dictionary.
+        """
+        self.log("Checking if UDF '{0}' is already added to the device with ID '{1}'".format(udf_field_name, device_ids[0]), "DEBUG")
+        device_id = device_ids[0]
+        api_response = self.dnac._exec(
+            family="devices",
+            function="retrieve_network_devices",
+            op_modifies=True,
+            params={"id": device_id, "views": "USER_DEFINED_FIELDS"},
+        )
+
+        self.log(
+            "Received API response from 'retrieve_network_devices': {0}".format(
+                str(api_response)
+            ),
+            "DEBUG",
+        )
+        self.log("UDF to be added: {0}".format(udf_field_name), "DEBUG")
+
+        devices = api_response.get("response", [])
+        user_defined_fields = (
+            devices[0].get("userDefinedFields", {})
+            if devices and isinstance(devices[0], dict)
+            else {}
+        )
+
+        udf_exists = udf_field_name in user_defined_fields
+        self.log("UDF exists: {0}".format(udf_exists), "DEBUG")
+
+        return udf_exists
 
     def get_diff_deleted(self, config):
         """
@@ -7216,7 +7321,7 @@ class Inventory(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Addition/Updation) of Devices in Cisco Catalyst Center.
+        Verify the merged status(Addition/Update) of Devices in Cisco Catalyst Center.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -7292,7 +7397,7 @@ class Inventory(DnacBase):
                 self.log(msg, "INFO")
             else:
                 self.log(
-                    "Playbook parameter does not match with Cisco Catalyst Center, meaning device updation task not executed properly.",
+                    "Playbook parameter does not match with Cisco Catalyst Center, meaning device update task not executed properly.",
                     "INFO",
                 )
         elif device_type != "NETWORK_DEVICE":
@@ -7384,7 +7489,7 @@ class Inventory(DnacBase):
                 else:
                     self.log(
                         "Mismatch between playbook parameter for creating/updating the maintenance schedule for"
-                        "  the device(s) {0}, indicating that the maintenance schedule creation/updation task may "
+                        "  the device(s) {0}, indicating that the maintenance schedule creation/update task may "
                         "not have executed successfully.".format(device_ips),
                         "WARNING",
                     )
@@ -7489,6 +7594,7 @@ class Inventory(DnacBase):
         self.result["changed"] = False
         result_msg_list_not_changed = []
         result_msg_list_changed = []
+        absent_scheduled_msg = None
 
         if self.provisioned_device:
             provisioned_device = "device(s) '{0}' provisioned successfully in Cisco Catalyst Center.".format(
@@ -7605,6 +7711,12 @@ class Inventory(DnacBase):
             )
             result_msg_list_changed.append(udf_added)
 
+        if self.udf_already_added:
+            udf_already_added = "Global User Defined Field(UDF) named '{0}' has already been added to the device.".format(
+                "', '".join(self.udf_already_added)
+            )
+            result_msg_list_not_changed.append(udf_already_added)
+
         if self.ap_rebooted_successfully:
             ap_rebooted_successfully = "AP Device(s) {0} successfully rebooted!".format(
                 "', '".join(self.ap_rebooted_successfully)
@@ -7677,6 +7789,18 @@ class Inventory(DnacBase):
             absent_scheduled_msg = "Maintenance schedule for the devices {0} not present in the Catalyst Center.".format(
                 self.no_maintenance_schedule
             )
+            result_msg_list_not_changed.append(absent_scheduled_msg)
+
+        if self.ip_not_found:
+            self.ip_not_found = list(set(self.ip_not_found))
+            if absent_scheduled_msg:
+                absent_scheduled_msg += " and Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
+                )
+            else:
+                absent_scheduled_msg = "Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
+                )
             result_msg_list_not_changed.append(absent_scheduled_msg)
 
         if result_msg_list_not_changed and result_msg_list_changed:

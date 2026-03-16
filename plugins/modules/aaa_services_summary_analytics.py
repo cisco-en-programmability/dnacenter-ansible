@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: aaa_services_summary_analytics
-short_description: Resource module for Aaa Services
-  Summary Analytics
+short_description: Resource module for Aaa Services Summary Analytics
 description:
-  - Manage operation create of the resource Aaa Services
-    Summary Analytics. - > Gets the summary analytics
-    data related to AAA Services based on given filters
-    and group by field. For detailed information about
-    the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Aaa Services Summary Analytics. - > Gets the summary analytics data related to
+    AAA Services based on given filters and group by field. For detailed information about the usage of the API, please refer
+    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     AAAServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -58,7 +54,7 @@ options:
         description: Operator.
         type: str
       value:
-        description: Value.
+        description: Aaa Services Summary Analytics's value.
         type: dict
     type: list
   groupBy:
@@ -78,8 +74,7 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Aaa Services Summary Analytics's
-          sortBy.
+        description: Aaa Services Summary Analytics's sortBy.
         elements: dict
         suboptions:
           function:
@@ -97,13 +92,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFilters
-    description: Complete reference of the GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFilters
-      API.
+  - name: Cisco DNA Center documentation for Devices GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFilters
+    description: Complete reference of the GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-aaa-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are

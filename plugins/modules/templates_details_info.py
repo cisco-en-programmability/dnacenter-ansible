@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: templates_details_info
-short_description: Information module for Templates
-  Details
+short_description: Information module for Templates Details
 description:
   - Get all Templates Details.
   - Get templates details.
@@ -26,74 +25,60 @@ options:
     type: str
   name:
     description:
-      - Name query parameter. Name of template to be
-        searched.
+      - Name query parameter. Name of template to be searched.
     type: str
   projectId:
     description:
-      - ProjectId query parameter. Filter template(s)
-        based on project id.
+      - ProjectId query parameter. Filter template(s) based on project id.
     type: str
   projectName:
     description:
-      - ProjectName query parameter. Filter template(s)
-        based on project name.
+      - ProjectName query parameter. Filter template(s) based on project name.
     type: str
   softwareType:
     description:
-      - SoftwareType query parameter. Filter template(s)
-        based software type.
+      - SoftwareType query parameter. Filter template(s) based software type.
     type: str
   softwareVersion:
     description:
-      - SoftwareVersion query parameter. Filter template(s)
-        based softwareVersion.
+      - SoftwareVersion query parameter. Filter template(s) based softwareVersion.
     type: str
   productFamily:
     description:
-      - ProductFamily query parameter. Filter template(s)
-        based on device family.
+      - ProductFamily query parameter. Filter template(s) based on device family.
     type: str
   productSeries:
     description:
-      - ProductSeries query parameter. Filter template(s)
-        based on device series.
+      - ProductSeries query parameter. Filter template(s) based on device series.
     type: str
   productType:
     description:
-      - ProductType query parameter. Filter template(s)
-        based on device type.
+      - ProductType query parameter. Filter template(s) based on device type.
     type: str
   filterConflictingTemplates:
     description:
-      - FilterConflictingTemplates query parameter.
-        Filter template(s) based on confliting templates.
+      - FilterConflictingTemplates query parameter. Filter template(s) based on confliting templates.
     type: bool
   tags:
     description:
-      - Tags query parameter. Filter template(s) based
-        on tags.
+      - Tags query parameter. Filter template(s) based on tags.
     elements: str
     type: list
   unCommitted:
     description:
-      - UnCommitted query parameter. Return uncommitted
-        template.
+      - UnCommitted query parameter. Return uncommitted template.
     type: bool
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (dsc).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (dsc).
     type: str
   allTemplateAttributes:
     description:
-      - AllTemplateAttributes query parameter. Return
-        all template attributes.
+      - AllTemplateAttributes query parameter. Return all template attributes.
     type: bool
   includeVersionDetails:
     description:
-      - IncludeVersionDetails query parameter. Include
-        template version details.
+      - IncludeVersionDetails query parameter. Include template version details.
     type: bool
   offset:
     description:
@@ -101,18 +86,14 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page;The minimum is 1, and
-        the maximum is 500.
-    type: float
+      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetTemplatesDetailsV2
-    description: Complete reference of the GetTemplatesDetailsV2
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplatesDetailsV2
+    description: Complete reference of the GetTemplatesDetailsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-templates-details-v-2
 notes:
   - SDK Method used are

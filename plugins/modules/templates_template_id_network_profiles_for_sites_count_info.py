@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: templates_template_id_network_profiles_for_sites_count_info
-short_description: Information module for Templates
-  Template Id Network Profiles For Sites Count
+short_description: Information module for Templates Template Id Network Profiles For Sites Count
 description:
-  - Get all Templates Template Id Network Profiles For
-    Sites Count.
-  - Retrieves the count of network profiles that a CLI
-    template has been attached to by the template ID.
+  - Get all Templates Template Id Network Profiles For Sites Count.
+  - Retrieves the count of network profiles that a CLI template has been attached to by the template ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,17 +21,14 @@ options:
     type: dict
   templateId:
     description:
-      - TemplateId path parameter. The `id` of the template,
-        retrievable from `GET /intent/api/v1/templates`.
+      - TemplateId path parameter. The `id` of the template, retrievable from `GET /intent/api/v1/templates`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates RetrieveCountOfNetworkProfilesAttachedToACLITemplate
-    description: Complete reference of the RetrieveCountOfNetworkProfilesAttachedToACLITemplate
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates RetrieveCountOfNetworkProfilesAttachedToACLITemplate
+    description: Complete reference of the RetrieveCountOfNetworkProfilesAttachedToACLITemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-count-of-network-profiles-attached-to-acli-template
 notes:
   - SDK Method used are
@@ -45,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Templates Template Id Network Profiles
-    For Sites Count
+- name: Get all Templates Template Id Network Profiles For Sites Count
   cisco.dnac.templates_template_id_network_profiles_for_sites_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,0 +1,474 @@
+{
+    "generate_all_configurations_case_1": [
+        {
+            "generate_all_configurations": true
+        }
+    ],
+    "filter_fabric_name_only_case_2": [
+        {
+            "file_path": "/tmp/ut_case2_fabric_name_only.yaml",
+            "component_specific_filters": {
+                "fabric_devices": {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore"
+                }
+            }
+        }
+    ],
+    "filter_fabric_name_device_ip_case_3": [
+        {
+            "file_path": "/tmp/ut_case3_fabric_name_device_ip.yaml",
+            "component_specific_filters": {
+                "fabric_devices": {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore",
+                    "device_ip": "205.1.1.10"
+                }
+            }
+        }
+    ],
+    "filter_fabric_name_edge_role_case_4": [
+        {
+            "file_path": "/tmp/ut_case4_fabric_name_edge_role.yaml",
+            "component_specific_filters": {
+                "fabric_devices": {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore",
+                    "device_roles": ["EDGE_NODE"]
+                }
+            }
+        }
+    ],
+    "filter_fabric_name_multi_roles_case_5": [
+        {
+            "file_path": "/tmp/ut_case5_fabric_name_multi_roles.yaml",
+            "component_specific_filters": {
+                "fabric_devices": {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore",
+                    "device_roles": ["BORDER_NODE", "CONTROL_PLANE_NODE"]
+                }
+            }
+        }
+    ],
+    "filter_all_filters_case_6": [
+        {
+            "file_path": "/tmp/ut_case6_all_filters.yaml",
+            "component_specific_filters": {
+                "fabric_devices": {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore",
+                    "device_ip": "205.1.1.10",
+                    "device_roles": ["BORDER_NODE", "CONTROL_PLANE_NODE"]
+                }
+            }
+        }
+    ],
+    "filter_fabric_name_cp_role_case_7": [
+        {
+            "file_path": "/tmp/ut_case7_fabric_name_cp_role.yaml",
+            "component_specific_filters": {
+                "fabric_devices": {
+                    "fabric_name": "Global/India/Telangana/Hyderabad/BLD_1",
+                    "device_roles": ["CONTROL_PLANE_NODE"]
+                }
+            }
+        }
+    ],
+    "filter_fabric_name_border_role_case_8": [
+        {
+            "file_path": "/tmp/ut_case8_fabric_name_border_role.yaml",
+            "component_specific_filters": {
+                "fabric_devices": {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore",
+                    "device_roles": ["BORDER_NODE"]
+                }
+            }
+        }
+    ],
+    "filter_with_components_list_case_9": [
+        {
+            "file_path": "/tmp/ut_case9_with_components_list.yaml",
+            "component_specific_filters": {
+                "components_list": ["fabric_devices"],
+                "fabric_devices": {
+                    "fabric_name": "Global/India/Telangana/Hyderabad/BLD_1"
+                }
+            }
+        }
+    ],
+    "get_sites_case_1": {
+        "response": [
+            {
+                "id": "ae08122b-203c-4268-b5e8-19ea0c34ea26",
+                "name": "Global",
+                "type": "global"
+            },
+            {
+                "id": "7d964727-bf3f-4952-a2ce-e51890806363",
+                "parentId": "336144fc-80ec-464b-9e85-b891954f8ac1",
+                "name": "Bangalore",
+                "nameHierarchy": "Global/Site_India/Karnataka/Bangalore",
+                "type": "area"
+            },
+            {
+                "id": "2e36217f-4bc6-4249-be9d-fa1dbaf6f5d6",
+                "parentId": "9e3deaa3-0a3c-4c93-b855-d162ce07efb4",
+                "name": "Chennai",
+                "nameHierarchy": "Global/Site_India/Tamil_Nadu/Chennai",
+                "type": "area"
+            },
+            {
+                "id": "97db6e47-0a6d-48b5-9974-d3c7420a4450",
+                "parentId": "93c0b82c-b5fa-450a-bb1e-ccd2bdc872ac",
+                "name": "BLD_1",
+                "nameHierarchy": "Global/India/Telangana/Hyderabad/BLD_1",
+                "type": "building",
+                "latitude": 13.0843,
+                "longitude": 80.2705,
+                "address": "Hyderabad,Telangana,India",
+                "country": "India"
+            },
+            {
+                "id": "9e16a518-c41c-4483-85b7-4a2264a6538e",
+                "parentId": "ae08122b-203c-4268-b5e8-19ea0c34ea26",
+                "name": "USA",
+                "nameHierarchy": "Global/USA",
+                "type": "area"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_fabric_sites_case_1": {
+        "response": [
+            {
+                "id": "085089aa-5077-440c-bf98-3028f87ce067",
+                "siteId": "7d964727-bf3f-4952-a2ce-e51890806363",
+                "authenticationProfileName": "No Authentication",
+                "isPubSubEnabled": true
+            },
+            {
+                "id": "4f89d91f-64dc-4b1c-a15e-1a0be2ef2037",
+                "siteId": "2e36217f-4bc6-4249-be9d-fa1dbaf6f5d6",
+                "authenticationProfileName": "Open Authentication",
+                "isPubSubEnabled": true
+            },
+            {
+                "id": "80774e43-bae0-4cf3-8661-8f6636abbda1",
+                "siteId": "97db6e47-0a6d-48b5-9974-d3c7420a4450",
+                "authenticationProfileName": "No Authentication",
+                "isPubSubEnabled": true
+            },
+            {
+                "id": "8d981413-21d6-4577-8520-bf8531b34518",
+                "siteId": "9e16a518-c41c-4483-85b7-4a2264a6538e",
+                "authenticationProfileName": "No Authentication",
+                "isPubSubEnabled": false
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_transit_networks_case_1": {
+        "response": [
+            {
+                "id": "12bad313-b5a3-4424-9898-8227d062577e",
+                "name": "sample_transit3",
+                "type": "IP_BASED_TRANSIT"
+            },
+            {
+                "id": "2ef0601a-c9f0-4ba0-a6c2-3fdbc4dfcc19",
+                "name": "sample_transit2",
+                "type": "IP_BASED_TRANSIT"
+            },
+            {
+                "id": "9993ae85-025b-40d2-8e52-a19832c722c0",
+                "name": "Chennai-IP-TRANSIT",
+                "type": "IP_BASED_TRANSIT"
+            },
+            {
+                "id": "af03493c-5b6c-4362-8c72-74ede5b7cd72",
+                "name": "BGL-IP-TRANSIT",
+                "type": "IP_BASED_TRANSIT"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_fabric_devices_fabric_1_case_1": {
+        "response": [
+            {
+                "id": "3eb5c264-1d0c-4413-83a1-26922b9f0208",
+                "fabricId": "085089aa-5077-440c-bf98-3028f87ce067",
+                "networkDeviceId": "82b5f085-aff5-4d9a-8b3e-e71a8fd2d48d",
+                "deviceRoles": [
+                    "EDGE_NODE"
+                ]
+            },
+            {
+                "id": "bc66ce00-c953-4337-a3a5-c0030e168cbe",
+                "fabricId": "085089aa-5077-440c-bf98-3028f87ce067",
+                "networkDeviceId": "98ab039a-9fa6-4cdc-934f-fb0159a0ebb6",
+                "deviceRoles": [
+                    "BORDER_NODE",
+                    "CONTROL_PLANE_NODE"
+                ],
+                "borderDeviceSettings": {
+                    "borderTypes": [
+                        "LAYER_3"
+                    ],
+                    "layer3Settings": {
+                        "localAutonomousSystemNumber": "1001",
+                        "importExternalRoutes": false,
+                        "borderPriority": 10,
+                        "prependAutonomousSystemCount": 0,
+                        "isDefaultExit": true
+                    }
+                }
+            },
+            {
+                "id": "0362042a-a045-4b4b-9e5e-e8ff3ec2f05a",
+                "fabricId": "085089aa-5077-440c-bf98-3028f87ce067",
+                "networkDeviceId": "869294db-e0e8-486c-854c-6994ec10eaa8",
+                "deviceRoles": [
+                    "EDGE_NODE"
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_fabric_devices_empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_fabric_devices_fabric_3_case_1": {
+        "response": [
+            {
+                "id": "f41e7a6f-dccd-40f2-9527-65f41612b40f",
+                "fabricId": "80774e43-bae0-4cf3-8661-8f6636abbda1",
+                "networkDeviceId": "75b209d5-48f2-428e-96c9-f9e1ec4922dd",
+                "deviceRoles": [
+                    "EDGE_NODE"
+                ]
+            },
+            {
+                "id": "31a764f4-ae42-4643-ab89-d90dfd817dfb",
+                "fabricId": "80774e43-bae0-4cf3-8661-8f6636abbda1",
+                "networkDeviceId": "41735c7b-474b-41fd-b5a0-b77f7e6fb3a8",
+                "deviceRoles": [
+                    "CONTROL_PLANE_NODE"
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_device_1_case_1": {
+        "response": [
+            {
+                "type": "Cisco Catalyst 9300 Switch",
+                "macAddress": "5c:a6:2d:6b:a3:00",
+                "softwareVersion": "17.12.3",
+                "serialNumber": "FJC2413E16S",
+                "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+                "managementIpAddress": "205.1.2.67",
+                "platformId": "C9300-48P",
+                "reachabilityStatus": "Reachable",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "role": "ACCESS",
+                "instanceUuid": "82b5f085-aff5-4d9a-8b3e-e71a8fd2d48d",
+                "id": "82b5f085-aff5-4d9a-8b3e-e71a8fd2d48d"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_device_2_case_1": {
+        "response": [
+            {
+                "type": "Cisco Catalyst 9300 Switch",
+                "macAddress": "0c:75:bd:5a:ae:80",
+                "softwareVersion": "17.12.3",
+                "serialNumber": "FCW2334D0W1",
+                "hostname": "TB3-SJC-BORDER-01.autoagni1.com",
+                "managementIpAddress": "205.1.1.10",
+                "platformId": "C9300-48P",
+                "reachabilityStatus": "Reachable",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "role": "BORDER ROUTER",
+                "instanceUuid": "98ab039a-9fa6-4cdc-934f-fb0159a0ebb6",
+                "id": "98ab039a-9fa6-4cdc-934f-fb0159a0ebb6"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_device_3_case_1": {
+        "response": [
+            {
+                "type": "Cisco Catalyst 9300 Switch",
+                "macAddress": "e4:1f:7b:d7:bd:00",
+                "softwareVersion": "17.12.6",
+                "serialNumber": "FOC2435L165",
+                "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+                "managementIpAddress": "205.1.2.68",
+                "platformId": "C9300-24UX",
+                "reachabilityStatus": "Reachable",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "role": "ACCESS",
+                "instanceUuid": "869294db-e0e8-486c-854c-6994ec10eaa8",
+                "id": "869294db-e0e8-486c-854c-6994ec10eaa8"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_device_4_case_1": {
+        "response": [
+            {
+                "type": "Cisco Catalyst 9000 UADP 8 Port Virtual Switch",
+                "macAddress": "00:0c:29:82:f9:62",
+                "softwareVersion": "17.13.20230531:131112",
+                "serialNumber": "9ODWZQTV7RY",
+                "hostname": "evpn-app-c9k-27.autoagni1.com",
+                "managementIpAddress": "172.27.248.223",
+                "platformId": "C9KV-UADP-8P",
+                "reachabilityStatus": "Reachable",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "series": "Cisco Catalyst 9000 Series Virtual Switches",
+                "role": "ACCESS",
+                "instanceUuid": "75b209d5-48f2-428e-96c9-f9e1ec4922dd",
+                "id": "75b209d5-48f2-428e-96c9-f9e1ec4922dd"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_device_5_case_1": {
+        "response": [
+            {
+                "type": "Cisco Catalyst 9000 UADP 8 Port Virtual Switch",
+                "macAddress": "00:0c:29:b4:2b:aa",
+                "softwareVersion": "17.13.20230531:131112",
+                "serialNumber": "9A6Y65YW3MA",
+                "hostname": "evpn-app-vm26.autoagni1.com",
+                "managementIpAddress": "172.27.248.222",
+                "platformId": "C9KV-UADP-8P",
+                "reachabilityStatus": "Reachable",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "series": "Cisco Catalyst 9000 Series Virtual Switches",
+                "role": "ACCESS",
+                "instanceUuid": "41735c7b-474b-41fd-b5a0-b77f7e6fb3a8",
+                "id": "41735c7b-474b-41fd-b5a0-b77f7e6fb3a8"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_embedded_wireless_controller_settings_empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_layer2_handoffs_empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_layer3_ip_transit_handoffs_empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_layer3_ip_transit_handoffs_device_2_case_1": {
+        "response": [
+            {
+                "id": "bd2148c6-e7ed-4039-bd18-268723aa4fb8",
+                "fabricId": "085089aa-5077-440c-bf98-3028f87ce067",
+                "networkDeviceId": "98ab039a-9fa6-4cdc-934f-fb0159a0ebb6",
+                "transitNetworkId": "af03493c-5b6c-4362-8c72-74ede5b7cd72",
+                "interfaceName": "Port-channel111",
+                "externalConnectivityIpPoolName": "Bgl-IP-Transit-Pool",
+                "virtualNetworkName": "VN2",
+                "vlanId": 1102,
+                "tcpMssAdjustment": 0,
+                "localIpAddress": "205.1.3.5/30",
+                "remoteIpAddress": "205.1.3.6/30",
+                "localIpv6Address": "",
+                "remoteIpv6Address": ""
+            },
+            {
+                "id": "ffc42b53-e7b5-4fe1-a2fb-6b52c0970035",
+                "fabricId": "085089aa-5077-440c-bf98-3028f87ce067",
+                "networkDeviceId": "98ab039a-9fa6-4cdc-934f-fb0159a0ebb6",
+                "transitNetworkId": "af03493c-5b6c-4362-8c72-74ede5b7cd72",
+                "interfaceName": "Port-channel111",
+                "externalConnectivityIpPoolName": "Bgl-IP-Transit-Pool",
+                "virtualNetworkName": "VN1",
+                "vlanId": 1101,
+                "tcpMssAdjustment": 0,
+                "localIpAddress": "205.1.3.1/30",
+                "remoteIpAddress": "205.1.3.2/30",
+                "localIpv6Address": "",
+                "remoteIpv6Address": ""
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_layer3_sda_transit_handoffs_empty_response": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_fabric_devices_filtered_border_cp_case_1": {
+        "response": [
+            {
+                "id": "bc66ce00-c953-4337-a3a5-c0030e168cbe",
+                "fabricId": "085089aa-5077-440c-bf98-3028f87ce067",
+                "networkDeviceId": "98ab039a-9fa6-4cdc-934f-fb0159a0ebb6",
+                "deviceRoles": [
+                    "BORDER_NODE",
+                    "CONTROL_PLANE_NODE"
+                ],
+                "borderDeviceSettings": {
+                    "borderTypes": [
+                        "LAYER_3"
+                    ],
+                    "layer3Settings": {
+                        "localAutonomousSystemNumber": "1001",
+                        "importExternalRoutes": false,
+                        "borderPriority": 10,
+                        "prependAutonomousSystemCount": 0,
+                        "isDefaultExit": true
+                    }
+                }
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_fabric_devices_filtered_edge_nodes_case_1": {
+        "response": [
+            {
+                "id": "3eb5c264-1d0c-4413-83a1-26922b9f0208",
+                "fabricId": "085089aa-5077-440c-bf98-3028f87ce067",
+                "networkDeviceId": "82b5f085-aff5-4d9a-8b3e-e71a8fd2d48d",
+                "deviceRoles": [
+                    "EDGE_NODE"
+                ]
+            },
+            {
+                "id": "0362042a-a045-4b4b-9e5e-e8ff3ec2f05a",
+                "fabricId": "085089aa-5077-440c-bf98-3028f87ce067",
+                "networkDeviceId": "869294db-e0e8-486c-854c-6994ec10eaa8",
+                "deviceRoles": [
+                    "EDGE_NODE"
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_fabric_devices_filtered_cp_node_fabric_3_case_1": {
+        "response": [
+            {
+                "id": "31a764f4-ae42-4643-ab89-d90dfd817dfb",
+                "fabricId": "80774e43-bae0-4cf3-8661-8f6636abbda1",
+                "networkDeviceId": "41735c7b-474b-41fd-b5a0-b77f7e6fb3a8",
+                "deviceRoles": [
+                    "CONTROL_PLANE_NODE"
+                ]
+            }
+        ],
+        "version": "1.0"
+    }
+}

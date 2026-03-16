@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -34,14 +33,16 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        state=dict(type="str", default="present", choices=["present"]),
+        state=dict(type="str", default="present", choices=["present", "absent"]),
         name=dict(type="str"),
         description=dict(type="str"),
+        projectId=dict(type="str"),
     )
 )
 
 required_if = [
-    ("state", "present", ["name"], True),
+    ("state", "present", ["name", "projectId"], True),
+    ("state", "absent", ["name", "projectId"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -54,6 +55,7 @@ class Projects(object):
         self.new_object = dict(
             name=params.get("name"),
             description=params.get("description"),
+            project_id=params.get("projectId"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -69,9 +71,21 @@ class Projects(object):
         new_object_params["description"] = self.new_object.get("description")
         return new_object_params
 
+    def delete_by_id_params(self):
+        new_object_params = {}
+        new_object_params["project_id"] = self.new_object.get("project_id")
+        return new_object_params
+
+    def update_by_id_params(self):
+        new_object_params = {}
+        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["description"] = self.new_object.get("description")
+        new_object_params["projectId"] = self.new_object.get("projectId")
+        return new_object_params
+
     def get_object_by_name(self, name):
         result = None
-        # NOTE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="configuration_templates",
@@ -88,14 +102,26 @@ class Projects(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="configuration_templates",
+                function="get_template_project",
+                params={"project_id": id},
+            )
+            if isinstance(items, dict):
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "projectId", id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
-        prev_obj = None
         id_exists = False
         name_exists = False
+        prev_obj = None
         o_id = self.new_object.get("id")
+        o_id = o_id or self.new_object.get("project_id")
         name = self.new_object.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
@@ -105,12 +131,16 @@ class Projects(object):
             name_exists = prev_obj is not None and isinstance(prev_obj, dict)
         if name_exists:
             _id = prev_obj.get("id")
+            _id = _id or prev_obj.get("projectId")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
                     "The 'id' and 'name' params don't refer to the same object"
                 )
             if _id:
                 self.new_object.update(dict(id=_id))
+                self.new_object.update(dict(project_id=_id))
+            if _id:
+                prev_obj = self.get_object_by_id(_id)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -120,8 +150,9 @@ class Projects(object):
         obj_params = [
             ("name", "name"),
             ("description", "description"),
+            ("projectId", "project_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not dnac_compare_equality(
@@ -136,6 +167,47 @@ class Projects(object):
             function="create_template_project",
             params=self.create_params(),
             op_modifies=True,
+        )
+        return result
+
+    def update(self):
+        id = self.new_object.get("id")
+        id = id or self.new_object.get("project_id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+                id_ = id_ or prev_obj_name.get("projectId")
+            if id_:
+                self.new_object.update(dict(project_id=id_))
+        result = self.dnac.exec(
+            family="configuration_templates",
+            function="update_template_project",
+            params=self.update_by_id_params(),
+            op_modifies=True,
+        )
+        return result
+
+    def delete(self):
+        id = self.new_object.get("id")
+        id = id or self.new_object.get("project_id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+                id_ = id_ or prev_obj_name.get("projectId")
+            if id_:
+                self.new_object.update(dict(project_id=id_))
+        result = self.dnac.exec(
+            family="configuration_templates",
+            function="delete_template_project",
+            params=self.delete_by_id_params(),
         )
         return result
 
@@ -181,18 +253,27 @@ class ActionModule(ActionBase):
         state = self._task.args.get("state")
 
         response = None
+
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
-                    response = prev_obj
-                    dnac.object_present_and_different()
+                    response = obj.update()
+                    dnac.object_updated()
                 else:
                     response = prev_obj
                     dnac.object_already_present()
             else:
                 response = obj.create()
                 dnac.object_created()
+
+        elif state == "absent":
+            obj_exists, prev_obj = obj.exists()
+            if obj_exists:
+                response = obj.delete()
+                dnac.object_deleted()
+            else:
+                dnac.object_already_absent()
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

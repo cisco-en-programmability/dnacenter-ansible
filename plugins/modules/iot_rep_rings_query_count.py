@@ -7,40 +7,29 @@
 DOCUMENTATION = r"""
 ---
 module: iot_rep_rings_query_count
-short_description: Resource module for Iot Rep Rings
-  Query Count
+short_description: Resource module for Iot Rep Rings Query Count
 description:
-  - Manage operation create of the resource Iot Rep
-    Rings Query Count. - > This API returns the count
-    of REP rings for the given fields - networkDeviceId
-    Network device ID of the REP ring member. The networkDeviceId
-    is the instanceUuid attribute in the response of
-    API - /dna/intent/api/v1/networkDevices and deploymentMode
-    FABRIC/NON_FABRIC .
+  - Manage operation create of the resource Iot Rep Rings Query Count. - > This API returns the count of REP rings for the
+    given fields - networkDeviceId Network device ID of the REP ring member. The networkDeviceId is the instanceUuid attribute
+    in the response of API - /dna/intent/api/v1/networkDevices and deploymentMode FABRIC/NON_FABRIC .
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   deploymentMode:
-    description: Deployment mode of the configured REP
-      ring.
+    description: Deployment mode of the configured REP ring.
     type: str
   networkDeviceId:
-    description: Network device id of the REP ring member.
-      API `/dna/intent/api/v1/networkDevices` can be
-      used to get the list of networkDeviceIds of the
-      neighbors , `instanceUuid` attribute in the response
-      contains networkDeviceId.
+    description: Network device id of the REP ring member. API `/dna/intent/api/v1/networkDevices` can be used to get the
+      list of networkDeviceIds of the neighbors , `instanceUuid` attribute in the response contains networkDeviceId.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Industrial
-      Configuration RetrievesTheCountOfREPRings
-    description: Complete reference of the RetrievesTheCountOfREPRings
-      API.
+  - name: Cisco DNA Center documentation for Industrial Configuration RetrievesTheCountOfREPRings
+    description: Complete reference of the RetrievesTheCountOfREPRings API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-rep-rings
 notes:
   - SDK Method used are

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: golden_tag_image_details_info
-short_description: Information module for Golden Tag
-  Image Details
+short_description: Information module for Golden Tag Image Details
 description:
   - Get Golden Tag Image Details by id.
-  - Get golden tag status of an image. Set siteId as
-    -1 for Global site.
+  - Get golden tag status of an image. Set siteId as -1 for Global site.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,20 +21,16 @@ options:
     type: dict
   siteId:
     description:
-      - SiteId path parameter. Site Id in uuid format.
-        Set siteId as -1 for Global site.
+      - SiteId path parameter. Site Id in uuid format. Set siteId as -1 for Global site.
     type: str
   deviceFamilyIdentifier:
     description:
-      - DeviceFamilyIdentifier path parameter. Device
-        family identifier e.g. 277696480-283933147,
-        e.g. 277696480.
+      - DeviceFamilyIdentifier path parameter. Device family identifier e.g. 277696480-283933147, e.g. 277696480.
     type: str
   deviceRole:
     description:
       - >
-        DeviceRole path parameter. Device Role. Permissible
-        Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
+        DeviceRole path parameter. Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER,
         DISTRIBUTION and CORE.
     type: str
   imageId:
@@ -44,13 +38,11 @@ options:
       - ImageId path parameter. Image Id in uuid format.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) GetGoldenTagStatusOfAnImage
-    description: Complete reference of the GetGoldenTagStatusOfAnImage
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetGoldenTagStatusOfAnImage
+    description: Complete reference of the GetGoldenTagStatusOfAnImage API.
     link: https://developer.cisco.com/docs/dna-center/#!get-golden-tag-status-of-an-image
 notes:
   - SDK Method used are

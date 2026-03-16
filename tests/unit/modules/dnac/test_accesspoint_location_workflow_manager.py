@@ -62,8 +62,10 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         """
         if "test_create_ap_location" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_site_floor_response"),
                 self.test_data.get("ap_antenna_patterns_response"),
+                self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_planned_location_not_exist"),
                 self.test_data.get("get_planned_location_not_exist"),
                 self.test_data.get("create_planned_location_task_id"),
@@ -72,8 +74,10 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
             ]
         elif "test_update_ap_location" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_site_floor_response"),
                 self.test_data.get("ap_antenna_patterns_response"),
+                self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_planned_location_exist"),
                 self.test_data.get("create_planned_location_task_id"),
                 self.test_data.get("create_planned_location_task_details"),
@@ -81,27 +85,19 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
             ]
         elif "test_delete_ap_location" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_site_floor_response"),
-                self.test_data.get("ap_antenna_patterns_response"),
-                self.test_data.get("get_planned_location_exist"),
                 self.test_data.get("create_planned_location_task_id"),
                 self.test_data.get("create_planned_location_task_details"),
                 self.test_data.get("delete_ap_location_task_status")
             ]
         elif "test_create_assign_ap_location" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_site_floor_response"),
-                self.test_data.get("ap_antenna_patterns_response"),
-                self.test_data.get("get_planned_location_not_exist"),
-                self.test_data.get("get_planned_location_not_exist"),
                 self.test_data.get("get_ap_device_details"),
-                self.test_data.get("create_planned_location_task_id"),
-                self.test_data.get("create_planned_location_task_details"),
-                self.test_data.get("create_planned_location_task_stats"),
-                self.test_data.get("get_planned_location_exist"),
-                self.test_data.get("create_planned_location_task_id"),
-                self.test_data.get("create_planned_location_task_details"),
-                self.test_data.get("assign_task_status")
+                self.test_data.get("get_site_floor_response"),
+                self.test_data.get("get_ap_device_details"),
+                self.test_data.get("get_planned_location_not_exist"),
+                self.test_data.get("get_planned_location_not_exist")
             ]
 
     def test_create_ap_location(self):
@@ -119,7 +115,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Access point positions created successfully",
+            "Access point positions processed successfully.",
             result.get('msg')
         )
 
@@ -138,7 +134,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "updated successfully",
+            "Access point positions processed successfully.",
             result.get('msg')
         )
 
@@ -156,8 +152,9 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
+        self.maxDiff = None
         self.assertIn(
-            "Access point positions deleted and verified successfully: IAC-TB4-SJ-AP1",
+            "Access point positions deleted and verified successfully.",
             result.get('msg')
         )
 

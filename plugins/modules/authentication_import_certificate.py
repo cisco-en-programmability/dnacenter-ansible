@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: authentication_import_certificate
-short_description: Resource module for Authentication
-  Import Certificate
+short_description: Resource module for Authentication Import Certificate
 description:
-  - Manage operation create of the resource Authentication
-    Import Certificate.
-  - This API enables a user to import a PEM certificate
-    and its key for the controller and/or disaster recovery.
+  - Manage operation create of the resource Authentication Import Certificate.
+  - This API enables a user to import a PEM certificate and its key for the controller and/or disaster recovery.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,28 +20,22 @@ options:
     description: Cert file absolute path.
     type: str
   listOfUsers:
-    description: ListOfUsers query parameter. Specify
-      whether the certificate will be used for controller
-      ("server"), disaster recovery ("ipsec") or both
-      ("server, ipsec"). If no value is provided, the
-      default value taken will be "server".
+    description: ListOfUsers query parameter. Specify whether the certificate will be used for controller ("server"), disaster
+      recovery ("ipsec") or both ("server, ipsec"). If no value is provided, the default value taken will be "server".
     elements: str
     type: list
   pkFilePath:
     description: Pk file absolute path.
     type: str
   pkPassword:
-    description: PkPassword query parameter. Password
-      for encrypted private key.
+    description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Authentication
-      Management ImportCertificate
-    description: Complete reference of the ImportCertificate
-      API.
+  - name: Cisco DNA Center documentation for Authentication Management ImportCertificate
+    description: Complete reference of the ImportCertificate API.
     link: https://developer.cisco.com/docs/dna-center/#!import-certificate
 notes:
   - SDK Method used are

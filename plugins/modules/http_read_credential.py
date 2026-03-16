@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: http_read_credential
 short_description: Resource module for Http Read Credential
 description:
-  - Manage operations create and update of the resource
-    Http Read Credential.
+  - Manage operations create and update of the resource Http Read Credential.
   - Adds HTTP read credentials.
   - Updates global HTTP Read credential.
 version_added: '3.1.0'
@@ -19,19 +18,16 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   comments:
-    description: Comments to identify the HTTP(S) Read
-      credential.
+    description: Comments to identify the HTTP(S) Read credential.
     type: str
   credentialType:
-    description: Credential type to identify the application
-      that uses the HTTP(S) Read credential.
+    description: Credential type to identify the application that uses the HTTP(S) Read credential.
     type: str
   description:
     description: Description for HTTP(S) Read Credential.
     type: str
   id:
-    description: Id of the HTTP(S) Read Credential in
-      UUID format.
+    description: Id of the HTTP(S) Read Credential in UUID format.
     type: str
   instanceTenantId:
     description: Deprecated.
@@ -43,8 +39,7 @@ options:
     description: HTTP(S) Read Password.
     type: str
   port:
-    description: HTTP(S) Port. Valid port should be
-      in the range of 1 to 65535.
+    description: HTTP(S) Port. Valid port should be in the range of 1 to 65535.
     type: int
   secure:
     description: Flag for HTTPS Read.
@@ -53,18 +48,14 @@ options:
     description: HTTP(S) Read Username.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      CreateHTTPReadCredentials
-    description: Complete reference of the CreateHTTPReadCredentials
-      API.
+  - name: Cisco DNA Center documentation for Discovery CreateHTTPReadCredentials
+    description: Complete reference of the CreateHTTPReadCredentials API.
     link: https://developer.cisco.com/docs/dna-center/#!create-http-read-credentials
-  - name: Cisco DNA Center documentation for Discovery
-      UpdateHTTPReadCredential
-    description: Complete reference of the UpdateHTTPReadCredential
-      API.
+  - name: Cisco DNA Center documentation for Discovery UpdateHTTPReadCredential
+    description: Complete reference of the UpdateHTTPReadCredential API.
     link: https://developer.cisco.com/docs/dna-center/#!update-http-read-credential
 notes:
   - SDK Method used are
