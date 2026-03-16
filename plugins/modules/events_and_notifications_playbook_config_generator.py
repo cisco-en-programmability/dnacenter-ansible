@@ -133,12 +133,16 @@ options:
               matching.
             - Applies to webhook_destinations, email_destinations,
               syslog_destinations, and snmp_destinations components.
+            - When C(destination_filters) is provided, the corresponding
+              destination components are automatically added to
+              C(components_list) if not already present. If
+              C(destination_types) is specified, only those types are added.
+              If C(destination_types) is omitted, all four destination
+              component types are added.
             - Filtering is applied independently per component type selected
               in components_list.
             - Each component type only retrieves destinations of its own type
               and applies destination_names filter within that scope.
-            - Destination names belonging to a component type not included in
-              components_list are silently ignored.
             - When destination_names provided and at least one name matches
               a destination within a component type, only matching destinations
               of that type are included.
@@ -165,6 +169,10 @@ options:
                 description:
                 - Specifies which destination component types the
                   C(destination_names) filter applies to.
+                - Components implied by C(destination_types) are
+                  automatically added to C(components_list) if not
+                  already present. For example C(webhook) auto-adds
+                  C(webhook_destinations).
                 - Use this when you want name-based filtering for some
                   destination types but want to retrieve all destinations
                   for other types in C(components_list).
@@ -175,15 +183,6 @@ options:
                   webhook destinations matching "my-webhook-1" are
                   filtered while all email destinations are retrieved
                   without any name filtering.
-                - Each value must correspond to a component in
-                  C(components_list). For example C(webhook) requires
-                  C(webhook_destinations), C(email) requires
-                  C(email_destinations), C(syslog) requires
-                  C(syslog_destinations), and C(snmp) requires
-                  C(snmp_destinations).
-                - Validation fails if a destination type does not have
-                  its corresponding component present in
-                  C(components_list).
                 - Valid types are C(webhook), C(email), C(syslog),
                   C(snmp).
                 type: list
@@ -199,10 +198,14 @@ options:
               on name or type.
             - Applies to webhook_event_notifications,
               email_event_notifications, and syslog_event_notifications.
+            - When C(notification_filters) is provided, the corresponding
+              notification components are automatically added to
+              C(components_list) if not already present. If
+              C(notification_types) is specified, only those types are added.
+              If C(notification_types) is omitted, all three notification
+              component types are added.
             - When subscription_names provided, filters notifications to
               include only matching subscriptions.
-            - Notification type filters align with components_list selection
-              for type-specific retrieval.
             type: dict
             suboptions:
               subscription_names:
@@ -221,6 +224,10 @@ options:
                 description:
                 - Specifies which notification component types the
                   C(subscription_names) filter applies to.
+                - Components implied by C(notification_types) are
+                  automatically added to C(components_list) if not
+                  already present. For example C(webhook) auto-adds
+                  C(webhook_event_notifications).
                 - Use this when you want name-based filtering for some
                   notification types but want to retrieve all subscriptions
                   for other types in C(components_list).
@@ -231,14 +238,6 @@ options:
                   C([Critical Alerts]), only webhook event notifications
                   matching "Critical Alerts" are filtered while all email
                   event notifications are retrieved without name filtering.
-                - Each value must correspond to a component in
-                  C(components_list). For example C(webhook) requires
-                  C(webhook_event_notifications), C(email) requires
-                  C(email_event_notifications), and C(syslog) requires
-                  C(syslog_event_notifications).
-                - Validation fails if a notification type does not have
-                  its corresponding component present in
-                  C(components_list).
                 - Valid types are C(webhook), C(email), C(syslog).
                 type: list
                 elements: str
@@ -250,8 +249,9 @@ options:
             description:
             - Filters for ITSM integration settings based on instance name
               matching.
-            - Applies only to itsm_settings component when included in
-              components_list.
+            - When C(itsm_filters) is provided, the C(itsm_settings)
+              component is automatically added to C(components_list) if
+              not already present.
             - Filters ITSM integration instances by configured instance names.
             - Empty list or not specified retrieves all configured ITSM
               integration instances.
@@ -309,14 +309,15 @@ notes:
   and event subscriptions.
 - Generated playbooks are compatible with
   events_and_notifications_workflow_manager module.
+- When filter blocks (C(destination_filters), C(notification_filters),
+  C(itsm_filters)) are provided, the corresponding components are
+  automatically added to C(components_list) if not already present.
+  This means C(components_list) is optional when filter blocks are provided.
+- If no filter blocks are provided, C(components_list) is mandatory and
+  must be non-empty.
 - Destination name filtering in destination_filters.destination_names is
-  applied only within component types listed in components_list. Components
-  not in components_list are never retrieved regardless of destination_names
-  or destination_types values. If destination_names contains only names
-  belonging to an unselected component type, those names are ignored.
-- If destination_types or notification_types imply components that are not
-  present in components_list, the module auto-adds those components
-  internally before retrieval.
+  applied only within component types present in the final
+  components_list (including auto-added components).
 
 seealso:
 - module: cisco.dnac.events_and_notifications_workflow_manager
@@ -398,6 +399,24 @@ EXAMPLES = r"""
         notification_filters:
           subscription_names: ["Critical System Alerts", "Network Health Monitoring"]
           notification_types: ["webhook", "email"]
+
+- name: Generate YAML Configuration for ITSM settings using filter block (auto-adds itsm_settings to components_list)
+  cisco.dnac.events_and_notifications_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/catc_itsm_config.yaml"
+    config:
+      component_specific_filters:
+        itsm_filters:
+          instance_names: ["ServiceNow Instance 1", "BMC Remedy Prod"]
 """
 
 RETURN = r"""
@@ -3660,8 +3679,14 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
             detailed_settings = []
-            for item in itsm_settings:
+            for idx, item in enumerate(itsm_settings, start=1):
                 if not isinstance(item, dict):
+                    self.log(
+                        "Skipping ITSM entry {0}/{1} - not a valid dictionary.".format(
+                            idx, len(itsm_settings)
+                        ),
+                        "WARNING"
+                    )
                     continue
 
                 instance_id = item.get("id")
@@ -3669,24 +3694,37 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 if not instance_id:
                     self.log(
-                        "Skipping ITSM instance '{0}' - no 'id' field found in listing "
-                        "response.".format(instance_name),
+                        "Skipping ITSM instance {0}/{1} '{2}' - no 'id' field found in "
+                        "listing response.".format(idx, len(itsm_settings), instance_name),
                         "WARNING"
                     )
                     continue
 
+                self.log(
+                    "Processing ITSM instance {0}/{1} - name: '{2}', ID: '{3}'. "
+                    "Fetching full details.".format(
+                        idx, len(itsm_settings), instance_name, instance_id
+                    ),
+                    "DEBUG"
+                )
+
                 detail = self.get_itsm_setting_detail_by_id(instance_id, instance_name)
-                if detail:
-                    detailed_settings.append(detail)
-                else:
+                if not detail:
                     self.log(
-                        "Could not retrieve full details for ITSM instance '{0}' "
-                        "(ID: {1}). Falling back to listing data.".format(
-                            instance_name, instance_id
+                        "Could not retrieve full details for ITSM instance {0}/{1} '{2}' "
+                        "(ID: {3}). Falling back to listing data.".format(
+                            idx, len(itsm_settings), instance_name, instance_id
                         ),
                         "WARNING"
                     )
                     detailed_settings.append(item)
+
+                detailed_settings.append(detail)
+                self.log(
+                    "Successfully retrieved full details for ITSM instance {0}/{1} "
+                    "'{2}'.".format(idx, len(itsm_settings), instance_name),
+                    "DEBUG"
+                )
 
             self.log(
                 "Completed ITSM detail retrieval. {0} of {1} instance(s) have full "
