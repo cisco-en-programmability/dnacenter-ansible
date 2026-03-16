@@ -68,7 +68,7 @@ options:
         configuration file.
       - If C(config) is provided, C(global_filters) is mandatory.
       - If C(config) is omitted, internal auto-discovery mode is used
-        and generate_all_configurations defaults to C(True).
+        and generates all configuration.
     type: dict
     required: false
     suboptions:
@@ -459,8 +459,8 @@ class AccessPointPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.config = {"generate_all_configurations": True}
             self.validated_config = self.config
             self.msg = (
-                "Config not provided. Defaulting to generate_all_configurations=True "
-                "for complete access point discovery."
+                "Config not provided. This will extract all "
+                "access point configurations from Cisco Catalyst Center "
             )
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO")
