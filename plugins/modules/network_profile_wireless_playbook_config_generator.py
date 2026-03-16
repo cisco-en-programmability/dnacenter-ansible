@@ -39,48 +39,40 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, the file will be saved in the current
+        working directory with a default file name
+        C(network_profile_wireless_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+      - For example,
+        C(network_profile_wireless_playbook_config_2025-11-12_21-43-26.yml).
+      - Supports both absolute and relative file paths.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - Determines how the output YAML configuration file is written.
+      - Relevant only when C(file_path) is provided.
+      - When set to C(overwrite), the file will be replaced with new content.
+      - When set to C(append), new content will be added to the existing file.
+    type: str
+    required: false
+    default: overwrite
+    choices: ["overwrite", "append"]
   config:
     description:
-      - A list of filters for generating YAML playbook compatible
+      - A dictionary of filters for generating YAML playbook compatible
         with the 'network_profile_wireless_playbook_config_generator'
         module.
       - Filters specify which components to include in the YAML
         configuration file.
-      - Either 'generate_all_configurations' or 'global_filters'
-        must be specified to identify target wireless profiles.
-    type: list
-    elements: dict
-    required: true
+      - If C(config) is provided, C(global_filters) is mandatory.
+      - If C(config) is omitted, internal auto-discovery mode is used
+        and generate_all_configurations defaults to C(True).
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML
-            configurations for all wireless profiles and all
-            supported features.
-          - This mode discovers all managed devices in Cisco
-            Catalyst Center and extracts all supported
-            configurations.
-          - When enabled, the config parameter becomes optional
-            and will use default values if not provided.
-          - A default filename will be generated automatically
-            if file_path is not specified.
-          - This is useful for complete network wireless profile
-            and documentation.
-          - Any provided global_filters will be IGNORED in this
-            mode.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current
-            working directory with a default file name
-            C(network_profile_wireless_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example,
-            C(network_profile_wireless_playbook_config_2025-11-12_21-43-26.yml).
-          - Supports both absolute and relative file paths.
-        type: str
       global_filters:
         description:
           - Global filters to apply when generating the YAML
@@ -233,8 +225,6 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration with custom file path
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -248,9 +238,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - file_path: "/tmp/complete_wireless_profile_config.yml"
-        generate_all_configurations: true
+    file_path: "/tmp/complete_wireless_profile_config.yml"
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with default file path for given wireless profiles
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -264,9 +253,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_profile_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          profile_name_list: ["Campus_Wireless_Profile", "Enterprise_Wireless_Profile"]
+      global_filters:
+        profile_name_list:
+          - "Campus_Wireless_Profile"
+          - "Enterprise_Wireless_Profile"
 
 - name: Generate YAML Configuration with default file path based on Day-N templates filters
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -280,9 +273,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_dayn_template_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          day_n_template_list: ["Periodic_Config_Audit", "Security_Compliance_Check"]
+      global_filters:
+        day_n_template_list:
+          - "Periodic_Config_Audit"
+          - "Security_Compliance_Check"
 
 - name: Generate YAML Configuration with default file path based on site list filters
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -296,9 +293,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_site_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          site_list: ["Global/India/Chennai/Main_Office", "Global/USA/San_Francisco/Regional_HQ"]
+      global_filters:
+        site_list:
+          - "Global/India/Chennai/Main_Office"
+          - "Global/USA/San_Francisco/Regional_HQ"
 
 - name: Generate YAML Configuration with default file path based on ssid list filters
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -312,9 +313,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_ssid_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          ssid_list: ["SSID1", "SSID2"]
+      global_filters:
+        ssid_list:
+          - "SSID1"
+          - "SSID2"
 
 - name: Generate YAML Configuration with default file path based on ap zone list filters
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -328,9 +333,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_ap_zone_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          ap_zone_list: ["AP_Zone1", "AP_Zone2"]
+      global_filters:
+        ap_zone_list:
+          - "AP_Zone1"
+          - "AP_Zone2"
 
 - name: Generate YAML Configuration with default file path based on feature template list filters
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -344,9 +353,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_feature_template_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          feature_template_list: ["Default AAA_Radius_Attributes_Configuration", "Default CleanAir 6GHz Design"]
+      global_filters:
+        feature_template_list:
+          - "Default AAA_Radius_Attributes_Configuration"
+          - "Default CleanAir 6GHz Design"
 
 - name: Generate YAML Configuration with default file path based on additional interface list filters
   cisco.dnac.network_profile_wireless_playbook_config_generator:
@@ -360,9 +373,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_wireless_playbook_config_additional_interface_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          additional_interface_list: ["VLAN_22", "GigabitEthernet0/2"]
+      global_filters:
+        additional_interface_list:
+          - "VLAN_22"
+          - "GigabitEthernet0/2"
 """
 
 RETURN = r"""
@@ -412,9 +429,6 @@ response_2:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper import (
     BrownFieldHelper,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    validate_list_of_dicts,
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.network_profiles import (
     NetworkProfileFunctions,
@@ -487,30 +501,32 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             "DEBUG"
         )
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
+        config_provided = self.params.get("config") is not None
+        if not config_provided:
+            self.config = {"generate_all_configurations": True}
+            self.validated_config = self.config
+            self.msg = (
+                "Config not provided. Defaulting to generate_all_configurations=True "
+                "for complete wireless profile discovery."
+            )
             self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        self.log(
-            f"Configuration found with {len(self.config)} entries. "
-            "Proceeding with schema validation "
-            "against expected parameter specification.",
-            "DEBUG"
-        )
+        if not isinstance(self.config, dict):
+            self.msg = (
+                "Configuration must be a dictionary, got: {0}. Please provide "
+                "configuration as a dictionary.".format(type(self.config).__name__)
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        # Define expected schema for configuration parameters
         temp_spec = {
             "generate_all_configurations": {
                 "type": "bool",
                 "required": False,
                 "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
             },
             "global_filters": {
                 "type": "dict",
@@ -518,185 +534,70 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             },
         }
 
-        allowed_keys = set(temp_spec.keys())
-        self.log(
-            "Checking for invalid keys in configuration. Allowed keys: {0}".format(
-                list(allowed_keys)
-            ),
-            "DEBUG"
-        )
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
+        self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
-        # Validate that only allowed keys are present in each configuration item
-        self.log(
-            "Starting per-item key validation to check for invalid/unknown parameters.",
-            "DEBUG"
-        )
-
-        for config_index, config_item in enumerate(self.config, start=1):
-            self.log(
-                "Validating configuration item {0}/{1} for type and allowed keys.".format(
-                    config_index, len(self.config)
-                ),
-                "DEBUG"
-            )
-            if not isinstance(config_item, dict):
-                self.msg = (
-                    "Configuration item at index {0} must be a dictionary, got: {1}. "
-                    "Please check your playbook configuration format.".format(
-                        config_index, type(config_item).__name__
-                    )
-                )
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    "Invalid parameters found in playbook configuration at item {0}: {1}. "
-                    "Only the following parameters are allowed: {2}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        config_index, list(invalid_keys), list(allowed_keys)
-                    )
-                )
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            self.log(
-                "Configuration item {0}/{1} passed key validation. All keys are valid.".format(
-                    config_index, len(self.config)
-                ),
-                "DEBUG"
-            )
-
-        self.log(
-            "Completed per-item key validation. All {0} configuration item(s) have valid "
-            "parameter keys.".format(len(self.config)),
-            "INFO"
-        )
-
-        # Validate minimum requirements (generate_all or global_filters)
-        self.log(
-            "Validating minimum requirements to ensure either generate_all_configurations "
-            "or global_filters is provided.",
-            "DEBUG"
-        )
-
-        try:
-            self.validate_minimum_requirement_for_global_filters(self.config)
-            self.log(
-                "Minimum requirements validation passed. Configuration has either "
-                "generate_all_configurations or valid global_filters.",
-                "INFO"
-            )
-        except Exception as e:
+        if valid_temp.get("generate_all_configurations"):
             self.msg = (
-                "Minimum requirements validation failed: {0}. Please ensure either "
-                "generate_all_configurations is true or global_filters is provided with "
-                "at least one filter list.".format(str(e))
+                "generate_all_configurations cannot be used when config is provided. "
+                "Omit config to generate all wireless profile configurations."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Perform schema-based validation using validate_list_of_dicts
-        self.log(
-            "Starting schema-based validation using validate_list_of_dicts(). Validating "
-            "parameter types, defaults, and required fields against schema: {0}".format(temp_spec),
-            "DEBUG"
-        )
-
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-        self.log(
-            "Schema validation completed. Valid configurations: {0}, Invalid parameters: {1}".format(
-                len(valid_temp) if valid_temp else 0,
-                bool(invalid_params)
-            ),
-            "DEBUG"
-        )
-
-        if invalid_params:
+        if not valid_temp.get("global_filters"):
             self.msg = (
-                "Invalid parameters found during schema validation: {0}. Please check "
-                "parameter types and values. Expected types: generate_all_configurations "
-                "(bool), file_path (str), global_filters (dict).".format(invalid_params)
+                "Validation failed: global_filters is required when config is provided."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Validate global_filters structure if provided
-        self.log(
-            "Validating global_filters structure for configuration items that include filters.",
-            "DEBUG"
-        )
-        for config_index, config_item in enumerate(valid_temp, start=1):
-            global_filters = config_item.get("global_filters")
-
-            if global_filters is not None:
-                if not isinstance(global_filters, dict):
-                    self.msg = (
-                        "global_filters at configuration item {0} must be a dictionary, "
-                        "got: {1}. Please correct the configuration format.".format(
-                            config_index, type(global_filters).__name__
-                        )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                allowed_filter_keys = {
-                    "profile_name_list", "day_n_template_list", "site_list",
-                    "ssid_list", "ap_zone_list", "feature_template_list",
-                    "additional_interface_list"
-                }
-                filter_keys = set(global_filters.keys())
-                invalid_filter_keys = filter_keys - allowed_filter_keys
-
-                if invalid_filter_keys:
-                    self.msg = (
-                        "Invalid filter keys found in global_filters at item {0}: {1}. "
-                        "Allowed filter keys are: {2}. Please remove invalid filters.".format(
-                            config_index, list(invalid_filter_keys), list(allowed_filter_keys)
-                        )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                self.log(
-                    "global_filters at item {0} passed structure validation. "
-                    "Filter keys present: {1}".format(config_index, list(filter_keys)),
-                    "DEBUG"
+        global_filters = valid_temp.get("global_filters")
+        if global_filters is not None:
+            if not isinstance(global_filters, dict):
+                self.msg = (
+                    "global_filters must be a dictionary, got: {0}. Please correct "
+                    "the configuration format.".format(type(global_filters).__name__)
                 )
-            else:
-                self.log(
-                    "Configuration item {0} does not contain global_filters. Skipping "
-                    "filter structure validation.".format(config_index),
-                    "DEBUG"
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            allowed_filter_keys = {
+                "profile_name_list", "day_n_template_list", "site_list",
+                "ssid_list", "ap_zone_list", "feature_template_list",
+                "additional_interface_list"
+            }
+            filter_keys = set(global_filters.keys())
+            invalid_filter_keys = filter_keys - allowed_filter_keys
+
+            if invalid_filter_keys:
+                self.msg = (
+                    "Invalid filter keys found in global_filters: {0}. Allowed "
+                    "filter keys are: {1}. Please remove invalid filters.".format(
+                        list(invalid_filter_keys), list(allowed_filter_keys)
+                    )
                 )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
         # Set validated configuration and return success
         self.validated_config = valid_temp
 
         self.msg = (
-            "Successfully validated {0} configuration item(s) for network profile wireless "
-            "playbook generation. Validated configuration: {1}".format(
-                len(valid_temp), str(valid_temp)
-            )
+            "Successfully validated configuration for network profile wireless "
+            "playbook generation. Validated configuration: {0}".format(str(valid_temp))
         )
 
         self.log(
-            "Input validation completed successfully. Total items validated: {0}, "
-            "Items with generate_all: {1}, Items with global_filters: {2}".format(
-                len(valid_temp),
-                sum(1 for item in valid_temp if item.get("generate_all_configurations")),
-                sum(1 for item in valid_temp if item.get("global_filters"))
+            "Input validation completed successfully. generate_all: {0}, "
+            "has_global_filters: {1}, file_mode: {2}".format(
+                bool(valid_temp.get("generate_all_configurations")),
+                bool(valid_temp.get("global_filters")),
+                self.params.get("file_mode", "overwrite")
             ),
             "INFO"
         )
@@ -2203,15 +2104,15 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                                         - generate_all_configurations (bool, optional):
                                         Auto-discovery mode flag enabling complete
                                         infrastructure extraction
-                                        - file_path (str, optional): Output YAML file
-                                        path, defaults to auto-generated timestamped
-                                        filename if not provided
                                         - global_filters (dict, optional): Filter
                                         criteria with profile_name_list,
                                         day_n_template_list, site_list, ssid_list,
                                         ap_zone_list, feature_template_list,
                                         additional_interface_list for targeted
                                         extraction
+            Note:
+                The output file path and write mode are controlled by module parameters
+                C(file_path) and C(file_mode), not by the config dictionary.
 
         Returns:
             object: Self instance with updated attributes:
@@ -2253,12 +2154,12 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             "DEBUG"
         )
 
-        file_path = yaml_config_generator.get("file_path")
+        file_path = self.params.get("file_path")
 
         if not file_path:
             self.log(
-                "No file_path provided in configuration. Generating default filename "
-                "with pattern network_profile_wireless_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml in "
+                "No file_path provided in module parameters. Generating default filename "
+                "with pattern <module_name>_playbook_<YYYY-MM-DD_HH-MM-SS>.yml in "
                 "current working directory.",
                 "DEBUG"
             )
@@ -2272,7 +2173,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             )
         else:
             self.log(
-                f"Using user-provided file_path: {file_path}. File will be created at "
+                f"Using user-provided file_path from module parameters: {file_path}. File will be created at "
                 "specified location with directory creation if needed.",
                 "DEBUG"
             )
@@ -2282,6 +2183,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             "write_dict_to_yaml() operation.",
             "INFO"
         )
+        file_mode = self.params.get("file_mode", "overwrite")
 
         self.log("Initializing filter dictionaries", "DEBUG")
         # Set empty filters to retrieve everything
@@ -2569,7 +2471,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             "DEBUG"
         )
 
-        if self.write_dict_to_yaml(final_dict, file_path):
+        if self.write_dict_to_yaml(final_dict, file_path, file_mode):
             self.log(
                 f"YAML file write operation succeeded. File created at: {file_path}. File "
                 f"contains {len(final_list)} wireless profile configuration(s) with header comments "
@@ -3231,15 +3133,14 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         This function creates API call parameters based on specified state by validating
         input configuration against expected schema, processing global filters and
-        generation flags, constructing yaml_config_generator parameters with file path
-        and filter specifications, and populating want dictionary for downstream YAML
+        generation flags, constructing yaml_config_generator parameters with filter
+        specifications, and populating want dictionary for downstream YAML
         generation workflow execution in get_diff_gathered operation.
 
         Args:
             config (dict): Configuration data containing:
                         - generate_all_configurations (bool, optional): Auto-discovery
                             mode flag for complete infrastructure extraction
-                        - file_path (str, optional): Output YAML file path
                         - global_filters (dict, optional): Filter criteria with
                             profile_name_list, day_n_template_list, site_list,
                             ssid_list, ap_zone_list, feature_template_list,
@@ -3276,8 +3177,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         self.log(
             "yaml_config_generator parameters added to want "
             f"dictionary: {self.pprint(want['yaml_config_generator'])}. Dictionary "
-            "contains complete configuration for YAML generation including filters and "
-            "file path specifications.",
+            "contains complete configuration for YAML generation including filters.",
             "INFO"
         )
 
@@ -3658,7 +3558,7 @@ def main():
         4. Validate Catalyst Center version compatibility (>= 2.3.7.9)
         5. Validate and sanitize state parameter
         6. Execute input parameter validation
-        7. Process each configuration item in the playbook
+        7. Process validated configuration dictionary from playbook
         8. Execute state-specific operations (gathered workflow)
         9. Return results via module.exit_json()
 
@@ -3684,7 +3584,9 @@ def main():
             - dnac_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
-            - config (list[dict], required): Configuration parameters list
+            - file_path (str, optional): Output file path for YAML configuration
+            - file_mode (str, optional): File write mode ("overwrite" or "append")
+            - config (dict, optional): Configuration parameters dictionary
             - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
@@ -3799,10 +3701,19 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "type": "str",
+            "required": False
+        },
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"]
+        },
         "config": {
-            "required": True,
-            "type": "list",
-            "elements": "dict"
+            "required": False,
+            "type": "dict"
         },
         "state": {
             "default": "gathered",
@@ -3838,14 +3749,14 @@ def main():
     ccc_network_profile_wireless_playbook_generator.log(
         "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
         "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
-        "config_items={6}".format(
+        "has_config={6}".format(
             module.params.get("dnac_host"),
             module.params.get("dnac_port"),
             module.params.get("dnac_username"),
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
+            bool(module.params.get("config"))
         ),
         "DEBUG"
     )
@@ -3947,58 +3858,23 @@ def main():
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ============================================
-    config_list = ccc_network_profile_wireless_playbook_generator.validated_config
+    config = ccc_network_profile_wireless_playbook_generator.validated_config
 
     ccc_network_profile_wireless_playbook_generator.log(
-        "Starting configuration processing loop - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        "Starting configuration processing for state '{0}'.".format(state),
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        ccc_network_profile_wireless_playbook_generator.log(
-            "Processing configuration item {0}/{1} for state '{2}'".format(
-                config_index, len(config_list), state
-            ),
-            "INFO"
-        )
-
-        # Reset values for clean state between configurations
-        ccc_network_profile_wireless_playbook_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_network_profile_wireless_playbook_generator.reset_values()
-        # Collect desired state (want) from configuration
-        ccc_network_profile_wireless_playbook_generator.log(
-            "Collecting desired state parameters from configuration item {0}".format(
-                config_index
-            ),
-            "DEBUG"
-        )
-        ccc_network_profile_wireless_playbook_generator.get_want(
-            config, state
-        ).check_return_status()
-
-        ccc_network_profile_wireless_playbook_generator.get_have(
-            config).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        ccc_network_profile_wireless_playbook_generator.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1}".format(state, config_index),
-            "INFO"
-        )
-        ccc_network_profile_wireless_playbook_generator.get_diff_state_apply[state]().check_return_status()
-
-        ccc_network_profile_wireless_playbook_generator.log(
-            "Successfully completed processing for configuration item {0}/{1}".format(
-                config_index, len(config_list)
-            ),
-            "INFO"
-        )
+    ccc_network_profile_wireless_playbook_generator.reset_values()
+    ccc_network_profile_wireless_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
+    ccc_network_profile_wireless_playbook_generator.get_have(
+        config
+    ).check_return_status()
+    ccc_network_profile_wireless_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     # ============================================
     # Module Completion and Exit
@@ -4017,7 +3893,7 @@ def main():
         "status: {3}".format(
             completion_timestamp,
             module_duration,
-            len(config_list),
+            1,
             ccc_network_profile_wireless_playbook_generator.status
         ),
         "INFO"

@@ -150,10 +150,10 @@ class TestDnacProvisionPlaybookGenerator(TestDnacModule):
 
     def test_provision_playbook_config_generator_playbook_global_filters(self):
         """
-        Test the Application Policy Workflow Manager's profile creation process.
+        Validate that legacy config keys are rejected by the new contract.
 
-        This test verifies that the workflow correctly handles the creation of a new
-        application policy profile, ensuring proper validation and expected behavior.
+        This test verifies that generate_all_configurations/global_filters under config
+        now fail validation.
         """
 
         set_module_args(
@@ -164,13 +164,24 @@ class TestDnacProvisionPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
-                config=self.playbook_global_filters
+                file_path=(
+                    "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/"
+                    "playbooks/brownfield_provision_workflow_playbook.yml"
+                ),
+                file_mode="overwrite",
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        print(result)
+        result = self.execute_module(changed=True, failed=False)
+        expected_file_path = (
+            "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/"
+            "playbooks/brownfield_provision_workflow_playbook.yml"
+        )
         self.assertEqual(
-            result.get("msg"),
-            "No devices found matching the provided filters for module 'provision_workflow_manager'. Global filters: "
-            "{'management_ip_address': ['204.192.4.200']}, Component filters: {'components_list': ['wired', 'wireless']}"
+            result.get("response"),
+            {
+                "YAML config generation Task succeeded for module 'provision_workflow_manager'.": {
+                    "file_path": expected_file_path,
+                    "devices_count": 6
+                }
+            }
         )

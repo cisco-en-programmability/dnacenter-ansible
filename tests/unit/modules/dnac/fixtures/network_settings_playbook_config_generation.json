@@ -1,225 +1,162 @@
 {
 
-  "playbook_config_generate_all_configurations": [
-    {
-      "generate_all_configurations": true,
-      "file_path": "/tmp/test_demo.yaml"
+  "playbook_config_generate_all_configurations": {
+    "component_specific_filters": {
+      "components_list": ["global_pool_details"]
     }
-  ],
+  },
 
-  "playbook_config_global_pools_single": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["global_pool_details"],
-        "global_pool_details": [
-          {
-            "pool_name": "Global_Pool_1"
-          }
-        ]
-      }
+  "playbook_config_global_pools_single": {
+    "component_specific_filters": {
+      "components_list": ["global_pool_details"],
+      "global_pool_details": [
+        {
+          "pool_name": "Global_Pool_1"
+        }
+      ]
     }
-  ],
+  },
 
-  "playbook_config_global_pools_multiple": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["global_pool_details"],
-        "global_pool_details": [
-          {
-            "pool_name": "Global_Pool_1"
-          },
-          {
-            "pool_name": "Global_Pool_2"
-          }
-        ]
-      }
+  "playbook_config_global_pools_multiple": {
+    "component_specific_filters": {
+      "components_list": ["global_pool_details"],
+      "global_pool_details": [
+        {
+          "pool_name": "Global_Pool_1"
+        },
+        {
+          "pool_name": "Global_Pool_2"
+        }
+      ]
     }
-  ],
+  },
 
-  "playbook_config_reserve_pools_by_site_single": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["reserve_pool_details"],
-        "reserve_pool_details": [
-          {
-            "site_name": "Global/India/Mumbai"
-          }
-        ]
-      }
+  "playbook_config_reserve_pools_by_site_single": {
+    "component_specific_filters": {
+      "components_list": ["reserve_pool_details"],
+      "reserve_pool_details": [
+        {
+          "site_name": "Global/India/Mumbai"
+        }
+      ]
     }
-  ],
+  },
 
-  "playbook_config_reserve_pools_by_pool_name": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["reserve_pool_details"],
-        "reserve_pool_details": [
-          {
-            "pool_name": "Reserve_Pool_1"
-          },
-          {
-            "pool_name": "Reserve_Pool_2"
-          }
-        ]
-      }
+  "playbook_config_reserve_pools_by_pool_name": {
+    "component_specific_filters": {
+      "components_list": ["reserve_pool_details"],
+      "reserve_pool_details": [
+        {
+          "pool_name": "Reserve_Pool_1"
+        },
+        {
+          "pool_name": "Reserve_Pool_2"
+        }
+      ]
     }
-  ],
+  },
 
-  "playbook_config_network_management_by_site": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["network_management_details"],
-        "network_management_details": [
-          {
-            "site_name": "Global/India/Mumbai"
-          },
-          {
-            "site_name": "Global/India/Delhi"
-          }
-        ]
-      }
+  "playbook_config_network_management_by_site": {
+    "component_specific_filters": {
+      "components_list": ["network_management_details"],
+      "network_management_details": [
+        {
+          "site_name": "Global/India/Mumbai"
+        },
+        {
+          "site_name": "Global/India/Delhi"
+        }
+      ]
     }
-  ],
+  },
 
-  "playbook_config_device_controllability_by_site": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["device_controllability_details"],
-        "device_controllability_details": [
-          {
-            "site_name": "Global/India/Mumbai"
-          },
-          {
-            "site_name": "Global/India/Delhi"
-          }
-        ]
-      }
+  "playbook_config_device_controllability_by_site": {
+    "component_specific_filters": {
+      "components_list": ["device_controllability_details"],
+      "device_controllability_details": [
+        {
+          "site_name": "Global/India/Mumbai"
+        },
+        {
+          "site_name": "Global/India/Delhi"
+        }
+      ]
     }
-  ],
+  },
 
-  "playbook_config_aaa_settings_by_network": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["aaa_settings"],
-        "aaa_settings": [
-          {
-            "network": "network_aaa"
-          }
-        ]
-      }
+  "playbook_config_aaa_settings_by_network": {
+    "component_specific_filters": {
+      "components_list": ["aaa_settings"],
+      "aaa_settings": [
+        {
+          "network": "network_aaa"
+        }
+      ]
     }
-  ],
+  },
 
-  "playbook_config_aaa_settings_by_server_type": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["aaa_settings"],
-        "aaa_settings": [
-          {
-            "server_type": "ISE"
-          },
-          {
-            "server_type": "AAA"
-          }
-        ]
-      }
+  "playbook_config_aaa_settings_by_server_type": {
+    "component_specific_filters": {
+      "components_list": ["aaa_settings"],
+      "aaa_settings": [
+        {
+          "server_type": "ISE"
+        },
+        {
+          "server_type": "AAA"
+        }
+      ]
     }
-  ],
+  },
 
-  "playbook_config_global_filters_by_site": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "global_filters": {
-        "site_name_list": ["Global/India/Mumbai", "Global/India/Delhi"]
-      }
+  "playbook_config_global_filters_by_site": {
+    "global_filters": {
+      "site_name_list": ["Global/India/Mumbai", "Global/India/Delhi"]
     }
-  ],
+  },
 
-  "playbook_config_global_filters_by_pool_name": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "global_filters": {
-        "pool_name_list": ["Global_Pool_1", "Reserve_Pool_1"]
-      }
-    }
-  ],
+  "playbook_config_global_filters_by_pool_name": {
+    "generate_all_configurations": true
+  },
 
-  "playbook_config_global_filters_by_pool_type": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "global_filters": {
-        "pool_type_list": ["LAN", "WAN", "Management"]
-      }
-    }
-  ],
+  "playbook_config_global_filters_by_pool_type": {
+    "unexpected_key": "invalid"
+  },
 
-  "playbook_config_multiple_components": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "global_filters": {
-        "site_name_list": ["Global/India/Mumbai"]
-      },
-      "component_specific_filters": {
-        "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details"]
-      }
+  "playbook_config_multiple_components": {
+    "component_specific_filters": {
+      "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details"]
     }
-  ],
+  },
 
-  "playbook_config_all_components": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "global_filters": {
-        "site_name_list": ["Global/India/Mumbai", "Global/India/Delhi"]
-      },
-      "component_specific_filters": {
-        "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details", "device_controllability_details", "aaa_settings"]
-      }
+  "playbook_config_all_components": {
+    "component_specific_filters": {
+      "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details", "device_controllability_details"]
     }
-  ],
+  },
 
-  "playbook_config_combined_filters": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "global_filters": {
-        "site_name_list": ["Global/India/Mumbai"],
-        "pool_name_list": ["Global_Pool_1"],
-        "pool_type_list": ["LAN"]
-      },
-      "component_specific_filters": {
-        "components_list": ["global_pool_details", "reserve_pool_details"]
-      }
+  "playbook_config_combined_filters": {
+    "component_specific_filters": {
+      "components_list": ["global_pool_details", "reserve_pool_details"]
     }
-  ],
+  },
 
-  "playbook_config_empty_filters": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["global_pool_details"]
-      }
+  "playbook_config_empty_filters": {
+    "component_specific_filters": {
+      "components_list": ["global_pool_details"]
     }
-  ],
+  },
 
-  "playbook_config_no_file_path": [
-    {
-      "component_specific_filters": {
-        "components_list": ["global_pool_details"],
-        "global_pool_details": [
-          {
-            "pool_name": "Global_Pool_1"
-          }
-        ]
-      }
+  "playbook_config_no_file_path": {
+    "component_specific_filters": {
+      "components_list": ["global_pool_details"],
+      "global_pool_details": [
+        {
+          "pool_name": "Global_Pool_1"
+        }
+      ]
     }
-  ],
+  },
   
 
   "get_empty_global_pool_response": {
