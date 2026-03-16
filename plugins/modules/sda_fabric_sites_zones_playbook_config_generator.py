@@ -405,7 +405,7 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 - "network_elements": A nested dictionary where each key represents a network component
                 (e.g., 'fabric_vlan', 'virtual_networks', 'anycast_gateways') and maps to:
                     - "filters": List of filter keys relevant to the component.
-                    - "temp_spec_function": Reference to the function that generates temp specs for the component.
+                    - "reverse_mapping_function": Reference to the function that generates temp specs for the component.
                     - "api_function": Name of the API to be called for the component.
                     - "api_family": API family name (e.g., 'sda').
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
@@ -418,14 +418,14 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "network_elements": {
                 "fabric_sites": {
                     "filters": ["site_name_hierarchy"],
-                    "temp_spec_function": self.fabric_site_temp_spec,
+                    "reverse_mapping_function": self.fabric_site_temp_spec,
                     "api_function": "get_fabric_sites",
                     "api_family": "sda",
                     "get_function_name": self.get_fabric_sites_from_ccc,
                 },
                 "fabric_zones": {
                     "filters": ["site_name_hierarchy"],
-                    "temp_spec_function": self.fabric_zone_temp_spec,
+                    "reverse_mapping_function": self.fabric_zone_temp_spec,
                     "api_function": "get_fabric_zones",
                     "api_family": "sda",
                     "get_function_name": self.get_fabric_zones_from_ccc,
