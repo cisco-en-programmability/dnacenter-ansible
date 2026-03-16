@@ -77,8 +77,8 @@ options:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the
       C(events_and_notifications_workflow_manager) module.
-    - If C(config) is omitted, module internally sets
-      C(generate_all_configurations=true) and retrieves all supported components.
+    - If C(config) is omitted, the module retrieves all supported components
+      and generates configurations for every available component type.
     - If C(config) is provided, C(component_specific_filters) is mandatory.
     type: dict
     required: false
@@ -5239,9 +5239,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         want["yaml_config_generator"] = config
         self.log(
             "Structured 'want' configuration created with yaml_config_generator containing: "
-            "file_path={0}, generate_all_configurations={1}, component_filters_present={2}".format(
+            "file_path={0}, component_filters_present={1}".format(
                 config.get("file_path", "not specified"),
-                config.get("generate_all_configurations", False),
                 bool(config.get("component_specific_filters"))
             ),
             "DEBUG"
