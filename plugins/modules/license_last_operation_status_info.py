@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: license_last_operation_status_info
-short_description: Information module for License Last
-  Operation Status
+short_description: Information module for License Last Operation Status
 description:
-  - Get all License Last Operation Status.
-  - Retrieves the status of the last system licensing
-    operation.
+  - Get all License Last Operation Status. - > Retrieves the status of the last system licensing operation. If the operation
+    does not exist or has not been triggered, the API responds with an HTTP 404 Not Found error.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      SystemLicensingLastOperationStatus
-    description: Complete reference of the SystemLicensingLastOperationStatus
-      API.
+  - name: Cisco DNA Center documentation for Licenses SystemLicensingLastOperationStatus
+    description: Complete reference of the SystemLicensingLastOperationStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!system-licensing-last-operation-status
 notes:
   - SDK Method used are

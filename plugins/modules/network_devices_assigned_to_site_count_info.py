@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_assigned_to_site_count_info
-short_description: Information module for Network Devices
-  Assigned To Site Count
+short_description: Information module for Network Devices Assigned To Site Count
 description:
   - Get all Network Devices Assigned To Site Count.
-  - Get all network devices count under the given site
-    in the network hierarchy.
+  - Get all network devices count under the given site in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,17 +21,14 @@ options:
     type: dict
   siteId:
     description:
-      - SiteId query parameter. Site Id. It must be
-        area Id or building Id or floor Id.
+      - SiteId query parameter. Site Id. It must be area Id or building Id or floor Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      GetSiteAssignedNetworkDevicesCount
-    description: Complete reference of the GetSiteAssignedNetworkDevicesCount
-      API.
+  - name: Cisco DNA Center documentation for Site Design GetSiteAssignedNetworkDevicesCount
+    description: Complete reference of the GetSiteAssignedNetworkDevicesCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-assigned-network-devices-count
 notes:
   - SDK Method used are

@@ -7,12 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles_info
-short_description: Information module for Wireless Settings
-  Power Profiles
+short_description: Information module for Wireless Settings Power Profiles
 description:
   - Get all Wireless Settings Power Profiles.
-  - This API allows the user to get Power Profiles that
-    captured in wireless settings design.
+  - Get Wireless Settings Power Profiles by id.
+  - This API allows the user to get Power Profiles that captured in wireless settings design.
+  - This API allows the user to get a Power Profile by Power Profile ID that captured in wireless settings design.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,29 +24,36 @@ options:
   limit:
     description:
       - Limit query parameter.
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter.
-    type: float
+    type: int
   profileName:
     description:
       - ProfileName query parameter. Power Profile Name.
     type: str
+  id:
+    description:
+      - Id path parameter. Power Profile ID.
+    type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetPowerProfiles
-    description: Complete reference of the GetPowerProfiles
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetPowerProfileByID
+    description: Complete reference of the GetPowerProfileByID API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-power-profile-by-id
+  - name: Cisco DNA Center documentation for Wireless GetPowerProfiles
+    description: Complete reference of the GetPowerProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!get-power-profiles
 notes:
   - SDK Method used are
+    wireless.Wireless.get_power_profile_by_id,
     wireless.Wireless.get_power_profiles,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/powerProfiles,
+    get /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
 """
 
 EXAMPLES = r"""
@@ -65,6 +72,18 @@ EXAMPLES = r"""
     offset: 0
     profileName: string
   register: result
+- name: Get Wireless Settings Power Profiles by id
+  cisco.dnac.wireless_settings_power_profiles_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
@@ -73,22 +92,20 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "profileName": "string",
-          "description": "string",
-          "rules": [
-            {
-              "sequence": 0,
-              "interfaceType": "string",
-              "interfaceId": "string",
-              "parameterType": "string",
-              "parameterValue": "string"
-            }
-          ]
-        }
-      ],
+      "response": {
+        "id": "string",
+        "profileName": "string",
+        "description": "string",
+        "rules": [
+          {
+            "sequence": 0,
+            "interfaceType": "string",
+            "interfaceId": "string",
+            "parameterType": "string",
+            "parameterValue": "string"
+          }
+        ]
+      },
       "version": "string"
     }
 """

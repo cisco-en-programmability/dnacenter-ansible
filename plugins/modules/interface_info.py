@@ -10,8 +10,7 @@ module: interface_info
 short_description: Information module for Interface
 description:
   - Get all Interface.
-  - Get list of all properties & operations valid for
-    an interface.
+  - Get list of all properties & operations valid for an interface.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,13 +24,11 @@ options:
       - InterfaceUuid path parameter. Interface ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      LegitOperationsForInterface
-    description: Complete reference of the LegitOperationsForInterface
-      API.
+  - name: Cisco DNA Center documentation for Devices LegitOperationsForInterface
+    description: Complete reference of the LegitOperationsForInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!legit-operations-for-interface
 notes:
   - SDK Method used are

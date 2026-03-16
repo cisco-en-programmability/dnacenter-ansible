@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_trend_count_info
-short_description: Information module for Network Bugs
-  Results Trend Count
+short_description: Information module for Network Bugs Results Trend Count
 description:
   - Get all Network Bugs Results Trend Count.
   - Get count of network bugs results trend over time.
@@ -22,17 +21,14 @@ options:
     type: dict
   scanTime:
     description:
-      - ScanTime query parameter. Return bugs trend
-        with scanTime greater than this scanTime.
+      - ScanTime query parameter. Return bugs trend with scanTime greater than this scanTime.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfNetworkBugsResultsTrendOverTime
-    description: Complete reference of the GetCountOfNetworkBugsResultsTrendOverTime
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfNetworkBugsResultsTrendOverTime
+    description: Complete reference of the GetCountOfNetworkBugsResultsTrendOverTime API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bugs-results-trend-over-time
 notes:
   - SDK Method used are

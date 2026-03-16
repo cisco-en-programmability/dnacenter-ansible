@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: event_subscription_info
 short_description: Information module for Event Subscription
 description:
-  - Get all Event Subscription. - > Gets the list of
-    Subscriptions's based on provided offset and limit.
-    Deprecated since Guardian release. Alternative GET
-    /intent/api/v1/event/subscription/rest.
+  - Get all Event Subscription.
+  - Gets the list of Subscriptions's based on provided offset and limit.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,20 +21,15 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. List of subscriptions
-        related to the respective eventIds.
+      - EventIds query parameter. List of subscriptions related to the respective eventIds.
     type: str
   offset:
     description:
-      - Offset query parameter. The number of Subscriptions's
-        to offset in the resultset whose default value
-        0.
+      - Offset query parameter. The number of Subscriptions's to offset in the resultset whose default value 0.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of Subscriptions's
-        to limit in the resultset whose default value
-        10.
+      - Limit query parameter. The number of Subscriptions's to limit in the resultset whose default value 10.
     type: int
   sortBy:
     description:
@@ -47,13 +40,11 @@ options:
       - Order query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetEventSubscriptions
-    description: Complete reference of the GetEventSubscriptions
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetEventSubscriptions
+    description: Complete reference of the GetEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!get-event-subscriptions
 notes:
   - SDK Method used are

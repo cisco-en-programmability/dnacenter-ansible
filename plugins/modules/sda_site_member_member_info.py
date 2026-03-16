@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_site_member_member_info
-short_description: Information module for Sda Site Member
-  Member
+short_description: Information module for Sda Site Member Member
 description:
   - Get all Sda Site Member Member.
   - API to get devices that are assigned to a site.
@@ -26,35 +25,28 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. Offset/starting index
-        for pagination.
-    type: str
+      - Offset query parameter. Offset/starting index for pagination.
+    type: int
   limit:
     description:
-      - Limit query parameter. Number of devices to
-        be listed. Default and max supported value is
-        500.
-    type: str
+      - Limit query parameter. Number of devices to be listed. Default and max supported value is 500.
+    type: int
   memberType:
     description:
-      - MemberType query parameter. Member type (This
-        API only supports the 'networkdevice' type).
+      - MemberType query parameter. Member type (This API only supports the 'networkdevice' type).
     type: str
   level:
     description:
       - >
-        Level query parameter. Depth of site hierarchy
-        to be considered to list the devices. If the
-        provided value is -1, devices for all child
-        sites will be listed.
+        Level query parameter. Depth of site hierarchy to be considered to list the devices. If the provided
+        value is -1, devices for all child sites will be listed.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetDevicesThatAreAssignedToASite
-    description: Complete reference of the GetDevicesThatAreAssignedToASite
-      API.
+    description: Complete reference of the GetDevicesThatAreAssignedToASite API.
     link: https://developer.cisco.com/docs/dna-center/#!get-devices-that-are-assigned-to-a-site
 notes:
   - SDK Method used are
@@ -75,8 +67,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
     memberType: string
     level: string
     id: string

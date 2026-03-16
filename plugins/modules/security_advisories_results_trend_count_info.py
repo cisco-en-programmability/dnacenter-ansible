@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_results_trend_count_info
-short_description: Information module for Security Advisories
-  Results Trend Count
+short_description: Information module for Security Advisories Results Trend Count
 description:
   - Get all Security Advisories Results Trend Count.
-  - Get count of security advisories results trend over
-    time.
+  - Get count of security advisories results trend over time.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,17 +21,14 @@ options:
     type: dict
   scanTime:
     description:
-      - ScanTime query parameter. Return advisories
-        trend with scanTime greater than this scanTime.
+      - ScanTime query parameter. Return advisories trend with scanTime greater than this scanTime.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfSecurityAdvisoriesResultsTrendOverTime
-    description: Complete reference of the GetCountOfSecurityAdvisoriesResultsTrendOverTime
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoriesResultsTrendOverTime
+    description: Complete reference of the GetCountOfSecurityAdvisoriesResultsTrendOverTime API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisories-results-trend-over-time
 notes:
   - SDK Method used are

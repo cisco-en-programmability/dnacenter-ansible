@@ -1889,7 +1889,7 @@ class NetworkCompliance(DnacBase):
             "DEBUG",
         )
 
-        # Run Compliance Paramters
+        # Run Compliance Parameters
         run_compliance_params = self.get_run_compliance_params(
             mgmt_ip_to_instance_id_map, run_compliance, run_compliance_categories
         )

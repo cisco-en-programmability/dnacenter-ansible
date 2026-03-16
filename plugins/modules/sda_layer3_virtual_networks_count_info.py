@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_layer3_virtual_networks_count_info
-short_description: Information module for Sda Layer3virtualnetworks
-  Count
+short_description: Information module for Sda Layer3 Virtual Networks Count
 description:
-  - Get all Sda Layer3virtualnetworks Count.
-  - Returns the count of layer 3 virtual networks that
-    match the provided query parameters.
+  - Get all Sda Layer3 Virtual Networks Count.
+  - Returns the count of layer 3 virtual networks that match the provided query parameters.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,22 +21,18 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the
-        layer 3 virtual network is assigned to.
+      - FabricId query parameter. ID of the fabric the layer 3 virtual network is assigned to.
     type: str
   anchoredSiteId:
     description:
-      - AnchoredSiteId query parameter. Fabric ID of
-        the fabric site the layer 3 virtual network
-        is anchored at.
+      - AnchoredSiteId query parameter. Fabric ID of the fabric site the layer 3 virtual network is anchored at.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetLayer3VirtualNetworksCount
-    description: Complete reference of the GetLayer3VirtualNetworksCount
-      API.
+    description: Complete reference of the GetLayer3VirtualNetworksCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-layer-3-virtual-networks-count
 notes:
   - SDK Method used are
@@ -49,8 +43,8 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Sda Layer3virtualnetworks Count
-  cisco.dnac.sda_layer3VirtualNetworks_count_info:
+- name: Get all Sda Layer3 Virtual Networks Count
+  cisco.dnac.sda_layer3_virtual_networks_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

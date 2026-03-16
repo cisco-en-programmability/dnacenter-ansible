@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: discovery_summary_info
-short_description: Information module for Discovery
-  Summary
+short_description: Information module for Discovery Summary
 description:
-  - Get all Discovery Summary. - > Returns the devices
-    discovered in the given discovery based on given
-    filters. Discovery ID can be obtained using the
-    "Get Discoveries by range" API.
+  - Get all Discovery Summary. - > Returns the devices discovered in the given discovery based on given filters. Discovery
+    ID can be obtained using the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -33,70 +30,59 @@ options:
   sortBy:
     description:
       - >
-        SortBy query parameter. Sort by field. Available
-        values are pingStatus, cliStatus,snmpStatus,
-        httpStatus and netconfStatus.
+        SortBy query parameter. Sort by field. Available values are pingStatus, cliStatus,snmpStatus, httpStatus
+        and netconfStatus.
     type: str
   sortOrder:
     description:
-      - SortOrder query parameter. Order of sorting
-        based on sortBy. Available values are 'asc'
-        and 'des'.
+      - SortOrder query parameter. Order of sorting based on sortBy. Available values are 'asc' and 'des'.
     type: str
   ipAddress:
     description:
-      - IpAddress query parameter. IP Address of the
-        device.
+      - IpAddress query parameter. IP Address of the device.
     elements: str
     type: list
   pingStatus:
     description:
-      - "PingStatus query parameter. Ping status for
-        the IP during the job run. Available values
-        are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and
-        'NOT-VALIDATED'. \n"
+      - >
+        PingStatus query parameter. Ping status for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   snmpStatus:
     description:
-      - "SnmpStatus query parameter. SNMP status for
-        the IP during the job run. Available values
-        are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and
-        'NOT-VALIDATED'. \n"
+      - >
+        SnmpStatus query parameter. SNMP status for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   cliStatus:
     description:
-      - "CliStatus query parameter. CLI status for the
-        IP during the job run. Available values are
-        'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
-        \n"
+      - >
+        CliStatus query parameter. CLI status for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   netconfStatus:
     description:
-      - "NetconfStatus query parameter. NETCONF status
-        for the IP during the job run. Available values
-        are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and
-        'NOT-VALIDATED'. \n"
+      - >
+        NetconfStatus query parameter. NETCONF status for the IP during the job run. Available values are
+        'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
   httpStatus:
     description:
-      - "HttpStatus query parameter. HTTP staus for
-        the IP during the job run. Available values
-        are 'SUCCESS', 'FAILURE', 'NOT-PROVIDED' and
-        'NOT-VALIDATED'. \n"
+      - >
+        HttpStatus query parameter. HTTP staus for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      GetNetworkDevicesFromDiscovery
-    description: Complete reference of the GetNetworkDevicesFromDiscovery
-      API.
+  - name: Cisco DNA Center documentation for Discovery GetNetworkDevicesFromDiscovery
+    description: Complete reference of the GetNetworkDevicesFromDiscovery API.
     link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-from-discovery
 notes:
   - SDK Method used are

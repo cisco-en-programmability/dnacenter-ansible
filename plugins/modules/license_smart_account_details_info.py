@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: license_smart_account_details_info
-short_description: Information module for License Smart
-  Account Details
+short_description: Information module for License Smart Account Details
 description:
   - Get all License Smart Account Details.
   - Retrieve details of all smart accounts.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      SmartAccountDetails
-    description: Complete reference of the SmartAccountDetails
-      API.
+  - name: Cisco DNA Center documentation for Licenses SmartAccountDetails
+    description: Complete reference of the SmartAccountDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!smart-account-details
 notes:
   - SDK Method used are

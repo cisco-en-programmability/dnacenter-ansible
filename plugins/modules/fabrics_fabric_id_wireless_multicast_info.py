@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: fabrics_fabric_id_wireless_multicast_info
-short_description: Information module for Fabrics Fabric
-  Id Wireless Multicast
+short_description: Information module for Fabrics Fabric Id Wireless Multicast
 description:
-  - Get all Fabrics Fabric Id Wireless Multicast. -
-    > Retrieves the current Software-Defined Access
-    SDA Wireless Multicast setting for a specified fabric
-    site. The setting indicates whether multicast is
-    enabled true or disabled false. For optimal performance,
-    ensure wired multicast is also enabled.
+  - Get all Fabrics Fabric Id Wireless Multicast. - > Retrieves the current Software-Defined Access SDA Wireless Multicast
+    setting for a specified fabric site. The setting indicates whether multicast is enabled true or disabled false. For optimal
+    performance, ensure wired multicast is also enabled.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,20 +23,16 @@ options:
   fabricId:
     description:
       - >
-        FabricId path parameter. The unique identifier
-        of the fabric site for which the multicast setting
-        is being requested. The identifier should be
-        in the format of a UUID. The 'fabricId' can
-        be obtained using the api /dna/intent/api/v1/sda/fabricSites.
+        FabricId path parameter. The unique identifier of the fabric site for which the multicast setting is
+        being requested. The identifier should be in the format of a UUID. The 'fabricId' can be obtained using
+        the api /dna/intent/api/v1/sda/fabricSites.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless GetSDAWirelessMulticast
-    description: Complete reference of the GetSDAWirelessMulticast
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless GetSDAWirelessMulticast
+    description: Complete reference of the GetSDAWirelessMulticast API.
     link: https://developer.cisco.com/docs/dna-center/#!get-sda-wireless-multicast
 notes:
   - SDK Method used are

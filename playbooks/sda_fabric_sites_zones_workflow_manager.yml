@@ -5,7 +5,7 @@
   gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_fabric_sites_zones.yml"
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Configure the fabric sites/zones and authentication profile template in Cisco Catalyst Center.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:

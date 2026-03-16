@@ -7,35 +7,28 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_resync_interval_settings_id
-short_description: Resource module for Network Devices
-  Resync Interval Settings Id
+short_description: Resource module for Network Devices Resync Interval Settings Id
 description:
-  - Manage operation update of the resource Network
-    Devices Resync Interval Settings Id.
-  - Update the resync interval in minutes for the given
-    network device id.
+  - Manage operation update of the resource Network Devices Resync Interval Settings Id.
+  - Update the resync interval in minutes for the given network device id.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. The id of the network
-      device.
+    description: Id path parameter. The id of the network device.
     type: str
   interval:
-    description: Resync interval in minutes. To disable
-      periodic resync, set interval as `0`. To use global
-      settings, set interval as `null`.
+    description: Resync interval should be between 360 to 1440 minutes. To disable periodic resync, set interval as `0`. To
+      use global settings, set interval as `null`.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      UpdateResyncIntervalForTheNetworkDevice
-    description: Complete reference of the UpdateResyncIntervalForTheNetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices UpdateResyncIntervalForTheNetworkDevice
+    description: Complete reference of the UpdateResyncIntervalForTheNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!update-resync-interval-for-the-network-device
 notes:
   - SDK Method used are

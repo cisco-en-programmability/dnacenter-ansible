@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sites_device_credentials_status_info
-short_description: Information module for Sites Device
-  Credentials Status
+short_description: Information module for Sites Device Credentials Status
 description:
   - Get all Sites Device Credentials Status.
-  - Get network devices credentials sync status at a
-    given site.
+  - Get network devices credentials sync status at a given site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - Id path parameter. Site Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings GetNetworkDevicesCredentialsSyncStatus
-    description: Complete reference of the GetNetworkDevicesCredentialsSyncStatus
-      API.
+  - name: Cisco DNA Center documentation for Network Settings GetNetworkDevicesCredentialsSyncStatus
+    description: Complete reference of the GetNetworkDevicesCredentialsSyncStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-credentials-sync-status
 notes:
   - SDK Method used are

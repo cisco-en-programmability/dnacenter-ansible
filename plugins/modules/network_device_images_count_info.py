@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_count_info
-short_description: Information module for Network Device
-  Images Count
+short_description: Information module for Network Device Images Count
 description:
   - Get all Network Device Images Count.
-  - Returns the count of network devices based on the
-    given filters.
+  - Returns the count of network devices based on the given filters.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,36 +21,27 @@ options:
     type: dict
   managementAddress:
     description:
-      - ManagementAddress query parameter. IP address
-        or DNS name used to access and manage network
-        devices.
+      - ManagementAddress query parameter. IP address or DNS name used to access and manage network devices.
     type: str
   networkDeviceImageStatus:
     description:
       - >
-        NetworkDeviceImageStatus query parameter. Network
-        device image status with respect to golden images.
-        Available values OUTDATED, UP_TO_DATE, UNKNOWN,
-        CONFLICTED, UNSUPPORTED.
+        NetworkDeviceImageStatus query parameter. Network device image status with respect to golden images.
+        Available values OUTDATED, UP_TO_DATE, UNKNOWN, CONFLICTED, UNSUPPORTED.
     type: str
   networkDeviceUpdateStatus:
     description:
       - >
-        NetworkDeviceUpdateStatus query parameter. Network
-        device current update status with respect to
-        golden images. Available values DISTRIBUTION_PENDING,
-        DISTRIBUTION_IN_PROGRESS, DISTRIBUTION_FAILED,
-        ACTIVATION_PENDING, ACTIVATION_IN_PROGRESS,
-        ACTIVATION_FAILED, DEVICE_UP_TO_DATE,UNKNOWN.
+        NetworkDeviceUpdateStatus query parameter. Network device current update status with respect to golden
+        images. Available values DISTRIBUTION_PENDING, DISTRIBUTION_IN_PROGRESS, DISTRIBUTION_FAILED,
+        ACTIVATION_PENDING, ACTIVATION_IN_PROGRESS, ACTIVATION_FAILED, DEVICE_UP_TO_DATE,UNKNOWN.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) CountOfNetworkDevicesForTheGivenStatusFilters
-    description: Complete reference of the CountOfNetworkDevicesForTheGivenStatusFilters
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkDevicesForTheGivenStatusFilters
+    description: Complete reference of the CountOfNetworkDevicesForTheGivenStatusFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-network-devices-for-the-given-status-filters
 notes:
   - SDK Method used are
@@ -86,7 +75,8 @@ dnac_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "taskId": "string",
+        "url": "string"
       },
       "version": "string"
     }

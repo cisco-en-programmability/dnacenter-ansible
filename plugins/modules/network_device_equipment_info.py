@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_equipment_info
-short_description: Information module for Network Device
-  Equipment
+short_description: Information module for Network Device Equipment
 description:
-  - Get all Network Device Equipment. - > Return all
-    types of equipment details like PowerSupply, Fan,
-    Chassis, Backplane, Module, PROCESSOR, Other and
-    SFP for the Given device.
+  - Get all Network Device Equipment. - > Return all types of equipment details like PowerSupply, Fan, Chassis, Backplane,
+    Module, PROCESSOR, Other and SFP for the Given device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,19 +26,15 @@ options:
   type:
     description:
       - >
-        Type query parameter. Type value can be PowerSupply,
-        Fan, Chassis, Backplane, Module, PROCESSOR,
-        Other, SFP. If no type is mentioned, All equipments
-        are fetched for the device.
+        Type query parameter. Type value can be PowerSupply, Fan, Chassis, Backplane, Module, PROCESSOR, Other,
+        SFP. If no type is mentioned, All equipments are fetched for the device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetTheDetailsOfPhysicalComponentsOfTheGivenDevice
-    description: Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices GetTheDetailsOfPhysicalComponentsOfTheGivenDevice
+    description: Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device
 notes:
   - SDK Method used are

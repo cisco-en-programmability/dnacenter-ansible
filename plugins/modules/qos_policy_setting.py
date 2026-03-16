@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: qos_policy_setting
 short_description: Resource module for Qos Policy Setting
 description:
-  - Manage operation update of the resource Qos Policy
-    Setting.
+  - Manage operation update of the resource Qos Policy Setting.
   - API to update the application QoS policy setting.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -18,21 +17,15 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deployByDefaultOnWiredDevices:
-    description: Flag to indicate whether QoS policy
-      should be deployed automatically on wired network
-      device when it is provisioned. This would be only
-      applicable for cases where the network device
-      is assigned to a site where a QoS policy has been
-      configured.
+    description: Flag to indicate whether QoS policy should be deployed automatically on wired network device when it is provisioned.
+      This would be only applicable for cases where the network device is assigned to a site where a QoS policy has been configured.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy UpdatesTheApplicationQoSPolicySetting
-    description: Complete reference of the UpdatesTheApplicationQoSPolicySetting
-      API.
+  - name: Cisco DNA Center documentation for Application Policy UpdatesTheApplicationQoSPolicySetting
+    description: Complete reference of the UpdatesTheApplicationQoSPolicySetting API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-the-application-qo-s-policy-setting
 notes:
   - SDK Method used are

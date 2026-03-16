@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: iot_rep_rings_id_info
-short_description: Information module for Iot Rep Rings
-  Id
+short_description: Information module for Iot Rep Rings Id
 description:
-  - Get Iot Rep Rings Id by id. - > This API returns
-    REP ring for the given id The id of configured REP
-    ring can be retrieved using the API /dna/intent/api/v1/iot/repRings/query
-    .
+  - Get Iot Rep Rings Id by id. - > This API returns REP ring for the given id The id of configured REP ring can be retrieved
+    using the API /dna/intent/api/v1/iot/repRings/query .
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,17 +22,15 @@ options:
   id:
     description:
       - >
-        Id path parameter. Ring ID of configured REP
-        ring can be fetched using the API `/dna/intent/api/v1/iot/repRings/query`.
+        Id path parameter. Ring ID of configured REP ring can be fetched using the API
+        `/dna/intent/api/v1/iot/repRings/query`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Industrial
-      Configuration GetTheREPRingBasedOnTheRingId
-    description: Complete reference of the GetTheREPRingBasedOnTheRingId
-      API.
+  - name: Cisco DNA Center documentation for Industrial Configuration GetTheREPRingBasedOnTheRingId
+    description: Complete reference of the GetTheREPRingBasedOnTheRingId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-rep-ring-based-on-the-ring-id
 notes:
   - SDK Method used are

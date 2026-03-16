@@ -9,14 +9,8 @@ DOCUMENTATION = r"""
 module: backups_id_restore
 short_description: Resource module for Backups Id Restore
 description:
-  - Manage operation create of the resource Backups
-    Id Restore. - > This api is used to trigger restore
-    workflow of a specific backup. Obtain the `id` from
-    the id attribute in the response of the `/dna/system/api/v1/backups`
-    API. To monitor the progress and completion of the
-    backup deletion , please call `/dna/system/api/v1/backupRestoreExecutions/{id}`
-    api , where id is the taskId attribute from the
-    response of the curent endpoint.
+  - Manage operation create of the resource Backups Id Restore.
+  - This api is used to trigger restore workflow of a specific backup.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,19 +20,15 @@ options:
     description: Passphrase to restore backup.
     type: str
   id:
-    description: Id path parameter. The `id` of the
-      backup to be restored.Obtain the `id` from the
-      id attribute in the response of the `/dna/system/api/v1/backups`
-      API.
+    description: Id path parameter. The `id` of the backup to be restored.Obtain the `id` from the id attribute in the response
+      of the `/dna/system/api/v1/backups` API.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Backup
-      RestoreBackup
-    description: Complete reference of the RestoreBackup
-      API.
+  - name: Cisco DNA Center documentation for Backup RestoreBackup
+    description: Complete reference of the RestoreBackup API.
     link: https://developer.cisco.com/docs/dna-center/#!restore-backup
 notes:
   - SDK Method used are
@@ -67,5 +57,11 @@ dnac_response:
   returned: always
   type: dict
   sample: >
-    {}
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

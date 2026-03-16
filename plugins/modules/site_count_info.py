@@ -10,8 +10,7 @@ module: site_count_info
 short_description: Information module for Site Count
 description:
   - Get all Site Count.
-  - Get the site count of the specified site's sub-hierarchy
-    inclusive of the provided site .
+  - Get the site count of the specified site's sub-hierarchy inclusive of the provided site .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,12 +24,11 @@ options:
       - SiteId query parameter. Site instance UUID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetSiteCount
-    description: Complete reference of the GetSiteCount
-      API.
+    description: Complete reference of the GetSiteCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-count
 notes:
   - SDK Method used are

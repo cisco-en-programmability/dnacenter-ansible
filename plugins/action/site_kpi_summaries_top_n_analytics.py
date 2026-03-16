@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -40,6 +39,7 @@ argument_spec.update(
         topN=dict(type="int"),
         groupBy=dict(type="list"),
         filters=dict(type="list"),
+        headers=dict(type="dict"),
     )
 )
 
@@ -58,6 +58,7 @@ class SiteKpiSummariesTopNAnalytics(object):
             topN=params.get("topN"),
             groupBy=params.get("groupBy"),
             filters=params.get("filters"),
+            headers=params.get("headers"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -192,7 +193,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = prev_obj

@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sites_time_zone_settings
-short_description: Resource module for Sites Time Zone
-  Settings
+short_description: Resource module for Sites Time Zone Settings
 description:
-  - Manage operation update of the resource Sites Time
-    Zone Settings. - > Set time zone settings for a
-    site; `null` values indicate that the setting will
-    be inherited from the parent site; empty objects
-    `{}` indicate that the settings is unset.
+  - Manage operation update of the resource Sites Time Zone Settings. - > Set time zone settings for a site; `null` values
+    indicate that the setting will be inherited from the parent site; empty objects `{}` indicate that the settings is unset.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,20 +23,16 @@ options:
     description: Sites Time Zone Settings's timeZone.
     suboptions:
       identifier:
-        description: Time zone that corresponds to the
-          site's physical location. The site time zone
-          is used when scheduling device provisioning
-          and updates. Example GMT.
+        description: Time zone that corresponds to the site's physical location. The site time zone is used when scheduling
+          device provisioning and updates. Example GMT.
         type: str
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings SetTimeZoneForASite
-    description: Complete reference of the SetTimeZoneForASite
-      API.
+  - name: Cisco DNA Center documentation for Network Settings SetTimeZoneForASite
+    description: Complete reference of the SetTimeZoneForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!set-time-zone-for-a-site
 notes:
   - SDK Method used are
@@ -74,8 +66,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

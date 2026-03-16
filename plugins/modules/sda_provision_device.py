@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: sda_provision_device
-short_description: Resource module for Sda Provision
-  Device
+short_description: Resource module for Sda Provision Device
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Provision Device.
+  - Manage operations create, update and delete of the resource Sda Provision Device.
   - Provision Wired Device.
   - Delete provisioned Wired Device.
   - Re-Provision Wired Device.
@@ -21,29 +19,24 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceManagementIpAddress:
-    description: DeviceManagementIpAddress query parameter.
-      Valid IP address of the device currently provisioned
-      in a fabric site.
+    description: DeviceManagementIpAddress query parameter. Valid IP address of the device currently provisioned in a fabric
+      site.
     type: str
   siteNameHierarchy:
-    description: SiteNameHierarchy of the provisioned
-      device.
+    description: Site Name Hierarchy for device location(only building / floor level).
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA ProvisionWiredDevice
-    description: Complete reference of the ProvisionWiredDevice
-      API.
+    description: Complete reference of the ProvisionWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!provision-wired-device
   - name: Cisco DNA Center documentation for SDA DeleteProvisionedWiredDevice
-    description: Complete reference of the DeleteProvisionedWiredDevice
-      API.
+    description: Complete reference of the DeleteProvisionedWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device
   - name: Cisco DNA Center documentation for SDA ReProvisionWiredDevice
-    description: Complete reference of the ReProvisionWiredDevice
-      API.
+    description: Complete reference of the ReProvisionWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device
 notes:
   - SDK Method used are
@@ -69,7 +62,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     deviceManagementIpAddress: string
-- name: Update all
+- name: Create
   cisco.dnac.sda_provision_device:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -81,7 +74,7 @@ EXAMPLES = r"""
     state: present
     deviceManagementIpAddress: string
     siteNameHierarchy: string
-- name: Create
+- name: Update all
   cisco.dnac.sda_provision_device:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -20,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings GetServiceProviderDetails
-    description: Complete reference of the GetServiceProviderDetails
-      API.
+  - name: Cisco DNA Center documentation for Network Settings GetServiceProviderDetails
+    description: Complete reference of the GetServiceProviderDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details
 notes:
   - SDK Method used are

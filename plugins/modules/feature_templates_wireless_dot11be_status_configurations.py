@@ -7,58 +7,60 @@
 DOCUMENTATION = r"""
 ---
 module: feature_templates_wireless_dot11be_status_configurations
-short_description: Resource module for Feature Templates
-  Wireless Dot11be Status Configurations
+short_description: Resource module for Feature Templates Wireless Dot11be Status Configurations
 description:
-  - Manage operation create of the resource Feature
-    Templates Wireless Dot11be Status Configurations.
-  - This API allows users to create a Dot11be status
-    configuration feature template.
+  - Manage operations create, update and delete of the resource Feature Templates Wireless Dot11be Status Configurations.
+  - This API allows users to create a Dot11be status configuration feature template.
+  - This API allows users to delete a specific Dot11be status configuration feature template by ID.
+  - This API allows users to update the details of a specific Dot11be status configuration feature template by ID.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   designName:
-    description: The feature template design name. `Note
-      ` The following characters are not allowed % &
-      < > ' /.
+    description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Dot11be
-      Status Configurations's featureAttributes.
+    description: Feature Templates Wireless Dot11be Status Configurations's featureAttributes.
     suboptions:
       dot11beStatus:
-        description: Dot11be Status is supported only
-          on Cisco IOS-XE based Wireless Controllers
-          running 17.15.1 and above.
+        description: Dot11be Status is supported only on Cisco IOS-XE based Wireless Controllers running 17.15.1 and above.
         type: bool
       radioBand:
-        description: Configuring 802.11be Status will
-          result in loss of connectivity of clients.
+        description: Configuring 802.11be Status will result in loss of connectivity of clients.
         type: str
     type: dict
+  id:
+    description: Id path parameter. Dot11be Status Configuration Feature Template Id.
+    type: str
   unlockedAttributes:
-    description: Attributes unlocked in design can be
-      changed at device provision time. `Note ` unlockedAttributes
-      can only contain the attributes defined under
-      featureAttributes.
+    description: Attributes unlocked in design can be changed at device provision time. `Note ` unlockedAttributes can only
+      contain the attributes defined under featureAttributes.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      CreateDot11beStatusConfigurationFeatureTemplate
-    description: Complete reference of the CreateDot11beStatusConfigurationFeatureTemplate
-      API.
+  - name: Cisco DNA Center documentation for Wireless CreateDot11beStatusConfigurationFeatureTemplate
+    description: Complete reference of the CreateDot11beStatusConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!create-dot-11be-status-configuration-feature-template
+  - name: Cisco DNA Center documentation for Wireless DeleteDot11beStatusConfigurationFeatureTemplate
+    description: Complete reference of the DeleteDot11beStatusConfigurationFeatureTemplate API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-dot-11be-status-configuration-feature-template
+  - name: Cisco DNA Center documentation for Wireless UpdateDot11beStatusConfigurationFeatureTemplate
+    description: Complete reference of the UpdateDot11beStatusConfigurationFeatureTemplate API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-dot-11be-status-configuration-feature-template
 notes:
   - SDK Method used are
     wireless.Wireless.create_dot11be_status_configuration_feature_template,
+    wireless.Wireless.delete_dot11be_status_configuration_feature_template,
+    wireless.Wireless.update_dot11be_status_configuration_feature_template,
   - Paths used are
     post /dna/intent/api/v1/featureTemplates/wireless/dot11beStatusConfigurations,
+    delete /dna/intent/api/v1/featureTemplates/wireless/dot11beStatusConfigurations/{id},
+    put /dna/intent/api/v1/featureTemplates/wireless/dot11beStatusConfigurations/{id},
 """
 
 EXAMPLES = r"""
@@ -72,10 +74,39 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    state: present
     designName: string
     featureAttributes:
       dot11beStatus: true
       radioBand: string
+    unlockedAttributes:
+      - string
+- name: Delete by id
+  cisco.dnac.feature_templates_wireless_dot11be_status_configurations:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
+- name: Update by id
+  cisco.dnac.feature_templates_wireless_dot11be_status_configurations:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    designName: string
+    featureAttributes:
+      dot11beStatus: true
+      radioBand: string
+    id: string
     unlockedAttributes:
       - string
 """

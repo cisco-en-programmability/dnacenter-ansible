@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_version_info
-short_description: Information module for Configuration
-  Template Version
+short_description: Information module for Configuration Template Version
 description:
   - Get Configuration Template Version by id.
   - Get all the versions of template by its id.
@@ -22,17 +21,14 @@ options:
     type: dict
   templateId:
     description:
-      - TemplateId path parameter. TemplateId(UUID)
-        to get list of versioned templates.
+      - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetsAllTheVersionsOfAGivenTemplate
-    description: Complete reference of the GetsAllTheVersionsOfAGivenTemplate
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplate
+    description: Complete reference of the GetsAllTheVersionsOfAGivenTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
   - SDK Method used are

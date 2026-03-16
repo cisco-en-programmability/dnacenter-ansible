@@ -7,26 +7,21 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_trials
-short_description: Resource module for Field Notices
-  Trials
+short_description: Resource module for Field Notices Trials
 description:
-  - Manage operation create of the resource Field Notices
-    Trials.
-  - Creates a trial for field notices detection on network
-    devices. The consent to.
+  - Manage operation create of the resource Field Notices Trials.
+  - Creates a trial for field notices detection on network devices. The consent to.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      CreatesATrialForFieldNoticesDetectionOnNetworkDevices
-    description: Complete reference of the CreatesATrialForFieldNoticesDetectionOnNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Compliance CreatesATrialForFieldNoticesDetectionOnNetworkDevices
+    description: Complete reference of the CreatesATrialForFieldNoticesDetectionOnNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-a-trial-for-field-notices-detection-on-network-devices
 notes:
   - SDK Method used are
@@ -57,8 +52,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

@@ -4,7 +4,7 @@
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Create access point location on Cisco Catalyst Center
       cisco.dnac.accesspoint_location_workflow_manager:

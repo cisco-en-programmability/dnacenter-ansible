@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: assign_device_to_site
-short_description: Resource module for Assign Device
-  To Site
+short_description: Resource module for Assign Device To Site
 description:
-  - Manage operation create of the resource Assign Device
-    To Site.
-  - Assigns unassigned devices to a site. This API does
-    not move assigned devices to other sites.
+  - Manage operation create of the resource Assign Device To Site.
+  - Assigns unassigned devices to a site. This API does not move assigned devices to other sites.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,25 +21,22 @@ options:
     elements: dict
     suboptions:
       ip:
-        description: Device IP. It can be either IPv4
-          or IPv6. IPV4 e.g., 10.104.240.64. IPV6 e.g.,
-          2001 420 284 2004 4 181 500 183.
+        description: Device IP. It can be either IPv4 or IPv6. IPV4 e.g., 10.104.240.64. IPV6 e.g., 2001 420 284 2004 4 181
+          500 183.
         type: str
     type: list
   headers:
     description: Additional headers.
     type: dict
   siteId:
-    description: SiteId path parameter. Site Id where
-      device(s) needs to be assigned.
+    description: SiteId path parameter. Site Id where device(s) needs to be assigned.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites AssignDevicesToSite
-    description: Complete reference of the AssignDevicesToSite
-      API.
+    description: Complete reference of the AssignDevicesToSite API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-devices-to-site
 notes:
   - SDK Method used are

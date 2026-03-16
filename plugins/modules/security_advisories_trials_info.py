@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_trials_info
-short_description: Information module for Security Advisories
-  Trials
+short_description: Information module for Security Advisories Trials
 description:
   - Get all Security Advisories Trials.
-  - Get trial details for security advisories detection
-    on network devices.
+  - Get trial details for security advisories detection on network devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevices
-    description: Complete reference of the GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevices
+    description: Complete reference of the GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-security-advisories-detection-on-network-devices
 notes:
   - SDK Method used are

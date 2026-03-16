@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: app_policy_intent_create
-short_description: Resource module for App Policy Intent
-  Create
+short_description: Resource module for App Policy Intent Create
 description:
-  - Manage operation create of the resource App Policy
-    Intent Create.
+  - Manage operation create of the resource App Policy Intent Create.
   - Create/Update/Delete application policy.
 version_added: '4.0.0'
 extends_documentation_fragment:
@@ -26,13 +24,11 @@ options:
         description: App Policy Intent Create's advancedPolicyScope.
         suboptions:
           advancedPolicyScopeElement:
-            description: App Policy Intent Create's
-              advancedPolicyScopeElement.
+            description: App Policy Intent Create's advancedPolicyScopeElement.
             elements: dict
             suboptions:
               groupId:
-                description: The site(s) ID where the
-                  Application QoS Policy will be deployed.
+                description: The site(s) ID where the Application QoS Policy will be deployed.
                 elements: str
                 type: list
               ssid:
@@ -48,13 +44,11 @@ options:
         description: App Policy Intent Create's consumer.
         suboptions:
           scalableGroup:
-            description: App Policy Intent Create's
-              scalableGroup.
+            description: App Policy Intent Create's scalableGroup.
             elements: dict
             suboptions:
               idRef:
-                description: Id ref to application Scalable
-                  group.
+                description: Id ref to application Scalable group.
                 type: str
             type: list
         type: dict
@@ -66,16 +60,13 @@ options:
             type: str
         type: dict
       deletePolicyStatus:
-        description: NONE deployed policy to devices,
-          DELETED delete policy from devices, RESTORED
-          restored to original configuration.
+        description: NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.
         type: str
       exclusiveContract:
         description: App Policy Intent Create's exclusiveContract.
         suboptions:
           clause:
-            description: App Policy Intent Create's
-              clause.
+            description: App Policy Intent Create's clause.
             elements: dict
             suboptions:
               deviceRemovalBehavior:
@@ -93,28 +84,24 @@ options:
             type: list
         type: dict
       name:
-        description: Concatination of <polcy name>_<application-set-name>
-          or <polcy name>_global_policy_configuration
-          or <polcy name>_queuing_customization.
+        description: Concatination of <polcy name>_<application-set-name> or <polcy name>_global_policy_configuration or <polcy
+          name>_queuing_customization.
         type: str
       policyScope:
         description: Policy name.
         type: str
       priority:
-        description: Set to 4095 while producer refer
-          to application Scalable group otherwise 100.
+        description: Set to 4095 while producer refer to application Scalable group otherwise 100.
         type: str
       producer:
         description: App Policy Intent Create's producer.
         suboptions:
           scalableGroup:
-            description: App Policy Intent Create's
-              scalableGroup.
+            description: App Policy Intent Create's scalableGroup.
             elements: dict
             suboptions:
               idRef:
-                description: Id ref to application-set
-                  or application Scalable group.
+                description: Id ref to application-set or application Scalable group.
                 type: str
             type: list
         type: dict
@@ -131,18 +118,15 @@ options:
         description: App Policy Intent Create's advancedPolicyScope.
         suboptions:
           advancedPolicyScopeElement:
-            description: App Policy Intent Create's
-              advancedPolicyScopeElement.
+            description: App Policy Intent Create's advancedPolicyScopeElement.
             elements: dict
             suboptions:
               groupId:
-                description: The site(s) ID where the
-                  Application QoS Policy will be deployed.
+                description: The site(s) ID where the Application QoS Policy will be deployed.
                 elements: str
                 type: list
               id:
-                description: Id of Advance policy scope
-                  element.
+                description: Id of Advance policy scope element.
                 type: str
               ssid:
                 description: Ssid.
@@ -163,13 +147,11 @@ options:
             description: Id of Consumer.
             type: str
           scalableGroup:
-            description: App Policy Intent Create's
-              scalableGroup.
+            description: App Policy Intent Create's scalableGroup.
             elements: dict
             suboptions:
               idRef:
-                description: Id ref to application Scalable
-                  group.
+                description: Id ref to application Scalable group.
                 type: str
             type: list
         type: dict
@@ -181,16 +163,13 @@ options:
             type: str
         type: dict
       deletePolicyStatus:
-        description: NONE deployed policy to devices,
-          DELETED delete policy from devices, RESTORED
-          restored to original configuration.
+        description: NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.
         type: str
       exclusiveContract:
         description: App Policy Intent Create's exclusiveContract.
         suboptions:
           clause:
-            description: App Policy Intent Create's
-              clause.
+            description: App Policy Intent Create's clause.
             elements: dict
             suboptions:
               deviceRemovalBehavior:
@@ -200,8 +179,7 @@ options:
                 description: Host tracking enabled.
                 type: bool
               id:
-                description: Id of Business relevance
-                  or Application policy knobs clause.
+                description: Id of Business relevance or Application policy knobs clause.
                 type: str
               relevanceLevel:
                 description: Relevance level.
@@ -218,16 +196,14 @@ options:
         description: Id of Group based policy.
         type: str
       name:
-        description: Concatination of <polcy name>_<application-set-name>
-          or <polcy name>_global_policy_configuration
-          or <polcy name>_queuing_customization.
+        description: Concatination of <polcy name>_<application-set-name> or <polcy name>_global_policy_configuration or <polcy
+          name>_queuing_customization.
         type: str
       policyScope:
         description: Policy name.
         type: str
       priority:
-        description: Set to 4095 while producer refer
-          to application Scalable group otherwise 100.
+        description: Set to 4095 while producer refer to application Scalable group otherwise 100.
         type: str
       producer:
         description: App Policy Intent Create's producer.
@@ -236,25 +212,21 @@ options:
             description: Id of Producer.
             type: str
           scalableGroup:
-            description: App Policy Intent Create's
-              scalableGroup.
+            description: App Policy Intent Create's scalableGroup.
             elements: dict
             suboptions:
               idRef:
-                description: Id ref to application-set
-                  or application Scalable group.
+                description: Id ref to application-set or application Scalable group.
                 type: str
             type: list
         type: dict
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy ApplicationPolicyIntent
-    description: Complete reference of the ApplicationPolicyIntent
-      API.
+  - name: Cisco DNA Center documentation for Application Policy ApplicationPolicyIntent
+    description: Complete reference of the ApplicationPolicyIntent API.
     link: https://developer.cisco.com/docs/dna-center/#!application-policy-intent
 notes:
   - SDK Method used are

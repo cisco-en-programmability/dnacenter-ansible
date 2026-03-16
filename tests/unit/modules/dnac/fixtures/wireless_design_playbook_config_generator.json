@@ -1,0 +1,167 @@
+{
+  "playbook_config_ssids_with_filters": {
+    "file_path": "tmp/test_wireless_design.yml",
+    "component_specific_filters": {
+      "components_list": [
+        "ssids"
+      ],
+      "ssids": [
+        {
+          "site_name_hierarchy": "Global/USA/San Jose",
+          "ssid_name": "Enterprise_WiFi",
+          "ssid_type": "Enterprise"
+        }
+      ]
+    }
+  },
+  "playbook_config_interfaces_with_filters": {
+    "file_path": "tmp/test_wireless_design.yml",
+    "component_specific_filters": {
+      "components_list": [
+        "interfaces"
+      ],
+      "interfaces": [
+        {
+          "interface_name": "guest_interface",
+          "vlan_id": 100
+        }
+      ]
+    }
+  },
+  "playbook_config_feature_template_with_filters": {
+    "file_path": "tmp/test_wireless_design.yml",
+    "component_specific_filters": {
+      "components_list": [
+        "feature_template_config"
+      ],
+      "feature_template_config": [
+        {
+          "feature_template_type": "advanced_ssid",
+          "design_name": "AdvancedSSID_Default"
+        }
+      ]
+    }
+  },
+  "playbook_config_flex_connect_with_filters": {
+    "file_path": "tmp/test_wireless_design.yml",
+    "component_specific_filters": {
+      "components_list": [
+        "flex_connect_configuration"
+      ],
+      "flex_connect_configuration": [
+        {
+          "site_name_hierarchy": "Global/USA/San Jose"
+        }
+      ]
+    }
+  },
+  "playbook_config_invalid_minimum_requirements": {
+    "file_path": "tmp/test_wireless_design.yml"
+  },
+  "playbook_config_interfaces_without_filters": {
+    "file_path": "tmp/test_wireless_design.yml",
+    "component_specific_filters": {
+      "components_list": [
+        "interfaces"
+      ]
+    }
+  },
+  "playbook_config_feature_template_type_only": {
+    "file_path": "tmp/test_wireless_design.yml",
+    "component_specific_filters": {
+      "components_list": [
+        "feature_template_config"
+      ],
+      "feature_template_config": [
+        {
+          "feature_template_type": "advanced_ssid"
+        }
+      ]
+    }
+  },
+  "playbook_config_feature_template_invalid_type": {
+    "file_path": "tmp/test_wireless_design.yml",
+    "component_specific_filters": {
+      "components_list": [
+        "feature_template_config"
+      ],
+      "feature_template_config": [
+        {
+          "feature_template_type": "unsupported_type"
+        }
+      ]
+    }
+  },
+  "get_site_response": {
+    "response": [
+      {
+        "id": "site-id-1",
+        "nameHierarchy": "Global/USA/San Jose"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_ssid_by_site_response": {
+    "response": [
+      {
+        "ssid": "Enterprise_WiFi",
+        "wlanType": "Enterprise",
+        "profileName": "Enterprise_WiFi_Profile",
+        "ssidRadioType": "Triple band operation(2.4GHz, 5GHz and 6GHz)",
+        "isEnabled": true,
+        "isBroadcastSSID": true
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_interfaces_response": {
+    "response": [
+      {
+        "interfaceName": "guest_interface",
+        "vlanId": 100,
+        "interfaceAddress": "10.10.10.1",
+        "dhcpServerIp": "10.10.10.2",
+        "netmask": "255.255.255.0"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_feature_template_summary_response": {
+    "response": [
+      {
+        "type": "ADVANCED_SSID_CONFIGURATION",
+        "instances": [
+          {
+            "designName": "AdvancedSSID_Default",
+            "id": "feature-template-id-1"
+          }
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_advanced_ssid_configuration_feature_template_response": {
+    "response": [
+      {
+        "designName": "AdvancedSSID_Default",
+        "featureAttributes": {
+          "peer2peerblocking": "DISABLE",
+          "passiveClient": false,
+          "predictionOptimization": false
+        },
+        "unlockedAttributes": [
+          "peer2peerblocking"
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_native_vlan_settings_by_site_response": {
+    "response": [
+      {
+        "nativeVlanId": 20
+      }
+    ],
+    "version": "1.0"
+  }
+}

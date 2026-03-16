@@ -7,16 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_interfaces
-short_description: Resource module for Wireless Settings
-  Interfaces
+short_description: Resource module for Wireless Settings Interfaces
 description:
-  - Manage operations create, update and delete of the
-    resource Wireless Settings Interfaces.
+  - Manage operations create, update and delete of the resource Wireless Settings Interfaces.
   - This API allows the user to create an interface.
-  - This API allows the user to delete an interface
-    by ID.
-  - This API allows the user to update an interface
-    by ID.
+  - This API allows the user to delete an interface by ID.
+  - This API allows the user to update an interface by ID.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,23 +28,17 @@ options:
     description: VLAN ID range is 1-4094.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      CreateInterface
-    description: Complete reference of the CreateInterface
-      API.
+  - name: Cisco DNA Center documentation for Wireless CreateInterface
+    description: Complete reference of the CreateInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!create-interface
-  - name: Cisco DNA Center documentation for Wireless
-      DeleteInterface
-    description: Complete reference of the DeleteInterface
-      API.
+  - name: Cisco DNA Center documentation for Wireless DeleteInterface
+    description: Complete reference of the DeleteInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-interface
-  - name: Cisco DNA Center documentation for Wireless
-      UpdateInterface
-    description: Complete reference of the UpdateInterface
-      API.
+  - name: Cisco DNA Center documentation for Wireless UpdateInterface
+    description: Complete reference of the UpdateInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!update-interface
 notes:
   - SDK Method used are

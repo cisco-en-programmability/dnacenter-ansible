@@ -9,15 +9,10 @@ DOCUMENTATION = r"""
 module: license_setting_info
 short_description: Information module for License Setting
 description:
-  - Get all License Setting. - > Retrieves license setting
-    - Default smart account id and virtual account id
-    for auto registration of devices for smart license
-    flow. If default smart account is not configured,
-    'defaultSmartAccountId' is 'null'. Similarly, if
-    auto registration of devices for smart license flow
-    is not enabled, 'autoRegistrationVirtualAccountId'
-    is 'null'. For smart proxy connection mode, 'autoRegistrationVirtualAccountId'
-    is always 'null'.
+  - Get all License Setting. - > Retrieves license setting - Default smart account id and virtual account id for auto registration
+    of devices for smart license flow. If default smart account is not configured, 'defaultSmartAccountId' is 'null'. Similarly,
+    if auto registration of devices for smart license flow is not enabled, 'autoRegistrationVirtualAccountId' is 'null'. For
+    smart proxy connection mode, 'autoRegistrationVirtualAccountId' is always 'null'.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,13 +22,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      RetrieveLicenseSetting
-    description: Complete reference of the RetrieveLicenseSetting
-      API.
+  - name: Cisco DNA Center documentation for Licenses RetrieveLicenseSetting
+    description: Complete reference of the RetrieveLicenseSetting API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-license-setting
 notes:
   - SDK Method used are

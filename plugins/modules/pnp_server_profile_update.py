@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_server_profile_update
-short_description: Resource module for Pnp Server Profile
-  Update
+short_description: Resource module for Pnp Server Profile Update
 description:
-  - Manage operation update of the resource Pnp Server
-    Profile Update. - > Updates the PnP Server profile
-    in a registered Virtual Account in the PnP database.
-    The response payload returns the updated smart &
-    virtual account info.
+  - Manage operation update of the resource Pnp Server Profile Update. - > Updates the PnP Server profile in a registered
+    Virtual Account in the PnP database. The response payload returns the updated smart & virtual account info.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,16 +23,13 @@ options:
     description: Pnp Server Profile Update's profile.
     suboptions:
       addressFqdn:
-        description: Required when cluster is configured
-          with fully qualified domain name (FQDN).
+        description: Address Fqdn.
         type: str
       addressIpV4:
-        description: Required when cluster is configured
-          with IPv4.
+        description: Required when cluster is configured with IPv4.
         type: str
       addressIpV6:
-        description: Required when cluster is configured
-          with IPv6.
+        description: Required when cluster is configured with IPv6.
         type: str
       cert:
         description: Cert.
@@ -64,13 +57,11 @@ options:
     description: Virtual Account Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) UpdatePnPServerProfile
-    description: Complete reference of the UpdatePnPServerProfile
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPServerProfile
+    description: Complete reference of the UpdatePnPServerProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-server-profile
 notes:
   - SDK Method used are

@@ -7,33 +7,25 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_trigger_scan
-short_description: Resource module for Field Notices
-  Trigger Scan
+short_description: Resource module for Field Notices Trigger Scan
 description:
-  - Manage operation create of the resource Field Notices
-    Trigger Scan.
-  - Triggers a field notices scan for the supported
-    network devices. The supported.
+  - Manage operation create of the resource Field Notices Trigger Scan.
+  - Triggers a field notices scan for the supported network devices. The supported.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   failedDevicesOnly:
-    description: FailedDevicesOnly query parameter.
-      Used to specify if the scan should run only for
-      the network devices that failed during the previous
-      scan. If not specified, this parameter defaults
-      to false.
+    description: FailedDevicesOnly query parameter. Used to specify if the scan should run only for the network devices that
+      failed during the previous scan. If not specified, this parameter defaults to false.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      TriggersAFieldNoticesScanForTheSupportedNetworkDevices
-    description: Complete reference of the TriggersAFieldNoticesScanForTheSupportedNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Compliance TriggersAFieldNoticesScanForTheSupportedNetworkDevices
+    description: Complete reference of the TriggersAFieldNoticesScanForTheSupportedNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!triggers-a-field-notices-scan-for-the-supported-network-devices
 notes:
   - SDK Method used are
@@ -64,8 +56,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: dnacaap_management_execution_status_info
-short_description: Information module for Dnacaap Management
-  Execution Status
+short_description: Information module for Dnacaap Management Execution Status
 description:
   - Get Dnacaap Management Execution Status by id.
   - Retrieves the execution details of a Business API.
@@ -22,16 +21,14 @@ options:
     type: dict
   executionId:
     description:
-      - ExecutionId path parameter. Execution Id of
-        API.
+      - ExecutionId path parameter. Execution Id of API.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task GetBusinessAPIExecutionDetails
-    description: Complete reference of the GetBusinessAPIExecutionDetails
-      API.
+    description: Complete reference of the GetBusinessAPIExecutionDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-business-api-execution-details
 notes:
   - SDK Method used are

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: applications_v2_info
-short_description: Information module for Applications
-  V2
+short_description: Information module for Applications V2
 description:
   - Get all Applications V2.
   - Get application/s by offset/limit or by name.
@@ -22,8 +21,7 @@ options:
     type: dict
   attributes:
     description:
-      - Attributes query parameter. Attributes to retrieve,
-        valid value application.
+      - Attributes query parameter. Attributes to retrieve, valid value application.
     type: str
   name:
     description:
@@ -31,25 +29,20 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The starting point or
-        index from where the paginated results should
-        begin.
+      - Offset query parameter. The starting point or index from where the paginated results should begin.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. The limit which is the
-        maximum number of items to include in a single
-        page of results, max value 500.
+        Limit query parameter. The limit which is the maximum number of items to include in a single page of
+        results, max value 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplicationsV2
-    description: Complete reference of the GetApplicationsV2
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationsV2
+    description: Complete reference of the GetApplicationsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-applications-v-2
 notes:
   - SDK Method used are
@@ -134,7 +127,7 @@ dnac_response:
                 "string"
               ],
               "ipv6Subnet": [
-                {}
+                "string"
               ],
               "lowerPort": 0,
               "ports": "string",
