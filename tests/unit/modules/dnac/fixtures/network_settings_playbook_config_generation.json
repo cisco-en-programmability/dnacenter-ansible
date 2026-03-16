@@ -1,14 +1,12 @@
 {
 
   "playbook_config_generate_all_configurations": {
-    "generate_all_configurations": true,
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite"
+    "component_specific_filters": {
+      "components_list": ["global_pool_details"]
+    }
   },
 
   "playbook_config_global_pools_single": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["global_pool_details"],
       "global_pool_details": [
@@ -20,8 +18,6 @@
   },
 
   "playbook_config_global_pools_multiple": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["global_pool_details"],
       "global_pool_details": [
@@ -36,8 +32,6 @@
   },
 
   "playbook_config_reserve_pools_by_site_single": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["reserve_pool_details"],
       "reserve_pool_details": [
@@ -49,8 +43,6 @@
   },
 
   "playbook_config_reserve_pools_by_pool_name": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["reserve_pool_details"],
       "reserve_pool_details": [
@@ -65,8 +57,6 @@
   },
 
   "playbook_config_network_management_by_site": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["network_management_details"],
       "network_management_details": [
@@ -81,8 +71,6 @@
   },
 
   "playbook_config_device_controllability_by_site": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["device_controllability_details"],
       "device_controllability_details": [
@@ -97,8 +85,6 @@
   },
 
   "playbook_config_aaa_settings_by_network": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["aaa_settings"],
       "aaa_settings": [
@@ -110,8 +96,6 @@
   },
 
   "playbook_config_aaa_settings_by_server_type": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["aaa_settings"],
       "aaa_settings": [
@@ -126,70 +110,38 @@
   },
 
   "playbook_config_global_filters_by_site": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
-    "generate_all_configurations": true,
     "global_filters": {
       "site_name_list": ["Global/India/Mumbai", "Global/India/Delhi"]
     }
   },
 
   "playbook_config_global_filters_by_pool_name": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
-    "generate_all_configurations": true,
-    "global_filters": {
-      "pool_name_list": ["Global_Pool_1", "Reserve_Pool_1"]
-    }
+    "generate_all_configurations": true
   },
 
   "playbook_config_global_filters_by_pool_type": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
-    "generate_all_configurations": true,
-    "global_filters": {
-      "pool_type_list": ["LAN", "WAN", "Management"]
-    }
+    "unexpected_key": "invalid"
   },
 
   "playbook_config_multiple_components": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
-    "global_filters": {
-      "site_name_list": ["Global/India/Mumbai"]
-    },
     "component_specific_filters": {
       "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details"]
     }
   },
 
   "playbook_config_all_components": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
-    "global_filters": {
-      "site_name_list": ["Global/India/Mumbai", "Global/India/Delhi"]
-    },
     "component_specific_filters": {
       "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details", "device_controllability_details"]
     }
   },
 
   "playbook_config_combined_filters": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
-    "global_filters": {
-      "site_name_list": ["Global/India/Mumbai"],
-      "pool_name_list": ["Global_Pool_1"],
-      "pool_type_list": ["LAN"]
-    },
     "component_specific_filters": {
       "components_list": ["global_pool_details", "reserve_pool_details"]
     }
   },
 
   "playbook_config_empty_filters": {
-    "file_path": "/tmp/test_demo.yaml",
-    "file_mode": "overwrite",
     "component_specific_filters": {
       "components_list": ["global_pool_details"]
     }

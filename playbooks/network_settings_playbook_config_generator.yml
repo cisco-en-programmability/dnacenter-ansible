@@ -23,8 +23,6 @@
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: gathered
-        config:
-          generate_all_configurations: true
 
     - name: Auto-discover all network settings
       cisco.dnac.network_settings_playbook_config_generator:
@@ -38,10 +36,8 @@
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: gathered
-        config:
-          file_path: "generated_files/network_settings_generated_playbook.yml"
-          file_mode: "overwrite"
-          generate_all_configurations: true
+        file_path: "generated_files/network_settings_generated_playbook.yml"
+        file_mode: "overwrite"
 
 # Example 2: Individual Components
 - name: Individual Components - Extract specific components
@@ -64,9 +60,9 @@
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: gathered
+        file_path: "generated_files/global_pool_details2.yml"
+        file_mode: "append"
         config:
-          file_path: "generated_files/global_pool_details2.yml"
-          file_mode: "append"
           component_specific_filters:
             components_list: ["global_pool_details"]
             global_pool_details:
@@ -124,9 +120,9 @@
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: gathered
+        file_path: "generated_files/device_controllability_generator.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "generated_files/device_controllability_generator.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_controllability_details"]
 
@@ -178,9 +174,9 @@
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: gathered
+        file_path: "generated_files/all_global_pools.yml"
+        file_mode: "append"
         config:
-          file_path: "generated_files/all_global_pools.yml"
-          file_mode: "append"
           component_specific_filters:
             components_list: ["global_pool_details"]
 
@@ -196,9 +192,9 @@
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: gathered
+        file_path: "generated_files/reserve_pool.yml"
+        file_mode: "append"
         config:
-          file_path: "generated_files/reserve_pool.yml"
-          file_mode: "append"
           component_specific_filters:
             components_list: ["reserve_pool_details"]
 
@@ -214,8 +210,8 @@
         dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: gathered
+        file_path: "generated_files/production_network_mgmt.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "generated_files/production_network_mgmt.yml"
-          file_mode: "append"
           component_specific_filters:
             components_list: ["network_management_details"]
