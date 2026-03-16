@@ -38,6 +38,27 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, the file will be saved in the current
+        working directory with a default file name
+        C(accesspoint_location_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+      - For example,
+        C(accesspoint_location_playbook_config_2025-04-22_21-43-26.yml).
+      - Supports both absolute and relative file paths.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - Determines how the output YAML configuration file is written.
+      - Relevant only when C(file_path) is provided.
+      - When set to C(overwrite), the file will be replaced with new content.
+      - When set to C(append), new content will be added to the existing file.
+    type: str
+    required: false
+    default: overwrite
+    choices: ["overwrite", "append"]
   config:
     description:
       - A dictionary of filters for generating YAML playbook compatible
@@ -45,49 +66,12 @@ options:
         module.
       - Filters specify which components to include in the YAML
         configuration file.
-      - Either 'generate_all_configurations' or 'global_filters'
-        must be specified to identify target access point locations.
+      - If C(config) is provided, C(global_filters) is mandatory.
+      - If C(config) is omitted, internal auto-discovery mode is used
+        and generate_all_configurations defaults to C(True).
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML
-            configurations for all access point locations and all
-            supported features.
-          - This mode discovers all floor locations with access points
-            in Cisco Catalyst Center and extracts all supported
-            configurations.
-          - When enabled, the config parameter becomes optional
-            and will use default values if not provided.
-          - A default filename will be generated automatically
-            if file_path is not specified.
-          - This is useful for complete planned accesspoint location
-            and documentation.
-          - Any provided global_filters will be IGNORED in this
-            mode.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current
-            working directory with a default file name
-            C(accesspoint_location_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example,
-            C(accesspoint_location_playbook_config_2025-04-22_21-43-26.yml).
-          - Supports both absolute and relative file paths.
-        type: str
-      file_mode:
-        description:
-          - Determines how the output YAML configuration file is written.
-          - When set to C(overwrite), the file will be replaced with new content.
-          - When set to C(append), new content will be added to the existing file.
-        type: str
-        required: false
-        default: overwrite
-        choices: ["overwrite", "append"]
       global_filters:
         description:
           - Global filters to apply when generating the YAML
@@ -210,8 +194,6 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration for all Access Point Location with custom file path
   cisco.dnac.accesspoint_location_playbook_config_generator:
@@ -225,10 +207,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      file_path: "tmp/accesspoint_location_playbook_config.yml"
-      file_mode: "overwrite"
-      generate_all_configurations: true
+    file_path: "tmp/accesspoint_location_playbook_config.yml"
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with file path based on site list filters
   cisco.dnac.accesspoint_location_playbook_config_generator:
@@ -242,9 +222,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_site_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/accesspoint_location_playbook_config_site_base.yml"
-      file_mode: "overwrite"
       global_filters:
         site_list:
           - Global/USA/SAN JOSE/SJ_BLD20/FLOOR1
@@ -262,9 +242,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_planned_ap_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/accesspoint_location_playbook_config_planned_ap_base.yml"
-      file_mode: "overwrite"
       global_filters:
         planned_accesspoint_list:
           - test_ap_location
@@ -282,9 +262,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_real_ap_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/accesspoint_location_playbook_config_real_ap_base.yml"
-      file_mode: "overwrite"
       global_filters:
         real_accesspoint_list:
           - Test_ap
@@ -302,9 +282,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_model_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/accesspoint_location_playbook_config_model_base.yml"
-      file_mode: "overwrite"
       global_filters:
         accesspoint_model_list:
           - AP9120E
@@ -322,9 +302,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/accesspoint_location_playbook_config_mac_base.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/accesspoint_location_playbook_config_mac_base.yml"
-      file_mode: "overwrite"
       global_filters:
         mac_address_list:
           - a4:88:73:d4:dd:80
@@ -461,13 +441,16 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO"
         )
 
-        if not self.config:
+        config_provided = self.params.get("config") is not None
+        if not config_provided:
+            self.config = {"generate_all_configurations": True}
+            self.validated_config = self.config
             self.msg = (
-                "Configuration is not available in the playbook for validation. This is "
-                "valid for certain workflows that don't require configuration parameters."
+                "Config not provided. Defaulting to generate_all_configurations=True "
+                "for complete access point location discovery."
             )
             self.log(self.msg, "INFO")
-            self.status = "success"
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         if not isinstance(self.config, dict):
@@ -479,22 +462,11 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Define expected schema for configuration parameters
         temp_spec = {
             "generate_all_configurations": {
                 "type": "bool",
                 "required": False,
                 "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"]
             },
             "global_filters": {
                 "type": "dict",
@@ -505,25 +477,18 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
-        # Validate minimum requirements (generate_all or global_filters)
-        self.log(
-            "Validating minimum requirements to ensure either generate_all_configurations "
-            "or global_filters is provided.",
-            "DEBUG"
-        )
-
-        try:
-            self.validate_minimum_requirement_for_global_filters(valid_temp)
-            self.log(
-                "Minimum requirements validation passed. Configuration has either "
-                "generate_all_configurations or valid global_filters.",
-                "INFO"
-            )
-        except Exception as e:
+        if valid_temp.get("generate_all_configurations"):
             self.msg = (
-                "Minimum requirements validation failed: {0}. Please ensure either "
-                "generate_all_configurations is true or global_filters is provided with "
-                "at least one filter list.".format(str(e))
+                "generate_all_configurations cannot be used when config is provided. "
+                "Omit config to generate all access point location configurations."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        if not valid_temp.get("global_filters"):
+            self.msg = (
+                "Validation failed: global_filters is required when config is provided."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -594,7 +559,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "has_global_filters: {1}, file_mode: {2}".format(
                 bool(valid_temp.get("generate_all_configurations")),
                 bool(valid_temp.get("global_filters")),
-                valid_temp.get("file_mode", "overwrite")
+                self.params.get("file_mode", "overwrite")
             ),
             "INFO"
         )
@@ -613,7 +578,6 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             config (dict): Configuration parameters from validated playbook containing:
                 - generate_all_configurations (bool, optional): Generate all configurations flag
-                - file_path (str, optional): Output file path for YAML playbook
                 - global_filters (dict, optional): Filter criteria for AP selection
 
         Returns:
@@ -654,7 +618,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Validate file_path if provided
-        file_path = config.get("file_path")
+        file_path = self.params.get("file_path")
         if file_path:
             self.log(
                 "Validating file_path parameter: '{file_path}'. Checking directory existence and "
@@ -765,11 +729,9 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             config (dict): Configuration parameters from Ansible playbook containing:
                   - generate_all_configurations: Mode flag (optional, bool)
-                  - file_path: Output file path (optional, str)
                   - global_filters: Filter criteria (optional, dict)
                   Example: {
                     "generate_all_configurations": False,
-                    "file_path": "/tmp/ap_locations.yml",
                     "global_filters": {
                       "site_list": ["Global/USA/San Jose/Building1/Floor1"],
                       "accesspoint_model_list": ["C9130AXI-B"]
@@ -2692,17 +2654,18 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             yaml_config_generator (dict): Configuration parameters containing:
-                                        - file_path: Output file path (optional, str)
                                         - generate_all_configurations: Mode flag (optional, bool)
                                         - global_filters: Filter criteria (optional, dict)
                                         Example: {
-                                            "file_path": "/tmp/ap_locations.yml",
                                             "generate_all_configurations": False,
                                             "global_filters": {
                                                 "site_list": ["Global/USA/Building1/Floor1"],
                                                 "accesspoint_model_list": ["C9130AXI-B"]
                                             }
                                         }
+            Note:
+                The output file path and write mode are controlled by module parameters
+                C(file_path) and C(file_mode), not by the config dictionary.
 
         Returns:
             object: Self instance with updated attributes:
@@ -2786,10 +2749,10 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
-                "No custom file_path provided by user in yaml_config_generator parameters. "
+                "No custom file_path provided by user in module parameters. "
                 "Initiating automatic filename generation with timestamp format. Default filename "
                 "pattern: accesspoint_location_playbook_config_YYYY-MM-DD_HH-MM-SS.yml",
                 "DEBUG"
@@ -2802,13 +2765,13 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
         else:
             self.log(
-                f"Using user-provided custom file_path for YAML output: {file_path}. File will be "
+                f"Using user-provided custom file_path from module parameters for YAML output: {file_path}. File will be "
                 f"created at specified path (absolute or relative path supported).",
                 "INFO"
             )
 
         self.log(f"YAML configuration file path determined: {file_path}", "DEBUG")
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        file_mode = self.params.get("file_mode", "overwrite")
 
         self.log("Initializing filter processing workflow", "DEBUG")
         # Set empty filters to retrieve everything
@@ -3689,7 +3652,9 @@ def main():
             - dnac_task_poll_interval (int, optional): Task polling interval in seconds (default: 2)
 
         Configuration Parameters:
-            - config (list of dict, required): Filter configuration for AP selection
+            - file_path (str, optional): Output file path for YAML configuration
+            - file_mode (str, optional): File write mode ("overwrite" or "append")
+            - config (dict, optional): Filter configuration for AP selection
             - state (str, optional): Operation state, must be "gathered" (default: "gathered")
 
     Returns:
@@ -3834,7 +3799,14 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
