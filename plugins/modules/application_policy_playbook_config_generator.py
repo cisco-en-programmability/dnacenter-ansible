@@ -234,7 +234,7 @@ response_1:
         "response": {
             "status": "success",
             "message": "YAML config generation succeeded for module 'application_policy_workflow_manager'.",
-            "file_path": "application_policy_workflow_manager_playbook_2026-02-03_03-00-59.yml",
+            "file_path": "application_policy_playbook_config_2026-02-03_03-00-59.yml",
             "configurations_count": 15,
             "components_processed": 2,
             "components_skipped": 0

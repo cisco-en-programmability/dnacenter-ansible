@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_smart_account_domains_info
-short_description: Information module for Pnp Smart
-  Account Domains
+short_description: Information module for Pnp Smart Account Domains
 description:
   - Get all Pnp Smart Account Domains.
   - Returns the list of Smart Account domains.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetSmartAccountList
-    description: Complete reference of the GetSmartAccountList
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetSmartAccountList
+    description: Complete reference of the GetSmartAccountList API.
     link: https://developer.cisco.com/docs/dna-center/#!get-smart-account-list
 notes:
   - SDK Method used are

@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: application_sets
 short_description: Resource module for Application Sets
 description:
-  - Manage operations create and delete of the resource
-    Application Sets.
+  - Manage operations create and delete of the resource Application Sets.
   - Create new custom application-set/s.
   - Delete existing application-set by it's id.
 version_added: '3.1.0'
@@ -30,18 +29,14 @@ options:
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy CreateApplicationSet
-    description: Complete reference of the CreateApplicationSet
-      API.
+  - name: Cisco DNA Center documentation for Application Policy CreateApplicationSet
+    description: Complete reference of the CreateApplicationSet API.
     link: https://developer.cisco.com/docs/dna-center/#!create-application-set
-  - name: Cisco DNA Center documentation for Application
-      Policy DeleteApplicationSet
-    description: Complete reference of the DeleteApplicationSet
-      API.
+  - name: Cisco DNA Center documentation for Application Policy DeleteApplicationSet
+    description: Complete reference of the DeleteApplicationSet API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
 notes:
   - SDK Method used are

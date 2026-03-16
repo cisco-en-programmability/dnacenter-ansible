@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_endpoints_count_info
-short_description: Information module for Endpoint Analytics
-  Endpoints Count
+short_description: Information module for Endpoint Analytics Endpoints Count
 description:
   - Get all Endpoint Analytics Endpoints Count.
-  - Fetch the total count of endpoints that match the
-    given filter criteria.
+  - Fetch the total count of endpoints that match the given filter criteria.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,70 +22,56 @@ options:
   profilingStatus:
     description:
       - >
-        ProfilingStatus query parameter. Profiling status
-        of the endpoint. Possible values are 'profiled',
+        ProfilingStatus query parameter. Profiling status of the endpoint. Possible values are 'profiled',
         'partialProfiled', 'notProfiled'.
     type: str
   macAddress:
     description:
-      - MacAddress query parameter. MAC address to search
-        for. Partial string is allowed.
+      - MacAddress query parameter. MAC address to search for. Partial string is allowed.
     type: str
   macAddresses:
     description:
-      - MacAddresses query parameter. List of MAC addresses
-        to filter on. Only exact matches will be returned.
+      - MacAddresses query parameter. List of MAC addresses to filter on. Only exact matches will be returned.
     elements: str
     type: list
   ip:
     description:
-      - Ip query parameter. IP address to search for.
-        Partial string is allowed.
+      - Ip query parameter. IP address to search for. Partial string is allowed.
     type: str
   deviceType:
     description:
-      - DeviceType query parameter. Type of device to
-        search for. Partial string is allowed.
+      - DeviceType query parameter. Type of device to search for. Partial string is allowed.
     type: str
   hardwareManufacturer:
     description:
-      - HardwareManufacturer query parameter. Hardware
-        manufacturer to search for. Partial string is
-        allowed.
+      - HardwareManufacturer query parameter. Hardware manufacturer to search for. Partial string is allowed.
     type: str
   hardwareModel:
     description:
-      - HardwareModel query parameter. Hardware model
-        to search for. Partial string is allowed.
+      - HardwareModel query parameter. Hardware model to search for. Partial string is allowed.
     type: str
   operatingSystem:
     description:
-      - OperatingSystem query parameter. Operating system
-        to search for. Partial string is allowed.
+      - OperatingSystem query parameter. Operating system to search for. Partial string is allowed.
     type: str
   registered:
     description:
-      - Registered query parameter. Flag to fetch manually
-        registered or non-registered endpoints.
+      - Registered query parameter. Flag to fetch manually registered or non-registered endpoints.
     type: bool
   randomMac:
     description:
-      - RandomMac query parameter. Flag to fetch endpoints
-        having randomized MAC or not.
+      - RandomMac query parameter. Flag to fetch endpoints having randomized MAC or not.
     type: bool
   trustScore:
     description:
       - >
-        TrustScore query parameter. Overall trust score
-        of the endpoint. It can be provided either as
-        a number value (e.g. 5), or as a range (e.g.
-        3-7). Provide value as '-' if you want to search
-        for all endpoints where trust score is not assigned.
+        TrustScore query parameter. Overall trust score of the endpoint. It can be provided either as a number
+        value (e.g. 5), or as a range (e.g. 3-7). Provide value as '-' if you want to search for all endpoints
+        where trust score is not assigned.
     type: str
   authMethod:
     description:
-      - AuthMethod query parameter. Authentication method.
-        Partial string is allowed.
+      - AuthMethod query parameter. Authentication method. Partial string is allowed.
     type: str
   postureStatus:
     description:
@@ -96,62 +80,49 @@ options:
   aiSpoofingTrustLevel:
     description:
       - >
-        AiSpoofingTrustLevel query parameter. Trust
-        level of the endpoint due to AI spoofing. Possible
-        values are 'low', 'medium', 'high'.
+        AiSpoofingTrustLevel query parameter. Trust level of the endpoint due to AI spoofing. Possible values
+        are 'low', 'medium', 'high'.
     type: str
   changedProfileTrustLevel:
     description:
       - >
-        ChangedProfileTrustLevel query parameter. Trust
-        level of the endpoint due to changing profile
-        labels. Possible values are 'low', 'medium',
-        'high'.
+        ChangedProfileTrustLevel query parameter. Trust level of the endpoint due to changing profile labels.
+        Possible values are 'low', 'medium', 'high'.
     type: str
   natTrustLevel:
     description:
       - >
-        NatTrustLevel query parameter. Trust level of
-        the endpoint due to NAT access. Possible values
-        are 'low', 'medium', 'high'.
+        NatTrustLevel query parameter. Trust level of the endpoint due to NAT access. Possible values are 'low',
+        'medium', 'high'.
     type: str
   concurrentMacTrustLevel:
     description:
       - >
-        ConcurrentMacTrustLevel query parameter. Trust
-        level of the endpoint due to concurrent MAC
-        address. Possible values are 'low', 'medium',
-        'high'.
+        ConcurrentMacTrustLevel query parameter. Trust level of the endpoint due to concurrent MAC address.
+        Possible values are 'low', 'medium', 'high'.
     type: str
   ipBlocklistDetected:
     description:
-      - IpBlocklistDetected query parameter. Flag to
-        fetch endpoints hitting IP blocklist or not.
+      - IpBlocklistDetected query parameter. Flag to fetch endpoints hitting IP blocklist or not.
     type: bool
   unauthPortDetected:
     description:
-      - UnauthPortDetected query parameter. Flag to
-        fetch endpoints exposing unauthorized ports
-        or not.
+      - UnauthPortDetected query parameter. Flag to fetch endpoints exposing unauthorized ports or not.
     type: bool
   weakCredDetected:
     description:
-      - WeakCredDetected query parameter. Flag to fetch
-        endpoints having weak credentials or not.
+      - WeakCredDetected query parameter. Flag to fetch endpoints having weak credentials or not.
     type: bool
   ancPolicy:
     description:
-      - AncPolicy query parameter. ANC policy. Only
-        exact match will be returned.
+      - AncPolicy query parameter. ANC policy. Only exact match will be returned.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics FetchTheCountOfEndpoints
-    description: Complete reference of the FetchTheCountOfEndpoints
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics FetchTheCountOfEndpoints
+    description: Complete reference of the FetchTheCountOfEndpoints API.
     link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints
 notes:
   - SDK Method used are

@@ -106,10 +106,11 @@ options:
             required: false
             default: false
       site_name:
-        description: Name of the site for which the
-          device will be claimed.
+        description: |
+          Name of the site to which the device will be claimed.
+          This field is optional when only adding devices without claiming them to a site.
         type: str
-        required: false
+        required: true
       project_name:
         description: Name of the project under which
           the template is present.
@@ -684,7 +685,7 @@ class PnP(DnacBase):
           - pnp_params: A dictionary containing all the values indicating
                         the type of the site (area/building/floor).
         Example:
-          Post creation of the validated input, it fetches the required paramters
+          Post creation of the validated input, it fetches the required parameters
           and stores it for further processing and calling the parameters in
           other APIs.
         """
@@ -703,7 +704,7 @@ class PnP(DnacBase):
             device_dict["deviceInfo"] = param
             device_info_list.append(device_dict)
 
-        self.log("PnP paramters passed are {0}".format(str(params_list)), "INFO")
+        self.log("PnP parameters passed are {0}".format(str(params_list)), "INFO")
         return device_info_list
 
     def get_image_params(self, params):
@@ -720,7 +721,7 @@ class PnP(DnacBase):
                           name of the image and its golden image status.
         Example:
           Post creation of the validated input, it fetches the required
-          paramters and stores it for further processing and calling the
+          parameters and stores it for further processing and calling the
           parameters in other APIs.
         """
 
@@ -743,7 +744,7 @@ class PnP(DnacBase):
 
     def get_claim_params(self):
         """
-        Get the paramters needed for claiming the device to site.
+        Get the parameters needed for claiming the device to site.
         Parameters:
           - self: The instance of the class containing the 'config'
                   attribute to be validated.
@@ -827,7 +828,7 @@ class PnP(DnacBase):
 
     def get_reset_params(self):
         """
-        Get the paramters needed for resetting the device in an errored state.
+        Get the parameters needed for resetting the device in an errored state.
         Parameters:
           - self: The instance of the class containing the 'config'
                   attribute to be validated.
@@ -857,7 +858,7 @@ class PnP(DnacBase):
         }
 
         self.log(
-            "Paramters used for resetting from errored state:{0}".format(
+            "Parameters used for resetting from errored state:{0}".format(
                 self.pprint(reset_params)
             ),
             "INFO",
@@ -1365,7 +1366,7 @@ class PnP(DnacBase):
           - self.template_list: A list of template under project
           - self.device_response: Gets the device_id and stores it
         Example:
-          Stored paramters are used to call the APIs to get the current image,
+          Stored parameters are used to call the APIs to get the current image,
           template and site details to call the API for various types of devices
         """
         have = {}
@@ -1568,12 +1569,12 @@ class PnP(DnacBase):
           - config: validated config passed from the playbook
         Returns:
           The method returns an instance of the class with updated attributes:
-          - self.want: A dictionary of paramters obtained from the playbook.
-          - self.msg: A message indicating all the paramters from the playbook
+          - self.want: A dictionary of parameters obtained from the playbook.
+          - self.msg: A message indicating all the parameters from the playbook
                       are collected.
           - self.status: Success.
         Example:
-            It stores all the paramters passed from the playbook for further
+            It stores all the parameters passed from the playbook for further
             processing before calling the APIs
         """
 
@@ -2211,7 +2212,7 @@ class PnP(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of PnP configuration in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of PnP configuration in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.

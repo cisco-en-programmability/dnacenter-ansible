@@ -5,7 +5,7 @@
   gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_events_and_notification.yml"
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Add/update channels with destination and create/update events in Cisco Catalyst Center.
       cisco.dnac.events_and_notifications_workflow_manager:

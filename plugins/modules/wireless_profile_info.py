@@ -10,8 +10,7 @@ module: wireless_profile_info
 short_description: Information module for Wireless Profile
 description:
   - Get all Wireless Profile.
-  - Gets either one or all the wireless network profiles
-    if no name is provided for network-profile.
+  - Gets either one or all the wireless network profiles if no name is provided for network-profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,17 +21,14 @@ options:
     type: dict
   profileName:
     description:
-      - ProfileName query parameter. Wireless Network
-        Profile Name.
+      - ProfileName query parameter. Wireless Network Profile Name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetWirelessProfile
-    description: Complete reference of the GetWirelessProfile
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetWirelessProfile
+    description: Complete reference of the GetWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile
 notes:
   - SDK Method used are
@@ -73,7 +69,6 @@ dnac_response:
           "ssidDetails": [
             {
               "name": "string",
-              "type": "string",
               "enableFabric": true,
               "flexConnect": {
                 "enableFlexConnect": true,
