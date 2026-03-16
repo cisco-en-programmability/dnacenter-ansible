@@ -1,7 +1,10 @@
 {
     "playbook_pnp_generate_all_configurations": {
-        "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
-        "generate_all_configurations": true
+        "component_specific_filters": {
+            "components_list": [
+                "device_info"
+            ]
+        }
     },
     "PnPdevices": [
         {
@@ -1157,8 +1160,11 @@
                 "device_info"
             ]
         },
-        "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
-        "generate_all_configurations": true
+        "global_filters": {
+            "device_state": [
+                "Unclaimed"
+            ]
+        }
     },
     "PnPdevices1": 
     [
@@ -2318,8 +2324,6 @@
                 "device_info"
             ]
         },
-        "file_path": "/Users/syedkahm/Downloads/pnp_device_info",
-        "generate_all_configurations": true,
         "global_filters": {
             "device_state": [
                 "Unclaimed"

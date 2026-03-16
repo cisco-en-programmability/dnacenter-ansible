@@ -99,7 +99,7 @@ description:
   name mapping and structure optimization for Ansible execution.
 - Supports device state filtering for targeted device discovery.
 - Enables automated brownfield discovery by retrieving all registered PnP
-  devices when generate_all_configurations is enabled.
+  devices when C(config) is omitted.
 - Creates structured playbook files ready for modification and redeployment
   through pnp_workflow_manager module.
 - Extracts essential device attributes without site assignments, templates,
@@ -124,70 +124,40 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Absolute or relative path where generated YAML configuration file
+        will be saved.
+      - If not provided, file is saved in current working directory with
+        auto-generated filename.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - Controls how generated YAML content is written when C(file_path) is
+        provided.
+      - C(overwrite) creates/replaces the file.
+      - C(append) appends to existing file.
+    type: str
+    required: false
+    default: overwrite
   config:
     description:
-      - Configuration dictionary controlling YAML playbook generation behavior.
-      - Defines output file path, component selection, file write mode, and
-        filtering criteria for PnP device extraction.
-      - When generate_all_configurations is True, automatically includes all
-        PnP devices unless filters are explicitly specified.
+      - Configuration dictionary controlling PnP filter behavior.
+      - When provided, at least one of C(component_specific_filters) or
+        C(global_filters) is mandatory.
+      - To retrieve all PnP devices, omit C(config).
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When True, automatically retrieves all PnP device configurations
-            from Catalyst Center.
-          - Discovers all devices in PnP inventory and extracts basic device
-            information.
-          - Makes component_specific_filters optional by using default values
-            when not provided.
-          - Sets default components_list to ['device_info'] if not explicitly
-            specified.
-          - Useful for complete brownfield PnP inventory documentation and
-            discovery workflows.
-          - When False, requires explicit component_specific_filters
-            configuration with components_list.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-          - Absolute or relative path where generated YAML configuration file
-            will be saved.
-          - If not provided, file is saved in current working directory with
-            auto-generated filename.
-          - Filename format when auto-generated is
-            C(pnp_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - Example auto-generated filename
-            C(pnp_playbook_config_2026-02-06_14-30-45.yml).
-          - Parent directories are created automatically if they do not exist.
-          - File behavior depends on file_mode setting.
-        type: str
-        required: false
-      file_mode:
-        description:
-          - Controls how the generated YAML content is written to the output
-            file.
-          - When set to 'overwrite', the file is created or replaced with new
-            content.
-          - When set to 'append', the generated content is appended to the
-            existing file.
-          - Append mode is useful for combining multiple device configurations
-            into a single playbook file.
-        type: str
-        required: false
-        default: overwrite
-        choices: ['overwrite', 'append']
       component_specific_filters:
         description:
           - Filter configuration controlling which components are included in
             generated YAML playbook.
           - Currently supports only 'device_info' component for basic device
             information extraction.
-          - Optional when generate_all_configurations is True, uses defaults if
-            not provided.
-          - When specified, only listed components are retrieved.
+          - Must include C(components_list) with at least one component when
+            provided.
         type: dict
         required: false
         suboptions:
@@ -199,24 +169,15 @@ options:
                 extracting basic device information.
               - Device info includes serial_number, hostname, state, pid,
                 is_sudi_required, and authorize fields.
-              - When not specified with generate_all_configurations True,
-                defaults to ['device_info'].
               - Order of components in list determines order in generated YAML
                 playbook structure.
             type: list
             elements: str
             choices: ['device_info']
-            default: ['device_info']
       global_filters:
         description:
-          - Global filters to apply across PnP device extraction before
-            component processing.
-          - Allows filtering devices by state, product family, and site
-            location.
-          - Filters are applied sequentially to reduce dataset before device
-            information extraction.
-          - All filters are optional and can be combined for precise device
-            selection.
+          - Global filters to apply across PnP device extraction.
+          - Currently supports filtering by device state only.
         type: dict
         required: false
         suboptions:
@@ -274,10 +235,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      generate_all_configurations: true
+    file_path: "/tmp/pnp_device_info.yml"
 
-- name: Generate device info with custom file path and append mode
+- name: Generate device info with component filter
   cisco.dnac.pnp_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -289,9 +249,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/pnp_device_info.yml"
+    file_mode: append
     config:
-      file_path: "/tmp/pnp_device_info.yml"
-      file_mode: append
       component_specific_filters:
         components_list: ["device_info"]
 
@@ -307,8 +267,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/unclaimed_device_info.yml"
     config:
-      file_path: "/tmp/unclaimed_device_info.yml"
       component_specific_filters:
         components_list: ["device_info"]
       global_filters:
@@ -510,9 +470,6 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.operation_failures = []
         self.total_devices_processed = 0
 
-        # Initialize generate_all_configurations
-        self.generate_all_configurations = False
-
     def validate_input(self):
         """
         Validates playbook configuration parameters against expected schema structure.
@@ -544,170 +501,173 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             "provided in playbook.",
             "DEBUG"
         )
-        if not self.config:
-            self.msg = "config not available in playbook for validation"
+
+        config = self.config
+        config_provided = config is not None
+        if config is None:
             self.log(
-                "No configuration provided in playbook. Validation completed with empty "
-                "config requiring generate_all_configurations flag for default values.",
-                "WARNING"
+                "config is not provided. Defaulting to retrieve all PnP devices.",
+                "INFO"
             )
-            self.status = "success"
+            config = {}
+        elif not isinstance(config, dict):
+            self.msg = (
+                "config must be a dictionary when provided. Got: {0}.".format(
+                    type(config).__name__
+                )
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        pnp_brownfield_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite"
-            },
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False,
-            },
-            "global_filters": {
-                "type": "dict",
-                "required": False,
-            },
-        }
-
-        # Strict type validation for generate_all_configurations before
-        # validate_config_dict silently coerces strings to booleans
-        gen_all_value = self.config.get("generate_all_configurations")
-        if gen_all_value is not None and not isinstance(gen_all_value, bool):
+        if config_provided and config == {}:
             self.msg = (
-                "'generate_all_configurations' must be a boolean "
-                "(true/false), got {0} of type {1}. Use 'true' or 'false' without "
-                "quotes in your playbook.".format(
-                    repr(gen_all_value), type(gen_all_value).__name__
+                "Either 'component_specific_filters' or 'global_filters' is mandatory "
+                "when 'config' is provided."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        allowed_config_keys = {"component_specific_filters", "global_filters"}
+        invalid_config_keys = set(config.keys()) - allowed_config_keys
+        if invalid_config_keys:
+            if "file_path" in invalid_config_keys or "file_mode" in invalid_config_keys:
+                self.msg = (
+                    "file_path and file_mode must be provided as top-level module "
+                    "parameters, not under config."
+                )
+            else:
+                self.msg = (
+                    "Invalid keys found in 'config': {0}. Allowed keys are: {1}.".format(
+                        sorted(list(invalid_config_keys)),
+                        sorted(list(allowed_config_keys))
+                    )
+                )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        valid_config = {}
+        file_path = self.params.get("file_path")
+        file_mode = self.params.get("file_mode", "overwrite")
+        valid_file_modes = ["overwrite", "append"]
+        if file_path and file_mode not in valid_file_modes:
+            self.msg = (
+                "Invalid value for 'file_mode': '{0}'. Valid choices are: {1}".format(
+                    file_mode, valid_file_modes
                 )
             )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        if not file_path and file_mode != "overwrite":
             self.log(
-                "Strict type validation failed for 'generate_all_configurations'. "
-                "Expected bool, received {0} ({1}). Setting operation result to "
-                "failed and exiting.".format(
-                    type(gen_all_value).__name__, repr(gen_all_value)
-                ),
-                "ERROR"
+                "file_mode='{0}' is ignored because file_path is not provided.".format(file_mode),
+                "WARNING"
             )
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        # Validate that no unknown top-level keys are present in config
-        # using validate_invalid_params from BrownFieldHelper
-        self.validate_invalid_params(self.config, pnp_brownfield_spec.keys())
-
-        # Validate config dictionary using validate_config_dict from BrownFieldHelper
-        valid_config = self.validate_config_dict(self.config, pnp_brownfield_spec)
-
-        # Validate file_mode choices
-        file_mode = valid_config.get("file_mode", "overwrite")
-        valid_file_modes = ["overwrite", "append"]
-        if file_mode not in valid_file_modes:
+        component_filters = config.get("component_specific_filters")
+        global_filters = config.get("global_filters")
+        if config_provided and not component_filters and not global_filters:
             self.msg = (
-                "Invalid value for 'file_mode': '{0}'. "
-                "Valid choices are: {1}".format(file_mode, valid_file_modes)
+                "Either 'component_specific_filters' or 'global_filters' must be provided "
+                "when 'config' is provided."
             )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-        # Additional validation for nested parameters and choice values
-        validation_errors = []
         valid_components = ["device_info"]
         valid_states = ["Unclaimed", "Planned", "Onboarding", "Provisioned", "Error"]
-        valid_component_filter_keys = ["components_list"]
-        valid_global_filter_keys = ["device_state"]
 
-        # Validate component_specific_filters keys and values
-        component_filters = valid_config.get("component_specific_filters", {})
-        if component_filters:
-            # Check for unknown keys in component_specific_filters
-            unknown_comp_keys = [k for k in component_filters.keys() if k not in valid_component_filter_keys]
+        normalized_component_filters = None
+        if component_filters is not None:
+            if not isinstance(component_filters, dict):
+                self.msg = (
+                    "'component_specific_filters' must be a dictionary, got: {0}.".format(
+                        type(component_filters).__name__
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            unknown_comp_keys = [k for k in component_filters.keys() if k not in ["components_list"]]
             if unknown_comp_keys:
-                validation_errors.append(
+                self.msg = (
                     "Unknown parameter(s) in component_specific_filters: {0}. "
-                    "Valid parameters are: {1}".format(
-                        unknown_comp_keys, valid_component_filter_keys
+                    "Valid parameters are: ['components_list']".format(
+                        unknown_comp_keys
                     )
                 )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-            # Validate components_list values
-            components_list = component_filters.get("components_list", [])
-            if components_list:
-                invalid_components = [c for c in components_list if c not in valid_components]
-                if invalid_components:
-                    validation_errors.append(
-                        "Invalid value(s) in components_list: {0}. "
-                        "Valid choices are: {1}".format(
-                            invalid_components, valid_components
-                        )
+            components_list = component_filters.get("components_list")
+            if not components_list or not isinstance(components_list, list):
+                self.msg = (
+                    "'components_list' must be a non-empty list in component_specific_filters."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            invalid_components = [c for c in components_list if c not in valid_components]
+            if invalid_components:
+                self.msg = (
+                    "Invalid value(s) in components_list: {0}. Valid choices are: {1}".format(
+                        invalid_components, valid_components
                     )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-        # Validate global_filters keys and values
-        global_filters = valid_config.get("global_filters", {})
-        if global_filters:
-            # Check for unknown keys in global_filters
-            unknown_global_keys = [k for k in global_filters.keys() if k not in valid_global_filter_keys]
+            normalized_component_filters = {"components_list": list(components_list)}
+            valid_config["component_specific_filters"] = normalized_component_filters
+
+        normalized_global_filters = None
+        if global_filters is not None:
+            if not isinstance(global_filters, dict):
+                self.msg = (
+                    "'global_filters' must be a dictionary, got: {0}.".format(
+                        type(global_filters).__name__
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            unknown_global_keys = [k for k in global_filters.keys() if k not in ["device_state"]]
             if unknown_global_keys:
-                validation_errors.append(
-                    "Unknown parameter(s) in global_filters: {0}. "
-                    "Valid parameters are: {1}".format(
-                        unknown_global_keys, valid_global_filter_keys
+                self.msg = (
+                    "Unknown parameter(s) in global_filters: {0}. Valid parameters are: ['device_state']".format(
+                        unknown_global_keys
                     )
                 )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-            # Validate device_state values
-            device_states = global_filters.get("device_state", [])
-            if device_states:
+            device_states = global_filters.get("device_state")
+            if device_states is not None:
+                if not isinstance(device_states, list):
+                    self.msg = "'device_state' in global_filters must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
                 invalid_states = [s for s in device_states if s not in valid_states]
                 if invalid_states:
-                    validation_errors.append(
-                        "Invalid value(s) in device_state: {0}. "
-                        "Valid choices are: {1}".format(
+                    self.msg = (
+                        "Invalid value(s) in device_state: {0}. Valid choices are: {1}".format(
                             invalid_states, valid_states
                         )
                     )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
-        # Validate that generate_all_configurations is true OR filters are provided
-        generate_all = valid_config.get("generate_all_configurations", False)
-        has_global_filters = bool(global_filters)
-        has_component_filters = bool(component_filters and component_filters.get("components_list"))
+            normalized_global_filters = dict(global_filters)
+            valid_config["global_filters"] = normalized_global_filters
 
-        if not generate_all and not has_global_filters and not has_component_filters:
-            validation_errors.append(
-                "'generate_all_configurations' is set to false but no "
-                "filters are provided. Either set 'generate_all_configurations' to true, "
-                "or specify 'global_filters' (device_state) or "
-                "'component_specific_filters' with 'components_list' to control which "
-                "devices are included in the generated playbook."
-            )
-
-        if validation_errors:
-            self.msg = "Configuration validation errors:\n{0}".format(
-                "\n".join(validation_errors)
-            )
-            self.log(
-                "Validation failed with {0} validation error(s). Errors: {1}. "
-                "Setting operation result to failed and exiting.".format(
-                    len(validation_errors), "; ".join(validation_errors)
-                ),
-                "ERROR"
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        if file_path:
+            valid_config["file_path"] = file_path
+            valid_config["file_mode"] = file_mode
 
         self.validated_config = valid_config
         self.msg = "Successfully validated playbook config"
         self.log(
-            "Playbook configuration validation completed successfully including nested "
-            "parameter and choice validation. Validated configuration ready "
-            "for YAML generation workflow processing.",
+            "Playbook configuration validation completed successfully.",
             "INFO"
         )
         self.status = "success"
@@ -1089,28 +1049,17 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             config = {}
 
-        # When generate_all_configurations is True, ignore all filters
-        generate_all = config.get("generate_all_configurations", False)
-        if generate_all:
+        # Extract filters from config. Absence of filters means retrieve all devices.
+        global_filters = config.get("global_filters", {})
+        if global_filters is None:
             self.log(
-                "generate_all_configurations is True. Ignoring all global_filters and "
-                "retrieving complete PnP device inventory without filtering.",
-                "INFO"
+                "Global filters is None, defaulting to empty dict. All devices will be "
+                "retrieved without filtering criteria.",
+                "DEBUG"
             )
-            device_state_filter = []
-        else:
-            # Extract filters from config
-            global_filters = config.get("global_filters", {})
-            # Ensure global_filters is not None
-            if global_filters is None:
-                self.log(
-                    "Global filters is None, defaulting to empty dict. All devices will be "
-                    "retrieved without filtering criteria.",
-                    "DEBUG"
-                )
-                global_filters = {}
+            global_filters = {}
 
-            device_state_filter = global_filters.get("device_state", [])
+        device_state_filter = global_filters.get("device_state", [])
 
         self.log(
             "Extracted filters - State: {0}. Preparing API call "
@@ -1793,7 +1742,9 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {"type": "str", "required": False, "default": "overwrite"},
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 

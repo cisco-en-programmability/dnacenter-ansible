@@ -34,50 +34,50 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+    required: false
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+      a default file name C(network_settings_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(network_settings_playbook_config_2026-01-24_12-33-20.yml).
+    type: str
+    required: false
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - Relevant only when C(file_path) is provided.
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
+    required: false
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `network_settings_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `network_settings_workflow_manager`
       module.
-    - Filters specify which components to include in the YAML configuration file.
-    - Global filters identify target settings by site name, pool name, or pool type.
-    - Component-specific filters allow selection of specific network setting features and detailed filtering.
-    type: list
-    elements: dict
-    required: true
+    - If not provided, module runs internal auto-discovery for all supported components.
+    - If provided, only C(component_specific_filters) is accepted.
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - When set to True, automatically generates YAML configurations for all network settings components.
-        - This mode discovers all configured network settings in Cisco Catalyst Center and extracts all supported configurations.
-        - When enabled, the config parameter becomes optional and will use default values if not provided.
-        - A default filename will be generated automatically if file_path is not specified.
-        - This is useful for complete network settings playbook config generator discovery and documentation.
-        - Includes Global IP Pools, Reserve IP Pools, Network Management, Device Controllability, and AAA Settings.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name C(network_settings_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(network_settings_playbook_config_2026-01-24_12-33-20.yml).
-        type: str
-        required: false
       component_specific_filters:
         description:
         - Filters to specify which network settings components and features to include in the YAML configuration file.
         - Allows granular selection of specific components and their parameters.
-        - If not specified, all supported network settings components will be extracted.
+        - Mandatory when C(config) is provided.
         type: dict
-        required: false
+        required: true
         suboptions:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
             - Valid values are ["global_pool_details", "reserve_pool_details", "network_management_details",
               "device_controllability_details"]
-            - If not specified, all supported components are included.
+            - If omitted, components are inferred from provided component filter blocks.
+            - If a component filter block is provided but the component is missing in C(components_list),
+              the module auto-adds it internally.
             - Example ["global_pool_details", "reserve_pool_details", "network_management_details"]
             type: list
             elements: str
@@ -86,22 +86,28 @@ options:
                      "device_controllability_details"]
           global_pool_details:
             description:
-            - Global IP Pools to filter by pool name or pool type.
+            - Filter criteria for Global IP Pools. Each list item is a filter dict.
+            - Within each filter dict, all keys use B(AND) logic (e.g., C(pool_name) AND C(pool_type) must both match).
+            - Across filter dicts, B(OR) logic is applied (a pool is included if it matches ANY filter dict).
+            - "Example: C(- pool_name: X, pool_type: LAN) and C(- pool_name: Y, pool_type: Generic) will include
+              pools matching (name=X AND type=LAN) OR (name=Y AND type=Generic)."
+            - If C(global_pool_details) sub-filter is not provided under C(component_specific_filters),
+              all global pools are included.
             type: list
             elements: dict
             required: false
             suboptions:
               pool_name:
                 description:
-                - IP Pool name to filter global pools by name.
+                - IP Pool name to filter global pools by exact name match.
                 type: str
                 required: false
               pool_type:
                 description:
-                - Pool type to filter global pools by type (Generic, LAN, WAN).
+                - Pool type to filter global pools by type (Generic, Tunnel).
                 type: str
                 required: false
-                choices: ["Generic", "LAN", "WAN"]
+                choices: [Generic, Tunnel]
           reserve_pool_details:
             description:
             - Reserve IP Pools to filter by pool name, site, site hierarchy, or pool type.
@@ -124,14 +130,20 @@ options:
           network_management_details:
             description:
             - Network management settings to filter by site.
+            - If C(network_management_details) sub-filter is not provided under C(component_specific_filters),
+              the module defaults to retrieving settings for the B(Global) (root) site only.
+            - To retrieve settings for specific sites, provide a C(site_name_list) with the desired site names.
             type: list
             elements: dict
             required: false
             suboptions:
               site_name_list:
                 description:
-                - Site name to filter network management settings by site.
-                type: str
+                - List of site names to filter network management settings by site.
+                - Each site name must be the full hierarchy path (e.g., C(Global/USA), C(Global/USA/California)).
+                - If not provided, defaults to the B(Global) (root) site only.
+                type: list
+                elements: str
                 required: false
           device_controllability_details:
             description:
@@ -158,16 +170,16 @@ notes:
 
 - Paths used are
     - GET /dna/intent/api/v1/sites
-    - GET /dna/intent/api/v1/global-pool
-    - GET /dna/intent/api/v1/reserve-pool
+    - GET /dna/intent/api/v1/ipam/globalIpAddressPools
+    - GET /dna/intent/api/v1/ipam/siteIpAddressPools
     - GET /dna/intent/api/v1/network
     - GET /dna/intent/api/v1/device-credential
     - GET /dna/intent/api/v1/network-aaa
 """
 
 EXAMPLES = r"""
-# Generate YAML Configuration with default file path
-- name: Generate YAML Configuration with default file path
+# Auto-discovery mode: config omitted, all supported components discovered internally.
+- name: Generate YAML Configuration with auto-discovery
   cisco.dnac.network_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -179,11 +191,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - component_specific_filters:
-          components_list: ["global_pool_details"]
 
-- name: Generate YAML Configuration for specific sites
+# Filtered mode: config provided with required component_specific_filters.
+- name: Generate YAML Configuration for selected components
   cisco.dnac.network_settings_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -195,63 +205,18 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/network_settings_config.yml"
+    file_mode: "overwrite"
     config:
-      - file_path: "/tmp/network_settings_config.yml"
-        component_specific_filters:
-          components_list: ["reserve_pool_details"]
-
-- name: Generate YAML Configuration using explicit components list
-  cisco.dnac.network_settings_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/network_settings_config.yml"
-        component_specific_filters:
-          components_list: ["network_management_details"]
-
-- name: Generate YAML Configuration for global pools with no filters
-  cisco.dnac.network_settings_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/network_settings_config.yml"
-        component_specific_filters:
-          components_list: ["device_controllability_details"]
-
-- name: Generate YAML Configuration for reserve pools using site hierarchy
-  cisco.dnac.network_settings_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      - file_path: "/tmp/reserve_pools_usa.yml"
-        component_specific_filters:
-          components_list: ["reserve_pool_details"]
-          reserve_pool_details:
-            - site_hierarchy: "Global/USA"
+      component_specific_filters:
+        components_list:
+          - "global_pool_details"
+          - "reserve_pool_details"
+        global_pool_details:
+          - pool_name: "Global_Pool_1"
+            pool_type: "Generic"
+        reserve_pool_details:
+          - site_name: "Global/USA"
 """
 
 RETURN = r"""
@@ -369,7 +334,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -420,9 +384,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.total_sites_processed = 0
         self.total_components_processed = 0
 
-        # Initialize generate_all_configurations as class-level parameter
-        self.generate_all_configurations = False
-
         # Add state mapping
         self.get_diff_state_apply = {
             "gathered": self.get_diff_gathered,
@@ -433,15 +394,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Validates the input configuration parameters for the network settings playbook config generator.
 
         This method performs comprehensive validation of all module configuration parameters
-        including global filters, component-specific filters, file paths, and authentication
+        including component-specific filters, output file controls, and authentication
         credentials to ensure they meet the required format and constraints before processing.
 
         Validation Steps:
-            1. Verifies required configuration parameters are present
-            2. Validates global filter formats (site_name_list, pool_name_list, etc.)
+            1. Handles config optionality (missing config enables auto-discovery mode)
+            2. Enforces strict config schema (only component_specific_filters is accepted)
             3. Checks component-specific filter constraints
-            4. Validates file path permissions and directory accessibility
-            5. Ensures authentication parameters are properly configured
+            4. Ensures authentication parameters are properly configured
 
         Returns:
             object: An instance of the class with updated attributes:
@@ -451,53 +411,50 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "INFO")
-            return self
+        config_provided = self.params.get("config") is not None
+        if not config_provided:
+            self.config = {}
+            self.log(
+                "Config not provided. Internal auto-discovery mode enabled.",
+                "INFO"
+            )
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
         }
 
-        allowed_keys = set(temp_spec.keys())
-
-        # Validate that only allowed keys are present in the configuration
-        for config_item in self.config:
-            if not isinstance(config_item, dict):
-                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        self.validate_minimum_requirements(self.config)
-
         # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        self.log("Validating configuration against schema", "DEBUG")
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        if config_provided and not valid_temp.get("component_specific_filters"):
+            self.msg = (
+                "Validation failed: component_specific_filters is required when config is provided."
+            )
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self.check_return_status()
+
+        if config_provided:
+            component_filters = valid_temp.get("component_specific_filters") or {}
+            components_list = component_filters.get("components_list")
+            has_components_list = isinstance(components_list, list) and len(components_list) > 0
+            has_component_blocks = any(
+                key != "components_list" and value not in (None, {}, [])
+                for key, value in component_filters.items()
+            )
+            if not has_components_list and not has_component_blocks:
+                self.msg = (
+                    "Validation failed: component_specific_filters must include a non-empty "
+                    "components_list or at least one component filter block."
+                )
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self.check_return_status()
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -511,7 +468,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Returns the mapping configuration for network settings workflow manager.
         Returns:
-            dict: A dictionary containing network elements and global filters configuration with validation rules.
+            dict: A dictionary containing network elements configuration with validation rules.
         """
         return {
             "network_elements": {
@@ -524,7 +481,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "pool_type": {
                             "type": "str",
                             "required": False,
-                            "choices": ["Generic", "LAN", "WAN"]
+                            "choices": ["Generic", "Tunnel"]
                         }
                     },
                     "reverse_mapping_function": self.global_pool_reverse_mapping_function,
@@ -534,19 +491,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
                 "reserve_pool_details": {
                     "filters": {
-                        "pool_name": {
-                            "type": "str",
-                            "required": False
-                        },
                         "site_name": {
                             "type": "str",
                             "required": False
                         },
-                        "pool_type": {
+                        "site_hierarchy": {
                             "type": "str",
-                            "required": False,
-                            "choices": ["LAN", "WAN", "Management"]
-                        }
+                            "required": False
+                        },
                     },
                     "reverse_mapping_function": self.reserve_pool_reverse_mapping_function,
                     "api_function": "retrieves_ip_address_subpools",
@@ -555,9 +507,10 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 },
                 "network_management_details": {
                     "filters": {
-                        "site_name": {
-                            "type": "str",
-                            "required": False
+                        "site_name_list": {
+                            "type": "list",
+                            "required": False,
+                            "elements": "str"
                         },
                     },
                     "reverse_mapping_function": self.network_management_reverse_mapping_function,
@@ -572,24 +525,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "api_family": "site_design",
                     "get_function_name": self.get_device_controllability_settings,
                 },
-            },
-            "global_filters": {
-                "site_name_list": {
-                    "type": "list",
-                    "required": False,
-                    "elements": "str"
-                },
-                "pool_name_list": {
-                    "type": "list",
-                    "required": False,
-                    "elements": "str"
-                },
-                "pool_type_list": {
-                    "type": "list",
-                    "required": False,
-                    "elements": "str",
-                    "choices": ["Generic", "LAN", "WAN", "Management"]
-                }
             },
         }
 
@@ -2542,6 +2477,29 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return None
 
+    def is_component_data_empty(self, data):
+        """
+        Check if component data is effectively empty.
+
+        Detects direct empty values (None, [], {}) as well as nested structures
+        where all leaf values are empty (e.g., {"settings": {"ip_pool": []}}).
+
+        Args:
+            data: The component data to check.
+
+        Returns:
+            bool: True if the data is empty or contains only empty collections.
+        """
+        if data is None:
+            return True
+        if isinstance(data, list):
+            return len(data) == 0
+        if isinstance(data, dict):
+            if not data:
+                return True
+            return all(self.is_component_data_empty(v) for v in data.values())
+        return False
+
     def reset_operation_tracking(self):
         """
         Reset operation tracking variables for a new brownfield configuration generation operation.
@@ -3209,26 +3167,23 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Apply component-specific filters
             if component_specific_filters:
-                self.log("Applying component-specific filters with AND logic across {0} filter "
-                         "criteria".format(len(component_specific_filters)),
-                         "INFO")
+                self.log(
+                    "Applying component-specific filters: AND within each filter dict, "
+                    "OR across {0} filter dicts".format(len(component_specific_filters)),
+                    "INFO"
+                )
 
-                # Component filters should work as AND operation across all filter criteria
-                # Each pool must satisfy ALL the filter criteria to be included
-                final_filtered_pools = []
+                # Each filter dict is evaluated independently with AND logic for its keys.
+                # A pool is included if it matches ANY filter dict (OR across dicts).
+                # Example:
+                #   - pool_name: "VN4-POOL1", pool_type: "LAN"   → name AND type must match
+                #   - pool_name: "WSClients_V6", pool_type: "Generic" → name AND type must match
+                # A pool passes if it matches filter 1 OR filter 2.
 
-                # Collect all filter criteria from all filter objects
-                all_pool_name_filters = []
-                all_pool_type_filters = []
-
-                for filter_param in component_specific_filters:
-                    if "pool_name" in filter_param:
-                        all_pool_name_filters.append(filter_param["pool_name"])
-                    if "pool_type" in filter_param:
-                        all_pool_type_filters.append(filter_param["pool_type"])
-
-                self.log("Collected filter criteria - pool_names: {0}, pool_types: {1}".format(
-                    all_pool_name_filters, all_pool_type_filters), "DEBUG")
+                self.log(
+                    "Filter dicts to evaluate: {0}".format(component_specific_filters),
+                    "DEBUG"
+                )
 
                 final_filtered_pools = []
                 pools_filtered_by_component = 0
@@ -3236,54 +3191,54 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 for pool in filtered_pools:
                     pool_name = pool.get("name")
                     pool_type = pool.get("poolType")
-                    matches_all_criteria = True
+                    pool_matched = False
 
-                    # Check name criteria (pool must match at least one name if specified)
-                    if all_pool_name_filters:
-                        if pool_name not in all_pool_name_filters:
-                            matches_all_criteria = False
-                            pools_filtered_by_component += 1
+                    for filter_idx, filter_dict in enumerate(component_specific_filters, start=1):
+                        filter_name = filter_dict.get("pool_name")
+                        filter_type = filter_dict.get("pool_type")
+
+                        # AND logic within this filter dict
+                        name_match = True
+                        type_match = True
+
+                        if filter_name is not None:
+                            name_match = (pool_name == filter_name)
+
+                        if filter_type is not None:
+                            type_match = (pool_type == filter_type)
+
+                        if name_match and type_match:
+                            pool_matched = True
                             self.log(
-                                "Pool '{0}' does not match component name filter: {1}".format(
-                                    pool_name, all_pool_name_filters
+                                "Pool '{0}' (type: '{1}') matched filter dict {2}: {3}".format(
+                                    pool_name, pool_type, filter_idx, filter_dict
+                                ),
+                                "DEBUG"
+                            )
+                            break  # OR logic — first matching filter dict is enough
+                        else:
+                            self.log(
+                                "Pool '{0}' (type: '{1}') did not match filter dict {2}: "
+                                "{3} (name_match={4}, type_match={5})".format(
+                                    pool_name, pool_type, filter_idx, filter_dict,
+                                    name_match, type_match
                                 ),
                                 "DEBUG"
                             )
 
-                    # Check type criteria (pool must match at least one type if specified)
-                    if all_pool_type_filters and matches_all_criteria:
-                        if pool_type not in all_pool_type_filters:
-                            matches_all_criteria = False
-                            pools_filtered_by_component += 1
-                            self.log(
-                                "Pool '{0}' (type: '{1}') does not match component type "
-                                "filter: {2}".format(
-                                    pool_name, pool_type, all_pool_type_filters
-                                ),
-                                "DEBUG"
-                            )
-
-                    # Additional AND logic: if both name and type filters exist,
-                    # pool must satisfy both criteria
-                    if matches_all_criteria and all_pool_name_filters and all_pool_type_filters:
-                        name_match = pool_name in all_pool_name_filters
-                        type_match = pool_type in all_pool_type_filters
-
-                        if not (name_match and type_match):
-                            matches_all_criteria = False
-                            pools_filtered_by_component += 1
-                            self.log(
-                                "Pool '{0}' (type: '{1}') does not satisfy both name AND "
-                                "type criteria".format(pool_name, pool_type),
-                                "DEBUG"
-                            )
-
-                    if matches_all_criteria:
+                    if pool_matched:
                         final_filtered_pools.append(pool)
                         self.log(
-                            "Pool '{0}' (type: '{1}') matched ALL component-specific filter "
-                            "criteria".format(pool_name, pool_type),
+                            "Pool '{0}' (type: '{1}') INCLUDED - matched component-specific "
+                            "filter criteria".format(pool_name, pool_type),
                             "INFO"
+                        )
+                    else:
+                        pools_filtered_by_component += 1
+                        self.log(
+                            "Pool '{0}' (type: '{1}') EXCLUDED - did not match any "
+                            "component-specific filter dict".format(pool_name, pool_type),
+                            "DEBUG"
                         )
 
                 final_global_pools = final_filtered_pools
@@ -3297,9 +3252,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO"
                 )
-
-                final_global_pools = final_filtered_pools
-                self.log("Applied component-specific filters with AND logic, final pools: {0}".format(len(final_global_pools)), "DEBUG")
             else:
                 self.log(
                     "No component-specific filters specified - using {0} pools from "
@@ -9479,11 +9431,6 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Args:
             yaml_config_generator (dict): Configuration parameters containing:
-                - file_path (str, optional): Output YAML file path
-                    Default: Auto-generated with timestamp
-                - generate_all_configurations (bool, optional): Enable auto-discovery mode
-                    Default: False
-                - global_filters (dict, optional): Site/pool name filters
                 - component_specific_filters (dict, optional): Component-level filters
                     - components_list (list): Network components to extract
                         Valid: ["global_pool_details", "reserve_pool_details",
@@ -9496,7 +9443,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 - self.result: Ansible module result dictionary
 
         Auto-Discovery Mode:
-            When generate_all_configurations=True:
+            When config is not provided:
             - Ignores all filter parameters
             - Retrieves ALL network settings from Catalyst Center
             - Processes ALL supported components
@@ -9536,33 +9483,22 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if not isinstance(generate_all, bool):
-            self.log(
-                "Invalid generate_all_configurations parameter - expected bool, got {0}. "
-                "Defaulting to False (manual component selection mode).".format(
-                    type(generate_all).__name__
-                ),
-                "WARNING"
-            )
-            generate_all = False
-
-        if generate_all:
+        auto_discovery_mode = self.params.get("config") is None
+        if auto_discovery_mode:
             self.log(
                 "Auto-discovery mode enabled - workflow will retrieve ALL network settings "
-                "from ALL supported components, ignoring any provided filters",
+                "from ALL supported components",
                 "INFO"
             )
         else:
             self.log(
-                "Manual component selection mode - workflow will process only requested "
-                "components based on provided filters and components_list",
+                "Component-filter mode - workflow will process requested "
+                "components based on component_specific_filters",
                 "DEBUG"
             )
 
         # Determine output file path
-        file_path = yaml_config_generator.get("file_path")
+        file_path = self.params.get("file_path")
 
         if not file_path:
             self.log(
@@ -9576,115 +9512,23 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
         else:
-            # Validate file_path is a string
-            if not isinstance(file_path, str):
-                error_msg = (
-                    "Invalid file_path parameter - expected str, got {0}. "
-                    "Cannot proceed with YAML generation.".format(
-                        type(file_path).__name__
-                    )
-                )
-                self.log(error_msg, "ERROR")
-                self.msg = {
-                    "message": "YAML config generation failed for module '{0}' - invalid file_path parameter.".format(
-                        self.module_name
-                    ),
-                    "error": error_msg
-                }
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
             self.log(
                 "Using user-provided file path for YAML output: {0}".format(file_path),
-                "INFO"
+                "DEBUG"
             )
 
-            # Validate file path is writable
-            import os
-            directory = os.path.dirname(file_path)
-            if directory and not os.path.exists(directory):
-                self.log(
-                    "Output directory does not exist: {0}. Attempting to create it.".format(
-                        directory
-                    ),
-                    "WARNING"
-                )
-                try:
-                    os.makedirs(directory, exist_ok=True)
-                    self.log(
-                        "Successfully created output directory: {0}".format(directory),
-                        "INFO"
-                    )
-                except Exception as e:
-                    error_msg = "Failed to create output directory: {0}. Error: {1}".format(
-                        directory, str(e)
-                    )
-                    self.log(error_msg, "ERROR")
-                    self.msg = {
-                        "message": "YAML config generation failed for module '{0}' - cannot create output directory.".format(
-                            self.module_name
-                        ),
-                        "error": error_msg
-                    }
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
+        file_mode = self.params.get("file_mode", "overwrite")
 
-        # Initialize filter dictionaries based on mode
-        if generate_all:
-            self.log(
-                "Auto-discovery mode: Overriding any user-provided filters to retrieve "
-                "all network settings without filtering",
-                "INFO"
-            )
-            global_filters = {}
+        self.log(
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
+            "DEBUG"
+        )
+
+        if auto_discovery_mode:
             component_specific_filters = {}
         else:
-            global_filters = yaml_config_generator.get("global_filters")
-            component_specific_filters = yaml_config_generator.get("component_specific_filters")
-
-            # Validate and normalize filter parameters
-            if global_filters is None:
-                global_filters = {}
-                self.log(
-                    "No global_filters provided, using empty filter set (no global filtering)",
-                    "DEBUG"
-                )
-            elif not isinstance(global_filters, dict):
-                self.log(
-                    "Invalid global_filters type - expected dict, got {0}. Using empty filter set.".format(
-                        type(global_filters).__name__
-                    ),
-                    "WARNING"
-                )
-                global_filters = {}
-            else:
-                self.log(
-                    "Using provided global_filters: {0}".format(global_filters),
-                    "DEBUG"
-                )
-
-            if component_specific_filters is None:
-                component_specific_filters = {}
-                self.log(
-                    "No component_specific_filters provided, will process all supported components",
-                    "DEBUG"
-                )
-            elif not isinstance(component_specific_filters, dict):
-                self.log(
-                    "Invalid component_specific_filters type - expected dict, got {0}. "
-                    "Using empty filter set.".format(
-                        type(component_specific_filters).__name__
-                    ),
-                    "WARNING"
-                )
-                component_specific_filters = {}
-            else:
-                self.log(
-                    "Using provided component_specific_filters: {0}".format(
-                        component_specific_filters
-                    ),
-                    "DEBUG"
-                )
+            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+        global_filters = {}
 
         # Get supported network elements
         module_supported_network_elements = self.module_schema.get("network_elements", {})
@@ -9707,11 +9551,30 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             ),
             "DEBUG"
         )
-        # Determine which components to process
-        components_list = component_specific_filters.get(
-            "components_list",
-            list(module_supported_network_elements.keys())
-        )
+        # Determine which components to process.
+        # For config-driven mode, if components_list is omitted, infer from provided
+        # component filter blocks. Auto-discovery mode (config omitted) still processes all.
+        if auto_discovery_mode:
+            components_list = list(module_supported_network_elements.keys())
+        else:
+            components_list = component_specific_filters.get("components_list", [])
+
+        # Auto-include components when their filter blocks are provided,
+        # even if they are missing from components_list.
+        inferred_components = [
+            key for key, value in component_specific_filters.items()
+            if key != "components_list" and value not in (None, {}, [])
+        ]
+        if inferred_components:
+            if not isinstance(components_list, list):
+                components_list = []
+            components_list.extend(inferred_components)
+            self.log(
+                "Auto-included component(s) from filter blocks into components_list: {0}".format(
+                    inferred_components
+                ),
+                "DEBUG"
+            )
 
         # Validate components_list
         if not isinstance(components_list, list):
@@ -9772,12 +9635,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "total_sites_processed": 0,
                     "total_components_processed": 0,
                     "total_successful_operations": 0,
-                    "total_failed_operations": 0,
-                    "sites_with_complete_success": [],
-                    "sites_with_partial_success": [],
-                    "sites_with_complete_failure": [],
-                    "success_details": [],
-                    "failure_details": []
+                    "total_failed_operations": 0
                 }
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
@@ -9934,6 +9792,15 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             component_details = details[component]
 
+            # Skip components that returned no meaningful data
+            if self.is_component_data_empty(component_details):
+                self.log(
+                    "Component '{0}' returned no data — no matching configurations found "
+                    "in Catalyst Center for the given filters. Skipping this component.".format(component),
+                    "WARNING"
+                )
+                continue
+
             if isinstance(component_details, list):
                 self.log(
                     "Component '{0}' returned list with {1} item(s)".format(
@@ -10035,6 +9902,14 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         consolidated_operation_summary["total_sites_processed"] = len(all_sites)
 
+        # Build slim summary with only totals for msg/response output
+        slim_operation_summary = {
+            "total_sites_processed": consolidated_operation_summary["total_sites_processed"],
+            "total_components_processed": consolidated_operation_summary["total_components_processed"],
+            "total_successful_operations": consolidated_operation_summary["total_successful_operations"],
+            "total_failed_operations": consolidated_operation_summary["total_failed_operations"]
+        }
+
         self.log(
             "Component processing loop completed. Processed {0} component(s), "
             "generated {1} configuration entry/entries, tracked {2} unique site(s)".format(
@@ -10057,7 +9932,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.msg = {
                 "message": "No configurations or components to process for module '{0}'. "
                 "Verify input filters or configuration.".format(self.module_name),
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": slim_operation_summary
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
@@ -10076,7 +9951,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not final_list:
             self.msg = {
                 "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(self.module_name),
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": slim_operation_summary
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
@@ -10087,7 +9962,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO"
         )
 
-        write_success = self.write_dict_to_yaml(final_dict, file_path)
+        write_success = self.write_dict_to_yaml(final_dict, file_path, file_mode)
 
         if write_success:
             self.log(
@@ -10120,7 +9995,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "file_path": file_path,
                 "configurations_generated": len(final_list),
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": slim_operation_summary
             }
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
@@ -10144,7 +10019,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "file_path": file_path,
                 "error": error_msg,
-                "operation_summary": consolidated_operation_summary
+                "operation_summary": slim_operation_summary
             }
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
@@ -10453,7 +10328,7 @@ def main():
             - dnac_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
-            - config (list[dict], required): Configuration parameters list
+            - config (dict, required): Configuration parameters dictionary
             - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
@@ -10567,10 +10442,19 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "required": False,
+            "type": "str",
+        },
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         "config": {
-            "required": True,
-            "type": "list",
-            "elements": "dict"
+            "required": False,
+            "type": "dict",
         },
         "state": {
             "default": "gathered",
@@ -10613,7 +10497,7 @@ def main():
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
+            len(module.params.get("config") or {})
         ),
         "DEBUG"
     )
@@ -10714,56 +10598,25 @@ def main():
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ============================================
-    config_list = ccc_network_settings_playbook_generator.validated_config
+    config = ccc_network_settings_playbook_generator.validated_config
 
     ccc_network_settings_playbook_generator.log(
-        "Starting configuration processing loop - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        "Processing configuration for state '{0}'".format(state),
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        ccc_network_settings_playbook_generator.log(
-            "Processing configuration item {0}/{1} for state '{2}'".format(
-                config_index, len(config_list), state
-            ),
-            "INFO"
-        )
+    ccc_network_settings_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
 
-        # Reset values for clean state between configurations
-        ccc_network_settings_playbook_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_network_settings_playbook_generator.reset_values()
+    ccc_network_settings_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
-        # Collect desired state (want) from configuration
-        ccc_network_settings_playbook_generator.log(
-            "Collecting desired state parameters from configuration item {0}".format(
-                config_index
-            ),
-            "DEBUG"
-        )
-        ccc_network_settings_playbook_generator.get_want(
-            config, state
-        ).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        ccc_network_settings_playbook_generator.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1}".format(state, config_index),
-            "INFO"
-        )
-        ccc_network_settings_playbook_generator.get_diff_state_apply[state]().check_return_status()
-
-        ccc_network_settings_playbook_generator.log(
-            "Successfully completed processing for configuration item {0}/{1}".format(
-                config_index, len(config_list)
-            ),
-            "INFO"
-        )
+    ccc_network_settings_playbook_generator.log(
+        "Successfully completed processing configuration",
+        "INFO"
+    )
 
     # ============================================
     # Module Completion and Exit
@@ -10778,11 +10631,9 @@ def main():
 
     ccc_network_settings_playbook_generator.log(
         "Module execution completed successfully at timestamp {0}. Total execution "
-        "time: {1:.2f} seconds. Processed {2} configuration item(s) with final "
-        "status: {3}".format(
+        "time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            len(config_list),
             ccc_network_settings_playbook_generator.status
         ),
         "INFO"

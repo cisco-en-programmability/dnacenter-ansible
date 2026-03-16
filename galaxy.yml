@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: dnac
-version: 6.48.0
+version: 6.48.1
 readme: README.md
 authors:
   - Rafael Campos <rcampos@cloverhound.com>
@@ -32,7 +32,7 @@ authors:
   - Sunil Shatagopa <sshatago@cisco.com>
   - Vivek Raj Penke <vpenke@cisco.com>
 
-description: Ansible Modules for Cisco DNA Center
+description: "DEPRECATED - Use cisco.catalystcenter instead. Ansible Modules for Cisco DNA Center."
 license_file: "LICENSE"
 tags:
   - cisco

@@ -5,15 +5,33 @@
 - [ ] Documentation update
 
 ## Description
-Please include a summary of the changes and the related issue. Also, include relevant motivation and context.
 
-Bug Fix: [Brief description of the bug fixed]
-Root Cause (if applicable): [Explain what caused the bug]
-Fix Implemented: [Describe the fix applied]
+Summary:
+A brief description of the issue or bug.
 
-Enhancement: [Brief description of the improvement/enhancement made]
-Enhancement Description: [Explain what was enhanced, why, and how]
-Impact Area: [Mention which part of the system/codebase is affected]
+Steps to Reproduce:
+Detailed steps that developers can follow to reproduce the issue.
+
+Observed Behavior:
+What is currently happening, including error messages or symptoms.
+
+Expected Behavior:
+What should happen under normal conditions.
+
+Root Cause Analysis:
+Technical explanation of the underlying cause, if known.
+
+Workaround:
+Any temporary solutions or mitigations available.
+
+Fix Details:
+Description of the fix or code changes made.
+
+Impact:
+Information on the scope and severity of the issue.
+
+Additional Information:
+Logs, configuration snippets, environment details, or references to related bugs.
 
 Testing Done:
 - [] Manual testing

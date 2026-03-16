@@ -1,13 +1,13 @@
 ---
-# Playbook Configure to generate Network Switch Profiles on Cisco Catalyst Center
-- name: Generate the playbook for the Network Switch Profiles from Cisco Catalyst Center
+- name: Generate network switch profile playbook configuration from Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Generate Network Switch Profiles workflow playbook
+    # Example 1: Generate all switch profile configurations
+    - name: Generate complete switch profile configuration
       cisco.dnac.network_profile_switching_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -21,37 +21,73 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "tmp/network_profile_switching_workflow_playbook.yml"
+        file_mode: "overwrite"
+
+    # Example 2: Generate switch profile configurations using profile name global filters
+    - name: Generate switch profile configurations by profile names
+      cisco.dnac.network_profile_switching_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: gathered
+        file_path: "tmp/network_profile_switching_workflow_playbook_profilebase.yml"
+        file_mode: "overwrite"
         config:
-          # ========================================================================================
-          # Scenario 1: Generate all all switch profile configurations
-          # ========================================================================================
-          - file_path: "tmp/network_profile_switching_workflow_playbook.yml"
-            generate_all_configurations: true
+          global_filters:
+            profile_name_list:
+              - Test Profile BF3
+              - Campus_Access_Switch1
 
-          # ========================================================================================
-          # Scenario 2: Generate switch profile configurations based on profile name global filters
-          # ========================================================================================
-          - file_path: "tmp/network_profile_switching_workflow_playbook_profilebase.yml"
-            global_filters:
-              profile_name_list:
-                - Enterprise_Switching_Profile
-                - Campus_Core_Switching
+    # Example 3: Generate switch profile configurations using template name global filters
+    - name: Generate switch profile configurations by templates
+      cisco.dnac.network_profile_switching_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: gathered
+        file_path: "tmp/network_profile_switching_workflow_playbook_templatebase.yml"
+        file_mode: "overwrite"
+        config:
+          global_filters:
+            day_n_template_list:
+              - evpn_l2vn_anycast_template
 
-          # ========================================================================================
-          # Scenario 3: Generate switch profile configurations based on template name global filters
-          # ========================================================================================
-          - file_path: "tmp/network_profile_switching_workflow_playbook_templatebase.yml"
-            global_filters:
-              day_n_template_list:
-                - evpn_l2vn_anycast_template
-
-          # ========================================================================================
-          # Scenario 4: Generate switch profile configurations based on site name global filters
-          # ========================================================================================
-          - file_path: "tmp/network_profile_switching_workflow_playbook_sitebase.yml"
-            global_filters:
-              site_list:
-                - Global/USA/SAN JOSE/SJ_BLD21/FLOOR1
-                - Global/USA/SAN JOSE/SJ_BLD21/FLOOR2
-      register: result_custom_path
-      tags: [generate_all, custom_path]
+    # Example 4: Generate switch profile configurations using site name global filters
+    - name: Generate switch profile configurations by sites
+      cisco.dnac.network_profile_switching_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: gathered
+        file_path: "tmp/network_profile_switching_workflow_playbook_sitebase.yml"
+        file_mode: "overwrite"
+        config:
+          global_filters:
+            site_list:
+              - Global/USA/SAN JOSE/SJ_BLD21/FLOOR1
+              - Global/USA/SAN JOSE/SJ_BLD23/FLOOR2
