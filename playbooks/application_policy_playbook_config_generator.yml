@@ -20,9 +20,9 @@
         state: gathered
         file_path: "tmp/application_policy_generated.yml"
         file_mode: append
-        # config:
-        #   generate_all_configurations: true
-        #   component_specific_filters:
-        #     components_list: [queuing_profile]
-        #     application_policy:
-        #       policy_names_list: ["wired_traffic_policy"]
+        config:
+          generate_all_configurations: true
+          component_specific_filters:
+            components_list: [queuing_profile]
+            application_policy:
+              policy_names_list: ["wired_traffic_policy"]
