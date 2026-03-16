@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: cli_credential
 short_description: Resource module for Cli Credential
 description:
-  - Manage operations create and update of the resource
-    Cli Credential.
+  - Manage operations create and update of the resource Cli Credential.
   - Adds global CLI credential.
   - Updates global CLI credentials.
 version_added: '3.1.0'
@@ -22,8 +21,7 @@ options:
     description: Comments to identify the CLI credential.
     type: str
   credentialType:
-    description: Credential type to identify the application
-      that uses the CLI credential.
+    description: Credential type to identify the application that uses the CLI credential.
     type: str
   description:
     description: Description for CLI Credentials.
@@ -47,18 +45,14 @@ options:
     description: CLI Username.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      CreateCLICredentials
-    description: Complete reference of the CreateCLICredentials
-      API.
+  - name: Cisco DNA Center documentation for Discovery CreateCLICredentials
+    description: Complete reference of the CreateCLICredentials API.
     link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials
-  - name: Cisco DNA Center documentation for Discovery
-      UpdateCLICredentials
-    description: Complete reference of the UpdateCLICredentials
-      API.
+  - name: Cisco DNA Center documentation for Discovery UpdateCLICredentials
+    description: Complete reference of the UpdateCLICredentials API.
     link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials
 notes:
   - SDK Method used are
@@ -71,7 +65,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Update all
+- name: Create
   cisco.dnac.cli_credential:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -90,7 +84,7 @@ EXAMPLES = r"""
     instanceUuid: string
     password: string
     username: string
-- name: Create
+- name: Update all
   cisco.dnac.cli_credential:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

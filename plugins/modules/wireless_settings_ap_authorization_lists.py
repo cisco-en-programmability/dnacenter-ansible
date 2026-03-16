@@ -7,32 +7,30 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ap_authorization_lists
-short_description: Resource module for Wireless Settings
-  Ap Authorization Lists
+short_description: Resource module for Wireless Settings Ap Authorization Lists
 description:
-  - Manage operation create of the resource Wireless
-    Settings Ap Authorization Lists.
-  - This API allows the user to create an AP Authorization
-    List.
+  - Manage operations create, update and delete of the resource Wireless Settings Ap Authorization Lists.
+  - This API allows the user to create an AP Authorization List.
+  - This API allows the user to delete an AP Authorization List.
+  - This API allows the user to update an AP Authorization List.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   apAuthorizationListName:
-    description: AP Authorization List Name. For a AP
-      Authorization List to be created successfully,
-      either Local Authorization or Remote Authorization
-      is mandatory.
+    description: AP Authorization List Name. For a AP Authorization List to be created successfully, either Local Authorization
+      or Remote Authorization is mandatory.
+    type: str
+  id:
+    description: Id path parameter. AP Authorization List ID.
     type: str
   localAuthorization:
-    description: Wireless Settings Ap Authorization
-      Lists's localAuthorization.
+    description: Wireless Settings Ap Authorization Lists's localAuthorization.
     suboptions:
       apMacEntries:
-        description: List of Access Point's Ethernet
-          MAC addresses. Allowed formats are 0a0b.0c01.0211,
-          0a0b0c010211, 0a 0b 0c 01 02 11.
+        description: List of Access Point's Ethernet MAC addresses. Allowed formats are 0a0b.0c01.0211, 0a0b0c010211, 0a 0b
+          0c 01 02 11.
         elements: str
         type: list
       apSerialNumberEntries:
@@ -41,45 +39,46 @@ options:
         type: list
     type: dict
   remoteAuthorization:
-    description: Wireless Settings Ap Authorization
-      Lists's remoteAuthorization.
+    description: Wireless Settings Ap Authorization Lists's remoteAuthorization.
     suboptions:
       aaaServers:
-        description: List of Authorization server IpAddresses.
-          Obtain the AAA servers by using the API GET
-          call '/dna/intent/api/v1/authentication-policy-servers'.
+        description:
+          - List of Authorization server IpAddresses.
+          - Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
         elements: str
         type: list
       authorizeApWithMac:
-        description: True if AP Authorization List should
-          authorise APs With MAC addresses, else False.
-          (For Non-Mesh Access Points, either of Authorize
-          AP With MAC Address or Serial Number is required
-          to be set to true).
+        description: true if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access
+          Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
         type: bool
       authorizeApWithSerialNumber:
-        description: True if server IpAddresses are
-          added and AP Authorization List should authorise
-          APs With Serial Numbers, else False (For Non-Mesh
-          Access Points, either of Authorize AP With
-          MAC Address or Serial Number is required to
+        description: true if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers,
+          else False (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to
           be set to true).
         type: bool
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      CreateAPAuthorizationList
-    description: Complete reference of the CreateAPAuthorizationList
-      API.
+  - name: Cisco DNA Center documentation for Wireless CreateAPAuthorizationList
+    description: Complete reference of the CreateAPAuthorizationList API.
     link: https://developer.cisco.com/docs/dna-center/#!create-ap-authorization-list
+  - name: Cisco DNA Center documentation for Wireless DeleteAPAuthorizationList
+    description: Complete reference of the DeleteAPAuthorizationList API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-ap-authorization-list
+  - name: Cisco DNA Center documentation for Wireless UpdateAPAuthorizationList
+    description: Complete reference of the UpdateAPAuthorizationList API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-ap-authorization-list
 notes:
   - SDK Method used are
     wireless.Wireless.create_ap_authorization_list,
+    wireless.Wireless.delete_ap_authorization_list,
+    wireless.Wireless.update_ap_authorization_list,
   - Paths used are
     post /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
+    delete /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
+    put /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
 """
 
 EXAMPLES = r"""
@@ -95,6 +94,39 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     apAuthorizationListName: string
+    localAuthorization:
+      apMacEntries:
+        - string
+      apSerialNumberEntries:
+        - string
+    remoteAuthorization:
+      aaaServers:
+        - string
+      authorizeApWithMac: true
+      authorizeApWithSerialNumber: true
+- name: Delete by id
+  cisco.dnac.wireless_settings_ap_authorization_lists:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
+- name: Update by id
+  cisco.dnac.wireless_settings_ap_authorization_lists:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    apAuthorizationListName: string
+    id: string
     localAuthorization:
       apMacEntries:
         - string

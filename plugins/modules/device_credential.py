@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: device_credential
 short_description: Resource module for Device Credential
 description:
-  - Manage operations create, update and delete of the
-    resource Device Credential.
+  - Manage operations create, update and delete of the resource Device Credential.
   - API to create device credentials.
   - Delete device credential.
   - API to update device credentials.
@@ -20,141 +19,128 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Global credential
-      id.
+    description: Id path parameter. Global credential id.
     type: str
   settings:
     description: Device Credential's settings.
     suboptions:
-      cliCredential:
-        description: Device Credential's cliCredential.
-        elements: dict
+      clientAndEndpoint_aaa:
+        description: Device Credential's clientAndEndpoint_aaa.
         suboptions:
-          description:
-            description: Name or description for CLI
-              credential.
+          ipAddress:
+            description: IP address for ISE serve (eg 1.1.1.4).
             type: str
-          enablePassword:
-            description: Enable password for CLI credential.
+          network:
+            description: IP address for AAA or ISE server (eg 2.2.2.1).
             type: str
-          password:
-            description: Password for CLI credential.
+          protocol:
+            description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
-          username:
-            description: User name for CLI credential.
+          servers:
+            description: Server type AAA or ISE server (eg AAA).
             type: str
+          sharedSecret:
+            description: Shared secret for ISE server.
+            type: str
+        type: dict
+      dhcpServer:
+        description: DHCP Server IP (eg 1.1.1.1).
+        elements: str
         type: list
-      httpsRead:
-        description: Device Credential's httpsRead.
-        elements: dict
+      dnsServer:
+        description: Device Credential's dnsServer.
         suboptions:
-          name:
-            description: Name or description of http
-              read credential.
+          domainName:
+            description: Domain Name of DHCP (eg; cisco).
             type: str
-          password:
-            description: Password for http read credential.
+          primaryIpAddress:
+            description: Primary IP Address for DHCP (eg 2.2.2.2).
+            type: str
+          secondaryIpAddress:
+            description: Secondary IP Address for DHCP (eg 3.3.3.3).
+            type: str
+        type: dict
+      messageOfTheday:
+        description: Device Credential's messageOfTheday.
+        suboptions:
+          bannerMessage:
+            description: Massage for Banner message (eg; Good day).
+            type: str
+          retainExistingBanner:
+            description: Retain existing Banner Message (eg "true" or "false").
+            type: str
+        type: dict
+      netflowcollector:
+        description: Device Credential's netflowcollector.
+        suboptions:
+          ipAddress:
+            description: IP Address for NetFlow collector (eg 3.3.3.1).
             type: str
           port:
-            description: Port for http read credential.
+            description: Port for NetFlow Collector (eg; 443).
             type: float
-          username:
-            description: User name of the http read
-              credential.
-            type: str
-        type: list
-      httpsWrite:
-        description: Device Credential's httpsWrite.
-        elements: dict
+        type: dict
+      network_aaa:
+        description: Device Credential's network_aaa.
         suboptions:
-          name:
-            description: Name or description of http
-              write credential.
+          ipAddress:
+            description: IP address for AAA and ISE server (eg 1.1.1.1).
             type: str
-          password:
-            description: Password for http write credential.
+          network:
+            description: IP Address for AAA or ISE server (eg 2.2.2.2).
             type: str
-          port:
-            description: Port for http write credential.
-            type: float
-          username:
-            description: User name of the http write
-              credential.
+          protocol:
+            description: Protocol for AAA or ISE serve (eg RADIUS).
             type: str
+          servers:
+            description: Server type for AAA Network (eg AAA).
+            type: str
+          sharedSecret:
+            description: Shared secret for ISE Server.
+            type: str
+        type: dict
+      ntpServer:
+        description: IP address for NTP server (eg 1.1.1.2).
+        elements: str
         type: list
-      snmpV2cRead:
-        description: Device Credential's snmpV2cRead.
-        elements: dict
+      snmpServer:
+        description: Device Credential's snmpServer.
         suboptions:
-          description:
-            description: Description for snmp v2 read.
-            type: str
-          readCommunity:
-            description: Ready community for snmp v2
-              read credential.
-            type: str
-        type: list
-      snmpV2cWrite:
-        description: Device Credential's snmpV2cWrite.
-        elements: dict
+          configureDnacIP:
+            description: Configuration DNAC IP for SNMP Server (eg true).
+            type: bool
+          ipAddresses:
+            description: IP Address for SNMP Server (eg 4.4.4.1).
+            elements: str
+            type: list
+        type: dict
+      syslogServer:
+        description: Device Credential's syslogServer.
         suboptions:
-          description:
-            description: Description for snmp v2 write.
-            type: str
-          writeCommunity:
-            description: Write community for snmp v2
-              write credential.
-            type: str
-        type: list
-      snmpV3:
-        description: Device Credential's snmpV3.
-        elements: dict
-        suboptions:
-          authPassword:
-            description: Authentication password for
-              snmpv3 credential.
-            type: str
-          authType:
-            description: Authentication type for snmpv3
-              credential.
-            type: str
-          description:
-            description: Name or description for SNMPV3
-              credential.
-            type: str
-          privacyPassword:
-            description: Privacy password for snmpv3
-              credential.
-            type: str
-          privacyType:
-            description: Privacy type for snmpv3 credential.
-            type: str
-          snmpMode:
-            description: Mode for snmpv3 credential.
-            type: str
-          username:
-            description: User name for SNMPv3 credential.
-            type: str
-        type: list
+          configureDnacIP:
+            description: Configuration DNAC IP for syslog server (eg true).
+            type: bool
+          ipAddresses:
+            description: IP Address for syslog server (eg 4.4.4.4).
+            elements: str
+            type: list
+        type: dict
+      timezone:
+        description: Input for time zone (eg Africa/Abidjan).
+        type: str
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings CreateDeviceCredentials
-    description: Complete reference of the CreateDeviceCredentials
-      API.
+  - name: Cisco DNA Center documentation for Network Settings CreateDeviceCredentials
+    description: Complete reference of the CreateDeviceCredentials API.
     link: https://developer.cisco.com/docs/dna-center/#!create-device-credentials
-  - name: Cisco DNA Center documentation for Network
-      Settings DeleteDeviceCredential
-    description: Complete reference of the DeleteDeviceCredential
-      API.
+  - name: Cisco DNA Center documentation for Network Settings DeleteDeviceCredential
+    description: Complete reference of the DeleteDeviceCredential API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-device-credential
-  - name: Cisco DNA Center documentation for Network
-      Settings UpdateDeviceCredentials
-    description: Complete reference of the UpdateDeviceCredentials
-      API.
+  - name: Cisco DNA Center documentation for Network Settings UpdateDeviceCredentials
+    description: Complete reference of the UpdateDeviceCredentials API.
     link: https://developer.cisco.com/docs/dna-center/#!update-device-credentials
 notes:
   - SDK Method used are
@@ -180,35 +166,41 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     settings:
-      cliCredential:
-        - description: string
-          enablePassword: string
-          password: string
-          username: string
-      httpsRead:
-        - name: string
-          password: string
-          port: 0
-          username: string
-      httpsWrite:
-        - name: string
-          password: string
-          port: 0
-          username: string
-      snmpV2cRead:
-        - description: string
-          readCommunity: string
-      snmpV2cWrite:
-        - description: string
-          writeCommunity: string
-      snmpV3:
-        - authPassword: string
-          authType: string
-          description: string
-          privacyPassword: string
-          privacyType: string
-          snmpMode: string
-          username: string
+      clientAndEndpoint_aaa:
+        ipAddress: string
+        network: string
+        protocol: string
+        servers: string
+        sharedSecret: string
+      dhcpServer:
+        - string
+      dnsServer:
+        domainName: string
+        primaryIpAddress: string
+        secondaryIpAddress: string
+      messageOfTheday:
+        bannerMessage: string
+        retainExistingBanner: string
+      netflowcollector:
+        ipAddress: string
+        port: 0
+      network_aaa:
+        ipAddress: string
+        network: string
+        protocol: string
+        servers: string
+        sharedSecret: string
+      ntpServer:
+        - string
+      snmpServer:
+        configureDnacIP: true
+        ipAddresses:
+          - string
+      syslogServer:
+        configureDnacIP: true
+        ipAddresses:
+          - string
+      timezone: string
 - name: Update all
   cisco.dnac.device_credential:
     dnac_host: "{{dnac_host}}"

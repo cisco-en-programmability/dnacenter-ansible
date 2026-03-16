@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: backup_storages_info
 short_description: Information module for Backup Storages
 description:
-  - Get all Backup Storages. - > This api is used to
-    get all the mounted backup storage information like
-    mount point, disk size based on the provided storage
-    type.
+  - Get all Backup Storages. - > This api is used to get all the mounted backup storage information like mount point, disk
+    size based on the provided storage type.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,17 +21,17 @@ options:
     type: dict
   storageType:
     description:
-      - StorageType query parameter. The `storageType`
-        of the backup storage to be retrieved.
+      - >
+        StorageType query parameter. The `storageType` of the backup storage to be retrieved. If the backup
+        storage is physical disk , storageType is `PHYSICAL_DISK`. If the backup storage is nfs , storageType is
+        `NFS`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Backup
-      GetBackupStorages
-    description: Complete reference of the GetBackupStorages
-      API.
+  - name: Cisco DNA Center documentation for Backup GetBackupStorages
+    description: Complete reference of the GetBackupStorages API.
     link: https://developer.cisco.com/docs/dna-center/#!get-backup-storages
 notes:
   - SDK Method used are

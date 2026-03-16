@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: system_health_count_info
-short_description: Information module for System Health
-  Count
+short_description: Information module for System Health Count
 description:
   - Get all System Health Count.
   - This API gives the count of the latest system events.
@@ -23,25 +22,21 @@ options:
   domain:
     description:
       - >
-        Domain query parameter. Fetch system events
-        with this domain. Possible values of domain
-        are listed here /dna/platform/app/consumer-portal/developer-toolkit/events.
+        Domain query parameter. Fetch system events with this domain. Possible values of domain are listed here
+        /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
   subdomain:
     description:
       - >
-        Subdomain query parameter. Fetch system events
-        with this subdomain. Possible values of subdomain
-        are listed here /dna/platform/app/consumer-portal/developer-toolkit/events.
+        Subdomain query parameter. Fetch system events with this subdomain. Possible values of subdomain are
+        listed here /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Health
-      and Performance SystemHealthCountAPI
-    description: Complete reference of the SystemHealthCountAPI
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance SystemHealthCountAPI
+    description: Complete reference of the SystemHealthCountAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!system-health-count-api
 notes:
   - SDK Method used are

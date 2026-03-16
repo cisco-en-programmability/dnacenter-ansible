@@ -922,7 +922,7 @@ response_1:
             "userId": "string"
         }
     }
-# Case 2: Successful updation of user
+# Case 2: Successful update of user
 response_2:
   description: A dictionary with details of the API execution from Cisco Catalyst Center.
   returned: always
@@ -998,7 +998,7 @@ response_7:
             "message": "string"
         }
     }
-# Case 8: Successful updation of role
+# Case 8: Successful update of role
 response_8:
   description: A dictionary with details of the API execution from Cisco Catalyst Center.
   returned: always
@@ -1221,8 +1221,8 @@ class UserandRole(DnacBase):
 
         self.msg = (
             "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or "
-            "'The 'user_details' key is invalid for role creation, updation, or deletion' or "
-            "'The 'role_details' key is invalid for user creation, updation, or deletion'"
+            "'The 'user_details' key is invalid for role creation, update, or deletion' or "
+            "'The 'role_details' key is invalid for user creation, update, or deletion'"
         )
         self.log(self.msg, "ERROR")
         self.status = "failed"
@@ -1662,7 +1662,7 @@ class UserandRole(DnacBase):
 
     def get_want(self, config):
         """
-        Retrieve all user or role-related information from the playbook needed for creation/updation in Cisco Catalyst Center.
+        Retrieve all user or role-related information from the playbook needed for creation/update in Cisco Catalyst Center.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): A dictionary containing user or role information.
@@ -2001,9 +2001,15 @@ class UserandRole(DnacBase):
 
             for user in users:
                 if input_config.get("username") is not None:
-                    if user.get("username") == input_config.get("username").lower():
-                        current_user_configuration = user
-                        user_exists = True
+                    if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+                        if user.get("username") == input_config.get("username").lower():
+                            current_user_configuration = user
+                            user_exists = True
+                    else:
+                        if user.get("username") == input_config.get("username"):
+                            current_user_configuration = user
+                            user_exists = True
+
                 elif input_config.get("email") is not None:
                     if user.get("email") == input_config.get("email"):
                         current_user_configuration = user
@@ -4057,7 +4063,7 @@ class UserandRole(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status (Creation/Updation) of user or role details in Cisco Catalyst Center.
+        Verify the merged status (Creation/Update) of user or role details in Cisco Catalyst Center.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified, containing keys like "role_name", "username", and "email".

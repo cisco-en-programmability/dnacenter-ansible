@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: eox_status_device_info
-short_description: Information module for Eox Status
-  Device
+short_description: Information module for Eox Status Device
 description:
   - Get all Eox Status Device.
   - Get Eox Status Device by id.
@@ -25,31 +24,26 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Default is 500 if not
-        specified. Maximum allowed limit is 500.
+        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
+        Maximum allowed limit is 500.
     type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page, the first record is numbered
-        1.
+      - Offset query parameter. The first record to show for this page, the first record is numbered 1.
     type: int
   deviceId:
     description:
       - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for EoX GetEoXDetailsPerDevice
-    description: Complete reference of the GetEoXDetailsPerDevice
-      API.
+    description: Complete reference of the GetEoXDetailsPerDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device
   - name: Cisco DNA Center documentation for EoX GetEoXStatusForAllDevices
-    description: Complete reference of the GetEoXStatusForAllDevices
-      API.
+    description: Complete reference of the GetEoXStatusForAllDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
 notes:
   - SDK Method used are

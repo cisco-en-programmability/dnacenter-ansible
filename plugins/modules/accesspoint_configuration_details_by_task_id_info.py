@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: accesspoint_configuration_details_by_task_id_info
-short_description: Information module for Accesspoint
-  Configuration Details By Task Id
+short_description: Information module for Accesspoint Configuration Details By Task Id
 description:
-  - Get Accesspoint Configuration Details By Task Id
-    by id.
-  - Users can query the access point configuration result
-    using this intent API.
+  - Get Accesspoint Configuration Details By Task Id by id.
+  - Users can query the access point configuration result using this intent API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,17 +21,14 @@ options:
     type: dict
   task_id:
     description:
-      - Task_id path parameter. Task id information
-        of ap config.
+      - Task_id path parameter. Task id information of ap config.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAccessPointConfigurationTaskResult
-    description: Complete reference of the GetAccessPointConfigurationTaskResult
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationTaskResult
+    description: Complete reference of the GetAccessPointConfigurationTaskResult API.
     link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-task-result
 notes:
   - SDK Method used are
@@ -45,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get Accesspoint Configuration Details By Task
-    Id by id
+- name: Get Accesspoint Configuration Details By Task Id by id
   cisco.dnac.accesspoint_configuration_details_by_task_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -1,0 +1,119 @@
+---
+- name: Generate the config for Wireless Design Module in Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate the playbook config for Wireless Design in Cisco Catalyst Center
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        config:
+          # ====================================================================================
+          # Scenario 1: Generate all wireless design configurations
+          # ====================================================================================
+          generate_all_configurations: true
+          file_path: "tmp/wireless_design_all_configurations.yml"
+          file_mode: "overwrite"
+          # ====================================================================================
+          # Scenario 2: SSIDs - Filter by site, SSID name and SSID type
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_ssids.yml"
+          # component_specific_filters:
+          #   components_list: ["ssids"]
+          #   ssids:
+          #     - site_name_hierarchy: "Global/USA/San Jose"
+          #       ssid_name: "Enterprise_WiFi"
+          #       ssid_type: "Enterprise"
+          # ====================================================================================
+          # Scenario 3: Interfaces - Filter by interface name or VLAN ID
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_interfaces.yml"
+          # component_specific_filters:
+          #   components_list: ["interfaces"]
+          #   interfaces:
+          #     - interface_name: "guest_interface"
+          #     - vlan_id: 100
+          # ====================================================================================
+          # Scenario 4: Power Profiles - Filter by power profile name
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_power_profiles.yml"
+          # component_specific_filters:
+          #   components_list: ["power_profiles"]
+          #   power_profiles:
+          #     - power_profile_name: "EthernetSpeeds"
+          # ====================================================================================
+          # Scenario 5: Access Point Profiles - Filter by AP profile name
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_ap_profiles.yml"
+          # component_specific_filters:
+          #   components_list: ["access_point_profiles"]
+          #   access_point_profiles:
+          #     - ap_profile_name: "Default_AP_Profile_AireOS"
+          # ====================================================================================
+          # Scenario 6: Radio Frequency Profiles - Filter by RF profile name
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_rf_profiles.yml"
+          # component_specific_filters:
+          #   components_list: ["radio_frequency_profiles"]
+          #   radio_frequency_profiles:
+          #     - rf_profile_name: "rf_profile_5ghz_basic"
+          # ====================================================================================
+          # Scenario 7: Anchor Groups - Filter by anchor group name
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_anchor_groups.yml"
+          # component_specific_filters:
+          #   components_list: ["anchor_groups"]
+          #   anchor_groups:
+          #     - anchor_group_name: "Anchor_Group_1"
+          # ====================================================================================
+          # Scenario 8: Feature Template Config - Filter by template type and design name
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_feature_template_config.yml"
+          # component_specific_filters:
+          #   components_list: ["feature_template_config"]
+          #   feature_template_config:
+          #     - feature_template_type: "advanced_ssid"
+          #       design_name: "AdvancedSSID_Default"
+          # ====================================================================================
+          # Scenario 9: 802.11be Profiles - Filter by profile name
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_80211be_profiles.yml"
+          # component_specific_filters:
+          #   components_list: ["802_11_be_profiles"]
+          #   802_11_be_profiles:
+          #     - profile_name: "dot11be_profile_1"
+          # ====================================================================================
+          # Scenario 10: Flex Connect Configuration - Filter by site name hierarchy
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_flex_connect_config.yml"
+          # component_specific_filters:
+          #   components_list: ["flex_connect_configuration"]
+          #   flex_connect_configuration:
+          #     - site_name_hierarchy: "Global/USA/San Jose"
+          # ====================================================================================
+          # Scenario 11: Multiple Components with independent filters
+          # ====================================================================================
+          # file_path: "tmp/wireless_design_multi_component_filters.yml"
+          # component_specific_filters:
+          #   components_list: ["ssids", "interfaces", "feature_template_config"]
+          #   ssids:
+          #     - site_name_hierarchy: "Global/USA/San Jose"
+          #       ssid_type: "Guest"
+          #   interfaces:
+          #     - vlan_id: 200
+          #   feature_template_config:
+          #     - feature_template_type: "multicast_configuration"
+
+      tags:
+        - wireless_design_config_generator_testing

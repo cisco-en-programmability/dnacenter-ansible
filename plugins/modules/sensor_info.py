@@ -24,11 +24,10 @@ options:
       - SiteId query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      Sensors
+  - name: Cisco DNA Center documentation for Sensors Sensors
     description: Complete reference of the Sensors API.
     link: https://developer.cisco.com/docs/dna-center/#!sensors-sensors
 notes:

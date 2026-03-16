@@ -7,36 +7,29 @@
 DOCUMENTATION = r"""
 ---
 module: execute_suggested_actions_commands
-short_description: Resource module for Execute Suggested
-  Actions Commands
+short_description: Resource module for Execute Suggested Actions Commands
 description:
-  - Manage operation create of the resource Execute
-    Suggested Actions Commands. - > This API fetches
-    the issue details and suggested actions for an issue,
-    given the Issue Id, executes the commands associated
-    with the suggested actions to remediate the issue.
+  - Manage operation create of the resource Execute Suggested Actions Commands. - > This API fetches the issue details and
+    suggested actions for an issue, given the Issue Id, executes the commands associated with the suggested actions to remediate
+    the issue.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   entity_type:
-    description: Commands provided as part of the suggested
-      actions for an issue can be executed based on
-      issue id. The value here must be issue_id.
+    description: Commands provided as part of the suggested actions for an issue can be executed based on issue id. The value
+      here must be issue_id.
     type: str
   entity_value:
-    description: Contains the actual value for the entity
-      type that has been defined.
+    description: Contains the actual value for the entity type that has been defined.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues
-      ExecuteSuggestedActionsCommands
-    description: Complete reference of the ExecuteSuggestedActionsCommands
-      API.
+  - name: Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommands
+    description: Complete reference of the ExecuteSuggestedActionsCommands API.
     link: https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands
 notes:
   - SDK Method used are

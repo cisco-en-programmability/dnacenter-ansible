@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -32,6 +31,8 @@ argument_spec.update(
         wlcIpAddress=dict(type="str"),
         apName=dict(type="str"),
         ethernetMacAddress=dict(type="str"),
+        meshRole=dict(type="str"),
+        neighbourType=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -76,6 +77,8 @@ class ActionModule(ActionBase):
             wlc_ip_address=params.get("wlcIpAddress"),
             ap_name=params.get("apName"),
             ethernet_mac_address=params.get("ethernetMacAddress"),
+            mesh_role=params.get("meshRole"),
+            neighbour_type=params.get("neighbourType"),
             headers=params.get("headers"),
         )
         return new_object

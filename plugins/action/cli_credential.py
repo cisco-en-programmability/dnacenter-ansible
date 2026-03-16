@@ -28,7 +28,6 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
 )
 
-
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
@@ -244,7 +243,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_wireless_lan_info
-short_description: Information module for Network Device
-  Wireless Lan
+short_description: Information module for Network Device Wireless Lan
 description:
   - Get all Network Device Wireless Lan.
-  - Returns the wireless lan controller info with given
-    device ID.
+  - Returns the wireless lan controller info with given device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - Id path parameter. Device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetWirelessLanControllerDetailsById
-    description: Complete reference of the GetWirelessLanControllerDetailsById
-      API.
+  - name: Cisco DNA Center documentation for Devices GetWirelessLanControllerDetailsById
+    description: Complete reference of the GetWirelessLanControllerDetailsById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-wireless-lan-controller-details-by-id
 notes:
   - SDK Method used are

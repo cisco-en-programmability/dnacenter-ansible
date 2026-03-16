@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -34,14 +33,13 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        state=dict(type="str", default="present", choices=["present", "absent"]),
+        state=dict(type="str", default="present", choices=["present"]),
         payload=dict(type="list"),
     )
 )
 
 required_if = [
     ("state", "present", ["payload"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -76,7 +74,7 @@ class SdaTransitNetworks(object):
 
     def get_object_by_name(self, name, is_absent=False):
         result = None
-        # NOTE: Does not have a get by name method or it is in another action
+        # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
                 family="sda",
@@ -101,18 +99,6 @@ class SdaTransitNetworks(object):
     def get_object_by_id(self, id):
         result = None
         # NOTE: Does not have a get by id method or it is in another action
-        try:
-            items = self.dnac.exec(
-                family="sda",
-                function="get_transit_networks",
-                params=self.get_all_params(id=id),
-            )
-            if isinstance(items, dict):
-                if "response" in items:
-                    items = items.get("response")
-            result = get_dict_result(items, "id", id)
-        except Exception:
-            result = None
         return result
 
     def exists(self, is_absent=False):
@@ -138,7 +124,7 @@ class SdaTransitNetworks(object):
             ("ipTransitSettings", "ipTransitSettings"),
             ("sdaTransitSettings", "sdaTransitSettings"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not dnac_compare_equality(
@@ -174,16 +160,6 @@ class SdaTransitNetworks(object):
             params=self.update_all_params(),
             op_modifies=True,
         )
-        return result
-
-    def delete(self):
-        requested_obj = self.new_object.get("payload")
-        if requested_obj and len(requested_obj) > 0:
-            requested_obj = requested_obj[0]
-        id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
-        result = None
-        # NOTE: Does not have delete method. What do we do?
         return result
 
 
@@ -228,9 +204,8 @@ class ActionModule(ActionBase):
         state = self._task.args.get("state")
 
         response = None
-
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -244,19 +219,6 @@ class ActionModule(ActionBase):
                     dnac.object_created()
                 except AnsibleSDAException as e:
                     dnac.fail_json("Could not create object {e}".format(e=e._response))
-
-        elif state == "absent":
-            try:
-                (obj_exists, prev_obj) = obj.exists(is_absent=True)
-                if obj_exists:
-                    response = obj.delete()
-                    dnac.object_deleted()
-                else:
-                    dnac.object_already_absent()
-            except AnsibleSDAException as e:
-                dnac.fail_json(
-                    "Could not get object to be delete {e}".format(e=e._response)
-                )
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

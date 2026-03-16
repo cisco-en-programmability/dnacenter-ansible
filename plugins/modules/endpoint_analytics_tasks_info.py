@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_tasks_info
-short_description: Information module for Endpoint Analytics
-  Tasks
+short_description: Information module for Endpoint Analytics Tasks
 description:
-  - Get Endpoint Analytics Tasks by id. - > Fetches
-    the details of backend task. Task is typically created
-    by making call to some other API that takes longer
-    time to execute.
+  - Get Endpoint Analytics Tasks by id. - > Fetches the details of backend task. Task is typically created by making call
+    to some other API that takes longer time to execute.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,17 +21,14 @@ options:
     type: dict
   taskId:
     description:
-      - TaskId path parameter. Unique identifier for
-        the task.
+      - TaskId path parameter. Unique identifier for the task.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics GetTaskDetails
-    description: Complete reference of the GetTaskDetails
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics GetTaskDetails
+    description: Complete reference of the GetTaskDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-details
 notes:
   - SDK Method used are

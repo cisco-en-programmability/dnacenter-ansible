@@ -9,31 +9,25 @@ DOCUMENTATION = r"""
 module: license_register
 short_description: Resource module for License Register
 description:
-  - Manage operation create of the resource License
-    Register.
-  - Registers the system with Cisco Smart Software Manager
-    CSSM .
+  - Manage operation create of the resource License Register.
+  - Registers the system with Cisco Smart Software Manager CSSM .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   smartAccountId:
-    description: The ID of the Smart Account to which
-      the system is registered.
+    description: The ID of the Smart Account to which the system is registered.
     type: str
   virtualAccountId:
-    description: The ID of the Virtual Account to which
-      the system is registered.
+    description: The ID of the Virtual Account to which the system is registered.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      SystemLicensingRegistration
-    description: Complete reference of the SystemLicensingRegistration
-      API.
+  - name: Cisco DNA Center documentation for Licenses SystemLicensingRegistration
+    description: Complete reference of the SystemLicensingRegistration API.
     link: https://developer.cisco.com/docs/dna-center/#!system-licensing-registration
 notes:
   - SDK Method used are

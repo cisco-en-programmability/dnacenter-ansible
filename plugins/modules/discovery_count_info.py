@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: discovery_count_info
-short_description: Information module for Discovery
-  Count
+short_description: Information module for Discovery Count
 description:
   - Get all Discovery Count.
   - Returns the count of all available discovery jobs.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      GetCountOfAllDiscoveryJobs
-    description: Complete reference of the GetCountOfAllDiscoveryJobs
-      API.
+  - name: Cisco DNA Center documentation for Discovery GetCountOfAllDiscoveryJobs
+    description: Complete reference of the GetCountOfAllDiscoveryJobs API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-all-discovery-jobs
 notes:
   - SDK Method used are

@@ -4,7 +4,7 @@
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Create network profile for wireless
       cisco.dnac.network_profile_wireless_workflow_manager:

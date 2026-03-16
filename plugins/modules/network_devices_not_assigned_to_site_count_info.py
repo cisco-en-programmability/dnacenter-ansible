@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_not_assigned_to_site_count_info
-short_description: Information module for Network Devices
-  Not Assigned To Site Count
+short_description: Information module for Network Devices Not Assigned To Site Count
 description:
   - Get all Network Devices Not Assigned To Site Count.
-  - Get network devices count that are not assigned
-    to any site.
+  - Get network devices count that are not assigned to any site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      GetSiteNotAssignedNetworkDevicesCount
-    description: Complete reference of the GetSiteNotAssignedNetworkDevicesCount
-      API.
+  - name: Cisco DNA Center documentation for Site Design GetSiteNotAssignedNetworkDevicesCount
+    description: Complete reference of the GetSiteNotAssignedNetworkDevicesCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-not-assigned-network-devices-count
 notes:
   - SDK Method used are
@@ -39,8 +35,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Devices Not Assigned To Site
-    Count
+- name: Get all Network Devices Not Assigned To Site Count
   cisco.dnac.network_devices_not_assigned_to_site_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

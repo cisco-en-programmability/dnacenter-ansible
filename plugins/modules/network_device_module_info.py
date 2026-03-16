@@ -7,21 +7,15 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_module_info
-short_description: Information module for Network Device
-  Module
+short_description: Information module for Network Device Module
 description:
   - Get all Network Device Module.
   - Get Network Device Module by id.
-  - Returns Module info by 'module id'. - > Returns
-    modules by specified device id. The API returns
-    a paginated response based on 'limit' and 'offset'
-    parameters, allowing up to 500 records per page.
-    'limit' specifies the number of records, and 'offset'
-    sets the starting point using 1-based indexing.
-    Use /dna/intent/api/v1/network-device/module/count
-    API to get the total record count. For data sets
-    over 500 records, make multiple calls, adjusting
-    'limit' and 'offset' to retrieve all records incrementally.
+  - Returns Module info by 'module id'. - > Returns modules by specified device id. The API returns a paginated response based
+    on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and
+    'offset' sets the starting point using 1-based indexing. Use /dna/intent/api/v1/network-device/module/count API to get
+    the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve
+    all records incrementally.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -36,8 +30,7 @@ options:
     type: str
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
   offset:
     description:
@@ -68,18 +61,14 @@ options:
       - Id path parameter. Module id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetModuleInfoById
-    description: Complete reference of the GetModuleInfoById
-      API.
+  - name: Cisco DNA Center documentation for Devices GetModuleInfoById
+    description: Complete reference of the GetModuleInfoById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-module-info-by-id
-  - name: Cisco DNA Center documentation for Devices
-      GetModules
-    description: Complete reference of the GetModules
-      API.
+  - name: Cisco DNA Center documentation for Devices GetModules
+    description: Complete reference of the GetModules API.
     link: https://developer.cisco.com/docs/dna-center/#!get-modules
 notes:
   - SDK Method used are

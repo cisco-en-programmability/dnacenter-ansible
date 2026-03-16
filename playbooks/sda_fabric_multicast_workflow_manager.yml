@@ -2,7 +2,7 @@
 - name: Configure multicast in the SDA Fabric
   hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
