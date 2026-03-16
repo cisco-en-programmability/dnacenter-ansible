@@ -21,7 +21,15 @@
         dnac_task_poll_interval: 1
         state: gathered
         file_path: /Users/priyadharshini/Downloads/events_and_notifications_playbook1
-        file_mode: append
+        file_mode: overwrite
         config:
           component_specific_filters:
-            components_list: ["webhook_destinations", "email_destinations", "syslog_destinations", "syslog_event_notifications"]
+            components_list:
+              - webhook_destinations
+              - email_destinations
+              - syslog_destinations
+              - snmp_destinations
+              - itsm_settings
+              - webhook_event_notifications
+              - email_event_notifications
+              - syslog_event_notifications
