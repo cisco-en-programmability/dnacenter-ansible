@@ -324,7 +324,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
             config = {}
-            
+
         elif not isinstance(config, dict):
             self.msg = (
                 "config must be a dictionary when provided. Got: {0}.".format(
@@ -5088,7 +5088,6 @@ def main():
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            module.params.get("config"),
             config_items_count
         ),
         "DEBUG"
