@@ -270,13 +270,6 @@ response_3:
 
 import time
 import os
-import datetime
-try:
-    import yaml
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-    yaml = None
 from collections import OrderedDict
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
