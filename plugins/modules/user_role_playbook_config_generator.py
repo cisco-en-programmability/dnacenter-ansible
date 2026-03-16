@@ -576,6 +576,76 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
+            # Validate user_details filter keys
+            allowed_user_filter_keys = {"username", "email", "role_name"}
+            user_details_filters = component_filters.get("user_details")
+            if user_details_filters is not None:
+                if not isinstance(user_details_filters, list):
+                    self.msg = (
+                        "'user_details' must be a list of filter dictionaries, got: {0}.".format(
+                            type(user_details_filters).__name__
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                for filter_index, filter_param in enumerate(user_details_filters, start=1):
+                    if not isinstance(filter_param, dict):
+                        self.msg = (
+                            "Each entry in 'user_details' must be a dictionary, "
+                            "but entry {0} is of type: {1}.".format(
+                                filter_index, type(filter_param).__name__
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+                    invalid_user_keys = set(filter_param.keys()) - allowed_user_filter_keys
+                    if invalid_user_keys:
+                        self.msg = (
+                            "Invalid parameters found in 'user_details' filter entry {0}: {1}. "
+                            "Only the following parameters are allowed: {2}. "
+                            "Please remove the invalid parameters and try again.".format(
+                                filter_index, sorted(list(invalid_user_keys)),
+                                sorted(list(allowed_user_filter_keys))
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+            # Validate role_details filter keys
+            allowed_role_filter_keys = {"role_name"}
+            role_details_filters = component_filters.get("role_details")
+            if role_details_filters is not None:
+                if not isinstance(role_details_filters, list):
+                    self.msg = (
+                        "'role_details' must be a list of filter dictionaries, got: {0}.".format(
+                            type(role_details_filters).__name__
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+                for filter_index, filter_param in enumerate(role_details_filters, start=1):
+                    if not isinstance(filter_param, dict):
+                        self.msg = (
+                            "Each entry in 'role_details' must be a dictionary, "
+                            "but entry {0} is of type: {1}.".format(
+                                filter_index, type(filter_param).__name__
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+                    invalid_role_keys = set(filter_param.keys()) - allowed_role_filter_keys
+                    if invalid_role_keys:
+                        self.msg = (
+                            "Invalid parameters found in 'role_details' filter entry {0}: {1}. "
+                            "Only the following parameters are allowed: {2}. "
+                            "Please remove the invalid parameters and try again.".format(
+                                filter_index, sorted(list(invalid_role_keys)),
+                                sorted(list(allowed_role_filter_keys))
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
             user_filters_present = component_filters.get("user_details") is not None
             role_filters_present = component_filters.get("role_details") is not None
             any_component_block = user_filters_present or role_filters_present
