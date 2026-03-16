@@ -34,6 +34,7 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+    required: false
   file_path:
     description:
     - Path where the YAML configuration file will be saved.
@@ -51,6 +52,7 @@ options:
     type: str
     choices: ["overwrite", "append"]
     default: "overwrite"
+    required: false
   config:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the `network_settings_workflow_manager`
@@ -102,7 +104,7 @@ options:
                 required: false
               pool_type:
                 description:
-                - Pool type to filter global pools by type (Generic, LAN, WAN).
+                - Pool type to filter global pools by type (Generic, Tunnel).
                 type: str
                 required: false
                 choices: [Generic, Tunnel]
