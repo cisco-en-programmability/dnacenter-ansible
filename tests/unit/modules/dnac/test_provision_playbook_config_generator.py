@@ -211,3 +211,41 @@ class TestDnacProvisionPlaybookGenerator(TestDnacModule):
             "Duplicate component names found in 'components_list': ['wired']",
             result.get("msg", "")
         )
+
+    def test_provision_playbook_config_generator_playbook_global_filters_default_file_path(self):
+        """
+        Validate that omitting both config and file_path still generates YAML using a default filename.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.9",
+            )
+        )
+
+        default_file_path = "provision_playbook_config_test.yml"
+        with patch.object(
+            provision_playbook_config_generator.ProvisionPlaybookGenerator,
+            "generate_filename",
+            return_value=default_file_path,
+        ), patch.object(
+            provision_playbook_config_generator.ProvisionPlaybookGenerator,
+            "write_dict_to_yaml",
+            return_value=True,
+        ):
+            result = self.execute_module(changed=True, failed=False)
+
+        self.assertEqual(
+            result.get("response"),
+            {
+                "YAML config generation Task succeeded for module 'provision_workflow_manager'.": {
+                    "file_path": default_file_path,
+                    "devices_count": 6,
+                }
+            }
+        )

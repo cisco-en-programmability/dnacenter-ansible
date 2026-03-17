@@ -2145,7 +2145,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
             params = self.want.get(param_key)
-            if params:
+            if params is not None:
                 self.log(
                     "Iteration {0}: Parameters found for {1}. Starting processing.".format(
                         index, operation_name
