@@ -185,3 +185,29 @@ class TestDnacProvisionPlaybookGenerator(TestDnacModule):
                 }
             }
         )
+
+    def test_provision_playbook_config_generator_duplicate_components_list_fails(self):
+        """
+        Validate that duplicate component names in components_list are rejected.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.9",
+                config={
+                    "component_specific_filters": {
+                        "components_list": ["wired", "wired"]
+                    }
+                },
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Duplicate component names found in 'components_list': ['wired']",
+            result.get("msg", "")
+        )
