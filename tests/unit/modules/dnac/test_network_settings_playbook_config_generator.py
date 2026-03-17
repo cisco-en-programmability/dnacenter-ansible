@@ -79,7 +79,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
         Load fixtures for network settings playbook config generator tests.
         """
 
-        if "generate_all_configurations" in self._testMethodName:
+        if "auto_discovery" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_global_pool_response"),
@@ -199,13 +199,12 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_generate_all_configurations(self, mock_exists, mock_file):
+    def test_network_settings_playbook_config_generator_auto_discovery(self, mock_exists, mock_file):
         """
-        Test case for network settings playbook config generator when generating all configurations.
+        Test case for network settings playbook config generator auto-discovery.
 
-        This test case checks the behavior when generate_all_configurations is set to True,
-        which should retrieve all global pools, reserve pools, network management, device
-        controllability, and AAA settings and generate a complete YAML playbook configuration file.
+        This test case checks the behavior when config is omitted, which should retrieve all
+        supported components and generate a YAML playbook configuration file.
         """
         mock_exists.return_value = True
 
@@ -217,7 +216,8 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
-                config=self.playbook_config_generate_all_configurations
+                file_path="/tmp/test_demo.yaml",
+                file_mode="overwrite"
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -429,8 +429,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
         """
         Test case for generating YAML configuration using global filters by site names.
 
-        This test verifies that the generator correctly retrieves configurations for all
-        components when filtered by specific site names using global filters.
+        This test verifies that global_filters is rejected by strict config validation.
         """
         mock_exists.return_value = True
 
@@ -445,8 +444,8 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_global_filters_by_site
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertTrue(result.get("failed"))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -454,8 +453,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
         """
         Test case for generating YAML configuration using global filters by pool names.
 
-        This test verifies that the generator correctly retrieves configurations for
-        pools when filtered by specific pool names using global filters.
+        This test verifies that generate_all_configurations is rejected by strict config validation.
         """
         mock_exists.return_value = True
 
@@ -470,8 +468,8 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_global_filters_by_pool_name
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertTrue(result.get("failed"))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -479,8 +477,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
         """
         Test case for generating YAML configuration using global filters by pool types.
 
-        This test verifies that the generator correctly retrieves configurations for
-        pools when filtered by specific pool types using global filters.
+        This test verifies that config without component_specific_filters fails validation.
         """
         mock_exists.return_value = True
 
@@ -495,8 +492,8 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_global_filters_by_pool_type
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertTrue(result.get("failed"))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -520,8 +517,8 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_multiple_components
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations or components to process", str(result.get('msg')))
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -570,8 +567,8 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_combined_filters
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations or components to process", str(result.get('msg')))
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -622,3 +619,29 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_network_settings_playbook_config_generator_empty_components_list_fails(self, mock_exists, mock_file):
+        """
+        Test case for validation failure when component_specific_filters has only an empty components_list.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config={
+                    "component_specific_filters": {
+                        "components_list": []
+                    }
+                }
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("must include a non-empty components_list", str(result.get("msg", "")))
