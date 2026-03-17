@@ -262,20 +262,20 @@ notes:
     control.
   - Description-based filtering is case-sensitive and requires exact matches.
   - Site hierarchical paths must match exact Catalyst Center site structure.
-  - Auto-population of components_list:
-    If component-specific filters (such as 'global_credential_details' or 'assign_credentials_to_site') are provided
-    without explicitly including them in 'components_list', those components will be
-    automatically added to 'components_list'. This simplifies configuration by eliminating
-    the need to redundantly specify components in both places.
-  - Example of auto-population behavior:
-    If you provide filters for 'tag' without including 'tag' in 'components_list',
-    the module will automatically add 'tag' to 'components_list' before processing.
-    This allows you to write more concise playbooks.
-  - Validation requirements:
-    If 'component_specific_filters' is provided, at least one of the following must be true:
-    (1) 'components_list' contains at least one component, OR
-    (2) Component-specific filters (e.g., 'global_credential_details', 'assign_credentials_to_site') are provided.
-    If neither condition is met, the module will fail with a validation error.
+  - 'Auto-population of components_list:
+    If component-specific filters (such as global_credential_details or assign_credentials_to_site) are provided
+    without explicitly including them in components_list, those components will be
+    automatically added to components_list. This simplifies configuration by eliminating
+    the need to redundantly specify components in both places.'
+  - 'Example of auto-population behavior:
+    If you provide filters for global_credential_details without including global_credential_details in components_list,
+    the module will automatically add global_credential_details to components_list before processing.
+    This allows you to write more concise playbooks.'
+  - 'Validation requirements:
+    If component_specific_filters is provided, at least one of the following must be true -
+    (1) components_list contains at least one component, OR
+    (2) Component-specific filters (e.g., global_credential_details, assign_credentials_to_site) are provided.
+    If neither condition is met, the module will fail with a validation error.'
 seealso:
 - module: cisco.dnac.device_credential_workflow_manager
   description: Module for managing device credential workflows in Cisco Catalyst Center.
@@ -326,15 +326,15 @@ EXAMPLES = r"""
     state: gathered
     file_path: "device_credential_config.yml"
     file_mode: "overwrite"
-    config:          
-        component_specific_filters:
+    config:
+      component_specific_filters:
         components_list: ["global_credential_details"]
         global_credential_details:
-            cli_credential:
+          cli_credential:
             - description: test
-            https_read:
+          https_read:
             - description: http_read
-            https_write:
+          https_write:
             - description: http_write
 
 - name: Generate YAML Configuration with specific component assign credentials to site filters
@@ -352,10 +352,10 @@ EXAMPLES = r"""
     file_path: "device_credential_config.yml"
     file_mode: "append"
     config:
-        component_specific_filters:
+      component_specific_filters:
         components_list: ["assign_credentials_to_site"]
         assign_credentials_to_site:
-            site_name:
+          site_name:
             - "Global/India/Assam"
             - "Global/India/Haryana"
 
@@ -374,20 +374,19 @@ EXAMPLES = r"""
     file_path: "device_credential_config.yml"
     file_mode: "append"
     config:
-        component_specific_filters:
+      component_specific_filters:
         components_list: ["global_credential_details", "assign_credentials_to_site"]
         global_credential_details:
-            cli_credential:
+          cli_credential:
             - description: test
-            https_read:
+          https_read:
             - description: http_read
-            https_write:
+          https_write:
             - description: http_write
         assign_credentials_to_site:
-            site_name:
+          site_name:
             - "Global/India/Assam"
             - "Global/India/TamilNadu"
-
 """
 
 RETURN = r"""

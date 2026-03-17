@@ -188,20 +188,20 @@ notes:
   - Generated YAML uses OrderedDumper for consistent key ordering enabling version
     control.
   - Fabric site hierarchical paths must match exact Catalyst Center fabric site structure.
-  - Auto-population of components_list:
-    If component-specific filters (such as 'port_assignments', 'port_channels', or 'wireless_ssids') are provided
-    without explicitly including them in 'components_list', those components will be
-    automatically added to 'components_list'. This simplifies configuration by eliminating
-    the need to redundantly specify components in both places.
-  - Example of auto-population behavior:
-    If you provide filters for 'port_assignments' without including 'port_assignments' in 'components_list',
-    the module will automatically add 'port_assignments' to 'components_list' before processing.
-    This allows you to write more concise playbooks.
-  - Validation requirements:
-    If 'component_specific_filters' is provided, at least one of the following must be true:
-    (1) 'components_list' contains at least one component, OR
-    (2) Component-specific filters (e.g., 'port_assignments', 'port_channels', 'wireless_ssids') are provided.
-    If neither condition is met, the module will fail with a validation error.
+  - 'Auto-population of components_list:
+    If component-specific filters (such as port_assignments, port_channels, or wireless_ssids) are provided
+    without explicitly including them in components_list, those components will be
+    automatically added to components_list. This simplifies configuration by eliminating
+    the need to redundantly specify components in both places.'
+  - 'Example of auto-population behavior:
+    If you provide filters for port_assignments without including port_assignments in components_list,
+    the module will automatically add port_assignments to components_list before processing.
+    This allows you to write more concise playbooks.'
+  - 'Validation requirements:
+    If component_specific_filters is provided, at least one of the following must be true -
+    (1) components_list contains at least one component, OR
+    (2) Component-specific filters (e.g., port_assignments, port_channels, wireless_ssids) are provided.
+    If neither condition is met, the module will fail with a validation error.'
 seealso:
 - module: cisco.dnac.sda_host_port_onboarding_workflow_manager
   description: Module for managing SDA host port onboarding workflows in Cisco Catalyst Center.
@@ -253,10 +253,10 @@ EXAMPLES = r"""
     file_path: "host_onboarding_playbook.yml"
     file_mode: "overwrite"
     config:
-        component_specific_filters:
+      component_specific_filters:
         components_list: ["port_assignments"]
         port_assignments:
-            fabric_site_name_hierarchy:
+          fabric_site_name_hierarchy:
             - "Global/Site_India/Karnataka/Bangalore"
 
 - name: Generate YAML Configuration with specific component port channels filters
@@ -274,10 +274,10 @@ EXAMPLES = r"""
     file_path: "host_onboarding_playbook.yml"
     file_mode: "overwrite"
     config:
-        component_specific_filters:
+      component_specific_filters:
         components_list: ["port_channels"]
         port_channels:
-            fabric_site_name_hierarchy:
+          fabric_site_name_hierarchy:
             - "Global/Site_India/Karnataka/Bangalore"
 
 - name: Generate YAML Configuration with specific component wireless ssids filters
@@ -295,12 +295,11 @@ EXAMPLES = r"""
     file_path: "host_onboarding_playbook.yml"
     file_mode: "overwrite"
     config:
-        component_specific_filters:
+      component_specific_filters:
         components_list: ["wireless_ssids"]
         wireless_ssids:
-            fabric_site_name_hierarchy:
+          fabric_site_name_hierarchy:
             - "Global/Site_India/Karnataka/Bangalore"
-
 """
 
 RETURN = r"""
