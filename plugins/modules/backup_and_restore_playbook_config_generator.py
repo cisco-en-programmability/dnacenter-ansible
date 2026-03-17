@@ -542,8 +542,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         Description:
             Performs comprehensive validation of input configuration parameters to ensure
             they conform to the expected schema. Uses validate_config_dict for type validation,
-            validate_invalid_params for checking allowed keys, and validate_minimum_requirements
-            for logical requirement validation.
+            validate_invalid_params for checking allowed keys.
 
         Args:
             None: Uses self.config from the instance.
@@ -658,20 +657,10 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log(
             "Type validation via validate_config_dict() completed successfully. "
-            "Validated config: {0}. Proceeding with validate_minimum_requirements().".format(
+            "Validated config: {0}.".format(
                 validated_config
             ),
             "INFO"
-        )
-
-        # Step 4: Validate minimum requirements using validate_minimum_requirements from BrownFieldHelper
-        self.validate_minimum_requirements(validated_config)
-
-        self.log(
-            "Minimum requirements validation completed. Configuration meets logical requirements "
-            "for backup and restore playbook generation. At least one selection criteria "
-            "(generate_all_configurations or component_specific_filters with component filters/list) is present.",
-            "DEBUG"
         )
 
         # Enforce conditional requirement for components_list and component filters:
