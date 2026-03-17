@@ -1003,7 +1003,7 @@ class BrownFieldHelper:
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Contains component_specific_filters and global_filters.
             additional_header_comments (list, optional): A list of additional comment lines to append after the
                                    standard header information. Each string in the list will be
                                    prefixed with "# " to maintain comment formatting. Defaults to None.
@@ -1029,7 +1029,8 @@ class BrownFieldHelper:
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
 
-        file_path = yaml_config_generator.get("file_path")
+        # Get file_path and file_mode from self.params (top-level parameters)
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
                 "No file_path provided by user, generating default filename", "DEBUG"
@@ -1038,8 +1039,7 @@ class BrownFieldHelper:
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
-
+        file_mode = self.params.get("file_mode", "overwrite")
         self.log(
             "YAML configuration file path determined: {0}, file_mode: {1}".format(
                 file_path, file_mode
@@ -1054,25 +1054,23 @@ class BrownFieldHelper:
                 "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
                 "INFO",
             )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
 
             # Set empty filters to retrieve everything
             global_filters = {}
             component_specific_filters = {}
         else:
-            # Use provided filters or default to empty
+            self.log(
+                "Normal mode: Using provided filters from input",
+                "DEBUG",
+            )
             global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = (
                 yaml_config_generator.get("component_specific_filters") or {}
+            )
+            self.log(
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}, "
+                f"Global filters initialized: {self.pprint(global_filters)}",
+                "DEBUG",
             )
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
@@ -1084,13 +1082,6 @@ class BrownFieldHelper:
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
-
-        # If components_list is empty, default to all supported components
-        if not components_list:
-            self.log(
-                "No components specified; processing all supported components.", "DEBUG"
-            )
-            components_list = list(module_supported_network_elements.keys())
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
