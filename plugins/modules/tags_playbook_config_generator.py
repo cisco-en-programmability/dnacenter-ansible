@@ -1484,18 +1484,21 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             "INFO",
                         )
                         # Check if tag is a system tag before adding
-                        for tag in tag_details:
-                            if not self.check_if_tag_is_system_tag(tag):
-                                final_tags.append(tag)
+                        for tag_index, tag in enumerate(tag_details, start=1):
+                            tag_name = tag.get("name", "Unknown")
+
+                            if self.check_if_tag_is_system_tag(tag):
                                 self.log(
-                                    f"Added tag '{tag.get('name', 'Unknown')}' to final_tags list.",
-                                    "DEBUG",
-                                )
-                            else:
-                                self.log(
-                                    f"Skipped system tag '{tag.get('name', 'Unknown')}' - not added to final_tags.",
+                                    f"[{tag_index}/{len(tag_details)}] Skipped system tag '{tag_name}' - not added to final_tags.",
                                     "INFO",
                                 )
+                                continue
+
+                            final_tags.append(tag)
+                            self.log(
+                                f"[{tag_index}/{len(tag_details)}] Added tag '{tag_name}' to final_tags list.",
+                                "DEBUG",
+                            )
                         self.log(
                             f"Extended final_tags list. Current count: {len(final_tags)}",
                             "DEBUG",
@@ -1517,18 +1520,21 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO",
             )
             # Filter out system tags before adding to final_tags
-            for tag in tag_details:
-                if not self.check_if_tag_is_system_tag(tag):
-                    final_tags.append(tag)
+            for tag_index, tag in enumerate(tag_details, start=1):
+                tag_name = tag.get("name", "Unknown")
+
+                if self.check_if_tag_is_system_tag(tag):
                     self.log(
-                        f"Added tag '{tag.get('name', 'Unknown')}' to final_tags list.",
-                        "DEBUG",
-                    )
-                else:
-                    self.log(
-                        f"Skipped system tag '{tag.get('name', 'Unknown')}' - not added to final_tags.",
+                        f"[{tag_index}/{len(tag_details)}] Skipped system tag '{tag_name}' - not added to final_tags.",
                         "INFO",
                     )
+                    continue
+
+                final_tags.append(tag)
+                self.log(
+                    f"[{tag_index}/{len(tag_details)}] Added tag '{tag_name}' to final_tags list.",
+                    "DEBUG",
+                )
             self.log(
                 f"Extended final_tags list with all cached tags (excluding system tags). Total count: {len(final_tags)}",
                 "DEBUG",
