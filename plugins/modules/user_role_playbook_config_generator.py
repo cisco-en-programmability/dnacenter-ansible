@@ -588,6 +588,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
                 for filter_index, filter_param in enumerate(user_details_filters, start=1):
                     if not isinstance(filter_param, dict):
                         self.msg = (
@@ -598,6 +599,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
+
                     invalid_user_keys = set(filter_param.keys()) - allowed_user_filter_keys
                     if invalid_user_keys:
                         self.msg = (
@@ -623,6 +625,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
                 for filter_index, filter_param in enumerate(role_details_filters, start=1):
                     if not isinstance(filter_param, dict):
                         self.msg = (
@@ -633,6 +636,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
+
                     invalid_role_keys = set(filter_param.keys()) - allowed_role_filter_keys
                     if invalid_role_keys:
                         self.msg = (
@@ -3497,6 +3501,7 @@ def main():
 
     if not isinstance(config, dict):
         config = {}
+
     if not config and not config_provided:
         config = {"generate_all_configurations": True}
 
@@ -3504,6 +3509,7 @@ def main():
     # validated config for downstream workflow execution.
     if module.params.get("file_path") is not None:
         config["file_path"] = module.params.get("file_path")
+
     if module.params.get("file_mode") is not None:
         config["file_mode"] = module.params.get("file_mode")
 
