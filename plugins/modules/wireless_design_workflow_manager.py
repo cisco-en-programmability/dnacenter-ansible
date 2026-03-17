@@ -9446,14 +9446,40 @@ class WirelessDesign(DnacBase):
             desired_attrs = payload.get("featureAttributes", {}) or {}
             desired_unlocked = payload.get("unlockedAttributes", []) or []
 
-            if (
-                existing_attrs.get("globalMulticastEnabled") != desired_attrs.get("globalMulticastEnabled")
-                or existing_attrs.get("multicastIpv4Mode") != desired_attrs.get("multicastIpv4Mode")
-                or existing_attrs.get("multicastIpv4Address") != desired_attrs.get("multicastIpv4Address")
-                or existing_attrs.get("multicastIpv6Mode") != desired_attrs.get("multicastIpv6Mode")
-                or existing_attrs.get("multicastIpv6Address") != desired_attrs.get("multicastIpv6Address")
-                or set(existing_unlocked) != set(desired_unlocked)
-            ):
+            # Only compare fields that the user actually provided (not None) in the desired payload.
+            # This prevents false updates when the API returns default values for optional fields
+            needs_update = False
+            compare_keys = [
+                "globalMulticastEnabled",
+                "multicastIpv4Mode",
+                "multicastIpv4Address",
+                "multicastIpv6Mode",
+                "multicastIpv6Address",
+            ]
+            for key in compare_keys:
+                desired_val = desired_attrs.get(key)
+                if desired_val is None:
+                    continue
+                if existing_attrs.get(key) != desired_val:
+                    self.log(
+                        "Multicast profile '{0}': field '{1}' differs - existing: '{2}', desired: '{3}'".format(
+                            design_name, key, existing_attrs.get(key), desired_val
+                        ),
+                        "DEBUG",
+                    )
+                    needs_update = True
+                    break
+
+            if not needs_update and set(existing_unlocked) != set(desired_unlocked):
+                self.log(
+                    "Multicast profile '{0}': unlockedAttributes differ - existing: '{1}', desired: '{2}'".format(
+                        design_name, existing_unlocked, desired_unlocked
+                    ),
+                    "DEBUG",
+                )
+                needs_update = True
+
+            if needs_update:
                 payload["id"] = existing["id"]
                 update_list.append(payload)
                 self.log("Multicast profile '{0}' marked for update.".format(design_name), "DEBUG")
