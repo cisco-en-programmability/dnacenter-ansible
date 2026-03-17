@@ -333,12 +333,14 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+
         if config_provided and config == {}:
             self.msg = (
                 "'component_specific_filters' is mandatory when 'config' is provided as an empty dictionary."
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+
         allowed_config_keys = {"component_specific_filters"}
         invalid_config_keys = set(config.keys()) - allowed_config_keys
         if invalid_config_keys:
@@ -450,6 +452,9 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+                self.log("Validated 'queuing_profile' - {0} is a dictionary.".format(queuing_profile), "DEBUG")
+
                 invalid_qp_keys = set(queuing_profile.keys()) - {"profile_names_list"}
                 if invalid_qp_keys:
                     self.msg = (
@@ -458,6 +463,14 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+                self.log(
+                    "Validated keys in 'queuing_profile': {0}".format(
+                        sorted(list(queuing_profile.keys()))
+                    ),
+                    "DEBUG"
+                )
+
                 profile_names_list = queuing_profile.get("profile_names_list")
                 if profile_names_list is not None and not isinstance(profile_names_list, list):
                     self.msg = (
@@ -465,6 +478,9 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+                self.log("validated 'profile_names_list' - {0} for 'queuing_profile'.".format(profile_names_list), "DEBUG")
+
                 component_blocks.append("queuing_profile")
 
             if "application_policy" in normalized_component_filters:
@@ -477,6 +493,9 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+                self.log("validated 'application_policy' - {0} is a dictionary.".format(application_policy), "DEBUG")
+
                 invalid_ap_keys = set(application_policy.keys()) - {"policy_names_list"}
                 if invalid_ap_keys:
                     self.msg = (
@@ -485,6 +504,14 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+                self.log(
+                    "Validated keys in 'application_policy': {0}".format(
+                        sorted(list(application_policy.keys()))
+                    ),
+                    "DEBUG"
+                )
+
                 policy_names_list = application_policy.get("policy_names_list")
                 if policy_names_list is not None and not isinstance(policy_names_list, list):
                     self.msg = (
@@ -492,6 +519,9 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+                self.log("Validated 'policy_names_list' - {0} for 'application_policy'.".format(policy_names_list), "DEBUG")
+
                 component_blocks.append("application_policy")
 
             if component_blocks:
@@ -512,6 +542,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         normalized_config = {"generate_all_configurations": generate_all}
         if normalized_component_filters is not None:
             normalized_config["component_specific_filters"] = normalized_component_filters
+
         if file_path:
             normalized_config["file_path"] = file_path
             normalized_config["file_mode"] = file_mode
