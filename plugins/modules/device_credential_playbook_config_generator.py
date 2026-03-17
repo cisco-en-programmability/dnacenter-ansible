@@ -53,56 +53,49 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Absolute or relative path for YAML configuration file output.
+    - If not provided, generates default filename in current working directory
+        with pattern
+        C(device_credential_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - Example default filename
+        C(device_credential_playbook_config_2026-01-24_12-33-20.yml).
+    - Directory created automatically if path does not exist.
+    - Supports YAML file extension (.yml or .yaml).
+    type: str
+    required: false
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
+    required: false
   config:
     description:
-    - Configuration parameters for YAML playbook generation workflow.
-    - Defines output file path, auto-discovery mode, and component-specific
-      filters for targeted credential extraction.
-    - At least one of generate_all_configurations or component_specific_filters
-      with components_list must be specified to identify target credentials.
+    - A dictionary of filters for generating YAML playbook compatible with the `device_credential_workflow_manager`
+      module.
+    - Filters specify which components to include in the YAML configuration file.
+    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - If config is not provided or is empty, all configurations for all global_credential_details and
+      assign_credentials_to_site will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - Enables auto-discovery mode for complete credential extraction.
-        - When True, extracts all global device credentials and all site
-          credential assignments without filter restrictions.
-        - Ignores component_specific_filters if provided; retrieves complete
-          brownfield credential inventory from Catalyst Center.
-        - Automatically generates timestamped filename if file_path not specified.
-        - Useful for complete credential documentation, configuration backup, and
-          disaster recovery planning.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Absolute or relative path for YAML configuration file output.
-        - If not provided, generates default filename in current working directory
-          with pattern
-          C(device_credential_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - Example default filename
-          C(device_credential_playbook_config_2026-01-24_12-33-20.yml).
-        - Directory created automatically if path does not exist.
-        - Supports YAML file extension (.yml or .yaml).
-        type: str
-      file_mode:
-        description:
-        - Controls how config is written to the YAML file.
-        - C(overwrite) replaces existing file content.
-        - C(append) appends generated YAML content to the existing file.
-        type: str
-        choices: ["overwrite", "append"]
-        default: "overwrite"
       component_specific_filters:
         description:
-        - Component-based filters for targeted credential extraction.
-        - Requires components_list to specify which components to process.
-        - When generate_all_configurations is False, component_specific_filters
-          with components_list must be provided.
-        - Filters apply independently per component type (global credentials,
-          site assignments).
+        - Filters to specify which components to include in the YAML configuration
+          file.
+        - If "components_list" is specified, only those components are included,
+          regardless of other filters.
+        - If filters for specific components (e.g., global_credential_details or assign_credentials_to_site) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
@@ -110,10 +103,10 @@ options:
             - List of credential components to include in YAML configuration.
             - Valid values are 'global_credential_details' for global credentials
               and 'assign_credentials_to_site' for site-specific assignments.
-            - If not specified when generate_all_configurations is False, validation
-              fails requiring explicit component selection.
-            - Multiple components can be specified for combined extraction.
-            - For example, [global_credential_details, assign_credentials_to_site]
+            - If specified, only the listed components will be included in the generated YAML file.
+            - If not specified but component filters (global_credential_details or assign_credentials_to_site)
+              are provided, those components are automatically added to this list.
+            - If neither components_list nor any component filters are provided, an error will be raised.
             type: list
             choices: ["global_credential_details", "assign_credentials_to_site"]
             elements: str
@@ -269,13 +262,28 @@ notes:
     control.
   - Description-based filtering is case-sensitive and requires exact matches.
   - Site hierarchical paths must match exact Catalyst Center site structure.
+  - Auto-population of components_list:
+    If component-specific filters (such as 'global_credential_details' or 'assign_credentials_to_site') are provided
+    without explicitly including them in 'components_list', those components will be
+    automatically added to 'components_list'. This simplifies configuration by eliminating
+    the need to redundantly specify components in both places.
+  - Example of auto-population behavior:
+    If you provide filters for 'tag' without including 'tag' in 'components_list',
+    the module will automatically add 'tag' to 'components_list' before processing.
+    This allows you to write more concise playbooks.
+  - Validation requirements:
+    If 'component_specific_filters' is provided, at least one of the following must be true:
+    (1) 'components_list' contains at least one component, OR
+    (2) Component-specific filters (e.g., 'global_credential_details', 'assign_credentials_to_site') are provided.
+    If neither condition is met, the module will fail with a validation error.
 seealso:
 - module: cisco.dnac.device_credential_workflow_manager
   description: Module for managing device credential workflows in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
-- name: Generate YAML playbook for device credential workflow manager which includes all global credentials and site assignments
+- name: Generate YAML playbook for device credential workflow manager
+    which includes all global credentials and site assignments
   cisco.dnac.device_credential_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -287,9 +295,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_mode: "overwrite"
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.device_credential_playbook_config_generator:
@@ -303,10 +309,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_path: "device_credential_config.yml"
-      file_mode: "overwrite"
+    file_mode: "append"
+    file_path: "device_credential_config.yml"
 
 - name: Generate YAML Configuration with specific component global credential filters
   cisco.dnac.device_credential_playbook_config_generator:
@@ -320,18 +324,17 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
-    config:
-      generate_all_configurations: false
-      file_path: "device_credential_config.yml"
-      file_mode: "overwrite"
-      component_specific_filters:
+    file_path: "device_credential_config.yml"
+    file_mode: "overwrite"
+    config:          
+        component_specific_filters:
         components_list: ["global_credential_details"]
         global_credential_details:
-          cli_credential:
+            cli_credential:
             - description: test
-          https_read:
+            https_read:
             - description: http_read
-          https_write:
+            https_write:
             - description: http_write
 
 - name: Generate YAML Configuration with specific component assign credentials to site filters
@@ -346,13 +349,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
+    file_path: "device_credential_config.yml"
+    file_mode: "append"
     config:
-      file_path: "device_credential_config.yml"
-      file_mode: "append"
-      component_specific_filters:
+        component_specific_filters:
         components_list: ["assign_credentials_to_site"]
         assign_credentials_to_site:
-          site_name:
+            site_name:
             - "Global/India/Assam"
             - "Global/India/Haryana"
 
@@ -368,22 +371,23 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
+    file_path: "device_credential_config.yml"
+    file_mode: "append"
     config:
-      file_path: "device_credential_config.yml"
-      file_mode: "append"
-      component_specific_filters:
+        component_specific_filters:
         components_list: ["global_credential_details", "assign_credentials_to_site"]
         global_credential_details:
-          cli_credential:
+            cli_credential:
             - description: test
-          https_read:
+            https_read:
             - description: http_read
-          https_write:
+            https_write:
             - description: http_write
         assign_credentials_to_site:
-          site_name:
+            site_name:
             - "Global/India/Assam"
             - "Global/India/TamilNadu"
+
 """
 
 RETURN = r"""
@@ -542,8 +546,6 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
       with Jinja variable placeholders to prevent raw credential exposure in YAML
     - Generates YAML files with comprehensive header comments including metadata,
       generation timestamp, configuration summary statistics, and usage instructions
-    - Supports legacy filter formats (global_filters) and modern nested filter
-      structures (component_specific_filters) for backward compatibility
     - Transforms camelCase API response keys to snake_case YAML format for improved
       playbook readability and maintainability
 
@@ -659,8 +661,10 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         # Check if configuration is available
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         self.log(
@@ -671,28 +675,10 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"]
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
-            },
-            "global_filters": {
-                "type": "dict",
-                "required": False},
+            }
         }
 
         # Validate params
@@ -704,13 +690,13 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
             "DEBUG"
         )
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
-        self.log(
-            "Minimum requirements validation completed successfully. Configuration "
-            "meets all prerequisites for brownfield credential extraction workflow.",
-            "DEBUG"
-        )
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -754,7 +740,6 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         - api_function: API method name for credential settings retrieval
                         - api_family: SDK family name (network_settings) for API execution
                         - get_function_name: Method reference for site assignment retrieval
-                    - global_filters: Empty list reserved for future global filtering
         """
         self.log(
             "Constructing workflow filter schema for device credential network "
@@ -829,7 +814,6 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "get_function_name": self.get_assign_credentials_to_site_configuration,
                 }
             },
-            "global_filters": [],
         }
 
     def global_credential_details_temp_spec(self):
@@ -2010,38 +1994,16 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates YAML configuration file for device credential brownfield workflow.
-
-        This function orchestrates complete YAML playbook generation by determining
-        output file path (user-provided or auto-generated), processing auto-discovery
-        mode flags to override filters for complete infrastructure extraction,
-        iterating through requested network components (global_credential_details,
-        assign_credentials_to_site) with component-specific filters, executing
-        retrieval functions for each component, aggregating configurations into
-        unified structure, and writing formatted YAML file with comprehensive header
-        comments for compatibility with device_credential_workflow_manager module.
+        Generates a YAML configuration file based on the provided parameters.
+        This function retrieves network element details using component-specific filters, processes the data,
+        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Configuration parameters containing:
-                                        - generate_all_configurations (bool, optional):
-                                        Auto-discovery mode flag enabling complete
-                                        infrastructure extraction
-                                        - file_path (str, optional): Output YAML file
-                                        path, defaults to auto-generated timestamped
-                                        filename if not provided
-                                        - global_filters (dict, optional): Legacy
-                                        top-level filters for backward compatibility
-                                        - component_specific_filters (dict, optional):
-                                        Component filters with components_list and
-                                        per-component filter criteria
+            yaml_config_generator (dict): Contains component_specific_filters and optionally generate_all_configurations flag.
+                file_path and file_mode are now taken from self.params.
 
         Returns:
-            object: Self instance with updated attributes:
-                    - self.msg: Operation result message with status, file path,
-                    component counts, and configuration counts
-                    - self.status: Operation status ("success", "failed", or "ok")
-                    - self.result: Complete operation result for module exit
-                    - Operation result set via set_operation_result()
+            self: The current instance with the operation result and message updated.
         """
 
         self.log(
@@ -2082,7 +2044,7 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "filename.",
             "DEBUG"
         )
-        file_path = yaml_config_generator.get("file_path")
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
                 "No file_path provided in configuration. Generating default filename "
@@ -2108,7 +2070,7 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "write_dict_to_yaml() operation.".format(file_path),
             "INFO"
         )
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        file_mode = self.params.get("file_mode", "overwrite")
 
         self.log(
             "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
@@ -2126,43 +2088,22 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             self.log(
                 "Auto-discovery mode: Overriding any provided filters to ensure "
                 "complete credential and component extraction without restrictions. "
-                "All global_filters and component_specific_filters will be ignored.",
+                "All component_specific_filters will be ignored.",
                 "INFO"
             )
 
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided ({0}) but will be ignored due to "
-                    "generate_all_configurations=True. Complete infrastructure "
-                    "extraction takes precedence.".format(
-                        yaml_config_generator.get("global_filters")
-                    ),
-                    "WARNING"
-                )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided ({0}) but will be "
-                    "ignored due to generate_all_configurations=True. All components "
-                    "and credentials will be extracted.".format(
-                        yaml_config_generator.get("component_specific_filters")
-                    ),
-                    "WARNING"
-                )
-
             # Set empty filters to retrieve everything
-            global_filters = {}
             component_specific_filters = {}
         else:
             # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
+            self.log(
+                "Normal mode: Using provided component_specific_filters from input",
+                "DEBUG",
+            )
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
             self.log(
-                "Targeted extraction mode: Using provided filters. Global filters: {0}, "
-                "Component-specific filters: {1}. Filters will be applied during "
-                "component retrieval.".format(
-                    bool(global_filters), bool(component_specific_filters)
-                ),
-                "DEBUG"
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
+                "DEBUG",
             )
 
         self.log(
@@ -2254,18 +2195,8 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 continue
 
             filters = {
-                "global_filters": global_filters,
                 "component_specific_filters": component_specific_filters.get(component, [])
             }
-            self.log(
-                "Filter dictionary constructed for component '{0}': global_filters={1}, "
-                "component_specific_filters={2}. Filters will be passed to component "
-                "retrieval function.".format(
-                    component, bool(filters["global_filters"]),
-                    bool(filters["component_specific_filters"])
-                ),
-                "DEBUG"
-            )
 
             self.log(
                 "Extracting retrieval function for component '{0}' from network element "
@@ -2616,7 +2547,9 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
+        "config": {"type": "dict", "required": False},
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
