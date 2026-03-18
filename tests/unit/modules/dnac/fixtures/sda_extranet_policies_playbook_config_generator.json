@@ -1,21 +1,15 @@
 {
-    "generate_all_configurations_case": [
-        {
-            "generate_all_configurations": true
+    "generate_all_configurations_case": null,
+    "component_specific_filters_case": {
+        "component_specific_filters": {
+            "components_list": ["extranet_policies"],
+            "extranet_policies": [
+                {
+                    "extranet_policy_name": "Test_1"
+                }
+            ]
         }
-    ],
-    "component_specific_filters_case": [
-        {
-            "component_specific_filters": {
-                "components_list": ["extranet_policies"],
-                "extranet_policies": [
-                    {
-                        "extranet_policy_name": "Test_1"
-                    }
-                ]
-            }
-        }
-    ],
+    },
     "get_sites_response": {
         "response": [
             {
