@@ -460,7 +460,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
 
         self.log(
-            "Building workflow filters schema for SDA " "extranet policies",
+            "Building workflow filters schema for SDA extranet policies",
             "DEBUG",
         )
 
@@ -1070,7 +1070,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         start_time = time.time()
         self.log(
-            "Starting YAML playbook generation workflow " "for SDA extranet policies",
+            "Starting YAML playbook generation workflow for SDA extranet policies",
             "INFO",
         )
         operations = [
@@ -1266,7 +1266,7 @@ def main():
         SdaExtranetPoliciesPlaybookConfigGenerator(module)
     )
     ccc_sda_extranet_policies_playbook_config_generator.log(
-        "Starting SDA extranet policies playbook " "generator execution",
+        "Starting SDA extranet policies playbook generator execution",
         "INFO",
     )
     if (
