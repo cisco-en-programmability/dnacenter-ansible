@@ -42,7 +42,7 @@ cisco.dnac.lan_automation_workflow_manager module -- Automate network discovery,
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.48.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.48.2).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -844,7 +844,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -854,7 +854,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site hierarchy where the discovered devices will be placed.
+      - Site hierarchy where the discovered
+            devices will be placed.
+          - Required only in merged state.
+          
 
 
       .. raw:: html
@@ -1155,7 +1158,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -1165,7 +1168,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of IP pools used during the LAN Automation session.
+      - A list of IP pools used during
+            the LAN Automation session.
+          - Required only in merged state.
+          
 
 
       .. raw:: html
@@ -1460,7 +1466,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -1470,7 +1476,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of interface names on the primary device to be used for LAN automation.
+      - A list of interface names on
+            the primary device to be used for LAN
+            automation.
+          - Required only in merged state.
+          
 
 
       .. raw:: html
