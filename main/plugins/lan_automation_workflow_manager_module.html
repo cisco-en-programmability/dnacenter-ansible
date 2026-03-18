@@ -1207,7 +1207,7 @@
 <h1>cisco.dnac.lan_automation_workflow_manager module -- Automate network discovery, deployment, and device configuration with LAN Automation in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-lan-automation-workflow-manager-module-automate-network-discovery-deployment-and-device-configuration-with-lan-automation-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.48.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.48.2).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-automation-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1399,9 +1399,20 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/lan_automation/discovered_device_site_name_hierarchy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-lan-automation-workflow-manager-module-parameter-config-lan-automation-discovered-device-site-name-hierarchy"><strong>discovered_device_site_name_hierarchy</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/lan_automation/discovered_device_site_name_hierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/lan_automation/discovered_device_site_name_hierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Site hierarchy where the discovered devices will be placed.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul>
+<li><dl>
+<dt>Site hierarchy where the discovered</dt><dd><blockquote>
+<div><p>devices will be placed.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Required only in merged state.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1463,9 +1474,20 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/lan_automation/ip_pools"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-lan-automation-workflow-manager-module-parameter-config-lan-automation-ip-pools"><strong>ip_pools</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/lan_automation/ip_pools" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/lan_automation/ip_pools" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of IP pools used during the LAN Automation session.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul>
+<li><dl>
+<dt>A list of IP pools used during</dt><dd><blockquote>
+<div><p>the LAN Automation session.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Required only in merged state.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1539,9 +1561,21 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/lan_automation/primary_device_interface_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-lan-automation-workflow-manager-module-parameter-config-lan-automation-primary-device-interface-names"><strong>primary_device_interface_names</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/lan_automation/primary_device_interface_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/lan_automation/primary_device_interface_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of interface names on the primary device to be used for LAN automation.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul>
+<li><dl>
+<dt>A list of interface names on</dt><dd><blockquote>
+<div><p>the primary device to be used for LAN
+automation.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Required only in merged state.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
