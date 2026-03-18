@@ -2352,11 +2352,32 @@ class Events(DnacBase):
 
         if webhook_details.get("headers") == []:
             playbook_params["headers"] = []
+            self.log(
+                "Webhook headers explicitly set to empty list in playbook - "
+                "existing headers will be removed during update.",
+                "DEBUG",
+            )
         elif webhook_details.get("headers"):
             custom_header = webhook_details["headers"]
             playbook_params["headers"] = []
             for header in custom_header:
                 playbook_params["headers"].append(header)
+            self.log(
+                "Webhook headers collected from playbook: {0}".format(
+                    playbook_params["headers"]
+                ),
+                "DEBUG",
+            )
+        else:
+            # Headers not specified in playbook — set to empty list so that
+            # any existing headers on the destination are detected as a change
+            # and removed during update.
+            playbook_params["headers"] = []
+            self.log(
+                "No webhook headers specified in playbook - defaulting to empty list. "
+                "Any existing headers on the destination will be removed during update.",
+                "DEBUG",
+            )
 
         return playbook_params
 

@@ -1868,7 +1868,7 @@ class Site(DnacBase):
 
         task_name = "create_sites"
         success_msg = "Site created successfully."
-        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg, True)
 
         for site in process_config:
             site_name = site.get("name")
