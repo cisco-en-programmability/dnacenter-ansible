@@ -327,7 +327,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             workflow schema for discovery components.
         """
         super().__init__(module)
-        self.module_name = "discovery"
+        self.module_name = "discovery_workflow_manager"
         self.supported_states = ["gathered"]
         self._global_credentials_lookup = None
         self.valid_global_filter_keys = {"discovery_name_list", "discovery_type_list"}
@@ -1359,6 +1359,39 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("IP filter list is empty or invalid type, returning empty list", "DEBUG")
         return []
 
+    def transform_discovery_type(self, discovery_data):
+        """
+        Transform discovery type to workflow-manager compatible values.
+
+        RANGE discoveries can represent either a single range or multiple
+        ranges in Catalyst Center API response. The workflow manager expects
+        these as RANGE and MULTI RANGE respectively.
+        """
+        if not discovery_data or not isinstance(discovery_data, dict):
+            return None
+
+        discovery_type = str(discovery_data.get("discoveryType", "")).strip()
+        if not discovery_type:
+            return None
+
+        normalized_type = discovery_type.upper()
+        if normalized_type == "RANGE":
+            raw_ip_ranges = discovery_data.get("ipAddressList", "")
+            if isinstance(raw_ip_ranges, str):
+                range_items = [item.strip() for item in raw_ip_ranges.split(",") if item.strip()]
+                if len(range_items) > 1:
+                    return "MULTI RANGE"
+            elif isinstance(raw_ip_ranges, list):
+                range_items = [item for item in raw_ip_ranges if item]
+                if len(range_items) > 1:
+                    return "MULTI RANGE"
+            return "RANGE"
+
+        if normalized_type in {"SINGLE", "CDP", "LLDP", "CIDR"}:
+            return normalized_type
+
+        return discovery_type
+
     def transform_to_boolean(self, value):
         """
         Transform value to boolean, handling None and string values.
@@ -1406,7 +1439,12 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return OrderedDict({
             "discovery_name": {"type": "str", "source_key": "name"},
-            "discovery_type": {"type": "str", "source_key": "discoveryType"},
+            "discovery_type": {
+                "type": "str",
+                "source_key": None,
+                "special_handling": True,
+                "transform": self.transform_discovery_type,
+            },
             "ip_address_list": {
                 "type": "list",
                 "source_key": None,
@@ -1793,17 +1831,10 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         }
 
         # Write YAML file using BrownFieldHelper shared header generation.
-        header_notes = [
-            "Configuration Summary:",
-            "- Total Discoveries: {0}".format(len(discoveries_data)),
-            "Compatible with the 'discovery_workflow_manager' module.",
-            "Use this playbook to recreate or manage discovery configurations.",
-        ]
         success = self.write_dict_to_yaml(
             yaml_data,
             file_path,
             file_mode=file_mode,
-            notes=header_notes,
         )
 
         if success:

@@ -866,12 +866,14 @@ class Discovery(DnacBase):
             self.status = "failed"
             return self
 
-        # Normalize discovery_type to canonical uppercase value so runtime
-        # branching is case-insensitive (e.g., "Single" -> "SINGLE").
+        # Normalize discovery_type to canonical uppercase value for every
+        # merged config entry so runtime branching is case-insensitive
+        # (e.g., "Single" -> "SINGLE").
         if state == "merged":
-            discovery_type = valid_discovery[0].get("discovery_type")
-            if isinstance(discovery_type, str):
-                valid_discovery[0]["discovery_type"] = discovery_type.upper()
+            for discovery in valid_discovery:
+                discovery_type = discovery.get("discovery_type")
+                if isinstance(discovery_type, str):
+                    discovery["discovery_type"] = discovery_type.upper()
 
         self.validated_config = valid_discovery
         self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
@@ -2254,7 +2256,9 @@ def main():
         ccc_discovery.check_return_status()
 
     ccc_discovery.validate_input(state=state).check_return_status()
-    for config in ccc_discovery.validated_config:
+    all_validated_configs = list(ccc_discovery.validated_config)
+    for config in all_validated_configs:
+        ccc_discovery.validated_config = [config]
         ccc_discovery.reset_values()
         ccc_discovery.get_diff_state_apply[state]().check_return_status()
         if config_verify:
