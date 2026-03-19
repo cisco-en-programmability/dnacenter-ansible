@@ -557,22 +557,27 @@ Threat Detail                                   TimeRange                       
 New Threat                                      TimeRange                           Location, ThreatLevel, ThreatType, TimeRange
 Rogue Additional Detail                         TimeRange                           Location, ThreatType, ThreatLevel, TimeRange
 Security Advisories Data                        N/A                                 DeviceType, Location, Impact
+Audit Log                                       TimeRange                           domain, category, sortBy, order, TimeRange
+Network Device Compliance                        N/A                                complianceStatus, complianceType, family, DeviceType
+Configuration Archive                           N/A                                 configChangeType, family, DeviceType
+EoX Data                                        N/A                                 DeviceType, Location
+All Data (swim)                                 N/A                                 Location, DeviceFamily, DeviceRole
+All Data Version 2.0 (swim)                     N/A                                 Location1, DeviceFamily, DeviceRole
+Busiest Client                                 Location, TimeRange                  Location, clientMacAddress, DeviceType, SSID, Band, SortBy, Limit, TimeRange
+Client Detail                                  Location, TimeRange                  Location, clientMacAddress, DeviceType, SSID, Band, TimeRange
+Client Session                                 Location, TimeRange                  Location, clientMacAddress, SSID, Band, TimeRange
+Client Summary                                 Location, GroupBy, TimeRange         Location, clientMacAddress, DeviceType, SSID, Band, GroupBy, TimeRange
+Client Trend                                   Location, TimeRange                  Location, clientMacAddress, ConnectionType, SSID, Band, TimeRange
+Top N Summary                                  Location, GroupBy, TimeRange         Location, clientMacAddress, DeviceType, SSID, Band, GroupBy, TimeRange
+Unique Clients and Users Summary               Location, TimeRange                  Location, clientMacAddress, ConnectionType, SSID, Band, TimeRange
+AireOS Controllers Licenses                     N/A                                 N/A
+License Usage Upload Details                    N/A                                 N/A
+Non Compliance Summary                          N/A                                 N/A
+Non Compliant Devices                           N/A                                 N/A
+License Historical Usage                        All                                 smartaccountuser, smartaccountname, Mode, TimeRange
 
 # The above available filters are for according to the Inspected UI api payload data as of Jan 2026.
-
 # Following are additional view names and their filters according to UI data as of Jan 2026.
-Audit Log                                       N/A                                 Domain, Category, Sort By, Order By, Time Range
-Client Summary                                  Location, Group By, Time Range      Location, Client MAC, Device Type, SSID, Band, Group By, Time Range
-Top N Summary                                   Location, Group By, Time Range      Location, Client MAC, Device Type, SSID, Band, Group By, Time Range
-Client Detail                                   Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
-Client Trend                                    Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
-Client Session                                  Location, Time Range                Location, Client MAC, SSID, Band, Time Range
-Busiest Client                                 Location, Time Range, Sort By, Limit Location, Client MAC, Device Type, SSID, Band, Sort By, Limit, Time Range
-Unique Clients and Users Summary                Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
-Network Device Compliance                        N/A                                Compliance Status, Compliance Category, Device Family,
-                                                                                    Device Type, Compliance Status
-Configuration Archive                            N/A                                Category, Device Family, Device Type
-EoX Data                                         N/A                                Device Type, Location
 
 # Group Communication Summary and Analytics Reports
 Host Group to Host Group                        All                               Host Group Name, Direction, Time Range
@@ -585,22 +590,15 @@ ISE Endpoint Profile Group to Host Group        Endpoint Profile, Host Group    
 Security Group to Security Group                Source/Destination SGT            SGT, VN, Time Range
 Security Group to ISE Endpoint Profile Group    SGT, Endpoint Profile             SGT, Endpoint Profile, VN, Time Range
 Security Group to Host Group                    SGT, Host Group                   SGT, Host Group, VN, Time Range
-Non Compliant Devices                           N/A                               N/A
-Non Compliance Summary                          N/A                               N/A
-AireOS Controllers Licenses                     N/A                               N/A
-License Usage Upload Details                    N/A                               N/A
-License Historical Usage                        All                               Smart Account User, Frequency, Time Range
-AP Performance Report                           Location                          Location, AP Name, Time Range
+#Long Term Reports
+AP Performance Report                           Location                            Location, AP Name, Time Range
 Long Term AP Detail                             Location                          Location, AP Name, Controller, Time Range
 Long Term AP Radio                              Location                          Location, AP Name, Radio Band, Time Range
 Long Term AP Usage and Client Breakdown         Location, AP Name                 Location, AP Name, Time Range
 Long Term Client Detail                         Location, Time Range              Location, Client MAC, User Name, Time Range
 Long Term Client Session                        Location, Time Range              Location, Client MAC, Session ID, Time Range
 Long Term Network Device Availability           Location                          Location, Device Type, Time Range
-All Data (swim)                                 N/A                               Location, Device Family, Device Role
-All Data Version 2.0 (swim)                     N/A                               Location, Device Family, Device Role
 Device Lifecycle Information                    Location                          Location, Device Type, Hardware Info
-
 # Group Pair Communication Analytics Reports
 Security Group to Security Groups               SGT                               SGT, VN, Time Range
 Security Group to ISE Endpoint Profile Groups  SGT, Endpoint Profile              SGT, Endpoint Profile, VN, Time Range
@@ -625,6 +623,10 @@ Filter Name: Location
 Filter Name: Device Type
     Filter Type: MULTI_SELECT
     Description: Selection of device categories (Switch, Router, AP, etc.)
+
+Filter Name: Device Family
+    Filter Type: MULTI_SELECT
+    Description: Device family classification
 
 Filter Name: Time Range
     Filter Type: TIME_RANGE
@@ -658,9 +660,9 @@ Filter Name: Controller
     Filter Type: MULTI_SELECT
     Description: Wireless controller names
 
-Filter Name: Radio Band
+Filter Name: Band
     Filter Type: MULTI_SELECT
-    Description: Wireless radio frequency bands (2.4GHz, 5GHz, 6GHz)
+    Description: Wireless frequency bands (2.4GHz, 5GHz, 6GHz)
 
 Filter Name: SSID
     Filter Type: MULTI_SELECT
@@ -712,7 +714,11 @@ Filter Name: License Type
 
 Filter Name: Compliance Status
     Filter Type: MULTI_SELECT
-    Description: License compliance states
+    Description: Compliance or license compliance states
+
+Filter Name: Compliance Category
+    Filter Type: MULTI_SELECT
+    Description: Compliance category classification
 
 Filter Name: Status
     Filter Type: MULTI_SELECT
@@ -720,7 +726,7 @@ Filter Name: Status
 
 Filter Name: Upload Date
     Filter Type: TIME_RANGE
-    Description: File upload date ranges
+    Description: File or image upload date ranges
 
 Filter Name: Usage Type
     Filter Type: MULTI_SELECT
@@ -737,6 +743,14 @@ Filter Name: User Name
 Filter Name: Event Category
     Filter Type: MULTI_SELECT
     Description: Audit log event categories
+
+Filter Name: Domain
+    Filter Type: MULTI_SELECT
+    Description: Audit log domain classification
+
+Filter Name: Category
+    Filter Type: MULTI_SELECT
+    Description: Audit or configuration category
 
 Filter Name: Object Type
     Filter Type: MULTI_SELECT
@@ -758,9 +772,21 @@ Filter Name: Connection Status
     Filter Type: MULTI_SELECT
     Description: Client connection states
 
-Filter Name: Metric Type
-    Filter Type: MULTI_SELECT
-    Description: Performance metric categories
+Filter Name: Group By
+    Filter Type: SINGLE_SELECT_ARRAY
+    Description: Aggregation key for report results
+
+Filter Name: Sort By
+    Filter Type: SINGLE_SELECT_ARRAY
+    Description: Field used to sort report output
+
+Filter Name: Order By
+    Filter Type: SINGLE_SELECT_ARRAY
+    Description: Sorting order (Ascending / Descending)
+
+Filter Name: Limit
+    Filter Type: REGULAR
+    Description: Maximum number of records to return
 
 Filter Name: Session ID
     Filter Type: MULTI_SELECT
@@ -770,11 +796,37 @@ Filter Name: Traffic Type
     Filter Type: MULTI_SELECT
     Description: Network traffic categories
 
+Filter Name: Client MAC
+    Filter Type: SINGLE_INPUT
+    Description: Comma-separated client MAC addresses (max 100)
+
+Filter Name: MAC Address
+    Filter Type: SINGLE_INPUT
+    Description: Comma-separated device MAC addresses
+
+Filter Name: IP Address
+    Filter Type: SINGLE_INPUT
+    Description: Device or client IP address input
+
+Filter Name: Serial Number
+    Filter Type: SINGLE_INPUT
+    Description: Device serial number input
+
+Filter Name: User Defined Tags
+    Filter Type: SINGLE_INPUT
+    Description: Free-text license or device tags
+
+Filter Name: Reason
+    Filter Type: SINGLE_INPUT
+    Description: Reason or remarks field
+
 Note:
 - MULTI_SELECT: Allows selection of multiple discrete values
 - MULTI_SELECT_TREE: Allows hierarchical multi-selection (like site locations)
 - SINGLE_SELECT_ARRAY: Allows single value selection from an array
+- REGULAR: Accepts scalar input values (e.g., limit)
 - TIME_RANGE: Allows date/time range specification with start_date_time, end_date_time, and time_zone
+- SINGLE_INPUT: Accepts comma-separated values in a single string input, which will be parsed into a list by the module
 """
 
 REPORT_TYPES_AND_FORMATS = r'''
@@ -1033,10 +1085,6 @@ CONFIGURATION ARCHIVE REPORTS:
 - Available Formats: CSV, PDF, JSON
 
 CLIENT REPORTS:
-- View Name: "Client"
-- View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
-
 - View Name: "Client Summary"
 - View Group: "Client"
 - Available Formats: PDF
@@ -1107,333 +1155,591 @@ To verify this information, search the code for:
 **OPTIONAL FILTERS** can be omitted or provided as empty arrays.
 
 1. EXECUTIVE SUMMARY VIEW GROUP:
-   -------------------------------
-   View Name: "Executive Summary"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - TimeRange (TIME_RANGE): Date/time range for data collection
-     - SSID (MULTI_SELECT): Wireless network identifiers
-     - Band (MULTI_SELECT): Radio frequency bands (2.4GHz, 5GHz, 6GHz)
-     - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
-   Required Filters: None - All filters are optional
-   Field Groups: Not applicable for Executive Summary
-   Supported Formats: CSV, PDF, JSON
+-------------------------------
+View Name: "Executive Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - TimeRange (TIME_RANGE): Date/time range for data collection
+  - SSID (MULTI_SELECT): Wireless network identifiers
+  - Band (MULTI_SELECT): Radio frequency bands (2.4GHz, 5GHz, 6GHz)
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+Required Filters: None - All filters are optional
+Field Groups: Not applicable for Executive Summary
+Supported Formats: PDF
 
 2. SECURITY ADVISORIES VIEW GROUP:
-   --------------------------------
-   View Name: "Security Advisories Data"
-   Allowed Filters:
-     - DeviceType (MULTI_SELECT): Device categories (Switch, Router, AP, etc.)
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Impact (MULTI_SELECT): Advisory impact levels (Critical, High, Medium, Low)
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - psirtAllData:
-       Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
+--------------------------------
+View Name: "Security Advisories Data"
+Allowed Filters:
+  - DeviceType (MULTI_SELECT): Device categories (Switch, Router, AP, etc.)
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Impact (MULTI_SELECT): Advisory impact levels (Critical, High, Medium, Low)
+Required Filters: None - All filters are optional
+Field Groups:
+  - psirtAllData:
+     Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
               deviceImageVersion, deviceSite, advisoryId, advisoryCvssScore,
               advisoryImpact, advisoryMatchType, advisoryLastScanTime,
               firstFixedVersion, scanCriteria, scanStatus
-   Supported Formats: CSV, PDF, TDE
+Supported Formats: CSV, PDF, TDE
 
 3. INVENTORY VIEW GROUP:
-   ----------------------
+----------------------
 
-   3.1 View Name: "All Data"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceFamily (MULTI_SELECT): Device family categories
-     - DeviceType (MULTI_SELECT): Device type classifications
-     - SoftwareVersion (MULTI_SELECT): Firmware/software versions
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - inventoryAllData:
-       Fields: family, type, hostname, serialNumber, ipAddress, status,
+3.1 View Name: "All Data"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceType (MULTI_SELECT): Device type classifications
+  - SoftwareVersion (MULTI_SELECT): Firmware/software versions
+Required Filters: None - All filters are optional
+Field Groups:
+  - inventoryAllData:
+     Fields: family, type, hostname, serialNumber, ipAddress, status,
               softwareVersion, upTime, partNumber, site, numberofUsers,
               numberofethernetports, timeSinceCodeUpgrade, licenseDnaLevel,
               networkLicense, fabricRole
-   Supported Formats: CSV, PDF, TDE, JSON
+Supported Formats: CSV, PDF, TDE
 
-   3.2 View Name: "All Data Version 2.0"
-   Allowed Filters:
-     - Device Type (MULTI_SELECT): Device categories
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Device Role (MULTI_SELECT): Device roles (Core, Distribution, Access, etc.)
-     - Product Family (MULTI_SELECT): Product family classifications
-     - Connectivity Status (MULTI_SELECT): Device connectivity states
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - inventory:
-       Fields: hostName, ipAddress, deviceType, softwareVersion, platformId,
-              macAddress, upTime, serialNumber, deviceRoles, family,
-              deviceSeries, managementIpAddress, softwareType, lastUpdateTime,
-              lastBootTime, location, memorySize, connectivityStatus,
-              connectedInterface, apManagerIpAddress, deviceUuid, productFamily
-   Supported Formats: CSV, PDF, TDE, JSON
+3.2 View Name: "All Data Version 2.0"
+Allowed Filters:
+  - siteId (MULTI_SELECT_TREE): Site identifier hierarchy
+  - deviceType (MULTI_SELECT): Device type classifications
+  - deviceFamily (MULTI_SELECT): Device family categories
+  - softwareVersion (MULTI_SELECT): Software/firmware versions
+Required Filters: None - All filters are optional
+Field Groups:
+  - inventory_fields:
+     Fields: rownum, deviceFamily, deviceType, name, serialNumber,
+              managementIpAddress, communicationState, softwareVersion,
+              upTime, platformId, siteHierarchy, clientCount, portCount,
+              completionTime, dnaLevel, networkLicense, uxLevel, fabricRole
+Supported Formats: CSV, PDF, TDE
 
-   3.3 View Name: "Port Reclaim View"
-   Allowed Filters:
-     - family (REGULAR): Device family identifier
-     - hostname (REGULAR): Device hostname pattern
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - PortReclaimFieldGroup:
-       Fields: rownum, hostname, family, type, managementIpAddress, portname,
+3.3 View Name: "Port Reclaim View"
+Allowed Filters:
+  - family (REGULAR): Device family identifier
+  - hostname (REGULAR): Device hostname pattern
+Required Filters: None - All filters are optional
+Field Groups:
+  - PortReclaimFieldGroup:
+     Fields: rownum, hostname, family, type, managementIpAddress, portname,
               description, macAddress, adminStatus, status, lastInput, lastOutput
-   Supported Formats: CSV, TDE
+Supported Formats: CSV, TDE, JSON
 
 4. ROGUE AND AWIPS VIEW GROUP:
-   ----------------------------
+----------------------------
 
-   4.1 View Name: "New Threat"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - ThreatLevel (MULTI_SELECT): Threat severity levels
-     - ThreatType (MULTI_SELECT): Types of identified threats
-     - TimeRange (TIME_RANGE): Date/time range for threat data
-   Required Filters: TimeRange
-   Field Groups:
-     - rogue_details:
-       Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
+4.1 View Name: "New Threat"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatLevel (MULTI_SELECT): Threat severity levels
+  - ThreatType (MULTI_SELECT): Types of identified threats
+  - TimeRange (TIME_RANGE): Date/time range for threat data
+Required Filters: TimeRange
+Field Groups:
+  - rogue_details:
+     Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
               rssi, ssid, vendor, lastUpdated
-   Supported Formats: CSV, TDE, JSON
+Supported Formats: CSV, TDE, JSON
 
-   4.2 View Name: "Rogue Additional Detail"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - ThreatType (MULTI_SELECT): Threat classifications
-     - ThreatLevel (MULTI_SELECT): Severity assessments
-     - TimeRange (TIME_RANGE): Analysis time period
-   Required Filters: TimeRange
-   Field Groups:
-     - rogue_ap_bssid_details:
-       Fields: macAddress, lastUpdated, firstSeen, mldMacAddress, apName,
+4.2 View Name: "Rogue Additional Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatType (MULTI_SELECT): Threat classifications
+  - ThreatLevel (MULTI_SELECT): Severity assessments
+  - TimeRange (TIME_RANGE): Analysis time period
+Required Filters: TimeRange
+Field Groups:
+  - rogue_ap_bssid_details:
+     Fields: macAddress, lastUpdated, firstSeen, mldMacAddress, apName,
               radioType, controllerIp, siteNameHierarchy, ssid, channelNumber,
               channelWidth, threatLevel, containment, threatType, encryption,
               switchIp, switchName, portDescription
-   Supported Formats: CSV, TDE, JSON
+Supported Formats: CSV, TDE, JSON
 
-   4.3 View Name: "Threat Detail"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - ThreatType (MULTI_SELECT): Threat categories
-     - ThreatLevel (MULTI_SELECT): Risk severity levels
-     - TimeRange (TIME_RANGE): Threat analysis timeframe
-   Required Filters: TimeRange
-   Field Groups: Varies based on threat type
-   Supported Formats: CSV, TDE, JSON
+4.3 View Name: "Threat Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatType (MULTI_SELECT): Threat categories
+  - ThreatLevel (MULTI_SELECT): Risk severity levels
+  - TimeRange (TIME_RANGE): Threat analysis timeframe
+Required Filters: TimeRange
+Field Groups:
+  - rogue_details:
+     Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
+              rssi, ssid, vendor, lastUpdated
+Supported Formats: CSV, TDE, JSON
 
 5. ACCESS POINT VIEW GROUP:
-   -------------------------
+-------------------------
 
-   5.1 View Name: "AP"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Wireless LAN Controllers
-     - AP (MULTI_SELECT): Access Point identifiers
-     - TimeRange (TIME_RANGE): Data collection period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - apDetailByAP:
-       Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
+5.1 View Name: "AP"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Wireless LAN Controllers
+  - AP (MULTI_SELECT): Access Point identifiers
+  - TimeRange (TIME_RANGE): Data collection period
+Required Filters: Location, TimeRange
+Field Groups:
+  - apDetailByAP:
+     Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
               osVersion, nwDeviceType, platformId, serialNumber, deviceFamily,
               siteHierarchy, upTime, mode, adminState, opState, overallScore,
               clCount_avg, cpu, memory, clCount_max, wlcName, powerStatus,
               regulatoryDomain, cdp, location, flexGroup, apGroup, siteTagName,
               policyTagName, rfTagName, rxBytes, txBytes, rxRate, txRate
-   Supported Formats: CSV, TDE, JSON
+Supported Formats: CSV, TDE, JSON
 
-   5.2 View Name: "AP - Usage and Client Breakdown"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Controller selection
-     - AP (MULTI_SELECT): Access Point selection
-     - TimeRange (TIME_RANGE): Usage analysis period
-   Required Filters: Location, AP, TimeRange
-   Field Groups:
-     - apBreakdown:
-       Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
+5.2 View Name: "AP - Usage and Client Breakdown"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller selection
+  - AP (MULTI_SELECT): Access Point selection
+  - TimeRange (TIME_RANGE): Usage analysis period
+Required Filters: Location, AP, TimeRange
+Field Groups:
+  - apBreakdown:
+     Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
               traffic, trafficPercentage, ethernetMac, location
-   Supported Formats: CSV, TDE, JSON, PDF
+Supported Formats: CSV, TDE, JSON, PDF
 
-   5.3 View Name: "AP Radios"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Controller identifiers
-     - AP (MULTI_SELECT): Access Point names
-     - Band (MULTI_SELECT): Radio frequency bands
-     - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
-     - Limit (SINGLE_SELECT_ARRAY): Result count limit
-     - TimeRange (TIME_RANGE): Performance data period
-   Required Filters: Location, SortBy, Limit, TimeRange
-   Field Groups:
-     - apDetailByRadio:
-       Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
+5.3 View Name: "AP Radio"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller identifiers
+  - AP (MULTI_SELECT): Access Point names
+  - Band (MULTI_SELECT): Radio frequency bands
+  - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
+  - Limit (SINGLE_SELECT_ARRAY): Result count limit
+  - TimeRange (TIME_RANGE): Performance data period
+Required Filters: Location, SortBy, Limit, TimeRange
+Field Groups:
+  - apDetailByRadio:
+     Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
               frequency, siteHierarchy, channels, txPower, memory, osVersion,
               cpu, managementIpAddress, deviceModel, deviceFamily, platformId,
               nwDeviceType, upTime, wlcName, wlcIpAddr, radioNoiseMax_max,
               radioUtil_max, txUtilPct_max, rxUtilPct_max, radioIntf_max,
               radioClientCount_max, radioClientCount_avg, txBytes_sum,
               rxBytes_sum, radioAirQualMax_max, txUtil_avg, rxUtil_avg
-   Supported Formats: CSV
+Supported Formats: CSV, JSON and TDE
 
-   5.4 View Name: "AP RRM Events"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Controller selection
-     - AP (MULTI_SELECT): Access Point identifiers
-     - eventType (MULTI_SELECT): RRM event categories
-     - Band (MULTI_SELECT): Radio frequency bands
-     - TimeRange (TIME_RANGE): Event monitoring period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - apRRMEventsByAPMac:
-       Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
+5.4 View Name: "AP RRM Events"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller selection
+  - AP (MULTI_SELECT): Access Point identifiers
+  - eventType (MULTI_SELECT): RRM event categories
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Event monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+  - apRRMEventsByAPMac:
+     Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
               slotId, wlcName, frequency, eventType, prevChannels, currChannels,
               prevPower, currPower, oldWidthValue, newWidthValue, reasonType,
               lastFailureReason, dcaReasonCode, location
-   Supported Formats: CSV
+Supported Formats: CSV, TDE and JSON
 
-   5.5 View Name: "Worst Interferers"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Controller identifiers
-     - AP (MULTI_SELECT): Access Point names
-     - Band (MULTI_SELECT): Radio frequency bands
-     - TimeRange (TIME_RANGE): Interference analysis period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - worstInterferers:
-       Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
+5.5 View Name: "Worst Interferers"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller identifiers
+  - AP (MULTI_SELECT): Access Point names
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Interference analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - worstInterferers:
+     Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
               affectedChannels, apName, slot, band, siteHierarchy, discoveredTime
-   Supported Formats: CSV, PDF
+Supported Formats: TDE, JSON and CSV
 
 6. NETWORK DEVICES VIEW GROUP:
-   ----------------------------
+----------------------------
 
-   6.1 View Name: "Device CPU and Memory"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceFamily (MULTI_SELECT): Device family categories
-     - DeviceRole (MULTI_SELECT): Network device roles
-     - SortBy (SINGLE_SELECT_ARRAY): Result sorting options
-     - Limit (SINGLE_SELECT_ARRAY): Result count limits
-     - TimeRange (TIME_RANGE): Performance monitoring period
-   Required Filters: Location, SortBy, Limit, TimeRange
-   Field Groups:
-     - Device_Health_Details:
-       Fields: deviceName, ipAddr, deviceFamily, deviceRole, deviceModel,
-              minCPU, maxCPU, avgCPU, minMemory, maxMemory, avgMemory
-   Supported Formats: CSV, PDF
+6.1 View Name: "Device CPU and Memory Utilization"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - DeviceRole (MULTI_SELECT): Network device roles
+    - SortBy (SINGLE_SELECT_ARRAY): Result sorting options
+    - Limit (SINGLE_SELECT_ARRAY): Result count limits
+    - TimeRange (TIME_RANGE): Performance monitoring period
+Required Filters: [REQUIRED] Location, SortBy, Limit, TimeRange
+Field Groups:
+    - Device_Health_Details:
+        Fields: deviceName, ipAddr, deviceFamily, deviceRole, deviceModel,
+                minCPU, maxCPU, avgCPU, minMemory, maxMemory, avgMemory
+Supported Formats: CSV, TDE, JSON
 
-   6.2 View Name: "Energy Management"
-   Allowed Filters:
-     - Locations (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceCategory (SINGLE_SELECT_ARRAY): Device category classification
-     - TimeRange (TIME_RANGE): Energy consumption analysis period
-   Required Filters: TimeRange
-   Field Groups:
-     - response:
-       Fields: timeVal, energyConsumed, carbonIntensity, estimatedEmission,
-              estimatedCost, measured
-   Supported Formats: CSV, PDF
+6.2 View Name: "Energy Management"
+Allowed Filters:
+    - Locations (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceCategory (SINGLE_SELECT_ARRAY): Device category classification
+    - TimeRange (TIME_RANGE): Energy consumption analysis period
+Required Filters: TimeRange
+Field Groups:
+    - response:
+        Fields: timeVal, energyConsumed, carbonIntensity, estimatedEmission,
+                estimatedCost, measured
+Supported Formats: CSV, PDF
 
-   6.3 View Name: "Network Device Availability"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - NwDeviceType (MULTI_SELECT): Network device classifications
-     - TimeRange (TIME_RANGE): Availability monitoring period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - response:
-       Fields: nwDeviceFamily, nwDeviceRole, nwDeviceName, managementIpAddr,
-              siteHierarchy, softwareVersion, availability
-   Supported Formats: CSV, PDF
+6.3 View Name: "Network Device Availability"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - NwDeviceType (MULTI_SELECT): Network device classifications
+    - TimeRange (TIME_RANGE): Availability monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+    - response:
+        Fields: nwDeviceFamily, nwDeviceRole, nwDeviceName, managementIpAddr,
+                siteHierarchy, softwareVersion, availability
+Supported Formats: CSV, TDE, JSON
 
-   6.4 View Name: "Network Interface Utilization"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - SortBy (SINGLE_SELECT_ARRAY): Data sorting criteria
-     - SortOrder (SINGLE_SELECT_ARRAY): Sort direction (ascending/descending)
-     - Limit (SINGLE_SELECT_ARRAY): Maximum result count
-     - TimeRange (TIME_RANGE): Interface monitoring period
-   Required Filters: [REQUIRED] All filters (Location, SortBy, SortOrder, Limit, TimeRange)
-   Field Groups:
-     - Interface_Utilization_Details:
-       Fields: deviceName, managementIpAddress, location, interfaceName,
-              minTx, maxTx, avgTx, txErrors, txPacketDrops, minRx, maxRx,
-              avgRx, rxErrors, rxPacketDrops
-   Supported Formats: CSV, PDF
+6.4 View Name: "Network Interface Utilization"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - SortBy (SINGLE_SELECT_ARRAY): Data sorting criteria
+    - SortOrder (SINGLE_SELECT_ARRAY): Sort direction (ascending/descending)
+    - Limit (SINGLE_SELECT_ARRAY): Maximum result count
+    - TimeRange (TIME_RANGE): Interface monitoring period
+Required Filters: [REQUIRED] All filters (Location, SortBy, SortOrder, Limit, TimeRange)
+Field Groups:
+    - Interface_Utilization_Details:
+        Fields: deviceName, managementIpAddress, location, interfaceName,
+                minTx, maxTx, avgTx, txErrors, txPacketDrops, minRx, maxRx,
+                avgRx, rxErrors, rxPacketDrops
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-   6.5 View Name: "PoE"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-   Required Filters: [REQUIRED] Location
-   Field Groups:
-     - response:
-       Fields: managementIpAddr, nwDeviceName, date, site, powerBudget,
-              powerConsumed, powerConsumedPercentage, poeUsedPortCount,
-              fastPoeEnabledCount, perpetualPoeEnabledCount,
-              PolicePoeEnabledCount, poeOperPriorityHighCount
-   Supported Formats: CSV, PDF
+6.5 View Name: "PoE"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+Required Filters: [REQUIRED] Location
+Field Groups:
+    - response:
+        Fields: managementIpAddr, nwDeviceName, date, site, powerBudget,
+                powerConsumed, powerConsumedPercentage, poeUsedPortCount,
+                fastPoeEnabledCount, perpetualPoeEnabledCount,
+                PolicePoeEnabledCount, poeOperPriorityHighCount
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-   6.6 View Name: "Port Capacity"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceFamily (MULTI_SELECT): Device family categories
-     - Devicerole (MULTI_SELECT): Device role classifications
-     - utilizationLevel (SINGLE_SELECT_ARRAY): Port utilization thresholds
-   Required Filters: utilizationLevel
-   Field Groups:
-     - Port Capacity:
-       Fields: deviceIp, deviceName, location, deviceFamily, deviceRole,
-              connectedPorts, freePorts, downPorts, totalPorts, usagePercentage
-   Supported Formats: CSV, PDF
+6.6 View Name: "Port Capacity"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - Devicerole (MULTI_SELECT): Device role classifications
+    - utilizationLevel (SINGLE_SELECT_ARRAY): Port utilization thresholds
+Required Filters: utilizationLevel
+Field Groups:
+    - Port Capacity:
+        Fields: deviceIp, deviceName, location, deviceFamily, deviceRole,
+                connectedPorts, freePorts, downPorts, totalPorts, usagePercentage
+Supported Formats: CSV, Tableau Data Extract (TDE)
 
-   6.7 View Name: "Transmit Power Change Count"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Band (MULTI_SELECT): Radio frequency bands
-     - TimeRange (TIME_RANGE): Power change monitoring period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - response:
-       Fields: apName, apMac, slotId, frequency, upCount, downCount,
-              totalChangeCount, powerRange, location
-   Supported Formats: CSV, PDF
+6.7 View Name: "Transmit Power Change Count"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Band (MULTI_SELECT): Radio frequency bands
+    - TimeRange (TIME_RANGE): Power change monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+    - response:
+        Fields: apName, apMac, slotId, frequency, upCount, downCount,
+                totalChangeCount, powerRange, location
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-   6.8 View Name: "Channel Change Count"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Band (MULTI_SELECT): Radio frequency bands
-     - TimeRange (TIME_RANGE): Power change monitoring period
-   Required Filters: [REQUIRED] Location, TimeRange (Band is optional)
-   Field Groups:
-     - response:
-       Fields: apName, apMac, slotId, frequency, changeCount, location
-   Supported Formats: CSV, PDF
+6.8 View Name: "Channel Change Count"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Band (MULTI_SELECT): Radio frequency bands
+    - TimeRange (TIME_RANGE): Channel change monitoring period
+Required Filters: [REQUIRED] Location, TimeRange (Band is optional)
+Field Groups:
+    - response:
+        Fields: apName, apMac, slotId, frequency, DCA, DFS, ED-RRM,
+                totalChangeCount, channelsCount, location
+Supported Formats: CSV, TDE, JSON
 
-   6.9 View Name: "VLAN"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceFamily (MULTI_SELECT): Device family categories
-     - DeviceType (MULTI_SELECT): Device type classifications
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - VLAN Details:
-       Fields: ipAddress, deviceName, location, deviceFamily, deviceType,
-              vlanId, vlanName, interfacename, adminStatus, operStatus
-   Supported Formats: CSV, PDF
+6.9 View Name: "VLAN"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - DeviceType (MULTI_SELECT): Device type classifications
+Required Filters: None - All filters are optional
+Field Groups:
+    - VLAN Details:
+        Fields: ipAddress, deviceName, location, deviceFamily, deviceType,
+                vlanId, vlanName, interfacename, adminStatus, operStatus
+Supported Formats: CSV, TDE
 
-   6.9 View Name: "Channel Change Count"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Band (MULTI_SELECT): Radio frequency bands (optional)
-     - TimeRange (TIME_RANGE): Channel change monitoring period
-   Field Groups:
-     - response:
-       Fields: apName, apMac, slotId, frequency, DCA, DFS, ED-RRM,
-              totalChangeCount, channelsCount, location
-   Supported Formats: CSV, PDF
+7. AUDIT LOG VIEW GROUP:
+----------------------
+View Name: "Audit Log"
+Allowed Filters:
+  - domain (MULTI_SELECT): System domain classifications
+  - category (MULTI_SELECT): Audit event categories (must be UPPERCASE)
+  - sortBy (REGULAR): Field to sort results by
+  - order (REGULAR): Sort order ('asc' only supported)
+  - TimeRange (TIME_RANGE): Audit log time period
+Required Filters: TimeRange
+Field Groups:
+  - audit_log:
+     Fields: eventId, namespace, name, description, type, category, domain,
+              subDomain, severity, timestamp, details, ciscoDnaEventLink, note,
+              userId, i18n, eventHierarchy, message, messageParams,
+              parentInstanceId, network, startTime, childCount
+Supported Formats: CSV, JSON
+
+8. COMPLIANCE VIEW GROUP:
+-----------------------
+View Name: "Network Device Compliance"
+Allowed Filters:
+  - complianceStatus (REGULAR): Compliance status (must be UPPERCASE)
+  - complianceType (REGULAR): Type of compliance check (must be UPPERCASE)
+  - family (REGULAR): Device family identifier
+  - DeviceType (REGULAR): Device type classification
+Required Filters: None - All filters are optional
+Field Groups:
+  - Compliance:
+     Fields: rownum, hostname, family, type, managementIpAddress,
+              complianceStatus, IMAGE, RUNNING_CONFIG, PSIRT, NETWORK_PROFILE,
+              NETWORK_SETTINGS, EOX, FABRIC, APPLICATION_VISIBILITY,
+              CUSTOMIZATION_PROFILE
+Supported Formats: CSV, PDF, JSON
+
+9. CONFIGURATION ARCHIVE VIEW GROUP:
+----------------------------------
+View Name: "Configuration Archive"
+Allowed Filters:
+  - configChangeType (REGULAR): Configuration change type (must be UPPERCASE)
+  - family (REGULAR): Device family identifier
+  - DeviceType (REGULAR): Device type classification
+Required Filters: None - All filters are optional
+Field Groups:
+  - ConfigArchive:
+     Fields: rownum, deviceName, family, type, managementIpAddress,
+              createdTime, createdBy, configChangeType, userName, configMethod,
+              loginIpAddress
+Supported Formats: CSV, PDF, JSON
+
+10. EOX VIEW GROUP:
+---------------
+View Name: "EoX Data"
+Allowed Filters:
+  - DeviceType (MULTI_SELECT): Device type classifications
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+Required Filters: None - All filters are optional
+Field Groups:
+  - eoxAllData:
+     Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
+              deviceImageVersion, deviceSite, deviceModelName, deviceImageType,
+              eoxScanStatus, eoxType, endOfLifeExternalAnnouncementDate,
+              endOfSaleDate, endOfLastHardwareShipDate,
+              endOfSoftwareMaintenanceReleasesDate,
+              endOfHardwareNewServiceAttachmentDate,
+              endOfSoftwareVulnerabilityOrSecuritySupportDate,
+              endOfHardwareServiceContractRenewalDate, lastDateOfSupport,
+              eoxLastScanTime
+Supported Formats: CSV, PDF, TDE
+
+11. SWIM VIEW GROUP:
+----------------
+
+11.1 View Name: "All Data"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceRole (MULTI_SELECT): Network device roles
+Required Filters: None - All filters are optional
+Field Groups:
+  - swimAllData:
+     Fields: hostname, family, type, role, ipAddress, site, serialNumber,
+              softwareVersion, codeUpgradeDate, previousUpgradeDate,
+              currentSMU, currentSMUUpgradeDate, upgradeFailureReason
+Supported Formats: CSV, PDF, TDE
+
+11.2 View Name: "All Data Version 2.0"
+Allowed Filters:
+  - Location1 (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceRole (MULTI_SELECT): Network device roles
+Required Filters: None - All filters are optional
+Field Groups:
+  - swimAllData Version 2.0:
+     Fields: deviceName, deviceFamily, deviceType, deviceRole, ipAddress,
+              location, serialNumber, currentVersion, codeUpgradeDate,
+              priorUpgradeDate, currentSMU, currentSMUUpgradeDate,
+              upgradeFailureReason
+Supported Formats: CSV, TDE, JSON
+
+12. CLIENT VIEW GROUP:
+------------------
+
+12.1 View Name: "Busiest Client"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - SortBy (SINGLE_SELECT_ARRAY): Result sorting criteria
+  - Limit (SINGLE_SELECT_ARRAY): Result count limit
+  - TimeRange (TIME_RANGE): Performance monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+  - response:
+     Fields: hostName, username, macAddress, ipv4, ipv6, deviceType,
+              connectionStatus, averageHealthScore_min, averageHealthScore_max,
+              averageHealthScore_median, usage_sum, connectedDeviceName,
+              frequency, rssi_median, snr_median, site, lastUpdated, apGroup,
+              ssid, vlan, vnid, onboardingEventTime, assocDoneTimestamp,
+              authDoneTimestamp, aaaServerIp, dhcpDoneTimestamp,
+              maxDhcpDuration_max, dhcpServerIp, linkSpeed, txRate_min,
+              txRate_max, txRate_avg, rxRate_min, rxRate_max, rxRate_avg,
+              txBytes_sum, rxBytes_sum, dataRate_median, dot11Protocol
+Supported Formats: CSV, JSON, TDE
+
+12.2 View Name: "Client Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - client_details:
+     Fields: hostName, username, macAddress, ipv4, ipv6, deviceType,
+              deviceForm, deviceVendor, remoteEndDuplexMode, hostOS,
+              firmwareVersion, connectionStatus, averageHealthScore_min,
+              averageHealthScore_max, averageHealthScore_median, usage_sum,
+              duration_latest, connectedDeviceName, frequency, rssi_median,
+              snr_median, site, lastUpdated, connectedDeviceId, apGroup, ssid,
+              ethernetMac, slotId, vlan, vnid, port, portDescription, channel,
+              onboardingEventTime, assocDoneTimestamp, authDoneTimestamp,
+              aaaServerIp, dhcpDoneTimestamp, maxDhcpDuration_max, dhcpServerIp,
+              wlcName, linkSpeed, txRate_min, txRate_max, txRate_avg,
+              rxRate_min, rxRate_max, rxRate_avg, txBytes_sum, rxBytes_sum,
+              dataRate_median, dot11Protocol
+Supported Formats: CSV, JSON, TDE
+
+12.3 View Name: "Client Session"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Session analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - client_sessions:
+     Fields: macAddress, sessionStartTime, sessionEndTime, duration, apMac,
+              ssid, siteHierarchy
+Supported Formats: CSV, JSON, TDE
+
+12.4 View Name: "Client Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, GroupBy, TimeRange
+Field Groups:
+  - locationCountGraph, devTypeCountGraph, bandCountGraph, ssidCountGraph,
+     protocolCountGraph, clientTrafficTotalByBand, clientTrafficTotalBySsid,
+     clientTrafficTotalByProtocol, clientSessionDurationByBand,
+     clientSessionDurationBySsid, clientSessionDurationByProtocol,
+     clientCountOverTime, healthScoreOverTime, sessionInfo
+Supported Formats: PDF
+
+12.5 View Name: "Client Trend"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - ConnectionType (SINGLE_SELECT_ARRAY): Connection type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Trend analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - clientTrend, clienTraffic, assocClientHealthTrendTable,
+     authClientHealthTrendTable
+Supported Formats: PDF
+
+12.6 View Name: "Top N Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, GroupBy, TimeRange
+Field Groups:
+  - topLocationsGraph, topWorstLocationsGraph
+Supported Formats: PDF
+
+12.7 View Name: "Unique Clients and Users Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - ConnectionType (SINGLE_SELECT_ARRAY): Connection type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, TimeRange
+Field Groups:
+  - overview, ap, throughput, protocolBreakdown, ssidBreakdown,
+     vlanBreakdown, vendorBreakdown
+Supported Formats: PDF
+
+13. LICENSING VIEW GROUP:
+---------------------
+
+13.1 View Name: "AireOS Controllers Licenses"
+No filters are supported for this view
+Field Groups:
+  - virtual_assignment_devices
+Supported Formats: CSV, PDF
+
+13.2 View Name: "License Usage Upload Details"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - license_usage_upload_details
+Supported Formats: CSV, PDF
+
+13.3 View Name: "Non Compliance Summary"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - non_compliance_summary
+Supported Formats: CSV, PDF
+
+13.4 View Name: "Non Compliant Devices"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - non_compliant_devices
+Supported Formats: CSV, PDF
+
+13.5 View Name: "License Historical Usage"
+Allowed Filters:
+  - smartaccountuser (SINGLE_SELECT_ARRAY): Smart account user selection
+  - smartaccountname (SINGLE_SELECT_ARRAY): Smart account name selection
+  - Mode (SINGLE_SELECT_ARRAY): License mode selection
+  - TimeRange (TIME_RANGE): Historical analysis period (CUSTOM only)
+Required Filters: [REQUIRED] All filters (smartaccountuser, smartaccountname, Mode, TimeRange)
+Field Groups:
+  - license_historical_data
+Supported Formats: CSV
 
 FILTER TYPE SPECIFICATIONS:
 ===========================
@@ -1463,6 +1769,12 @@ REGULAR:
   - Simple string pattern matching
   - Value format: List of dictionaries with 'value' and 'displayValue'
 
+SINGLE_INPUT:
+  - Used for comma-separated input values
+  - Automatically parsed into lists by the module
+  - Common for MAC addresses, IP addresses, device names
+  - Value format: String with comma-separated values
+
 VALIDATION NOTES:
 ================
 - All filters and field groups are optional unless explicitly marked as required
@@ -1472,7 +1784,12 @@ VALIDATION NOTES:
 - DisplayName and displayValue are auto-populated if not provided
 - Boolean validation functions return True for success, False for failure
 - Error messages are set via self.set_operation_result() for consistent handling
+- For REGULAR filters with UPPERCASE validation (e.g., complianceStatus, complianceType, configChangeType),
+  values must be provided in uppercase format
+- For Client reports, clientMacAddress and clientMacAddresses have different limits:
+  clientMacAddress supports max 100 addresses, SSID supports max 25 values
 '''
+
 
 EXAMPLES = r'''
 - name: Create/Schedule a Sample Inventory Report and Download It
@@ -2144,7 +2461,7 @@ class Reports(DnacBase):
                         "filter_type": {
                             "type": "str",
                             "required": False,
-                            "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE", "REGULAR"],
+                            "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE", "REGULAR", "SINGLE_INPUT"],
                         },
                         "value": {
                             "type": "raw",
@@ -2919,6 +3236,92 @@ class Reports(DnacBase):
             # Channel Change Count
             if view_name == "Channel Change Count":
                 if not self._validate_channel_change_count_filters(view):
+                    return False
+
+        # 7. Audit logs
+        if view_group_name == "Audit Log":
+            if view_name == "Audit Log":
+                if not self._validate_audit_log_filters(view):
+                    return False
+
+        # 8. Compliance
+        if view_group_name == "Compliance":
+            if view_name == "Network Device Compliance":
+                if not self._validate_network_device_compliance_filters(view):
+                    return False
+
+        # 9. Configuration Archive
+        if view_group_name == "Configuration Archive":
+            if view_name == "Configuration Archive":
+                if not self._validate_configuration_archive_filters(view):
+                    return False
+
+        # 10. Eox
+        if view_group_name == "EoX":
+            if view_name == "EoX Data":
+                if not self._validate_eox_data_filters(view):
+                    return False
+
+        # 11. Swim
+        if view_group_name == "Swim":
+            if view_name == "All Data":
+                if not self._validate_swim_all_data_filters(view):
+                    return False
+
+            if view_name == "All Data Version 2.0":
+                if not self._validate_swim_all_data_v2_filters(view):
+                    return False
+
+        # 12. Client
+        if view_group_name == "Client":
+            if view_name == "Busiest Client":
+                if not self._validate_client_busiest_client_filters(view):
+                    return False
+
+            if view_name == "Client Detail":
+                if not self._validate_client_detail_filters(view):
+                    return False
+
+            if view_name == "Client Session":
+                if not self._validate_client_session_filters(view):
+                    return False
+
+            if view_name == "Client Summary":
+                if not self._validate_client_summary_filters(view):
+                    return False
+
+            if view_name == "Client Trend":
+                if not self._validate_client_trend_filters(view):
+                    return False
+
+            if view_name == "Top N Summary":
+                if not self._validate_client_top_n_summary_filters(view):
+                    return False
+
+            if view_name == "Unique Clients and Users Summary":
+                if not self._validate_client_unique_clients_and_users_summary_filters(view):
+                    return False
+
+        # 13. Licensing
+        if view_group_name == "Licensing":
+            if view_name == "AireOS Controllers Licenses":
+                if not self._validate_licensing_aireos_controllers_licenses_filters(view):
+                    return False
+
+            if view_name == "License Usage Upload Details":
+                if not self._validate_licensing_license_usage_upload_details(view):
+                    return False
+
+            if view_name == "Non Compliance Summary":
+                if not self._validate_licensing_non_compliance_summary(view):
+                    return False
+
+            if view_name == "Non Compliant Devices":
+                if not self._validate_licensing_non_compliant_devices(view):
+                    return False
+
+            if view_name == "License Historical Usage":
+                if not self._validate_licensing_license_historical_usage(view):
                     return False
 
         for filter_index, filter_entry in enumerate(filters):
@@ -6205,6 +6608,2198 @@ class Reports(DnacBase):
         self.log("Validation successful for Network Devices → VLAN report", "DEBUG")
         return True
 
+    def _validate_audit_log_filters(self, view):
+        """
+        Validation for:
+            Template: Audit Log
+            Sub template: Audit Log
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - Filter values follow expected constraints
+            - Field groups and fields are valid
+        """
+        self.log("Validating Audit Log report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "domain": ["MULTI_SELECT"],
+            "category": ["MULTI_SELECT"],        # Values must be CAPS
+            "sortBy": ["REGULAR"],
+            "order": ["REGULAR"],                # Value must be 'asc'
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Audit Log report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Validate category values are CAPS
+                if filter_name == "category":
+                    values = flt.get("value", [])
+                    for v in values:
+                        val = v.get("value")
+                        if val and val != val.upper():
+                            self.msg = (
+                                "Invalid category value '{0}'. Category values must be uppercase."
+                            ).format(val)
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                # Validate order value
+                if filter_name == "order":
+                    values = flt.get("value", [])
+                    for v in values:
+                        if v.get("value") != "asc":
+                            self.msg = (
+                                "Invalid order value '{0}'. Only 'asc' is supported."
+                            ).format(v.get("value"))
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                # Auto-set displayName
+                flt.setdefault("displayName", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "audit_log"
+
+        allowed_fields = {
+            "eventId",
+            "namespace",
+            "name",
+            "description",
+            "type",
+            "category",
+            "domain",
+            "subDomain",
+            "severity",
+            "timestamp",
+            "details",
+            "ciscoDnaEventLink",
+            "note",
+            "userId",
+            "i18n",
+            "eventHierarchy",
+            "message",
+            "messageParams",
+            "parentInstanceId",
+            "network",
+            "startTime",
+            "childCount",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                group.setdefault("field_group_display_name", fg_name)
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Audit Log report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        # SUCCESS
+        self.log("Audit Log validation successful", "DEBUG")
+        return True
+
+    def _validate_network_device_compliance_filters(self, view):
+        """
+        Validation for:
+            Template: Compliance
+            Sub template: Network Device Compliance
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - CAPS validation for complianceStatus and complianceType
+            - Field groups and fields are valid
+        """
+        self.log("Validating Network Device Compliance report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "complianceStatus": ["REGULAR"],   # VALUE must be CAPS
+            "complianceType": ["REGULAR"],     # VALUE must be CAPS
+            "family": ["REGULAR"],
+            "DeviceType": ["REGULAR"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Network Device Compliance report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # CAPS validation
+                if filter_name in ["complianceStatus", "complianceType"]:
+                    values = flt.get("value", [])
+                    for v in values:
+                        val = v.get("value")
+                        if val and val != val.upper():
+                            self.msg = (
+                                "Invalid value '{0}' for '{1}'. Values must be uppercase."
+                            ).format(val, filter_name)
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                # Auto-set displayName
+                flt.setdefault("displayName", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "Compliance"
+
+        allowed_fields = {
+            "rownum",
+            "hostname",
+            "family",
+            "type",
+            "managementIpAddress",
+            "complianceStatus",
+            "IMAGE",
+            "RUNNING_CONFIG",
+            "PSIRT",
+            "NETWORK_PROFILE",
+            "NETWORK_SETTINGS",
+            "EOX",
+            "FABRIC",
+            "APPLICATION_VISIBILITY",
+            "CUSTOMIZATION_PROFILE",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                group.setdefault("field_group_display_name", fg_name)
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Network Device Compliance report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        # SUCCESS
+        self.log("Network Device Compliance validation successful", "DEBUG")
+        return True
+
+    def _validate_configuration_archive_filters(self, view):
+        """
+        Validation for:
+            Template: Configuration Archive
+            Sub template: Configuration Archive
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - CAPS validation for configChangeType
+            - Field groups and fields are valid
+        """
+        self.log("Validating Configuration Archive report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "configChangeType": ["REGULAR"],   # VALUE must be CAPS
+            "family": ["REGULAR"],
+            "DeviceType": ["REGULAR"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Configuration Archive report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate provided filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # CAPS validation for configChangeType
+                if filter_name == "configChangeType":
+                    values = flt.get("value", [])
+                    for v in values:
+                        val = v.get("value")
+                        if val:
+                            # Handle comma-separated values like "IN_BAND,NOT_APPLICABLE"
+                            parts = [p.strip() for p in val.split(",")]
+                            for p in parts:
+                                if p != p.upper():
+                                    self.msg = (
+                                        "Invalid value '{0}' for 'configChangeType'. "
+                                        "Values must be uppercase."
+                                    ).format(p)
+                                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                                    return False
+
+                # Auto set displayName
+                flt.setdefault("displayName", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "ConfigArchive"
+
+        allowed_fields = {
+            "rownum",
+            "deviceName",
+            "family",
+            "type",
+            "managementIpAddress",
+            "createdTime",
+            "createdBy",
+            "configChangeType",
+            "userName",
+            "configMethod",
+            "loginIpAddress",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set displayName
+                group.setdefault("field_group_display_name", fg_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Configuration Archive report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        # SUCCESS
+        self.log("Configuration Archive validation successful", "DEBUG")
+        return True
+
+    def _validate_eox_data_filters(self, view):
+        """
+        Validation for:
+            Template: EoX
+            Sub template: EoX Data
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - Field groups and fields are valid
+        """
+        self.log("Validating EoX Data report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "DeviceType": ["MULTI_SELECT"],
+            "Location": ["MULTI_SELECT_TREE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for EoX Data report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate provided filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set displayName
+                flt.setdefault("displayName", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "eoxAllData"
+
+        allowed_fields = {
+            "deviceName",
+            "deviceIpAddress",
+            "deviceType",
+            "deviceSerialNumber",
+            "deviceImageVersion",
+            "deviceSite",
+            "deviceModelName",
+            "deviceImageType",
+            "eoxScanStatus",
+            "eoxType",
+            "endOfLifeExternalAnnouncementDate",
+            "endOfSaleDate",
+            "endOfLastHardwareShipDate",
+            "endOfSoftwareMaintenanceReleasesDate",
+            "endOfHardwareNewServiceAttachmentDate",
+            "endOfSoftwareVulnerabilityOrSecuritySupportDate",
+            "endOfHardwareServiceContractRenewalDate",
+            "lastDateOfSupport",
+            "eoxLastScanTime",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set displayName
+                group.setdefault("field_group_display_name", fg_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in EoX Data report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        # SUCCESS
+        self.log("EoX Data validation successful", "DEBUG")
+        return True
+
+    def _validate_swim_all_data_filters(self, view):
+        """
+        Validation for:
+            Template: SWIM
+            Sub template: All Data
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - Field groups and fields are valid
+        """
+        self.log("Validating SWIM All Data report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "DeviceFamily": ["MULTI_SELECT"],
+            "DeviceRole": ["MULTI_SELECT"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for SWIM All Data report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate provided filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set displayName
+                flt.setdefault("display_name", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "swimAllData"
+
+        allowed_fields = {
+            "hostname",
+            "family",
+            "type",
+            "role",
+            "ipAddress",
+            "site",
+            "serialNumber",
+            "softwareVersion",
+            "codeUpgradeDate",
+            "previousUpgradeDate",
+            "currentSMU",
+            "currentSMUUpgradeDate",
+            "upgradeFailureReason",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set display name
+                group.setdefault("field_group_display_name", fg_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in SWIM All Data report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        # SUCCESS
+        self.log("SWIM All Data validation successful", "DEBUG")
+        return True
+
+    def _validate_swim_all_data_v2_filters(self, view):
+        """
+        Validation for:
+            Template: SWIM
+            Sub template: All Data Version 2.0
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - Field groups and fields are valid
+        """
+        self.log("Validating SWIM All Data Version 2.0 report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Types
+        allowed_filters = {
+            "Location1": ["MULTI_SELECT_TREE"],
+            "DeviceFamily": ["MULTI_SELECT"],
+            "DeviceRole": ["MULTI_SELECT"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for SWIM All Data Version 2.0 report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate filters
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+        # 2. Field Groups Validation
+        expected_group_name = "swimAllData Version 2.0"
+
+        allowed_fields = {
+            "deviceName",
+            "deviceFamily",
+            "deviceType",
+            "deviceRole",
+            "ipAddress",
+            "location",
+            "serialNumber",
+            "currentVersion",
+            "codeUpgradeDate",
+            "priorUpgradeDate",
+            "currentSMU",
+            "currentSMUUpgradeDate",
+            "upgradeFailureReason",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("field_group_display_name", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in SWIM All Data Version 2.0 report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log("SWIM All Data Version 2.0 validation successful", "DEBUG")
+        return True
+
+    def _validate_client_busiest_client_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Busiest Client
+        """
+        self.log("Validating Client Busiest Client report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddress": ["SINGLE_INPUT"],
+            "DeviceType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "SortBy": ["SINGLE_SELECT_ARRAY"],
+            "Limit": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Busiest Client report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddress":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddress filter supports a maximum of 100 MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        expected_group_name = "response"
+
+        allowed_fields = {
+            "hostName",
+            "username",
+            "macAddress",
+            "ipv4",
+            "ipv6",
+            "deviceType",
+            "connectionStatus",
+            "averageHealthScore_min",
+            "averageHealthScore_max",
+            "averageHealthScore_median",
+            "usage_sum",
+            "connectedDeviceName",
+            "frequency",
+            "rssi_median",
+            "snr_median",
+            "site",
+            "lastUpdated",
+            "apGroup",
+            "ssid",
+            "vlan",
+            "vnid",
+            "onboardingEventTime",
+            "assocDoneTimestamp",
+            "authDoneTimestamp",
+            "aaaServerIp",
+            "dhcpDoneTimestamp",
+            "maxDhcpDuration_max",
+            "dhcpServerIp",
+            "linkSpeed",
+            "txRate_min",
+            "txRate_max",
+            "txRate_avg",
+            "rxRate_min",
+            "rxRate_max",
+            "rxRate_avg",
+            "txBytes_sum",
+            "rxBytes_sum",
+            "dataRate_median",
+            "dot11Protocol",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                group.setdefault("field_group_display_name", "Busiest Client")
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Client Busiest Client report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log("Client Busiest Client validation successful", "DEBUG")
+        return True
+
+    def _validate_client_detail_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Client Detail
+        """
+        self.log("Validating Client Detail report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddress": ["SINGLE_INPUT"],
+            "DeviceType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Detail report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddress":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddress filter supports a maximum of 100 MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        expected_group_name = "client_details"
+
+        allowed_fields = {
+            "hostName",
+            "username",
+            "macAddress",
+            "ipv4",
+            "ipv6",
+            "deviceType",
+            "deviceForm",
+            "deviceVendor",
+            "remoteEndDuplexMode",
+            "hostOS",
+            "firmwareVersion",
+            "connectionStatus",
+            "averageHealthScore_min",
+            "averageHealthScore_max",
+            "averageHealthScore_median",
+            "usage_sum",
+            "duration_latest",
+            "connectedDeviceName",
+            "frequency",
+            "rssi_median",
+            "snr_median",
+            "site",
+            "lastUpdated",
+            "connectedDeviceId",
+            "apGroup",
+            "ssid",
+            "ethernetMac",
+            "slotId",
+            "vlan",
+            "vnid",
+            "port",
+            "portDescription",
+            "channel",
+            "onboardingEventTime",
+            "assocDoneTimestamp",
+            "authDoneTimestamp",
+            "aaaServerIp",
+            "dhcpDoneTimestamp",
+            "maxDhcpDuration_max",
+            "dhcpServerIp",
+            "wlcName",
+            "linkSpeed",
+            "txRate_min",
+            "txRate_max",
+            "txRate_avg",
+            "rxRate_min",
+            "rxRate_max",
+            "rxRate_avg",
+            "txBytes_sum",
+            "rxBytes_sum",
+            "dataRate_median",
+            "dot11Protocol",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("field_group_display_name", "Client Details")
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Client Detail report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log("Client Detail validation successful", "DEBUG")
+        return True
+
+    def _validate_client_session_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Client Session
+        """
+        self.log("Validating Client Session report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddresses": ["SINGLE_INPUT"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Session report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddresses":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddresses filter supports a maximum of 100 MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        expected_group_name = "client_sessions"
+
+        allowed_fields = {
+            "macAddress",
+            "sessionStartTime",
+            "sessionEndTime",
+            "duration",
+            "apMac",
+            "ssid",
+            "siteHierarchy",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("field_group_display_name", "Client Session")
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Client Session report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log("Client Session validation successful", "DEBUG")
+        return True
+
+    def _validate_client_summary_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Client Summary
+        """
+        self.log("Validating Client Summary report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddress": ["SINGLE_INPUT"],
+            "DeviceType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "GroupBy": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Summary report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddress":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddress filter supports a maximum of 100 "
+                                "comma-separated MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        allowed_field_groups = {
+            "locationCountGraph",
+            "devTypeCountGraph",
+            "bandCountGraph",
+            "ssidCountGraph",
+            "protocolCountGraph",
+            "clientTrafficTotalByBand",
+            "clientTrafficTotalBySsid",
+            "clientTrafficTotalByProtocol",
+            "clientSessionDurationByBand",
+            "clientSessionDurationBySsid",
+            "clientSessionDurationByProtocol",
+            "clientCountOverTime",
+            "healthScoreOverTime",
+            "sessionInfo",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed field groups: {sorted(allowed_field_groups)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("fieldGroupDisplayName", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside fieldGroups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display names for fields
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        self.log("Client Summary validation successful", "DEBUG")
+        return True
+
+    def _validate_client_trend_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Client Trend
+        """
+        self.log("Validating Client Trend report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddresses": ["SINGLE_INPUT"],
+            "ConnectionType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Trend report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("displayName", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddresses":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddresses filter supports a maximum of 100 "
+                                "comma-separated MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        allowed_field_groups = {
+            "clientTrend",
+            "clienTraffic",
+            "assocClientHealthTrendTable",
+            "authClientHealthTrendTable",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed field groups: {sorted(allowed_field_groups)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("fieldGroupDisplayName", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside fieldGroups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display names for fields
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        self.log("Client Trend validation successful", "DEBUG")
+        return True
+
+    def _validate_client_top_n_summary_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Top N Summary
+        """
+        self.log("Validating Client Top N Summary report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddress": ["SINGLE_INPUT"],
+            "DeviceType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "GroupBy": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Top N Summary report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddress":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddress filter supports a maximum of 100 "
+                                "comma-separated MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        allowed_field_groups = {
+            "topLocationsGraph",
+            "topWorstLocationsGraph",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed field groups: {sorted(allowed_field_groups)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("fieldGroupDisplayName", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside fieldGroups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display names for fields
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        self.log("Client Top N Summary validation successful", "DEBUG")
+        return True
+
+    def _validate_client_unique_clients_and_users_summary_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Unique Clients and Users Summary
+        """
+        self.log(
+            "Validating Client Unique Clients and Users Summary report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddresses": ["SINGLE_INPUT"],
+            "ConnectionType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Unique Clients and Users Summary report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddresses":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddresses filter supports a maximum of 100 "
+                                "comma-separated MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        allowed_field_groups = {
+            "overview",
+            "ap",
+            "throughput",
+            "protocolBreakdown",
+            "ssidBreakdown",
+            "vlanBreakdown",
+            "vendorBreakdown",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed field groups: {sorted(allowed_field_groups)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("field_group_display_name", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display names for fields
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log(
+            "Client Unique Clients and Users Summary validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_aireos_controllers_licenses_filters(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: AireOS Controllers Licenses
+        """
+        self.log(
+            "Validating Licensing AireOS Controllers Licenses report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        self.log("Validating filters for Licensing AireOS Controllers Licenses report", "DEBUG")
+        if not filters:
+            pass
+        else:
+            self.msg = "No filter is supported for Licensing AireOS Controllers Licenses report."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        allowed_field_groups = {
+            "virtual_assignment_devices",
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "virtual_assignment_devices": {
+                "deviceName",
+                "deviceType",
+                "ipAddress",
+                "model",
+                "macAddress",
+                "dnaLevel",
+                "networkLicense",
+                "uxLevel",
+                "virtualAccount",
+                "site",
+                "registrationStatus",
+                "totalAPCount",
+                "licenseConsumed"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group.get(group_name, set())
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing AireOS Controllers Licenses validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_license_usage_upload_details(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: License Usage Upload Details
+        """
+        self.log(
+            "Validating Licensing License Usage Upload Details report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        # This report does NOT support filters
+        if filters:
+            self.msg = (
+                "Filters are not supported for Licensing "
+                "License Usage Upload Details report."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        # Allowed field groups
+        allowed_field_groups = {
+            "license_usage_upload_details"
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "license_usage_upload_details": {
+                "smartAccount",
+                "virtualAccount",
+                "deviceCount",
+                "lastSync",
+                "syncDue",
+                "reasonIfAny"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group.get(group_name, set())
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing License Usage Upload Details validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_non_compliance_summary(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: Non Compliance Summary
+        """
+        self.log(
+            "Validating Licensing Non Compliance Summary report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        # This report does NOT support filters
+        if filters:
+            self.msg = (
+                "Filters are not supported for Licensing "
+                "Non Compliance Summary report."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        # Allowed field groups
+        allowed_field_groups = {
+            "non_compliance_summary"
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "non_compliance_summary": {
+                "deviceFamily",
+                "deviceSeries",
+                "purchasedDNAEssential",
+                "purchasedDNAAdvantage",
+                "usedDNAEssential",
+                "usedDNAAdvantage",
+                "entitledUnifiedEssential",
+                "entitledUnifiedAdvantage",
+                "deployedUnifiedEssential",
+                "deployedUnifiedAdvantage",
+                "totalDevices",
+                "Reason"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group.get(group_name, set())
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing Non Compliance Summary validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_non_compliant_devices(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: Non Compliant Devices
+        """
+        self.log(
+            "Validating Licensing Non Compliant Devices report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        # Filters are NOT supported for this report
+        if filters:
+            self.msg = (
+                "Filters are not supported for Licensing "
+                "Non Compliant Devices report."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        # Allowed field groups
+        allowed_field_groups = {
+            "non_compliant_devices"
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "non_compliant_devices": {
+                "deviceName",
+                "ipAddress",
+                "model",
+                "dnaLevel",
+                "networkLicense",
+                "uxLevel",
+                "deviceType",
+                "totalAPCount",
+                "licenseTerm",
+                "macAddress",
+                "serialNumber",
+                "site",
+                "virtualAccount",
+                "reason"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group[group_name]
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing Non Compliant Devices validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_license_historical_usage(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: License Historical Usage
+        """
+        self.log(
+            "Validating Licensing License Historical Usage report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        allowed_filters = {
+            "smartaccountuser": ["SINGLE_SELECT_ARRAY"],
+            "smartaccountname": ["SINGLE_SELECT_ARRAY"],
+            "Mode": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if not filters:
+            self.msg = (
+                "License Historical Usage report requires mandatory filters: "
+                "smartaccountuser, smartaccountname, Mode, and TimeRange."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        filter_map = {f.get("name"): f for f in filters}
+
+        unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+        if unexpected_filters:
+            self.msg = (
+                "Unexpected filters for License Historical Usage report: {0}. "
+                "Allowed filters: {1}"
+            ).format(unexpected_filters, list(allowed_filters.keys()))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        missing_filters = [f for f in allowed_filters if f not in filter_map]
+        if missing_filters:
+            self.msg = (
+                "Missing mandatory filters for License Historical Usage report: {0}"
+            ).format(missing_filters)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        for filter_name, flt in filter_map.items():
+            filter_type = flt.get("filter_type")
+
+            if filter_type not in allowed_filters.get(filter_name, []):
+                self.msg = (
+                    "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                ).format(
+                    filter_type,
+                    filter_name,
+                    allowed_filters[filter_name],
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            flt.setdefault("display_name", filter_name)
+
+            if filter_name == "TimeRange":
+                value = flt.get("value", {})
+                if value.get("time_range_option") != "CUSTOM":
+                    self.msg = (
+                        "License Historical Usage supports only CUSTOM time range."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        # Allowed field groups
+        allowed_field_groups = {
+            "license_historical_data"
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "license_historical_data": {
+                "license",
+                "virtualaccount",
+                "userdefinedtags",
+                "billingtype",
+                "entitled",
+                "inuse",
+                "balance",
+                "entrydate"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group[group_name]
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing License Historical Usage validation successful",
+            "DEBUG"
+        )
+        return True
+
     def _process_time_range_filter(self, filter_entry, filter_index):
         """Validate and process the 'Time Range' filter by converting date strings to epoch milliseconds.
 
@@ -7420,37 +10015,94 @@ class Reports(DnacBase):
                     flt["displayName"] = flt.get("displayName", flt.get("name"))
                     flt["type"] = flt.get("type", flt.get("filterType"))
 
-                    # Normalize value entries
-                    new_values = []
-                    raw_values = flt.get("value", [])
+                    # Normalize value entries - Handle all data types
+                    raw_values = flt.get("value")
+                    filter_type = flt.get("type")
 
-                    # TIME_RANGE uses dict, not list → keep as is
-                    if isinstance(raw_values, dict):
-                        new_values = raw_values
-                    else:
-                        for v in raw_values:
-                            if isinstance(v, dict):
-                                new_values.append({
-                                    "value": v.get("value"),
-                                    "displayValue": v.get("displayValue", v.get("value"))
-                                })
+                    # Special handling for SINGLE_INPUT filter type
+                    if filter_type == "SINGLE_INPUT":
+                        # For SINGLE_INPUT, value should be a string, not an array
+                        if raw_values is None or raw_values == "":
+                            flt["value"] = ""
+                        elif isinstance(raw_values, str):
+                            flt["value"] = raw_values
+                        elif isinstance(raw_values, list):
+                            # If it's a list, take the first value or empty string if empty list
+                            if raw_values:
+                                first_item = raw_values[0]
+                                if isinstance(first_item, dict):
+                                    flt["value"] = first_item.get("value", "")
+                                else:
+                                    flt["value"] = str(first_item)
                             else:
-                                # simple value like "Global"
-                                new_values.append({
-                                    "value": v,
-                                    "displayValue": v
-                                })
-
-                    flt["value"] = new_values
+                                flt["value"] = ""
+                        else:
+                            # Convert other types to string
+                            flt["value"] = str(raw_values)
+                    else:
+                        # Handle other filter types as before
+                        if raw_values is None:
+                            # Handle null/None values
+                            flt["value"] = []
+                        elif isinstance(raw_values, dict):
+                            # TIME_RANGE uses dict, not list → keep as is
+                            # Also handle any other dict-based filter values
+                            flt["value"] = raw_values
+                        elif isinstance(raw_values, str):
+                            # Handle string values - could be empty string, single value, or comma-separated
+                            if raw_values == "":
+                                # Empty string
+                                flt["value"] = []
+                            else:
+                                # Non-empty string - treat as single value
+                                flt["value"] = [{
+                                    "value": raw_values,
+                                    "displayValue": raw_values
+                                }]
+                        elif isinstance(raw_values, list):
+                            # Handle list values - could be empty list or list with various content
+                            if not raw_values:
+                                # Empty list
+                                flt["value"] = []
+                            else:
+                                new_values = []
+                                for v in raw_values:
+                                    if isinstance(v, dict):
+                                        # Already in correct format or needs normalization
+                                        new_values.append({
+                                            "value": v.get("value"),
+                                            "displayValue": v.get("displayValue", v.get("value"))
+                                        })
+                                    elif isinstance(v, str):
+                                        # String value in list
+                                        new_values.append({
+                                            "value": v,
+                                            "displayValue": v
+                                        })
+                                    elif v is None:
+                                        # None value in list - skip or handle as needed
+                                        continue
+                                    else:
+                                        # Other types (int, bool, etc.) - convert to string
+                                        str_value = str(v)
+                                        new_values.append({
+                                            "value": str_value,
+                                            "displayValue": str_value
+                                        })
+                                flt["value"] = new_values
+                        else:
+                            # Handle other data types (int, bool, float, etc.)
+                            str_value = str(raw_values)
+                            flt["value"] = [{
+                                "value": str_value,
+                                "displayValue": str_value
+                            }]
 
                     fixed_filters.append(flt)
-            report_payload["view"]["filters"] = fixed_filters
 
-            # NEW SECTION — FIELD GROUP NORMALIZATION (REQUESTED)
-            self.log(
-                "Starting field group normalization for report payload API compatibility",
-                "DEBUG"
-            )
+                report_payload["view"]["filters"] = fixed_filters
+
+            # Field group normalization remains the same
             fixed_field_groups = []
             if "view" in report_payload and "fieldGroups" in report_payload["view"]:
                 field_groups = report_payload["view"]["fieldGroups"]
