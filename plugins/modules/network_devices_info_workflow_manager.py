@@ -1558,15 +1558,20 @@ class NetworkDevicesInfo(DnacBase):
         # Count only non-None keys when determining AND vs OR logic,
         # because validate_list_of_dicts fills in None for unspecified keys
         # (e.g. {ip_address: None, serial_number: [...], hostname: None, mac_address: None})
+        non_none_keys = []
         if len(device_identifiers) == 1:
             non_none_keys = [k for k, v in device_identifiers[0].items() if v is not None]
             is_and_logic = len(non_none_keys) > 1
         else:
             is_and_logic = False
+
         logic_type = "AND" if is_and_logic else "OR"
-        self.log("Detected device_identifier logic type: {0} for {1} identifier groups (non-None keys: {2})".format(
-            logic_type, len(device_identifiers),
-            non_none_keys if len(device_identifiers) == 1 else 'N/A'), "DEBUG")
+        self.log(
+            "Device identifier AND/OR logic resolved — type: {0}, active keys: {1}".format(
+                logic_type, non_none_keys if len(device_identifiers) == 1 else 'N/A'
+            ),
+            "INFO"
+        )
 
         if is_and_logic:
             identifier = device_identifiers[0]
@@ -2129,6 +2134,8 @@ class NetworkDevicesInfo(DnacBase):
                 "Please verify the site_hierarchy value in your configuration."
             ).format(site_name)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log("Site '{0}' verified successfully in Catalyst Center.".format(site_name), "DEBUG")
 
         # Determine site type
         site_type = self.get_sites_type(site_name)
