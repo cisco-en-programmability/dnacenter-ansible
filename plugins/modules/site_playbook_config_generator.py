@@ -39,47 +39,41 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+      a default file name "site_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
+    - For example, "site_playbook_config_2026-02-24_12-33-20.yml".
+    type: str
+    required: false
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
+    required: false
   config:
     description:
-    - A dictionary of filters for generating YAML playbook compatible with the `site_workflow_manager`
-      module.
+    - A dictionary of filters for generating YAML playbook compatible with the `site_workflow_manager` module.
     - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - If config is not provided or is empty, all configurations for all sites will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
+    - If config is provided but is an empty dictionary, an error will be raised.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML configurations for all sites and all supported site types.
-          - This mode discovers all managed sites in Cisco Catalyst Center and extracts all supported configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  "site_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "site_playbook_config_2026-02-24_12-33-20.yml".
-        type: str
-      file_mode:
-        description:
-        - Controls how configuration is written to the YAML file.
-        - C(overwrite) replaces existing file content with the latest generated configuration.
-        - C(append) appends generated YAML content to the existing file.
-        type: str
-        choices: ["overwrite", "append"]
-        default: "overwrite"
-        required: false
       component_specific_filters:
         description:
-          - Filters to specify which components to include in the YAML configuration
-            file.
-          - If "components_list" is specified, only those components are included,
-            regardless of other filters.
+          - Filters to specify which components to include in the YAML configuration file.
+          - If filters for specific components (e.g., site) are provided without explicitly
+            including them in components_list, those components will be automatically added
+            to components_list.
+          - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
@@ -87,7 +81,9 @@ options:
             - List of components to include in the YAML configuration file.
             - Valid value is C(site), which includes all site components (areas, buildings, floors)
               and supports all filter keys.
-            - If not specified, all components are included.
+            - If not specified but component filters (site) are provided, those components
+              are automatically added to this list.
+            - If neither components_list nor any component filters are provided, an error will be raised.
             - For example, ["site"].
             type: list
             elements: str
@@ -133,6 +129,27 @@ notes:
     - sites.Sites.get_sites
 - Paths used are
     - GET /dna/intent/api/v1/sites
+- |
+  Auto-population of components_list:
+  If component-specific filters (such as 'site') are provided without explicitly
+  including them in 'components_list', those components will be automatically added
+  to 'components_list'. This simplifies configuration by eliminating the need to
+  redundantly specify components in both places.
+- |
+  Example of auto-population behavior:
+  If you provide filters for 'site' without including 'site' in 'components_list',
+  the module will automatically add 'site' to 'components_list' before processing.
+  This allows you to write more concise playbooks.
+- |
+  Validation requirements:
+  If 'component_specific_filters' is provided, at least one of the following must be true:
+  (1) 'components_list' contains at least one component, OR
+  (2) Component-specific filters (e.g., 'site') are provided.
+  If neither condition is met, the module will fail with a validation error.
+- |
+  Empty config validation:
+  If 'config' is provided but is an empty dictionary, the module will fail with an error.
+  To generate all configurations, either omit 'config' entirely or provide specific filters.
 seealso:
 - module: cisco.dnac.site_workflow_manager
   description: Module for managing site configurations.
@@ -142,7 +159,10 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Scenario 1 - Generate YAML configuration by separate parent and site hierarchy entries
+# Example 1: Generate all configurations (brownfield discovery)
+# When config is not provided, all site hierarchy entries are retrieved.
+# Optionally specify file_path and file_mode to customize output location.
+- name: Generate all site hierarchy configurations
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -154,19 +174,84 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    # file_path: "/tmp/all_sites.yaml"  # Optional: specify custom output path
+    # file_mode: "overwrite"             # Optional: "overwrite" or "append"
+
+# Example 2: Filter by parent name hierarchy
+# Retrieves a parent site and all its children. Useful for exporting a specific
+# branch of your site hierarchy.
+- name: Generate configurations for a parent site and its children
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/parent_hierarchy.yaml"
+    file_mode: "overwrite"
     config:
-      file_path: "/tmp/case3_site_and_parent_only.yaml"
-      file_mode: "overwrite"
       component_specific_filters:
-        components_list: ["site"]
         site:
-          - parent_name_hierarchy:
-              - "Global/USAsdfsfs"
+          - parent_name_hierarchy: "Global/USA"
+
+# Example 3: Filter by parent name hierarchy and site type
+# Retrieves specific site types (area, building, floor) under a parent hierarchy.
+# This is the most practical pattern for targeted site exports.
+- name: Generate configurations by parent hierarchy and site type
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/parent_with_types.yaml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        site:
+          - parent_name_hierarchy: "Global/USA"
+            site_type:
+              - "building"
+              - "floor"
+
+# Example 4: Filter by specific site name hierarchy
+# Retrieves specific sites by their exact hierarchy path without including children.
+# Useful when you need just certain sites without their child elements.
+- name: Generate configurations for specific sites
+  cisco.dnac.site_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/specific_sites.yaml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        site:
           - site_name_hierarchy:
               - "Global/USA/San Francisco"
-              - "Global/USA/San Jose"
+              - "Global/USA/New York"
 
-- name: Scenario 2 - Generate YAML configuration without hierarchy keys
+# Example 5: Combined filters - multiple parents with site types
+# Demonstrates combining multiple parent hierarchies with site type filters.
+# Results include all specified parents and their children filtered by type.
+- name: Generate configurations with multiple parents and site types
   cisco.dnac.site_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -178,133 +263,17 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/combined_filters.yaml"
+    file_mode: "overwrite"
     config:
-      file_path: "/tmp/case4_no_hierarchy_filters.yaml"
-      file_mode: "overwrite"
       component_specific_filters:
-        components_list: ["site"]
-
-- name: Scenario 3 - Generate YAML configuration by site hierarchy and site type
-  cisco.dnac.site_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      file_path: "/tmp/case5_site_name_and_site_type.yaml"
-      file_mode: "overwrite"
-      component_specific_filters:
-        components_list: ["site"]
         site:
-          - site_name_hierarchy: "Global/USA/San Jose"
+          - parent_name_hierarchy:
+              - "Global/USA"
+              - "Global/India"
             site_type:
               - "building"
               - "floor"
-
-- name: Scenario 4 - Generate YAML configuration by parent hierarchy and site type
-  cisco.dnac.site_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      file_path: "/tmp/case6_parent_name_and_site_type.yaml"
-      file_mode: "overwrite"
-      component_specific_filters:
-        components_list: ["site"]
-        site:
-          - parent_name_hierarchy: "Global/USA"
-            site_type:
-              - "floor"
-
-- name: Scenario 5 - Generate YAML configuration by site hierarchy, parent hierarchy, and site type
-  cisco.dnac.site_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      file_path: "/tmp/case7_all_filters.yaml"
-      file_mode: "overwrite"
-      component_specific_filters:
-        components_list: ["site"]
-        site:
-          - site_name_hierarchy: "Global/USA/San Francisco"
-          - parent_name_hierarchy: "Global/USA"
-            site_type:
-              - "building"
-              - "floor"
-
-- name: Scenario 6 - Generate YAML configuration by site type only
-  cisco.dnac.site_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      file_path: "/tmp/case8_site_type_only.yaml"
-      file_mode: "overwrite"
-      component_specific_filters:
-        components_list: ["site"]
-        site:
-          - site_type:
-              - "area"
-
-- name: Scenario 7 - Auto-generate YAML configuration for all sites with file path
-  cisco.dnac.site_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      generate_all_configurations: true
-      file_path: "/tmp/case9_all_sites.yaml"
-      file_mode: "overwrite"
-
-- name: Scenario 8 - Validation failure example for generate_all_configurations false
-  cisco.dnac.site_playbook_config_generator:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
-    state: gathered
-    config:
-      generate_all_configurations: false
 """
 
 
@@ -530,8 +499,8 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         Validate top-level configuration object before workflow execution begins.
 
         Validation includes required container structure checks and field-type
-        enforcement for known keys such as `generate_all_configurations`,
-        `file_path`, `file_mode`, `component_specific_filters`, and `global_filters`.
+        enforcement for known keys such as `file_path`, `file_mode`,
+        `component_specific_filters`, and `global_filters`.
 
         Args:
             self: Instance context containing module params and result setters.
@@ -546,14 +515,23 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "INFO")
 
-        if not self.config:
-            self.log(
-                "Configuration payload is not available in playbook input; "
-                "skipping schema validation.",
-                "INFO",
+        # Check if config is provided but empty - this is an error
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
             )
-            self.msg = "Configuration is not available in the playbook for validation"
+            self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         if not isinstance(self.config, dict):
@@ -564,19 +542,8 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
+        # Expected schema for configuration parameters (no generate_all_configurations)
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False,
-            },
-            "file_path": {"type": "str", "required": False},
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"],
-            },
             "component_specific_filters": {"type": "dict", "required": False},
             "global_filters": {"type": "dict", "required": False},
         }
@@ -584,7 +551,11 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating configuration against schema.", "INFO")
         valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.validate_invalid_params(self.config, temp_spec.keys())
-        self.validate_minimum_requirements(valid_temp)
+
+        # Auto-populate components_list from component filters if needed
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         invalid_params = self.validate_component_specific_filters_structure(valid_temp)
         if invalid_params:
@@ -2254,9 +2225,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ):
                         self.log(
                             "Unified filter match found for detail index {0} "
-                            "with filter index {1}.".format(
-                                detail_index, filter_index
-                            ),
+                            "with filter index {1}.".format(detail_index, filter_index),
                             "DEBUG",
                         )
                         filtered_records.append(detail)
@@ -2277,9 +2246,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 unknown_type_records += 1
                 self.log(
                     "Encountered unknown site type while building unified "
-                    "cache at detail index {0}: {1}.".format(
-                        detail_index, detail_type
-                    ),
+                    "cache at detail index {0}: {1}.".format(detail_index, detail_type),
                     "DEBUG",
                 )
 
@@ -2528,7 +2495,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log(
                     "Skipping unresolved site_name_hierarchy value '{0}' "
                     "for parent '{1}' at index {2}.".format(
-                        site_name_hierarchy_value, parent_name_hierarchy, site_name_index
+                        site_name_hierarchy_value,
+                        parent_name_hierarchy,
+                        site_name_index,
                     ),
                     "DEBUG",
                 )
@@ -3302,9 +3271,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Area detail payload (debug): {0}".format(area_details), "DEBUG"
                 )
 
-                for entry_index, entry in enumerate(
-                    bucket.get("entries", {}).values()
-                ):
+                for entry_index, entry in enumerate(bucket.get("entries", {}).values()):
                     self.log(
                         "Processing area post-filter entry index {0} in "
                         "bucket index {1}.".format(entry_index, bucket_index),
@@ -3610,9 +3577,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG",
                 )
 
-                for entry_index, entry in enumerate(
-                    bucket.get("entries", {}).values()
-                ):
+                for entry_index, entry in enumerate(bucket.get("entries", {}).values()):
                     self.log(
                         "Processing building post-filter entry index {0} in "
                         "bucket index {1}.".format(entry_index, bucket_index),
@@ -3921,9 +3886,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Floor detail payload (debug): {0}".format(floor_details), "DEBUG"
                 )
 
-                for entry_index, entry in enumerate(
-                    bucket.get("entries", {}).values()
-                ):
+                for entry_index, entry in enumerate(bucket.get("entries", {}).values()):
                     self.log(
                         "Processing floor post-filter entry index {0} in "
                         "bucket index {1}.".format(entry_index, bucket_index),
@@ -4264,7 +4227,9 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
+        "config": {"required": False, "type": "dict"},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {"required": False, "type": "str", "default": "overwrite"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
