@@ -1152,7 +1152,7 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 try:
-                    operation_func(params, dumper = OrderedDumper).check_return_status()
+                    operation_func(params, dumper=OrderedDumper).check_return_status()
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
