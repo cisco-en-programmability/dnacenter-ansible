@@ -4229,7 +4229,12 @@ def main():
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": False, "type": "dict"},
         "file_path": {"required": False, "type": "str"},
-        "file_mode": {"required": False, "type": "str", "default": "overwrite"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
