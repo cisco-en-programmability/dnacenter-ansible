@@ -22,10 +22,10 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "generated_files/device_health_score_settings_playbook1.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "generated_files/device_health_score_settings_playbook1.yml"
           component_specific_filters:
             components_list: ["device_health_score_settings"]
             device_health_score_settings:
-              device_families: ["WIRELESS_CONTROLLER"]
-          file_mode: "overwrite"
+              device_families: ["ROUTER"]

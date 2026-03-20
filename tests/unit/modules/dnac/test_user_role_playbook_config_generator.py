@@ -36,6 +36,10 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
     playbook_generate_all_configurations = test_data.get("playbook_generate_all_configurations")
     playbook_invalid_components = test_data.get("playbook_invalid_components")
     playbook_all_role_details = test_data.get("playbook_all_role_details")
+    playbook_config_empty = test_data.get("playbook_config_empty")
+    expected_error_missing_component_specific_filters = test_data.get(
+        "expected_error_missing_component_specific_filters"
+    )
 
     def setUp(self):
         super(TestDnacUserRolePlaybookGenerator, self).setUp()
@@ -77,7 +81,10 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_roles3")
             ]
 
-        elif "playbook_generate_all_configurations" in self._testMethodName:
+        elif (
+            "playbook_generate_all_configurations" in self._testMethodName
+            or "config_empty_defaults_generate_all" in self._testMethodName
+        ):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_users2"),
                 self.test_data.get("get_roles4"),
@@ -108,6 +115,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
+                file_path="/tmp/specific_userrole_details_info",
                 config=self.playbook_user_role_details
             )
         )
@@ -119,7 +127,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 "components_processed": 2,
                 "components_skipped": 0,
                 "configurations_count": 13,
-                "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info",
+                "file_path": "/tmp/specific_userrole_details_info",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
                 "status": "success"
             }
@@ -141,6 +149,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
+                file_path="/tmp/specific_user_details1",
                 config=self.playbook_specific_user_details
             )
         )
@@ -152,7 +161,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 1,
-                "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
+                "file_path": "/tmp/specific_user_details1",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
                 "status": "success"
             }
@@ -174,6 +183,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
+                file_path="/tmp/specific_user_details1",
                 config=self.playbook_specific_role_details
             )
         )
@@ -185,7 +195,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 1,
-                "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
+                "file_path": "/tmp/specific_user_details1",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
                 "status": "success"
             }
@@ -207,7 +217,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
-                config=self.playbook_generate_all_configurations
+                file_path="/tmp/specific_user_details1"
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -218,7 +228,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 "components_processed": 2,
                 "components_skipped": 0,
                 "configurations_count": 13,
-                "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
+                "file_path": "/tmp/specific_user_details1",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
                 "status": "success"
             }
@@ -240,6 +250,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
+                file_path="/tmp/specific_user_details1",
                 config=self.playbook_invalid_components
             )
         )
@@ -247,8 +258,8 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Invalid network components provided for module 'user_role_workflow_manager': "
-            "['role_detailss']. Valid components are: ['user_details', 'role_details']"
+            "Invalid component names found in 'components_list': ['role_detailss']. "
+            "Allowed values are: ['role_details', 'user_details']."
         )
 
     def test_brownfield_user_role_playbook_all_role_details(self):
@@ -267,6 +278,7 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
+                file_path="/tmp/specific_user_details1",
                 config=self.playbook_all_role_details
             )
         )
@@ -278,8 +290,44 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 3,
-                "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
+                "file_path": "/tmp/specific_user_details1",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
                 "status": "success"
             }
+        )
+
+    def test_user_role_playbook_config_generator_config_empty_defaults_generate_all(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.9",
+                file_path="/tmp/specific_user_details1",
+                config=self.playbook_config_empty,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(result.get("response", {}).get("status"), "success")
+
+    def test_user_role_playbook_config_generator_config_with_generate_all_fails(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.9",
+                file_path="/tmp/specific_user_details1",
+                config=self.playbook_generate_all_configurations,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("response"),
+            "Invalid parameters found in configuration: ['generate_all_configurations']. "
+            "Valid parameters are: ['component_specific_filters']."
         )

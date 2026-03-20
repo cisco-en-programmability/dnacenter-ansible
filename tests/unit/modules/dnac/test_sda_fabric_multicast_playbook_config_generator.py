@@ -169,11 +169,14 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/all_fabric_multicast_configs.yml",
                 config=self.playbook_config_generate_all_configurations_case_1,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertIn(
+            "YAML configuration file generated successfully", str(result.get("msg"))
+        )
 
     def test_generate_specific_fabric_site_case_2(self):
         """
@@ -188,11 +191,14 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/site_specific_multicast.yml",
                 config=self.playbook_config_generate_specific_fabric_site_case_2,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertIn(
+            "YAML configuration file generated successfully", str(result.get("msg"))
+        )
 
     def test_generate_specific_fabric_and_vn_case_3(self):
         """
@@ -207,11 +213,14 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/fabric_vn_specific_multicast.yml",
                 config=self.playbook_config_generate_specific_fabric_and_vn_case_3,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertIn(
+            "YAML configuration file generated successfully", str(result.get("msg"))
+        )
 
     def test_generate_multiple_fabric_sites_case_4(self):
         """
@@ -226,11 +235,14 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/multiple_fabric_sites.yml",
                 config=self.playbook_config_generate_multiple_fabric_sites_case_4,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertIn(
+            "YAML configuration file generated successfully", str(result.get("msg"))
+        )
 
     def test_invalid_fabric_site_case_5(self):
         """
@@ -245,11 +257,14 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
+                file_path="/tmp/invalid_fabric_site.yml",
                 config=self.playbook_config_invalid_fabric_site_case_5,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertIn(
+            "YAML configuration file generated successfully", str(result.get("msg"))
+        )
 
     def test_no_multicast_configs_case_6(self):
         """
@@ -264,11 +279,14 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
+                file_path="/tmp/no_configs.yml",
                 config=self.playbook_config_no_multicast_configs_case_6,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertIn(
+            "YAML configuration file generated successfully", str(result.get("msg"))
+        )
 
     def test_fabric_site_not_in_sda_case_7(self):
         """
@@ -282,8 +300,11 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/fabric_site_not_in_sda.yml",
                 config=self.playbook_config_fabric_site_not_in_sda_case_7,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
+        self.assertIn(
+            "YAML configuration file generated successfully", str(result.get("msg"))
+        )
