@@ -17,7 +17,7 @@ description:
 - Generates YAML configurations compatible with the C(sda_fabric_sites_zones_workflow_manager)
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
-- The YAML configurations generated represent the fabric sites and zones
+- The YAML configurations generated represent the fabric sites and fabric zones
   configured on the Cisco Catalyst Center.
 version_added: 6.44.0
 extends_documentation_fragment:
@@ -32,55 +32,49 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+        a default file name C(sda_fabric_sites_zones_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(sda_fabric_sites_zones_playbook_config_2026-02-20_13-42-45.yml).
+    type: str
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
   config:
     description:
-    - A dictionary of filters for generating YAML playbook compatible with the `sda_fabric_sites_zones_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the C(sda_fabric_sites_zones_workflow_manager)
       module.
     - Filters specify which components to include in the YAML configuration file.
-    - If C(components_list) is specified, only those components are included, regardless of the filters.
+    - If config is not provided or empty, all configurations for all fabric sites and fabric zones will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - When set to C(true), the module generates all the configurations which includes fabric sites, fabric zones
-          present in the Cisco Catalyst Center, ignoring any provided filters. It will first print all the fabric sites,
-          followed by the fabric zones
-        - When enabled, the config parameter becomes optional and will use default values if not provided.
-        - A default filename will be generated automatically if file_path is not specified.
-        - When set to false, the module uses provided filters to generate a targeted YAML configuration.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  C(sda_fabric_sites_zones_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(sda_fabric_sites_zones_playbook_config_2026-02-20_13-42-45.yml).
-        type: str
-      file_mode:
-        description:
-        - Controls how config is written to the YAML file.
-        - C(overwrite) replaces existing file content.
-        - C(append) appends generated YAML content to the existing file.
-        type: str
-        choices: ["overwrite", "append"]
-        default: "overwrite"
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration file.
-        - If C(components_list) is specified, only those components are included, regardless of other filters.
+        - If filters for specific components (e.g., fabric_sites or fabric_zones) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are
-              - Fabric Sites C(fabric_sites)
-              - Fabric Zones C(fabric_zones)
-            - For example, ["fabric_sites", "fabric_zones"].
-            - If not specified, all components are included.
+            - For example, ["fabric_sites", "fabric_zones"]
+            - If not specified but component specific filters are provided,
+              those components are automatically added to this list.
+            - If neither components_list nor any component filters are provided,
+              an error will be raised.
             type: list
             elements: str
             choices: ["fabric_sites", "fabric_zones"]
@@ -90,46 +84,59 @@ options:
             type: list
             elements: dict
             suboptions:
-                site_name_hierarchy:
-                    description:
-                    - Site Name Hierarchy filter to apply when retrieving fabric sites.
-                    type: str
+              site_name_hierarchy:
+                description:
+                - Site name hierarchy filter to apply when retrieving fabric sites.
+                type: str
           fabric_zones:
             description:
             - Fabric Zones filters to apply when retrieving fabric zones.
             type: list
             elements: dict
             suboptions:
-                site_name_hierarchy:
-                    description:
-                    - Site Name Hierarchy filter to apply when retrieving fabric zones.
-                    type: str
+              site_name_hierarchy:
+                description:
+                - Site name hierarchy filter to apply when retrieving fabric zones.
+                type: str
 
 requirements:
 - dnacentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
-- SDK Methods used are
-    - sites.Sites.get_site
-    - site_design.SiteDesigns.get_sites
-    - sda.Sda.get_fabric_sites
-    - sda.Sda.get_fabric_zones
-    - sda.Sda.get_fabric_sites_by_id
-    - sda.Sda.get_fabric_zones_by_id
-- Paths used are
-    - GET /dna/intent/api/v1/sites
-    - GET /dna/intent/api/v1/sda/fabric-sites
-    - GET /dna/intent/api/v1/sda/fabric-zones
-    - GET /dna/intent/api/v1/sda/fabric-sites/{id}
-    - GET /dna/intent/api/v1/sda/fabric-zones/{id}
+- Cisco Catalyst Center >= 2.3.7.9
+- |-
+  SDK Methods used are
+  sites.Sites.get_site
+  site_design.SiteDesigns.get_sites
+  sda.Sda.get_fabric_sites
+  sda.Sda.get_fabric_zones
+  sda.Sda.get_fabric_sites_by_id
+  sda.Sda.get_fabric_zones_by_id
+- |-
+  SDK Paths used are
+  GET /dna/intent/api/v1/sites
+  GET /dna/intent/api/v1/sda/fabric-sites
+  GET /dna/intent/api/v1/sda/fabric-zones
+  GET /dna/intent/api/v1/sda/fabric-sites/{id}
+  GET /dna/intent/api/v1/sda/fabric-zones/{id}
+- |
+  Auto-population of components_list:
+  If component-specific filters (such as 'fabric_sites' or 'fabric_zones') are provided
+  without explicitly including them in 'components_list', those components will be
+  automatically added to 'components_list'.
+- |
+  Validation requirements:
+  If 'component_specific_filters' is provided, at least one of the following must be true:
+  (1) 'components_list' contains at least one component, OR
+  (2) Component-specific filters are provided.
+  If neither condition is met, the module will fail with a validation error.
 seealso:
 - module: cisco.dnac.sda_fabric_sites_zones_workflow_manager
   description: Module to manage SD-Access Fabric Sites and Zones in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
-- name: Auto-generate YAML Configuration for all components which
-     includes fabric sites and fabric zones.
+- name: Auto-generate YAML Configuration for all components which includes fabric sites and fabric zones.
   cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -141,9 +148,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_mode: "overwrite"
+    # No config provided - generates all configurations
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
@@ -157,10 +162,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_path: "tmp/catc_sda_fabric_sites_zones_config.yml"
-      file_mode: "overwrite"
+    file_path: "tmp/catc_sda_fabric_sites_zones_config.yml"
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with specific fabric sites components only
   cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
@@ -174,9 +177,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_sda_fabric_sites_config.yml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/catc_sda_fabric_sites_config.yml"
-      file_mode: "append"
       component_specific_filters:
         components_list: ["fabric_sites"]
 
@@ -193,10 +196,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_sda_fabric_sites_config.yml"
     config:
-      file_path: "/tmp/catc_sda_fabric_sites_config.yml"
       component_specific_filters:
-        components_list: ["fabric_sites"]
+        components_list: ["fabric_sites"] # Optional
         fabric_sites:
           - site_name_hierarchy: "Global/USA/California/San Jose"
 
@@ -212,13 +215,12 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_sda_fabric_zones_config.yml"
     config:
-      file_path: "/tmp/catc_sda_fabric_zones_config.yml"
       component_specific_filters:
         components_list: ["fabric_zones"]
 
-- name: Generate YAML Configuration with specific fabric zones components only
-     using site_name_hierarchy filter
+- name: Generate YAML Configuration with site_name_hierarchy filter
   cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -230,10 +232,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_sda_fabric_zones_config.yml"
     config:
-      file_path: "/tmp/catc_sda_fabric_zones_config.yml"
       component_specific_filters:
-        components_list: ["fabric_zones"]
+        components_list: ["fabric_zones"] # Optional
         fabric_zones:
           - site_name_hierarchy: "Global/USA/California/San Jose"
 
@@ -249,8 +251,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_sda_fabric_sites_zones_config.yml"
     config:
-      file_path: "/tmp/catc_sda_fabric_sites_zones_config.yml"
       component_specific_filters:
         components_list: ["fabric_sites", "fabric_zones"]
 """
@@ -289,11 +291,11 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components.",
         "response":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components."
     }
 """
 
@@ -340,30 +342,16 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
+        # Check if configuration is available or empty - if not provided or empty, treat as generate all config
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate all config mode"
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"]
-            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
@@ -377,8 +365,10 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -869,7 +859,7 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path and component_specific_filters.
+            yaml_config_generator (dict): Contains component_specific_filters.
 
         Returns:
             self: The current instance with the operation result and message updated.
@@ -888,15 +878,16 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
+
+        # Get file_path and file_mode from self.params (top-level parameters)
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log("No file_path provided by user, generating default filename", "DEBUG")
             file_path = self.generate_filename()
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
-
+        file_mode = self.params.get("file_mode", "overwrite")
         self.log(
             "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
             "DEBUG"
@@ -906,14 +897,18 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
             self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-
             # Set empty filters to retrieve everything
             component_specific_filters = {}
         else:
-            # Use provided filters or default to empty
+            self.log(
+                "Normal mode: Using provided component_specific_filters from input",
+                "DEBUG",
+            )
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            self.log(
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
+                "DEBUG",
+            )
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
         module_supported_network_elements = self.module_schema.get("network_elements", {})
@@ -922,11 +917,6 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
-
-        # If components_list is empty, default to all supported components
-        if not components_list:
-            self.log("No components specified; processing all supported components.", "DEBUG")
-            components_list = list(module_supported_network_elements.keys())
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
@@ -997,9 +987,11 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        additional_config_headers = [
-            "When generate_all_configurations is true, all fabric sites are listed first, followed by all fabric zones."
-        ]
+        additional_config_headers = None
+        if generate_all:
+            additional_config_headers = [
+                "Full configuration generates all fabric sites first, followed by all fabric zones."
+            ]
 
         if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, notes=additional_config_headers):
             self.msg = {
@@ -1129,8 +1121,15 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
     }
 
     # Initialize the Ansible module with the provided argument specifications

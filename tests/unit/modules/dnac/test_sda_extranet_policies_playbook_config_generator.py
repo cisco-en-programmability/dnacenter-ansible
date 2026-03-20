@@ -16,7 +16,7 @@
 #   Apoorv Bansal (@Apoorv74-dot)
 
 # Description:
-#   Unit tests for the Ansible module `brownfield_sda_extranet_policies_playbook_generator`.
+#   Unit tests for the Ansible module `sda_extranet_policies_playbook_config_generator`.
 #   These tests cover YAML playbook generation for SDA extranet policies,
 #   including various filter scenarios and validation logic using mocked
 #   Catalyst Center responses.
@@ -30,15 +30,15 @@ __version__ = "1.0.0"
 
 from unittest.mock import patch
 from ansible_collections.cisco.dnac.plugins.modules import (
-    brownfield_sda_extranet_policies_playbook_generator,
+    sda_extranet_policies_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
 
-    module = brownfield_sda_extranet_policies_playbook_generator
-    test_data = loadPlaybookData("brownfield_sda_extranet_policies_playbook_generator")
+    module = sda_extranet_policies_playbook_config_generator
+    test_data = loadPlaybookData("sda_extranet_policies_playbook_config_generator")
 
     playbook_config_generate_all_configurations = test_data.get(
         "generate_all_configurations_case"
@@ -100,6 +100,7 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
+                file_path="/tmp/all_extranet_policies.yml",
                 config=self.playbook_config_generate_all_configurations,
             )
         )
@@ -129,6 +130,7 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
+                file_path="/tmp/policy_specific.yml",
                 config=self.playbook_config_component_specific_filters,
             )
         )
