@@ -30,47 +30,45 @@ options:
     type: str
     choices: ["gathered"]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+      a default file name "tags_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
+    - For example, "tags_playbook_config_2026-01-24_12-33-20.yml".
+    type: str
+    required: false
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
+    required: false
   config:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the `tags_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
+    - If config is not provided or is empty, all configurations for all tags and tag memberships will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML configurations for all devices and all supported features.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name "tags_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "tags_playbook_config_2026-01-24_12-33-20.yml".
-        type: str
-      file_mode:
-        description:
-        - Controls how config is written to the YAML file.
-        - C(overwrite) replaces existing file content.
-        - C(append) appends generated YAML content to the existing file.
-        type: str
-        choices: ["overwrite", "append"]
-        default: "overwrite"
-        required: false
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
           file.
         - If "components_list" is specified, only those components are included,
           regardless of other filters.
+        - If filters for specific components (e.g., tag or tag_memberships) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
@@ -78,7 +76,9 @@ options:
             - List of components to include in the YAML configuration file.
             - Valid values are tag and tag_memberships.
             - If specified, only the listed components will be included in the generated YAML file.
-            - If not specified, all supported components will be included by default.
+            - If not specified but component filters (tag or tag_memberships) are provided,
+              those components are automatically added to this list.
+            - If neither components_list nor any component filters are provided, an error will be raised.
             type: list
             elements: str
             choices: ["tag" , "tag_memberships"]
@@ -151,6 +151,29 @@ notes:
   SDK Paths used are
   /dna/intent/api/v1/tag
   /dna/intent/api/v1/tag/${id}/member
+- |
+  Auto-population of components_list:
+  If component-specific filters (such as 'tag' or 'tag_memberships') are provided
+  without explicitly including them in 'components_list', those components will be
+  automatically added to 'components_list'. This simplifies configuration by eliminating
+  the need to redundantly specify components in both places.
+- |
+  Example of auto-population behavior:
+  If you provide filters for 'tag' without including 'tag' in 'components_list',
+  the module will automatically add 'tag' to 'components_list' before processing.
+  This allows you to write more concise playbooks.
+- |
+  Validation requirements:
+  If 'component_specific_filters' is provided, at least one of the following must be true:
+  (1) 'components_list' contains at least one component, OR
+  (2) Component-specific filters (e.g., 'tag', 'tag_memberships') are provided.
+  If neither condition is met, the module will fail with a validation error.
+- |
+  System tags filtering:
+  System tags (tags with systemTag=True) are automatically excluded from the generated YAML configuration.
+  These tags are managed by Cisco Catalyst Center and cannot be modified by users, so they are filtered out
+  to ensure the generated playbook only contains user-manageable tags. This filtering is applied regardless
+  of whether you're generating all tags or using specific filters.
 seealso:
 - module: cisco.dnac.tags_workflow_manager
   description: Module for managing tags and tag memberships.
@@ -179,8 +202,7 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          generate_all_configurations: true
+        # No config provided - generates all configurations
 
 # Example 2: Generate all configurations with custom file path
 - name: Generate complete brownfield tag configuration with custom filename
@@ -204,10 +226,9 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          file_path: "/tmp/complete_tags_config.yaml"
-          generate_all_configurations: true
-          file_mode: "overwrite"
+        file_path: "/tmp/complete_tags_config.yaml"
+        file_mode: "overwrite"
+        # No config provided - generates all configurations
 
 # Example 3: Generate only tag configurations without memberships
 - name: Generate tag definitions only
@@ -231,9 +252,9 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/catc_tags.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag"]
 
@@ -259,9 +280,9 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/catc_tags.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
 
@@ -287,13 +308,46 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/catc_tags.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag", "tag_memberships"]
 
-# Example 6: Filter specific tags by name
+# Example 6: Auto-populate components_list from component filters
+- name: Generate configuration with auto-populated components_list
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tags by providing filters without explicit components_list
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            # No components_list specified, but tag filters are provided
+            # The 'tag' component will be automatically added to components_list
+            tag:
+              - tag_name: Production
+              - tag_name: Data-Center
+      # This will automatically include 'tag' in components_list and retrieve only those tags
+
+# Example 7: Filter specific tags by name
 - name: Generate configuration for specific tags by name
   hosts: dnac_servers
   vars_files:
@@ -315,16 +369,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/catc_tags.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag", "tag_memberships"]
             tag:
               - tag_name: Production
               - tag_name: Data-Center
 
-# Example 7: Filter specific tag memberships by tag name
+# Example 8: Filter specific tag memberships by tag name
 - name: Generate memberships for specific tags
   hosts: dnac_servers
   vars_files:
@@ -346,16 +400,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/catc_tags.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag", "tag_memberships"]
             tag_memberships:
               - tag_name: Campus-Switches
               - tag_name: Core-Routers
 
-# Example 8: Generate tag configuration with append mode
+# Example 9: Generate tag configuration with append mode
 - name: Generate and append tag configuration
   hosts: dnac_servers
   vars_files:
@@ -377,16 +431,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/all_tags.yaml"
+        file_mode: "append"
         config:
-          file_path: "/tmp/all_tags.yaml"
-          file_mode: "append"
           component_specific_filters:
             components_list: ["tag", "tag_memberships"]
             tag:
               - tag_name: Branch-Office
               - tag_name: Access-Points
 
-# Example 9: Retrieve all tag memberships with hostname as device identifier
+# Example 10: Retrieve all tag memberships with hostname as device identifier
 - name: Generate all tag memberships using hostname identifier
   hosts: dnac_servers
   vars_files:
@@ -408,16 +462,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/tags_by_hostname.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/tags_by_hostname.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
               - device_identifier: hostname
       # This will retrieve all tags with their members identified by hostname instead of serial_number
 
-# Example 10: Retrieve specific tag membership with IP address as device identifier
+# Example 11: Retrieve specific tag membership with IP address as device identifier
 - name: Generate specific tag membership using IP address identifier
   hosts: dnac_servers
   vars_files:
@@ -439,9 +493,9 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/production_tag_by_ip.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/production_tag_by_ip.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
@@ -449,7 +503,7 @@ EXAMPLES = r"""
                 device_identifier: ip_address
       # This will retrieve only the 'Production' tag's members with IP addresses
 
-# Example 11: Retrieve tag memberships with MAC address as device identifier
+# Example 12: Retrieve tag memberships with MAC address as device identifier
 - name: Generate tag memberships using MAC address identifier
   hosts: dnac_servers
   vars_files:
@@ -471,9 +525,9 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/tags_by_mac.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/tags_by_mac.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
@@ -483,7 +537,7 @@ EXAMPLES = r"""
                 device_identifier: mac_address
       # This will retrieve specific tags' members with MAC addresses
 
-# Example 12: Retrieve tag memberships with default device identifier (serial_number)
+# Example 13: Retrieve tag memberships with default device identifier (serial_number)
 - name: Generate tag memberships with default serial number identifier
   hosts: dnac_servers
   vars_files:
@@ -505,16 +559,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/tags_by_serial.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/tags_by_serial.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
               - tag_name: Data-Center
       # When device_identifier is not specified, it defaults to 'serial_number'
 
-# Example 13: Mixed configuration with different device identifiers
+# Example 14: Mixed configuration with different device identifiers
 - name: Generate tag configurations with mixed device identifiers
   hosts: dnac_servers
   vars_files:
@@ -536,9 +590,9 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/mixed_identifiers.yaml"
+        file_mode: "overwrite"
         config:
-          file_path: "/tmp/mixed_identifiers.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["tag_memberships"]
             tag_memberships:
@@ -710,27 +764,17 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
+        # Check if configuration is available or empty - if not provided or empty, treat as generate_all
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        # Expected schema for configuration parameters
+        # Expected schema for configuration parameters (no file_path, file_mode, or generate_all_configurations)
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False,
-            },
-            "file_path": {"type": "str", "required": False},
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"],
-            },
             "component_specific_filters": {"type": "dict", "required": False},
         }
 
@@ -741,8 +785,10 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        self.log("Validating minimum requirements for configuration", "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -1266,13 +1312,52 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return modified_tag_memberships_details
 
+    def check_if_tag_is_system_tag(self, tag_details):
+        """
+        Checks if a tag is a system tag.
+
+        System tags are special tags managed by Cisco Catalyst Center and should not be
+        included in playbook configurations as they cannot be modified by users.
+
+        Args:
+            tag_details (dict): The tag details dictionary containing tag information.
+                Expected keys:
+                    - "systemTag" (bool): Indicates if the tag is a system tag.
+                    - "name" (str): The name of the tag.
+
+        Returns:
+            bool: True if the tag is a system tag, False otherwise.
+        """
+        self.log(
+            f"Checking if tag is a system tag: {self.pprint(tag_details)}",
+            "DEBUG",
+        )
+
+        # Check if systemTag field exists and is True
+        is_system_tag = tag_details.get("systemTag", False)
+        tag_name = tag_details.get("name", "Unknown")
+
+        if is_system_tag:
+            self.log(
+                f"Tag '{tag_name}' identified as a system tag and will be excluded from playbook.",
+                "INFO",
+            )
+        else:
+            self.log(
+                f"Tag '{tag_name}' is not a system tag.",
+                "DEBUG",
+            )
+
+        return is_system_tag
+
     def get_tag_configuration(self, network_element, component_specific_filters=None):
         """
         Retrieve and process tag configuration from Cisco Catalyst Center.
 
         This method fetches tag details either by applying component-specific filters or by retrieving
         all available tags. It uses cached tag mappings to avoid unnecessary API calls and processes
-        the tag information according to the tag template specification.
+        the tag information according to the tag template specification. System tags are automatically
+        filtered out and excluded from the final playbook configuration.
 
         Args:
             network_element: The network element identifier for which tags are being retrieved.
@@ -1290,12 +1375,17 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                       "tag": [list of processed tag detail dictionaries]
                   }
                   Each tag detail is modified according to the tag_temp_spec template.
+                  System tags are excluded from the returned configuration.
 
         Note:
             This method relies on pre-populated instance variables:
             - self.tag_name_to_details_mapping: Maps tag names to their detail dictionaries
             - self.tag_id_to_tag_name_mapping: Maps tag IDs to tag names
             The method uses cached data to minimize API calls to Cisco Catalyst Center.
+
+            System tags (tags with systemTag=True) are automatically filtered out using
+            check_if_tag_is_system_tag() method, as they are managed by Cisco Catalyst Center
+            and cannot be modified by users.
         """
 
         self.log(
@@ -1393,7 +1483,22 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             f"Using cached tag details for filter parameter: {key}, value: {value}, details: {self.pprint(tag_details)}",
                             "INFO",
                         )
-                        final_tags.extend(tag_details)
+                        # Check if tag is a system tag before adding
+                        for tag_index, tag in enumerate(tag_details, start=1):
+                            tag_name = tag.get("name", "Unknown")
+
+                            if self.check_if_tag_is_system_tag(tag):
+                                self.log(
+                                    f"[{tag_index}/{len(tag_details)}] Skipped system tag '{tag_name}' - not added to final_tags.",
+                                    "INFO",
+                                )
+                                continue
+
+                            final_tags.append(tag)
+                            self.log(
+                                f"[{tag_index}/{len(tag_details)}] Added tag '{tag_name}' to final_tags list.",
+                                "DEBUG",
+                            )
                         self.log(
                             f"Extended final_tags list. Current count: {len(final_tags)}",
                             "DEBUG",
@@ -1414,9 +1519,24 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 f"Retrieved {len(tag_details)} tag(s) from cached mapping: {self.pprint(tag_details)}",
                 "INFO",
             )
-            final_tags.extend(tag_details)
+            # Filter out system tags before adding to final_tags
+            for tag_index, tag in enumerate(tag_details, start=1):
+                tag_name = tag.get("name", "Unknown")
+
+                if self.check_if_tag_is_system_tag(tag):
+                    self.log(
+                        f"[{tag_index}/{len(tag_details)}] Skipped system tag '{tag_name}' - not added to final_tags.",
+                        "INFO",
+                    )
+                    continue
+
+                final_tags.append(tag)
+                self.log(
+                    f"[{tag_index}/{len(tag_details)}] Added tag '{tag_name}' to final_tags list.",
+                    "DEBUG",
+                )
             self.log(
-                f"Extended final_tags list with all cached tags. Total count: {len(final_tags)}",
+                f"Extended final_tags list with all cached tags (excluding system tags). Total count: {len(final_tags)}",
                 "DEBUG",
             )
 
@@ -2707,11 +2827,12 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def yaml_config_generator(self, yaml_config_generator):
         """
         Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters, processes the data,
+        This function retrieves network element details using component-specific filters, processes the data,
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, and component_specific_filters.
+            yaml_config_generator (dict): Contains component_specific_filters and optionally generate_all_configurations flag.
+                file_path and file_mode are now taken from self.params.
 
         Returns:
             self: The current instance with the operation result and message updated.
@@ -2729,7 +2850,8 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
 
-        file_path = yaml_config_generator.get("file_path")
+        # Get file_path and file_mode from self.params (top-level parameters)
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
                 "No file_path provided by user, generating default filename", "DEBUG"
@@ -2738,7 +2860,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        file_mode = self.params.get("file_mode", "overwrite")
 
         self.log(
             "YAML configuration file path determined: {0}, file_mode: {1}".format(
@@ -2754,31 +2876,20 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
                 "INFO",
             )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-
             # Set empty filters to retrieve everything
             component_specific_filters = {}
         else:
-            # Checking if generate_all_configurations is False but filters are missing or empty, and logging a warning
-            if (
-                not yaml_config_generator.get("component_specific_filters")
-                and "generate_all_configurations" in yaml_config_generator
-                and not yaml_config_generator["generate_all_configurations"]
-            ):
-                self.msg = (
-                    "component_specific_filters must be provided with components_list key "
-                    "when generate_all_configurations is set to False."
-                )
-                self.log(self.msg, "ERROR")
-                self.fail_and_exit(self.msg)
-
             # Use provided filters or default to empty
+            self.log(
+                "Normal mode: Using provided component_specific_filters from input",
+                "DEBUG",
+            )
             component_specific_filters = (
                 yaml_config_generator.get("component_specific_filters") or {}
+            )
+            self.log(
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
+                "DEBUG",
             )
 
         # Retrieve the supported network elements for the module
@@ -3004,7 +3115,14 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 

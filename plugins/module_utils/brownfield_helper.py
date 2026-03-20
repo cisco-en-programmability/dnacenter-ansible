@@ -535,6 +535,91 @@ class BrownFieldHelper:
         )
         return True
 
+    def auto_populate_and_validate_components_list(self, component_specific_filters):
+        """
+        Auto-populate components_list from component filters and validate that it's not empty.
+
+        This method checks if component-specific filters (like 'tag', 'tag_memberships', etc.)
+        are provided without explicitly including them in 'components_list'. If so, those
+        components are automatically added to 'components_list'. After auto-population,
+        it validates that components_list is not empty.
+
+        This method modifies component_specific_filters in-place.
+
+        Args:
+            component_specific_filters (dict): Dictionary containing component-specific filters.
+                Expected to contain 'components_list' and optionally component filter keys.
+                Modified in-place to add missing components to components_list.
+
+        Returns:
+            None
+
+        Raises:
+            SystemExit: If components_list is empty after auto-population.
+
+        Example:
+            Given:
+                component_specific_filters = {
+                    'tag': [{'tag_name': 'Production'}]
+                }
+            After auto-population:
+                component_specific_filters = {
+                    'components_list': ['tag'],
+                    'tag': [{'tag_name': 'Production'}]
+                }
+        """
+        if not component_specific_filters:
+            self.log(
+                "No component_specific_filters provided, skipping auto-population and validation",
+                "DEBUG",
+            )
+            return
+
+        self.log(
+            "Processing component_specific_filters to auto-populate components_list if needed",
+            "DEBUG",
+        )
+
+        # Get the current components_list or initialize as empty
+        components_list = component_specific_filters.get("components_list", [])
+        self.log(f"Initial components_list: {components_list}", "DEBUG")
+
+        # Check for component filters (excluding 'components_list' key)
+        component_filter_keys = [
+            key for key in component_specific_filters.keys() if key != "components_list"
+        ]
+        self.log(f"Found component filters: {component_filter_keys}", "DEBUG")
+
+        # Add missing components to components_list
+        for component_key in component_filter_keys:
+            if component_key not in components_list:
+                components_list.append(component_key)
+                self.log(
+                    f"Auto-added component '{component_key}' to components_list because filters were provided for it",
+                    "INFO",
+                )
+
+        # Update the components_list in the config
+        component_specific_filters["components_list"] = components_list
+        self.log(
+            f"Final components_list after auto-population: {components_list}", "DEBUG"
+        )
+
+        # Validate that components_list is not empty
+        if not components_list:
+            self.msg = (
+                "Validation Error: component_specific_filters is provided but no components "
+                "are specified. Either provide 'components_list' with at least one component, "
+                "or provide filters for specific components."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            f"Successfully validated components_list with {len(components_list)} component(s): {components_list}",
+            "INFO",
+        )
+
     def validate_params(self, config):
         """
         Validates the parameters provided for the YAML configuration generator.
@@ -616,9 +701,8 @@ class BrownFieldHelper:
 
         invalid_params_set = set(config_dict.keys()) - valid_params_set
         if invalid_params_set:
-            self.msg = (
-                "Invalid parameters found in configuration: {0}. Valid parameters are: {1}."
-                .format(list(invalid_params_set), list(valid_params_set))
+            self.msg = "Invalid parameters found in configuration: {0}. Valid parameters are: {1}.".format(
+                list(invalid_params_set), list(valid_params_set)
             )
             self.fail_and_exit(self.msg)
 
@@ -656,7 +740,9 @@ class BrownFieldHelper:
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-        validated_list, invalid_params = validate_list_of_dicts([config_dict], temp_spec)
+        validated_list, invalid_params = validate_list_of_dicts(
+            [config_dict], temp_spec
+        )
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
@@ -700,7 +786,9 @@ class BrownFieldHelper:
         self.log("Validating configuration entry: {0}".format(config_dict), "DEBUG")
 
         has_generate_all_config_flag = "generate_all_configurations" in config_dict
-        generate_all_configurations = config_dict.get("generate_all_configurations", False)
+        generate_all_configurations = config_dict.get(
+            "generate_all_configurations", False
+        )
         component_specific_filters = config_dict.get("component_specific_filters")
 
         if has_generate_all_config_flag and generate_all_configurations:
@@ -821,7 +909,7 @@ class BrownFieldHelper:
             "global_filters mode. This validation ensures configuration provides either "
             "'generate_all_configurations=True' for complete discovery OR 'global_filters' "
             f"dictionary for targeted extraction. Module: '{self.module_name}'",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate input type
@@ -838,7 +926,7 @@ class BrownFieldHelper:
         self.log(
             "Input type validation passed. Beginning minimum requirements validation "
             "for configuration dictionary.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract configuration flags and filters
@@ -865,16 +953,20 @@ class BrownFieldHelper:
             self.log(
                 "Auto-discovery mode detected (generate_all_configurations=True). "
                 "Skipping global_filters validation check as filters are not required.",
-                "DEBUG"
+                "DEBUG",
             )
             return
 
         # Rule 2: Check for targeted extraction mode (global_filters provided)
-        if global_filters and isinstance(global_filters, dict) and len(global_filters) > 0:
+        if (
+            global_filters
+            and isinstance(global_filters, dict)
+            and len(global_filters) > 0
+        ):
             self.log(
                 "Targeted extraction mode detected (global_filters provided). "
                 "Skipping generate_all_configurations check as valid filters provided.",
-                "DEBUG"
+                "DEBUG",
             )
             return
 
@@ -899,17 +991,19 @@ class BrownFieldHelper:
             "Configuration passed validation checks and provides either "
             "'generate_all_configurations=True' or valid 'global_filters' dictionary. Module can "
             f"proceed with brownfield playbook generation workflow. Module: '{self.module_name}'",
-            "DEBUG"
+            "DEBUG",
         )
 
-    def yaml_config_generator(self, yaml_config_generator, additional_header_comments=None):
+    def yaml_config_generator(
+        self, yaml_config_generator, additional_header_comments=None
+    ):
         """
         Generates a YAML configuration file based on the provided parameters.
         This function retrieves network element details using global and component-specific filters, processes the data,
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Contains component_specific_filters and global_filters.
             additional_header_comments (list, optional): A list of additional comment lines to append after the
                                    standard header information. Each string in the list will be
                                    prefixed with "# " to maintain comment formatting. Defaults to None.
@@ -935,7 +1029,8 @@ class BrownFieldHelper:
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
 
-        file_path = yaml_config_generator.get("file_path")
+        # Get file_path and file_mode from self.params (top-level parameters)
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
                 "No file_path provided by user, generating default filename", "DEBUG"
@@ -944,11 +1039,12 @@ class BrownFieldHelper:
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
-
+        file_mode = self.params.get("file_mode", "overwrite")
         self.log(
-            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
-            "DEBUG"
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(
+                file_path, file_mode
+            ),
+            "DEBUG",
         )
 
         self.log("Initializing filter dictionaries", "DEBUG")
@@ -958,25 +1054,23 @@ class BrownFieldHelper:
                 "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
                 "INFO",
             )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
 
             # Set empty filters to retrieve everything
             global_filters = {}
             component_specific_filters = {}
         else:
-            # Use provided filters or default to empty
+            self.log(
+                "Normal mode: Using provided filters from input",
+                "DEBUG",
+            )
             global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = (
                 yaml_config_generator.get("component_specific_filters") or {}
+            )
+            self.log(
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}, "
+                f"Global filters initialized: {self.pprint(global_filters)}",
+                "DEBUG",
             )
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
@@ -988,13 +1082,6 @@ class BrownFieldHelper:
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
-
-        # If components_list is empty, default to all supported components
-        if not components_list:
-            self.log(
-                "No components specified; processing all supported components.", "DEBUG"
-            )
-            components_list = list(module_supported_network_elements.keys())
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
@@ -1086,7 +1173,13 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, dumper=OrderedDumper, notes=additional_header_comments):
+        if self.write_dict_to_yaml(
+            yaml_config_dict,
+            file_path,
+            file_mode,
+            dumper=OrderedDumper,
+            notes=additional_header_comments,
+        ):
             self.msg = {
                 "status": "success",
                 "message": "YAML configuration file generated successfully for module '{0}'".format(
@@ -1185,9 +1278,17 @@ class BrownFieldHelper:
                  a decorative border, title, generation metadata, and any additional notes.
         """
         source_playbook = self._get_playbook_path()
-        target_module = getattr(self, 'module_name', 'Unknown')
-        generated_by = target_module.split("_workflow_manager", maxsplit=1)[0] + "_playbook_config_generator"
-        title_text = target_module.split("_workflow_manager", maxsplit=1)[0].replace('_', ' ').title() + " Configuration Playbook"
+        target_module = getattr(self, "module_name", "Unknown")
+        generated_by = (
+            target_module.split("_workflow_manager", maxsplit=1)[0]
+            + "_playbook_config_generator"
+        )
+        title_text = (
+            target_module.split("_workflow_manager", maxsplit=1)[0]
+            .replace("_", " ")
+            .title()
+            + " Configuration Playbook"
+        )
         catalyst_center_ip = self.params.get("dnac_host", "Unknown")
         catalyst_center_version = self.params.get("dnac_version", "Unknown")
 
@@ -1197,13 +1298,15 @@ class BrownFieldHelper:
             "#           {0}".format(title_text),
             eq_border,
             "#",
-            "#  Generated By            : {0}".format(generated_by),
+            "#  Generated by            : {0}".format(generated_by),
             "#  Generated from          : {0}".format(source_playbook),
-            "#  Generated On            : {0}".format(datetime.datetime.now().strftime("%d %B %Y | %H:%M:%S")),
-            "#  Target Module           : {0}".format(target_module),
+            "#  Generated on            : {0}".format(
+                datetime.datetime.now().strftime("%d %B %Y | %H:%M:%S")
+            ),
+            "#  Target module           : {0}".format(target_module),
             "#  Catalyst Center IP      : {0}".format(catalyst_center_ip),
             "#  Catalyst Center Version : {0}".format(catalyst_center_version),
-            eq_border
+            eq_border,
         ]
         if notes:
             for line in notes:
@@ -1220,7 +1323,9 @@ class BrownFieldHelper:
         try:
             import psutil
         except ImportError:
-            self.log("psutil not available - cannot retrieve ansible command", "WARNING")
+            self.log(
+                "psutil not available - cannot retrieve ansible command", "WARNING"
+            )
             return "Unknown"
 
         try:
@@ -1231,78 +1336,113 @@ class BrownFieldHelper:
             while process:
                 try:
                     cmdline = process.cmdline()
-                    if cmdline and any('ansible-playbook' in arg for arg in cmdline):
+                    if cmdline and any("ansible-playbook" in arg for arg in cmdline):
                         # Parse cmdline list to find the playbook (first positional .yml/.yaml arg).
                         # We must skip option values so that e.g. "-i inventory.yml" is not mistaken
                         # for the playbook.
                         flags_with_values = {
-                            '-i', '--inventory', '--inventory-file',
-                            '-e', '--extra-vars',
-                            '--vault-password-file', '--vault-id',
-                            '-f', '--forks', '-l', '--limit',
-                            '-t', '--tags', '--skip-tags',
-                            '-u', '--user', '--private-key', '--key-file',
-                            '-T', '--timeout', '-c', '--connection',
-                            '-M', '--module-path',
-                            '--become-method', '--become-user',
-                            '--start-at-task',
-                            '--ssh-common-args', '--ssh-extra-args',
-                            '--sftp-extra-args', '--scp-extra-args',
+                            "-i",
+                            "--inventory",
+                            "--inventory-file",
+                            "-e",
+                            "--extra-vars",
+                            "--vault-password-file",
+                            "--vault-id",
+                            "-f",
+                            "--forks",
+                            "-l",
+                            "--limit",
+                            "-t",
+                            "--tags",
+                            "--skip-tags",
+                            "-u",
+                            "--user",
+                            "--private-key",
+                            "--key-file",
+                            "-T",
+                            "--timeout",
+                            "-c",
+                            "--connection",
+                            "-M",
+                            "--module-path",
+                            "--become-method",
+                            "--become-user",
+                            "--start-at-task",
+                            "--ssh-common-args",
+                            "--ssh-extra-args",
+                            "--sftp-extra-args",
+                            "--scp-extra-args",
                         }
                         playbook_path = None
                         skip_next = False
                         self.log(
                             "Parsing cmdline tokens to identify playbook path. "
-                            "Total tokens: {0}, cmdline: {1}".format(len(cmdline), cmdline),
-                            "DEBUG"
+                            "Total tokens: {0}, cmdline: {1}".format(
+                                len(cmdline), cmdline
+                            ),
+                            "DEBUG",
                         )
                         for arg in cmdline:
-                            self.log("Processing cmdline token: '{0}'".format(arg), "DEBUG")
+                            self.log(
+                                "Processing cmdline token: '{0}'".format(arg), "DEBUG"
+                            )
                             if skip_next:
                                 self.log(
-                                    "Skipping token '{0}' - it is a value for a preceding option flag".format(arg),
-                                    "DEBUG"
+                                    "Skipping token '{0}' - it is a value for a preceding option flag".format(
+                                        arg
+                                    ),
+                                    "DEBUG",
                                 )
                                 skip_next = False
                                 continue
 
                             # Handle "--flag=value" forms — skip the whole token
-                            if '=' in arg and arg.split('=', 1)[0] in flags_with_values:
+                            if "=" in arg and arg.split("=", 1)[0] in flags_with_values:
                                 self.log(
-                                    "Skipping token '{0}' - matched '--flag=value' form for known option".format(arg),
-                                    "DEBUG"
+                                    "Skipping token '{0}' - matched '--flag=value' form for known option".format(
+                                        arg
+                                    ),
+                                    "DEBUG",
                                 )
                                 continue
 
                             if arg in flags_with_values:
                                 self.log(
-                                    "Token '{0}' is a known option flag requiring a value - will skip next token".format(arg),
-                                    "DEBUG"
+                                    "Token '{0}' is a known option flag requiring a value - will skip next token".format(
+                                        arg
+                                    ),
+                                    "DEBUG",
                                 )
                                 skip_next = True
                                 continue
 
-                            if arg.startswith('-'):
+                            if arg.startswith("-"):
                                 self.log(
-                                    "Skipping token '{0}' - boolean flag or unknown option".format(arg),
-                                    "DEBUG"
+                                    "Skipping token '{0}' - boolean flag or unknown option".format(
+                                        arg
+                                    ),
+                                    "DEBUG",
                                 )
                                 # Boolean flag or unknown option — skip
                                 continue
 
                             # Skip the ansible-playbook executable itself
-                            if 'ansible-playbook' in arg:
+                            if "ansible-playbook" in arg:
                                 self.log(
-                                    "Skipping token '{0}' - ansible-playbook executable".format(arg),
-                                    "DEBUG"
+                                    "Skipping token '{0}' - ansible-playbook executable".format(
+                                        arg
+                                    ),
+                                    "DEBUG",
                                 )
                                 continue
 
                             # First positional .yml/.yaml argument is the playbook
-                            if re.search(r'\.ya?ml$', arg):
+                            if re.search(r"\.ya?ml$", arg):
                                 self.log(
-                                    "Found playbook path: '{0}' - first positional .yml/.yaml argument".format(arg),
-                                    "DEBUG"
+                                    "Found playbook path: '{0}' - first positional .yml/.yaml argument".format(
+                                        arg
+                                    ),
+                                    "DEBUG",
                                 )
                                 playbook_path = arg
                                 break
@@ -1310,22 +1450,30 @@ class BrownFieldHelper:
                         if playbook_path:
 
                             # Get the absolute path
-                            if playbook_path.startswith('/'):
+                            if playbook_path.startswith("/"):
                                 # Already an absolute path
                                 absolute_path = playbook_path
                             else:
                                 # Relative path - get the working directory from ansible-playbook process
                                 try:
                                     parent_cwd = process.cwd()
-                                    absolute_path = os.path.join(parent_cwd, playbook_path)
+                                    absolute_path = os.path.join(
+                                        parent_cwd, playbook_path
+                                    )
                                 except (psutil.AccessDenied, psutil.NoSuchProcess):
                                     # Fall back to current working directory
                                     absolute_path = os.path.abspath(playbook_path)
 
-                            self.log("Ansible playbook executed: {0}".format(absolute_path), "INFO")
+                            self.log(
+                                "Ansible playbook executed: {0}".format(absolute_path),
+                                "INFO",
+                            )
                             return absolute_path
                         else:
-                            self.log("Could not extract playbook filename from command", "DEBUG")
+                            self.log(
+                                "Could not extract playbook filename from command",
+                                "DEBUG",
+                            )
                             return "Unknown"
                     process = process.parent()
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
@@ -1335,13 +1483,22 @@ class BrownFieldHelper:
             return "Unknown"
 
         except ImportError:
-            self.log("psutil not available - cannot retrieve ansible command", "WARNING")
+            self.log(
+                "psutil not available - cannot retrieve ansible command", "WARNING"
+            )
             return "Unknown"
         except Exception as e:
             self.log("Failed to retrieve ansible command: {0}".format(str(e)), "DEBUG")
             return "Unknown"
 
-    def write_dict_to_yaml(self, data_dict, file_path, file_mode="overwrite", dumper=OrderedDumper, notes=None):
+    def write_dict_to_yaml(
+        self,
+        data_dict,
+        file_path,
+        file_mode="overwrite",
+        dumper=OrderedDumper,
+        notes=None,
+    ):
         """
         Converts a dictionary to YAML format and writes it to a specified file path.
         Args:
@@ -1375,9 +1532,8 @@ class BrownFieldHelper:
             )
 
             if file_mode not in ("overwrite", "append"):
-                self.msg = (
-                    "Invalid file_mode '{0}'. Supported values are 'overwrite' and 'append'."
-                    .format(file_mode)
+                self.msg = "Invalid file_mode '{0}'. Supported values are 'overwrite' and 'append'.".format(
+                    file_mode
                 )
                 self.fail_and_exit(self.msg)
 
@@ -1395,8 +1551,10 @@ class BrownFieldHelper:
             self.ensure_directory_exists(file_path)
 
             self.log(
-                "Preparing to write YAML content to file: {0}, file_mode: {1}".format(file_path, file_mode),
-                "INFO"
+                "Preparing to write YAML content to file: {0}, file_mode: {1}".format(
+                    file_path, file_mode
+                ),
+                "INFO",
             )
             with open(file_path, open_mode) as yaml_file:
                 yaml_file.write(yaml_content)
@@ -1824,7 +1982,13 @@ class BrownFieldHelper:
         return self
 
     def execute_get_with_pagination(
-        self, api_family, api_function, params=None, offset=1, limit=500, use_strings=False
+        self,
+        api_family,
+        api_function,
+        params=None,
+        offset=1,
+        limit=500,
+        use_strings=False,
     ):
         """
         Executes a paginated GET request using the specified API family, function, and parameters.
@@ -1929,6 +2093,13 @@ class BrownFieldHelper:
                         "INFO",
                     )
                     break
+
+                if isinstance(response_data, dict):
+                    self.log(
+                        "API response is a dictionary; converting it to a single-item list for consistent processing.",
+                        "DEBUG",
+                    )
+                    response_data = [response_data]
 
                 # Extend the results list with the response data
                 results.extend(response_data)
@@ -2231,7 +2402,9 @@ class BrownFieldHelper:
             api_family, api_function, params
         )
 
-        site_ids_of_fabric_sites = [site.get("siteId") for site in fabric_sites if site.get("siteId")]
+        site_ids_of_fabric_sites = [
+            site.get("siteId") for site in fabric_sites if site.get("siteId")
+        ]
 
         # Get mapping of siteId to nameHierarchy
         site_id_name_mapping = self.get_site_id_name_mapping(site_ids_of_fabric_sites)

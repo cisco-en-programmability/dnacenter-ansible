@@ -1,5 +1,5 @@
 ---
-- name: Generates the template projects and templates in Cisco Catalyst Center
+- name: Generate wireless design configurations in Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
@@ -7,8 +7,8 @@
     - "credentials.yml"
   tasks:
     # Example 1: Generate all configurations with default file path
-    - name: Generate the playbook config for all template projects and templates in Cisco Catalyst Center
-      cisco.dnac.template_playbook_config_generator:
+    - name: Generate wireless design playbook config for all components
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -22,8 +22,8 @@
         # No config provided - generates all configurations
 
     # Example 2: Generate all configurations with custom file path
-    - name: Generate the playbook config for all template projects and templates in Cisco Catalyst Center
-      cisco.dnac.template_playbook_config_generator:
+    - name: Generate wireless design playbook config with custom output file
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -34,12 +34,13 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
-        file_path: "tmp/all_configurations.yml"
+        file_path: "tmp/wireless_design_all_configurations.yml"
         file_mode: "overwrite"
+        # No config provided - generates all configurations
 
-    # Example 3: Generate all the template projects with custom file path
-    - name: Generate the playbook config for all template projects in Cisco Catalyst Center
-      cisco.dnac.template_playbook_config_generator:
+    # Example 3: Generate only SSIDs using component list
+    - name: Generate wireless design config for SSIDs only
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -50,15 +51,15 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
-        file_path: "tmp/all_projects.yml"
+        file_path: "tmp/wireless_design_ssids.yml"
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["projects"]
+            components_list: ["ssids"]
 
-    # Example 4: Generate all the templates with custom file path
-    - name: Generate the playbook config for all templates in Cisco Catalyst Center
-      cisco.dnac.template_playbook_config_generator:
+    # Example 4: Generate SSIDs with filters (auto-populates components_list)
+    - name: Generate wireless SSID config using site and SSID filters
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -69,15 +70,64 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
-        file_path: "tmp/all_templates.yml"
+        file_path: "tmp/wireless_design_ssids_filtered.yml"
+        config:
+          component_specific_filters:
+            ssids:
+              - site_name_hierarchy: "Global/USA/San Jose"
+                ssid_name: "Enterprise_WiFi"
+                ssid_type: "Enterprise"
+
+    # Example 5: Generate feature template config with filters
+    - name: Generate wireless feature template config
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_feature_template_config.yml"
+        config:
+          component_specific_filters:
+            components_list: ["feature_template_config"] # Optional
+            feature_template_config:
+              - feature_template_type: "advanced_ssid"
+                design_name: "AdvancedSSID_Default"
+
+    # Example 6: Generate multiple components using independent filters
+    - name: Generate wireless design config for multiple components
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_multi_component_filters.yml"
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["configuration_templates"]
+            components_list: ["ssids", "interfaces", "feature_template_config"] # Optional
+            ssids:
+              - site_name_hierarchy: "Global/USA/San Jose"
+                ssid_type: "Guest"
+            interfaces:
+              - vlan_id: 200
+            feature_template_config:
+              - feature_template_type: "multicast_configuration"
 
-    # Example 5: Generate all the projects and templates with custom file path
-    - name: Generate the playbook config for all template projects and templates in Cisco Catalyst Center
-      cisco.dnac.template_playbook_config_generator:
+    # Example 7: Generate interfaces using interface and VLAN filters
+    - name: Generate wireless interface config with filters
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -88,15 +138,17 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
-        file_path: "tmp/all_configurations.yml"
-        file_mode: "overwrite"
+        file_path: "tmp/wireless_design_interfaces.yml"
         config:
           component_specific_filters:
-            components_list: ["projects", "configuration_templates"]
+            components_list: ["interfaces"] # Optional
+            interfaces:
+              - interface_name: "guest_interface"
+              - vlan_id: 100
 
-    # Example 6: Generate projects using project name filter
-    - name: Generate the playbook config for project using project names
-      cisco.dnac.template_playbook_config_generator:
+    # Example 8: Generate power profiles using profile name filter
+    - name: Generate wireless power profile config
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -107,19 +159,15 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
-        file_path: "tmp/projects.yml"
-        file_mode: "append"
+        file_path: "tmp/wireless_design_power_profiles.yml"
         config:
           component_specific_filters:
-            # No components_list specified, but project filters are provided
-            # The 'projects' component will be automatically added to components_list
-            projects:
-              - name: "Sample Project1"
-              - name: "Sample Project2"
+            power_profiles:
+              - power_profile_name: "EthernetSpeeds"
 
-    # Example 7: Generate templates using template name filter
-    - name: Generate the playbook config for template using template names
-      cisco.dnac.template_playbook_config_generator:
+    # Example 9: Generate access point profiles using AP profile name filter
+    - name: Generate wireless AP profile config
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -130,19 +178,15 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
-        file_path: "tmp/templates.yml"
-        file_mode: "append"
+        file_path: "tmp/wireless_design_ap_profiles.yml"
         config:
           component_specific_filters:
-            # No components_list specified, but template filters are provided
-            # The 'configuration_templates' component will be automatically added to components_list
-            configuration_templates:
-              - template_name: "Template_1"
-              - template_name: "Template_2"
+            access_point_profiles:
+              - ap_profile_name: "Default_AP_Profile_AireOS"
 
-    # Example 8: Generate all uncommitted templates
-    - name: Generate the playbook config for all the uncommitted templates
-      cisco.dnac.template_playbook_config_generator:
+    # Example 10: Generate radio frequency profiles using RF profile name filter
+    - name: Generate wireless RF profile config
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -153,16 +197,15 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
-        file_path: "tmp/uncommitted_templates.yml"
+        file_path: "tmp/wireless_design_rf_profiles.yml"
         config:
           component_specific_filters:
-            components_list: ["configuration_templates"] # This line is optional
-            configuration_templates:
-              - include_uncommitted: true
+            radio_frequency_profiles:
+              - rf_profile_name: "rf_profile_5ghz_basic"
 
-    # Example 9: Generate templates using project name filter
-    - name: Generate the playbook config for template with project name
-      cisco.dnac.template_playbook_config_generator:
+    # Example 11: Generate 802.11be profiles using profile name filter
+    - name: Generate wireless 802.11be profile config
+      cisco.dnac.wireless_design_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -173,65 +216,14 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
-        file_path: "tmp/templates.yml"
+        file_path: "tmp/wireless_design_80211be_profiles.yml"
         config:
           component_specific_filters:
-            components_list: ["configuration_templates"] # This line is optional
-            configuration_templates:
-              - project_name: "Project1"
-              - project_name: "Project2"
-
-    # Example 10: Generate templates using multiple filters
-    - name: Generate the playbook config for template with multiple filters
-      cisco.dnac.template_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
-        file_path: "tmp/templates.yml"
-        file_mode: "append"
-        config:
-          component_specific_filters:
-            components_list: ["configuration_templates"] # This line is optional
-            configuration_templates:
-              # Fetches uncommitted template using project name and template name
-              - template_name: "Template1"
-                project_name: "Project1"
-                include_uncommitted: true
-              # Fetches committed template using project name and template name
-              - template_name: "Template2"
-                project_name: "Project2"
-
-    # Example 11: Generate projects and templates using multiple filters
-    - name: Generate the playbook config for projects and templates with filters
-      cisco.dnac.template_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
-        file_path: "tmp/config.yml"
-        config:
-          component_specific_filters:
-            projects:
-              - name: "Sample Project1"
-              - name: "Sample Project2"
-            configuration_templates:
-              - template_name: "Template_1"
-              - template_name: "Template_2"
+            components_list: ["802_11_be_profiles"] # Optional
+            802_11_be_profiles:
+              - profile_name: "dot11be_profile_1"
 
       register: result
 
       tags:
-        - templates_playbook_config_generator_testing
+        - wireless_design_config_generator_testing

@@ -32,9 +32,14 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
     playbook_nfs_configuration_details = test_data.get("playbook_nfs_configuration_details")
     playbook_backup_configuration_details = test_data.get("playbook_backup_configuration_details")
     playbook_specific_nfs_backup_configuration_details = test_data.get("playbook_specific_nfs_backup_configuration_details")
-    playbook_generate_all_configuration = test_data.get("playbook_generate_all_configuration")
     playbook_negative_scenario_lower_version = test_data.get("playbook_negative_scenario_lower_version")
     playbook_negative_scenario2 = test_data.get("playbook_negative_scenario2")
+    playbook_config_omitted = test_data.get("playbook_config_omitted")
+    playbook_config_empty = test_data.get("playbook_config_empty")
+    playbook_component_with_empty_filter = test_data.get("playbook_component_with_empty_filter")
+    expected_error_missing_component_specific_filters = test_data.get(
+        "expected_error_missing_component_specific_filters"
+    )
 
     def setUp(self):
         super(TestDnacBackupRestorePlaybookGenerator, self).setUp()
@@ -87,6 +92,18 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
         elif "playbook_negative_scenario2" in self._testMethodName:
             pass
 
+        elif "config_omitted_defaults_generate_all" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_nfs_details"),
+                self.test_data.get("get_backup_configuration_details2"),
+                self.test_data.get("get_all_n_f_s_configurations")
+            ]
+
+        elif "empty_component_filter_treated_as_all_for_component" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("nfs_server_details")
+            ]
+
     def test_backup_and_restore_playbook_config_generator_playbook_nfs_configuration_details(self):
         """
         Test case for creating a scheduled backup in Cisco Catalyst Center.
@@ -102,6 +119,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
+                file_path="/Users/priyadharshini/Downloads/configuration_details_info",
                 config=self.playbook_nfs_configuration_details
             )
         )
@@ -134,6 +152,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
+                file_path="/Users/priyadharshini/Downloads/configuration_details_info",
                 config=self.playbook_backup_configuration_details
             )
         )
@@ -166,6 +185,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
+                file_path="/Users/priyadharshini/Downloads/configuration_details_info",
                 config=self.playbook_specific_nfs_backup_configuration_details
             )
         )
@@ -198,7 +218,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
-                config=self.playbook_generate_all_configuration
+                file_path="/Users/priyadharshini/Downloads/configuration_details_info1",
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -269,3 +289,68 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
             "'backup_and_restore_workflow_manager': ['nfs_configurations']. "
             "Valid components are: ['nfs_configuration', 'backup_storage_configuration']"
         )
+
+    def test_backup_and_restore_playbook_config_generator_config_omitted_defaults_generate_all(self):
+        """
+        Omitted config should default to generate_all behavior.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0"
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(result.get("response").get("status"), "success")
+        self.assertEqual(result.get("response").get("components_processed"), 2)
+        self.assertEqual(result.get("response").get("components_skipped"), 0)
+        self.assertEqual(result.get("response").get("configurations_count"), 7)
+
+    def test_backup_and_restore_playbook_config_generator_config_empty_fails_missing_component_specific_filters(self):
+        """
+        Explicit empty config should fail due to missing component_specific_filters.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                config=self.playbook_config_empty
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            self.expected_error_missing_component_specific_filters
+        )
+
+    def test_backup_and_restore_playbook_config_generator_empty_component_filter_treated_as_all_for_component(self):
+        """
+        Empty component filter block should be treated as fetch-all for that component.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                config=self.playbook_component_with_empty_filter
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(result.get("response").get("status"), "success")
+        self.assertEqual(result.get("response").get("components_processed"), 1)
+        self.assertEqual(result.get("response").get("components_skipped"), 0)
+        self.assertEqual(result.get("response").get("configurations_count"), 6)
