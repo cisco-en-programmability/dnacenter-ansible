@@ -121,7 +121,8 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
-                config=self.playbook_config_generate_all_profile
+                file_path="tmp/test_switch_profile_demo.yaml",
+                file_mode="overwrite"
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -146,6 +147,8 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
+                file_path="tmp/network_profile_switching_workflow_playbook_profilebase.yml",
+                file_mode="overwrite",
                 config=self.playbook_global_filter_profile_base
             )
         )
@@ -171,6 +174,8 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
+                file_path="tmp/network_profile_switching_workflow_playbook_templatebase.yml",
+                file_mode="overwrite",
                 config=self.playbook_global_filter_template_base
             )
         )
@@ -196,6 +201,8 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
+                file_path="tmp/network_profile_switching_workflow_playbook_sitebase.yml",
+                file_mode="overwrite",
                 config=self.playbook_global_filter_site_base
             )
         )

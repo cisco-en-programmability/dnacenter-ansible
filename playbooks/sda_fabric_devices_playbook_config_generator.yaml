@@ -8,7 +8,7 @@
 # The module supports:
 # - Complete infrastructure discovery (all fabric sites, all devices)
 # - Filtered extraction (specific fabric sites, device roles, or IP addresses)
-# - Multiple configuration file generation in a single run
+# - File append mode for combining multiple configurations
 #
 # Prerequisites:
 # - Cisco Catalyst Center version 2.3.7.6 or higher
@@ -38,8 +38,7 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          - generate_all_configurations: true
+        # No config provided - generates all configurations
 
 # Example 2: Generate all configurations with custom file path
 - name: Generate complete SDA fabric devices configuration with custom filename
@@ -63,9 +62,9 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          - file_path: "/tmp/complete_sda_fabric_devices_config.yaml"
-            generate_all_configurations: true
+        file_path: "/tmp/complete_sda_fabric_devices_config.yaml"
+        file_mode: "overwrite"
+        # No config provided - generates all configurations
 
 # Example 3: Generate fabric device configurations for a specific fabric site
 - name: Generate fabric device configurations for one fabric site
@@ -89,12 +88,13 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/san_jose_fabric_devices.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/san_jose_fabric_devices.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/USA/SAN-JOSE"
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              fabric_name: "Global/USA/SAN-JOSE"
 
 # Example 4: Generate configuration for devices with specific roles in a fabric site
 - name: Generate configuration for border and control plane devices
@@ -118,13 +118,14 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/border_and_cp_devices.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/border_and_cp_devices.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/USA/SAN-JOSE"
-                device_roles: ["BORDER_NODE", "CONTROL_PLANE_NODE"]
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              fabric_name: "Global/USA/SAN-JOSE"
+              device_roles: ["BORDER_NODE", "CONTROL_PLANE_NODE"]
 
 # Example 5: Generate configuration for a specific device in a fabric site
 - name: Generate configuration for a specific fabric device
@@ -148,23 +149,24 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/specific_fabric_device.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/specific_fabric_device.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/USA/SAN-JOSE"
-                device_ip: "10.0.0.1"
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              fabric_name: "Global/USA/SAN-JOSE"
+              device_ip: "10.0.0.1"
 
-# Example 6: Generate multiple configuration files in a single playbook run
-- name: Generate multiple SDA fabric device configuration files
+# Example 6: Auto-populate components_list from component filters
+- name: Generate configuration with auto-populated components_list
   hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
-    - name: Generate multiple SDA fabric device configurations
+    - name: Export fabric devices without explicit components_list
       cisco.dnac.sda_fabric_devices_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -178,17 +180,42 @@
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/san_jose_fabric.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/all_fabric_devices.yaml"
-            generate_all_configurations: true
-          - file_path: "/tmp/san_jose_only.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/USA/SAN-JOSE"
-          - file_path: "/tmp/bangalore_border_devices.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/India/Bangalore"
-                device_roles: ["BORDER_NODE"]
+          component_specific_filters:
+            # No components_list specified, but fabric_devices filters are provided
+            # The 'fabric_devices' component will be automatically added to components_list
+            fabric_devices:
+              fabric_name: "Global/USA/SAN-JOSE"
+
+# Example 7: Generate configuration with append mode
+- name: Generate and append SDA fabric device configuration
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Append fabric device configurations to existing file
+      cisco.dnac.sda_fabric_devices_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        file_path: "/tmp/all_fabric_devices.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              fabric_name: "Global/India/Bangalore"
+              device_roles: ["BORDER_NODE"]

@@ -41,48 +41,50 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, the file will be saved in the current working directory with
+        a default file name C(backup_and_restore_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+      - For example, C(backup_and_restore_playbook_config_2026-01-27_14-21-41.yml).
+      - Supports both absolute and relative paths.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - File write mode for the generated YAML configuration file.
+      - The overwrite option replaces existing file content with new content.
+      - The append option adds new content to the end of existing file.
+      - Defaults to overwrite if not specified.
+      - file_mode is only applicable when file_path is provided.
+    type: str
+    required: false
+    default: overwrite
+    choices:
+      - overwrite
+      - append
   config:
     description:
       - A dictionary of filters for generating YAML playbook compatible with the 'backup_and_restore_workflow_manager'
         module.
       - Filters specify which components to include in the YAML configuration file.
-      - If "components_list" is specified, only those components are included, regardless of the filters.
+      - If C(components_list) is specified, only those components are included, regardless of the filters.
+      - C(component_specific_filters) is mandatory.
     type: dict
-    required: true
+    required: false
     suboptions:
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current working directory with
-            a default file name C(backup_and_restore_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example, C(backup_and_restore_playbook_config_2026-01-27_14-21-41.yml).
-          - Supports both absolute and relative paths.
-        type: str
-      file_mode:
-        description:
-          - File write mode for the generated YAML configuration file.
-          - The overwrite option replaces existing file content with new content.
-          - The append option adds new content to the end of existing file.
-          - Defaults to overwrite if not specified.
-        type: str
-        choices:
-          - overwrite
-          - append
-      generate_all_configurations:
-        description:
-          - Generate YAML configuration for all available backup and restore components.
-          - When set to true, generates configuration for both NFS configurations and backup storage configurations.
-          - Takes precedence over component_specific_filters if both are specified.
-          - If set to true and no component_specific_filters are provided, defaults to including all components.
-        type: bool
-        default: false
       component_specific_filters:
         description:
+          - Required when C(config) is provided.
           - Filters to specify which components to include in the YAML configuration
             file.
-          - If "components_list" is specified, only those components are included,
+          - If C(components_list) is specified, only those components are included,
             regardless of other filters.
-          - Ignored when generate_all_configurations is set to true.
+          - If component filter blocks are provided (for example C(nfs_configuration)),
+            those components are automatically added to C(components_list) when missing.
+          - If no component filter blocks are provided, C(components_list) is mandatory
+            and must not be empty.
+        required: true
         type: dict
         suboptions:
           components_list:
@@ -91,7 +93,8 @@ options:
               - Valid values are
                 - NFS Configuration "nfs_configuration"
                 - Backup Storage Configuration "backup_storage_configuration"
-              - If not specified, all components are included.
+              - Required when no component-specific filter blocks are provided.
+              - Empty list is invalid when no component-specific filter blocks are provided.
               - Supports multiple filter entries for filtering multiple
                 NFS servers.
             type: list
@@ -177,8 +180,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_backup_restore_config.yaml"
     config:
-      file_path: "/tmp/catc_backup_restore_config.yaml"
       component_specific_filters:
         components_list:
           - "nfs_configuration"
@@ -196,9 +199,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_backup_storage_config.yaml"
+    file_mode: "overwrite"
     config:
-      file_path: "/tmp/catc_backup_storage_config.yaml"
-      file_mode: "overwrite"
       component_specific_filters:
         components_list: ["backup_storage_configuration"]
         backup_storage_configuration:
@@ -216,8 +219,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_specific_nfs_config.yaml"
     config:
-      file_path: "/tmp/catc_specific_nfs_config.yaml"
       component_specific_filters:
         components_list: ["nfs_configuration"]
         nfs_configuration:
@@ -236,9 +239,12 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_backup_restore_config.yaml"
     config:
-      file_path: "/tmp/catc_backup_restore_config.yaml"
-      generate_all_configurations: true
+      component_specific_filters:
+        components_list:
+          - "nfs_configuration"
+          - "backup_storage_configuration"
 
 - name: Append YAML Configuration for multiple NFS servers to existing file
   cisco.dnac.backup_and_restore_playbook_config_generator:
@@ -252,9 +258,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_multiple_nfs_config.yaml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/catc_multiple_nfs_config.yaml"
-      file_mode: "append"
       component_specific_filters:
         components_list: ["nfs_configuration"]
         nfs_configuration:
@@ -275,10 +281,48 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_physical_disk_backup.yaml"
     config:
-      file_path: "/tmp/catc_physical_disk_backup.yaml"
       component_specific_filters:
         components_list: ["backup_storage_configuration"]
+        backup_storage_configuration:
+          - server_type: "NFS"
+
+- name: Component filter auto-adds missing component to components_list
+  cisco.dnac.backup_and_restore_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/catc_component_auto_add.yaml"
+    config:
+      component_specific_filters:
+        components_list: ["nfs_configuration"]
+        backup_storage_configuration:
+          - server_type: "NFS"
+
+- name: Equivalent explicit components_list for same filter behavior
+  cisco.dnac.backup_and_restore_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/catc_component_explicit.yaml"
+    config:
+      component_specific_filters:
+        components_list: ["nfs_configuration", "backup_storage_configuration"]
         backup_storage_configuration:
           - server_type: "NFS"
 """
@@ -498,8 +542,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         Description:
             Performs comprehensive validation of input configuration parameters to ensure
             they conform to the expected schema. Uses validate_config_dict for type validation,
-            validate_invalid_params for checking allowed keys, and validate_minimum_requirements
-            for logical requirement validation.
+            validate_invalid_params for checking allowed keys.
 
         Args:
             None: Uses self.config from the instance.
@@ -518,18 +561,15 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "INFO")
-            return self
+        # Two cases only:
+        # 1. config is not provided (None) -> auto generate_all_configurations
+        # 2. config is provided as empty dict -> mandatory component_specific_filters error
+        raw_config = self.params.get("config")
+        if raw_config is None:
+            self.config = {}
 
         # Expected schema for configuration parameters used by validate_config_dict
         temp_spec = {
-            "file_path": {"type": "str", "required": False},
-            "file_mode": {"type": "str", "required": False, "default": "overwrite"},
-            "generate_all_configurations": {"type": "bool", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
         }
 
@@ -569,8 +609,8 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        # Step 2: Validate file_mode if provided
-        file_mode = self.config.get("file_mode")
+        # Step 2: Validate file_mode if provided (top-level arg)
+        file_mode = self.params.get("file_mode")
         if file_mode is not None and file_mode not in ("overwrite", "append"):
             self.msg = (
                 "Invalid value for 'file_mode': '{0}'. "
@@ -589,25 +629,83 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         # Step 3: Validate config dict types using validate_config_dict from BrownFieldHelper
         validated_config = self.validate_config_dict(self.config, temp_spec)
 
+        # Omitted config defaults to generate_all mode.
+        if raw_config is None:
+            validated_config = {"generate_all_configurations": True}
+            self.log(
+                "Config key is omitted. Applied default config: {0}".format(
+                    validated_config
+                ),
+                "INFO",
+            )
+
+        # If config is explicitly provided as empty, component_specific_filters is mandatory.
+        component_specific_filters = validated_config.get("component_specific_filters")
+        if raw_config == {} and component_specific_filters is None:
+            self.log(
+                "Mandatory validation failed: 'component_specific_filters' is missing while "
+                "'config' was provided as empty dict.",
+                "ERROR",
+            )
+            self.msg = (
+                "Validation Error: 'component_specific_filters' is mandatory when "
+                "'config' is provided. Please provide 'config.component_specific_filters' "
+                "with either 'components_list' or component filter blocks."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
         self.log(
             "Type validation via validate_config_dict() completed successfully. "
-            "Validated config: {0}. Proceeding with validate_minimum_requirements().".format(
+            "Validated config: {0}.".format(
                 validated_config
             ),
             "INFO"
         )
 
-        # Step 4: Validate minimum requirements using validate_minimum_requirements from BrownFieldHelper
-        # This checks: if generate_all_configurations is not True, component_specific_filters
-        # with 'components_list' key must be provided.
-        self.validate_minimum_requirements(validated_config)
+        # Enforce conditional requirement for components_list and component filters:
+        # - if explicit component filters exist, components_list is optional and gets auto-populated
+        # - if explicit component filters do not exist, components_list is mandatory and non-empty
+        component_specific_filters = validated_config.get("component_specific_filters")
+        if component_specific_filters is not None:
+            component_keys = [
+                key
+                for key in component_specific_filters.keys()
+                if key != "components_list"
+            ]
+            components_list = component_specific_filters.get("components_list")
 
-        self.log(
-            "Minimum requirements validation completed. Configuration meets logical requirements "
-            "for backup and restore playbook generation. At least one selection criteria "
-            "(generate_all_configurations or component_specific_filters with components_list) is present.",
-            "DEBUG"
-        )
+            if components_list is not None and not isinstance(components_list, list):
+                self.msg = (
+                    "Invalid type for 'component_specific_filters.components_list': "
+                    "expected list."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            if components_list is None and not component_keys:
+                self.msg = (
+                    "Validation Error: 'component_specific_filters.components_list' is required "
+                    "when no component-specific filter blocks are provided."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            if components_list == [] and not component_keys:
+                self.msg = (
+                    "Validation Error: Empty 'component_specific_filters.components_list' is not allowed "
+                    "when no component-specific filter blocks are provided."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            if component_keys:
+                normalized_components_list = list(components_list or [])
+                for component_name in component_keys:
+                    if component_name not in normalized_components_list:
+                        normalized_components_list.append(component_name)
+                component_specific_filters["components_list"] = normalized_components_list
+                validated_config["component_specific_filters"] = component_specific_filters
 
         # Step 5: Validate component_specific_filters if provided
         component_specific_filters = validated_config.get("component_specific_filters")
@@ -2161,9 +2259,9 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         generate_all_configurations = yaml_config_generator.get("generate_all_configurations", False)
 
         self.log(
-            "Generate all configurations flag: {0}. When True, this flag overrides component_specific_filters.components_list "
-            "and includes all available components defined in module schema. When False, uses specified "
-            "components_list or defaults to all components if list not provided.".format(generate_all_configurations),
+            "Generate all configurations flag: {0}. When True, this flag overrides component list "
+            "selection and includes all available components defined in module schema. When False, "
+            "uses component_specific_filters.components_list.".format(generate_all_configurations),
             "DEBUG"
         )
 
@@ -2201,8 +2299,9 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "components_list", list(module_supported_network_elements.keys())
             )
             self.log(
-                "Using components from component_specific_filters.components_list or defaulting to all "
-                "components. Selected components for processing: {0}. Total components to process: {1}.".format(
+                "Using components from component_specific_filters.components_list "
+                "or defaulting to all components. Selected components for "
+                "processing: {0}. Total components to process: {1}.".format(
                     components_list, len(components_list)
                 ),
                 "DEBUG"
@@ -2750,10 +2849,9 @@ def main():
         4. Validate Catalyst Center version compatibility (>= 3.1.3.0)
         5. Validate and sanitize state parameter
         6. Execute input parameter validation
-        7. Process each configuration item in the playbook
-        8. Handle generate_all_configurations and default component logic
-        9. Execute state-specific operations (gathered workflow)
-        10. Return results via module.exit_json()
+        7. Normalize config defaults and file output controls
+        8. Execute state-specific operations (gathered workflow)
+        9. Return results via module.exit_json()
 
     Module Arguments:
         Connection Parameters:
@@ -2777,7 +2875,9 @@ def main():
             - dnac_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
-            - config (dict, required): Configuration parameters dictionary
+            - file_path (str, optional): Output file path for generated YAML
+            - file_mode (str, optional, default="overwrite"): Write mode
+            - config (dict, optional): Configuration parameters dictionary
             - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
@@ -2888,8 +2988,18 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "required": False,
+            "type": "str",
+        },
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         "config": {
-            "required": True,
+            "required": False,
             "type": "dict",
         },
         "state": {
@@ -3043,88 +3153,31 @@ def main():
         "INFO"
     )
 
-    # Handle generate_all_configurations and set component defaults
-    # Check if generate_all_configurations is explicitly set to True
-    if config_item.get("generate_all_configurations"):
-        ccc_backup_restore_playbook_generator.log(
-            "generate_all_configurations=True detected. Setting default "
-            "components to include both nfs_configuration and backup_storage_configuration",
-            "INFO"
-        )
+    # Inject top-level file controls into validated config
+    file_path = module.params.get("file_path")
+    if file_path:
+        config_item["file_path"] = file_path
+    config_item["file_mode"] = module.params.get("file_mode", "overwrite")
 
-        # Set default components when generate_all_configurations is True
-        if not config_item.get("component_specific_filters"):
-            config_item["component_specific_filters"] = {
-                "components_list": ["nfs_configuration", "backup_storage_configuration"]
-            }
+    # Scenario 2 & 3:
+    # Components specified but no actual filter values should be treated as "all data"
+    # for those components by removing empty filter blocks.
+    component_specific_filters = config_item.get("component_specific_filters", {})
+    components_list = component_specific_filters.get("components_list", [])
+    for component in components_list:
+        if (
+            component in component_specific_filters
+            and not component_specific_filters.get(component)
+        ):
             ccc_backup_restore_playbook_generator.log(
-                "Set default component_specific_filters for generate_all mode: {0}".format(
-                    config_item["component_specific_filters"]
+                "Component '{0}' has empty filter values. Treating it as "
+                "generate-all for this component by removing empty filter block.".format(
+                    component
                 ),
-                "DEBUG"
+                "INFO",
             )
-        else:
-            ccc_backup_restore_playbook_generator.log(
-                "component_specific_filters already provided in generate_all mode - "
-                "using existing filters: {0}".format(
-                    config_item.get("component_specific_filters")
-                ),
-                "DEBUG"
-            )
-
-    # Handle component_specific_filters scenarios
-    elif config_item.get("component_specific_filters"):
-        components_list = config_item["component_specific_filters"].get("components_list")
-
-        # Scenario 1: Empty components_list - treat as generate_all
-        if components_list is not None and len(components_list) == 0:
-            ccc_backup_restore_playbook_generator.log(
-                "Empty components_list detected. Treating as generate_all_configurations=True",
-                "INFO"
-            )
-            config_item["component_specific_filters"]["components_list"] = ["nfs_configuration", "backup_storage_configuration"]
-
-        # Scenario 2 & 3: Components specified but no actual filter values - treat as generate_all for those components
-        elif components_list:
-            for component in components_list:
-                if component in config_item["component_specific_filters"] and not config_item["component_specific_filters"][component]:
-                    ccc_backup_restore_playbook_generator.log(
-                        "Component '{0}' specified without filter values. "
-                        "Will retrieve all configurations for this component".format(
-                            component
-                        ),
-                        "INFO"
-                    )
-                    # Remove empty filter to allow all configurations for this component
-                    del config_item["component_specific_filters"][component]
-
-        # If no components_list specified, default to all components
-        else:
-            ccc_backup_restore_playbook_generator.log(
-                "component_specific_filters provided but no components_list. "
-                "Defaulting to all components",
-                "INFO"
-            )
-            config_item["component_specific_filters"]["components_list"] = ["nfs_configuration", "backup_storage_configuration"]
-
-    # No component filters specified at all
-    elif config_item.get("component_specific_filters") is None:
-        ccc_backup_restore_playbook_generator.log(
-            "No component_specific_filters provided in normal mode. "
-            "Applying default configuration to retrieve both NFS and backup storage components",
-            "INFO"
-        )
-
-        config_item["component_specific_filters"] = {
-            "components_list": ["nfs_configuration", "backup_storage_configuration"]
-        }
-
-        ccc_backup_restore_playbook_generator.log(
-            "Applied default component_specific_filters: {0}".format(
-                config_item["component_specific_filters"]
-            ),
-            "DEBUG"
-        )
+            del component_specific_filters[component]
+    config_item["component_specific_filters"] = component_specific_filters
 
     # Update validated config after default handling
     ccc_backup_restore_playbook_generator.validated_config = config_item
@@ -3138,7 +3191,8 @@ def main():
     # Execute state-specific operations for single config dict
     # ============================================
     components_list = config_item.get("component_specific_filters", {}).get(
-        "components_list", "all"
+        "components_list",
+        config_item.get("component_specific_filters", {}).get("components_list", "all"),
     )
 
     ccc_backup_restore_playbook_generator.log(
