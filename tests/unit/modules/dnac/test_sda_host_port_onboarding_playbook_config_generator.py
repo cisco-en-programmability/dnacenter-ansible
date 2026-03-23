@@ -54,7 +54,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
-        def mock_dnac_exec(family, function, op_modifies, params=None):
+        def mock_dnac_exec(family, function, op_modifies=False, params=None):
             if function == "get_port_assignments":
                 return self.test_data.get("get_port_assignments_response")
             elif function == "get_port_channels":
@@ -93,7 +93,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
             "dnac_username": "admin",
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
-            "config": self.playbook_config_generate_all_configurations,
+            "file_path": "/tmp/sda_host_port_onboarding.yaml",
             "state": "gathered",
         })
         result = self.execute_module(changed=True)
@@ -121,6 +121,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
             "config": self.playbook_config_port_assignments_filtered,
+            "file_path": "/tmp/sda_host_port_onboarding.yaml",
             "state": "gathered",
         })
         result = self.execute_module(changed=True)
@@ -151,6 +152,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
             "config": self.playbook_config_port_channels_filtered,
+            "file_path": "/tmp/sda_host_port_onboarding.yaml",
             "state": "gathered",
         })
         result = self.execute_module(changed=True)
@@ -181,6 +183,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
             "config": self.playbook_config_wireless_ssids_filtered,
+            "file_path": "/tmp/sda_host_port_onboarding.yaml",
             "state": "gathered",
         })
         result = self.execute_module(changed=True)
@@ -211,6 +214,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
             "config": self.playbook_config_all_components_filtered,
+            "file_path": "/tmp/sda_host_port_onboarding.yaml",
             "state": "gathered",
         })
         result = self.execute_module(changed=True)
@@ -257,6 +261,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
             "config": self.playbook_config_port_assignments_filtered,
+            "file_path": "/tmp/sda_host_port_onboarding.yaml",
             "state": "gathered",
         })
         result = self.execute_module(changed=True)

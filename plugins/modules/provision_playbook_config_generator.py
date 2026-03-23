@@ -68,6 +68,7 @@ options:
             - Valid values are
               - Wired Devices "wired"
               - Wireless Devices "wireless"
+            - Duplicate component names are not allowed.
             - Required and non-empty when no component-specific filter block is provided.
             - If wired/wireless filter blocks are provided, missing component names are auto-added.
             - For example, ["wired", "wireless"].
@@ -532,6 +533,22 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+                duplicate_components = []
+                seen_components = set()
+                for component_name in components_list:
+                    if component_name in seen_components and component_name not in duplicate_components:
+                        duplicate_components.append(component_name)
+                    seen_components.add(component_name)
+
+                if duplicate_components:
+                    self.msg = (
+                        "Duplicate component names found in 'components_list': {0}. "
+                        "Each component may be specified only once.".format(duplicate_components)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
                 normalized_components_list = list(components_list)
 
             allowed_filter_keys = ["management_ip_address", "site_name_hierarchy", "device_family"]
@@ -2128,7 +2145,7 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
             params = self.want.get(param_key)
-            if params:
+            if params is not None:
                 self.log(
                     "Iteration {0}: Parameters found for {1}. Starting processing.".format(
                         index, operation_name
