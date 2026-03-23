@@ -14,86 +14,20 @@ module: inventory_playbook_config_generator
 short_description: Generate YAML playbook input for 'inventory_workflow_manager' module.
 description:
   - Generates YAML input files for C(cisco.dnac.inventory_workflow_manager).
-  - Supports independent component generation for device details, SDA provisioning,
-    interface details, and user-defined fields.
-  - Supports global device filters by IP, hostname, serial number, and MAC address.
-  - In non-auto mode, provide C(component_specific_filters.components_list) to
-    control which component sections are generated.
+  - Supports independent component generation for device details, device
+    provisioning, interface details, and user-defined fields.
+  - Supports global device filters by IP address, hostname, serial number, and
+    MAC address.
+  - If C(config) is omitted or empty, the module behaves as if
+    C(generate_all_configurations=true) was provided and generates all
+    supported components.
 version_added: 6.44.0
+extends_documentation_fragment:
+  - cisco.dnac.workflow_manager_params
 author:
   - Mridul Saurabh (@msaurabh)
   - Madhan Sankaranarayanan (@madsanka)
 options:
-  dnac_host:
-    description: Cisco Catalyst Center hostname or IP address.
-    type: str
-    required: true
-  dnac_port:
-    description: Cisco Catalyst Center port number.
-    type: str
-    default: "443"
-    required: false
-  dnac_username:
-    description: Cisco Catalyst Center username.
-    type: str
-    default: "admin"
-    required: false
-    aliases:
-      - user
-  dnac_password:
-    description: Cisco Catalyst Center password.
-    type: str
-    required: false
-  dnac_verify:
-    description: Verify SSL certificate for Cisco Catalyst Center.
-    type: bool
-    default: true
-    required: false
-  dnac_version:
-    description: Cisco Catalyst Center version.
-    type: str
-    default: "2.2.3.3"
-    required: false
-  dnac_debug:
-    description: Enable debug logging.
-    type: bool
-    default: false
-    required: false
-  dnac_log_level:
-    description: Log level for module execution.
-    type: str
-    default: "WARNING"
-    required: false
-  dnac_log_file_path:
-    description: Path for debug log file.
-    type: str
-    default: "dnac.log"
-    required: false
-  dnac_log_append:
-    description: Append to log file instead of overwriting.
-    type: bool
-    default: true
-    required: false
-  dnac_log:
-    description: Enable logging to file.
-    type: bool
-    default: false
-    required: false
-  validate_response_schema:
-    description: Validate response schema from API.
-    type: bool
-    default: true
-    required: false
-  dnac_api_task_timeout:
-    description: API task timeout in seconds.
-    type: int
-    default: 1200
-    required: false
-  dnac_task_poll_interval:
-    description: Task poll interval in seconds.
-    type: int
-    default: 2
-    required: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -101,169 +35,130 @@ options:
       - gathered
     default: "gathered"
     required: false
+  file_path:
+    description:
+      - Path where the generated YAML configuration file will be saved.
+      - If not provided, the module generates a default file name using the
+        brownfield helper.
+      - The generated file name format is
+        C(inventory_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    type: str
+    required: false
+  file_mode:
+    description:
+      - File write mode for the generated YAML configuration file.
+      - Relevant only when C(file_path) is provided.
+      - C(overwrite) replaces the existing file content.
+      - C(append) appends new YAML documents to the existing file.
+    type: str
+    choices:
+      - overwrite
+      - append
+    default: overwrite
+    required: false
   config:
     description:
-      - A list of filters for generating YAML playbook compatible with the 'inventory_workflow_manager' module.
-      - Filters specify which devices and credentials to include in the YAML configuration file.
-      - If "components_list" is specified, only those components are included, regardless of the filters.
+      - Dictionary of filters controlling which inventory components are
+        generated for C(inventory_workflow_manager).
+      - If omitted or empty, the module generates all supported components by
+        internally setting C(generate_all_configurations=true).
+      - If provided, it may contain only C(global_filters) and or
+        C(component_specific_filters).
+      - At least one of C(global_filters) or C(component_specific_filters) must
+        be present when C(config) is provided.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML configurations for all devices in Cisco Catalyst Center.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all device inventory configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete infrastructure discovery and documentation.
-          - Note - Only devices with manageable software versions are included in the output.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  C(inventory_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(inventory_playbook_config_2026-01-24_12-33-20.yml).
-        type: str
-      file_mode:
-        description:
-        - Controls how config is written to the YAML file.
-        - C(overwrite) replaces existing file content.
-        - C(append) appends generated YAML content to the existing file.
-        type: str
-        choices: ["overwrite", "append"]
-        default: "overwrite"
       global_filters:
         description:
-        - Global filters to apply when generating the YAML configuration file.
-        - These filters apply to all components unless overridden by component-specific filters.
-        - Supports filtering devices by IP address, hostname, serial number, or MAC address.
+          - Global device filters applied across components during playbook
+            generation.
+          - Supports filtering by IP address, hostname, serial number, or MAC
+            address.
         type: dict
         suboptions:
           ip_address_list:
             description:
-            - List of device IP addresses to include in the YAML configuration file.
-            - When specified, only devices with matching management IP addresses will be included.
-            - For example, ["192.168.1.1", "192.168.1.2", "192.168.1.3"]
+              - List of device management IP addresses to include.
             type: list
             elements: str
           hostname_list:
             description:
-            - List of device hostnames to include in the YAML configuration file.
-            - When specified, only devices with matching hostnames will be included.
-            - For example, ["switch-1", "router-1", "firewall-1"]
+              - List of device hostnames to include.
             type: list
             elements: str
           serial_number_list:
             description:
-            - List of device serial numbers to include in the YAML configuration file.
-            - When specified, only devices with matching serial numbers will be included.
-            - For example, ["ABC123456789", "DEF987654321"]
+              - List of device serial numbers to include.
             type: list
             elements: str
           mac_address_list:
             description:
-            - List of device MAC addresses to include in the YAML configuration file.
-            - When specified, only devices with matching MAC addresses will be included.
-            - For example, ["e4:1f:7b:d7:bd:00", "a1:b2:c3:d4:e5:f6"]
+              - List of device MAC addresses to include.
             type: list
             elements: str
       component_specific_filters:
         description:
-        - Filters to specify which components and device attributes to include in the YAML configuration file.
-        - If "components_list" is specified, only those components are included.
-        - Additional filters can be applied to narrow down device selection based on role, type, etc.
+          - Component-level filters controlling which sections are included in
+            the generated YAML configuration.
+          - Mandatory when C(config) is provided and
+            C(generate_all_configurations) is false.
+          - If no component filter blocks are provided, C(components_list) must
+            be provided and must be non-empty.
+          - If a component filter block is provided, the corresponding component
+            is auto-added to C(components_list) if missing.
         type: dict
         suboptions:
           components_list:
             description:
-            - List of components to include in the YAML configuration file.
-            - Valid values are "device_details", "provision_device", "interface_details", and "user_defined_fields".
-            - If not specified, all components are included.
+              - List of components to include in the generated YAML
+                configuration file.
+              - Optional when one or more component filter blocks are provided.
+              - Required when no component filter blocks are provided.
             type: list
             elements: str
             choices:
-            - device_details
-            - provision_device
-            - interface_details
-            - user_defined_fields
+              - device_details
+              - provision_device
+              - interface_details
+              - user_defined_fields
           device_details:
             description:
-            - Filters for device configuration generation.
-            - Accepts a dict or a list of dicts.
-            - List behavior OR between dict entries.
-            - Dict behavior AND between filter keys.
-            - Supported keys include type, role, snmp_version, and cli_transport.
-            - 'Type options: NETWORK_DEVICE, COMPUTE_DEVICE, MERAKI_DASHBOARD, THIRD_PARTY_DEVICE, FIREPOWER_MANAGEMENT_SYSTEM.'
-            - 'Role options: ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.'
-            - 'SNMP version options: v2, v2c, v3.'
-            - 'CLI transport options: ssh or telnet.'
+              - Filters for device detail generation.
+              - Accepts either a single dictionary or a list of dictionaries.
+              - Multiple dictionaries use OR logic, while keys inside each
+                dictionary use AND logic.
             type: raw
-            suboptions:
-              role:
-                description:
-                - Filter devices by network role.
-                - Can be a single role string or a list of roles (matches any in the list).
-                - Valid values are ACCESS, CORE, DISTRIBUTION, BORDER ROUTER, UNKNOWN.
-                - 'Example: role="ACCESS" for single role or role=["ACCESS", "CORE"] for multiple roles.'
-                type: str
-                choices:
-                  - ACCESS
-                  - CORE
-                  - DISTRIBUTION
-                  - BORDER ROUTER
-                  - UNKNOWN
           provision_device:
             description:
-            - Specific filters for provision_device component.
-            - Filters the provision_wired_device configuration based on site assignment.
-            - No additional API calls are made; filtering is applied to existing provision data.
+              - Filters the provision device output by site name.
             type: dict
             suboptions:
               site_name:
                 description:
-                - Filter provision devices by site name (e.g., Global/India/Telangana/Hyderabad/BLD_1).
+                  - Hierarchical site name used to filter provisioned devices.
                 type: str
           interface_details:
             description:
-            - Component selector for auto-generated interface_details.
-            - Filters interface configurations based on device IP addresses and interface names.
-            - Interfaces are automatically discovered from matched devices using Catalyst Center API.
+              - Filters interface details by interface name.
             type: dict
             suboptions:
               interface_name:
                 description:
-                - Filter interfaces by name (optional).
-                - Can be a single interface name string or a list of interface names.
-                - When specified, only interfaces with matching names will be included.
-                - Matches use 'OR' logic; any interface matching any name in the list is included.
-                - Common interface names include Vlan100, Loopback0, GigabitEthernet1/0/1, or FortyGigabitEthernet1/1/1.
-                - If not specified, all discovered interfaces for matched devices are included.
-                - 'Example: interface_name="Vlan100" for single or interface_name=["Vlan100", "Loopback0"] for multiple.'
-                type: str
+                  - Single interface name or list of interface names to include.
+                type: raw
           user_defined_fields:
             description:
-            - Filters for user-defined fields (UDF) component generation.
-            - Supports filtering by UDF field name and/or UDF field value.
-            - Both C(name) and C(value) accept a single string or a list of strings.
-            - List behavior uses OR logic (match any item in the list).
+              - Filters user-defined field output by field name and or value.
             type: dict
             suboptions:
               name:
                 description:
-                - Filter UDF output by field name.
-                - Accepts a single name string or a list of names.
-                - When specified, only matching UDF names are included.
-                - 'Example: name="Cisco Switches" or name=["Cisco Switches", "To_test_udf"].'
+                  - Single field name or list of field names to include.
                 type: raw
               value:
                 description:
-                - Filter UDF output by field value.
-                - Accepts a single value string or a list of values.
-                - When specified, only UDFs with matching values are included.
-                - 'Example: value="2234" or value=["2234", "value12345"].'
+                  - Single field value or list of field values to include.
                 type: raw
 
 
@@ -304,10 +199,7 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_mode: "overwrite"
-      file_path: "./inventory_devices_all.yml"
+    file_path: "./inventory_devices_all.yml"
 
 - name: Generate inventory playbook for specific devices by IP address
   cisco.dnac.inventory_playbook_config_generator:
@@ -319,15 +211,20 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
+    file_path: "./inventory_devices_by_ip.yml"
+    file_mode: "overwrite"
     config:
       global_filters:
         ip_address_list:
           - "10.195.225.40"
           - "10.195.225.42"
-      file_mode: "overwrite"
-      file_path: "./inventory_devices_by_ip.yml"
+      component_specific_filters:
+        components_list:
+          - device_details
+          - provision_device
+          - interface_details
 
-- name: Generate inventory playbook for devices by hostname
+- name: Generate inventory playbook for ACCESS role devices
   cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
@@ -337,120 +234,12 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
-    config:
-      global_filters:
-        hostname_list:
-          - "cat9k_1"
-          - "cat9k_2"
-          - "switch_1"
-      file_mode: "overwrite"
-      file_path: "./inventory_devices_by_hostname.yml"
-
-- name: Generate inventory playbook for devices by serial number
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      global_filters:
-        serial_number_list:
-          - "FCW2147L0AR1"
-          - "FCW2147L0AR2"
-      file_mode: "overwrite"
-      file_path: "./inventory_devices_by_serial.yml"
-
-- name: Generate inventory playbook for mixed device filtering
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      global_filters:
-        ip_address_list:
-          - "10.195.225.40"
-        hostname_list:
-          - "cat9k_1"
-      file_mode: "overwrite"
-      file_path: "./inventory_devices_mixed_filter.yml"
-
-- name: Generate inventory playbook with default file path
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      global_filters:
-        ip_address_list:
-          - "10.195.225.40"
-      file_mode: "overwrite"
-
-- name: Generate inventory playbook for multiple devices
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      global_filters:
-        ip_address_list:
-          - "10.195.225.40"
-          - "10.195.225.41"
-          - "10.195.225.42"
-          - "10.195.225.43"
-      file_mode: "overwrite"
-      file_path: "./inventory_devices_multiple.yml"
-
-- name: Generate inventory playbook for ACCESS role devices only
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
+    file_path: "./inventory_access_role_devices.yml"
+    file_mode: "overwrite"
     config:
       component_specific_filters:
-        components_list: ["device_details"]
         device_details:
-          - role: "ACCESS"
-        file_mode: "overwrite"
-        file_path: "./inventory_access_role_devices.yml"
-
-- name: Generate inventory playbook with auto-populated provision_wired_device
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      generate_all_configurations: true
-      file_mode: "overwrite"
-      file_path: "./inventory_with_provisioning.yml"
+          role: "ACCESS"
 
 - name: Generate inventory playbook with interface filtering
   cisco.dnac.inventory_playbook_config_generator:
@@ -462,6 +251,8 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
+    file_path: "./inventory_interface_filtered.yml"
+    file_mode: "overwrite"
     config:
       global_filters:
         ip_address_list:
@@ -472,30 +263,8 @@ EXAMPLES = r"""
           interface_name:
             - "Vlan100"
             - "GigabitEthernet1/0/1"
-      file_mode: "overwrite"
-      file_path: "./inventory_interface_filtered.yml"
 
-- name: Generate inventory playbook for specific interface on single device
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      global_filters:
-        ip_address_list:
-          - "10.195.225.40"
-      component_specific_filters:
-        interface_details:
-          interface_name: "Loopback0"
-      file_mode: "overwrite"
-      file_path: "./inventory_loopback_interface.yml"
-
-- name: Generate complete inventory with all components and interface filter
+- name: Generate inventory playbook with filtered user-defined fields
   cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
@@ -507,88 +276,9 @@ EXAMPLES = r"""
     state: gathered
     config:
       component_specific_filters:
-        components_list: ["device_details", "provision_device", "interface_details"]
-        device_details:
-          role: "ACCESS"
-        interface_details:
-          interface_name:
-            - "GigabitEthernet1/0/1"
-            - "GigabitEthernet1/0/2"
-            - "GigabitEthernet1/0/3"
-      file_mode: "overwrite"
-      file_path: "./inventory_access_with_interfaces.yml"
-
-- name: Generate UDF output filtered by name (single string)
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      component_specific_filters:
-        components_list: ["user_defined_fields"]
         user_defined_fields:
           name: "Cisco Switches"
-      file_mode: "overwrite"
-      file_path: "./inventory_udf_name_single.yml"
-
-- name: Generate UDF output filtered by name (list)
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      component_specific_filters:
-        components_list: ["user_defined_fields"]
-        user_defined_fields:
-          name: ["Cisco Switches", "To_test_udf"]
-      file_mode: "overwrite"
-      file_path: "./inventory_udf_name_list.yml"
-
-- name: Generate UDF output filtered by value (single string)
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      component_specific_filters:
-        components_list: ["user_defined_fields"]
-        user_defined_fields:
-          value: "2234"
-      file_mode: "overwrite"
-      file_path: "./inventory_udf_value_single.yml"
-
-- name: Generate UDF output filtered by value (list)
-  cisco.dnac.inventory_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    state: gathered
-    config:
-      component_specific_filters:
-        components_list: ["user_defined_fields"]
-        user_defined_fields:
-          value: ["2234", "value12345", "value321"]
-      file_mode: "overwrite"
-      file_path: "./inventory_udf_value_list.yml"
+          value: ["2234", "value12345"]
 """
 RETURN = r"""
 # Case_1: Success Scenario
@@ -673,7 +363,17 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates the input configuration parameters for the playbook.
+        Validate and normalize module input.
+
+        Behavior:
+          - If C(config) is omitted or empty, defaults to
+            C(generate_all_configurations=true)
+          - Uses top-level C(file_path) and C(file_mode)
+          - If C(config) is provided, it may contain only C(global_filters)
+            and or C(component_specific_filters)
+          - Auto-adds components to C(components_list) when component filter
+            blocks are provided
+
         Returns:
             object: An instance of the class with updated attributes:
                 self.msg: A message describing the validation result.
@@ -681,54 +381,388 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 self.validated_config: If successful, a validated version of the "config" parameter.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
+        normalized_config = self.config
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+        file_path = self.params.get("file_path")
+        file_mode = self.params.get("file_mode", "overwrite")
+        if file_mode not in ("overwrite", "append"):
+            self.msg = (
+                "Invalid value for 'file_mode': '{0}'. "
+                "Allowed values are: ['overwrite', 'append'].".format(file_mode)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Expected schema for configuration parameters
+        if not file_path and file_mode != "overwrite":
+            self.log(
+                "file_mode='{0}' is ignored because file_path is not provided.".format(
+                    file_mode
+                ),
+                "WARNING",
+            )
+
+        if not normalized_config:
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = (
+                "No config provided. Defaulting to "
+                "'generate_all_configurations: true'."
+            )
+            self.set_operation_result("success", False, self.msg, "INFO")
+            return self
+
+        allowed_keys = {
+            "global_filters",
+            "component_specific_filters",
+        }
+        self.validate_invalid_params(normalized_config, allowed_keys)
+
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"]
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
             "component_specific_filters": {
                 "type": "dict",
-                "required": False
+                "required": False,
             },
             "global_filters": {
                 "type": "dict",
-                "required": False},
+                "required": False,
+            },
         }
 
-        # Validate params
-        self.log("Validating configuration against schema.", "DEBUG")
-        valid_temp = self.validate_config_dict(self.config, temp_spec)
+        validated_config = self.validate_config_dict(normalized_config, temp_spec)
+        if not isinstance(validated_config, dict):
+            validated_config = dict(normalized_config)
+        else:
+            validated_config = {
+                key: value for key, value in validated_config.items() if value is not None
+            }
 
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        global_filters = validated_config.get("global_filters")
+        component_filters = validated_config.get("component_specific_filters")
 
-        # Set the validated configuration and update the result with success status
-        self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
+        if global_filters is None and component_filters is None:
+            self.msg = (
+                "Validation Error: when 'config' is provided, at least one of "
+                "'global_filters' or 'component_specific_filters' must be present."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        if component_filters is not None:
+            validation_error = self._validate_inventory_component_specific_filters(
+                component_filters
+            )
+            if validation_error:
+                self.msg = validation_error
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+        self.validated_config = validated_config
+        self.msg = (
+            "Successfully validated playbook configuration parameters using "
+            "'validated_input': {0}".format(str(validated_config))
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+
+    def _validate_inventory_string_or_list(self, value, field_name):
+        """Return an error message if value is not a string or list of strings."""
+        if isinstance(value, str):
+            return None
+        if isinstance(value, list) and all(isinstance(item, str) for item in value):
+            return None
+        return (
+            "'{0}' must be a string or a list of strings, got: {1}.".format(
+                field_name, type(value).__name__
+            )
+        )
+
+    def _validate_inventory_component_block(self, component_name, component_value):
+        """Validate component-specific filter blocks for inventory generation."""
+        if component_name == "device_details":
+            if isinstance(component_value, dict):
+                filter_items = [component_value]
+            elif isinstance(component_value, list):
+                filter_items = component_value
+            else:
+                return (
+                    "'device_details' must be a dictionary or list of dictionaries, "
+                    "got: {0}.".format(type(component_value).__name__)
+                )
+
+            allowed_filter_keys = {"type", "role", "snmp_version", "cli_transport"}
+            allowed_types = {
+                "NETWORK_DEVICE",
+                "COMPUTE_DEVICE",
+                "MERAKI_DASHBOARD",
+                "THIRD_PARTY_DEVICE",
+                "FIREPOWER_MANAGEMENT_SYSTEM",
+            }
+            allowed_roles = {
+                "ACCESS",
+                "CORE",
+                "DISTRIBUTION",
+                "BORDER ROUTER",
+                "UNKNOWN",
+            }
+            allowed_snmp_versions = {"v2", "v2c", "v3"}
+            allowed_cli_transports = {"ssh", "telnet", "SSH", "TELNET"}
+
+            for index, filter_item in enumerate(filter_items, start=1):
+                if not isinstance(filter_item, dict):
+                    return (
+                        "Each entry in 'device_details' must be a dictionary, but entry "
+                        "{0} is of type: {1}.".format(
+                            index, type(filter_item).__name__
+                        )
+                    )
+
+                invalid_keys = set(filter_item.keys()) - allowed_filter_keys
+                if invalid_keys:
+                    return (
+                        "Invalid parameters found in 'device_details' filter entry {0}: "
+                        "{1}. Allowed parameters are: {2}.".format(
+                            index,
+                            sorted(list(invalid_keys)),
+                            sorted(list(allowed_filter_keys)),
+                        )
+                    )
+
+                device_type = filter_item.get("type")
+                if device_type is not None:
+                    if not isinstance(device_type, str) or device_type not in allowed_types:
+                        return (
+                            "Invalid 'type' value '{0}' in 'device_details'. "
+                            "Allowed values are: {1}.".format(
+                                device_type, sorted(list(allowed_types))
+                            )
+                        )
+
+                role = filter_item.get("role")
+                if role is not None:
+                    if isinstance(role, str):
+                        role_values = [role]
+                        filter_item["role"] = role_values
+                    elif isinstance(role, list):
+                        role_values = role
+                    else:
+                        return (
+                            "'device_details.role' must be a string or list of strings, "
+                            "got: {0}.".format(type(role).__name__)
+                        )
+
+                    invalid_roles = [
+                        role_item
+                        for role_item in role_values
+                        if not isinstance(role_item, str) or role_item not in allowed_roles
+                    ]
+                    if invalid_roles:
+                        return (
+                            "Invalid role value(s) in 'device_details.role': {0}. "
+                            "Allowed values are: {1}.".format(
+                                invalid_roles, sorted(list(allowed_roles))
+                            )
+                        )
+
+                snmp_version = filter_item.get("snmp_version")
+                if snmp_version is not None:
+                    if (
+                        not isinstance(snmp_version, str)
+                        or snmp_version not in allowed_snmp_versions
+                    ):
+                        return (
+                            "Invalid 'snmp_version' value '{0}' in 'device_details'. "
+                            "Allowed values are: {1}.".format(
+                                snmp_version, sorted(list(allowed_snmp_versions))
+                            )
+                        )
+
+                cli_transport = filter_item.get("cli_transport")
+                if cli_transport is not None:
+                    if (
+                        not isinstance(cli_transport, str)
+                        or cli_transport not in allowed_cli_transports
+                    ):
+                        return (
+                            "Invalid 'cli_transport' value '{0}' in 'device_details'. "
+                            "Allowed values are: {1}.".format(
+                                cli_transport, sorted(list(allowed_cli_transports))
+                            )
+                        )
+            return None
+
+        if not isinstance(component_value, dict):
+            return (
+                "'{0}' must be a dictionary, got: {1}.".format(
+                    component_name, type(component_value).__name__
+                )
+            )
+
+        if component_name == "provision_device":
+            invalid_keys = set(component_value.keys()) - {"site_name"}
+            if invalid_keys:
+                return (
+                    "Invalid parameters found in 'provision_device': {0}. "
+                    "Allowed parameters are: ['site_name'].".format(
+                        sorted(list(invalid_keys))
+                    )
+                )
+            if component_value.get("site_name") is not None and not isinstance(
+                component_value.get("site_name"), str
+            ):
+                return "'provision_device.site_name' must be a string."
+            return None
+
+        if component_name == "interface_details":
+            invalid_keys = set(component_value.keys()) - {"interface_name"}
+            if invalid_keys:
+                return (
+                    "Invalid parameters found in 'interface_details': {0}. "
+                    "Allowed parameters are: ['interface_name'].".format(
+                        sorted(list(invalid_keys))
+                    )
+                )
+            interface_name = component_value.get("interface_name")
+            if interface_name is not None:
+                validation_error = self._validate_inventory_string_or_list(
+                    interface_name, "interface_details.interface_name"
+                )
+                if validation_error:
+                    return validation_error
+                if isinstance(interface_name, str):
+                    component_value["interface_name"] = [interface_name]
+            return None
+
+        if component_name == "user_defined_fields":
+            invalid_keys = set(component_value.keys()) - {"name", "value"}
+            if invalid_keys:
+                return (
+                    "Invalid parameters found in 'user_defined_fields': {0}. "
+                    "Allowed parameters are: ['name', 'value'].".format(
+                        sorted(list(invalid_keys))
+                    )
+                )
+
+            for field_name in ("name", "value"):
+                field_value = component_value.get(field_name)
+                if field_value is not None:
+                    validation_error = self._validate_inventory_string_or_list(
+                        field_value, "user_defined_fields.{0}".format(field_name)
+                    )
+                    if validation_error:
+                        return validation_error
+                    if isinstance(field_value, str):
+                        component_value[field_name] = [field_value]
+            return None
+
+        return None
+
+    def _validate_inventory_component_specific_filters(self, component_filters):
+        """Validate and auto-populate inventory component filters."""
+        if not isinstance(component_filters, dict):
+            return (
+                "'component_specific_filters' must be a dictionary, got: {0}.".format(
+                    type(component_filters).__name__
+                )
+            )
+
+        if "component_list" in component_filters:
+            return "Invalid key 'component_list' under component_specific_filters. Use 'components_list'."
+
+        allowed_component_filter_keys = {
+            "components_list",
+            "device_details",
+            "provision_device",
+            "interface_details",
+            "user_defined_fields",
+        }
+        invalid_filter_keys = set(component_filters.keys()) - allowed_component_filter_keys
+        if invalid_filter_keys:
+            return (
+                "Invalid keys found in 'component_specific_filters': {0}. "
+                "Allowed keys are: {1}.".format(
+                    sorted(list(invalid_filter_keys)),
+                    sorted(list(allowed_component_filter_keys)),
+                )
+            )
+
+        components_list = component_filters.get("components_list")
+        normalized_components_list = []
+        allowed_components = {
+            "device_details",
+            "provision_device",
+            "interface_details",
+            "user_defined_fields",
+        }
+
+        if components_list is not None:
+            if not isinstance(components_list, list):
+                return (
+                    "'components_list' must be a list, got: {0}.".format(
+                        type(components_list).__name__
+                    )
+                )
+
+            invalid_components = [
+                component
+                for component in components_list
+                if component not in allowed_components
+            ]
+            if invalid_components:
+                return (
+                    "Invalid component names found in 'components_list': {0}. "
+                    "Allowed values are: {1}.".format(
+                        sorted(list(set(invalid_components))),
+                        sorted(list(allowed_components)),
+                    )
+                )
+
+            seen_components = set()
+            duplicate_components = []
+            for component_name in components_list:
+                if component_name in seen_components and component_name not in duplicate_components:
+                    duplicate_components.append(component_name)
+                seen_components.add(component_name)
+                normalized_components_list.append(component_name)
+
+            if duplicate_components:
+                return (
+                    "Duplicate component names found in 'components_list': {0}. "
+                    "Each component may be specified only once.".format(
+                        duplicate_components
+                    )
+                )
+
+        component_blocks = []
+        for component_name in (
+            "device_details",
+            "provision_device",
+            "interface_details",
+            "user_defined_fields",
+        ):
+            if component_name not in component_filters:
+                continue
+
+            validation_error = self._validate_inventory_component_block(
+                component_name, component_filters.get(component_name)
+            )
+            if validation_error:
+                return validation_error
+            component_blocks.append(component_name)
+
+        if component_blocks:
+            for component_name in component_blocks:
+                if component_name not in normalized_components_list:
+                    normalized_components_list.append(component_name)
+            component_filters["components_list"] = normalized_components_list
+        elif not normalized_components_list:
+            return (
+                "Validation Error: 'components_list' is mandatory and must be "
+                "non-empty when no component filter blocks are provided under "
+                "'component_specific_filters'."
+            )
+        else:
+            component_filters["components_list"] = normalized_components_list
+
+        return None
 
     def get_workflow_filters_schema(self):
         """
@@ -741,29 +775,76 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "device_details": {
-                    "filters": ["ip_address", "hostname", "serial_number", "role"],
+                    "filters": {
+                        "type": {
+                            "type": "str",
+                            "required": False,
+                            "choices": [
+                                "NETWORK_DEVICE",
+                                "COMPUTE_DEVICE",
+                                "MERAKI_DASHBOARD",
+                                "THIRD_PARTY_DEVICE",
+                                "FIREPOWER_MANAGEMENT_SYSTEM",
+                            ],
+                        },
+                        "role": {
+                            "type": "list",
+                            "required": False,
+                            "elements": "str",
+                            "choices": [
+                                "ACCESS",
+                                "CORE",
+                                "DISTRIBUTION",
+                                "BORDER ROUTER",
+                                "UNKNOWN",
+                            ],
+                        },
+                        "snmp_version": {
+                            "type": "str",
+                            "required": False,
+                            "choices": ["v2", "v2c", "v3"],
+                        },
+                        "cli_transport": {
+                            "type": "str",
+                            "required": False,
+                            "choices": ["ssh", "telnet", "SSH", "TELNET"],
+                        },
+                    },
                     "api_function": "get_device_list",
                     "api_family": "devices",
                     "reverse_mapping_function": self.inventory_get_device_reverse_mapping,
                     "get_function_name": self.get_device_details_details,
                 },
                 "provision_device": {
-                    "filters": ["site_name"],
+                    "filters": {
+                        "site_name": {
+                            "type": "str",
+                            "required": False,
+                        },
+                    },
                     "is_filter_only": True,
                 },
                 "interface_details": {
-                    "filters": ["interface_name"],
+                    "filters": {
+                        "interface_name": {
+                            "type": "list",
+                            "required": False,
+                            "elements": "str",
+                        },
+                    },
                     "is_filter_only": True,
                 },
                 "user_defined_fields": {
                     "filters": {
                         "name": {
-                            "type": ["str", "list"],
+                            "type": "list",
                             "required": False,
+                            "elements": "str",
                         },
                         "value": {
-                            "type": ["str", "list"],
+                            "type": "list",
                             "required": False,
+                            "elements": "str",
                         },
                     },
                     "api_function": "get_device_list",
@@ -2907,7 +2988,8 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Contains generate_all_configurations,
+                global_filters, and component_specific_filters.
 
         Returns:
             self: The current instance with the operation result and message updated.
@@ -2934,7 +3016,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             yaml_config_generator.get("generate_all_configurations", False)
         )
 
-        file_path = yaml_config_generator.get("file_path") or self.generate_filename()
+        file_path = self.params.get("file_path") or self.generate_filename()
         self.log("YAML output file path resolved: {0}".format(file_path), "DEBUG")
 
         module_supported_network_elements = self.module_schema.get("network_elements", {})
@@ -3270,7 +3352,9 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("success", False, self.msg, "WARNING")
             return self
 
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        file_mode = self.params.get("file_mode", "overwrite")
+        if not self.params.get("file_path"):
+            file_mode = "overwrite"
 
         self.log(
             "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
@@ -3955,7 +4039,14 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
