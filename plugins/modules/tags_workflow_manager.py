@@ -1796,7 +1796,7 @@ class Tags(DnacBase):
             "ip_addresses": r"^(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$",  # Matches valid IPv4 addresses
             "hostnames": r"^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$",  # Matches valid hostnames
             "mac_addresses": r"^(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$",  # Matches valid MAC addresses
-            "serial_numbers": r"^[A-Za-z0-9]{8,12}(?:, [A-Za-z0-9]{8,12})*$",  # Matches valid serial numbers (8-12 alphanumeric characters), supports stack devices with space-separated serial numbers
+            "serial_numbers": r"^[A-Za-z0-9]{8,12}(?:, [A-Za-z0-9]{8,12})*$",  # Matches serial numbers (8-12 chars), supports stack devices
         }
 
         regex_pattern_for_identifiers = regex_pattern_map.get(identifier)
