@@ -1,10 +1,6 @@
 {
-  "playbook_config_generate_all_configurations": {
-    "generate_all_configurations": true,
-    "file_path": "/tmp/sda_host_port_onboarding.yaml"
-  },
+  "playbook_config_generate_all_configurations": null,
   "playbook_config_port_assignments_filtered": {
-    "file_path": "/tmp/sda_host_port_onboarding.yaml",
     "component_specific_filters": {
       "components_list": ["port_assignments"],
       "port_assignments": {
@@ -13,7 +9,6 @@
     }
   },
   "playbook_config_port_channels_filtered": {
-    "file_path": "/tmp/sda_host_port_onboarding.yaml",
     "component_specific_filters": {
       "components_list": ["port_channels"],
       "port_channels": {
@@ -22,7 +17,6 @@
     }
   },
   "playbook_config_wireless_ssids_filtered": {
-    "file_path": "/tmp/sda_host_port_onboarding.yaml",
     "component_specific_filters": {
       "components_list": ["wireless_ssids"],
       "wireless_ssids": {
@@ -31,7 +25,6 @@
     }
   },
   "playbook_config_all_components_filtered": {
-    "file_path": "/tmp/sda_host_port_onboarding.yaml",
     "component_specific_filters": {
       "components_list": ["port_assignments", "port_channels", "wireless_ssids"],
       "port_assignments": {
