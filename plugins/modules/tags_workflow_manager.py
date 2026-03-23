@@ -1163,7 +1163,7 @@ class Tags(DnacBase):
         )
 
         if invalid_params:
-            formatted_errors = '\n'.join(invalid_params)
+            formatted_errors = "\n".join(invalid_params)
             self.msg = (
                 "The playbook contains invalid parameters: \n"
                 f"{formatted_errors}"
@@ -1787,11 +1787,16 @@ class Tags(DnacBase):
             This method compiles a regex pattern based on the identifier type and checks if the provided device detail
             matches the pattern. If the identifier is invalid, it logs an error message and exits.
         """
+        self.log(
+            f"Starting validation for device detail: '{device_detail}' against identifier type: '{identifier}'",
+            "DEBUG",
+        )
+
         regex_pattern_map = {
             "ip_addresses": r"^(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$",  # Matches valid IPv4 addresses
             "hostnames": r"^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$",  # Matches valid hostnames
             "mac_addresses": r"^(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$",  # Matches valid MAC addresses
-            "serial_numbers": r"^[A-Za-z0-9]{8,12}$",  # Matches valid serial numbers (8-12 alphanumeric characters)
+            "serial_numbers": r"^[A-Za-z0-9]{8,12}(?:, [A-Za-z0-9]{8,12})*$",  # Matches valid serial numbers (8-12 alphanumeric characters), supports stack devices with space-separated serial numbers
         }
 
         regex_pattern_for_identifiers = regex_pattern_map.get(identifier)
@@ -1802,8 +1807,10 @@ class Tags(DnacBase):
         regex_pattern_compiled = re.compile(regex_pattern_for_identifiers)
         match_result = bool(regex_pattern_compiled.fullmatch(device_detail))
 
+        validation_status = "PASSED" if match_result else "FAILED"
         self.log(
-            f"Validating device detail '{device_detail}' with device identifier '{identifier}': Match result: {match_result}",
+            f"Device detail validation {validation_status} for '{device_detail}' "
+            f"with identifier '{identifier}' using pattern: {regex_pattern_for_identifiers}",
             "DEBUG",
         )
 
