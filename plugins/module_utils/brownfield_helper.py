@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, division, print_function
 import datetime
+import hashlib
 import os
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,
@@ -1014,7 +1015,7 @@ class BrownFieldHelper:
         )
 
     def yaml_config_generator(
-        self, yaml_config_generator, additional_header_comments=None
+        self, yaml_config_generator, additional_header_comments=None, dumper=OrderedDumper
     ):
         """
         Generates a YAML configuration file based on the provided parameters.
@@ -1042,7 +1043,7 @@ class BrownFieldHelper:
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
             self.log(
-                "Auto-discovery mode enabled - will process all devices and all features",
+                "Auto-discovery mode enabled - will process all the components",
                 "INFO",
             )
 
@@ -1192,19 +1193,22 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        if self.write_dict_to_yaml(
+        file_written = self.write_dict_to_yaml(
             yaml_config_dict,
             file_path,
             file_mode,
             dumper=OrderedDumper,
             notes=additional_header_comments,
-        ):
+        )
+
+        if file_written:
             self.msg = {
                 "status": "success",
                 "message": "YAML configuration file generated successfully for module '{0}'".format(
                     self.module_name
                 ),
                 "file_path": file_path,
+                "file_mode": file_mode,
                 "components_processed": processed_count,
                 "components_skipped": skipped_count,
                 "configurations_count": len(final_config_list),
@@ -1222,11 +1226,27 @@ class BrownFieldHelper:
             )
         else:
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
+                "status": "ok",
+                "message": "YAML configuration file already up-to-date for module '{0}'. No changes written.".format(
                     self.module_name
-                ): {"file_path": file_path}
+                ),
+                "file_path": file_path,
+                "file_mode": file_mode,
+                "components_processed": processed_count,
+                "components_skipped": skipped_count,
+                "configurations_count": len(final_config_list),
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            self.set_operation_result("ok", False, self.msg, "INFO")
+
+            self.log(
+                "YAML configuration unchanged. File: {0}, Components: {1}/{2}, Configs: {3}".format(
+                    file_path,
+                    processed_count,
+                    len(components_list),
+                    len(final_config_list),
+                ),
+                "INFO",
+            )
 
         return self
 
@@ -1510,6 +1530,187 @@ class BrownFieldHelper:
             self.log("Failed to retrieve ansible command: {0}".format(str(e)), "DEBUG")
             return "Unknown"
 
+    def _get_last_yaml_document(self, file_path):
+        """
+        Extract the last YAML document's data from a multi-document YAML file.
+        Uses the '---' YAML document separator to split documents and parses only
+        the last one. Header comment lines are automatically ignored by the YAML parser.
+
+        Args:
+            file_path (str): Path to the multi-document YAML file.
+
+        Returns:
+            dict or None: The parsed data from the last YAML document, or None if
+                          the file is empty, doesn't exist, or parsing fails.
+        """
+        self.log(
+            "Attempting to extract last YAML document from '{0}'".format(file_path),
+            "DEBUG",
+        )
+
+        try:
+            if not os.path.isfile(file_path):
+                self.log(
+                    "File '{0}' does not exist, returning None".format(file_path),
+                    "DEBUG",
+                )
+                return None
+
+            with open(file_path, "r") as f:
+                content = f.read()
+
+            self.log(
+                "Successfully read file '{0}', content length: {1} characters".format(
+                    file_path, len(content)
+                ),
+                "DEBUG",
+            )
+
+            if not content.strip():
+                self.log(
+                    "File '{0}' is empty or contains only whitespace, returning None".format(file_path),
+                    "DEBUG",
+                )
+                return None
+
+            # Split by YAML document separator and take the last non-empty segment
+            documents = content.split("\n---\n")
+            self.log(
+                "File '{0}' split into {1} YAML document segment(s)".format(file_path, len(documents)),
+                "DEBUG",
+            )
+
+            last_segment = None
+            total_segments = len(documents)
+
+            for segment_number in range(total_segments, 0, -1):
+                segment = documents[segment_number - 1]
+                stripped = segment.strip()
+
+                self.log(
+                    "Checking segment {0}/{1}, "
+                    "empty: {2}, length: {3} characters".format(
+                        segment_number, total_segments,
+                        not bool(stripped), len(stripped)
+                    ),
+                    "DEBUG",
+                )
+
+                if stripped:
+                    self.log(
+                        "Found last non-empty YAML segment at position {0}".format(segment_number),
+                        "DEBUG",
+                    )
+                    last_segment = stripped
+                    break
+
+                self.log(
+                    "Segment {0} is empty, continuing to next".format(segment_number),
+                    "DEBUG",
+                )
+
+            if last_segment is None:
+                self.log(
+                    "No non-empty YAML segment found in '{0}', returning None".format(file_path),
+                    "DEBUG",
+                )
+                return None
+
+            self.log(
+                "Parsing last YAML segment from '{0}'".format(file_path),
+                "DEBUG",
+            )
+
+            last_doc = yaml.safe_load(last_segment)
+
+            self.log(
+                "Extracted last YAML document from '{0}', content: {1}"
+                .format(file_path, last_doc),
+                "DEBUG",
+            )
+
+            return last_doc
+
+        except Exception as e:
+            self.log(
+                "Failed to extract last YAML document from '{0}': {1}".format(
+                    file_path, str(e)
+                ),
+                "DEBUG",
+            )
+            return None
+
+    def _compute_content_hash(self, content):
+        """
+        Compute a SHA256 hash of file content after stripping volatile header
+        fields (timestamp, playbook path) so that two files generated from the
+        same config at different times produce an identical hash.
+
+        Uses streaming hash updates per line instead of building a full
+        normalized string in memory, which is significantly faster and more
+        memory-efficient for large configuration files.
+
+        Args:
+            content (str): Raw file content including header comments.
+
+        Returns:
+            str: Hex-encoded SHA256 digest of the normalized content.
+        """
+        self.log(
+            "Starting SHA256 content hash computation. "
+            "Input content length: {0} characters.".format(len(content)),
+            "DEBUG",
+        )
+
+        lines = content.splitlines()
+        total_lines = len(lines)
+
+        self.log(
+            "Content split into {0} lines for hash processing.".format(total_lines),
+            "DEBUG",
+        )
+
+        hasher = hashlib.sha256()
+        skipped_lines = 0
+        hashed_lines = 0
+
+        for index, line in enumerate(lines, start=1):
+            stripped = line.strip()
+
+            self.log(
+                "Processing line {0}/{1}: '{2}'".format(index, total_lines, stripped),
+                "DEBUG",
+            )
+
+            # Skip lines that change every run
+            if stripped.startswith("#  Generated on") or stripped.startswith("#  Generated from"):
+                self.log(
+                    "Line {0}: Skipping volatile header line: '{1}'".format(index, stripped),
+                    "DEBUG",
+                )
+                skipped_lines += 1
+                continue
+
+            hasher.update(line.encode("utf-8"))
+            hasher.update(b"\n")
+            hashed_lines += 1
+
+            self.log(
+                "Line {0}: Hashed successfully.".format(index),
+                "DEBUG",
+            )
+
+        digest = hasher.hexdigest()
+
+        self.log(
+            "SHA256 content hash computation completed. "
+            "Total lines: {0}, Lines hashed: {1}, Volatile lines skipped: {2}, "
+            "Computed hash: {3}".format(total_lines, hashed_lines, skipped_lines, digest),
+            "DEBUG",
+        )
+
+        return digest
+
     def write_dict_to_yaml(
         self,
         data_dict,
@@ -1520,6 +1721,13 @@ class BrownFieldHelper:
     ):
         """
         Converts a dictionary to YAML format and writes it to a specified file path.
+        Supports idempotent behavior: skips writing if the content is unchanged.
+
+        For overwrite mode: compares the full file content (excluding volatile header
+        fields like timestamp) against the new content.
+        For append mode: compares the data payload against the last YAML document
+        already present in the file.
+
         Args:
             data_dict (dict): The dictionary to convert to YAML format.
             file_path (str): The path where the YAML file will be written.
@@ -1529,7 +1737,7 @@ class BrownFieldHelper:
                                    prefixed with "# " to maintain comment formatting. Defaults to None.
             dumper: The YAML dumper class to use for serialization (default is OrderedDumper).
         Returns:
-            bool: True if the YAML file was successfully written, False otherwise.
+            bool: True if the file was written (content changed), False if skipped (no change).
         """
 
         self.log(
@@ -1538,9 +1746,6 @@ class BrownFieldHelper:
         )
         try:
             self.log("Starting conversion of dictionary to YAML format.", "INFO")
-            # yaml_content = yaml.dump(
-            #     data_dict, Dumper=OrderedDumper, default_flow_style=False
-            # )
             yaml_content = yaml.dump(
                 data_dict,
                 Dumper=dumper,
@@ -1556,15 +1761,103 @@ class BrownFieldHelper:
                 )
                 self.fail_and_exit(self.msg)
 
-            if file_mode == "overwrite":
-                open_mode = "w"
-            else:
-                open_mode = "a"
-
             header_comments = self.add_header_comments(notes=notes)
             yaml_content = header_comments + "\n---\n" + yaml_content
 
             self.log("Dictionary successfully converted to YAML format.", "DEBUG")
+
+            # --- Idempotency check ---
+            if file_mode == "overwrite" and os.path.isfile(file_path):
+                self.log(
+                    "Overwrite mode: Existing file found at '{0}'. "
+                    "Starting idempotency check by comparing content hashes.".format(file_path),
+                    "DEBUG",
+                )
+
+                try:
+                    with open(file_path, "r") as f:
+                        existing_content = f.read()
+
+                    self.log(
+                        "Read existing file '{0}' for comparison, length: {1} characters.".format(
+                            file_path, len(existing_content)
+                        ),
+                        "DEBUG",
+                    )
+
+                    existing_hash = self._compute_content_hash(existing_content)
+                    new_hash = self._compute_content_hash(yaml_content)
+
+                    self.log(
+                        "Content hash comparison for '{0}': existing_hash={1}, new_hash={2}".format(
+                            file_path, existing_hash, new_hash
+                        ),
+                        "DEBUG",
+                    )
+
+                    if existing_hash == new_hash:
+                        self.log(
+                            "Overwrite mode: File '{0}' already has identical content (hash match). "
+                            "Skipping write.".format(file_path),
+                            "INFO",
+                        )
+                        return False
+
+                    self.log(
+                        "Overwrite mode: Content hashes differ for '{0}'. Proceeding with write.".format(file_path),
+                        "DEBUG",
+                    )
+
+                except Exception as e:
+                    self.log(
+                        "Could not read existing file for comparison, proceeding with write: {0}".format(str(e)),
+                        "DEBUG",
+                    )
+
+            elif file_mode == "overwrite":
+                self.log(
+                    "Overwrite mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
+                    "DEBUG",
+                )
+
+            if file_mode == "append" and os.path.isfile(file_path):
+                self.log(
+                    "Append mode: Existing file found at '{0}'. "
+                    "Starting idempotency check by comparing last YAML document.".format(file_path),
+                    "DEBUG",
+                )
+
+                last_doc = self._get_last_yaml_document(file_path)
+
+                self.log(
+                    "Append mode: Last document from '{0}': {1}".format(file_path, last_doc),
+                    "DEBUG",
+                )
+
+                if last_doc is not None and last_doc == data_dict:
+                    self.log(
+                        "Append mode: Last document in '{0}' already matches the new data. "
+                        "Skipping write.".format(file_path),
+                        "INFO",
+                    )
+                    return False
+
+                self.log(
+                    "Append mode: Last document differs from new data for '{0}'. Proceeding with append.".format(file_path),
+                    "DEBUG",
+                )
+
+            elif file_mode == "append":
+                self.log(
+                    "Append mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
+                    "DEBUG",
+                )
+
+            # --- Write the file ---
+            if file_mode == "overwrite":
+                open_mode = "w"
+            else:
+                open_mode = "a"
 
             # Ensure the directory exists
             self.ensure_directory_exists(file_path)
