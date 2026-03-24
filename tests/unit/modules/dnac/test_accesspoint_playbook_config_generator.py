@@ -101,7 +101,8 @@ class TestAccesspointPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
-                config=self.playbook_config_generate_all_config
+                file_path="tmp/test_access_point_demo.yaml",
+                file_mode="overwrite"
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -130,6 +131,8 @@ class TestAccesspointPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
+                file_path="tmp/accesspoint_workflow_playbook_apconfig_base.yml",
+                file_mode="overwrite",
                 config=self.playbook_global_filter_apconfig_base
             )
         )
@@ -157,6 +160,8 @@ class TestAccesspointPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
+                file_path="tmp/accesspoint_workflow_playbook_hostname_provision_base.yml",
+                file_mode="append",
                 config=self.playbook_global_filter_provision_base
             )
         )
@@ -185,6 +190,8 @@ class TestAccesspointPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
+                file_path="tmp/accesspoint_workflow_playbook_site_base.yml",
+                file_mode="append",
                 config=self.playbook_global_filter_site_base
             )
         )
@@ -213,6 +220,8 @@ class TestAccesspointPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
+                file_path="tmp/accesspoint_workflow_playbook_accesspoint_host_provision_base.yml",
+                file_mode="append",
                 config=self.playbook_global_filter_hostname_base
             )
         )
@@ -241,6 +250,8 @@ class TestAccesspointPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="3.1.3.0",
                 dnac_log=True,
                 state="gathered",
+                file_path="tmp/accesspoint_workflow_playbook_mac_address_base.yml",
+                file_mode="overwrite",
                 config=self.playbook_global_filter_mac_base
             )
         )

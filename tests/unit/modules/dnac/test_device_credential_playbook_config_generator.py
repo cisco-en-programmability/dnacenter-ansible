@@ -51,7 +51,7 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestDnacModule):
         self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
-        def mock_dnac_exec(family, function, op_modifies, params=None):
+        def mock_dnac_exec(family, function, op_modifies=False, params=None):
             if function == "get_all_global_credentials":
                 return self.test_data.get("get_all_global_credentials_response")
             elif function == "get_sites":
@@ -77,6 +77,7 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestDnacModule):
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
             "config": self.playbook_config_global_credentials_filtered,
+            "file_path": "/tmp/device_credentials.yaml",
             "state": "gathered",
         })
         result = self.execute_module(changed=True)
@@ -106,6 +107,7 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestDnacModule):
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
             "config": self.playbook_config_global_credentials_filtered,
+            "file_path": "/tmp/device_credentials.yaml",
             "state": "gathered",
         })
         result = self.execute_module(changed=True)
@@ -132,11 +134,12 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestDnacModule):
             "dnac_password": "pass",
             "dnac_version": "2.3.7.9",
             "config": self.playbook_config_assign_credentials_to_site_filtered,
+            "file_path": "/tmp/device_credentials.yaml",
             "state": "gathered",
         })
-        result = self.execute_module(changed=False)
-        self.assertEqual(result.get("status"), "ok")
-        # When no matching site credentials are found, module returns ok status with informational message
+        result = self.execute_module(changed=True)
+        self.assertEqual(result.get("status"), "success")
+        # Module writes YAML with site assignment data
         self.assertIn("message", result.get("response", {}))
         # Verify SDK was called
         self.assertGreater(self.run_dnac_exec.call_count, 0)
@@ -158,6 +161,6 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestDnacModule):
         call_args = mock_file.call_args
         self.assertIsNotNone(call_args)
         self.assertIsInstance(call_args[0][0], str)
-        self.assertTrue(call_args[0][0].endswith(".yaml"))
+        self.assertTrue(call_args[0][0].endswith(".yml"))
         written_yaml = self._get_written_yaml(mock_file)
         self.assertTrue(len(written_yaml) > 0)

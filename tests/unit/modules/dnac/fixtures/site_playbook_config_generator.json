@@ -1,406 +1,396 @@
 {
-  "playbook_config_generate_all_configurations": [
-    {
-      "generate_all_configurations": true,
-      "file_path": "/tmp/test_site_demo.yaml"
+  "playbook_config_generate_all_configurations": null,
+  "playbook_config_empty_config": {},
+  "playbook_config_area_by_site_name_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_area_by_site_name_single": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA",
-            "site_type": [
-              "area"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_area_by_site_name_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area"
+          ]
+        },
+        {
+          "site_name_hierarchy": "Global/Europe",
+          "site_type": [
+            "area"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_area_by_site_name_multiple": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA",
-            "site_type": [
-              "area"
-            ]
-          },
-          {
-            "site_name_hierarchy": "Global/Europe",
-            "site_type": [
-              "area"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_area_by_parent_site": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "parent_name_hierarchy": "Global",
+          "site_type": [
+            "area"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_area_by_parent_site": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "parent_name_hierarchy": "Global",
-            "site_type": [
-              "area"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_building_by_site_name_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "site_type": [
+            "building"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_building_by_site_name_single": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA/San Jose/Building1",
-            "site_type": [
-              "building"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_building_by_site_name_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "site_type": [
+            "building"
+          ]
+        },
+        {
+          "site_name_hierarchy": "Global/USA/San Jose/Building2",
+          "site_type": [
+            "building"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_building_by_site_name_multiple": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA/San Jose/Building1",
-            "site_type": [
-              "building"
-            ]
-          },
-          {
-            "site_name_hierarchy": "Global/USA/San Jose/Building2",
-            "site_type": [
-              "building"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_building_by_parent_site": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "parent_name_hierarchy": "Global/USA/San Jose",
+          "site_type": [
+            "building"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_building_by_parent_site": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "parent_name_hierarchy": "Global/USA/San Jose",
-            "site_type": [
-              "building"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_floor_by_site_name_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor1",
+          "site_type": [
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_floor_by_site_name_single": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor1",
-            "site_type": [
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_floor_by_site_name_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor1",
+          "site_type": [
+            "floor"
+          ]
+        },
+        {
+          "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor2",
+          "site_type": [
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_floor_by_site_name_multiple": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor1",
-            "site_type": [
-              "floor"
-            ]
-          },
-          {
-            "site_name_hierarchy": "Global/USA/San Jose/Building1/Floor2",
-            "site_type": [
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_floor_by_parent_site": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "parent_name_hierarchy": "Global/USA/San Jose/Building1",
+          "site_type": [
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_floor_by_parent_site": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "parent_name_hierarchy": "Global/USA/San Jose/Building1",
-            "site_type": [
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_area_combined_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA"
+        },
+        {
+          "parent_name_hierarchy": "Global",
+          "site_type": [
+            "area"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_area_combined_filters": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA",
-            "parent_name_hierarchy": "Global",
-            "site_type": [
-              "area"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_floor_combined_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "parent_name_hierarchy": "Global/USA/San Jose/Building1",
+          "site_type": [
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_floor_combined_filters": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "parent_name_hierarchy": "Global/USA/San Jose/Building1",
-            "site_type": [
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_areas_and_buildings": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area",
+            "building"
+          ]
+        },
+        {
+          "site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "site_type": [
+            "area",
+            "building"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_areas_and_buildings": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA",
-            "site_type": [
-              "area",
-              "building"
-            ]
-          },
-          {
-            "site_name_hierarchy": "Global/USA/San Jose/Building1",
-            "site_type": [
-              "area",
-              "building"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_buildings_and_floors": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "parent_name_hierarchy": "Global/USA/San Jose",
+          "site_type": [
+            "building",
+            "floor"
+          ]
+        },
+        {
+          "parent_name_hierarchy": "Global/USA/San Jose/Building1",
+          "site_type": [
+            "building",
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_buildings_and_floors": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "parent_name_hierarchy": "Global/USA/San Jose",
-            "site_type": [
-              "building",
-              "floor"
-            ]
-          },
-          {
-            "parent_name_hierarchy": "Global/USA/San Jose/Building1",
-            "site_type": [
-              "building",
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_all_components": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area",
+            "building",
+            "floor"
+          ]
+        },
+        {
+          "parent_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area",
+            "building",
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_all_components": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA/.*",
-            "parent_name_hierarchy": "Global/USA",
-            "site_type": [
-              "area",
-              "building",
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_empty_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {}
+      ]
     }
-  ],
-  "playbook_config_empty_filters": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {}
-        ]
-      }
+  },
+  "playbook_config_no_file_path": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "site_type": [
+            "building"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_no_file_path": [
-    {
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA/San Jose/Building1",
-            "site_type": [
-              "building"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_direct_filter_components_list_name_hierarchy": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA"
+        }
+      ]
     }
-  ],
-  "playbook_config_direct_filter_components_list_name_hierarchy": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA"
-          }
-        ]
-      }
+  },
+  "playbook_config_name_hierarchy_pattern": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area",
+            "building",
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_name_hierarchy_pattern": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA/.*",
-            "site_type": [
-              "area",
-              "building",
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_parent_name_hierarchy_pattern": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "parent_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area",
+            "building",
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_parent_name_hierarchy_pattern": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "parent_name_hierarchy": "Global/USA",
-            "site_type": [
-              "area",
-              "building",
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_combined_hierarchy_patterns": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area",
+            "building",
+            "floor"
+          ]
+        },
+        {
+          "parent_name_hierarchy": "Global/USA",
+          "site_type": [
+            "area",
+            "building",
+            "floor"
+          ]
+        }
+      ]
     }
-  ],
-  "playbook_config_combined_hierarchy_patterns": [
-    {
-      "file_path": "/tmp/test_site_demo.yaml",
-      "component_specific_filters": {
-        "components_list": [
-          "site"
-        ],
-        "site": [
-          {
-            "site_name_hierarchy": "Global/USA/.*",
-            "parent_name_hierarchy": "Global/USA",
-            "site_type": [
-              "area",
-              "building",
-              "floor"
-            ]
-          }
-        ]
-      }
+  },
+  "playbook_config_site_name_hierarchy_list": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "site_name_hierarchy": [
+            "Global/USA",
+            "Global/Europe"
+          ],
+          "site_type": [
+            "area"
+          ]
+        }
+      ]
     }
-  ],
+  },
+  "playbook_config_parent_name_hierarchy_list": {
+    "component_specific_filters": {
+      "components_list": [
+        "site"
+      ],
+      "site": [
+        {
+          "parent_name_hierarchy": [
+            "Global/USA",
+            "Global/Europe"
+          ],
+          "site_type": [
+            "building",
+            "floor"
+          ]
+        }
+      ]
+    }
+  },
   "get_area_response": {
     "response": [
       {

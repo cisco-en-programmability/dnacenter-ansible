@@ -1,188 +1,159 @@
 {
-  "playbook_config_generate_all_configurations": [
-    {
-      "generate_all_configurations": true,
-      "file_path": "/tmp/test_demo.yaml"
+  "playbook_config_generate_all_configurations": {},
+  "playbook_config_component_specific_filters_only": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ]
     }
-  ],
-
-  "playbook_config_component_specific_filters_only": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"]
-      }
+  },
+  "playbook_config_transit_type_ip_based_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "transit_type": "IP_BASED_TRANSIT"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_transit_type_ip_based_single": [
-    {
-      "file_path": "/tmp/test_demo1.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "transit_type": "IP_BASED_TRANSIT"
-          }
-        ]
-      }
+  },
+  "playbook_config_transit_type_ip_based_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "transit_type": "IP_BASED_TRANSIT"
+        },
+        {
+          "transit_type": "IP_BASED_TRANSIT"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_transit_type_ip_based_multiple": [
-    {
-      "file_path": "/tmp/test_demo1.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "transit_type": "IP_BASED_TRANSIT"
-          },
-          {
-            "transit_type": "IP_BASED_TRANSIT"
-          }
-        ]
-      }
+  },
+  "playbook_config_transit_name_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "name": "sample_transit3"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_transit_name_single": [
-    {
-      "file_path": "/tmp/test_demo1.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "name": "sample_transit3"
-          }
-        ]
-      }
+  },
+  "playbook_config_transit_name_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "name": "sample_transit1"
+        },
+        {
+          "name": "sample_transit2"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_transit_name_multiple": [
-    {
-      "file_path": "/tmp/test_demo1.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "name": "sample_transit1"
-          },
-          {
-            "name": "sample_transit2"
-          }
-        ]
-      }
+  },
+  "playbook_config_transit_name_and_type": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "name": "sample_transit2",
+          "transit_type": "IP_BASED_TRANSIT"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_transit_name_and_type": [
-    {
-      "file_path": "/tmp/test_demo1.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "name": "sample_transit2",
-            "transit_type": "IP_BASED_TRANSIT"
-          }
-        ]
-      }
+  },
+  "playbook_config_transit_type_sda_lisp_pub_sub_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "transit_type": "SDA_LISP_PUB_SUB_TRANSIT"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_transit_type_sda_lisp_pub_sub_single": [
-    {
-      "file_path": "/tmp/test_demo1.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "transit_type": "SDA_LISP_PUB_SUB_TRANSIT"
-          }
-        ]
-      }
+  },
+  "playbook_config_transit_type_sda_lisp_bgp_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "transit_type": "SDA_LISP_BGP_TRANSIT"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_transit_type_sda_lisp_bgp_single": [
-    {
-      "file_path": "/tmp/test_demo2.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "transit_type": "SDA_LISP_BGP_TRANSIT"
-          }
-        ]
-      }
+  },
+  "playbook_config_all_transit_types": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "transit_type": "IP_BASED_TRANSIT"
+        },
+        {
+          "transit_type": "SDA_LISP_PUB_SUB_TRANSIT"
+        },
+        {
+          "transit_type": "SDA_LISP_BGP_TRANSIT"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_all_transit_types": [
-    {
-      "file_path": "/tmp/test_demo_all.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "transit_type": "IP_BASED_TRANSIT"
-          },
-          {
-            "transit_type": "SDA_LISP_PUB_SUB_TRANSIT"
-          },
-          {
-            "transit_type": "SDA_LISP_BGP_TRANSIT"
-          }
-        ]
-      }
+  },
+  "playbook_config_mixed_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "name": "IP_TRANSIT_1"
+        },
+        {
+          "transit_type": "SDA_LISP_BGP_TRANSIT"
+        },
+        {
+          "name": "sample_transit3",
+          "transit_type": "SDA_LISP_PUB_SUB_TRANSIT"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_mixed_filters": [
-    {
-      "file_path": "/tmp/test_demo_mixed.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "name": "IP_TRANSIT_1"
-          },
-          {
-            "transit_type": "SDA_LISP_BGP_TRANSIT"
-          },
-          {
-            "name": "sample_transit3",
-            "transit_type": "SDA_LISP_PUB_SUB_TRANSIT"
-          }
-        ]
-      }
+  },
+  "playbook_config_empty_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ]
     }
-  ],
-
-  "playbook_config_empty_filters": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"]
-      }
+  },
+  "playbook_config_no_file_path": {
+    "component_specific_filters": {
+      "components_list": [
+        "sda_fabric_transits"
+      ],
+      "sda_fabric_transits": [
+        {
+          "transit_type": "IP_BASED_TRANSIT"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_no_file_path": [
-    {
-      "component_specific_filters": {
-        "components_list": ["sda_fabric_transits"],
-        "sda_fabric_transits": [
-          {
-            "transit_type": "IP_BASED_TRANSIT"
-          }
-        ]
-      }
-    }
-  ],
-
+  },
   "get_device_details": {
     "response": [
       {
@@ -243,7 +214,6 @@
     ],
     "version": "1.0"
   },
-
   "get_site_details": {
     "response": [
       {
@@ -263,7 +233,6 @@
     ],
     "version": "1.0"
   },
-
   "get_transits_after_deletion": {
     "response": [
       {
@@ -287,7 +256,6 @@
     ],
     "version": "1.0"
   },
-
   "get_available_transit_networks": {
     "response": [
       {
@@ -339,7 +307,6 @@
     ],
     "version": "1.0"
   },
-
   "get_ip_based_transits_only": {
     "response": [
       {
@@ -365,7 +332,6 @@
     ],
     "version": "1.0"
   },
-
   "get_sda_lisp_bgp_transits_only": {
     "response": [
       {
@@ -384,7 +350,6 @@
     ],
     "version": "1.0"
   },
-
   "get_sda_lisp_pub_sub_transits_only": {
     "response": [
       {
@@ -403,7 +368,6 @@
     ],
     "version": "1.0"
   },
-
   "get_transit_by_name_sample_transit3": {
     "response": [
       {
@@ -421,7 +385,6 @@
     ],
     "version": "1.0"
   },
-
   "get_transit_by_name_sample_transit2": {
     "response": [
       {
@@ -437,7 +400,6 @@
     ],
     "version": "1.0"
   },
-
   "get_transit_by_name_ip_transit_1": {
     "response": [
       {
@@ -453,7 +415,6 @@
     ],
     "version": "1.0"
   },
-
   "get_transit_by_name_sample_transit1": {
     "response": [
       {
@@ -469,12 +430,10 @@
     ],
     "version": "1.0"
   },
-
   "get_empty_available_transit_networks": {
     "response": [],
     "version": "1.0"
   },
-
   "get_created_transits_networks": {
     "response": [
       {
@@ -510,7 +469,6 @@
     ],
     "version": "1.0"
   },
-
   "add_transit_api_task_id_response": {
     "response": {
       "taskId": "019706a6-b1a8-791a-8bae-7ed75c147de9",
@@ -518,7 +476,6 @@
     },
     "version": "1.0"
   },
-
   "delete_transit_api_task_id_response": {
     "response": {
       "taskId": "019706a6-b1a8-791a-8bae-7ed75c147de9",
@@ -526,7 +483,6 @@
     },
     "version": "1.0"
   },
-
   "success_task_id_response": {
     "response": {
       "lastUpdate": 1748163277403,
@@ -538,7 +494,6 @@
     },
     "version": "1.0"
   },
-
   "failed_task_id_response": {
     "response": {
       "endTime": 1748250350707,
@@ -550,11 +505,9 @@
     },
     "version": "1.0"
   },
- 
   "get_invalid_testbed_release": {
     "message": "The specified version '2.3.5.3' does not support the SDA fabric transits feature. Supported versions start from '2.3.7.6' onwards."
   },
-
   "get_failed_task_details": {
     "response": {
       "progress": "TASK_PROVISION",
@@ -564,5 +517,4 @@
     },
     "version": "1.0"
   }
-
 }

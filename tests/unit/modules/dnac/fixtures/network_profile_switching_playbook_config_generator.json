@@ -1,10 +1,5 @@
 {
-  "playbook_config_generate_all_profile": [
-    {
-      "generate_all_configurations": true,
-      "file_path": "/tmp/test_demo.yaml"
-    }
-  ],
+  "playbook_config_generate_all_profile": null,
 
   "all_switch_profiles": {
         "response": [
@@ -1268,37 +1263,30 @@
         "version": "1.0"
     },
 
-    "playbook_global_filter_profile_base": [
+    "playbook_global_filter_profile_base":
         {
-            "file_path": "tmp/network_profile_switching_workflow_playbook_profilebase.yml",
             "global_filters": {
                 "profile_name_list": [
                     "Test Profile BF1"
                 ]
             }
-        }
-    ],
+        },
 
-    "playbook_global_filter_template_base": [
+    "playbook_global_filter_template_base":
         {
-            "file_path": "tmp/network_profile_switching_workflow_playbook_templatebase.yml",
             "global_filters": {
                 "day_n_template_list": [
                     "evpn_l2vn_anycast_delete_template"
                 ]
             }
-        }
-    ],
+        },
 
-    "playbook_global_filter_site_base": [
+    "playbook_global_filter_site_base":
         {
-            "file_path": "tmp/network_profile_switching_workflow_playbook_sitebase.yml",
             "global_filters": {
                 "site_list": [
                     "Global/USA/SAN JOSE/SJ_BLD20/FLOOR1"
                 ]
             }
         }
-    ]
-
 }

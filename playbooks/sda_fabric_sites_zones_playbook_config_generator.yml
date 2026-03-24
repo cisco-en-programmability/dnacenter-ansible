@@ -1,12 +1,13 @@
 ---
-- name: Configure the Fabric sites zones for SDA in Cisco Catalyst Center
+- name: Generates the SDA Fabric Sites and Zones in Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Generate the playbook for Fabric Site(s) and Zone(s) for SDA in Cisco Catalyst Center
+    # Example 1: Generate all configurations with default file path
+    - name: Generate the playbook config for all SDA Fabric Sites and Zones in Cisco Catalyst Center
       cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -18,58 +19,168 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
+        # No config provided - generates all configurations
+
+    # Example 2: Generate all configurations with custom file path
+    - name: Generate the playbook config for all SDA Fabric Sites and Zones in Cisco Catalyst Center
+      cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/fabric_sites_zones.yml"
+        file_mode: "overwrite"
+
+    # Example 3: Generate all Fabric Sites with custom file path
+    - name: Generate the playbook config for all SDA Fabric Sites in Cisco Catalyst Center
+      cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/all_fabric_sites.yml"
+        file_mode: "append"
         config:
-          # ====================================================================================
-          # Scenario 1: Fabric Sites and Zones - Fetch All Configurations
-          # Tests behavior when no filters are provided
-          # ====================================================================================
-          - generate_all_configurations: true
-          # ====================================================================================
-          # Scenario 2: Fabric Sites and Zones - Fetch Specific Configurations
-          # Tests behavior when specific fabric sites and zones are to be fetched
-          # ====================================================================================
-          # - generate_all_configurations: true
-          #   file_path: "/tmp/fb_sites.yaml"
-          # ====================================================================================
-          # Scenario 3: Fabric Sites - Fetch Specific Configurations
-          # Tests behavior when only fabric sites are to be fetched
-          # ====================================================================================
-          # - file_path: "demo.yaml"
-          #   component_specific_filters:
-          #     components_list: ["fabric_sites"]
-          # ====================================================================================
-          # Scenario 4: Fabric Zones - Fetch Specific Configurations
-          # Tests behavior when only fabric zones are to be fetched
-          # ====================================================================================
-          # - file_path: "demo.yaml"
-          #   component_specific_filters:
-          #     components_list: ["fabric_zones"]
-          # ====================================================================================
-          # Scenario 5: Fabric Sites and Zones - Fetch Specific Configurations with Filters
-          # Tests behavior when specific fabric sites and zones are to be fetched with filters
-          # ====================================================================================
-          # - file_path: "demo.yaml"
-          #   component_specific_filters:
-          #     components_list: ["fabric_sites", "fabric_zones"]
-          # ===================================================================================
-          # Scenario 6: Fabric Sites - Fetch Specific Configurations with Filters
-          # Tests behavior when only fabric sites are to be fetched with filters
-          # ===================================================================================
-          # - file_path: "demo.yaml"
-          #   component_specific_filters:
-          #     components_list: ["fabric_sites"]
-          #     fabric_sites:
-          #       - site_name_hierarchy: Global/Site_India/Karnataka/Bangalore
-          # ===================================================================================
-          # Scenario 7: Fabric Sites - Fetch Specific Configurations with multiple Filters
-          # Tests behavior when only fabric sites are to be fetched with multiple filters
-          # ===================================================================================
-          # - file_path: "demo.yml"
-          #   component_specific_filters:
-          #     components_list: ["fabric_sites"]
-          #     fabric_sites:
-          #       - site_name_hierarchy: Global/Site_India/Karnataka/Bangalore
-          #       - site_name_hierarchy: Global/Site_India/Tamil_Nadu/Chennai
+          component_specific_filters:
+            components_list: ["fabric_sites"]
+
+    # Example 4: Generate all Fabric Zones with custom file path
+    - name: Generate the playbook config for all SDA Fabric Zones in Cisco Catalyst Center
+      cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/all_fabric_zones.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["fabric_zones"]
+
+    # Example 5: Generate Fabric Sites and Zones with custom file path
+    - name: Generate the playbook config for SDA Fabric Sites and Zones in Cisco Catalyst Center
+      cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/fabric_sites_zones.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["fabric_sites", "fabric_zones"]
+
+    # Example 6: Generate Fabric Sites using site hierarchy filter
+    - name: Generate the playbook config for SDA Fabric Sites using site hierarchy
+      cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/fabric_sites_filtered.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            # No components_list specified, but fabric site filters are provided
+            # The 'fabric_sites' component will be automatically added to components_list
+            fabric_sites:
+              - site_name_hierarchy: Global/Site_India/Karnataka/Bangalore
+
+    # Example 7: Generate Fabric Sites using multiple site hierarchy filters
+    - name: Generate the playbook config for SDA Fabric Sites using multiple site hierarchies
+      cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/fabric_sites_multi_filter.yml"
+        config:
+          component_specific_filters:
+            components_list: ["fabric_sites"] # This line is optional
+            fabric_sites:
+              - site_name_hierarchy: Global/Site_India/Karnataka/Bangalore
+              - site_name_hierarchy: Global/Site_India/Tamil_Nadu/Chennai
+
+    # Example 8: Generate Fabric Zones using site hierarchy filter
+    - name: Generate the playbook config for SDA Fabric Zones using site hierarchy
+      cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/fabric_zones_filtered.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            # No components_list specified, but fabric zone filters are provided
+            # The 'fabric_zones' component will be automatically added to components_list
+            fabric_zones:
+              - site_name_hierarchy: Global/Site_India/Karnataka/Bangalore
+
+    # Example 9: Generate Fabric Zones using multiple site hierarchy filters
+    - name: Generate the playbook config for SDA Fabric Zones using multiple site hierarchies
+      cisco.dnac.sda_fabric_sites_zones_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/fabric_zones_multi_filter.yml"
+        config:
+          component_specific_filters:
+            components_list: ["fabric_zones"] # This line is optional
+            fabric_zones:
+              - site_name_hierarchy: Global/Site_India/Karnataka/Bangalore
+              - site_name_hierarchy: Global/Site_India/Tamil_Nadu/Chennai
+
+      register: result
 
       tags:
         - fabric_sites_zones_testing

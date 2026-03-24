@@ -1,53 +1,43 @@
 {
-    "playbook_config_generate_all": [
-        {
-            "generate_all_configurations": true
+    "playbook_config_generate_all": {
+        "component_specific_filters": {
+            "components_list": ["assurance_user_defined_issue_settings"]
         }
-    ],
+    },
 
-    "playbook_config_specific_components": [
-        {
-            "component_specific_filters": {
-                "components_list": [
-                    "assurance_user_defined_issue_settings",
-                    "assurance_system_issue_settings"
-                ]
-            }
+    "playbook_config_specific_components": {
+        "component_specific_filters": {
+            "components_list": [
+                "assurance_user_defined_issue_settings"
+            ]
         }
-    ],
+    },
 
-    "playbook_config_user_defined_only": [
-        {
-            "component_specific_filters": {
-                "components_list": ["assurance_user_defined_issue_settings"],
-                "assurance_user_defined_issue_settings": [
-                    {"name": "Custom Network Latency Alert"},
-                    {"is_enabled": true}
-                ]
-            }
+    "playbook_config_user_defined_only": {
+        "component_specific_filters": {
+            "components_list": ["assurance_user_defined_issue_settings"],
+            "assurance_user_defined_issue_settings": [
+                {"name": "Custom Network Latency Alert"},
+                {"is_enabled": true}
+            ]
         }
-    ],
+    },
 
-    "playbook_config_system_only": [
-        {
-            "component_specific_filters": {
-                "components_list": ["assurance_system_issue_settings"],
-                "assurance_system_issue_settings": [
-                    {"device_type": "UNIFIED_AP"},
-                    {"device_type": "ROUTER"}
-                ]
-            }
+    "playbook_config_system_only": {
+        "component_specific_filters": {
+            "components_list": ["assurance_system_issue_settings"],
+            "assurance_system_issue_settings": [
+                {"device_type": "UNIFIED_AP"},
+                {"device_type": "ROUTER"}
+            ]
         }
-    ],
+    },
 
-    "playbook_config_with_file_path": [
-        {
-            "file_path": "/tmp/test_issues.yml",
-            "component_specific_filters": {
-                "components_list": ["assurance_user_defined_issue_settings"]
-            }
+    "playbook_config_with_file_path": {
+        "component_specific_filters": {
+            "components_list": ["assurance_user_defined_issue_settings"]
         }
-    ],
+    },
 
     "get_user_defined_issues_response": {
         "response": [

@@ -6,7 +6,7 @@
   vars_files:
     - "credentials.yml"
   tasks:
-    # Example 1: Generate all configurations automatically
+    # Example 1: Generate all configurations automatically (auto-discovery)
     - name: Generate complete assurance issue configuration
       cisco.dnac.assurance_issue_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
@@ -19,12 +19,11 @@
         dnac_log: true
         dnac_log_level: DEBUG
         state: gathered
-        config:
-          - generate_all_configurations: true
-            file_path: "/tmp/active_issues_filtered.yml"
+        file_path: "tmp/active_issues_filtered.yml"
+        file_mode: "overwrite"
 
     # Example 2: Generate all components config
-    - name: Generate YAML configuration for all commponents
+    - name: Generate YAML configuration for all components
       cisco.dnac.assurance_issue_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -37,9 +36,9 @@
         dnac_log_level: DEBUG
         state: gathered
         config:
-          - component_specific_filters:
-              components_list:
-                - assurance_user_defined_issue_settings
+          component_specific_filters:
+            components_list:
+              - assurance_user_defined_issue_settings
 
     # Example 3: Generate user-defined issue settings with filters
     - name: Generate YAML configuration for user-defined issues
@@ -54,11 +53,14 @@
         dnac_log: true
         dnac_log_level: DEBUG
         state: gathered
+        file_path: "tmp/user_defined_issues2.yml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/user_defined_issues.yml"
-            component_specific_filters:
-              components_list:
-                - assurance_user_defined_issue_settings
-              assurance_user_defined_issue_settings:
-                - name: "Custom Network Latency Alert"
-                - is_enabled: true
+          component_specific_filters:
+            components_list:
+              - assurance_user_defined_issue_settings
+            assurance_user_defined_issue_settings:
+              - name: "Shut fangone"
+                is_enabled: true
+              - name: "Shut lc fangone"
+                is_enabled: true
