@@ -32,6 +32,25 @@ class TestDnacProvisionPlaybookGenerator(TestDnacModule):
 
     playbook_global_filters = test_data.get("playbook_global_filters")
 
+    def _build_generator_for_validation(self, config=None, params=None):
+        generator = self.module.ProvisionPlaybookGenerator.__new__(
+            self.module.ProvisionPlaybookGenerator
+        )
+        generator.config = config
+        generator.params = params or {}
+        generator.msg = None
+        generator.status = None
+        generator.validated_config = None
+        generator.log = lambda *args, **kwargs: None
+
+        def set_operation_result(status, changed, msg, level):
+            generator.status = status
+            generator.msg = msg
+            return generator
+
+        generator.set_operation_result = set_operation_result
+        return generator
+
     def setUp(self):
         super(TestDnacProvisionPlaybookGenerator, self).setUp()
 
@@ -248,4 +267,105 @@ class TestDnacProvisionPlaybookGenerator(TestDnacModule):
                     "devices_count": 6,
                 }
             }
+        )
+
+    def test_validate_input_accepts_list_values_for_component_filters(self):
+        generator = self._build_generator_for_validation(
+            config={
+                "component_specific_filters": {
+                    "wired": [
+                        {
+                            "management_ip_address": ["204.1.2.5", "204.1.2.6"],
+                            "site_name_hierarchy": ["Global/USA/SAN JOSE/SJ_BLD23"],
+                            "device_family": ["Switches and Hubs", "Routers"],
+                        }
+                    ]
+                }
+            }
+        )
+
+        generator.validate_input()
+
+        self.assertEqual(generator.status, "success")
+        wired_filter = generator.validated_config["component_specific_filters"]["wired"][0]
+        self.assertEqual(
+            wired_filter["management_ip_address"], ["204.1.2.5", "204.1.2.6"]
+        )
+        self.assertEqual(
+            wired_filter["device_family"], ["Switches and Hubs", "Routers"]
+        )
+        self.assertEqual(
+            generator.validated_config["component_specific_filters"]["components_list"],
+            ["wired"],
+        )
+
+    def test_validate_input_rejects_invalid_management_ip_in_filter_list(self):
+        generator = self._build_generator_for_validation(
+            config={
+                "component_specific_filters": {
+                    "wired": [
+                        {
+                            "management_ip_address": ["204.1.2.5", "bad-ip"],
+                        }
+                    ]
+                }
+            }
+        )
+
+        generator.validate_input()
+
+        self.assertEqual(generator.status, "failed")
+        self.assertIn(
+            "Invalid IPv4 address values ['bad-ip'] in wired filters.management_ip_address",
+            generator.msg,
+        )
+
+    def test_apply_device_filters_matches_list_values(self):
+        generator = self.module.ProvisionPlaybookGenerator.__new__(
+            self.module.ProvisionPlaybookGenerator
+        )
+        generator.log = lambda *args, **kwargs: None
+        generator.transform_device_management_ip = lambda device: device.get(
+            "management_ip_address"
+        )
+        generator.transform_device_site_hierarchy = lambda device: device.get(
+            "site_name_hierarchy"
+        )
+        generator.transform_device_family_info = lambda device: device.get("device_family")
+
+        devices = [
+            {
+                "management_ip_address": "204.1.2.5",
+                "site_name_hierarchy": "Global/USA/SAN JOSE/SJ_BLD23",
+                "device_family": "Switches and Hubs",
+            },
+            {
+                "management_ip_address": "204.1.2.6",
+                "site_name_hierarchy": "Global/USA/SAN JOSE/SJ_BLD24",
+                "device_family": "Routers",
+            },
+            {
+                "management_ip_address": "204.1.2.7",
+                "site_name_hierarchy": "Global/USA/SAN JOSE/SJ_BLD25",
+                "device_family": "Wireless Controller",
+            },
+        ]
+
+        filters = [
+            {
+                "management_ip_address": ["204.1.2.5", "204.1.2.6"],
+                "site_name_hierarchy": [
+                    "Global/USA/SAN JOSE/SJ_BLD23",
+                    "Global/USA/SAN JOSE/SJ_BLD24",
+                ],
+                "device_family": ["Switches and Hubs", "Routers"],
+            }
+        ]
+
+        filtered_devices = generator.apply_device_filters(devices, filters)
+
+        self.assertEqual(len(filtered_devices), 2)
+        self.assertEqual(
+            [device.get("management_ip_address") for device in filtered_devices],
+            ["204.1.2.5", "204.1.2.6"],
         )
