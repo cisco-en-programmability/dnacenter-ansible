@@ -26,4 +26,5 @@
           component_specific_filters:
             components_list: ["wired"]
             wired:
-              - management_ip_address: "204.1.2.9"
+              - management_ip_address:
+                  - "204.1.2.9"
