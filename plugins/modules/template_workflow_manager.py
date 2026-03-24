@@ -1301,6 +1301,65 @@ options:
               the template is built using multiple smaller
               templates.
             type: bool
+          member_template_deployment_info:
+            description:
+              - A list of member template deployment
+                details used when deploying a composite
+                template.
+              - Each entry describes a child template
+                and its deployment parameters.
+              - Required when is_composite is set to
+                true.
+            type: list
+            elements: dict
+            suboptions:
+              template_name:
+                description: Name of the member template
+                  to deploy.
+                type: str
+                required: true
+              project_name:
+                description: Name of the project under
+                  which the member template resides.
+                  If not provided, defaults to the
+                  parent template's project_name.
+                type: str
+              copy_config:
+                description: Whether to copy the running
+                  configuration to startup after applying
+                  the member template.
+                type: bool
+                default: true
+              template_parameters:
+                description: A list of parameter name-value
+                  pairs for customizing the member template.
+                type: list
+                elements: dict
+                suboptions:
+                  param_name:
+                    description: Name of the parameter.
+                    type: str
+                  param_value:
+                    description: Value for the parameter.
+                    type: str
+              resource_parameters:
+                description: Resource parameters for
+                  the member template deployment.
+                type: list
+                elements: dict
+                suboptions:
+                  resource_type:
+                    description: The type of the resource
+                      parameter.
+                    type: str
+                  resource_scope:
+                    description: The scope of the resource
+                      parameter (RUNTIME or DESIGN).
+                    type: str
+                  resource_value:
+                    description: The value of the resource
+                      parameter.
+                    type: str
           copy_config:
             description:
               - A boolean flag that specifies whether
@@ -2353,6 +2412,26 @@ class Template(NetworkProfileFunctions):
                 "template_name": {"type": "str"},
                 "force_push": {"type": "bool"},
                 "is_composite": {"type": "bool"},
+                "member_template_deployment_info": {
+                    "type": "list",
+                    "elements": "dict",
+                    "template_name": {"type": "str"},
+                    "project_name": {"type": "str"},
+                    "copy_config": {"type": "bool", "default": True},
+                    "template_parameters": {
+                        "type": "list",
+                        "elements": "dict",
+                        "param_name": {"type": "str"},
+                        "param_value": {"type": "str"},
+                    },
+                    "resource_parameters": {
+                        "type": "list",
+                        "elements": "dict",
+                        "resource_type": {"type": "str"},
+                        "resource_scope": {"type": "str"},
+                        "resource_value": {"type": "str"},
+                    },
+                },
                 "copy_config": {"type": "bool", "default": True},
                 "template_parameters": {
                     "type": "list",
@@ -5734,12 +5813,80 @@ class Template(NetworkProfileFunctions):
                 project_name, template_name, template_id
             ).check_return_status()
 
+        is_composite = deploy_temp_details.get("is_composite", False)
         deploy_payload = {
             "forcePushTemplate": deploy_temp_details.get("force_push", False),
-            "isComposite": deploy_temp_details.get("is_composite", False),
+            "isComposite": is_composite,
             "templateId": template_id,
             "copyingConfig": deploy_temp_details.get("copy_config", True),
         }
+
+        # For composite templates, set mainTemplateId and build memberTemplateDeploymentInfo
+        if is_composite:
+            deploy_payload["mainTemplateId"] = template_id
+            # Resolve versioned template ID for the composite parent
+            composite_version_id = self.get_latest_template_version_id(template_id, template_name)
+            if composite_version_id:
+                deploy_payload["templateId"] = composite_version_id
+            member_info_list = deploy_temp_details.get("member_template_deployment_info", [])
+            if not member_info_list:
+                self.msg = (
+                    "Composite template '{0}' requires 'member_template_deployment_info' "
+                    "to be provided in the playbook."
+                ).format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            member_deployments = []
+            for member in member_info_list:
+                member_template_name = member.get("template_name")
+                if not member_template_name:
+                    self.msg = (
+                        "Each entry in 'member_template_deployment_info' must include a 'template_name' "
+                        "for composite template '{0}'."
+                    ).format(template_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                member_project_name = member.get("project_name") or project_name
+                member_response = self.get_project_defined_template_details(
+                    member_project_name, member_template_name
+                )
+                member_templates = member_response.get("response") if member_response else None
+                if not member_templates:
+                    self.msg = (
+                        "Member template '{0}' not found under project '{1}' or it is not versioned."
+                    ).format(member_template_name, member_project_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                member_template_id = member_templates[0].get("id")
+                self.log("Resolved member template '{0}' to ID '{1}'.".format(
+                    member_template_name, member_template_id), "DEBUG")
+
+                member_version_id = self.get_latest_template_version_id(member_template_id, member_template_name)
+                if not member_version_id:
+                    member_version_id = member_template_id
+
+                member_params = {}
+                for param in member.get("template_parameters", []):
+                    member_params[param["param_name"]] = param["param_value"]
+
+                member_deploy = {
+                    "forcePushTemplate": True,
+                    "isComposite": False,
+                    "templateId": member_version_id,
+                    "copyingConfig": member.get("copy_config", True),
+                    "targetInfo": [],
+                }
+
+                member_resource_params = member.get("resource_parameters", [])
+                member_deployments.append({
+                    "deploy": member_deploy,
+                    "params": member_params,
+                    "version_id": member_version_id,
+                    "resource_params": member_resource_params,
+                })
+
+            self.log("Built {0} member template deployment entries for composite template '{1}'.".format(
+                len(member_deployments), template_name), "DEBUG")
         self.log(
             "Handling template parameters for the deployment of template '{0}'.".format(
                 template_name
@@ -5769,14 +5916,16 @@ class Template(NetworkProfileFunctions):
             )
             template_dict[name] = value
 
-        # Get the latest version template ID
-        version_template_id = self.get_latest_template_version_id(template_id, template_name)
-        if not version_template_id:
-            self.log(
-                "No versioning found for the template: {0}".format(template_name),
-                "INFO",
-            )
-            version_template_id = template_id
+        # Get the latest version template ID (only needed for non-composite deployments)
+        version_template_id = None
+        if not is_composite:
+            version_template_id = self.get_latest_template_version_id(template_id, template_name)
+            if not version_template_id:
+                self.log(
+                    "No versioning found for the template: {0}".format(template_name),
+                    "INFO",
+                )
+                version_template_id = template_id
 
         self.log("Preparing to deploy template '{0}' to the following device IDs: '{1}'".format(template_name, device_ids), "DEBUG")
         for device_id in device_ids:
@@ -5787,9 +5936,10 @@ class Template(NetworkProfileFunctions):
             target_device_dict = {
                 "id": device_id,
                 "type": "MANAGED_DEVICE_UUID",
-                "versionedTemplateId": version_template_id,
                 "params": template_dict,
             }
+            if not is_composite:
+                target_device_dict["versionedTemplateId"] = version_template_id
             resource_params = deploy_temp_details.get("resource_parameters")
             self.log("Handling resource parameters for the deployment of template '{0}'.".format(template_name), "DEBUG")
             resource_params_list = []
@@ -5858,13 +6008,65 @@ class Template(NetworkProfileFunctions):
             del target_device_dict
 
         deploy_payload["targetInfo"] = target_info_list
+
+        # For composite templates, populate memberTemplateDeploymentInfo with per-device target info
+        if is_composite:
+            member_template_deployment_info = []
+            for member_entry in member_deployments:
+                member_deploy = member_entry["deploy"]
+                member_params = member_entry["params"]
+                member_version_id = member_entry["version_id"]
+                member_resource_params = member_entry.get("resource_params", [])
+
+                member_target_info_list = []
+                for device_id in device_ids:
+                    member_target = {
+                        "id": device_id,
+                        "type": "MANAGED_DEVICE_UUID",
+                        "params": member_params,
+                    }
+
+                    member_res_list = []
+                    runtime_scopes_available = ["MANAGED_DEVICE_UUID", "MANAGED_DEVICE_IP", "MANAGED_DEVICE_HOSTNAME", "SITE_UUID"]
+                    for resource_param in member_resource_params:
+                        r_type = resource_param.get("resource_type")
+                        scope = resource_param.get("resource_scope", "RUNTIME")
+                        resource_params_dict = {"type": r_type, "scope": scope}
+                        if scope == "RUNTIME":
+                            if r_type == "SITE_UUID":
+                                value = self.get_site_uuid_from_device_id(device_id)
+                            elif r_type == "MANAGED_DEVICE_UUID":
+                                value = device_id
+                            elif r_type == "MANAGED_DEVICE_IP":
+                                device_ip_id_map = self.get_device_ips_from_device_ids([device_id])
+                                value = device_ip_id_map[device_id]
+                            elif r_type == "MANAGED_DEVICE_HOSTNAME":
+                                value = self.get_device_hostname_from_device_id(device_id)
+                            else:
+                                value = resource_param.get("resource_value")
+                        else:
+                            value = resource_param.get("resource_value")
+                        resource_params_dict["value"] = value
+                        member_res_list.append(resource_params_dict)
+
+                    if member_res_list:
+                        member_target["resourceParams"] = member_res_list
+                    member_target_info_list.append(member_target)
+
+                member_deploy["targetInfo"] = member_target_info_list
+                member_template_deployment_info.append(member_deploy)
+
+            deploy_payload["memberTemplateDeploymentInfo"] = member_template_deployment_info
+            self.log("Added {0} member template deployment info entries to composite payload.".format(
+                len(member_template_deployment_info)), "DEBUG")
+
         self.log(
             "Successfully generated deployment payload for template '{0}'.".format(
                 template_name
             ),
             "INFO",
         )
-
+        self.log("Final deployment payload for template '{0}': {1}".format(template_name, deploy_payload), "DEBUG")
         return deploy_payload
 
     def monitor_template_deployment_status(
@@ -6082,7 +6284,7 @@ class Template(NetworkProfileFunctions):
                     "DEBUG",
                 )
                 match = re.search(
-                    r"Template\s+Deployemnt\s+Id:\s+([a-f0-9\-]+)",
+                    r"Template\s+Deploye?ment\s+Id:\s+([a-f0-9\-]+)",
                     progress,
                     re.IGNORECASE,
                 )
@@ -6105,6 +6307,7 @@ class Template(NetworkProfileFunctions):
                         self.monitor_template_deployment_status(
                             template_name, deployment_id, device_ips
                         ).check_return_status()
+                        return self
                     else:
                         self.log(
                             "Regex matched the progress message, but no Deployment ID was captured. "
@@ -6115,12 +6318,21 @@ class Template(NetworkProfileFunctions):
                         )
                 else:
                     self.log(
-                        "Deployment ID not found in the progress message. This could indicate that the template '{0}' is already deployed with"
-                        " same parameters, Hence not deploying on devices. Progress message: '{1}'.".format(
+                        "Deployment ID not found in the progress message for template '{0}'. Progress message: '{1}'.".format(
                             template_name, progress
                         ),
-                        "WARNING",
+                        "DEBUG",
                     )
+
+                # Check for task-level success even without a deployment ID
+                is_task_end = task_details.get("isError")
+                if is_task_end is False and "endTime" in task_details and task_details.get("endTime"):
+                    self.msg = (
+                        "Given template '{0}' deployed successfully to all the device(s) '{1}' "
+                        " in the Cisco Catalyst Center."
+                    ).format(template_name, device_ips)
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    return self
 
                 if "already deployed with same params" in progress:
                     self.msg = "Template '{0}' is already deployed with the same parameters. No deployment actions will be performed.".format(
