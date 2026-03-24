@@ -1005,13 +1005,14 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "Full configuration generates all fabric sites first, followed by all fabric zones."
             ]
 
-        file_changed = self.write_dict_to_yaml(
+        file_written = self.write_dict_to_yaml(
             yaml_config_dict,
             file_path,
             file_mode,
             notes=additional_config_headers,
         )
-        if file_changed:
+
+        if file_written:
             self.msg = {
                 "status": "success",
                 "message": "YAML configuration file generated successfully for module '{0}'".format(

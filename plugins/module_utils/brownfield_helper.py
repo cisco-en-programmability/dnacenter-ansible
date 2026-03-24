@@ -1174,7 +1174,7 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        file_changed = self.write_dict_to_yaml(
+        file_written = self.write_dict_to_yaml(
             yaml_config_dict,
             file_path,
             file_mode,
@@ -1182,7 +1182,7 @@ class BrownFieldHelper:
             notes=additional_header_comments,
         )
 
-        if file_changed:
+        if file_written:
             self.msg = {
                 "status": "success",
                 "message": "YAML configuration file generated successfully for module '{0}'".format(
