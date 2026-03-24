@@ -1528,6 +1528,7 @@ class BrownFieldHelper:
             "Attempting to extract last YAML document from '{0}'".format(file_path),
             "DEBUG",
         )
+
         try:
             if not os.path.isfile(file_path):
                 self.log(
@@ -1538,6 +1539,13 @@ class BrownFieldHelper:
 
             with open(file_path, "r") as f:
                 content = f.read()
+
+            self.log(
+                "Successfully read file '{0}', content length: {1} characters".format(
+                    file_path, len(content)
+                ),
+                "DEBUG",
+            )
 
             if not content.strip():
                 self.log(
@@ -1552,12 +1560,35 @@ class BrownFieldHelper:
                 "File '{0}' split into {1} YAML document segment(s)".format(file_path, len(documents)),
                 "DEBUG",
             )
+
             last_segment = None
-            for segment in reversed(documents):
+            total_segments = len(documents)
+
+            for segment_number in range(total_segments, 0, -1):
+                segment = documents[segment_number - 1]
                 stripped = segment.strip()
+
+                self.log(
+                    "Checking segment {0}/{1}, "
+                    "empty: {2}, length: {3} characters".format(
+                        segment_number, total_segments,
+                        not bool(stripped), len(stripped)
+                    ),
+                    "DEBUG",
+                )
+
                 if stripped:
+                    self.log(
+                        "Found last non-empty YAML segment at position {0}".format(segment_number),
+                        "DEBUG",
+                    )
                     last_segment = stripped
                     break
+
+                self.log(
+                    "Segment {0} is empty, continuing to next".format(segment_number),
+                    "DEBUG",
+                )
 
             if last_segment is None:
                 self.log(
@@ -1570,12 +1601,15 @@ class BrownFieldHelper:
                 "Parsing last YAML segment from '{0}'".format(file_path),
                 "DEBUG",
             )
+
             last_doc = yaml.safe_load(last_segment)
+
             self.log(
                 "Extracted last YAML document from '{0}', content: {1}"
                 .format(file_path, last_doc),
                 "DEBUG",
             )
+
             return last_doc
 
         except Exception as e:
@@ -1611,6 +1645,7 @@ class BrownFieldHelper:
 
         lines = content.splitlines()
         total_lines = len(lines)
+
         self.log(
             "Content split into {0} lines for hash processing.".format(total_lines),
             "DEBUG",
@@ -1620,12 +1655,14 @@ class BrownFieldHelper:
         skipped_lines = 0
         hashed_lines = 0
 
-        for index, line in enumerate(lines):
+        for index, line in enumerate(lines, start=1):
             stripped = line.strip()
+
             self.log(
                 "Processing line {0}/{1}: '{2}'".format(index, total_lines, stripped),
                 "DEBUG",
             )
+
             # Skip lines that change every run
             if stripped.startswith("#  Generated on") or stripped.startswith("#  Generated from"):
                 self.log(
@@ -1634,21 +1671,25 @@ class BrownFieldHelper:
                 )
                 skipped_lines += 1
                 continue
+
             hasher.update(line.encode("utf-8"))
             hasher.update(b"\n")
             hashed_lines += 1
+
             self.log(
                 "Line {0}: Hashed successfully.".format(index),
                 "DEBUG",
             )
 
         digest = hasher.hexdigest()
+
         self.log(
             "SHA256 content hash computation completed. "
             "Total lines: {0}, Lines hashed: {1}, Volatile lines skipped: {2}, "
             "Computed hash: {3}".format(total_lines, hashed_lines, skipped_lines, digest),
             "DEBUG",
         )
+
         return digest
 
     def write_dict_to_yaml(
