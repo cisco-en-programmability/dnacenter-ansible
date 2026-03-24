@@ -1754,23 +1754,28 @@ class BrownFieldHelper:
                     "Starting idempotency check by comparing content hashes.".format(file_path),
                     "DEBUG",
                 )
+
                 try:
                     with open(file_path, "r") as f:
                         existing_content = f.read()
+
                     self.log(
                         "Read existing file '{0}' for comparison, length: {1} characters.".format(
                             file_path, len(existing_content)
                         ),
                         "DEBUG",
                     )
+
                     existing_hash = self._compute_content_hash(existing_content)
                     new_hash = self._compute_content_hash(yaml_content)
+
                     self.log(
                         "Content hash comparison for '{0}': existing_hash={1}, new_hash={2}".format(
                             file_path, existing_hash, new_hash
                         ),
                         "DEBUG",
                     )
+
                     if existing_hash == new_hash:
                         self.log(
                             "Overwrite mode: File '{0}' already has identical content (hash match). "
@@ -1778,15 +1783,18 @@ class BrownFieldHelper:
                             "INFO",
                         )
                         return False
+
                     self.log(
                         "Overwrite mode: Content hashes differ for '{0}'. Proceeding with write.".format(file_path),
                         "DEBUG",
                     )
+
                 except Exception as e:
                     self.log(
                         "Could not read existing file for comparison, proceeding with write: {0}".format(str(e)),
                         "DEBUG",
                     )
+
             elif file_mode == "overwrite":
                 self.log(
                     "Overwrite mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
@@ -1799,11 +1807,14 @@ class BrownFieldHelper:
                     "Starting idempotency check by comparing last YAML document.".format(file_path),
                     "DEBUG",
                 )
+
                 last_doc = self._get_last_yaml_document(file_path)
+
                 self.log(
                     "Append mode: Last document from '{0}': {1}".format(file_path, last_doc),
                     "DEBUG",
                 )
+
                 if last_doc is not None and last_doc == data_dict:
                     self.log(
                         "Append mode: Last document in '{0}' already matches the new data. "
@@ -1811,10 +1822,12 @@ class BrownFieldHelper:
                         "INFO",
                     )
                     return False
+
                 self.log(
                     "Append mode: Last document differs from new data for '{0}'. Proceeding with append.".format(file_path),
                     "DEBUG",
                 )
+
             elif file_mode == "append":
                 self.log(
                     "Append mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
