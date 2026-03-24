@@ -599,6 +599,25 @@ class BrownFieldHelper:
                     "INFO",
                 )
 
+        # Remove duplicate components while preserving order
+        original_count = len(components_list)
+        components_list = list(dict.fromkeys(components_list))
+        duplicates_removed = original_count - len(components_list)
+
+        if duplicates_removed > 0:
+            self.log(
+                "Removed {0} duplicate component(s) from components_list. "
+                "Original count: {1}, After dedup: {2}".format(
+                    duplicates_removed, original_count, len(components_list)
+                ),
+                "DEBUG"
+            )
+        else:
+            self.log(
+                "No duplicate components found in components_list.",
+                "DEBUG"
+            )
+
         # Update the components_list in the config
         component_specific_filters["components_list"] = components_list
         self.log(
