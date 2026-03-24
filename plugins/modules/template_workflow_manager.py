@@ -6284,7 +6284,7 @@ class Template(NetworkProfileFunctions):
                     "DEBUG",
                 )
                 match = re.search(
-                    r"Template\s+Deploye?ment\s+Id:\s+([a-f0-9\-]+)",
+                    r"Template\s+Deployment\s+Id:\s+([a-f0-9\-]+)",
                     progress,
                     re.IGNORECASE,
                 )
