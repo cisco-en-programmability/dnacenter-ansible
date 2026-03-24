@@ -670,9 +670,9 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def is_valid_ipv4(self, ip):
-        """Return True if ip is a valid IPv4 address."""
-        parts = str(ip).split(".")
+    def is_valid_ipv4(self, ip_address):
+        """Return True if ip_address is a valid IPv4 address."""
+        parts = str(ip_address).split(".")
         if len(parts) != 4:
             return False
         for part in parts:
