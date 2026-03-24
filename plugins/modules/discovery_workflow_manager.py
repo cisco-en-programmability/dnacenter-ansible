@@ -2257,7 +2257,15 @@ def main():
 
     ccc_discovery.validate_input(state=state).check_return_status()
     all_validated_configs = list(ccc_discovery.validated_config)
-    for config in all_validated_configs:
+    for idx, config in enumerate(all_validated_configs, start=1):
+        ccc_discovery.log(
+            "Processing config {0}/{1}: discovery_name='{2}', discovery_type='{3}'".format(
+                idx, len(all_validated_configs),
+                config.get("discovery_name", "unknown"),
+                config.get("discovery_type", "unknown")
+            ),
+            "INFO"
+        )
         ccc_discovery.validated_config = [config]
         ccc_discovery.reset_values()
         ccc_discovery.get_diff_state_apply[state]().check_return_status()
