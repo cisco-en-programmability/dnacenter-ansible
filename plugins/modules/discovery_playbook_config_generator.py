@@ -1368,10 +1368,12 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         these as RANGE and MULTI RANGE respectively.
         """
         if not discovery_data or not isinstance(discovery_data, dict):
+            self.log("Discovery type transformation skipped - invalid or empty discovery data", "DEBUG")
             return None
 
         discovery_type = str(discovery_data.get("discoveryType", "")).strip()
         if not discovery_type:
+            self.log("Discovery type field is absent or empty, skipping type transformation", "DEBUG")
             return None
 
         normalized_type = discovery_type.upper()
@@ -1380,15 +1382,29 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             if isinstance(raw_ip_ranges, str):
                 range_items = [item.strip() for item in raw_ip_ranges.split(",") if item.strip()]
                 if len(range_items) > 1:
+                    self.log(
+                        "RANGE with {0} IP ranges (str) detected, classifying as 'MULTI RANGE'".format(len(range_items)),
+                        "DEBUG"
+                    )
                     return "MULTI RANGE"
             elif isinstance(raw_ip_ranges, list):
                 range_items = [item for item in raw_ip_ranges if item]
                 if len(range_items) > 1:
+                    self.log(
+                        "RANGE with {0} IP ranges (list) detected, classifying as 'MULTI RANGE'".format(len(range_items)),
+                        "DEBUG"
+                    )
                     return "MULTI RANGE"
+            self.log("Single IP range detected, classifying discovery as 'RANGE'", "DEBUG")
             return "RANGE"
 
         if normalized_type in {"SINGLE", "CDP", "LLDP", "CIDR"}:
             return normalized_type
+
+        self.log(
+            "Unrecognized discovery type '{0}' encountered, passing through without normalization".format(discovery_type),
+            "WARNING"
+        )
 
         return discovery_type
 
@@ -1829,6 +1845,13 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         yaml_data = {
             "config": discovery_details
         }
+
+        self.log(
+            "Writing YAML for {0} discoveries to file '{1}' with mode '{2}'".format(
+                len(discoveries_data), file_path, file_mode
+            ),
+            "INFO"
+        )
 
         # Write YAML file using BrownFieldHelper shared header generation.
         success = self.write_dict_to_yaml(
