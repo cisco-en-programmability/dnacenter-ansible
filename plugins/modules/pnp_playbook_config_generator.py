@@ -1514,7 +1514,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             # Check if parameters are available for this operation
             operation_params = self.want.get(param_key)
 
-            if not operation_params:
+            if operation_params is None:
                 self.log(
                     "Operation {0}/{1} '{2}' has no parameters in workflow state "
                     "(parameter key '{3}' not found or empty). Skipping operation.".format(
