@@ -54,8 +54,11 @@ options:
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    - If config is not provided or is empty, all configurations for all tags and tag memberships will be generated.
+    - If config is not provided (omitted entirely), all configurations for all tags and tag memberships will be generated.
     - This is useful for complete brownfield infrastructure discovery and documentation.
+    - |
+      Important: An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+      all configurations, or provide specific filters within 'config'.
     type: dict
     required: false
     suboptions:
@@ -764,13 +767,31 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available or empty - if not provided or empty, treat as generate_all
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - this is an error
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.msg = "Configuration is not provided - treating as generate_all_configurations mode"
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO")
+            return self
+
+        if not isinstance(self.config, dict):
+            self.msg = (
+                f"Configuration must be a dictionary, got: {type(self.config).__name__}. Please provide "
+                "configuration as a dictionary."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Expected schema for configuration parameters (no file_path, file_mode, or generate_all_configurations)
@@ -792,9 +813,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
-        )
+        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {valid_temp}"
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
