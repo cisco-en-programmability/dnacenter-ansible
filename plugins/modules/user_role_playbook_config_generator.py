@@ -42,58 +42,52 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Absolute or relative path where the YAML configuration
+      file will be saved.
+    - If not provided, the file is saved in the current working
+      directory with auto-generated filename.
+    - Default filename pattern is
+      C(user_role_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    type: str
+    required: false
+  file_mode:
+    description:
+    - File write mode for the generated YAML configuration file.
+    - The overwrite option replaces existing file content with new content.
+    - The append option adds new content to the end of existing file.
+    - Relevant only when C(file_path) is provided.
+    - Defaults to overwrite if not specified.
+    type: str
+    choices:
+    - overwrite
+    - append
+    default: overwrite
+    required: false
   config:
     description:
-    - A list of configuration dictionaries specifying filters and
-      output parameters for YAML playbook generation.
-    - Each configuration item controls which components to extract
-      and how to filter the data.
-    - Supports filtering by username, email, role name, or component
-      type to generate selective configurations.
-    type: list
-    elements: dict
-    required: true
+    - A dictionary of filters for generating YAML playbook compatible with the
+      C(user_role_workflow_manager) module.
+    - If C(config) is omitted, module internally sets
+      C(generate_all_configurations=true) and retrieves all supported components.
+    - If C(config) is provided, C(component_specific_filters) is mandatory.
+    - Under C(config), only C(component_specific_filters) is allowed.
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - When set to C(true), automatically generates YAML
-          configurations for all users and custom roles without
-          requiring explicit filters.
-        - Discovers all users and custom roles in Catalyst Center
-          and extracts complete configurations.
-        - System roles (SUPER-ADMIN, NETWORK-ADMIN, OBSERVER) and
-          default roles are automatically excluded.
-        - If enabled, the C(component_specific_filters) parameter
-          becomes optional and defaults to all components.
-        - A default filename is generated automatically if
-          C(file_path) is not specified using pattern
-          C(user_role_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - Useful for complete brownfield discovery, documentation,
-          and disaster recovery planning.
-        type: bool
-        default: false
-      file_path:
-        description:
-        - Absolute or relative path where the YAML configuration
-          file will be saved.
-        - If not provided, the file is saved in the current working
-          directory with auto-generated filename.
-        - Default filename pattern is
-          C(user_role_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example,
-          C(user_role_playbook_config_2025-04-22_21-43-26.yml).
-        - The directory path must exist and be writable.
-        - Supports absolute paths (e.g., C(/tmp/config.yml)) and
-          relative paths (e.g., C(./configs/users.yml)).
-        type: str
       component_specific_filters:
         description:
         - Filters to specify which components to include in the
           YAML configuration file and criteria for filtering data.
+        - Mandatory when C(config) is provided.
         - If C(components_list) is specified, only those components
           are included in the output file.
-        - If C(components_list) is not specified, all supported
-          components (user_details and role_details) are included.
+        - If component filter blocks (for example C(user_details) or
+          C(role_details)) are provided, corresponding components are
+          auto-added into C(components_list).
+        - If no component filter blocks are provided, C(components_list)
+          must be provided and non-empty.
         - Each component can have specific filters to select subset
           of configurations based on attributes.
         type: dict
@@ -103,8 +97,10 @@ options:
             - List of component names to include in the YAML output.
             - Supported components are C(user_details) and
               C(role_details).
-            - If not specified, all components are included by
-              default.
+            - If component filter blocks are not specified, this
+              option is mandatory and must be non-empty.
+            - If component filter blocks are specified, missing
+              components are auto-added.
             - Order in the list does not affect output structure.
             - Invalid component names will cause module to fail with
               error message listing allowed components.
@@ -204,8 +200,6 @@ notes:
   hierarchical permission structure with 9 categories.
 - User role assignments are transformed from role IDs to role names
   for readability.
-- Empty permission categories are represented as C([{}]) in output
-  to maintain consistent YAML structure.
 - All filter values are expected as lists of strings, even for
   single values.
 - Check mode is supported but does not generate files (dry-run).
@@ -235,9 +229,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - generate_all_configurations: true
-        file_path: "/tmp/catc_user_role_config.yaml"
+    file_path: "/tmp/catc_user_role_config.yaml"
 
 - name: Generate YAML Configuration with specific user components only
   cisco.dnac.user_role_playbook_config_generator:
@@ -251,10 +243,11 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_user_role_config.yaml"
+    file_mode: "overwrite"
     config:
-      - file_path: "/tmp/catc_user_role_config.yaml"
-        component_specific_filters:
-          components_list: ["user_details"]
+      component_specific_filters:
+        components_list: ["user_details"]
 
 - name: Generate YAML Configuration with specific role components only
   cisco.dnac.user_role_playbook_config_generator:
@@ -268,10 +261,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_user_role_config.yaml"
     config:
-      - file_path: "/tmp/catc_user_role_config.yaml"
-        component_specific_filters:
-          components_list: ["role_details"]
+      component_specific_filters:
+        components_list: ["role_details"]
 
 - name: Generate YAML Configuration for users with username filter
   cisco.dnac.user_role_playbook_config_generator:
@@ -285,12 +278,12 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_user_role_config.yaml"
     config:
-      - file_path: "/tmp/catc_user_role_config.yaml"
-        component_specific_filters:
-          components_list: ["user_details"]
-          user_details:
-            - username: ["testuser1", "testuser2"]
+      component_specific_filters:
+        components_list: ["user_details"]
+        user_details:
+          - username: ["testuser1", "testuser2"]
 
 - name: Generate YAML Configuration for roles with role name filter
   cisco.dnac.user_role_playbook_config_generator:
@@ -304,12 +297,12 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_user_role_config.yaml"
     config:
-      - file_path: "/tmp/catc_user_role_config.yaml"
-        component_specific_filters:
-          components_list: ["role_details"]
-          role_details:
-            - role_name: ["Custom-Admin-Role", "Network-Operator-Role"]
+      component_specific_filters:
+        components_list: ["role_details"]
+        role_details:
+          - role_name: ["Custom-Admin-Role", "Network-Operator-Role"]
 
 - name: Generate YAML Configuration for all components with no filters
   cisco.dnac.user_role_playbook_config_generator:
@@ -323,10 +316,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_user_role_config.yaml"
     config:
-      - file_path: "/tmp/catc_user_role_config.yaml"
-        component_specific_filters:
-          components_list: ["user_details", "role_details"]
+      component_specific_filters:
+        components_list: ["user_details", "role_details"]
 
 - name: Generate YAML for users with specific email addresses
   cisco.dnac.user_role_playbook_config_generator:
@@ -340,14 +333,14 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_users_by_email.yaml"
     config:
-      - file_path: "/tmp/catc_users_by_email.yaml"
-        component_specific_filters:
-          components_list: ["user_details"]
-          user_details:
-            - email: ["admin@example.com", "operator@example.com"]
+      component_specific_filters:
+        components_list: ["user_details"]
+        user_details:
+          - email: ["admin@example.com", "operator@example.com"]
 
-- name: Generate YAML for users with specific role assignments
+- name: Append YAML for users with specific role assignments to existing file
   cisco.dnac.user_role_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -359,12 +352,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_admin_users.yaml"
+    file_mode: "append"
     config:
-      - file_path: "/tmp/catc_admin_users.yaml"
-        component_specific_filters:
-          components_list: ["user_details"]
-          user_details:
-            - role_name: ["SUPER-ADMIN-ROLE", "Custom-Admin-Role"]
+      component_specific_filters:
+        components_list: ["user_details"]
+        user_details:
+          - role_name: ["SUPER-ADMIN-ROLE", "Custom-Admin-Role"]
 
 - name: Generate YAML with multiple filter criteria (OR logic)
   cisco.dnac.user_role_playbook_config_generator:
@@ -378,13 +372,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_filtered_users.yaml"
     config:
-      - file_path: "/tmp/catc_filtered_users.yaml"
-        component_specific_filters:
-          components_list: ["user_details"]
-          user_details:
-            - username: ["testuser1"]
-            - email: ["admin@example.com"]
+      component_specific_filters:
+        components_list: ["user_details"]
+        user_details:
+          - username: ["testuser1"]
+          - email: ["admin@example.com"]
 """
 
 RETURN = r"""
@@ -430,7 +424,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -481,22 +474,30 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "INFO")
-            return self
+        # Handle config presence:
+        # - Omitted config => internal generate_all mode.
+        # - Provided config => component_specific_filters is mandatory.
+        incoming_config = self.params.get("config")
+        config_provided = incoming_config not in (None, {})
+        if not config_provided:
+            self.config = {"generate_all_configurations": True}
+            self.log(
+                "Config is omitted. Applying internal default: "
+                "{'generate_all_configurations': True}.",
+                "INFO",
+            )
+        else:
+            self.config = incoming_config if incoming_config is not None else {}
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "file_path": {"type": "str", "required": False},
             "generate_all_configurations": {"type": "bool", "required": False, "default": False},
             "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
         }
 
         allowed_keys = set(temp_spec.keys())
+        if config_provided:
+            allowed_keys = {"component_specific_filters"}
 
         self.log(
             "Expected parameter schema defined with {0} allowed parameter(s): {1}".format(
@@ -506,106 +507,206 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Validate that only allowed keys are present in the configuration
-        for config_index, config_item in enumerate(self.config, start=1):
-            self.log(
-                "Validating configuration item {0}/{1} structure and parameters".format(
-                    config_index, len(self.config)
-                ),
-                "DEBUG"
+        self.validate_invalid_params(self.config, allowed_keys)
+
+        # Validate top-level file_mode if provided
+        file_mode = self.params.get("file_mode")
+        if file_mode and file_mode not in ["overwrite", "append"]:
+            self.msg = (
+                "Invalid value for 'file_mode': '{0}'. "
+                "Allowed values are: ['overwrite', 'append'].".format(file_mode)
             )
-            if not isinstance(config_item, dict):
-                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+            self.fail_and_exit(self.msg)
 
-            self.log(
-                "Configuration item {0}/{1} is a valid dict with {2} parameter(s): {3}".format(
-                    config_index, len(self.config), len(config_item), list(config_item.keys())
-                ),
-                "DEBUG"
+        # Validate params using validate_config_dict
+        validated_config = self.validate_config_dict(self.config, temp_spec)
+        if not isinstance(validated_config, dict):
+            validated_config = dict(self.config)
+
+        component_filters = validated_config.get("component_specific_filters")
+        if config_provided and component_filters is None:
+            self.msg = (
+                "Validation Error: 'component_specific_filters' is mandatory when "
+                "'config' is provided. Please provide "
+                "'config.component_specific_filters' with either "
+                "'components_list' or component filter blocks."
             )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
+        if component_filters and isinstance(component_filters, dict):
+            allowed_component_filter_keys = {
+                "components_list",
+                "user_details",
+                "role_details",
+            }
+            invalid_filter_keys = set(component_filters.keys()) - allowed_component_filter_keys
+            if invalid_filter_keys:
                 self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
+                    "Invalid keys found in 'component_specific_filters': {0}. "
+                    "Allowed keys are: {1}.".format(
+                        sorted(list(invalid_filter_keys)),
+                        sorted(list(allowed_component_filter_keys))
                     )
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            self.log(
-                "Configuration item {0}/{1} parameter key validation passed - all {2} "
-                "parameter(s) are valid".format(
-                    config_index, len(self.config), len(config_keys)
-                ),
-                "INFO"
-            )
+            components_list = component_filters.get("components_list")
+            if components_list is None:
+                components_list = []
+            elif not isinstance(components_list, list):
+                self.msg = (
+                    "'components_list' must be a list, got: {0}.".format(
+                        type(components_list).__name__
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+            else:
+                invalid_components = set(components_list) - {"user_details", "role_details"}
+                if invalid_components:
+                    self.msg = (
+                        "Invalid component names found in 'components_list': {0}. "
+                        "Allowed values are: {1}.".format(
+                            sorted(list(invalid_components)),
+                            ["role_details", "user_details"],
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
-        self.validate_minimum_requirements(self.config)
+            # Validate user_details filter keys
+            allowed_user_filter_keys = {"username", "email", "role_name"}
+            user_details_filters = component_filters.get("user_details")
+            if user_details_filters is not None:
+                if not isinstance(user_details_filters, list):
+                    self.msg = (
+                        "'user_details' must be a list of filter dictionaries, got: {0}.".format(
+                            type(user_details_filters).__name__
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                for filter_index, filter_param in enumerate(user_details_filters, start=1):
+                    if not isinstance(filter_param, dict):
+                        self.msg = (
+                            "Each entry in 'user_details' must be a dictionary, "
+                            "but entry {0} is of type: {1}.".format(
+                                filter_index, type(filter_param).__name__
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    invalid_user_keys = set(filter_param.keys()) - allowed_user_filter_keys
+                    if invalid_user_keys:
+                        self.msg = (
+                            "Invalid parameters found in 'user_details' filter entry {0}: {1}. "
+                            "Only the following parameters are allowed: {2}. "
+                            "Please remove the invalid parameters and try again.".format(
+                                filter_index, sorted(list(invalid_user_keys)),
+                                sorted(list(allowed_user_filter_keys))
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+            # Validate role_details filter keys
+            allowed_role_filter_keys = {"role_name"}
+            role_details_filters = component_filters.get("role_details")
+            if role_details_filters is not None:
+                if not isinstance(role_details_filters, list):
+                    self.msg = (
+                        "'role_details' must be a list of filter dictionaries, got: {0}.".format(
+                            type(role_details_filters).__name__
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                for filter_index, filter_param in enumerate(role_details_filters, start=1):
+                    if not isinstance(filter_param, dict):
+                        self.msg = (
+                            "Each entry in 'role_details' must be a dictionary, "
+                            "but entry {0} is of type: {1}.".format(
+                                filter_index, type(filter_param).__name__
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    invalid_role_keys = set(filter_param.keys()) - allowed_role_filter_keys
+                    if invalid_role_keys:
+                        self.msg = (
+                            "Invalid parameters found in 'role_details' filter entry {0}: {1}. "
+                            "Only the following parameters are allowed: {2}. "
+                            "Please remove the invalid parameters and try again.".format(
+                                filter_index, sorted(list(invalid_role_keys)),
+                                sorted(list(allowed_role_filter_keys))
+                            )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+            user_filters_present = component_filters.get("user_details") is not None
+            role_filters_present = component_filters.get("role_details") is not None
+            any_component_block = user_filters_present or role_filters_present
+
+            inferred_components = set(components_list)
+            if user_filters_present:
+                inferred_components.add("user_details")
+            if role_filters_present:
+                inferred_components.add("role_details")
+
+            if any_component_block:
+                component_filters["components_list"] = sorted(inferred_components)
+            elif not components_list:
+                self.msg = (
+                    "Validation Error: 'components_list' is mandatory and must be non-empty "
+                    "when no component filter blocks are provided under "
+                    "'component_specific_filters'."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
         self.log(
-            "Configuration structure and key validation completed successfully for all "
-            "{0} configuration item(s)".format(len(self.config)),
-            "INFO"
-        )
-
-        self.log("Validating configuration parameters against the expected schema: {0}".format(temp_spec), "DEBUG")
-
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        self.log(
-            "Schema validation passed - all {0} configuration item(s) conform to expected "
-            "parameter types and structure".format(len(valid_temp)),
+            "Configuration structure and key validation completed successfully.",
             "INFO"
         )
 
         # Set the validated configuration and update the result with success status
-        self.validated_config = valid_temp
+        self.validated_config = validated_config
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
+            str(validated_config)
         )
-        for config_index, config_item in enumerate(self.validated_config, start=1):
-            config_summary = {
-                "has_file_path": "file_path" in config_item,
-                "generate_all_configurations": config_item.get("generate_all_configurations", False),
-                "has_component_specific_filters": "component_specific_filters" in config_item,
-                "has_global_filters": "global_filters" in config_item,
-            }
-            self.log(
-                "Validated configuration item {0}/{1} summary: {2}".format(
-                    config_index, len(self.validated_config), config_summary
-                ),
-                "DEBUG"
-            )
+
+        config_summary = {
+            "has_file_path": "file_path" in validated_config,
+            "file_mode": validated_config.get("file_mode", "overwrite"),
+            "generate_all_configurations": validated_config.get("generate_all_configurations", False),
+            "has_component_specific_filters": "component_specific_filters" in validated_config,
+            "has_global_filters": "global_filters" in validated_config,
+        }
+        self.log(
+            "Validated configuration summary: {0}".format(config_summary),
+            "DEBUG"
+        )
 
         # Success message
         success_msg = (
-            "Successfully validated {0} playbook configuration item(s) using schema "
+            "Successfully validated playbook configuration using schema "
             "validation. All parameters conform to expected types and structure. "
-            "Configuration is ready for processing.".format(len(self.validated_config))
+            "Configuration is ready for processing."
         )
 
         self.set_operation_result("success", False, success_msg, "INFO")
 
         self.log(
-            "Input parameter validation completed successfully. Validated {0} configuration "
-            "item(s) across 5 validation steps (availability, structure, keys, minimum "
-            "requirements, schema). Configuration is ready for user and role retrieval workflow.".format(
-                len(self.validated_config)
-            ),
+            "Input parameter validation completed successfully. Validated configuration "
+            "across 4 validation steps (availability, invalid params, schema, minimum "
+            "requirements). Configuration is ready for user and role retrieval workflow.",
             "INFO"
         )
         return self
@@ -2346,6 +2447,9 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
 
+        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        self.log("File write mode: {0}".format(file_mode), "DEBUG")
+
         self.log("File path determined: {0}".format(file_path), "DEBUG")
 
         component_specific_filters = (
@@ -2671,7 +2775,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO"
         )
 
-        write_success = self.write_dict_to_yaml(final_dict, file_path)
+        write_success = self.write_dict_to_yaml(final_dict, file_path, file_mode)
         if not write_success:
             self.log(
                 "YAML file write operation failed - write_dict_to_yaml returned False "
@@ -2799,32 +2903,23 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Generate all configurations mode: {0}".format(generate_all), "INFO")
 
         if generate_all:
-            self.log("Generate all configurations is enabled - will retrieve all users and custom roles", "INFO")
-            if not config.get("component_specific_filters"):
-                self.log(
-                    "No component_specific_filters provided in generate_all mode - setting "
-                    "default component filters to include all components (user_details and "
-                    "role_details)",
-                    "INFO"
-                )
+            self.log(
+                "Generate all configurations is enabled - ignoring any user-provided "
+                "component_specific_filters and retrieving all users and custom roles",
+                "INFO"
+            )
 
-                config["component_specific_filters"] = {
-                    "components_list": ["user_details", "role_details"]
-                }
+            config["component_specific_filters"] = {
+                "components_list": ["user_details", "role_details"]
+            }
 
-                self.log(
-                    "Default component_specific_filters set: {0}".format(
-                        config["component_specific_filters"]
-                    ),
-                    "DEBUG"
-                )
-            else:
-                self.log(
-                    "Generate all configurations mode is disabled - using explicit component "
-                    "filters from configuration",
-                    "DEBUG"
-                )
-        component_specific_filters = config.get("component_specific_filters", {})
+            self.log(
+                "component_specific_filters overridden for generate_all mode: {0}".format(
+                    config["component_specific_filters"]
+                ),
+                "DEBUG"
+            )
+        component_specific_filters = config.get("component_specific_filters") or {}
         components_list = component_specific_filters.get("components_list", [])
 
         self.log(
@@ -3125,9 +3220,11 @@ def main():
             - dnac_log_file_path (str, default="dnac.log"): Log file path
             - dnac_log_append (bool, default=True): Append to log file
 
-        Playbook Configuration:
-            - config (list[dict], required): Configuration parameters list
-            - state (str, default="gathered", choices=["gathered"]): Workflow state
+            Playbook Configuration:
+                - file_path (str, optional): Output YAML path
+                - file_mode (str, optional): File mode (overwrite/append)
+                - config (dict, optional): Configuration parameters dictionary
+                - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
         - Minimum Catalyst Center version: 2.3.5.3
@@ -3237,10 +3334,19 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "required": False,
+            "type": "str"
+        },
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"]
+        },
         "config": {
-            "required": True,
-            "type": "list",
-            "elements": "dict"
+            "required": False,
+            "type": "dict"
         },
         "state": {
             "default": "gathered",
@@ -3275,15 +3381,13 @@ def main():
 
     ccc_user_role_playbook_generator.log(
         "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
-        "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
-        "config_items={6}".format(
+        "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}".format(
             module.params.get("dnac_host"),
             module.params.get("dnac_port"),
             module.params.get("dnac_username"),
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
-            module.params.get("state"),
-            len(module.params.get("config", []))
+            module.params.get("state")
         ),
         "DEBUG"
     )
@@ -3386,134 +3490,70 @@ def main():
     # ============================================
     # Configuration Processing and Default Handling
     # ============================================
-    config_list = ccc_user_role_playbook_generator.validated_config
+    config = ccc_user_role_playbook_generator.validated_config
 
     ccc_user_role_playbook_generator.log(
-        "Starting configuration processing loop - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        "Processing configuration from playbook",
         "INFO"
     )
 
-    # Handle special configuration logic for user and role module
-    if len(config_list) == 1:
-        config_item = config_list[0]
+    config_provided = module.params.get("config") not in (None, {})
 
-        ccc_user_role_playbook_generator.log(
-            "Single configuration item detected - checking for generate_all_configurations mode",
-            "DEBUG"
-        )
+    if not isinstance(config, dict):
+        config = {}
 
-        # Check if generate_all_configurations is enabled
-        if config_item.get("generate_all_configurations", False):
-            ccc_user_role_playbook_generator.log(
-                "Generate all configurations mode enabled - setting default components "
-                "to include both user_details and role_details",
-                "INFO"
-            )
+    if not config and not config_provided:
+        config = {"generate_all_configurations": True}
 
-            if not config_item.get("component_specific_filters"):
-                config_item["component_specific_filters"] = {
-                    "components_list": ["user_details", "role_details"]
-                }
+    # Keep file_path and file_mode as top-level module args and inject into
+    # validated config for downstream workflow execution.
+    if module.params.get("file_path") is not None:
+        config["file_path"] = module.params.get("file_path")
 
-                ccc_user_role_playbook_generator.log(
-                    "Default component_specific_filters set for generate_all mode: {0}".format(
-                        config_item["component_specific_filters"]
-                    ),
-                    "DEBUG"
-                )
-            else:
-                ccc_user_role_playbook_generator.log(
-                    "Component_specific_filters already provided in generate_all mode - "
-                    "using existing filters: {0}".format(
-                        config_item.get("component_specific_filters")
-                    ),
-                    "DEBUG"
-                )
-
-        elif not config_item.get("component_specific_filters"):
-            # Default behavior for normal mode when no filters specified
-            ccc_user_role_playbook_generator.log(
-                "No component_specific_filters provided in normal mode - applying "
-                "default configuration to retrieve all user and role components",
-                "INFO"
-            )
-
-            ccc_user_role_playbook_generator.msg = (
-                "No valid configurations found in the provided parameters. "
-                "Applying default configuration to retrieve all user and role details."
-            )
-
-            ccc_user_role_playbook_generator.validated_config = [
-                {
-                    'component_specific_filters': {
-                        'components_list': ["user_details", "role_details"]
-                    }
-                }
-            ]
-
-            ccc_user_role_playbook_generator.log(
-                "Default configuration applied: {0}".format(
-                    ccc_user_role_playbook_generator.validated_config[0]
-                ),
-                "DEBUG"
-            )
+    if module.params.get("file_mode") is not None:
+        config["file_mode"] = module.params.get("file_mode")
 
     # ============================================
-    # Configuration Processing Loop
+    # Process Single Configuration Dict
     # ============================================
-    final_config_list = ccc_user_role_playbook_generator.validated_config
-
     ccc_user_role_playbook_generator.log(
-        "Configuration preprocessing completed - will process {0} final "
-        "configuration item(s)".format(len(final_config_list)),
+        "Processing configuration for state '{0}' with components: {1}".format(
+            state,
+            (config.get("component_specific_filters") or {}).get("components_list", "all")
+        ),
         "INFO"
     )
 
-    for config_index, config in enumerate(final_config_list, start=1):
-        ccc_user_role_playbook_generator.log(
-            "Processing configuration item {0}/{1} for state '{2}' with components: {3}".format(
-                config_index, len(final_config_list), state,
-                config.get("component_specific_filters", {}).get("components_list", "all")
-            ),
-            "INFO"
-        )
+    # Reset values for clean state
+    ccc_user_role_playbook_generator.log(
+        "Resetting module state variables for clean configuration processing",
+        "DEBUG"
+    )
+    ccc_user_role_playbook_generator.reset_values()
 
-        # Reset values for clean state between configurations
-        ccc_user_role_playbook_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_user_role_playbook_generator.reset_values()
+    # Collect desired state (want) from configuration
+    ccc_user_role_playbook_generator.log(
+        "Collecting desired state parameters from configuration - "
+        "building want dictionary for user and role operations",
+        "DEBUG"
+    )
+    ccc_user_role_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
 
-        # Collect desired state (want) from configuration
-        ccc_user_role_playbook_generator.log(
-            "Collecting desired state parameters from configuration item {0} - "
-            "building want dictionary for user and role operations".format(
-                config_index
-            ),
-            "DEBUG"
-        )
-        ccc_user_role_playbook_generator.get_want(
-            config, state
-        ).check_return_status()
+    # Execute state-specific operation (gathered workflow)
+    ccc_user_role_playbook_generator.log(
+        "Executing state-specific operation for '{0}' workflow - will retrieve "
+        "users and roles from Catalyst Center".format(state),
+        "INFO"
+    )
+    ccc_user_role_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
-        # Execute state-specific operation (gathered workflow)
-        ccc_user_role_playbook_generator.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1} - will retrieve users and roles from "
-            "Catalyst Center".format(state, config_index),
-            "INFO"
-        )
-        ccc_user_role_playbook_generator.get_diff_state_apply[state]().check_return_status()
-
-        ccc_user_role_playbook_generator.log(
-            "Successfully completed processing for configuration item {0}/{1} - "
-            "user and role data extraction and YAML generation completed".format(
-                config_index, len(final_config_list)
-            ),
-            "INFO"
-        )
+    ccc_user_role_playbook_generator.log(
+        "Successfully completed processing - user and role data extraction "
+        "and YAML generation completed",
+        "INFO"
+    )
 
     # ============================================
     # Module Completion and Exit
@@ -3528,11 +3568,9 @@ def main():
 
     ccc_user_role_playbook_generator.log(
         "User and role playbook generator module execution completed successfully "
-        "at timestamp {0}. Total execution time: {1:.2f} seconds. Processed {2} "
-        "configuration item(s) with final status: {3}".format(
+        "at timestamp {0}. Total execution time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            len(final_config_list),
             ccc_user_role_playbook_generator.status
         ),
         "INFO"

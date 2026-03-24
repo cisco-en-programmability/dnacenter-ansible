@@ -37,48 +37,40 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+      - Path where the YAML configuration file will be saved.
+      - If not provided, the file will be saved in the current
+        working directory with a default file name
+        C(network_profile_switching_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+      - For example,
+        C(network_profile_switching_playbook_config_2025-11-12_21-43-26.yml).
+      - Supports both absolute and relative file paths.
+    type: str
+    required: false
+  file_mode:
+    description:
+      - Determines how the output YAML configuration file is written.
+      - Relevant only when C(file_path) is provided.
+      - When set to C(overwrite), the file will be replaced with new content.
+      - When set to C(append), new content will be added to the existing file.
+    type: str
+    required: false
+    default: overwrite
+    choices: ["overwrite", "append"]
   config:
     description:
-      - A list of filters for generating YAML playbook compatible
+      - A dictionary of filters for generating YAML playbook compatible
         with the 'network_profile_switching_playbook_config_generator'
         module.
       - Filters specify which components to include in the YAML
         configuration file.
-      - Either 'generate_all_configurations' or 'global_filters'
-        must be specified to identify target switch profiles.
-    type: list
-    elements: dict
-    required: true
+      - If C(config) is provided, C(global_filters) is mandatory.
+      - If C(config) is omitted, internal auto-discovery mode is used
+        and generate_all_configurations defaults to C(True).
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML
-            configurations for all switch profiles and all
-            supported features.
-          - This mode discovers all managed devices in Cisco
-            Catalyst Center and extracts all supported
-            configurations.
-          - When enabled, the config parameter becomes optional
-            and will use default values if not provided.
-          - A default filename will be generated automatically
-            if file_path is not specified.
-          - This is useful for complete network profile switching
-            and documentation.
-          - Any provided global_filters will be IGNORED in this
-            mode.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-          - Path where the YAML configuration file will be saved.
-          - If not provided, the file will be saved in the current
-            working directory with a default file name
-            C(network_profile_switching_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-          - For example,
-            C(network_profile_switching_playbook_config_2025-11-12_21-43-26.yml).
-          - Supports both absolute and relative file paths.
-        type: str
       global_filters:
         description:
           - Global filters to apply when generating the YAML
@@ -169,8 +161,6 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - generate_all_configurations: true
 
 - name: Auto-generate YAML Configuration with custom file path
   cisco.dnac.network_profile_switching_playbook_config_generator:
@@ -184,9 +174,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      - file_path: "/tmp/complete_switch_profile_config.yml"
-        generate_all_configurations: true
+    file_path: "/tmp/complete_switch_profile_config.yml"
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with default file path for given switch profiles
   cisco.dnac.network_profile_switching_playbook_config_generator:
@@ -200,9 +189,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_switching_playbook_config_profile_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          profile_name_list: ["Campus_Switch_Profile", "Enterprise_Switch_Profile"]
+      global_filters:
+        profile_name_list:
+          - Campus_Switch_Profile
+          - Enterprise_Switch_Profile
 
 - name: Generate YAML Configuration with default file path based on Day-N templates filters
   cisco.dnac.network_profile_switching_playbook_config_generator:
@@ -216,9 +209,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_switching_playbook_config_dayn_template_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          day_n_template_list: ["Periodic_Config_Audit", "Security_Compliance_Check"]
+      global_filters:
+        day_n_template_list:
+          - Periodic_Config_Audit
+          - Security_Compliance_Check
 
 - name: Generate YAML Configuration with default file path based on site list filters
   cisco.dnac.network_profile_switching_playbook_config_generator:
@@ -232,9 +229,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/network_profile_switching_playbook_config_site_base.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          site_list: ["Global/India/Chennai/Main_Office", "Global/USA/San_Francisco/Regional_HQ"]
+      global_filters:
+        site_list:
+          - Global/India/Chennai/Main_Office
+          - Global/USA/San_Francisco/Regional_HQ
 
 - name: Generate YAML Configuration with default file path based on site and Day-N templates list filters
   cisco.dnac.network_profile_switching_playbook_config_generator:
@@ -248,10 +249,16 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/complete_switch_profile_config.yml"
+    file_mode: "overwrite"
     config:
-      - global_filters:
-          site_list: ["Global/India/Chennai/Main_Office", "Global/USA/San_Francisco/Regional_HQ"]
-          day_n_template_list: ["Periodic_Config_Audit", "Security_Compliance_Check"]
+      global_filters:
+        site_list:
+          - Global/India/Chennai/Main_Office
+          - Global/USA/San_Francisco/Regional_HQ
+        day_n_template_list:
+          - Periodic_Config_Audit
+          - Security_Compliance_Check
 """
 
 RETURN = r"""
@@ -301,9 +308,6 @@ response_2:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper import (
     BrownFieldHelper,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    validate_list_of_dicts,
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.network_profiles import (
     NetworkProfileFunctions,
@@ -368,7 +372,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
         Returns:
             object: Self instance with updated attributes:
-                - self.validated_config: List of validated configuration dictionaries
+                - self.validated_config: Validated configuration dictionary
                 - self.msg: Success or failure message
                 - self.status: Validation status ("success" or "failed")
                 - Operation result set via set_operation_result()
@@ -379,35 +383,16 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "INFO"
         )
 
-        if not self.config:
+        config_provided = self.params.get("config") is not None
+        if not config_provided:
+            self.config = {"generate_all_configurations": True}
+            self.validated_config = self.config
             self.msg = (
-                "Configuration is not available in the playbook for validation. This is "
-                "valid for certain workflows that don't require configuration parameters."
+                "Config not provided. Defaulting to generate_all_configurations=True "
+                "for complete switch profile discovery."
             )
             self.log(self.msg, "INFO")
-            self.status = "success"
-            return self
-
-        if not isinstance(self.config, list):
-            self.msg = (
-                "Configuration must be a list of dictionaries, got: {0}. Please provide "
-                "configuration as a list.".format(type(self.config).__name__)
-            )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        self.log(
-            "Configuration list provided with {0} item(s) to validate. Starting "
-            "per-item validation.".format(len(self.config)),
-            "DEBUG"
-        )
-
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
@@ -418,218 +403,93 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "required": False,
                 "default": False
             },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
             "global_filters": {
                 "type": "dict",
                 "required": False
             },
         }
 
-        allowed_keys = set(temp_spec.keys())
-        self.log(
-            "Defined validation schema with {0} allowed parameter(s): {1}".format(
-                len(allowed_keys), list(allowed_keys)
-            ),
-            "DEBUG"
-        )
+        # Validate the config dict using helper
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
+        self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
-        # Validate that only allowed keys are present in each configuration item
-        self.log(
-            "Starting per-item key validation to check for invalid/unknown parameters.",
-            "DEBUG"
-        )
-
-        # Validate that only allowed keys are present in the configuration
-        for config_index, config_item in enumerate(self.config, start=1):
-            self.log(
-                "Validating configuration item {0}/{1} for type and allowed keys.".format(
-                    config_index, len(self.config)
-                ),
-                "DEBUG"
-            )
-            if not isinstance(config_item, dict):
-                self.msg = (
-                    "Configuration item {0}/{1} must be a dictionary, got: {2}. Each "
-                    "configuration entry must be a dictionary with valid parameters.".format(
-                        config_index, len(self.config), type(config_item).__name__
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            self.log(
-                "Configuration item {0}/{1} passed key validation. All keys are valid.".format(
-                    config_index, len(self.config)
-                ),
-                "DEBUG"
-            )
-            # Check for invalid keys
-            config_keys = set(config_item.keys())
-            invalid_keys = config_keys - allowed_keys
-
-            if invalid_keys:
-                self.msg = (
-                    "Invalid parameters found in playbook configuration: {0}. "
-                    "Only the following parameters are allowed: {1}. "
-                    "Please remove the invalid parameters and try again.".format(
-                        list(invalid_keys), list(allowed_keys)
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-        self.log(
-            "Completed per-item key validation. All {0} configuration item(s) have valid "
-            "parameter keys.".format(len(self.config)),
-            "INFO"
-        )
-
-        # Validate minimum requirements (generate_all or global_filters)
-        self.log(
-            "Validating minimum requirements to ensure either generate_all_configurations "
-            "or global_filters is provided.",
-            "DEBUG"
-        )
-
-        try:
-            self.validate_minimum_requirement_for_global_filters(self.config)
-            self.log(
-                "Minimum requirements validation passed. Configuration has either "
-                "generate_all_configurations or valid global_filters.",
-                "INFO"
-            )
-        except Exception as e:
+        if valid_temp.get("generate_all_configurations"):
             self.msg = (
-                "Minimum requirements validation failed: {0}. Please ensure either "
-                "generate_all_configurations is true or global_filters is provided with "
-                "at least one filter list.".format(str(e))
+                "generate_all_configurations cannot be used when config is provided. "
+                "Omit config to generate all switch profile configurations."
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        # Perform schema-based validation using validate_list_of_dicts
-        self.log(
-            "Starting schema-based validation using validate_list_of_dicts(). Validating "
-            "parameter types, defaults, and required fields against schema: {0}".format(temp_spec),
-            "DEBUG"
-        )
-
-        # # Import validate_list_of_dicts function here to avoid circular imports
-        # from ansible_collections.cisco.dnac.plugins.module_utils.dnac import validate_list_of_dicts
-
-        # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
-        self.log(
-            "Schema validation completed. Valid configurations: {0}, Invalid parameters: {1}".format(
-                len(valid_temp) if valid_temp else 0,
-                bool(invalid_params)
-            ),
-            "DEBUG"
-        )
-
-        if invalid_params:
+        if not valid_temp.get("global_filters"):
             self.msg = (
-                "Invalid parameters found during schema validation: {0}. Please check "
-                "parameter types and values. Expected types: generate_all_configurations "
-                "(bool), file_path (str), global_filters (dict).".format(invalid_params)
+                "Validation failed: global_filters is required when config is provided."
             )
+            self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Validate global_filters structure if provided
         self.log(
-            "Validating global_filters structure for configuration items that include filters.",
+            "Validating global_filters structure for configuration dict.",
             "DEBUG"
         )
-        for config_index, config_item in enumerate(valid_temp, start=1):
-            global_filters = config_item.get("global_filters")
-
-            if global_filters:
-                self.log(
-                    "Configuration item {0}/{1} has global_filters. Validating filter structure.".format(
-                        config_index, len(valid_temp)
-                    ),
-                    "DEBUG"
+        global_filters = valid_temp.get("global_filters")
+        if global_filters:
+            if not isinstance(global_filters, dict):
+                self.msg = (
+                    "global_filters must be a dictionary, got: {0}. Please provide "
+                    "global_filters as a dictionary with filter lists.".format(
+                        type(global_filters).__name__
+                    )
                 )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-                if not isinstance(global_filters, dict):
+            valid_filter_keys = ["profile_name_list", "day_n_template_list", "site_list"]
+            provided_filters = {
+                key: global_filters.get(key)
+                for key in valid_filter_keys
+                if global_filters.get(key)
+            }
+
+            if not provided_filters:
+                self.msg = (
+                    "global_filters provided but no valid filter lists have values. "
+                    "At least one of {0} must contain values.".format(valid_filter_keys)
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            for filter_key, filter_value in provided_filters.items():
+                if not isinstance(filter_value, list):
                     self.msg = (
-                        "global_filters in configuration item {0}/{1} must be a dictionary, "
-                        "got: {2}. Please provide global_filters as a dictionary with filter lists.".format(
-                            config_index, len(valid_temp), type(global_filters).__name__
+                        "global_filters.{0} must be a list, got: {1}. Please provide "
+                        "filter values as a list of strings.".format(
+                            filter_key, type(filter_value).__name__
                         )
                     )
                     self.log(self.msg, "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
-
-                # Check that at least one filter list is provided and has values
-                valid_filter_keys = ["profile_name_list", "day_n_template_list", "site_list"]
-                provided_filters = {
-                    key: global_filters.get(key)
-                    for key in valid_filter_keys
-                    if global_filters.get(key)
-                }
-
-                if not provided_filters:
-                    self.msg = (
-                        "global_filters in configuration item {0}/{1} provided but no valid "
-                        "filter lists have values. At least one of the following must be provided: "
-                        "{2}. Please add at least one filter list with values.".format(
-                            config_index, len(valid_temp), valid_filter_keys
-                        )
-                    )
-                    self.log(self.msg, "ERROR")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                # Validate that filter values are lists
-                for filter_key, filter_value in provided_filters.items():
-                    if not isinstance(filter_value, list):
-                        self.msg = (
-                            "global_filters.{0} in configuration item {1}/{2} must be a list, "
-                            "got: {3}. Please provide filter as a list of strings.".format(
-                                filter_key, config_index, len(valid_temp), type(filter_value).__name__
-                            )
-                        )
-                        self.log(self.msg, "ERROR")
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
-
-                self.log(
-                    "Configuration item {0}/{1} global_filters structure validated successfully. "
-                    "Provided filters: {2}".format(
-                        config_index, len(valid_temp), list(provided_filters.keys())
-                    ),
-                    "INFO"
-                )
-            else:
-                self.log(
-                    "Configuration item {0}/{1} does not have global_filters. Assuming "
-                    "generate_all_configurations mode.".format(config_index, len(valid_temp)),
-                    "DEBUG"
-                )
 
         # Set validated configuration and return success
         self.validated_config = valid_temp
 
         self.msg = (
-            "Successfully validated {0} configuration item(s) for network profile switching "
-            "playbook generation. Validated configuration: {1}".format(
-                len(valid_temp), str(valid_temp)
-            )
+            "Successfully validated configuration for network profile switching playbook "
+            "generation. Validated configuration: {0}".format(str(valid_temp))
         )
 
         self.log(
-            "Input validation completed successfully. Total items validated: {0}, "
-            "Items with generate_all: {1}, Items with global_filters: {2}".format(
-                len(valid_temp),
-                sum(1 for item in valid_temp if item.get("generate_all_configurations")),
-                sum(1 for item in valid_temp if item.get("global_filters"))
+            "Input validation completed successfully. generate_all: {0}, "
+            "has_global_filters: {1}, file_mode: {2}".format(
+                bool(valid_temp.get("generate_all_configurations")),
+                bool(valid_temp.get("global_filters")),
+                self.params.get("file_mode", "overwrite")
             ),
             "INFO"
         )
@@ -1697,16 +1557,17 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
         Args:
             yaml_config_generator (dict): Configuration parameters containing:
-                                        - file_path: Output file path (optional, str)
                                         - generate_all_configurations: Mode flag (optional, bool)
                                         - global_filters: Filter criteria (optional, dict)
                                         Example: {
-                                        "file_path": "/tmp/config.yml",
                                         "generate_all_configurations": False,
                                         "global_filters": {
                                             "profile_name_list": ["Campus_Profile"]
                                         }
                                         }
+            Note:
+                The output file path and write mode are controlled by module parameters
+                C(file_path) and C(file_mode), not by the config dictionary.
 
         Returns:
             object: Self instance with updated attributes:
@@ -1744,10 +1605,10 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
-                "No custom file_path provided by user in yaml_config_generator parameters. "
+                "No custom file_path provided by user in module parameters. "
                 "Initiating automatic filename generation with timestamp format. Default "
                 "filename pattern: network_profile_switching_playbook_config_YYYY-MM-DD_HH-MM-SS.yml",
                 "DEBUG"
@@ -1760,12 +1621,17 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             )
         else:
             self.log(
-                "Using user-provided custom file_path for YAML output: {0}. File will be "
+                "Using user-provided custom file_path from module parameters for YAML output: {0}. File will be "
                 "created at specified path (absolute or relative path supported).".format(file_path),
                 "INFO"
             )
 
         self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        file_mode = self.params.get("file_mode", "overwrite")
+        self.log(
+            "YAML configuration file mode determined: {0}".format(file_mode),
+            "DEBUG"
+        )
 
         self.log("Initializing filter dictionaries", "DEBUG")
         # Set empty filters to retrieve everything
@@ -1903,9 +1769,6 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Only matching switch profiles will be included in YAML export.",
                 "INFO"
             )
-            if yaml_config_generator.get("global_filters"):
-                self.log("Warning: global_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
-
             # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
 
@@ -1995,7 +1858,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "INFO"
         )
 
-        if self.write_dict_to_yaml(final_dict, file_path):
+        if self.write_dict_to_yaml(final_dict, file_path, file_mode):
             self.log(
                 "YAML configuration file created successfully at path: {0}. File contains {1} "
                 "switch profile configuration(s) in network_profile_switching_workflow_manager "
@@ -2045,11 +1908,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         Args:
             config (dict): Configuration parameters from Ansible playbook containing:
                   - generate_all_configurations: Mode flag (optional, bool)
-                  - file_path: Output file path (optional, str)
                   - global_filters: Filter criteria (optional, dict)
                   Example: {
                     "generate_all_configurations": False,
-                    "file_path": "/tmp/config.yml",
                     "global_filters": {
                       "profile_name_list": ["Campus_Profile"]
                     }
@@ -2551,7 +2412,9 @@ def main():
             - dnac_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
-            - config (list[dict], required): Configuration parameters list
+            - file_path (str, optional): Output file path for YAML configuration
+            - file_mode (str, optional): File write mode ("overwrite" or "append")
+            - config (dict, optional): Configuration parameters dict
             - state (str, default="gathered", choices=["gathered"]): Workflow state
 
     Version Requirements:
@@ -2664,10 +2527,19 @@ def main():
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
+        "file_path": {
+            "type": "str",
+            "required": False
+        },
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"]
+        },
         "config": {
-            "required": True,
-            "type": "list",
-            "elements": "dict"
+            "required": False,
+            "type": "dict"
         },
         "state": {
             "default": "gathered",
@@ -2703,14 +2575,14 @@ def main():
     ccc_network_profile_switching_playbook_generator.log(
         "Module initialized with parameters: dnac_host={0}, dnac_port={1}, "
         "dnac_username={2}, dnac_verify={3}, dnac_version={4}, state={5}, "
-        "config_items={6}".format(
+        "has_config={6}".format(
             module.params.get("dnac_host"),
             module.params.get("dnac_port"),
             module.params.get("dnac_username"),
             module.params.get("dnac_verify"),
             module.params.get("dnac_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
+            bool(module.params.get("config"))
         ),
         "DEBUG"
     )
@@ -2810,58 +2682,23 @@ def main():
     )
 
     # ============================================
-    # Configuration Processing Loop
+    # Configuration Processing
     # ============================================
-    config_list = ccc_network_profile_switching_playbook_generator.validated_config
+    config = ccc_network_profile_switching_playbook_generator.validated_config
 
     ccc_network_profile_switching_playbook_generator.log(
-        "Starting configuration processing loop - will process {0} configuration "
-        "item(s) from playbook".format(len(config_list)),
+        "Starting configuration processing for state '{0}'.".format(state),
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        ccc_network_profile_switching_playbook_generator.log(
-            "Processing configuration item {0}/{1} for state '{2}'".format(
-                config_index, len(config_list), state
-            ),
-            "INFO"
-        )
-
-        # Reset values for clean state between configurations
-        ccc_network_profile_switching_playbook_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        ccc_network_profile_switching_playbook_generator.reset_values()
-        # Collect desired state (want) from configuration
-        ccc_network_profile_switching_playbook_generator.log(
-            "Collecting desired state parameters from configuration item {0}".format(
-                config_index
-            ),
-            "DEBUG"
-        )
-        ccc_network_profile_switching_playbook_generator.get_want(
-            config, state
-        ).check_return_status()
-
-        ccc_network_profile_switching_playbook_generator.get_have(
-            config).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        ccc_network_profile_switching_playbook_generator.log(
-            "Executing state-specific operation for '{0}' workflow on "
-            "configuration item {1}".format(state, config_index),
-            "INFO"
-        )
-        ccc_network_profile_switching_playbook_generator.get_diff_state_apply[state]().check_return_status()
-
-        ccc_network_profile_switching_playbook_generator.log(
-            "Successfully completed processing for configuration item {0}/{1}".format(
-                config_index, len(config_list)
-            ),
-            "INFO"
-        )
+    ccc_network_profile_switching_playbook_generator.reset_values()
+    ccc_network_profile_switching_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
+    ccc_network_profile_switching_playbook_generator.get_have(
+        config
+    ).check_return_status()
+    ccc_network_profile_switching_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     # ============================================
     # Module Completion and Exit
@@ -2880,7 +2717,7 @@ def main():
         "status: {3}".format(
             completion_timestamp,
             module_duration,
-            len(config_list),
+            1,
             ccc_network_profile_switching_playbook_generator.status
         ),
         "INFO"

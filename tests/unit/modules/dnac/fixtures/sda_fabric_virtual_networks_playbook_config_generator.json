@@ -1,339 +1,297 @@
 {
-
-  "playbook_config_generate_all_configurations": [
-    {
-      "generate_all_configurations": true,
-      "file_path": "/tmp/test_demo.yaml"
+  "playbook_config_generate_all_configurations": {},
+  "playbook_config_fabric_vlan_by_vlan_name_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Test123"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_fabric_vlan_by_vlan_name_single": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan"],
-        "fabric_vlan": [
-          {
-            "vlan_name": "Test123"
-          }
-        ]
-      }
+  },
+  "playbook_config_fabric_vlan_by_vlan_name_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Test123"
+        },
+        {
+          "vlan_name": "abc"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_fabric_vlan_by_vlan_name_multiple": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan"],
-        "fabric_vlan": [
-          {
-            "vlan_name": "Test123"
-          },
-          {
-            "vlan_name": "abc"
-          }
-        ]
-      }
+  },
+  "playbook_config_fabric_vlan_by_vlan_id_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_id": 1031
+        }
+      ]
     }
-  ],
-
-  "playbook_config_fabric_vlan_by_vlan_id_single": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan"],
-        "fabric_vlan": [
-          {
-            "vlan_id": 1031
-          }
-        ]
-      }
+  },
+  "playbook_config_fabric_vlan_by_vlan_id_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_id": 1031
+        },
+        {
+          "vlan_id": 1038
+        }
+      ]
     }
-  ],
-
-  "playbook_config_fabric_vlan_by_vlan_id_multiple": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan"],
-        "fabric_vlan": [
-          {
-            "vlan_id": 1031
-          },
-          {
-            "vlan_id": 1038
-          }
-        ]
-      }
+  },
+  "playbook_config_fabric_vlan_by_vlan_name_and_id": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Chennai-VN6-Pool1",
+          "vlan_id": 1031
+        },
+        {
+          "vlan_name": "Chennai-VN9-Pool2"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_fabric_vlan_by_vlan_name_and_id": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan"],
-        "fabric_vlan": [
-          {
-            "vlan_name": "Chennai-VN6-Pool1",
-            "vlan_id": 1031
-          },
-          {
-            "vlan_name": "Chennai-VN9-Pool2"
-          }
-        ]
-      }
+  },
+  "playbook_config_fabric_vlan_by_vlan_id_large_values": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_id": 10031
+        },
+        {
+          "vlan_id": 10052
+        }
+      ]
     }
-  ],
-
-  "playbook_config_fabric_vlan_by_vlan_id_large_values": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan"],
-        "fabric_vlan": [
-          {
-            "vlan_id": 10031
-          },
-          {
-            "vlan_id": 10052
-          }
-        ]
-      }
+  },
+  "playbook_config_virtual_networks_by_vn_name_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "virtual_networks"
+      ],
+      "virtual_networks": [
+        {
+          "vn_name": "VN1"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_virtual_networks_by_vn_name_single": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["virtual_networks"],
-        "virtual_networks": [
-          {
-            "vn_name": "VN1"
-          }
-        ]
-      }
+  },
+  "playbook_config_virtual_networks_by_vn_name_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "virtual_networks"
+      ],
+      "virtual_networks": [
+        {
+          "vn_name": "VN1"
+        },
+        {
+          "vn_name": "VN3"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_virtual_networks_by_vn_name_multiple": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["virtual_networks"],
-        "virtual_networks": [
-          {
-            "vn_name": "VN1"
-          },
-          {
-            "vn_name": "VN3"
-          }
-        ]
-      }
+  },
+  "playbook_config_anycast_gateways_by_vn_name": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vn_name": "Chennai_VN1"
+        },
+        {
+          "vn_name": "Chennai_VN3"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_anycast_gateways_by_vn_name": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["anycast_gateways"],
-        "anycast_gateways": [
-          {
-            "vn_name": "Chennai_VN1"
-          },
-          {
-            "vn_name": "Chennai_VN3"
-          }
-        ]
-      }
+  },
+  "playbook_config_anycast_gateways_by_ip_pool_name": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "ip_pool_name": "Chennai-VN3-Pool1"
+        },
+        {
+          "ip_pool_name": "Chennai-VN1-Pool2"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_anycast_gateways_by_ip_pool_name": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["anycast_gateways"],
-        "anycast_gateways": [
-          {
-            "ip_pool_name": "Chennai-VN3-Pool1"
-          },
-          {
-            "ip_pool_name": "Chennai-VN1-Pool2"
-          }
-        ]
-      }
+  },
+  "playbook_config_anycast_gateways_by_vlan_id": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vlan_id": 1032
+        },
+        {
+          "vlan_id": 1033
+        },
+        {
+          "ip_pool_name": "Chennai-VN1-Pool2"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_anycast_gateways_by_vlan_id": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["anycast_gateways"],
-        "anycast_gateways": [
-          {
-            "vlan_id": 1032
-          },
-          {
-            "vlan_id": 1033
-          },
-          {
-            "ip_pool_name": "Chennai-VN1-Pool2"
-          }
-        ]
-      }
+  },
+  "playbook_config_anycast_gateways_by_vlan_name": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vlan_name": "Chennai-VN1-Pool2"
+        },
+        {
+          "vlan_name": "Chennai-VN7-Pool1"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_anycast_gateways_by_vlan_name": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["anycast_gateways"],
-        "anycast_gateways": [
-          {
-            "vlan_name": "Chennai-VN1-Pool2"
-          },
-          {
-            "vlan_name": "Chennai-VN7-Pool1"
-          }
-        ]
-      }
+  },
+  "playbook_config_anycast_gateways_by_vlan_name_and_id": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vlan_name": "Chennai-VN1-Pool2",
+          "vlan_id": 1022
+        },
+        {
+          "vlan_name": "Chennai-VN7-Pool1",
+          "vlan_id": 1033
+        }
+      ]
     }
-  ],
-
-  "playbook_config_anycast_gateways_by_vlan_name_and_id": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["anycast_gateways"],
-        "anycast_gateways": [
-          {
-            "vlan_name": "Chennai-VN1-Pool2",
-            "vlan_id": 1022
-          },
-          {
-            "vlan_name": "Chennai-VN7-Pool1",
-            "vlan_id": 1033
-          }
-        ]
-      }
+  },
+  "playbook_config_anycast_gateways_all_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vlan_name": "Chennai-VN1-Pool2",
+          "vlan_id": 1022,
+          "ip_pool_name": "Chennai-VN1-Pool2",
+          "vn_name": "Chennai_VN1"
+        },
+        {
+          "vlan_name": "Chennai-VN7-Pool1",
+          "vlan_id": 1033,
+          "ip_pool_name": "Chennai-VN7-Pool1",
+          "vn_name": "Chennai_VN7"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_anycast_gateways_all_filters": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["anycast_gateways"],
-        "anycast_gateways": [
-          {
-            "vlan_name": "Chennai-VN1-Pool2",
-            "vlan_id": 1022,
-            "ip_pool_name": "Chennai-VN1-Pool2",
-            "vn_name": "Chennai_VN1"
-          },
-          {
-            "vlan_name": "Chennai-VN7-Pool1",
-            "vlan_id": 1033,
-            "ip_pool_name": "Chennai-VN7-Pool1",
-            "vn_name": "Chennai_VN7"
-          }
-        ]
-      }
+  },
+  "playbook_config_multiple_components": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan",
+        "virtual_networks",
+        "anycast_gateways"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Test123"
+        }
+      ],
+      "virtual_networks": [
+        {
+          "vn_name": "VN1"
+        }
+      ],
+      "anycast_gateways": [
+        {
+          "vn_name": "Chennai_VN1"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_multiple_components": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan", "virtual_networks", "anycast_gateways"],
-        "fabric_vlan": [
-          {
-            "vlan_name": "Test123"
-          }
-        ],
-        "virtual_networks": [
-          {
-            "vn_name": "VN1"
-          }
-        ],
-        "anycast_gateways": [
-          {
-            "vn_name": "Chennai_VN1"
-          }
-        ]
-      }
+  },
+  "playbook_config_all_components": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan",
+        "virtual_networks",
+        "anycast_gateways"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_id": 1031
+        }
+      ],
+      "virtual_networks": [
+        {
+          "vn_name": "VN1"
+        }
+      ],
+      "anycast_gateways": [
+        {
+          "ip_pool_name": "Chennai-VN1-Pool2"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_all_components": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan", "virtual_networks", "anycast_gateways"],
-        "fabric_vlan": [
-          {
-            "vlan_id": 1031
-          }
-        ],
-        "virtual_networks": [
-          {
-            "vn_name": "VN1"
-          }
-        ],
-        "anycast_gateways": [
-          {
-            "ip_pool_name": "Chennai-VN1-Pool2"
-          }
-        ]
-      }
+  },
+  "playbook_config_empty_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ]
     }
-  ],
-
-  "playbook_config_empty_filters": [
-    {
-      "file_path": "/tmp/test_demo.yaml",
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan"]
-      }
+  },
+  "playbook_config_no_file_path": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Test123"
+        }
+      ]
     }
-  ],
-
-  "playbook_config_no_file_path": [
-    {
-      "component_specific_filters": {
-        "components_list": ["fabric_vlan"],
-        "fabric_vlan": [
-          {
-            "vlan_name": "Test123"
-          }
-        ]
-      }
-    }
-  ],
-  
-
+  },
   "get_empty_fabric_vlan_response": {
     "response": [],
     "version": "1.0"
   },
-
   "get_empty_virtual_network_response": {
     "response": [],
     "version": "1.0"
   },
-
   "get_empty_anycast_gateway_response": {
     "response": [],
     "version": "1.0"
   },
-
   "get_site_details": {
     "response": [
       {
@@ -346,7 +304,6 @@
     ],
     "version": "1.0"
   },
-
   "get_zone_site_details": {
     "response": [
       {
@@ -359,7 +316,6 @@
     ],
     "version": "1.0"
   },
-
   "get_fabric_site_details": {
     "response": [
       {
@@ -371,7 +327,6 @@
     ],
     "version": "1.0"
   },
-
   "get_fabric_zone_details": {
     "response": [
       {
@@ -382,7 +337,6 @@
     ],
     "version": "1.0"
   },
-
   "response_get_task_id_success": {
     "response": {
       "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
@@ -390,7 +344,6 @@
     },
     "version": "1.0"
   },
-
   "response_get_task_status_by_id_success": {
     "response": {
       "endTime": 1743681571226,
@@ -401,7 +354,6 @@
     },
     "version": "1.0"
   },
-
   "response_get_task_status_by_id_failed_anchored_vn": {
     "response": {
       "endTime": 1744200848242,
@@ -412,8 +364,7 @@
       "id": "01961a78-d03b-7a3d-8d16-8d665ddefcef"
     },
     "version": "1.0"
-  },  
-
+  },
   "get_fabric_vlan_response": {
     "response": [
       {
@@ -427,7 +378,6 @@
     ],
     "version": "1.0"
   },
-  
   "get_virtual_network_response": {
     "response": [
       {
@@ -440,7 +390,6 @@
     ],
     "version": "1.0"
   },
-
   "get_anchored_virtual_network_response": {
     "response": [
       {
@@ -453,7 +402,6 @@
     ],
     "version": "1.0"
   },
-  
   "get_anycast_vn_response": {
     "response": [
       {
@@ -467,7 +415,6 @@
     ],
     "version": "1.0"
   },
-
   "get_reserve_ip_pool_details": {
     "response": [
       {
@@ -477,7 +424,9 @@
           {
             "ipPoolName": "Reserve_Ip_pool",
             "dhcpServerIps": [],
-            "gateways": ["204.1.208.129"],
+            "gateways": [
+              "204.1.208.129"
+            ],
             "createTime": 1744195422930,
             "lastUpdateTime": 1744195422940,
             "totalIpAddressCount": 128,
@@ -522,7 +471,6 @@
     ],
     "version": "1.0"
   },
-
   "get_anycast_gateway_details": {
     "response": [
       {
@@ -546,13 +494,10 @@
     ],
     "version": "1.0"
   },
-
-  "get_invalid_fabric_vlan_id":{
+  "get_invalid_fabric_vlan_id": {
     "message": "Invalid vlan_id '4096' given in the playbook. Allowed VLAN range is (2,4094) except for reserved VLANs 1002-1005, and 2046."
   },
-
-  "get_invalid_testbed_release":{
+  "get_invalid_testbed_release": {
     "message": "The specified version '2.3.5.3' does not support the SDA fabric devices feature. Supported versions start from '2.3.7.6' onwards."
   }
-
 }

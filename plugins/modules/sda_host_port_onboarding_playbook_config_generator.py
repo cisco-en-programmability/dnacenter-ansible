@@ -50,49 +50,47 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Absolute or relative path for YAML configuration file output.
+    - If not provided, generates default filename in current working directory
+        with pattern
+        'sda_host_port_onboarding_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml'
+    - Example default filename
+        'sda_host_port_onboarding_playbook_config_2026-02-27_14-31-46.yml'
+    - Directory created automatically if path does not exist.
+    - Supports YAML file extension (.yml or .yaml).
+    type: str
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
   config:
     description:
-    - Configuration parameters for YAML playbook generation workflow.
-    - Defines output file path, auto-discovery mode, and component-specific
-      filters for targeted SDA host port onboarding extraction.
-    - At least one of generate_all_configurations or component_specific_filters
-      with components_list must be specified to identify target configurations.
-    type: list
-    elements: dict
-    required: true
+    - A dictionary of filters for generating YAML playbook compatible with the `sda_host_port_onboarding_workflow_manager`
+      module.
+    - Filters specify which components to include in the YAML configuration file.
+    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - If config is not provided or is empty, all configurations for all port assignments, port channels
+      and wireless SSIDs will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - Enables auto-discovery mode for complete SDA fabric infrastructure extraction.
-        - When True, extracts all port assignments, port channels, and wireless SSIDs
-          for all fabric sites without filter restrictions.
-        - Ignores component_specific_filters if provided; retrieves complete
-          brownfield SDA host port onboarding inventory from Catalyst Center.
-        - Automatically generates timestamped filename if file_path not specified.
-        - Useful for complete fabric documentation, configuration backup, and
-          disaster recovery planning.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Absolute or relative path for YAML configuration file output.
-        - If not provided, generates default filename in current working directory
-          with pattern
-          'sda_host_port_onboarding_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml'
-        - Example default filename
-          'sda_host_port_onboarding_playbook_config_2026-02-27_14-31-46.yml'
-        - Directory created automatically if path does not exist.
-        - Supports YAML file extension (.yml or .yaml).
-        type: str
       component_specific_filters:
         description:
-        - Component-based filters for targeted SDA host port onboarding extraction.
-        - Requires components_list to specify which components to process.
-        - When generate_all_configurations is False, component_specific_filters
-          with components_list must be provided.
-        - Filters apply independently per component type (port assignments,
-          port channels, wireless SSIDs).
+        - Filters to specify which components to include in the YAML configuration
+          file.
+        - If "components_list" is specified, only those components are included,
+          regardless of other filters.
+        - If filters for specific components (e.g., port_assignments, port_channels, or wireless_ssids)
+          are provided without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
@@ -101,10 +99,10 @@ options:
             - Valid values are 'port_assignments' for interface port assignments,
               'port_channels' for port channel configurations, and 'wireless_ssids'
               for wireless SSID mappings to VLANs within fabric sites.
-            - If not specified when generate_all_configurations is False, validation
-              fails requiring explicit component selection.
-            - Multiple components can be specified for combined extraction.
-            - For example, [port_assignments, port_channels, wireless_ssids]
+            - If specified, only the listed components will be included in the generated YAML file.
+            - If not specified but component filters (port_assignments, port_channels, or wireless_ssids)
+              are provided, those components are automatically added to this list.
+            - If neither components_list nor any component filters are provided, an error will be raised.
             type: list
             choices: ["port_assignments", "port_channels", "wireless_ssids"]
             elements: str
@@ -190,13 +188,28 @@ notes:
   - Generated YAML uses OrderedDumper for consistent key ordering enabling version
     control.
   - Fabric site hierarchical paths must match exact Catalyst Center fabric site structure.
+  - 'Auto-population of components_list:
+    If component-specific filters (such as port_assignments, port_channels, or wireless_ssids) are provided
+    without explicitly including them in components_list, those components will be
+    automatically added to components_list. This simplifies configuration by eliminating
+    the need to redundantly specify components in both places.'
+  - 'Example of auto-population behavior:
+    If you provide filters for port_assignments without including port_assignments in components_list,
+    the module will automatically add port_assignments to components_list before processing.
+    This allows you to write more concise playbooks.'
+  - 'Validation requirements:
+    If component_specific_filters is provided, at least one of the following must be true -
+    (1) components_list contains at least one component, OR
+    (2) Component-specific filters (e.g., port_assignments, port_channels, wireless_ssids) are provided.
+    If neither condition is met, the module will fail with a validation error.'
 seealso:
 - module: cisco.dnac.sda_host_port_onboarding_workflow_manager
   description: Module for managing SDA host port onboarding workflows in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
-- name: Generate YAML playbook for SDA host port onboarding workflow manager which includes all components
+- name: Generate YAML playbook for host port onboarding workflow manager
+    which includes all fabric sites's host port onboarding details
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -208,8 +221,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
-    config:
-      - generate_all_configurations: true
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -223,9 +235,8 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
-    config:
-      - generate_all_configurations: true
-        file_path: "sda_host_port_onboarding_config.yml"
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
 
 - name: Generate YAML Configuration with specific component port assignments filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -239,17 +250,16 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
     config:
-      - generate_all_configurations: false
-        file_path: "port_assignments_config.yml"
-        component_specific_filters:
-          components_list: ["port_assignments"]
-          port_assignments:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
-              - "Global/USA/RTP/Building2"
+      component_specific_filters:
+        components_list: ["port_assignments"]
+        port_assignments:
+          fabric_site_name_hierarchy:
+            - "Global/Site_India/Karnataka/Bangalore"
 
-- name: Generate YAML Configuration with port channels component
+- name: Generate YAML Configuration with specific component port channels filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -261,15 +271,16 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
     config:
-      - file_path: "port_channels_config.yml"
-        component_specific_filters:
-          components_list: ["port_channels"]
-          port_channels:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
+      component_specific_filters:
+        components_list: ["port_channels"]
+        port_channels:
+          fabric_site_name_hierarchy:
+            - "Global/Site_India/Karnataka/Bangalore"
 
-- name: Generate YAML Configuration with wireless SSIDs component
+- name: Generate YAML Configuration with specific component wireless ssids filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -281,40 +292,14 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: DEBUG
     state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
     config:
-      - file_path: "wireless_ssids_config.yml"
-        component_specific_filters:
-          components_list: ["wireless_ssids"]
-          wireless_ssids:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
-              - "Global/USA/RTP/Building2"
-
-- name: Generate YAML Configuration with multiple components and fabric site filters
-  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
-    state: gathered
-    config:
-      - file_path: "complete_sda_config.yml"
-        component_specific_filters:
-          components_list: ["port_assignments", "port_channels", "wireless_ssids"]
-          port_assignments:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
-          port_channels:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
-          wireless_ssids:
-            fabric_site_name_hierarchy:
-              - "Global/USA/San Jose/Building1"
+      component_specific_filters:
+        components_list: ["wireless_ssids"]
+        wireless_ssids:
+          fabric_site_name_hierarchy:
+            - "Global/Site_India/Karnataka/Bangalore"
 """
 
 RETURN = r"""
@@ -351,10 +336,10 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
              when 'generate_all_configurations' is set to False.",
         "response":
-            "Validation Error in entry 1: 'component_specific_filters' must be provided with 'components_list' key
+            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
              when 'generate_all_configurations' is set to False."
     }
 """
@@ -365,7 +350,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 try:
@@ -519,21 +503,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         # Check if configuration is available
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
@@ -542,15 +519,21 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Validate params
         self.log("Validating configuration against schema.", "DEBUG")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
-        if invalid_params:
-            self.msg = f"Invalid parameters in playbook: {invalid_params}"
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
+        self.log(
+            "Schema validation passed successfully. All parameters conform to expected "
+            "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
+            "DEBUG"
+        )
 
-        self.log(f"Validating minimum requirements against provided config: {self.config}", "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -1719,104 +1702,16 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
     def yaml_config_generator(self, yaml_config_generator):
         """
-        Generates YAML configuration file for SDA host port onboarding brownfield workflow.
-
-        This function orchestrates complete YAML playbook generation by determining
-        output file path (user-provided or auto-generated), processing auto-discovery
-        mode flags to override filters for complete fabric infrastructure extraction,
-        iterating through requested network components (port_assignments, port_channels,
-        wireless_ssids) with component-specific filters, executing retrieval functions
-        for each component, aggregating configurations into unified structure, and
-        writing formatted YAML file with comprehensive header comments for compatibility
-        with sda_host_port_onboarding_workflow_manager module.
+        Generates a YAML configuration file based on the provided parameters.
+        This function retrieves network element details using component-specific filters, processes the data,
+        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Configuration parameters containing:
-                                        - generate_all_configurations (bool, optional):
-                                        Auto-discovery mode flag enabling complete
-                                        fabric infrastructure extraction across all sites
-                                        - file_path (str, optional): Output YAML file
-                                        path, defaults to auto-generated timestamped
-                                        filename if not provided
-                                        - component_specific_filters (dict, optional):
-                                        Component filters with components_list and
-                                        per-component filter criteria for fabric site
-                                        hierarchy filtering
+            yaml_config_generator (dict): Contains component_specific_filters and optionally generate_all_configurations flag.
+                file_path and file_mode are now taken from self.params.
 
         Returns:
-            object: Self instance with updated attributes:
-                    - self.msg: Operation result message with status, file path,
-                    component counts, and configuration counts
-                    - self.status: Operation status ("success", "failed", or "ok")
-                    - self.result: Complete operation result for module exit
-                    - Operation result set via set_operation_result()
-
-        Workflow Steps:
-            1. File Path Determination - Validates user-provided file_path or generates
-               default timestamped filename with pattern:
-               'sda_host_port_onboarding_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml'
-            2. Auto-Discovery Processing - If generate_all_configurations=True, overrides
-               all filters to retrieve complete fabric infrastructure without restrictions
-            3. Filter Extraction - Retrieves component_specific_filters
-               from yaml_config_generator parameters for targeted extraction
-            4. Component Iteration - Loops through components_list (port_assignments,
-               port_channels, wireless_ssids) invoking retrieval functions with filters
-            5. Configuration Aggregation - Combines retrieved configurations from all
-               components into unified final_config_list structure
-            6. YAML Generation - Writes final_config_list to file using write_dict_to_yaml()
-               with OrderedDumper for consistent key ordering and comprehensive header
-            7. Result Reporting - Sets operation status with component counts, file path,
-               and configuration statistics
-
-        Component Processing Logic:
-            - For each component in components_list:
-                1. Validates component support via module_schema network_elements lookup
-                2. Constructs filter dictionary with global and component-specific filters
-                3. Retrieves get_function_name method from network_element schema
-                4. Executes retrieval function passing network_element and filters
-                5. Validates returned data for non-empty content
-                6. Extends final_config_list with component data (flattens lists)
-                7. Increments processed_count or skipped_count based on outcome
-
-        Status Outcomes:
-            - success: YAML file written successfully with at least one configuration
-            - ok: No configurations found matching filters or in Catalyst Center
-            - failed: File write operation failed or critical error occurred
-
-        Error Handling:
-            - Component not in module_schema: Logs warning, increments skipped_count
-            - No retrieval function: Logs error, increments skipped_count, continues
-            - Empty component_data: Logs debug, continues to next component
-            - Empty final_config_list: Returns "ok" status with attempted component list
-            - File write failure: Returns "failed" status with file path details
-
-        Usage Examples:
-            # Auto-discovery mode (all fabric sites, all components)
-            yaml_config_generator({'generate_all_configurations': True})
-
-            # Targeted extraction with fabric site filters
-            yaml_config_generator({
-                'file_path': 'port_configs.yml',
-                'component_specific_filters': {
-                    'components_list': ['port_assignments', 'port_channels'],
-                    'port_assignments': {
-                        'fabric_site_name_hierarchy': ['Global/USA/Building1']
-                    },
-                    'port_channels': {
-                        'fabric_site_name_hierarchy': ['Global/USA/Building1']
-                    }
-                }
-            })
-
-        Notes:
-            - Method is idempotent; same parameters produce identical YAML content
-              except for generation timestamp in header comments
-            - Check mode is honored; file generation skipped if check_mode=True
-            - Empty components_list defaults to all supported components from module_schema
-            - Component-specific filters are optional; omission retrieves all configurations
-              for that component across all fabric sites
-            - File path directory is created automatically if it doesn't exist
-            - YAML uses OrderedDumper for consistent key ordering enabling version control
+            self: The current instance with the operation result and message updated.
         """
 
         self.log(
@@ -1856,7 +1751,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "filename.",
             "DEBUG"
         )
-        file_path = yaml_config_generator.get("file_path")
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
                 "No file_path provided in configuration. Generating default filename "
@@ -1879,6 +1774,12 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             f"YAML configuration file path determined: {file_path}. Path will be used for write_dict_to_yaml() operation.",
             "INFO"
         )
+        file_mode = self.params.get("file_mode", "overwrite")
+
+        self.log(
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
+            "DEBUG"
+        )
 
         self.log(
             "Initializing filter extraction from yaml_config_generator parameters. "
@@ -1891,28 +1792,22 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
             self.log(
                 "Auto-discovery mode: Overriding any provided filters to ensure "
-                "complete fabric configuration and component extraction without restrictions."
+                "complete fabric configuration and component extraction without restrictions.",
+                "INFO"
             )
-
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided "
-                    f"({yaml_config_generator.get('component_specific_filters')}) "
-                    "but will be ignored because generate_all_configurations=True. "
-                    "All supported components and configurations will be extracted.",
-                    "WARNING"
-                )
 
             # Set empty filters to retrieve everything
             component_specific_filters = {}
         else:
             # Use provided filters or default to empty
+            self.log(
+                "Normal mode: Using provided component_specific_filters from input",
+                "DEBUG",
+            )
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
             self.log(
-                "Targeted extraction mode: Using provided filters. "
-                f"Component-specific filters: {bool(component_specific_filters)}. "
-                "Filters will be applied during component retrieval.",
-                "DEBUG"
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
+                "DEBUG",
             )
 
         self.log(
@@ -2098,7 +1993,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        if self.write_dict_to_yaml(yaml_config_dict, file_path, OrderedDumper):
+        if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, dumper=OrderedDumper):
             self.log(
                 f"YAML file write operation succeeded. File created at: {file_path}. "
                 f"File contains {len(final_config_list)} configuration(s) with "
@@ -2404,9 +2299,17 @@ def main():
         # Playbook Configuration Parameters
         # ============================================
         "config": {
-            "required": True,
-            "type": "list",
-            "elements": "dict"
+            "required": False,
+            "type": "dict",
+        },
+        "file_path": {
+            "type": "str",
+            "required": False,
+        },
+        "file_mode": {
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"]
         },
         "state": {
             "default": "gathered",
@@ -2436,18 +2339,6 @@ def main():
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         f"Starting Ansible module execution for SDA host port onboarding playbook config generator generator at timestamp {initialization_timestamp}",
         "INFO"
-    )
-
-    catc_sda_host_port_onboarding_playbook_config_generator.log(
-        "Module initialized with parameters: "
-        f"dnac_host={module.params.get('dnac_host')}, "
-        f"dnac_port={module.params.get('dnac_port')}, "
-        f"dnac_username={module.params.get('dnac_username')}, "
-        f"dnac_verify={module.params.get('dnac_verify')}, "
-        f"dnac_version={module.params.get('dnac_version')}, "
-        f"state={module.params.get('state')}, "
-        f"config_items={len(module.params.get('config', []))}",
-        "DEBUG"
     )
 
     # ============================================
@@ -2550,41 +2441,13 @@ def main():
         "INFO"
     )
 
-    for config_index, config in enumerate(config_list, start=1):
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Processing configuration item {config_index}/{len(config_list)} for state '{state}'",
-            "INFO"
-        )
-
-        # Reset values for clean state between configurations
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            "Resetting module state variables for clean configuration processing",
-            "DEBUG"
-        )
-        catc_sda_host_port_onboarding_playbook_config_generator.reset_values()
-
-        # Collect desired state (want) from configuration
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Collecting desired state parameters from configuration item {config_index}",
-            "DEBUG"
-        )
-        catc_sda_host_port_onboarding_playbook_config_generator.get_want(
-            config, state
-        ).check_return_status()
-
-        # Execute state-specific operation (gathered workflow)
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Executing state-specific operation for '{state}' workflow on configuration item {config_index}",
-            "INFO"
-        )
-        catc_sda_host_port_onboarding_playbook_config_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
-
-        catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Successfully completed processing for configuration item {config_index}/{len(config_list)}",
-            "INFO"
-        )
+    config = catc_sda_host_port_onboarding_playbook_config_generator.validated_config
+    catc_sda_host_port_onboarding_playbook_config_generator.get_want(
+        config, state
+    ).check_return_status()
+    catc_sda_host_port_onboarding_playbook_config_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     # ============================================
     # Module Completion and Exit

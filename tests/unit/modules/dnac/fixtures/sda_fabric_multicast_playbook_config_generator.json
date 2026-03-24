@@ -1,80 +1,58 @@
 {
-    "generate_all_configurations_case_1": [
-        {
-            "generate_all_configurations": true,
-            "file_path": "/tmp/all_fabric_multicast_configs.yml"
+    "generate_all_configurations_case_1": null,
+    "generate_specific_fabric_site_case_2": {
+        "component_specific_filters": {
+            "components_list": [
+                "fabric_multicast"
+            ],
+            "fabric_multicast": [
+                {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore"
+                }
+            ]
         }
-    ],
-    "generate_specific_fabric_site_case_2": [
-        {
-            "file_path": "/tmp/site_specific_multicast.yml",
-            "component_specific_filters": {
-                "components_list": [
-                    "fabric_multicast"
-                ],
-                "fabric_multicast": [
-                    {
-                        "fabric_name": "Global/Site_India/Karnataka/Bangalore"
-                    }
-                ]
-            }
+    },
+    "generate_specific_fabric_and_vn_case_3": {
+        "component_specific_filters": {
+            "fabric_multicast": [
+                {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore",
+                    "layer3_virtual_network": "Multicast_test"
+                }
+            ]
         }
-    ],
-    "generate_specific_fabric_and_vn_case_3": [
-        {
-            "file_path": "/tmp/fabric_vn_specific_multicast.yml",
-            "component_specific_filters": {
-                "fabric_multicast": [
-                    {
-                        "fabric_name": "Global/Site_India/Karnataka/Bangalore",
-                        "layer3_virtual_network": "Multicast_test"
-                    }
-                ]
-            }
+    },
+    "generate_multiple_fabric_sites_case_4": {
+        "component_specific_filters": {
+            "fabric_multicast": [
+                {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore"
+                },
+                {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore"
+                }
+            ]
         }
-    ],
-    "generate_multiple_fabric_sites_case_4": [
-        {
-            "component_specific_filters": {
-                "fabric_multicast": [
-                    {
-                        "fabric_name": "Global/Site_India/Karnataka/Bangalore"
-                    },
-                    {
-                        "fabric_name": "Global/Site_India/Karnataka/Bangalore"
-                    }
-                ]
-            }
+    },
+    "invalid_fabric_site_case_5": {
+        "component_specific_filters": {
+            "fabric_multicast": [
+                {
+                    "fabric_name": "Global/NonExistent/InvalidSite/Building99"
+                }
+            ]
         }
-    ],
-    "invalid_fabric_site_case_5": [
-        {
-            "component_specific_filters": {
-                "fabric_multicast": [
-                    {
-                        "fabric_name": "Global/NonExistent/InvalidSite/Building99"
-                    }
-                ]
-            }
+    },
+    "no_multicast_configs_case_6": null,
+    "fabric_site_not_in_sda_case_7": {
+        "component_specific_filters": {
+            "fabric_multicast": [
+                {
+                    "fabric_name": "Global/India/Karnataka/Bangalore"
+                }
+            ]
         }
-    ],
-    "no_multicast_configs_case_6": [
-        {
-            "generate_all_configurations": true,
-            "file_path": "/tmp/no_configs.yml"
-        }
-    ],
-    "fabric_site_not_in_sda_case_7": [
-        {
-            "component_specific_filters": {
-                "fabric_multicast": [
-                    {
-                        "fabric_name": "Global/India/Karnataka/Bangalore"
-                    }
-                ]
-            }
-        }
-    ],
+    },
     "get_sites_case_1": {
         "response": [
             {

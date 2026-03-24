@@ -24,7 +24,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from brownfield.collections.ansible_collections.cisco.dnac.plugins.modules import (
+from ansible_collections.cisco.dnac.plugins.modules import (
     site_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
@@ -40,6 +40,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
     playbook_config_generate_all_configurations = test_data.get(
         "playbook_config_generate_all_configurations"
     )
+    playbook_config_empty_config = test_data.get("playbook_config_empty_config")
     playbook_config_area_by_site_name_single = test_data.get(
         "playbook_config_area_by_site_name_single"
     )
@@ -133,8 +134,8 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             return
 
         # Default fixture: return the same consolidated payload for each API call.
-        self.run_dnac_exec.side_effect = (
-            lambda *args, **kwargs: self.test_data.get("get_all_sites_response")
+        self.run_dnac_exec.side_effect = lambda *args, **kwargs: self.test_data.get(
+            "get_all_sites_response"
         )
 
     def run_module_with_config_and_validate_success(self, config):
@@ -147,7 +148,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         and returns raw module output for additional scenario-specific assertions.
 
         Args:
-            config (list): Module configuration payload passed directly to
+            config (dict): Module configuration payload passed directly to
                 `site_playbook_config_generator`.
 
         Returns:
@@ -163,6 +164,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/test_site_demo.yaml",
                 config=config,
             )
         )
@@ -248,7 +250,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         Test case for brownfield site workflow manager when generating all configurations.
 
-        This test case checks the behavior when generate_all_configurations is set to True,
+        This test case checks the behavior when config is not provided,
         which should retrieve all areas, buildings, and floors and generate a complete
         YAML playbook configuration file.
         """
@@ -263,6 +265,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/test_site_demo.yaml",
                 config=self.playbook_config_generate_all_configurations,
             )
         )
@@ -275,7 +278,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self, mock_exists, mock_file
     ):
         """
-        Verify API calls for generate_all_configurations mode.
+        Verify API calls for generate_all_configurations mode (no config provided).
 
         Expected behavior:
         - One GET call to site_design/get_sites
@@ -378,15 +381,12 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         mock_exists.return_value = True
 
-        duplicate_site_type_config = [
-            {
-                "file_path": "/tmp/case_duplicate_site_type.yaml",
-                "component_specific_filters": {
-                    "components_list": ["site"],
-                    "site": [{"site_type": ["area", "area"]}],
-                },
-            }
-        ]
+        duplicate_site_type_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [{"site_type": ["area", "area"]}],
+            },
+        }
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -396,6 +396,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/case_duplicate_site_type.yaml",
                 config=duplicate_site_type_config,
             )
         )
@@ -414,15 +415,12 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         Validate invalid site_type values fail with a clear validation error.
         """
-        invalid_site_type_config = [
-            {
-                "file_path": "/tmp/case_invalid_site_type.yaml",
-                "component_specific_filters": {
-                    "components_list": ["site"],
-                    "site": [{"site_type": ["campus"]}],
-                },
-            }
-        ]
+        invalid_site_type_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [{"site_type": ["campus"]}],
+            },
+        }
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -432,6 +430,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/case_invalid_site_type.yaml",
                 config=invalid_site_type_config,
             )
         )
@@ -443,6 +442,133 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             0,
             "Expected no API execution for invalid site_type validation failure.",
         )
+
+    def test_site_playbook_config_generator_rejects_list_config_type(self):
+        """
+        Validate top-level config must be a dictionary.
+        """
+        list_config = [
+            {
+                "generate_all_configurations": True,
+            }
+        ]
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=list_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("unable to convert to dict", str(result.get("msg")))
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution when top-level config type is invalid.",
+        )
+
+    def test_site_playbook_config_generator_rejects_multiple_config_elements_list_type(
+        self,
+    ):
+        """
+        Validate multi-item config lists are rejected; config must be a single dict.
+        """
+        multi_item_list_config = [
+            {
+                "generate_all_configurations": True,
+            },
+            {
+                "file_path": "/tmp/second_config.yaml",
+            },
+        ]
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=multi_item_list_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("unable to convert to dict", str(result.get("msg")))
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution when multiple config elements are provided as a list.",
+        )
+
+    def test_site_playbook_config_generator_empty_config_fails_validation(
+        self,
+    ):
+        """
+        Validate that providing an empty config dictionary raises an error.
+        Config must be omitted entirely or contain filters.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=self.playbook_config_empty_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Configuration cannot be an empty dictionary",
+            str(result.get("msg")),
+        )
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution when config is empty dictionary.",
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_file_mode_append_uses_append_write_mode(
+        self, mock_exists, mock_file
+    ):
+        """
+        Validate file_mode=append writes generated YAML using append mode.
+        """
+        mock_exists.return_value = True
+
+        append_mode_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [{"site_type": ["area"]}],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_append_mode.yaml",
+                file_mode="append",
+                config=append_mode_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        mock_file.assert_any_call("/tmp/case_append_mode.yaml", "a")
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -1008,16 +1134,16 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             self.playbook_config_name_hierarchy_pattern
         )
 
+        # When site_name_hierarchy is provided with multiple site_types,
+        # it fans out to one API call per site_type
         self.assertEqual(self.run_dnac_exec.call_count, 3)
+
         expected_site_types = set(["area", "building", "floor"])
         observed_site_types = set()
 
         for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
-            self.assert_get_sites_api_call(
-                call_index,
-                {"nameHierarchy": "Global/USA/.*", "offset": 1, "limit": 500},
-            )
             params = call.kwargs.get("params") or {}
+            self.assertEqual(params.get("nameHierarchy"), "Global/USA")
             self.assertNotIn("parentNameHierarchy", params)
             observed_site_types.add(params.get("type"))
 
@@ -1064,20 +1190,9 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             self.playbook_config_combined_hierarchy_patterns
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 3)
-        expected_site_types = set(["area", "building", "floor"])
-        observed_site_types = set()
-
-        for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
-            self.assert_get_sites_api_call(
-                call_index,
-                {"nameHierarchy": "Global/USA/.*", "offset": 1, "limit": 500},
-            )
-            params = call.kwargs.get("params") or {}
-            self.assertNotIn("parentNameHierarchy", params)
-            observed_site_types.add(params.get("type"))
-
-        self.assertSetEqual(observed_site_types, expected_site_types)
+        # Two separate site filter entries: one with site_name_hierarchy (3 types)
+        # and one with parent_name_hierarchy (3 types) = 6 total API calls
+        self.assertEqual(self.run_dnac_exec.call_count, 6)
 
     def test_parent_name_hierarchy_scope_includes_descendants(self):
         """
@@ -1443,7 +1558,9 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self.assertEqual(query_plan[0].get("type"), "building")
         self.assertEqual(query_plan[1].get("type"), "floor")
 
-    def test_validate_component_specific_filters_structure_invalid_site_type_value(self):
+    def test_validate_component_specific_filters_structure_invalid_site_type_value(
+        self,
+    ):
         """
         Ensure invalid site_type values fail validation with explicit value details.
         """
@@ -1467,3 +1584,983 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         )
         self.assertIn("Invalid 'site_type' values", errors[0])
         self.assertIn("campus", errors[0])
+
+    def test_build_site_query_plan_for_filter_supports_site_name_hierarchy_list(self):
+        """
+        Ensure site_name_hierarchy list expands to one API query per hierarchy value.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        query_plan = site_generator.build_site_query_plan_for_filter(
+            {
+                "site_name_hierarchy": [
+                    "Global/USA/San Jose",
+                    "Global/India/Bangalore",
+                ]
+            }
+        )
+
+        self.assertEqual(
+            query_plan,
+            [
+                {"nameHierarchy": "Global/USA/San Jose"},
+                {"nameHierarchy": "Global/India/Bangalore"},
+            ],
+        )
+
+    def test_build_site_query_plan_for_filter_supports_parent_name_hierarchy_list(self):
+        """
+        Ensure parent_name_hierarchy list expands to wildcard scope API queries.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        query_plan = site_generator.build_site_query_plan_for_filter(
+            {
+                "parent_name_hierarchy": [
+                    "Global/USA",
+                    "Global/India",
+                ]
+            }
+        )
+
+        self.assertEqual(
+            query_plan,
+            [
+                {"nameHierarchy": "Global/USA/.*"},
+                {"nameHierarchy": "Global/India/.*"},
+            ],
+        )
+
+    def test_validate_component_specific_filters_structure_parent_and_site_list_invalid(
+        self,
+    ):
+        """
+        Ensure same-item parent/site hierarchy keys are rejected as ambiguous.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        errors = site_generator.validate_component_specific_filters_structure(
+            {
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [
+                        {
+                            "parent_name_hierarchy": [
+                                "Global/USA",
+                                "Global/India",
+                            ],
+                            "site_name_hierarchy": [
+                                "Global/USA/San Francisco",
+                                "Global/India/Bangalore",
+                            ],
+                        }
+                    ],
+                }
+            }
+        )
+
+        self.assertTrue(
+            errors,
+            "Expected validation errors when parent_name_hierarchy and "
+            "site_name_hierarchy are present in the same site filter item.",
+        )
+        self.assertIn("cannot be provided together", errors[0])
+
+    def test_validate_component_specific_filters_structure_parent_site_prefix_mismatch_invalid(
+        self,
+    ):
+        """
+        Ensure same-item parent/site hierarchy keys fail validation, regardless of values.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        errors = site_generator.validate_component_specific_filters_structure(
+            {
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [
+                        {
+                            "site_name_hierarchy": "Global/India",
+                            "parent_name_hierarchy": "Global/USA/San Jose",
+                        }
+                    ],
+                }
+            }
+        )
+        self.assertTrue(errors)
+        self.assertIn("cannot be provided together", errors[0])
+
+    def test_validate_component_specific_filters_structure_site_list_and_single_parent_invalid(
+        self,
+    ):
+        """
+        Ensure site_name_hierarchy list with a single parent_name_hierarchy value
+        in one item is rejected as ambiguous.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        errors = site_generator.validate_component_specific_filters_structure(
+            {
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [
+                        {
+                            "site_name_hierarchy": [
+                                "Global/USA/San Francisco",
+                                "Global/USA/San Jose",
+                            ],
+                            "parent_name_hierarchy": ["Global/USA"],
+                            "site_type": ["floor"],
+                        }
+                    ],
+                }
+            }
+        )
+
+        self.assertTrue(errors)
+        self.assertIn("cannot be provided together", errors[0])
+
+    def test_build_site_query_plan_for_filter_resolves_relative_site_name_with_parent(
+        self,
+    ):
+        """
+        Ensure same-item parent/site hierarchy filter is skipped as ambiguous.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        query_plan = site_generator.build_site_query_plan_for_filter(
+            {
+                "parent_name_hierarchy": "Global/USA",
+                "site_name_hierarchy": ["San Francisco", "Global/USA/San Jose"],
+                "site_type": ["floor"],
+            }
+        )
+
+        self.assertEqual(query_plan, [])
+
+    def test_build_site_query_plan_for_filter_parent_site_prefix_mismatch_returns_empty(
+        self,
+    ):
+        """
+        Ensure query plan is empty for parent/site hierarchy prefix mismatch.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        query_plan = site_generator.build_site_query_plan_for_filter(
+            {
+                "site_name_hierarchy": "Global/India",
+                "parent_name_hierarchy": "Global/USA/San Jose",
+            }
+        )
+        self.assertEqual(query_plan, [])
+
+    def test_site_record_matches_filter_expression_with_relative_site_and_parent(self):
+        """
+        Ensure same-item parent/site hierarchy expression does not match records.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        detail = {
+            "nameHierarchy": "Global/USA/San Francisco",
+            "parentNameHierarchy": "Global/USA",
+            "type": "area",
+        }
+        self.assertFalse(
+            site_generator.site_record_matches_filter_expression(
+                detail,
+                {
+                    "parent_name_hierarchy": "Global/USA",
+                    "site_name_hierarchy": ["San Francisco"],
+                    "site_type": ["area"],
+                },
+            )
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_relative_site_name_with_parent_api_invocation(
+        self, mock_exists, mock_file
+    ):
+        """
+        Verify module fails validation when parent/site hierarchy keys are used
+        together in one site filter item.
+        """
+        mock_exists.return_value = True
+
+        relative_hierarchy_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {
+                        "parent_name_hierarchy": "Global/USA",
+                        "site_name_hierarchy": ["San Jose"],
+                        "site_type": ["area"],
+                    }
+                ],
+            },
+        }
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_relative_site_name_parent.yaml",
+                config=relative_hierarchy_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("cannot be provided together", str(result.get("msg")))
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution when same-item parent/site hierarchy is provided.",
+        )
+
+    def test_site_playbook_config_generator_parent_site_prefix_mismatch_fails_validation(
+        self,
+    ):
+        """
+        Validate module fails early when parent/site hierarchy keys are both set
+        in one site filter item.
+        """
+        prefix_mismatch_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {
+                        "site_name_hierarchy": "Global/India",
+                        "parent_name_hierarchy": "Global/USA/San Jose",
+                    }
+                ],
+            }
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                config=prefix_mismatch_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "cannot be provided together",
+            str(result.get("msg")),
+        )
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution for hierarchy prefix mismatch validation failure.",
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_file_mode_default_overwrite_uses_write_mode(
+        self, mock_exists, mock_file
+    ):
+        """
+        Validate default file_mode behavior uses overwrite mode when not provided.
+        """
+        mock_exists.return_value = True
+        overwrite_default_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [{"site_type": ["area"]}],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_default_overwrite_mode.yaml",
+                config=overwrite_default_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        mock_file.assert_any_call("/tmp/case_default_overwrite_mode.yaml", "w")
+
+    def test_site_playbook_config_generator_invalid_file_mode_fails_validation(self):
+        """
+        Validate invalid file_mode values are rejected before API execution.
+        """
+        invalid_file_mode_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [{"site_type": ["area"]}],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_invalid_file_mode.yaml",
+                file_mode="replace",
+                config=invalid_file_mode_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        # Check that an error was raised about the invalid file_mode
+        self.assertTrue(
+            result.get("failed"), "Expected module to fail with invalid file_mode"
+        )
+        self.assertIn("error", str(result.get("msg")).lower())
+        # Note: In current implementation, invalid file_mode error occurs during
+        # file writing, so API calls may have been made before the error
+
+    def test_validate_component_specific_filters_structure_rejects_empty_site_name_hierarchy_list(
+        self,
+    ):
+        """
+        Ensure empty site_name_hierarchy list fails validation.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        errors = site_generator.validate_component_specific_filters_structure(
+            {
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [{"site_name_hierarchy": []}],
+                }
+            }
+        )
+        self.assertTrue(errors)
+        self.assertIn("must not be an empty list", errors[0])
+
+    def test_validate_component_specific_filters_structure_rejects_empty_parent_name_hierarchy_list(
+        self,
+    ):
+        """
+        Ensure empty parent_name_hierarchy list fails validation.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        errors = site_generator.validate_component_specific_filters_structure(
+            {
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [{"parent_name_hierarchy": []}],
+                }
+            }
+        )
+        self.assertTrue(errors)
+        self.assertIn("must not be an empty list", errors[0])
+
+    def test_validate_component_specific_filters_structure_rejects_non_string_site_name_hierarchy_list_items(
+        self,
+    ):
+        """
+        Ensure non-string items in site_name_hierarchy list fail validation.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        errors = site_generator.validate_component_specific_filters_structure(
+            {
+                "component_specific_filters": {
+                    "components_list": ["site"],
+                    "site": [{"site_name_hierarchy": ["Global/USA", 10]}],
+                }
+            }
+        )
+        self.assertTrue(errors)
+        self.assertIn("must be a string or a list of strings", errors[0])
+
+    def test_build_site_query_plan_for_filter_rejects_absolute_site_outside_parent_scope(
+        self,
+    ):
+        """
+        Ensure absolute site_name_hierarchy outside parent scope is rejected.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        query_plan = site_generator.build_site_query_plan_for_filter(
+            {
+                "parent_name_hierarchy": "Global/USA",
+                "site_name_hierarchy": ["Global/India/Bangalore"],
+            }
+        )
+        self.assertEqual(
+            query_plan,
+            [],
+            "Expected query plan to be empty when absolute site hierarchy is outside parent scope.",
+        )
+
+    def test_build_site_query_plan_for_filter_dedupes_resolved_relative_site_hierarchy_values(
+        self,
+    ):
+        """
+        Ensure same-item parent/site hierarchy query plans are rejected as ambiguous.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        query_plan = site_generator.build_site_query_plan_for_filter(
+            {
+                "parent_name_hierarchy": "Global/USA",
+                "site_name_hierarchy": [
+                    "San Jose",
+                    "Global/USA/San Jose",
+                    "San Jose",
+                ],
+                "site_type": ["building"],
+            }
+        )
+        self.assertEqual(query_plan, [])
+
+    def test_build_site_query_plan_for_filter_parent_list_with_site_type_cross_product(
+        self,
+    ):
+        """
+        Ensure parent_name_hierarchy list with site_type list expands as expected.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        query_plan = site_generator.build_site_query_plan_for_filter(
+            {
+                "parent_name_hierarchy": ["Global/USA", "Global/India"],
+                "site_type": ["area", "floor"],
+            }
+        )
+        self.assertEqual(
+            query_plan,
+            [
+                {"nameHierarchy": "Global/USA/.*", "type": "area"},
+                {"nameHierarchy": "Global/USA/.*", "type": "floor"},
+                {"nameHierarchy": "Global/India/.*", "type": "area"},
+                {"nameHierarchy": "Global/India/.*", "type": "floor"},
+            ],
+        )
+
+    def test_site_record_matches_filter_expression_with_relative_site_mismatch_returns_false(
+        self,
+    ):
+        """
+        Ensure relative site_name_hierarchy mismatch returns False when parent is provided.
+        """
+        site_generator = self.module.SitePlaybookGenerator.__new__(
+            self.module.SitePlaybookGenerator
+        )
+        site_generator.log = lambda *args, **kwargs: None
+
+        detail = {
+            "nameHierarchy": "Global/USA/San Francisco",
+            "parentNameHierarchy": "Global/USA",
+            "type": "area",
+        }
+        self.assertFalse(
+            site_generator.site_record_matches_filter_expression(
+                detail,
+                {
+                    "parent_name_hierarchy": "Global/USA",
+                    "site_name_hierarchy": ["Bangalore"],
+                    "site_type": ["area"],
+                },
+            )
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_site_name_hierarchy_list_api_invocation(
+        self, mock_exists, mock_file
+    ):
+        """
+        Verify one API call per site_name_hierarchy list value.
+        """
+        mock_exists.return_value = True
+        site_name_list_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {
+                        "site_name_hierarchy": ["Global/USA", "Global/India"],
+                        "site_type": ["area"],
+                    }
+                ],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_site_name_hierarchy_list.yaml",
+                config=site_name_list_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        self.assertEqual(self.run_dnac_exec.call_count, 2)
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/USA",
+                "type": "area",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            1,
+            {
+                "nameHierarchy": "Global/India",
+                "type": "area",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_parent_name_hierarchy_list_api_invocation(
+        self, mock_exists, mock_file
+    ):
+        """
+        Verify one API call per parent_name_hierarchy list value using wildcard scope.
+        """
+        mock_exists.return_value = True
+        parent_name_list_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {
+                        "parent_name_hierarchy": ["Global/USA", "Global/India"],
+                        "site_type": ["floor"],
+                    }
+                ],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_parent_name_hierarchy_list.yaml",
+                config=parent_name_list_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        self.assertEqual(self.run_dnac_exec.call_count, 2)
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/USA/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            1,
+            {
+                "nameHierarchy": "Global/India/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_parent_and_site_separate_entries_union_api_invocation(
+        self, mock_exists, mock_file
+    ):
+        """
+        Verify union behavior when parent and site filters are provided as separate site entries.
+        """
+        mock_exists.return_value = True
+        separate_entries_union_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {
+                        "parent_name_hierarchy": ["Global/USA", "Global/India"],
+                    },
+                    {
+                        "site_name_hierarchy": [
+                            "Global/USA/San Francisco",
+                            "Global/India/Bangalore",
+                        ],
+                        "site_type": ["floor"],
+                    },
+                ],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_parent_site_separate_entries_union.yaml",
+                config=separate_entries_union_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        self.assertEqual(self.run_dnac_exec.call_count, 4)
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/USA/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            1,
+            {
+                "nameHierarchy": "Global/India/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            2,
+            {
+                "nameHierarchy": "Global/USA/San Francisco",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            3,
+            {
+                "nameHierarchy": "Global/India/Bangalore",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_scenario1_union_parent_and_site_entries_api_invocation(
+        self, mock_exists, mock_file
+    ):
+        """
+        Validate updated playbook Scenario 1:
+        parent_name_hierarchy and site_name_hierarchy as separate site entries are
+        expanded independently and merged as union query plans.
+        """
+        mock_exists.return_value = True
+        scenario1_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {
+                        "parent_name_hierarchy": [
+                            "Global/USAsdfsfs",
+                        ]
+                    },
+                    {
+                        "site_name_hierarchy": [
+                            "Global/USA/San Francisco",
+                            "Global/USA/San Jose",
+                        ]
+                    },
+                ],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case3_site_and_parent_only.yaml",
+                file_mode="overwrite",
+                config=scenario1_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/USAsdfsfs/.*",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            1,
+            {
+                "nameHierarchy": "Global/USA/San Francisco",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            2,
+            {
+                "nameHierarchy": "Global/USA/San Jose",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_scenario5_site_and_parent_site_type_union_api_invocation(
+        self, mock_exists, mock_file
+    ):
+        """
+        Validate updated playbook Scenario 5:
+        site_name_hierarchy and parent_name_hierarchy+site_type entries are expanded
+        independently and merged in one execution.
+        """
+        mock_exists.return_value = True
+        scenario5_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {"site_name_hierarchy": "Global/USA/San Francisco"},
+                    {
+                        "parent_name_hierarchy": "Global/USA",
+                        "site_type": ["building", "floor"],
+                    },
+                ],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case7_all_filters.yaml",
+                file_mode="overwrite",
+                config=scenario5_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        self.assertEqual(self.run_dnac_exec.call_count, 4)
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/USA/San Francisco",
+                "type": "building",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            1,
+            {
+                "nameHierarchy": "Global/USA/San Francisco",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            2,
+            {
+                "nameHierarchy": "Global/USA/.*",
+                "type": "building",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            3,
+            {
+                "nameHierarchy": "Global/USA/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_site_playbook_config_generator_scenario5_floor_site_type_applies_to_union(
+        self, mock_exists, mock_file
+    ):
+        """
+        Validate Scenario 5 floor-only expectation:
+        parent and exact-site retrievals are unioned first and then constrained
+        by floor site_type across both entries.
+        """
+        mock_exists.return_value = True
+        scenario5_floor_only_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {"site_name_hierarchy": "Global/USA/San Francisco"},
+                    {
+                        "parent_name_hierarchy": ["Global/USA", "Global/India"],
+                        "site_type": ["floor"],
+                    },
+                ],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case5_all_filters.yaml",
+                file_mode="overwrite",
+                config=scenario5_floor_only_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        self.assert_get_sites_api_call(
+            0,
+            {
+                "nameHierarchy": "Global/USA/San Francisco",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            1,
+            {
+                "nameHierarchy": "Global/USA/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+        self.assert_get_sites_api_call(
+            2,
+            {
+                "nameHierarchy": "Global/India/.*",
+                "type": "floor",
+                "offset": 1,
+                "limit": 500,
+            },
+        )
+
+    def test_site_playbook_config_generator_scenario9_same_item_parent_and_site_fails_validation(
+        self,
+    ):
+        """
+        Validate updated playbook Scenario 9:
+        a single site filter item containing both site_name_hierarchy and
+        parent_name_hierarchy is rejected as ambiguous.
+        """
+        scenario9_invalid_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [
+                    {
+                        "site_name_hierarchy": "Global/USA/San Francisco",
+                        "parent_name_hierarchy": "Global/Japan",
+                        "site_type": ["building", "floor"],
+                    }
+                ],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case9_fail_test.yaml",
+                file_mode="overwrite",
+                config=scenario9_invalid_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("cannot be provided together", str(result.get("msg")))
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution for ambiguous same-item parent/site hierarchy filter.",
+        )

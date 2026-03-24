@@ -39,7 +39,8 @@ def get_mock_module():
         'dnac_version': '2.3.7.6',
         'dnac_debug': False,
         'state': 'gathered',
-        'config': [{'generate_all_configurations': True}]
+        'file_mode': 'overwrite',
+        'config': None
     }
     mock_module.exit_json = MagicMock()
     mock_module.fail_json = MagicMock()
@@ -162,12 +163,13 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "dnac_verify": False,
             "dnac_version": "2.3.7.6",
             "state": "gathered",
-            "config": [
-                {
-                    "generate_all_configurations": True,
-                    "file_path": "/tmp/test.yml"
+            "file_path": "/tmp/test.yml",
+            "file_mode": "overwrite",
+            "config": {
+                "component_specific_filters": {
+                    "components_list": ["device_health_score_settings"]
                 }
-            ]
+            }
         }
 
         set_module_args(**valid_params)
@@ -175,7 +177,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         # This test verifies that the parameters are properly structured
         self.assertEqual(test_params["state"], "gathered")
         self.assertEqual(test_params["dnac_host"], "198.18.129.100")
-        self.assertTrue(isinstance(test_params["config"], list))
+        self.assertTrue(isinstance(test_params["config"], dict))
 
     @patch('ansible_collections.cisco.dnac.plugins.modules.'
            'assurance_device_health_score_settings_playbook_config_generator.'
@@ -199,12 +201,13 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             dnac_verify=False,
             dnac_version="2.3.7.6",
             state="gathered",
-            config=[
-                {
-                    "generate_all_configurations": True,
-                    "file_path": "/tmp/test.yml"
+            file_path="/tmp/test.yml",
+            file_mode="overwrite",
+            config={
+                "component_specific_filters": {
+                    "components_list": ["device_health_score_settings"]
                 }
-            ]
+            }
         )
 
         # Verify that set_module_args worked
@@ -221,26 +224,29 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             assurance_device_health_score_settings_playbook_config_generator import \
             AssuranceDeviceHealthScorePlaybookGenerator
 
-        # Mock the parent class initialization
+        # Mock the parent class initialization and log method
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__') as mock_dnac_init:
             with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__') as mock_helper_init:
-                mock_dnac_init.return_value = None
-                mock_helper_init.return_value = None
+                with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.log') as mock_log:
+                    mock_dnac_init.return_value = None
+                    mock_helper_init.return_value = None
+                    mock_log.return_value = None
 
-                # Create mock module
-                mock_module = MagicMock()
-                mock_module.params = {
-                    "config": [{"generate_all_configurations": True}]
-                }
+                    # Create mock module
+                    mock_module = MagicMock()
+                    mock_module.params = {
+                        "file_mode": "overwrite",
+                        "config": None
+                    }
 
-                # Test class instantiation
-                try:
-                    generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
-                    self.assertIsNotNone(generator)
-                    self.assertTrue(hasattr(generator, 'module_name'))
-                    self.assertEqual(generator.module_name, "assurance_device_health_score_settings_workflow_manager")
-                except Exception as e:
-                    self.fail(f"Class initialization failed: {e}")
+                    # Test class instantiation
+                    try:
+                        generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
+                        self.assertIsNotNone(generator)
+                        self.assertTrue(hasattr(generator, 'module_name'))
+                        self.assertEqual(generator.module_name, "assurance_device_health_score_settings_playbook_config_generator")
+                    except Exception as e:
+                        self.fail(f"Class initialization failed: {e}")
 
     def test_supported_states(self):
         """Test that the module supports the correct states"""
@@ -251,7 +257,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__'):
             with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__'):
                 mock_module = MagicMock()
-                mock_module.params = {"config": []}
+                mock_module.params = {"config": {}}
 
                 try:
                     generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
@@ -438,13 +444,15 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             'dnac_version': '2.3.7.6',
             'state': 'gathered',
             'config_verify': True,
-            'config': [{
-                'file_path': '/tmp/comprehensive_test.yml',
+            'file_path': '/tmp/comprehensive_test.yml',
+            'file_mode': 'overwrite',
+            'config': {
                 'component_specific_filters': {
-                    'device_families': ['UNIFIED_AP', 'ROUTER'],
-                    'kpi_names': ['CPU Utilization', 'Memory Utilization']
+                    'device_health_score_settings': {
+                        'device_families': ['UNIFIED_AP', 'ROUTER']
+                    }
                 }
-            }]
+            }
         }
 
         # Test comprehensive integration scenario without class instantiation
@@ -474,6 +482,80 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             self.assertTrue(hasattr(test_module, 'OrderedDumper'))
 
         print("Comprehensive integration scenario tested")
+
+    def _build_validation_generator(self):
+        with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.__init__', return_value=None):
+            with patch('ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__', return_value=None):
+                with patch('ansible_collections.cisco.dnac.plugins.module_utils.dnac.DnacBase.log', return_value=None):
+                    generator = test_module.AssuranceDeviceHealthScorePlaybookGenerator(MagicMock())
+
+        generator.status = "success"
+        generator.msg = ""
+        generator.result = {}
+        generator.log = MagicMock()
+
+        def _set_operation_result(status, changed, msg, level):
+            generator.status = status
+            generator.msg = msg
+            return generator
+
+        generator.set_operation_result = _set_operation_result
+        return generator
+
+    def test_components_list_auto_add_when_component_filter_present(self):
+        generator = self._build_validation_generator()
+        component_specific_filters = {
+            "components_list": [],
+            "device_health_score_settings": {
+                "device_families": ["ROUTER"]
+            }
+        }
+        result = generator.validate_component_specific_filters(component_specific_filters)
+        self.assertTrue(result)
+        self.assertIn("device_health_score_settings", component_specific_filters["components_list"])
+
+    def test_components_list_empty_without_filters_fails(self):
+        generator = self._build_validation_generator()
+        result = generator.validate_component_specific_filters({"components_list": []})
+        self.assertFalse(result)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("components_list", generator.msg)
+
+    def test_component_list_typo_fails(self):
+        generator = self._build_validation_generator()
+        result = generator.validate_component_specific_filters({"component_list": []})
+        self.assertFalse(result)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("components_list", generator.msg)
+
+    def test_validate_config_requirements_requires_component_filters_when_config_provided(self):
+        generator = self._build_validation_generator()
+        generator.validate_config_requirements({}, True)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("component_specific_filters is required", generator.msg)
+
+    def test_components_list_with_empty_component_filter_generates_all(self):
+        generator = self._build_validation_generator()
+        response_data = [
+            {"deviceFamily": "ROUTER", "kpiName": "CPU Utilization"},
+            {"deviceFamily": "SWITCH_AND_HUB", "kpiName": "Memory Utilization"},
+        ]
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": {},
+        }
+        filtered = generator.apply_health_score_filters(response_data, component_specific_filters)
+        self.assertEqual(len(filtered), len(response_data))
+
+    def test_device_health_score_settings_none_treated_as_empty_filter(self):
+        generator = self._build_validation_generator()
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": None
+        }
+        result = generator.validate_component_specific_filters(component_specific_filters)
+        self.assertTrue(result)
+        self.assertEqual(component_specific_filters["device_health_score_settings"], {})
 
 
 if __name__ == '__main__':

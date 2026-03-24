@@ -20,7 +20,10 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: gathered
+        file_path: "provision/global_single_ip_file.yml"
+        file_mode: append
         config:
-          - file_path: "tmp/brownfield_provision_workflow_playbook_config.yml"
-            component_specific_filters:
-              components_list: ["wired", "wireless"]
+          component_specific_filters:
+            components_list: ["wired"]
+            wired:
+              - management_ip_address: "204.1.2.9"

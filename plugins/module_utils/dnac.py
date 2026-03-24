@@ -17,7 +17,7 @@ except ImportError:
     DNAC_SDK_IS_INSTALLED = False
 else:
     DNAC_SDK_IS_INSTALLED = True
-from ansible.module_utils._text import to_native
+from ansible.module_utils.common.text.converters import to_native
 from ansible.module_utils.common import validation
 from abc import ABCMeta, abstractmethod
 try:
@@ -47,6 +47,11 @@ class DnacBase():
 
     def __init__(self, module):
         self.module = module
+        module.deprecate(
+            msg="The cisco.dnac collection is deprecated. Please migrate to cisco.catalystcenter.",
+            version="7.0.0",
+            collection_name="cisco.dnac",
+        )
         self.params = module.params
         self.config = copy.deepcopy(module.params.get("config"))
         self.have = {}
@@ -1733,11 +1738,13 @@ class DnacBase():
             self.log("The provided file '{0}' is not in JSON format".format(file_path), "CRITICAL")
             return False
 
-    def check_task_tree_response(self, task_id):
+    def check_task_tree_response(self, task_id, all_failure_reason=None):
         """
         Returns the task tree response of the task ID.
         Args:
             task_id (string) - The unique identifier of the task for which you want to retrieve details.
+            all_failure_reason (bool) - If True, retrieves all failure reasons for the task.
+
         Returns:
             error_msg (str) - Returns the task tree error message of the task ID.
         """
@@ -1747,15 +1754,24 @@ class DnacBase():
             function='get_task_tree',
             params={"task_id": task_id}
         )
-        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {0}, Response: {1}"
-                 .format(task_id, response), "DEBUG")
+        self.log(f"Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, "
+                 f"and failure reason set to '{all_failure_reason}', "
+                 f"Response: {self.pprint(response)}", "DEBUG")
+
         error_msg = ""
         if response and isinstance(response, dict):
             result = response.get('response')
             error_messages = []
-            for item in result:
-                if item.get("isError") is True:
-                    error_messages.append(item.get("progress"))
+
+            if all_failure_reason is True:
+                for item in result:
+                    if item.get("isError") is True:
+                        error_messages.append(item.get("failureReason"))
+                        error_messages = error_messages[::-1]
+            else:
+                for item in result:
+                    if item.get("isError") is True:
+                        error_messages.append(item.get("progress"))
 
             if error_messages:
                 error_msg = ". ".join(error_messages) + "."
@@ -2202,7 +2218,7 @@ class DnacBase():
             )
             self.fail_and_exit(self.msg)
 
-    def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg):
+    def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg, all_reasons=None):
         """
         Retrieves and monitors the status of a task by its task ID.
         This function continuously checks the status of a specified task using its task ID.
@@ -2212,6 +2228,7 @@ class DnacBase():
             task_id (str): The unique identifier of the task to monitor.
             task_name (str): The name of the task being monitored.
             success_msg (str): The success message to set if the task completes successfully.
+            all_reasons (bool, optional): If True, retrieves all failure reasons for the task. Defaults to None.
         Returns:
             self: The instance of the class with updated status and message.
         """
@@ -2248,15 +2265,18 @@ class DnacBase():
                 if status == "FAILURE":
                     get_task_details_response = self.get_task_details_by_id(task_id)
                     failure_reason = get_task_details_response.get("failureReason")
-                    if failure_reason:
-                        self.msg = (
-                            "Failed to execute the task {0} with Task ID: {1}."
-                            "Failure reason: {2}".format(task_name, task_id, failure_reason)
-                        )
+                    if all_reasons is True:
+                        self.msg = self.check_task_tree_response(task_id, True)
                     else:
-                        self.msg = (
-                            "Failed to execute the task {0} with Task ID: {1}.".format(task_name, task_id)
-                        ).format(task_name, task_id)
+                        if failure_reason:
+                            self.msg = (
+                                "Failed to execute the task {0} with Task ID: {1}."
+                                "Failure reason: {2}".format(task_name, task_id, failure_reason)
+                            )
+                        else:
+                            self.msg = (
+                                "Failed to execute the task {0} with Task ID: {1}.".format(task_name, task_id)
+                            ).format(task_name, task_id)
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     break
                 elif status == "SUCCESS":

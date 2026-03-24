@@ -30,39 +30,45 @@ options:
     type: str
     choices: ["gathered"]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+      a default file name "tags_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
+    - For example, "tags_playbook_config_2026-01-24_12-33-20.yml".
+    type: str
+    required: false
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
+    required: false
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `tags_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `tags_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
-    required: true
+    - If config is not provided or is empty, all configurations for all tags and tag memberships will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML configurations for all devices and all supported features.
-          - This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete brownfield infrastructure discovery and documentation.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name "tags_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml".
-        - For example, "tags_playbook_config_2026-01-24_12-33-20.yml".
-        type: str
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
           file.
         - If "components_list" is specified, only those components are included,
           regardless of other filters.
+        - If filters for specific components (e.g., tag or tag_memberships) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
@@ -70,7 +76,9 @@ options:
             - List of components to include in the YAML configuration file.
             - Valid values are tag and tag_memberships.
             - If specified, only the listed components will be included in the generated YAML file.
-            - If not specified, all supported components will be included by default.
+            - If not specified but component filters (tag or tag_memberships) are provided,
+              those components are automatically added to this list.
+            - If neither components_list nor any component filters are provided, an error will be raised.
             type: list
             elements: str
             choices: ["tag" , "tag_memberships"]
@@ -112,6 +120,16 @@ options:
                 - "serial_number: Uses the device serial number as the identifier (default)"
                 - "mac_address: Uses the device MAC address as the identifier"
                 - "ip_address: Uses the device IP address as the identifier"
+                - >-
+                  Fallback Behavior: If the chosen device_identifier value is not available
+                  (None or empty) for a particular device, the module will automatically attempt
+                  to resolve the device using alternative identifiers in the following order:
+                  serial_number -> ip_address -> mac_address -> hostname
+                  (skipping the primary identifier in the fallback chain).
+                  If a fallback identifier is used, the output key in the generated YAML will
+                  change to match the fallback identifier (e.g., 'serial_numbers' instead of 'hostnames').
+                  If no identifier can be resolved for a device, that device is skipped with a warning.
+                  All fallback events are logged at WARNING level for visibility.
                 type: str
                 required: false
                 default: serial_number
@@ -133,6 +151,29 @@ notes:
   SDK Paths used are
   /dna/intent/api/v1/tag
   /dna/intent/api/v1/tag/${id}/member
+- |
+  Auto-population of components_list:
+  If component-specific filters (such as 'tag' or 'tag_memberships') are provided
+  without explicitly including them in 'components_list', those components will be
+  automatically added to 'components_list'. This simplifies configuration by eliminating
+  the need to redundantly specify components in both places.
+- |
+  Example of auto-population behavior:
+  If you provide filters for 'tag' without including 'tag' in 'components_list',
+  the module will automatically add 'tag' to 'components_list' before processing.
+  This allows you to write more concise playbooks.
+- |
+  Validation requirements:
+  If 'component_specific_filters' is provided, at least one of the following must be true:
+  (1) 'components_list' contains at least one component, OR
+  (2) Component-specific filters (e.g., 'tag', 'tag_memberships') are provided.
+  If neither condition is met, the module will fail with a validation error.
+- |
+  System tags filtering:
+  System tags (tags with systemTag=True) are automatically excluded from the generated YAML configuration.
+  These tags are managed by Cisco Catalyst Center and cannot be modified by users, so they are filtered out
+  to ensure the generated playbook only contains user-manageable tags. This filtering is applied regardless
+  of whether you're generating all tags or using specific filters.
 seealso:
 - module: cisco.dnac.tags_workflow_manager
   description: Module for managing tags and tag memberships.
@@ -161,8 +202,7 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          - generate_all_configurations: true
+        # No config provided - generates all configurations
 
 # Example 2: Generate all configurations with custom file path
 - name: Generate complete brownfield tag configuration with custom filename
@@ -186,9 +226,9 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          - file_path: "/tmp/complete_tags_config.yaml"
-            generate_all_configurations: true
+        file_path: "/tmp/complete_tags_config.yaml"
+        file_mode: "overwrite"
+        # No config provided - generates all configurations
 
 # Example 3: Generate only tag configurations without memberships
 - name: Generate tag definitions only
@@ -212,10 +252,11 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag"]
+          component_specific_filters:
+            components_list: ["tag"]
 
 # Example 4: Generate only tag membership configurations
 - name: Generate tag memberships only
@@ -239,10 +280,11 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
+          component_specific_filters:
+            components_list: ["tag_memberships"]
 
 # Example 5: Generate both tags and memberships together
 - name: Generate tags and their memberships
@@ -266,12 +308,46 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
 
-# Example 6: Filter specific tags by name
+# Example 6: Auto-populate components_list from component filters
+- name: Generate configuration with auto-populated components_list
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export tags by providing filters without explicit components_list
+      cisco.dnac.tags_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            # No components_list specified, but tag filters are provided
+            # The 'tag' component will be automatically added to components_list
+            tag:
+              - tag_name: Production
+              - tag_name: Data-Center
+      # This will automatically include 'tag' in components_list and retrieve only those tags
+
+# Example 7: Filter specific tags by name
 - name: Generate configuration for specific tags by name
   hosts: dnac_servers
   vars_files:
@@ -293,15 +369,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
-              tag:
-                - tag_name: Production
-                - tag_name: Data-Center
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
+            tag:
+              - tag_name: Production
+              - tag_name: Data-Center
 
-# Example 7: Filter specific tag memberships by tag name
+# Example 8: Filter specific tag memberships by tag name
 - name: Generate memberships for specific tags
   hosts: dnac_servers
   vars_files:
@@ -323,23 +400,24 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/catc_tags.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/catc_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
-              tag_memberships:
-                - tag_name: Campus-Switches
-                - tag_name: Core-Routers
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
+            tag_memberships:
+              - tag_name: Campus-Switches
+              - tag_name: Core-Routers
 
-# Example 8: Multiple configurations in a single playbook
-- name: Generate multiple tag configuration files
+# Example 9: Generate tag configuration with append mode
+- name: Generate and append tag configuration
   hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
-    - name: Generate multiple brownfield tag configurations
+    - name: Append tag configurations to existing file
       cisco.dnac.tags_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -353,21 +431,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/all_tags.yaml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/all_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag"]
-          - file_path: "/tmp/all_memberships.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-          - file_path: "/tmp/specific_tags.yaml"
-            component_specific_filters:
-              components_list: ["tag", "tag_memberships"]
-              tag:
-                - tag_name: Branch-Office
-                - tag_name: Access-Points
+          component_specific_filters:
+            components_list: ["tag", "tag_memberships"]
+            tag:
+              - tag_name: Branch-Office
+              - tag_name: Access-Points
 
-# Example 9: Retrieve all tag memberships with hostname as device identifier
+# Example 10: Retrieve all tag memberships with hostname as device identifier
 - name: Generate all tag memberships using hostname identifier
   hosts: dnac_servers
   vars_files:
@@ -389,15 +462,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/tags_by_hostname.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/tags_by_hostname.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - device_identifier: hostname
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - device_identifier: hostname
       # This will retrieve all tags with their members identified by hostname instead of serial_number
 
-# Example 10: Retrieve specific tag membership with IP address as device identifier
+# Example 11: Retrieve specific tag membership with IP address as device identifier
 - name: Generate specific tag membership using IP address identifier
   hosts: dnac_servers
   vars_files:
@@ -419,16 +493,17 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/production_tag_by_ip.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/production_tag_by_ip.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - tag_name: Production
-                  device_identifier: ip_address
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Production
+                device_identifier: ip_address
       # This will retrieve only the 'Production' tag's members with IP addresses
 
-# Example 11: Retrieve tag memberships with MAC address as device identifier
+# Example 12: Retrieve tag memberships with MAC address as device identifier
 - name: Generate tag memberships using MAC address identifier
   hosts: dnac_servers
   vars_files:
@@ -450,18 +525,19 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/tags_by_mac.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/tags_by_mac.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - tag_name: Campus-Switches
-                  device_identifier: mac_address
-                - tag_name: Core-Routers
-                  device_identifier: mac_address
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Campus-Switches
+                device_identifier: mac_address
+              - tag_name: Core-Routers
+                device_identifier: mac_address
       # This will retrieve specific tags' members with MAC addresses
 
-# Example 12: Retrieve tag memberships with default device identifier (serial_number)
+# Example 13: Retrieve tag memberships with default device identifier (serial_number)
 - name: Generate tag memberships with default serial number identifier
   hosts: dnac_servers
   vars_files:
@@ -483,15 +559,16 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/tags_by_serial.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/tags_by_serial.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - tag_name: Data-Center
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Data-Center
       # When device_identifier is not specified, it defaults to 'serial_number'
 
-# Example 13: Mixed configuration with different device identifiers
+# Example 14: Mixed configuration with different device identifiers
 - name: Generate tag configurations with mixed device identifiers
   hosts: dnac_servers
   vars_files:
@@ -513,18 +590,19 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/mixed_identifiers.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/mixed_identifiers.yaml"
-            component_specific_filters:
-              components_list: ["tag_memberships"]
-              tag_memberships:
-                - tag_name: Production
-                  device_identifier: hostname
-                - tag_name: Development
-                  device_identifier: ip_address
-                - tag_name: Testing
-                  device_identifier: mac_address
-                - tag_name: Staging
+          component_specific_filters:
+            components_list: ["tag_memberships"]
+            tag_memberships:
+              - tag_name: Production
+                device_identifier: hostname
+              - tag_name: Development
+                device_identifier: ip_address
+              - tag_name: Testing
+                device_identifier: mac_address
+              - tag_name: Staging
       # Different tags can use different device identifiers in the same configuration
 """
 
@@ -560,9 +638,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-)
-from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
-    validate_list_of_dicts,
 )
 from collections import defaultdict
 import time
@@ -689,31 +764,31 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
+        # Check if configuration is available or empty - if not provided or empty, treat as generate_all
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        # Expected schema for configuration parameters
+        # Expected schema for configuration parameters (no file_path, file_mode, or generate_all_configurations)
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False,
-            },
-            "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
         }
 
         # Validate params
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        self.log("Validating configuration against schema", "DEBUG")
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
-        if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -1237,13 +1312,52 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return modified_tag_memberships_details
 
+    def check_if_tag_is_system_tag(self, tag_details):
+        """
+        Checks if a tag is a system tag.
+
+        System tags are special tags managed by Cisco Catalyst Center and should not be
+        included in playbook configurations as they cannot be modified by users.
+
+        Args:
+            tag_details (dict): The tag details dictionary containing tag information.
+                Expected keys:
+                    - "systemTag" (bool): Indicates if the tag is a system tag.
+                    - "name" (str): The name of the tag.
+
+        Returns:
+            bool: True if the tag is a system tag, False otherwise.
+        """
+        self.log(
+            f"Checking if tag is a system tag: {self.pprint(tag_details)}",
+            "DEBUG",
+        )
+
+        # Check if systemTag field exists and is True
+        is_system_tag = tag_details.get("systemTag", False)
+        tag_name = tag_details.get("name", "Unknown")
+
+        if is_system_tag:
+            self.log(
+                f"Tag '{tag_name}' identified as a system tag and will be excluded from playbook.",
+                "INFO",
+            )
+        else:
+            self.log(
+                f"Tag '{tag_name}' is not a system tag.",
+                "DEBUG",
+            )
+
+        return is_system_tag
+
     def get_tag_configuration(self, network_element, component_specific_filters=None):
         """
         Retrieve and process tag configuration from Cisco Catalyst Center.
 
         This method fetches tag details either by applying component-specific filters or by retrieving
         all available tags. It uses cached tag mappings to avoid unnecessary API calls and processes
-        the tag information according to the tag template specification.
+        the tag information according to the tag template specification. System tags are automatically
+        filtered out and excluded from the final playbook configuration.
 
         Args:
             network_element: The network element identifier for which tags are being retrieved.
@@ -1261,12 +1375,17 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                       "tag": [list of processed tag detail dictionaries]
                   }
                   Each tag detail is modified according to the tag_temp_spec template.
+                  System tags are excluded from the returned configuration.
 
         Note:
             This method relies on pre-populated instance variables:
             - self.tag_name_to_details_mapping: Maps tag names to their detail dictionaries
             - self.tag_id_to_tag_name_mapping: Maps tag IDs to tag names
             The method uses cached data to minimize API calls to Cisco Catalyst Center.
+
+            System tags (tags with systemTag=True) are automatically filtered out using
+            check_if_tag_is_system_tag() method, as they are managed by Cisco Catalyst Center
+            and cannot be modified by users.
         """
 
         self.log(
@@ -1364,7 +1483,22 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             f"Using cached tag details for filter parameter: {key}, value: {value}, details: {self.pprint(tag_details)}",
                             "INFO",
                         )
-                        final_tags.extend(tag_details)
+                        # Check if tag is a system tag before adding
+                        for tag_index, tag in enumerate(tag_details, start=1):
+                            tag_name = tag.get("name", "Unknown")
+
+                            if self.check_if_tag_is_system_tag(tag):
+                                self.log(
+                                    f"[{tag_index}/{len(tag_details)}] Skipped system tag '{tag_name}' - not added to final_tags.",
+                                    "INFO",
+                                )
+                                continue
+
+                            final_tags.append(tag)
+                            self.log(
+                                f"[{tag_index}/{len(tag_details)}] Added tag '{tag_name}' to final_tags list.",
+                                "DEBUG",
+                            )
                         self.log(
                             f"Extended final_tags list. Current count: {len(final_tags)}",
                             "DEBUG",
@@ -1385,9 +1519,24 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 f"Retrieved {len(tag_details)} tag(s) from cached mapping: {self.pprint(tag_details)}",
                 "INFO",
             )
-            final_tags.extend(tag_details)
+            # Filter out system tags before adding to final_tags
+            for tag_index, tag in enumerate(tag_details, start=1):
+                tag_name = tag.get("name", "Unknown")
+
+                if self.check_if_tag_is_system_tag(tag):
+                    self.log(
+                        f"[{tag_index}/{len(tag_details)}] Skipped system tag '{tag_name}' - not added to final_tags.",
+                        "INFO",
+                    )
+                    continue
+
+                final_tags.append(tag)
+                self.log(
+                    f"[{tag_index}/{len(tag_details)}] Added tag '{tag_name}' to final_tags list.",
+                    "DEBUG",
+                )
             self.log(
-                f"Extended final_tags list with all cached tags. Total count: {len(final_tags)}",
+                f"Extended final_tags list with all cached tags (excluding system tags). Total count: {len(final_tags)}",
                 "DEBUG",
             )
 
@@ -1684,42 +1833,72 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         This method processes network device and interface members from tag membership details
         and organizes them into a structured format suitable for YAML playbook generation.
-        Network devices are grouped by serial numbers, and interfaces are mapped to their
+        Network devices are grouped by their resolved identifier, and interfaces are mapped to their
         parent devices with associated port names.
 
         Args:
             tag_membership_details (dict): Dictionary containing tag membership information with keys:
                 - "network_device_members" (list): List of network device member dictionaries,
-                    each containing "serialNumber" key.
+                    each containing device fields like serialNumber, hostname, macAddress, etc.
                 - "interface_members" (list): List of interface member dictionaries, each containing:
                     - "deviceId" (str): Parent device ID for the interface.
                     - "portName" (str): Name of the port/interface.
+                - "device_identifier" (str, optional): The preferred identifier type to use.
+                    Defaults to "serial_number". Supported values:
+                    "serial_number", "ip_address", "mac_address", "hostname".
 
         Returns:
             list: A list of device detail dictionaries with the following structure:
                 - For network devices without ports:
                     {
-                        "serial_numbers": [<serial_number>, ...]
+                        "<output_key>": [<identifier_value>, ...]
                     }
                 - For devices with interfaces:
                     {
-                        "serial_numbers": [<serial_number>],
+                        "<output_key>": [<identifier_value>],
                         "port_names": [<port_name>, ...]
                     }
+                Where <output_key> is one of: "serial_numbers", "ip_addresses",
+                "mac_addresses", or "hostnames" depending on the resolved identifier.
 
         Description:
             The method performs the following operations:
-            1. Extracts serial numbers from network device members and creates a device entry.
-            2. Processes interface members by:
-                - Retrieving parent device details using device ID.
-                - Building a mapping of device serial numbers to their port names.
-                - Creating separate device entries for each device with its associated ports.
-            3. Returns an empty list if no members are found.
+            1. Determines the primary device identifier and its corresponding API field.
+            2. For each network device member:
+                - Attempts to resolve the device identifier using the primary field.
+                - If the primary identifier is None/empty, falls back to alternative
+                  identifiers in the following order:
+                  serial_number -> ip_address -> mac_address -> hostname
+                  (skipping the primary identifier in the fallback chain).
+                - If no identifier can be resolved, the device is skipped with a warning.
+                - The output_key changes to match the fallback identifier used.
+            3. For each interface member:
+                - Retrieves parent device details via API.
+                - Applies the same fallback resolution as network device members.
+                - Maps resolved devices to their associated port names.
+                - If parent device details cannot be retrieved, the interface is skipped
+                  with a warning.
+            4. Returns an empty list if no members are found.
+
+        Fallback Behavior:
+            When the primary device_identifier field is None or empty for a device, the method
+            automatically attempts to resolve an alternative identifier. The fallback order is
+            determined by the identifier_mapping dictionary order:
+                1. serial_number (serialNumber)
+                2. ip_address (managementIpAddress)
+                3. mac_address (macAddress)
+                4. hostname (hostname)
+            The primary identifier is skipped in the fallback chain. The first non-empty
+            value found is used, and the output_key is updated accordingly. For example, if
+            device_identifier is "hostname" but hostname is None, the method will try
+            serial_number first, then ip_address, then mac_address.
+            Devices where no identifier can be resolved at all are skipped with a warning log.
 
         Note:
-            - If parent device details cannot be retrieved for an interface, the method
-            fails immediately with an error message.
-            - Network devices without interfaces are listed separately from those with interfaces.
+            - When fallback occurs, the output_key in the result dict changes to match the
+              fallback identifier (e.g., "serial_numbers" instead of "hostnames").
+            - Devices resolved via different identifiers are grouped separately in the output.
+            - All fallback events are logged at WARNING level for visibility.
         """
         self.log(
             f"Transforming device details: {self.pprint(tag_membership_details)}",
@@ -1737,19 +1916,19 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Map device_identifier to API field names and output keys (shared for both device and interface members)
         identifier_mapping = {
-            "hostname": {"api_field": "hostname", "output_key": "hostnames"},
             "serial_number": {
                 "api_field": "serialNumber",
                 "output_key": "serial_numbers",
-            },
-            "mac_address": {
-                "api_field": "macAddress",
-                "output_key": "mac_addresses",
             },
             "ip_address": {
                 "api_field": "managementIpAddress",
                 "output_key": "ip_addresses",
             },
+            "mac_address": {
+                "api_field": "macAddress",
+                "output_key": "mac_addresses",
+            },
+            "hostname": {"api_field": "hostname", "output_key": "hostnames"},
         }
 
         mapping = identifier_mapping.get(device_identifier)
@@ -1788,27 +1967,47 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
 
-            network_device_identifiers = []
+            # Group identifiers by their resolved output_key (handles fallback to different identifier types)
+            grouped_identifiers = defaultdict(list)
 
             for index, network_device_member in enumerate(
                 network_device_members, start=1
             ):
-                identifier_value = network_device_member.get(api_field)
                 self.log(
-                    f"Processing network device member {index}/{len(network_device_members)}: {api_field}='{identifier_value}'",
+                    f"Processing network device member {index}/{len(network_device_members)}: "
+                    f"{api_field}='{network_device_member.get(api_field)}'",
                     "DEBUG",
                 )
-                network_device_identifiers.append(identifier_value)
 
-            self.log(
-                f"Collected {len(network_device_identifiers)} network device {output_key}",
-                "INFO",
-            )
-            device_details.append(
-                {
-                    output_key: network_device_identifiers,
-                }
-            )
+                resolved_identifier = self.resolve_device_identifier(
+                    device_data=network_device_member,
+                    api_field=api_field,
+                    output_key=output_key,
+                    device_identifier=device_identifier,
+                    identifier_mapping=identifier_mapping,
+                    context_label=f"network device member {index}/{len(network_device_members)}",
+                )
+                if not resolved_identifier:
+                    self.log(
+                        f"Skipping network device member {index}/{len(network_device_members)} "
+                        f"as no valid device identifier could be resolved.",
+                        "WARNING",
+                    )
+                    continue
+
+                resolved_value, resolved_output_key = resolved_identifier
+                grouped_identifiers[resolved_output_key].append(resolved_value)
+
+            for resolved_key, identifiers in grouped_identifiers.items():
+                self.log(
+                    f"Collected {len(identifiers)} network device identifier(s) under '{resolved_key}'",
+                    "INFO",
+                )
+                device_details.append(
+                    {
+                        resolved_key: identifiers,
+                    }
+                )
 
         self.log(self.pprint(device_details), "DEBUG")
         interface_members = tag_membership_details.get("interface_members", [])
@@ -1840,24 +2039,45 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 parent_device_info = self.get_device_details(parent_network_device_id)
-                if parent_device_info:
-                    parent_identifier_value = parent_device_info.get(api_field)
-                    parent_network_device_identifiers.append(parent_identifier_value)
+                if not parent_device_info:
                     self.log(
-                        f"Retrieved parent device info for device_id '{parent_network_device_id}': {api_field}='{parent_identifier_value}'",
-                        "DEBUG",
+                        f"Unable to retrieve parent device details for device ID: {parent_network_device_id}. "
+                        f"Skipping this interface member.",
+                        "WARNING",
                     )
-                else:
-                    self.msg = f"Unable to retrieve parent device details for device ID: {parent_network_device_id}"
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
+                    continue
 
-                parent_network_device_identifier = parent_device_info.get(api_field)
-                device_to_ports_mapping[parent_network_device_identifier].append(
+                self.log(
+                    f"Retrieved parent device info for device_id '{parent_network_device_id}': "
+                    f"{api_field}='{parent_device_info.get(api_field)}'",
+                    "DEBUG",
+                )
+
+                resolved_identifier = self.resolve_device_identifier(
+                    device_data=parent_device_info,
+                    api_field=api_field,
+                    output_key=output_key,
+                    device_identifier=device_identifier,
+                    identifier_mapping=identifier_mapping,
+                    context_label=f"parent device '{parent_network_device_id}'",
+                )
+                if not resolved_identifier:
+                    self.log(
+                        f"Skipping interface member {index}/{len(interface_members)} "
+                        f"(device_id='{parent_network_device_id}', port_name='{port_name}') "
+                        f"as no valid device identifier could be resolved.",
+                        "WARNING",
+                    )
+                    continue
+
+                resolved_value, resolved_output_key = resolved_identifier
+                parent_network_device_identifiers.append(resolved_value)
+
+                device_to_ports_mapping[(resolved_output_key, resolved_value)].append(
                     port_name
                 )
                 self.log(
-                    f"Added port '{port_name}' to device '{parent_network_device_identifier}'",
+                    f"Added port '{port_name}' to device '{resolved_value}' (output_key: '{resolved_output_key}')",
                     "DEBUG",
                 )
 
@@ -1866,14 +2086,17 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO",
             )
 
-            for device_identifier_value, port_names in device_to_ports_mapping.items():
+            for (
+                resolved_key,
+                device_identifier_value,
+            ), port_names in device_to_ports_mapping.items():
                 self.log(
-                    f"Creating device entry for {api_field} '{device_identifier_value}' with {len(port_names)} port(s)",
+                    f"Creating device entry for '{resolved_key}': '{device_identifier_value}' with {len(port_names)} port(s)",
                     "DEBUG",
                 )
                 device_details.append(
                     {
-                        output_key: [device_identifier_value],
+                        resolved_key: [device_identifier_value],
                         "port_names": port_names,
                     }
                 )
@@ -1883,6 +2106,140 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
         return device_details
+
+    def resolve_device_identifier(
+        self,
+        device_data,
+        api_field,
+        output_key,
+        device_identifier,
+        identifier_mapping,
+        context_label,
+    ):
+        """
+        Resolve a device identifier value from device data, falling back to alternative identifiers if needed.
+
+        When the primary identifier field is None or empty, this method iterates through the
+        remaining identifier mappings and returns the first non-empty value found. Both the
+        resolved value and its corresponding output_key are returned, since the output_key
+        changes when a fallback identifier is used.
+
+        Args:
+            device_data (dict): Dictionary containing device fields (e.g., serialNumber, hostname).
+            api_field (str): The primary API field name to look up (e.g., "serialNumber").
+            output_key (str): The primary output key (e.g., "serial_numbers").
+            device_identifier (str): The primary identifier key to skip during fallback (e.g., "serial_number").
+            identifier_mapping (dict): Full mapping of identifier keys to their api_field/output_key dicts.
+            context_label (str): A label for log messages identifying the device (e.g., "network device member 3/10").
+
+        Returns:
+            tuple or None: A tuple of (resolved_value, resolved_output_key) if a value is found,
+                           or None if no identifier could be resolved.
+
+        Fallback Order:
+            When the primary identifier is None/empty, fallback identifiers are tried in the
+            order they appear in identifier_mapping (skipping the primary):
+                1. serial_number  -> API field: "serialNumber",         output_key: "serial_numbers"
+                2. ip_address     -> API field: "managementIpAddress",  output_key: "ip_addresses"
+                3. mac_address    -> API field: "macAddress",           output_key: "mac_addresses"
+                4. hostname       -> API field: "hostname",             output_key: "hostnames"
+            The first non-empty value found is returned along with its corresponding output_key.
+
+        Example:
+            If device_identifier="hostname" and hostname is None in device_data, but
+            serialNumber="ABC123" exists:
+                Returns: ("ABC123", "serial_numbers")
+                Logs WARNING about falling back from hostname to serialNumber.
+
+            If all identifier fields are None/empty:
+                Returns: None
+                Logs WARNING with full device data.
+        """
+        self.log(
+            f"Resolving device identifier for {context_label}: "
+            f"primary api_field='{api_field}', output_key='{output_key}', "
+            f"device_identifier='{device_identifier}'.",
+            "DEBUG",
+        )
+
+        # Sentinel values that should be treated as missing/invalid identifiers
+        invalid_identifier_values = {
+            "None",
+            "NA",
+            "N/A",
+            "none",
+            "na",
+            "n/a",
+            "",
+            "NONE",
+        }
+        self.log(
+            f"Using invalid identifier sentinel values for validation: {invalid_identifier_values}",
+            "DEBUG",
+        )
+
+        identifier_value = device_data.get(api_field)
+        if (
+            identifier_value
+            and str(identifier_value).strip() not in invalid_identifier_values
+        ):
+            self.log(
+                f"Successfully resolved device identifier for {context_label}: "
+                f"{api_field}='{identifier_value}' (output_key: '{output_key}').",
+                "DEBUG",
+            )
+            return (identifier_value, output_key)
+
+        self.log(
+            f"Primary device identifier '{api_field}' is None/empty/invalid (value: '{identifier_value}') "
+            f"for {context_label}. Attempting fallback resolution.",
+            "DEBUG",
+        )
+
+        # Fallback: try other device identifiers
+        self.log(
+            f"Starting fallback resolution for {context_label}. "
+            f"Will iterate through {len(identifier_mapping) - 1} alternative identifier(s).",
+            "DEBUG",
+        )
+        for fallback_key, fallback_mapping in identifier_mapping.items():
+            if fallback_key == device_identifier:
+                self.log(
+                    f"Skipping primary identifier '{fallback_key}' during fallback for {context_label}.",
+                    "DEBUG",
+                )
+                continue
+            fallback_api_field = fallback_mapping["api_field"]
+            fallback_value = device_data.get(fallback_api_field)
+            self.log(
+                f"Trying fallback identifier '{fallback_key}' (api_field: '{fallback_api_field}') "
+                f"for {context_label}: value='{fallback_value}'.",
+                "DEBUG",
+            )
+            if (
+                fallback_value
+                and str(fallback_value).strip() not in invalid_identifier_values
+            ):
+                self.log(
+                    f"Device identifier '{api_field}' not found for {context_label}. "
+                    f"Falling back to '{fallback_api_field}' (output_key: '{fallback_mapping['output_key']}') "
+                    f"with value '{fallback_value}'.",
+                    "WARNING",
+                )
+                return (fallback_value, fallback_mapping["output_key"])
+            else:
+                self.log(
+                    f"Fallback identifier '{fallback_key}' also invalid for {context_label} "
+                    f"(value: '{fallback_value}'). Continuing to next fallback.",
+                    "DEBUG",
+                )
+
+        self.log(
+            f"No valid device identifier found for {context_label}. "
+            f"Skipping. Device data: {self.pprint(device_data)}",
+            "WARNING",
+        )
+        return None
 
     def get_device_details(self, device_id):
         """
@@ -2470,11 +2827,12 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
     def yaml_config_generator(self, yaml_config_generator):
         """
         Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using global and component-specific filters, processes the data,
+        This function retrieves network element details using component-specific filters, processes the data,
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, and component_specific_filters.
+            yaml_config_generator (dict): Contains component_specific_filters and optionally generate_all_configurations flag.
+                file_path and file_mode are now taken from self.params.
 
         Returns:
             self: The current instance with the operation result and message updated.
@@ -2491,7 +2849,9 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
+
+        # Get file_path and file_mode from self.params (top-level parameters)
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
                 "No file_path provided by user, generating default filename", "DEBUG"
@@ -2500,8 +2860,13 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
+        file_mode = self.params.get("file_mode", "overwrite")
+
         self.log(
-            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(
+                file_path, file_mode
+            ),
+            "DEBUG",
         )
 
         self.log("Initializing filter dictionaries", "DEBUG")
@@ -2511,31 +2876,20 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
                 "INFO",
             )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-
             # Set empty filters to retrieve everything
             component_specific_filters = {}
         else:
-            # Checking if generate_all_configurations is False but filters are missing or empty, and logging a warning
-            if (
-                not yaml_config_generator.get("component_specific_filters")
-                and "generate_all_configurations" in yaml_config_generator
-                and not yaml_config_generator["generate_all_configurations"]
-            ):
-                self.msg = (
-                    "component_specific_filters must be provided with components_list key "
-                    "when generate_all_configurations is set to False."
-                )
-                self.log(self.msg, "ERROR")
-                self.fail_and_exit(self.msg)
-
             # Use provided filters or default to empty
+            self.log(
+                "Normal mode: Using provided component_specific_filters from input",
+                "DEBUG",
+            )
             component_specific_filters = (
                 yaml_config_generator.get("component_specific_filters") or {}
+            )
+            self.log(
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
+                "DEBUG",
             )
 
         # Retrieve the supported network elements for the module
@@ -2624,7 +2978,9 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        if self.write_dict_to_yaml(yaml_config_dict, file_path):
+        if self.write_dict_to_yaml(
+            yaml_config_dict, file_path, file_mode, OrderedDumper
+        ):
             self.msg = (
                 f"YAML configuration file generated successfully for module '{self.module_name}'. "
                 f"File: {file_path}, "
@@ -2759,7 +3115,14 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -2794,13 +3157,10 @@ def main():
 
     # Validate the input parameters and check the return statusk
     ccc_tags_playbook_generator.validate_input().check_return_status()
-    config = ccc_tags_playbook_generator.validated_config
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_tags_playbook_generator.validated_config:
-        ccc_tags_playbook_generator.reset_values()
-        ccc_tags_playbook_generator.get_want(config, state).check_return_status()
-        ccc_tags_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    config = ccc_tags_playbook_generator.validated_config
+    ccc_tags_playbook_generator.get_want(config, state).check_return_status()
+    ccc_tags_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_tags_playbook_generator.result)
 

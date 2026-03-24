@@ -31,47 +31,41 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+        a default file name  C(template_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(template_playbook_config_2026-02-20_13-34-58.yml).
+    type: str
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
   config:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the `template_workflow_manager` module.
-    - Filters specify which components to include in the YAML configuration file.
-    - If C(components_list) is specified, only those components are included, regardless of the filters.
+    - If config is not provided or empty, all configurations for all projects and templates will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
+    - IMPORTANT NOTE - When config is not provided or empty, it will only retrieve committed templates.
+      It does not include uncommitted templates. To include uncommitted templates, use the appropriate filters
+      such as include_uncommitted under configuration_templates in component_specific_filters.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - When set to C(true), the module generates configurations for all templates and projects
-          in the Cisco Catalyst Center, ignoring any provided filters.
-        - When enabled, the config parameter becomes optional and will use default values if not provided.
-        - A default filename will be generated automatically if file_path is not specified.
-        - This is useful for complete playbook configuration infrastructure discovery and documentation.
-        - When set to false, the module uses provided filters to generate a targeted YAML configuration.
-        - IMPORTANT NOTE - When generate_all_configurations is enabled, it will only retrieve committed templates.
-          It does not include uncommitted templates. To include uncommitted templates, set generate_all_configurations to false
-          and use the appropriate filters such as include_uncommitted under configuration_templates.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  C(template_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(template_playbook_config_2026-02-20_13-34-58.yml).
-        type: str
-      file_mode:
-        description:
-        - Controls how config is written to the YAML file.
-        - C(overwrite) replaces existing file content.
-        - C(append) appends generated YAML content to the existing file.
-        type: str
-        choices: ["overwrite", "append"]
-        default: "overwrite"
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration file.
         - If C(components_list) is specified, only those components are included, regardless of other filters.
+        - If filters for specific components (e.g., projects or configuration_templates) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
@@ -81,7 +75,9 @@ options:
               - Template Projects C(projects)
               - Templates C(configuration_templates)
             - For example, ["projects", "configuration_templates"].
-            - If not specified, all components are included.
+            - If not specified but component specific filters (projects or configuration_templates) are provided,
+              those components are automatically added to this list.
+            - If neither components_list nor any component filters are provided, an error will be raised.
             type: list
             elements: str
             choices: ["projects", "configuration_templates"]
@@ -122,12 +118,32 @@ requirements:
 - dnacentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
-- SDK Methods used are
-    - configuration_templates.ConfigurationTemplates.get_projects_details
-    - configuration_templates.ConfigurationTemplates.get_templates_details
-- Paths used are
-    - GET /dna/intent/api/v2/template-programmer/project
-    - GET /dna/intent/api/v2/template-programmer/template
+- Cisco Catalyst Center >= 2.3.7.9
+- |-
+  SDK Methods used are
+  configuration_templates.ConfigurationTemplates.get_projects_details
+  configuration_templates.ConfigurationTemplates.get_templates_details
+- |-
+  SDK Paths used are
+  GET /dna/intent/api/v2/template-programmer/project
+  GET /dna/intent/api/v2/template-programmer/template
+- |
+  Auto-population of components_list:
+  If component-specific filters (such as 'projects' or 'configuration_templates') are provided
+  without explicitly including them in 'components_list', those components will be
+  automatically added to 'components_list'. This simplifies configuration by eliminating
+  the need to redundantly specify components in both places.
+- |
+  Example of auto-population behavior:
+  If you provide filters for 'projects' without including 'projects' in 'components_list',
+  the module will automatically add 'projects' to 'components_list' before processing.
+  This allows you to write more concise playbooks.
+- |
+  Validation requirements:
+  If 'component_specific_filters' is provided, at least one of the following must be true:
+  (1) 'components_list' contains at least one component, OR
+  (2) Component-specific filters (e.g., 'projects', 'configuration_templates') are provided.
+  If neither condition is met, the module will fail with a validation error.
 seealso:
 - module: cisco.dnac.template_workflow_manager
   description: Module for managing template projects and templates.
@@ -147,8 +163,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
-    config:
-      - generate_all_configurations: true
+    # No config provided - generates all configurations
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.template_playbook_config_generator:
@@ -162,10 +177,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
-    config:
-      - generate_all_configurations: true
-        file_path: "tmp/catc_templates_config.yml"
-        file_mode: "overwrite"
+    file_path: "tmp/catc_templates_config.yml"
+    file_mode: "overwrite"
+    # No config provided - generates all configurations
 
 - name: Generate YAML Configuration with specific template projects only
   cisco.dnac.template_playbook_config_generator:
@@ -179,11 +193,11 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_templates_config.yml"
+    file_mode: "overwrite"
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        file_mode: "overwrite"
-        component_specific_filters:
-          components_list: ["projects"]
+      component_specific_filters:
+        components_list: ["projects"]
 
 - name: Generate YAML Configuration with specific configuration templates only
   cisco.dnac.template_playbook_config_generator:
@@ -197,11 +211,11 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_templates_config.yml"
+    file_mode: "append"
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        file_mode: "append"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
+      component_specific_filters:
+        components_list: ["configuration_templates"]
 
 - name: Generate YAML Configuration for projects with project name filter
   cisco.dnac.template_playbook_config_generator:
@@ -215,13 +229,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_templates_config.yml"
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["projects"]
-          projects:
-            - name: "Project_A"
-            - name: "Project_B"
+      component_specific_filters:
+        components_list: ["projects"] # Optional
+        projects:
+          - name: "Project_A"
+          - name: "Project_B"
 
 - name: Generate YAML Configuration for templates with template name filter
   cisco.dnac.template_playbook_config_generator:
@@ -235,13 +249,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_templates_config.yml"
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - template_name: "Template_1"
-            - template_name: "Template_2"
+      component_specific_filters:
+        components_list: ["configuration_templates"] # Optional
+        configuration_templates:
+          - template_name: "Template_1"
+          - template_name: "Template_2"
 
 - name: Generate YAML Configuration for templates with project name filter
   cisco.dnac.template_playbook_config_generator:
@@ -255,13 +269,12 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_templates_config.yml"
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - project_name: "Project_A"
-            - project_name: "Project_B"
+      component_specific_filters:
+        configuration_templates:
+          - project_name: "Project_A"
+          - project_name: "Project_B"
 
 - name: Generate YAML Configuration for templates with uncommitted filter
   cisco.dnac.template_playbook_config_generator:
@@ -275,12 +288,11 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_templates_config.yml"
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - include_uncommitted: true
+      component_specific_filters:
+        configuration_templates:
+          - include_uncommitted: true
 
 - name: Generate YAML Configuration for templates with template name and project name
   cisco.dnac.template_playbook_config_generator:
@@ -294,13 +306,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_templates_config.yml"
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - project_name: "Project_A"
-              template_name: "Template_1"
+      component_specific_filters:
+        components_list: ["configuration_templates"]
+        configuration_templates:
+          - project_name: "Project_A"
+            template_name: "Template_1"
 
 - name: Generate YAML Configuration for templates with comprehensive filters
   cisco.dnac.template_playbook_config_generator:
@@ -314,14 +326,13 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "tmp/catc_templates_config.yml"
     config:
-      - file_path: "tmp/catc_templates_config.yml"
-        component_specific_filters:
-          components_list: ["configuration_templates"]
-          configuration_templates:
-            - template_name: "Template_1"
-              project_name: "Project_A"
-              include_uncommitted: true
+      component_specific_filters:
+        configuration_templates:
+          - template_name: "Template_1"
+            project_name: "Project_A"
+            include_uncommitted: true
 """
 
 RETURN = r"""
@@ -358,11 +369,11 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components.",
         "response":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components."
     }
 """
 
@@ -433,30 +444,16 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
+        # Check if configuration is available or empty - if not provided or empty, treat as generate all config
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate all config mode"
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"]
-            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
@@ -470,8 +467,10 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -845,18 +844,21 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "Missing API family or function in network element: {0}".format(network_element),
                 "ERROR"
             )
-            return {"projects": []}
-
-        final_template_projects = []
+            return {}
 
         self.log(
-            "Getting template projects using API family '{0}' and API function '{1}'.".format(
+            "Getting all template projects using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
             "DEBUG"
         )
 
-        params = {}
+        template_project_details = self.execute_get_with_pagination(
+            api_family, api_function
+        )
+
+        final_template_projects = []
+
         if component_specific_filters:
             self.log(
                 "Started Processing {0} filter(s) for projects retrieval".format(
@@ -866,8 +868,6 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             )
 
             for filter_param in component_specific_filters:
-                if "name" in filter_param:
-                    params["name"] = filter_param["name"]
 
                 unsupported_keys = set(filter_param.keys()) - {"name"}
                 if unsupported_keys:
@@ -876,16 +876,21 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         "WARNING"
                     )
 
+                filtered_projects = []
                 self.log(
-                    "Fetching projects with parameters: {0}".format(params),
+                    "Fetching projects with filter_param: {0}".format(filter_param),
                     "DEBUG"
                 )
-                template_project_details = self.execute_get_with_pagination(
-                    api_family, api_function, params
-                )
 
-                if template_project_details:
-                    final_template_projects.extend(template_project_details)
+                if "name" in filter_param:
+                    filtered_projects.extend(
+                        project
+                        for project in template_project_details
+                        if project.get("name") == filter_param["name"]
+                    )
+
+                if filtered_projects:
+                    final_template_projects.extend(filtered_projects)
                     self.log(
                         "Retrieved {0} project(s): {1}".format(
                             len(template_project_details), template_project_details
@@ -894,10 +899,9 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     )
                 else:
                     self.log(
-                        "No projects found for parameters: {0}".format(params),
+                        "No projects found with filter_param: {0}".format(filter_param),
                         "DEBUG"
                     )
-                params.clear()
 
             self.log(
                 "Completed Processing {0} filter(s) for projects retrieval".format(
@@ -906,12 +910,6 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
         else:
-            self.log("Fetching all project details from Catalyst Center", "DEBUG")
-
-            template_project_details = self.execute_get_with_pagination(
-                api_family, api_function, params
-            )
-
             if template_project_details:
                 final_template_projects.extend(template_project_details)
                 self.log(
@@ -936,7 +934,8 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         modified_template_project_details = {}
-        modified_template_project_details['projects'] = template_project_details
+        if template_project_details:
+            modified_template_project_details['projects'] = template_project_details
 
         self.log(
             "Completed retrieving template project(s): {0}".format(
@@ -1096,7 +1095,7 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path and component_specific_filters.
+            yaml_config_generator (dict): Contains component_specific_filters.
 
         Returns:
             self: The current instance with the operation result and message updated.
@@ -1116,7 +1115,8 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
 
-        file_path = yaml_config_generator.get("file_path")
+        # Get file_path and file_mode from self.params (top-level parameters)
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
                 "No file_path provided by user, generating default filename", "DEBUG"
@@ -1125,7 +1125,7 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
+        file_mode = self.params.get("file_mode", "overwrite")
 
         self.log(
             "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
@@ -1136,14 +1136,19 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
             self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log("Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True", "WARNING")
 
             # Set empty filters to retrieve everything
             component_specific_filters = {}
         else:
-            # Use provided filters or default to empty
+            self.log(
+                "Normal mode: Using provided component_specific_filters from input",
+                "DEBUG",
+            )
             component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            self.log(
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
+                "DEBUG",
+            )
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
         module_supported_network_elements = self.module_schema.get("network_elements", {})
@@ -1152,11 +1157,6 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
-
-        # If components_list is empty, default to all supported components
-        if not components_list:
-            self.log("No components specified; processing all supported components.", "DEBUG")
-            components_list = list(module_supported_network_elements.keys())
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
@@ -1359,8 +1359,15 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
     }
 
     # Initialize the Ansible module with the provided argument specifications

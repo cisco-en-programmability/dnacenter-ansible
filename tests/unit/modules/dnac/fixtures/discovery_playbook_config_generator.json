@@ -1,9 +1,10 @@
 {
     "playbook_config_generate_all": {
-        "generate_all_configurations": true
+        "global_filters": {
+            "discovery_type_list": ["Range", "CIDR", "Single"]
+        }
     },
     "playbook_config_specific_names": {
-        "file_path": "/tmp/test_discoveries.yml",
         "global_filters": {
             "discovery_name_list": ["Test Discovery 1", "Test Discovery 2"]
         }
@@ -14,7 +15,9 @@
         }
     },
     "playbook_config_with_filters": {
-        "generate_all_configurations": true,
+        "global_filters": {
+            "discovery_type_list": ["Range", "CIDR", "Single"]
+        },
         "component_specific_filters": {
             "components_list": ["discovery_details"],
             "include_credentials": true,
@@ -313,9 +316,6 @@
     "validation_test_cases": {
         "valid_configs": [
             {
-                "generate_all_configurations": true
-            },
-            {
                 "global_filters": {
                     "discovery_name_list": ["Discovery 1"]
                 }
@@ -324,16 +324,19 @@
                 "global_filters": {
                     "discovery_type_list": ["Range"]
                 }
-            },
-            {
-                "component_specific_filters": {
-                    "include_credentials": false
-                }
             }
         ],
         "invalid_configs": [
             {
                 "invalid_parameter": "invalid_value"
+            },
+            {
+                "generate_all_configurations": true
+            },
+            {
+                "component_specific_filters": {
+                    "include_credentials": false
+                }
             },
             {
                 "global_filters": {

@@ -109,7 +109,10 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             self.run_dnac_exec.side_effect = []
 
         elif "missing_config" in self._testMethodName:
-            self.run_dnac_exec.side_effect = []
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_discoveries_response_success"),
+                self.test_data.get("get_global_credentials_response_success"),
+            ]
 
         elif "file_path_specified" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -118,10 +121,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             ]
 
         elif "no_global_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_discoveries_response_success"),
-                self.test_data.get("get_global_credentials_response_success"),
-            ]
+            self.run_dnac_exec.side_effect = []
 
         elif "successful_generation" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -154,9 +154,8 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_password="admin",
                 dnac_log=True,
                 state="gathered",
-                dnac_version="2.3.5.3",
-                config_verify=False,
-                config=[self.playbook_config_generate_all]
+                dnac_version="2.3.7.9",
+                config=self.playbook_config_generate_all
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -175,10 +174,11 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_specific_names]
+                file_path="/tmp/test_discoveries.yml",
+                file_mode="overwrite",
+                config=self.playbook_config_specific_names
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -197,10 +197,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_by_type]
+                config=self.playbook_config_by_type
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -220,10 +219,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_by_type]
+                config=self.playbook_config_by_type
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -243,17 +241,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "components_list": ["discovery_details"],
-                            "discovery_status_filter": ["Complete"]
-                        }
+                config={
+                    "global_filters": {
+                        "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -273,15 +267,15 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_generate_all]
+                config=self.playbook_config_generate_all
             )
         )
-        result = self.execute_module(changed=False, failed=True)
-        # The module gracefully handles API errors and reports no discoveries found
-        self.assertIn('No discoveries found', result.get('msg'))
+        result = self.execute_module(changed=False, failed=False)
+        # The module gracefully handles API errors and returns no_data status
+        self.assertIn('response', result)
+        self.assertEqual(result['response'].get('status'), 'no_data')
 
     def test_discovery_playbook_config_generator_credential_mapping(self):
         """
@@ -295,10 +289,11 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_specific_names]
+                file_path="/tmp/specific_discoveries.yml",
+                file_mode="append",
+                config=self.playbook_config_specific_names
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -318,10 +313,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="invalid_state",
-                config_verify=False,
-                config=[self.playbook_config_generate_all]
+                config=self.playbook_config_generate_all
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -329,9 +323,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
 
     def test_discovery_playbook_config_generator_missing_config(self):
         """
-        Test case for missing config parameter.
+        Test case for missing config parameter (auto-discovery mode).
 
-        This test case checks the behavior when config parameter is missing.
+        This test case checks the behavior when config parameter is omitted.
         """
         set_module_args(
             dict(
@@ -339,14 +333,63 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
+                state="gathered"
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn('response', result)
+
+    def test_discovery_playbook_config_generator_invalid_global_filter_key(self):
+        """
+        Test case for invalid suboption key under global_filters.
+
+        This test case checks validation failure when unsupported key is provided.
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin",
+                dnac_log=True,
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[]
+                config={
+                    "global_filters": {
+                        "hello": ["world"]
+                    }
+                }
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn('Configuration is required', result.get('msg'))
+        self.assertIn("Invalid key(s) under 'global_filters'", result.get('response'))
+
+    def test_discovery_playbook_config_generator_invalid_discovery_type_filter_value(self):
+        """
+        Test case for invalid value under global_filters.discovery_type_list.
+
+        This test case checks validation failure when unsupported discovery type is provided.
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin",
+                dnac_log=True,
+                dnac_version="2.3.7.9",
+                state="gathered",
+                config={
+                    "global_filters": {
+                        "discovery_type_list": ["HELLO"]
+                    }
+                }
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Invalid values under 'global_filters.discovery_type_list'",
+            result.get('response')
+        )
 
     def test_discovery_playbook_config_generator_file_path_specified(self):
         """
@@ -360,14 +403,12 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_specific_names]
+                config=self.playbook_config_specific_names
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        # Verify successful execution with response data
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
@@ -383,22 +424,42 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "components_list": ["discovery_details"]
-                        }
-                    }
-                }]
+                config={}
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        # Verify successful execution with response data
-        self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "global_filters is required when config is provided",
+            result.get('msg', '')
+        )
+
+    def test_discovery_playbook_config_generator_generate_all_configurations_rejected(self):
+        """
+        Test case for rejecting generate_all_configurations in config input.
+        """
+        set_module_args(
+            dict(
+                dnac_host="192.168.1.1",
+                dnac_username="admin",
+                dnac_password="admin",
+                dnac_log=True,
+                dnac_version="2.3.7.9",
+                state="gathered",
+                config={
+                    "generate_all_configurations": True,
+                    "global_filters": {
+                        "discovery_type_list": ["Range"]
+                    }
+                }
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Invalid parameters",
+            result.get('msg', '')
+        )
 
     def test_discovery_playbook_config_generator_successful_generation(self):
         """
@@ -412,17 +473,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[
-                    {
-                        "generate_all_configurations": True,
-                        "global_filters": {
-                            "discovery_name_list": ["Test Discovery"]
-                        }
+                config={
+                    "global_filters": {
+                        "discovery_name_list": ["Test Discovery"]
                     }
-                ]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -442,10 +499,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_specific_names]
+                config=self.playbook_config_specific_names
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -466,10 +522,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_password="admin",
                 dnac_log=True,
                 dnac_debug=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_generate_all]
+                config=self.playbook_config_generate_all
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -489,10 +544,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="created",  # Unsupported state
-                config_verify=False,
-                config=[self.playbook_config_generate_all]
+                config=self.playbook_config_generate_all
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -514,10 +568,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_specific_names]
+                config=self.playbook_config_specific_names
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -538,10 +591,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_specific_names]
+                config=self.playbook_config_specific_names
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -562,19 +614,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "generate_all_configurations": True,
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "include_credentials": True,
-                            "include_global_credentials": True,
-                            "components_list": ["discovery_details", "credentials"]
-                        }
+                config={
+                    "global_filters": {
+                        "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -594,16 +640,10 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "generate_all_configurations": True,
-                    "file_operations": {
-                        "output_file_path": "/tmp/test_brownfield_discovery.yml",
-                        "create_directories": True
-                    }
-                }]
+                file_path="/tmp/test_brownfield_discovery.yml",
+                file_mode="overwrite"
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -623,17 +663,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "components_list": ["discovery_details"],
-                            "discovery_status_filter": ["Complete", "In Progress", "Failed"]
-                        }
+                config={
+                    "global_filters": {
+                        "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -653,18 +689,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "include_credentials": True,
-                            "include_global_credentials": True,
-                            "components_list": ["discovery_details", "credentials"]
-                        }
+                config={
+                    "global_filters": {
+                        "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -685,18 +716,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "include_credentials": True,
-                            "include_global_credentials": True,
-                            "components_list": ["discovery_details", "credentials"]
-                        }
+                config={
+                    "global_filters": {
+                        "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -717,18 +743,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "include_credentials": True,
-                            "include_global_credentials": True,
-                            "components_list": ["discovery_details", "credentials"]
-                        }
+                config={
+                    "global_filters": {
+                        "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -749,10 +770,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[self.playbook_config_generate_all]
+                config=self.playbook_config_generate_all
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -773,19 +793,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
+                config={
                     "global_filters": {
-                        "discovery_type_list": ["RANGE", "CIDR", "SINGLE"]
-                    },
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "components_list": ["discovery_details"]
-                        }
+                        "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -805,22 +819,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "generate_all_configurations": True,
+                config={
                     "global_filters": {
                         "discovery_name_list": ["EdgeCaseTest"]
-                    },
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "include_credentials": True,
-                            "include_global_credentials": True,
-                            "components_list": ["discovery_details", "credentials", "global_credentials", "ip_addresses"]
-                        }
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -841,19 +846,13 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_username="admin",
                 dnac_password="admin",
                 dnac_log=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
-                    "generate_all_configurations": True,
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "include_credentials": True,
-                            "include_global_credentials": True,
-                            "components_list": ["discovery_details", "credentials"]
-                        }
+                config={
+                    "global_filters": {
+                        "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -874,23 +873,14 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 dnac_password="admin",
                 dnac_log=True,
                 dnac_debug=True,
-                dnac_version="2.3.5.3",
+                dnac_version="2.3.7.9",
                 state="gathered",
-                config_verify=False,
-                config=[{
+                config={
                     "global_filters": {
                         "discovery_name_list": ["TestDiscovery1", "TestDiscovery2"],
-                        "discovery_type_list": ["RANGE", "CIDR"]
-                    },
-                    "component_specific_filters": {
-                        "discovery_details": {
-                            "include_credentials": True,
-                            "include_global_credentials": True,
-                            "discovery_status_filter": ["Complete", "In Progress"],
-                            "components_list": ["discovery_details", "credentials", "global_credentials", "ip_addresses", "device_count"]
-                        }
+                        "discovery_type_list": ["Range", "CIDR"]
                     }
-                }]
+                }
             )
         )
         result = self.execute_module(changed=False, failed=False)

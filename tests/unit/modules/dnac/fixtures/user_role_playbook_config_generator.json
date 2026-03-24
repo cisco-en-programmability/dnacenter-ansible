@@ -1,15 +1,14 @@
 {
-  "playbook_user_role_details": [
-    {
-      "component_specific_filters": {
-        "components_list": [
-          "role_details",
-          "user_details"
-        ]
-      },
-      "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
+  "playbook_user_role_details": {
+    "component_specific_filters": {
+      "components_list": [
+        "role_details",
+        "user_details"
+      ]
     }
-  ],
+  },
+  "playbook_config_empty": {},
+  "expected_error_missing_component_specific_filters": "Validation Error: 'component_specific_filters' is mandatory when 'config' is provided. Please provide 'config.component_specific_filters' with either 'components_list' or component filter blocks.",
   "get_roles": {
     "response": {
       "roles": [
@@ -1702,24 +1701,21 @@
       ]
     }
   },
-  "playbook_specific_user_details": [
-    {
-      "component_specific_filters": {
-        "components_list": [
-          "user_details"
-        ],
-        "user_details": [
-          {
-            "role_name": ["Test_role_1"]
-          },
-          {
-            "email": ["ajith@gmail.com"]
-          }
-        ]
-      },
-      "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
+  "playbook_specific_user_details": {
+    "component_specific_filters": {
+      "components_list": [
+        "user_details"
+      ],
+      "user_details": [
+        {
+          "role_name": ["Test_role_1"]
+        },
+        {
+          "email": ["ajith@gmail.com"]
+        }
+      ]
     }
-  ],
+  },
   "get_users1": {
     "response": {
       "users": [
@@ -2644,21 +2640,18 @@
       ]
     }
   },
-  "playbook_specific_role_details": [
-    {
-      "component_specific_filters": {
-        "components_list": [
-          "role_details"
-        ],
-        "role_details": [
-          {
-            "role_name": ["Test_role_1"]
-          }
-        ]
-      },
-      "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
+  "playbook_specific_role_details": {
+    "component_specific_filters": {
+      "components_list": [
+        "role_details"
+      ],
+      "role_details": [
+        {
+          "role_name": ["Test_role_1"]
+        }
+      ]
     }
-  ],
+  },
   "get_roles3": {
     "response": {
       "roles": [
@@ -3427,12 +3420,9 @@
       ]
     }
   },
-  "playbook_generate_all_configurations": [
-    {
-      "file_path": "/Users/priyadharshini/Downloads/specific_user_details1",
-      "generate_all_configurations": true
-    }
-  ],
+  "playbook_generate_all_configurations": {
+    "generate_all_configurations": true
+  },
   "get_users2": {
     "response": {
       "users": [
@@ -5125,26 +5115,20 @@
       ]
     }
   },
-  "playbook_invalid_components": [
-    {
-      "component_specific_filters": {
-        "components_list": [
-          "role_detailss"
-        ]
-      },
-      "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
+  "playbook_invalid_components": {
+    "component_specific_filters": {
+      "components_list": [
+        "role_detailss"
+      ]
     }
-  ],
-  "playbook_all_role_details": [
-    {
-      "component_specific_filters": {
-        "components_list": [
-          "role_details"
-        ]
-      },
-      "file_path": "/Users/priyadharshini/Downloads/specific_user_details1"
+  },
+  "playbook_all_role_details": {
+    "component_specific_filters": {
+      "components_list": [
+        "role_details"
+      ]
     }
-  ],
+  },
   "get_roles6": {
     "response": {
       "roles": [

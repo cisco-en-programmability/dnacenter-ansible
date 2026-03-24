@@ -866,6 +866,13 @@ class Discovery(DnacBase):
             self.status = "failed"
             return self
 
+        # Normalize discovery_type to canonical uppercase value so runtime
+        # branching is case-insensitive (e.g., "Single" -> "SINGLE").
+        if state == "merged":
+            discovery_type = valid_discovery[0].get("discovery_type")
+            if isinstance(discovery_type, str):
+                valid_discovery[0]["discovery_type"] = discovery_type.upper()
+
         self.validated_config = valid_discovery
         self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
             str(valid_discovery)
