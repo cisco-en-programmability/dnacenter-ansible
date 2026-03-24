@@ -1524,18 +1524,34 @@ class BrownFieldHelper:
             dict or None: The parsed data from the last YAML document, or None if
                           the file is empty, doesn't exist, or parsing fails.
         """
+        self.log(
+            "Attempting to extract last YAML document from '{0}'".format(file_path),
+            "DEBUG",
+        )
         try:
             if not os.path.isfile(file_path):
+                self.log(
+                    "File '{0}' does not exist, returning None".format(file_path),
+                    "DEBUG",
+                )
                 return None
 
             with open(file_path, "r") as f:
                 content = f.read()
 
             if not content.strip():
+                self.log(
+                    "File '{0}' is empty or contains only whitespace, returning None".format(file_path),
+                    "DEBUG",
+                )
                 return None
 
             # Split by YAML document separator and take the last non-empty segment
             documents = content.split("\n---\n")
+            self.log(
+                "File '{0}' split into {1} YAML document segment(s)".format(file_path, len(documents)),
+                "DEBUG",
+            )
             last_segment = None
             for segment in reversed(documents):
                 stripped = segment.strip()
@@ -1544,8 +1560,16 @@ class BrownFieldHelper:
                     break
 
             if last_segment is None:
+                self.log(
+                    "No non-empty YAML segment found in '{0}', returning None".format(file_path),
+                    "DEBUG",
+                )
                 return None
 
+            self.log(
+                "Parsing last YAML segment from '{0}'".format(file_path),
+                "DEBUG",
+            )
             last_doc = yaml.safe_load(last_segment)
             self.log(
                 "Extracted last YAML document from '{0}', content: {1}"
@@ -1579,15 +1603,53 @@ class BrownFieldHelper:
         Returns:
             str: Hex-encoded SHA256 digest of the normalized content.
         """
+        self.log(
+            "Starting SHA256 content hash computation. "
+            "Input content length: {0} characters.".format(len(content)),
+            "DEBUG",
+        )
+
+        lines = content.splitlines()
+        total_lines = len(lines)
+        self.log(
+            "Content split into {0} lines for hash processing.".format(total_lines),
+            "DEBUG",
+        )
+
         hasher = hashlib.sha256()
-        for line in content.splitlines():
+        skipped_lines = 0
+        hashed_lines = 0
+
+        for index, line in enumerate(lines):
             stripped = line.strip()
+            self.log(
+                "Processing line {0}/{1}: '{2}'".format(index, total_lines, stripped),
+                "DEBUG",
+            )
             # Skip lines that change every run
             if stripped.startswith("#  Generated on") or stripped.startswith("#  Generated from"):
+                self.log(
+                    "Line {0}: Skipping volatile header line: '{1}'".format(index, stripped),
+                    "DEBUG",
+                )
+                skipped_lines += 1
                 continue
             hasher.update(line.encode("utf-8"))
             hasher.update(b"\n")
-        return hasher.hexdigest()
+            hashed_lines += 1
+            self.log(
+                "Line {0}: Hashed successfully.".format(index),
+                "DEBUG",
+            )
+
+        digest = hasher.hexdigest()
+        self.log(
+            "SHA256 content hash computation completed. "
+            "Total lines: {0}, Lines hashed: {1}, Volatile lines skipped: {2}, "
+            "Computed hash: {3}".format(total_lines, hashed_lines, skipped_lines, digest),
+            "DEBUG",
+        )
+        return digest
 
     def write_dict_to_yaml(
         self,
@@ -1646,29 +1708,77 @@ class BrownFieldHelper:
 
             # --- Idempotency check ---
             if file_mode == "overwrite" and os.path.isfile(file_path):
+                self.log(
+                    "Overwrite mode: Existing file found at '{0}'. "
+                    "Starting idempotency check by comparing content hashes.".format(file_path),
+                    "DEBUG",
+                )
                 try:
                     with open(file_path, "r") as f:
                         existing_content = f.read()
-                    if self._compute_content_hash(existing_content) == self._compute_content_hash(yaml_content):
+                    self.log(
+                        "Read existing file '{0}' for comparison, length: {1} characters.".format(
+                            file_path, len(existing_content)
+                        ),
+                        "DEBUG",
+                    )
+                    existing_hash = self._compute_content_hash(existing_content)
+                    new_hash = self._compute_content_hash(yaml_content)
+                    self.log(
+                        "Content hash comparison for '{0}': existing_hash={1}, new_hash={2}".format(
+                            file_path, existing_hash, new_hash
+                        ),
+                        "DEBUG",
+                    )
+                    if existing_hash == new_hash:
                         self.log(
-                            "Overwrite mode: File '{0}' already has identical content. Skipping write.".format(file_path),
+                            "Overwrite mode: File '{0}' already has identical content (hash match). "
+                            "Skipping write.".format(file_path),
                             "INFO",
                         )
                         return False
+                    self.log(
+                        "Overwrite mode: Content hashes differ for '{0}'. Proceeding with write.".format(file_path),
+                        "DEBUG",
+                    )
                 except Exception as e:
                     self.log(
                         "Could not read existing file for comparison, proceeding with write: {0}".format(str(e)),
                         "DEBUG",
                     )
+            elif file_mode == "overwrite":
+                self.log(
+                    "Overwrite mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
+                    "DEBUG",
+                )
 
             if file_mode == "append" and os.path.isfile(file_path):
+                self.log(
+                    "Append mode: Existing file found at '{0}'. "
+                    "Starting idempotency check by comparing last YAML document.".format(file_path),
+                    "DEBUG",
+                )
                 last_doc = self._get_last_yaml_document(file_path)
+                self.log(
+                    "Append mode: Last document from '{0}': {1}".format(file_path, last_doc),
+                    "DEBUG",
+                )
                 if last_doc is not None and last_doc == data_dict:
                     self.log(
-                        "Append mode: Last document in '{0}' already matches the new data. Skipping write.".format(file_path),
+                        "Append mode: Last document in '{0}' already matches the new data. "
+                        "Skipping write.".format(file_path),
                         "INFO",
                     )
                     return False
+                self.log(
+                    "Append mode: Last document differs from new data for '{0}'. Proceeding with append.".format(file_path),
+                    "DEBUG",
+                )
+            elif file_mode == "append":
+                self.log(
+                    "Append mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
+                    "DEBUG",
+                )
 
             # --- Write the file ---
             if file_mode == "overwrite":
