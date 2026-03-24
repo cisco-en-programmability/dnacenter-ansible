@@ -1363,9 +1363,42 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         Transform discovery type to workflow-manager compatible values.
 
+        Reads the 'discoveryType' field from the Catalyst Center API response
+        and maps it to the value expected by the discovery_workflow_manager module.
+
         RANGE discoveries can represent either a single range or multiple
-        ranges in Catalyst Center API response. The workflow manager expects
-        these as RANGE and MULTI RANGE respectively.
+        ranges in the Catalyst Center API response. The workflow manager expects
+        these as 'RANGE' and 'MULTI RANGE' respectively. The distinction is made
+        by counting the number of comma-separated IP address range entries in the
+        'ipAddressList' field.
+
+        Note:
+            As per the Catalyst Center API documentation, the 'discoveryType' field
+            accepts the following values:
+                - 'Single'    : Discover a single IP address.
+                - 'Range'     : Discover a range of IP addresses (single or multiple ranges).
+                - 'CDP'       : Discover devices using the CDP (Cisco Discovery Protocol).
+                - 'LLDP'      : Discover devices using LLDP (Link Layer Discovery Protocol).
+                - 'CIDR'      : Discover devices using CIDR notation.
+
+        Args:
+            discovery_data (dict): Discovery configuration data retrieved from the
+                Catalyst Center API. Expected to contain at minimum:
+                    - 'discoveryType' (str): The raw discovery type value from the API.
+                    - 'ipAddressList' (str or list): Comma-separated IP ranges or a list
+                      of IP ranges, used to distinguish 'RANGE' from 'MULTI RANGE'.
+
+        Returns:
+            str or None: The workflow-manager compatible discovery type string.
+                - 'SINGLE'      : For single IP address discoveries.
+                - 'RANGE'       : For a single IP range discovery.
+                - 'MULTI RANGE' : For discoveries containing multiple IP ranges.
+                - 'CDP'         : For CDP-based discoveries.
+                - 'LLDP'        : For LLDP-based discoveries.
+                - 'CIDR'        : For CIDR-based discoveries.
+                - Original value: Passed through as-is if the type is unrecognized.
+                - None          : If discovery_data is invalid/empty or 'discoveryType'
+                                  is absent or empty.
         """
         if not discovery_data or not isinstance(discovery_data, dict):
             self.log("Discovery type transformation skipped - invalid or empty discovery data", "DEBUG")
