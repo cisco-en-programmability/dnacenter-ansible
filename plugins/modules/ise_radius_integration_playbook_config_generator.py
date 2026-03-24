@@ -31,41 +31,32 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+        a default file name C(ise_radius_integration_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(ise_radius_integration_playbook_config_2026-01-24_12-33-20.yml).
+    type: str
+  file_mode:
+    description:
+    - Determines how the output YAML configuration file is written.
+    - When set to C(overwrite), the file will be replaced with new content.
+    - When set to C(append), new content will be added to the existing file.
+    type: str
+    required: false
+    default: overwrite
+    choices: ["overwrite", "append"]
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `ise_radius_integration_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `ise_radius_integration_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - When C(components_list) is provided, only those components are included,
       regardless of other filters or C(generate_all_configurations).
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - When true, include all authentication and policy server components in
-          the YAML configuration file.
-        - When false, include only the components listed in
-          C(component_specific_filters.components_list).
-        - Ignored if C(component_specific_filters.components_list) is
-          specified.
-        type: bool
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name C(ise_radius_integration_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(ise_radius_integration_playbook_config_2026-01-24_12-33-20.yml).
-        type: str
-      file_mode:
-        description:
-        - Determines how the output YAML configuration file is written.
-        - When set to C(overwrite), the file will be replaced with new content.
-        - When set to C(append), new content will be added to the existing file.
-        type: str
-        required: false
-        default: overwrite
-        choices: ["overwrite", "append"]
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
@@ -140,10 +131,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "overwrite"
     config:
       generate_all_configurations: true
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "overwrite"
 
 - name: Generate YAML Configuration for mentioned components without File Path specified
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -157,10 +148,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
     config:
-      generate_all_configurations: false
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "append"
       component_specific_filters:
         components_list: ["authentication_policy_server"]
 
@@ -176,9 +166,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "append"
       component_specific_filters:
         components_list: ["authentication_policy_server"]
         authentication_policy_server:
@@ -196,9 +186,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "append"
       component_specific_filters:
         components_list: ["authentication_policy_server"]
         authentication_policy_server:
@@ -216,9 +206,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "append"
       component_specific_filters:
         components_list: ["authentication_policy_server"]
         authentication_policy_server:
@@ -363,17 +353,15 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Check if configuration is available
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
             "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
         }
 
         # Validate the config dict using brownfield helper
@@ -383,8 +371,10 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -1024,17 +1014,9 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "reverse_mapping_function": self.ise_radius_integration_reverse_mapping_temp_spec_function,
                     "get_function_name": self.get_ise_radius_integration_configuration,
                 }
-            },
-            "global_filters": [],
+            }
         }
-        self.log(
-            "Returning workflow schema with network_elements_count={0}, "
-            "global_filters_count={1}.".format(
-                len(schema.get("network_elements", {})),
-                len(schema.get("global_filters", [])),
-            ),
-            "DEBUG",
-        )
+
         self.log(
             "Workflow schema payload prepared: {0}".format(schema),
             "DEBUG",
@@ -1182,7 +1164,9 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"type": "dict", "required": True},
+        "config": {"type": "dict", "required": False},
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
