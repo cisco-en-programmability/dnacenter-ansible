@@ -382,7 +382,27 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Normalize duplicate components while preserving order.
             if isinstance(components_list, list):
-                deduplicated_components_list = list(dict.fromkeys(components_list))
+                self.log(
+                    "Normalizing components_list with {0} candidate entries.".format(
+                        len(components_list)
+                    ),
+                    "DEBUG"
+                )
+                deduplicated_components_list = []
+                seen_components = set()
+                for component_index, component_name in enumerate(components_list, start=1):
+                    if component_name in seen_components:
+                        self.log(
+                            "Skipping duplicate components_list entry at index {0}: {1}".format(
+                                component_index, component_name
+                            ),
+                            "DEBUG"
+                        )
+                        continue
+
+                    seen_components.add(component_name)
+                    deduplicated_components_list.append(component_name)
+
                 if len(deduplicated_components_list) != len(components_list):
                     self.log(
                         "Deduplicated components_list from {0} to {1} entries.".format(
@@ -396,18 +416,36 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Normalize duplicate issue filter blocks while preserving order.
             issue_filters = component_filters.get("assurance_user_defined_issue_settings")
             if isinstance(issue_filters, list):
+                self.log(
+                    "Normalizing assurance_user_defined_issue_settings filters with {0} candidate entries.".format(
+                        len(issue_filters)
+                    ),
+                    "DEBUG"
+                )
                 deduplicated_issue_filters = []
                 seen_filter_keys = set()
-                for item in issue_filters:
+                for filter_index, item in enumerate(issue_filters, start=1):
                     if not isinstance(item, dict):
+                        self.log(
+                            "Retaining non-dict filter at index {0}: {1}".format(filter_index, item),
+                            "DEBUG"
+                        )
                         deduplicated_issue_filters.append(item)
                         continue
+
                     filter_key = (
                         item.get("name"),
                         item.get("is_enabled")
                     )
                     if filter_key in seen_filter_keys:
+                        self.log(
+                            "Skipping duplicate assurance_user_defined_issue_settings filter at index {0} with key {1}".format(
+                                filter_index, filter_key
+                            ),
+                            "DEBUG"
+                        )
                         continue
+
                     seen_filter_keys.add(filter_key)
                     deduplicated_issue_filters.append(item)
                 if len(deduplicated_issue_filters) != len(issue_filters):
@@ -1068,17 +1106,46 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Normalize duplicate component filter blocks to avoid repeated API calls.
         if isinstance(component_specific_filters, list):
+            self.log(
+                "Normalizing component-specific user issue filters with {0} candidate entries.".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
             deduplicated_filters = []
             seen_filter_keys = set()
-            for item in component_specific_filters:
+            for filter_index, item in enumerate(component_specific_filters, start=1):
                 if not isinstance(item, dict):
+                    self.log(
+                        "Retaining non-dict component-specific filter at index {0}: {1}".format(
+                            filter_index, item
+                        ),
+                        "DEBUG"
+                    )
                     deduplicated_filters.append(item)
                     continue
+
                 filter_key = (item.get("name"), item.get("is_enabled"))
                 if filter_key in seen_filter_keys:
+                    self.log(
+                        "Skipping duplicate component-specific filter at index {0} with key {1}".format(
+                            filter_index, filter_key
+                        ),
+                        "DEBUG"
+                    )
                     continue
+
                 seen_filter_keys.add(filter_key)
                 deduplicated_filters.append(item)
+
+            if len(deduplicated_filters) != len(component_specific_filters):
+                self.log(
+                    "Deduplicated component-specific filters from {0} to {1} entries.".format(
+                        len(component_specific_filters), len(deduplicated_filters)
+                    ),
+                    "INFO"
+                )
+
             component_specific_filters = deduplicated_filters
 
         self.log(
@@ -1138,19 +1205,49 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Deduplicate merged issue entries (same issue can be returned across repeated filters).
             deduplicated_user_issues = []
             seen_issues = set()
-            for issue in final_user_issues:
+            self.log(
+                "Deduplicating merged user issues list with {0} candidate entries.".format(
+                    len(final_user_issues)
+                ),
+                "DEBUG"
+            )
+            for issue_index, issue in enumerate(final_user_issues, start=1):
                 if not isinstance(issue, dict):
+                    self.log(
+                        "Retaining non-dict merged issue entry at index {0}: {1}".format(
+                            issue_index, issue
+                        ),
+                        "DEBUG"
+                    )
                     deduplicated_user_issues.append(issue)
                     continue
+
                 issue_key = (
                     issue.get("name"),
                     issue.get("isEnabled"),
                     issue.get("priority")
                 )
                 if issue_key in seen_issues:
+                    self.log(
+                        "Skipping duplicate merged issue entry at index {0} with key {1}".format(
+                            issue_index, issue_key
+                        ),
+                        "DEBUG"
+                    )
                     continue
+
                 seen_issues.add(issue_key)
                 deduplicated_user_issues.append(issue)
+
+            if len(deduplicated_user_issues) != len(final_user_issues):
+                self.log(
+                    "Deduplicated merged issue entries from {0} to {1}.".format(
+                        len(final_user_issues), len(deduplicated_user_issues)
+                    ),
+                    "INFO"
+                )
+            else:
+                self.log("No duplicate merged issue entries found.", "DEBUG")
             final_user_issues = deduplicated_user_issues
 
             # Track success
