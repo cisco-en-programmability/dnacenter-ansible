@@ -18,7 +18,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from unittest.mock import patch
+from unittest.mock import patch, mock_open
 
 from ansible_collections.cisco.dnac.plugins.modules import pnp_playbook_config_generator
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
@@ -71,6 +71,10 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
 
         elif "playbook_no_config" in self._testMethodName:
             pass
+        elif "default_file_path" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("PnPdevices"),
+            ]
 
     def test_brownfield_pnp_playbook_generator_playbook_pnp_generate_all_configurations(self):
         """
@@ -150,3 +154,30 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
             result.get("response").get("message"),
             "No PnP devices found matching specified filters. Verify device inventory and filter criteria."
         )
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_brownfield_pnp_playbook_generator_default_file_path(self, mock_file):
+        """
+        Test the PnP Playbook Generator default filename path when config and file_path are omitted.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.7.9",
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+
+        response = result.get("response")
+        self.assertEqual(
+            response.get("message"),
+            "YAML config generation succeeded for module 'pnp_workflow_manager'."
+        )
+        self.assertIn("file_path", response)
+        self.assertTrue(response.get("file_path").endswith(".yml"))
+        mock_file.assert_called()
