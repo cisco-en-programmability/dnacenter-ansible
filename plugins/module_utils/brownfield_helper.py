@@ -640,6 +640,164 @@ class BrownFieldHelper:
             "INFO",
         )
 
+    def deduplicate_component_filters(self, component_specific_filters):
+        """
+        Remove duplicate filter entries from each component's filter list
+        within component_specific_filters.
+
+        Traverses each component in components_list and deduplicates the
+        corresponding filter list by converting each filter dict to a
+        frozenset for comparison, preserving the original order.
+
+        Modifies component_specific_filters in-place.
+
+        Args:
+            component_specific_filters (dict): Dictionary containing component-specific filters.
+                Expected to have 'components_list' and component filter keys.
+
+        Returns:
+            None
+        """
+        self.log(
+            "Starting deduplication of filters in component_specific_filters.",
+            "INFO",
+        )
+
+        if not component_specific_filters:
+            self.log(
+                "No component_specific_filters provided, skipping deduplication.",
+                "DEBUG",
+            )
+            return
+
+        components_list = component_specific_filters.get("components_list")
+
+        if not components_list:
+            self.log(
+                "No components found in components_list, skipping deduplication.",
+                "DEBUG",
+            )
+            return
+
+        self.log(
+            "Components list for deduplication: {0}".format(components_list),
+            "DEBUG",
+        )
+
+        for component in components_list:
+            self.log(
+                "Processing deduplication for component: '{0}'".format(component),
+                "DEBUG",
+            )
+
+            filters = component_specific_filters.get(component)
+
+            if filters is None:
+                self.log(
+                    "No filters provided for component '{0}', skipping.".format(component),
+                    "DEBUG",
+                )
+                continue
+
+            if not isinstance(filters, list):
+                self.log(
+                    "Filters for component '{0}' is not a list (type: {1}), skipping.".format(
+                        component, type(filters).__name__
+                    ),
+                    "DEBUG",
+                )
+                continue
+
+            if not filters:
+                self.log(
+                    "Filters list for component '{0}' is empty, skipping.".format(component),
+                    "DEBUG",
+                )
+                continue
+
+            self.log(
+                "Found {0} filter(s) for component '{1}': {2}".format(
+                    len(filters), component, filters
+                ),
+                "DEBUG",
+            )
+
+            seen = set()
+            unique_filters = []
+            self.log(
+                "Starting deduplication loop for {0} filter(s) in component '{1}'.".format(
+                    len(filters), component
+                ),
+                "DEBUG",
+            )
+
+            for index, filter_entry in enumerate(filters, start=1):
+                self.log(
+                    "Evaluating filter entry [{0}] for component '{1}': {2}".format(
+                        index, component, filter_entry
+                    ),
+                    "DEBUG",
+                )
+
+                if isinstance(filter_entry, dict):
+                    key = frozenset(
+                        (k, v if not isinstance(v, list) else tuple(v))
+                        for k, v in sorted(filter_entry.items())
+                    )
+                    self.log(
+                        "Generated dedup key for dict filter entry [{0}]: {1}".format(
+                            index, key
+                        ),
+                        "DEBUG",
+                    )
+                else:
+                    key = filter_entry
+                    self.log(
+                        "Using raw value as dedup key for non-dict filter entry [{0}]: {1}".format(
+                            index, key
+                        ),
+                        "DEBUG",
+                    )
+
+                if key not in seen:
+                    seen.add(key)
+                    unique_filters.append(filter_entry)
+                    self.log(
+                        "Filter entry [{0}] for component '{1}' is unique, added to result.".format(
+                            index, component
+                        ),
+                        "DEBUG",
+                    )
+                else:
+                    self.log(
+                        "Duplicate filter entry found at index [{0}] in component '{1}': {2}".format(
+                            index, component, filter_entry
+                        ),
+                        "DEBUG",
+                    )
+
+            duplicates_removed = len(filters) - len(unique_filters)
+            if duplicates_removed > 0:
+                component_specific_filters[component] = unique_filters
+                self.log(
+                    "Removed {0} duplicate filter(s) from component '{1}'. "
+                    "Original count: {2}, After dedup: {3}".format(
+                        duplicates_removed, component,
+                        len(filters), len(unique_filters)
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "No duplicate filters found for component '{0}'.".format(component),
+                    "DEBUG",
+                )
+
+        self.log(
+            "Completed deduplication of filters in component_specific_filters.",
+            "INFO",
+        )
+
     def validate_params(self, config):
         """
         Validates the parameters provided for the YAML configuration generator.
