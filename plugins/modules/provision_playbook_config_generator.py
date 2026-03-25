@@ -83,8 +83,10 @@ options:
             suboptions:
               management_ip_address:
                 description:
-                - Management IP address to filter devices by IP address.
-                type: str
+                - One or more management IP addresses to filter devices by IP address.
+                - A single string is normalized to a one-item list for backward compatibility.
+                type: list
+                elements: str
               site_name_hierarchy:
                 description:
                 - Site name hierarchy to filter devices by site.
@@ -93,8 +95,11 @@ options:
                 elements: str
               device_family:
                 description:
-                - Device family to filter devices by type (e.g., 'Switches and Hubs', 'Routers').
-                type: str
+                - One or more device families to filter devices by type
+                  (e.g., 'Switches and Hubs', 'Routers').
+                - A single string is normalized to a one-item list for backward compatibility.
+                type: list
+                elements: str
           wireless:
             description:
             - Wireless devices to filter devices by management IP, site name, or device family.
@@ -103,8 +108,10 @@ options:
             suboptions:
               management_ip_address:
                 description:
-                - Management IP address to filter devices by IP address.
-                type: str
+                - One or more management IP addresses to filter devices by IP address.
+                - A single string is normalized to a one-item list for backward compatibility.
+                type: list
+                elements: str
               site_name_hierarchy:
                 description:
                 - Site name hierarchy to filter devices by site.
@@ -113,8 +120,11 @@ options:
                 elements: str
               device_family:
                 description:
-                - Device family to filter devices by type (e.g., 'Wireless Controller').
-                type: str
+                - One or more device families to filter devices by type
+                  (e.g., 'Wireless Controller').
+                - A single string is normalized to a one-item list for backward compatibility.
+                type: list
+                elements: str
 requirements:
 - dnacentersdk >= 2.7.2
 - python >= 3.9
@@ -206,6 +216,11 @@ EXAMPLES = r"""
     config:
       component_specific_filters:
         components_list: ["wired", "wireless"]
+        wired:
+          - management_ip_address:
+              - "204.1.2.9"
+            device_family:
+              - "Switches and Hubs"
 """
 
 RETURN = r"""
@@ -556,18 +571,6 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
             valid_wireless_families = ["Wireless Controller"]
             component_blocks = []
 
-            def is_valid_ipv4(ip):
-                """Return True if ip is a valid IPv4 address."""
-                parts = str(ip).split(".")
-                if len(parts) != 4:
-                    return False
-                for part in parts:
-                    if not part.isdigit():
-                        return False
-                    if not 0 <= int(part) <= 255:
-                        return False
-                return True
-
             if "wired" in normalized_component_filters:
                 wired_filters = normalized_component_filters["wired"]
                 if not isinstance(wired_filters, list):
@@ -589,20 +592,14 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
-                    device_family = filter_item.get("device_family")
-                    if device_family is not None and device_family not in valid_wired_families:
-                        self.msg = (
-                            "Invalid 'device_family' value '{0}' in wired filters. "
-                            "Valid choices are: {1}.".format(device_family, valid_wired_families)
-                        )
+                    if not self.normalize_string_list_filter(
+                        filter_item, "device_family", "wired", valid_values=valid_wired_families
+                    ):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
-                    mgmt_ip = filter_item.get("management_ip_address")
-                    if mgmt_ip is not None and not is_valid_ipv4(mgmt_ip):
-                        self.msg = (
-                            "Invalid IPv4 address '{0}' in wired filters.management_ip_address. "
-                            "Must be a valid IPv4 address (e.g. '192.168.1.1').".format(mgmt_ip)
-                        )
+                    if not self.normalize_string_list_filter(
+                        filter_item, "management_ip_address", "wired", validator=self.is_valid_ipv4
+                    ):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
                 component_blocks.append("wired")
@@ -631,21 +628,15 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                    device_family = filter_item.get("device_family")
-                    if device_family is not None and device_family not in valid_wireless_families:
-                        self.msg = (
-                            "Invalid 'device_family' value '{0}' in wireless filters. "
-                            "Valid choices are: {1}.".format(device_family, valid_wireless_families)
-                        )
+                    if not self.normalize_string_list_filter(
+                        filter_item, "device_family", "wireless", valid_values=valid_wireless_families
+                    ):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                    mgmt_ip = filter_item.get("management_ip_address")
-                    if mgmt_ip is not None and not is_valid_ipv4(mgmt_ip):
-                        self.msg = (
-                            "Invalid IPv4 address '{0}' in wireless filters.management_ip_address. "
-                            "Must be a valid IPv4 address (e.g. '192.168.1.1').".format(mgmt_ip)
-                        )
+                    if not self.normalize_string_list_filter(
+                        filter_item, "management_ip_address", "wireless", validator=self.is_valid_ipv4
+                    ):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
@@ -678,6 +669,79 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.msg = "Successfully validated playbook configuration parameters."
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+
+    def is_valid_ipv4(self, ip_address):
+        """Return True if ip_address is a valid IPv4 address."""
+        parts = str(ip_address).split(".")
+        if len(parts) != 4:
+            return False
+        for part in parts:
+            if not part.isdigit():
+                return False
+            if not 0 <= int(part) <= 255:
+                return False
+        return True
+
+    def normalize_string_list_filter(self, filter_item, filter_key, component_name, valid_values=None, validator=None):
+        """
+        Normalize scalar filter values to single-item lists and validate each entry.
+        """
+        value = filter_item.get(filter_key)
+        if value is None:
+            return True
+
+        if isinstance(value, str):
+            value_list = [value]
+        elif isinstance(value, list):
+            value_list = value
+        else:
+            self.msg = (
+                "'{0}' in {1} filters must be a string or list of strings.".format(
+                    filter_key, component_name
+                )
+            )
+            return False
+
+        invalid_type_values = [item for item in value_list if not isinstance(item, str)]
+        if invalid_type_values:
+            self.msg = (
+                "'{0}' in {1} filters must contain strings only.".format(
+                    filter_key, component_name
+                )
+            )
+            return False
+
+        if valid_values is not None:
+            invalid_values = [item for item in value_list if item not in valid_values]
+            if invalid_values:
+                self.msg = (
+                    "Invalid '{0}' values {1} in {2} filters. Valid choices are: {3}.".format(
+                        filter_key, invalid_values, component_name, valid_values
+                    )
+                )
+                return False
+
+        if validator is not None:
+            invalid_values = [item for item in value_list if not validator(item)]
+            if invalid_values:
+                self.msg = (
+                    "Invalid IPv4 address values {0} in {1} filters.{2}. "
+                    "Each value must be a valid IPv4 address (e.g. '192.168.1.1').".format(
+                        invalid_values, component_name, filter_key
+                    )
+                )
+                return False
+
+        filter_item[filter_key] = value_list
+        return True
+
+    def filter_value_matches(self, actual_value, expected_value):
+        """
+        Compare a device value against a scalar or list filter value.
+        """
+        if isinstance(expected_value, list):
+            return actual_value in expected_value
+        return actual_value == expected_value
 
     def provision_workflow_manager_mapping(self):
         """
@@ -1047,25 +1111,19 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                 for key, value in filter_param.items():
                     if key == "management_ip_address":
                         device_ip = self.transform_device_management_ip(device)
-                        if device_ip != value:
+                        if not self.filter_value_matches(device_ip, value):
                             match = False
                             break
 
                     elif key == "site_name_hierarchy":
                         site_hierarchy = self.transform_device_site_hierarchy(device)
-                        # Handle site_name_hierarchy as list
-                        if isinstance(value, list):
-                            if site_hierarchy not in value:
-                                match = False
-                                break
-                        else:
-                            if site_hierarchy != value:
-                                match = False
-                                break
+                        if not self.filter_value_matches(site_hierarchy, value):
+                            match = False
+                            break
 
                     elif key == "device_family":
                         device_family = self.transform_device_family_info(device)
-                        if device_family != value:
+                        if not self.filter_value_matches(device_family, value):
                             match = False
                             break
 
@@ -1632,17 +1690,17 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
                         for key, value in filter_param.items():
                             if key == "management_ip_address":
                                 device_ip = self.transform_device_management_ip(device)
-                                if device_ip != value:
+                                if not self.filter_value_matches(device_ip, value):
                                     match = False
                                     break
                             elif key == "site_name_hierarchy":
                                 site_hierarchy = self.transform_device_site_hierarchy(device)
-                                if site_hierarchy != value:
+                                if not self.filter_value_matches(site_hierarchy, value):
                                     match = False
                                     break
                             elif key == "device_family":
                                 device_family = self.transform_device_family_info(device)
-                                if device_family != value:
+                                if not self.filter_value_matches(device_family, value):
                                     match = False
                                     break
                         if match and device not in filtered_devices:
@@ -1918,13 +1976,13 @@ class ProvisionPlaybookGenerator(DnacBase, BrownFieldHelper):
 
                         for key, value in filter_param.items():
                             if key == "management_ip_address":
-                                if device.get("managementIpAddress") != value:
+                                if not self.filter_value_matches(device.get("managementIpAddress"), value):
                                     match = False
                                     break
                             elif key == "site_name_hierarchy":
                                 site_id = device.get("siteId")
                                 site_hierarchy = self.site_id_name_dict.get(site_id) if site_id else None
-                                if site_hierarchy != value:
+                                if not self.filter_value_matches(site_hierarchy, value):
                                     match = False
                                     break
 
