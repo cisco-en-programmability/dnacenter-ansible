@@ -405,7 +405,11 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
                 if len(deduplicated_components_list) != len(components_list):
                     self.log(
-                        "Deduplicated components_list from {0} to {1} entries.".format(
+                        (
+                            "Removing duplicate entries from components_list: "
+                            "{0} entries reduced to {1} unique entries to avoid "
+                            "redundant processing."
+                        ).format(
                             len(components_list), len(deduplicated_components_list)
                         ),
                         "INFO"
@@ -450,7 +454,11 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     deduplicated_issue_filters.append(item)
                 if len(deduplicated_issue_filters) != len(issue_filters):
                     self.log(
-                        "Deduplicated assurance_user_defined_issue_settings filters from {0} to {1} entries.".format(
+                        (
+                            "Deduplicated assurance_user_defined_issue_settings "
+                            "filters from {0} to {1} entries to prevent repeated "
+                            "API calls for the same filter combination."
+                        ).format(
                             len(issue_filters), len(deduplicated_issue_filters)
                         ),
                         "INFO"
@@ -1123,6 +1131,9 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "DEBUG"
                     )
                     deduplicated_filters.append(item)
+                    self.log("Removed {0} duplicate filter entries in component-specific filters before API calls.".format(
+                        len(component_specific_filters) - len(deduplicated_filters)
+                    ), "INFO")
                     continue
 
                 filter_key = (item.get("name"), item.get("is_enabled"))
@@ -1206,8 +1217,8 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             deduplicated_user_issues = []
             seen_issues = set()
             self.log(
-                "Deduplicating merged user issues list with {0} candidate entries.".format(
-                    len(final_user_issues)
+                "Deduplicated final issue results from {0} to {1} entries to remove cross-filter duplicates.".format(
+                    len(final_user_issues), len(deduplicated_user_issues)
                 ),
                 "DEBUG"
             )
