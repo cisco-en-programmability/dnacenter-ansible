@@ -54,7 +54,7 @@
             components_list: ["port_assignments"]
             port_assignments:
               - fabric_site_name_hierarchy: "Global/California/23"
-                device_ips: 
+                device_ips:
                   - 10.195.120.219
 
     - name: Generate YAML Configuration with specific component port channels filters
