@@ -301,12 +301,35 @@ class BrownFieldHelper:
 
         for component_name, component_filters in component_specific_filters.items():
             if component_name == "components_list":
+                self.log(
+                    "Skipping 'components_list' key — not a component entry.",
+                    "DEBUG",
+                )
                 continue
 
             # Check if component exists
             if component_name not in network_elements:
                 invalid_filters.append(
                     "Component '{0}' not supported".format(component_name)
+                )
+                self.log(
+                    "Skipping unsupported component '{0}' — not in network_elements.".format(
+                        component_name
+                    ),
+                    "DEBUG",
+                )
+                continue
+
+            # Component Filters must be list
+            if not isinstance(component_filters, list):
+                invalid_filters.append(
+                    "Component '{0}' filters must be a list".format(component_name)
+                )
+                self.log(
+                    "Filters for component '{0}' are not a list, got type '{1}'. Skipping.".format(
+                        component_name, type(component_filters).__name__
+                    ),
+                    "DEBUG",
                 )
                 continue
 
@@ -327,25 +350,64 @@ class BrownFieldHelper:
                             )
                 continue
 
-            # Enhanced validation for new format (dict with rules)
-            if isinstance(component_filters, dict):
-                for filter_name, filter_value in component_filters.items():
+            # Validating component filters entries
+            self.log(
+                "Validating {0} filter entry/entries for component '{1}'.".format(
+                    len(component_filters), component_name
+                ),
+                "DEBUG",
+            )
+
+            for index, component_filter in enumerate(component_filters, start=1):
+                self.log(
+                    "Validating filter entry {0}/{1} for component '{2}': {3}".format(
+                        index, len(component_filters), component_name, component_filter
+                    ),
+                    "DEBUG",
+                )
+
+                for filter_name, filter_value in component_filter.items():
+                    self.log(
+                        "Processing filter '{0}' in entry {1}/{2} for component '{3}': value={4}".format(
+                            filter_name, index, len(component_filters), component_name, filter_value
+                        ),
+                        "DEBUG",
+                    )
                     if filter_name not in valid_filters_for_component:
                         invalid_filters.append(
                             "Filter '{0}' not valid for component '{1}'".format(
                                 filter_name, component_name
                             )
                         )
+                        self.log(
+                            "Skipping validation for unrecognized filter '{0}' in component '{1}'.".format(
+                                filter_name, component_name
+                            ),
+                            "DEBUG",
+                        )
                         continue
 
                     filter_spec = valid_filters_for_component[filter_name]
                     # Validate type
                     expected_type = filter_spec.get("type", "str")
+                    self.log(
+                        "Validating filter '{0}' for component '{1}': expected_type='{2}', value={3}".format(
+                            filter_name, component_name, expected_type, filter_value
+                        ),
+                        "DEBUG",
+                    )
+
                     if expected_type == "list" and not isinstance(filter_value, list):
                         invalid_filters.append(
                             "Component '{0}' filter '{1}' must be a list".format(
                                 component_name, filter_name
                             )
+                        )
+                        self.log(
+                            "Type mismatch for component '{0}' filter '{1}': expected list, got {2}.".format(
+                                component_name, filter_name, type(filter_value).__name__
+                            ),
+                            "DEBUG",
                         )
                         continue
                     elif expected_type == "dict" and not isinstance(filter_value, dict):
@@ -354,12 +416,24 @@ class BrownFieldHelper:
                                 component_name, filter_name
                             )
                         )
+                        self.log(
+                            "Type mismatch for component '{0}' filter '{1}': expected dict, got {2}.".format(
+                                component_name, filter_name, type(filter_value).__name__
+                            ),
+                            "DEBUG",
+                        )
                         continue
                     elif expected_type == "str" and not isinstance(filter_value, str):
                         invalid_filters.append(
                             "Component '{0}' filter '{1}' must be a string".format(
                                 component_name, filter_name
                             )
+                        )
+                        self.log(
+                            "Type mismatch for component '{0}' filter '{1}': expected str, got {2}.".format(
+                                component_name, filter_name, type(filter_value).__name__
+                            ),
+                            "DEBUG",
                         )
                         continue
                     elif expected_type == "int" and not isinstance(filter_value, int):
@@ -368,12 +442,24 @@ class BrownFieldHelper:
                                 component_name, filter_name
                             )
                         )
+                        self.log(
+                            "Type mismatch for component '{0}' filter '{1}': expected int, got {2}.".format(
+                                component_name, filter_name, type(filter_value).__name__
+                            ),
+                            "DEBUG",
+                        )
                         continue
 
                     #  ADD: Direct range validation for integers
                     if expected_type == "int" and "range" in filter_spec:
                         range_values = filter_spec["range"]
                         min_val, max_val = range_values[0], range_values[1]
+                        self.log(
+                            "Checking range for component '{0}' filter '{1}': value={2}, range=[{3}, {4}].".format(
+                                component_name, filter_name, filter_value, min_val, max_val
+                            ),
+                            "DEBUG",
+                        )
                         if not (min_val <= filter_value <= max_val):
                             invalid_filters.append(
                                 "Component '{0}' filter '{1}' value {2} is outside valid range [{3}, {4}]".format(
@@ -384,11 +470,23 @@ class BrownFieldHelper:
                                     max_val,
                                 )
                             )
+                            self.log(
+                                "Range validation failed for component '{0}' filter '{1}': value {2} outside [{3}, {4}].".format(
+                                    component_name, filter_name, filter_value, min_val, max_val
+                                ),
+                                "DEBUG",
+                            )
                             continue
 
                     # Validate patterns for string filters
                     if expected_type == "str" and "pattern" in filter_spec:
                         pattern = filter_spec["pattern"]
+                        self.log(
+                            "Checking pattern for component '{0}' filter '{1}': value='{2}', pattern='{3}'.".format(
+                                component_name, filter_name, filter_value, pattern
+                            ),
+                            "DEBUG",
+                        )
                         if isinstance(filter_value, str) and not re.match(
                             pattern, filter_value
                         ):
@@ -397,11 +495,23 @@ class BrownFieldHelper:
                                     component_name, filter_name
                                 )
                             )
+                            self.log(
+                                "Pattern validation failed for component '{0}' filter '{1}': value '{2}' does not match '{3}'.".format(
+                                    component_name, filter_name, filter_value, pattern
+                                ),
+                                "DEBUG",
+                            )
                             continue
 
                     # Validate choices for lists
                     if expected_type == "list" and "choices" in filter_spec:
                         valid_choices = filter_spec["choices"]
+                        self.log(
+                            "Checking list choices for component '{0}' filter '{1}': valid_choices={2}.".format(
+                                component_name, filter_name, valid_choices
+                            ),
+                            "DEBUG",
+                        )
                         invalid_choices = [
                             item for item in filter_value if item not in valid_choices
                         ]
@@ -414,11 +524,24 @@ class BrownFieldHelper:
                                     valid_choices,
                                 )
                             )
+                            self.log(
+                                "Invalid choices found for component '{0}' filter '{1}': {2}.".format(
+                                    component_name, filter_name, invalid_choices
+                                ),
+                                "DEBUG",
+                            )
 
                     # Validate list elements with range validation
                     if expected_type == "list" and filter_value:
                         element_type = filter_spec.get("elements", "str")
                         range_values = filter_spec.get("range")
+                        self.log(
+                            "Validating list elements for component '{0}' filter '{1}': "
+                            "element_type='{2}', element_count={3}.".format(
+                                component_name, filter_name, element_type, len(filter_value)
+                            ),
+                            "DEBUG",
+                        )
 
                         for i, element in enumerate(filter_value):
                             #  ADD: Range validation for list elements
@@ -439,10 +562,23 @@ class BrownFieldHelper:
                                             max_val,
                                         )
                                     )
+                                    self.log(
+                                        "Range validation failed for component '{0}' filter '{1}[{2}]': "
+                                        "value {3} outside [{4}, {5}].".format(
+                                            component_name, filter_name, i, element, min_val, max_val
+                                        ),
+                                        "DEBUG",
+                                    )
                                     continue
                     # Validate choices for strings
                     if expected_type == "str" and "choices" in filter_spec:
                         valid_choices = filter_spec["choices"]
+                        self.log(
+                            "Checking string choices for component '{0}' filter '{1}': value='{2}', valid_choices={3}.".format(
+                                component_name, filter_name, filter_value, valid_choices
+                            ),
+                            "DEBUG",
+                        )
                         if filter_value not in valid_choices:
                             invalid_filters.append(
                                 "Component '{0}' filter '{1}' has invalid value: '{2}'. Valid choices: {3}".format(
@@ -452,10 +588,22 @@ class BrownFieldHelper:
                                     valid_choices,
                                 )
                             )
+                            self.log(
+                                "Invalid string choice for component '{0}' filter '{1}': '{2}'.".format(
+                                    component_name, filter_name, filter_value
+                                ),
+                                "DEBUG",
+                            )
 
                     # Validate nested dict options and apply dynamic validation
                     if expected_type == "dict" and "options" in filter_spec:
                         nested_options = filter_spec["options"]
+                        self.log(
+                            "Validating nested dict options for component '{0}' filter '{1}': keys={2}.".format(
+                                component_name, filter_name, list(filter_value.keys())
+                            ),
+                            "DEBUG",
+                        )
                         for nested_key, nested_value in filter_value.items():
                             if nested_key not in nested_options:
                                 invalid_filters.append(
@@ -463,10 +611,23 @@ class BrownFieldHelper:
                                         component_name, filter_name, nested_key
                                     )
                                 )
+                                self.log(
+                                    "Invalid nested key '{0}' in component '{1}' filter '{2}'. Skipping.".format(
+                                        nested_key, component_name, filter_name
+                                    ),
+                                    "DEBUG",
+                                )
                                 continue
 
                             nested_spec = nested_options[nested_key]
                             nested_type = nested_spec.get("type", "str")
+                            self.log(
+                                "Validating nested key '{0}' in component '{1}' filter '{2}': "
+                                "expected_type='{3}', value={4}.".format(
+                                    nested_key, component_name, filter_name, nested_type, nested_value
+                                ),
+                                "DEBUG",
+                            )
 
                             if nested_type == "list" and not isinstance(
                                 nested_value, list
@@ -476,6 +637,13 @@ class BrownFieldHelper:
                                         component_name, filter_name, nested_key
                                     )
                                 )
+                                self.log(
+                                    "Type mismatch for nested key '{0}' in component '{1}' filter '{2}': "
+                                    "expected list, got {3}.".format(
+                                        nested_key, component_name, filter_name, type(nested_value).__name__
+                                    ),
+                                    "DEBUG",
+                                )
                             elif nested_type == "str" and not isinstance(
                                 nested_value, str
                             ):
@@ -483,6 +651,13 @@ class BrownFieldHelper:
                                     "Component '{0}' filter '{1}.{2}' must be a string".format(
                                         component_name, filter_name, nested_key
                                     )
+                                )
+                                self.log(
+                                    "Type mismatch for nested key '{0}' in component '{1}' filter '{2}': "
+                                    "expected str, got {3}.".format(
+                                        nested_key, component_name, filter_name, type(nested_value).__name__
+                                    ),
+                                    "DEBUG",
                                 )
                             elif nested_type == "int" and not isinstance(
                                 nested_value, int
@@ -492,11 +667,25 @@ class BrownFieldHelper:
                                         component_name, filter_name, nested_key
                                     )
                                 )
+                                self.log(
+                                    "Type mismatch for nested key '{0}' in component '{1}' filter '{2}': "
+                                    "expected int, got {3}.".format(
+                                        nested_key, component_name, filter_name, type(nested_value).__name__
+                                    ),
+                                    "DEBUG",
+                                )
 
                             #  ADD: Direct range validation for nested integers
                             if nested_type == "int" and "range" in nested_spec:
                                 range_values = nested_spec["range"]
                                 min_val, max_val = range_values[0], range_values[1]
+                                self.log(
+                                    "Checking range for nested key '{0}' in component '{1}' filter '{2}': "
+                                    "value={3}, range=[{4}, {5}].".format(
+                                        nested_key, component_name, filter_name, nested_value, min_val, max_val
+                                    ),
+                                    "DEBUG",
+                                )
                                 if not (min_val <= nested_value <= max_val):
                                     invalid_filters.append(
                                         "Component '{0}' filter '{1}.{2}' value {3} is outside valid range [{4}, {5}]".format(
@@ -508,6 +697,13 @@ class BrownFieldHelper:
                                             max_val,
                                         )
                                     )
+                                    self.log(
+                                        "Range validation failed for nested key '{0}' in component '{1}' filter '{2}': "
+                                        "value {3} outside [{4}, {5}].".format(
+                                            nested_key, component_name, filter_name, nested_value, min_val, max_val
+                                        ),
+                                        "DEBUG",
+                                    )
                                     continue
 
                             # Validate patterns using regex
@@ -515,11 +711,25 @@ class BrownFieldHelper:
                                 nested_value, str
                             ):
                                 pattern = nested_spec["pattern"]
+                                self.log(
+                                    "Checking pattern for nested key '{0}' in component '{1}' filter '{2}': "
+                                    "value='{3}', pattern='{4}'.".format(
+                                        nested_key, component_name, filter_name, nested_value, pattern
+                                    ),
+                                    "DEBUG",
+                                )
                                 if not re.match(pattern, nested_value):
                                     invalid_filters.append(
                                         "Component '{0}' filter '{1}.{2}' does not match required pattern".format(
                                             component_name, filter_name, nested_key
                                         )
+                                    )
+                                    self.log(
+                                        "Pattern validation failed for nested key '{0}' in component '{1}' filter '{2}': "
+                                        "value '{3}' does not match '{4}'.".format(
+                                            nested_key, component_name, filter_name, nested_value, pattern
+                                        ),
+                                        "DEBUG",
                                     )
 
         if invalid_filters:
@@ -529,7 +739,7 @@ class BrownFieldHelper:
             self.fail_and_exit(self.msg)
 
         self.log(
-            "All component-specific filters for module '{0}' are valid.".format(
+            "Successfully validated all component-specific filters for module '{0}'.".format(
                 self.module_name
             ),
             "INFO",

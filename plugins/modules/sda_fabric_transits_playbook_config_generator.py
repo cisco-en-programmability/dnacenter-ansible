@@ -418,7 +418,10 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "sda_fabric_transits": {
-                    "filters": ["name", "transit_type"],
+                    "filters": {
+                        "name": {"type": "str"},
+                        "transit_type": {"type": "str"}
+                    },
                     "reverse_mapping_function": self.fabric_transit_temp_spec,
                     "api_function": "get_transit_networks",
                     "api_family": "sda",
@@ -737,7 +740,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         modified_fabric_transits_details = {}
 
         if transit_details:
-            modified_fabric_transits_details["fabric_transits"] = transit_details
+            modified_fabric_transits_details["sda_fabric_transits"] = transit_details
 
         self.log(
             "Completed retrieving fabric transit(s): {0}".format(
