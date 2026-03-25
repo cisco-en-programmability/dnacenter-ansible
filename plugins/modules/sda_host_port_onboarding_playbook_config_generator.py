@@ -109,27 +109,68 @@ options:
           port_assignments:
             description:
             - Filters for port assignment configuration extraction.
-            - Extracts only port assignments for specified fabric site hierarchies.
-            - Fabric site names must be full hierarchical paths (case-sensitive).
-            - If not specified when component included in components_list, extracts
-              all port assignments across all fabric sites.
+            - Each list entry targets one fabric site with optional
+              device IP filtering.
+            - Extracts only port assignments for specified fabric
+              site hierarchies and optionally only for specified
+              device management IPs within those sites.
+            - Fabric site names must be full hierarchical paths
+              (case-sensitive).
+            - If not specified when component included in
+              components_list, extracts all port assignments
+              across all fabric sites and all devices.
             type: list
             elements: dict
             required: false
             suboptions:
               fabric_site_name_hierarchy:
                 description:
-                - List of fabric site hierarchical paths to extract port assignments.
+                - Fabric site hierarchical paths to extract port assignments.
                 - Site names must match exact hierarchical paths in Catalyst Center
                   (case-sensitive).
                 - Extracts port assignments for all devices within specified fabric sites.
-                - For example, ["Global/USA/San Jose/Building1", "Global/USA/RTP/Building2"]
+                - For example, "Global/USA/San Jose/Building1"
                 type: str
                 required: false
               device_ips:
                 description:
-                - List of device IPs to extract port assignments.
-                - If not specified, extracts port assignments for all devices within specified fabric sites.
+                - List of device management IP addresses to filter
+                  extraction within this fabric site.
+                - IPs are matched against the managementIpAddress
+                  resolved from Catalyst Center for each device.
+                - Devices whose management IP does not match any IP
+                  in this list are skipped.
+                - If not specified, extracts configurations for all
+                  devices within the specified fabric site.
+                - For example, ["10.195.120.219", "10.195.120.220"]
+                type: list
+                elements: str
+                required: false
+              serial_numbers:
+                description:
+                - List of device serial numbers to filter extraction
+                  within this fabric site.
+                - Serial numbers are matched against the serialNumber
+                  resolved from Catalyst Center for each device.
+                - Devices whose serial number does not match any
+                  serial number in this list are skipped.
+                - If not specified, no serial number-based filtering
+                  is applied within the specified fabric site.
+                - For example, ["FJC2327U0S2", "FJC2327U0S3"]
+                type: list
+                elements: str
+                required: false
+              hostnames:
+                description:
+                - List of device hostnames to filter extraction
+                  within this fabric site.
+                - Hostnames are matched against the hostname resolved
+                  from Catalyst Center for each device.
+                - Devices whose hostname does not match any hostname
+                  in this list are skipped.
+                - If not specified, no hostname-based filtering is
+                  applied within the specified fabric site.
+                - For example, ["switch1", "switch2"]
                 type: list
                 elements: str
                 required: false
@@ -146,17 +187,52 @@ options:
             suboptions:
               fabric_site_name_hierarchy:
                 description:
-                - List of fabric site hierarchical paths to extract port channels.
+                - Fabric site hierarchical paths to extract port channels.
                 - Site names must match exact hierarchical paths in Catalyst Center
                   (case-sensitive).
                 - Extracts port channel configurations for all devices within specified fabric sites.
-                - For example, ["Global/USA/San Jose/Building1", "Global/USA/RTP/Building2"]
+                - For example, "Global/USA/San Jose/Building1"
                 type: str
                 required: false
               device_ips:
                 description:
-                - List of device IPs to extract port channels.
-                - If not specified, extracts port channels for all devices within specified fabric sites.
+                - List of device management IP addresses to filter
+                  extraction within this fabric site.
+                - IPs are matched against the managementIpAddress
+                  resolved from Catalyst Center for each device.
+                - Devices whose management IP does not match any IP
+                  in this list are skipped.
+                - If not specified, extracts configurations for all
+                  devices within the specified fabric site.
+                - For example, ["10.195.120.219", "10.195.120.220"]
+                type: list
+                elements: str
+                required: false
+              serial_numbers:
+                description:
+                - List of device serial numbers to filter extraction
+                  within this fabric site.
+                - Serial numbers are matched against the serialNumber
+                  resolved from Catalyst Center for each device.
+                - Devices whose serial number does not match any
+                  serial number in this list are skipped.
+                - If not specified, no serial number-based filtering
+                  is applied within the specified fabric site.
+                - For example, ["FJC2327U0S2", "FJC2327U0S3"]
+                type: list
+                elements: str
+                required: false
+              hostnames:
+                description:
+                - List of device hostnames to filter extraction
+                  within this fabric site.
+                - Hostnames are matched against the hostname resolved
+                  from Catalyst Center for each device.
+                - Devices whose hostname does not match any hostname
+                  in this list are skipped.
+                - If not specified, no hostname-based filtering is
+                  applied within the specified fabric site.
+                - For example, ["switch1", "switch2"]
                 type: list
                 elements: str
                 required: false
@@ -252,6 +328,33 @@ EXAMPLES = r"""
     file_path: "host_onboarding_playbook.yml"
     file_mode: "overwrite"
 
+- name: Generate YAML with multiple fabric sites and per-site device IP filtering
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        components_list: ["port_assignments, port_channels"]
+        port_assignments:
+          - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+            device_ips:
+              - 1.1.1.1
+          - fabric_site_name_hierarchy: "Global/USA/RTP/Building2"
+        port_channels:
+          - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+            device_ips:
+              - 1.1.1.1
+
 - name: Generate YAML Configuration with specific component port assignments filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
@@ -273,6 +376,53 @@ EXAMPLES = r"""
           - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
             device_ips:
               - 1.1.1.1
+              - 1.1.1.2
+
+- name: Generate YAML Configuration with specific component port assignments filters
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        components_list: ["port_assignments"]
+        port_assignments:
+          - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+            serial_numbers:
+              - FJC27251Z8B
+              - FJC27251Z8C
+
+- name: Generate YAML Configuration with specific component port assignments filters
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        components_list: ["port_assignments"]
+        port_assignments:
+          - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+            hostnames:
+              - switch1
+              - switch2
 
 - name: Generate YAML Configuration with specific component port channels filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -295,6 +445,53 @@ EXAMPLES = r"""
           - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
             device_ips:
               - 1.1.1.1
+              - 1.1.1.2
+
+- name: Generate YAML Configuration with specific component port channels filters
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        components_list: ["port_channels"]
+        port_channels:
+          - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+            serial_numbers:
+              - FJC27251Z8B
+              - FJC27251Z8C
+
+- name: Generate YAML Configuration with specific component port channels filters
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        components_list: ["port_channels"]
+        port_channels:
+          - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+            hostnames:
+              - switch1
+              - switch2
 
 - name: Generate YAML Configuration with specific component wireless ssids filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -654,6 +851,89 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             }
         }
 
+    def get_fabric_site_names_and_device_details_mapping(self, component_specific_filters):
+        """
+        Extracts fabric site name hierarchies and per-site device detail mappings from
+        component-specific filter entries.
+
+        Iterates over each filter entry in the provided component_specific_filters list,
+        collecting fabric site hierarchical names into an ordered list and building
+        dictionaries that map each fabric site name to sets of device management IP
+        addresses, serial numbers, and hostnames specified for that site. This enables
+        downstream methods to resolve fabric site IDs and apply per-device filtering
+        across multiple device identifiers during configuration extraction.
+
+        Args:
+            component_specific_filters (list[dict]): List of filter dictionaries, each
+                containing:
+                - fabric_site_name_hierarchy (str): Full hierarchical path of the fabric
+                  site in Catalyst Center (e.g., 'Global/USA/San Jose/Building1').
+                - device_ips (list[str], optional): List of device management IP addresses
+                  to filter extraction within the fabric site. Defaults to an empty list
+                  if not provided, indicating no IP-based filtering for that site.
+                - serial_numbers (list[str], optional): List of device serial numbers
+                  to filter extraction within the fabric site. Defaults to an empty list
+                  if not provided, indicating no serial number-based filtering for that site.
+                - hostnames (list[str], optional): List of device hostnames to filter
+                  extraction within the fabric site. Defaults to an empty list if not
+                  provided, indicating no hostname-based filtering for that site.
+
+        Returns:
+            tuple: A four-element tuple containing:
+                - fabric_site_name_hierarchies (list[str]): Ordered list of fabric site
+                  hierarchical names extracted from the filter entries, preserving the
+                  input order.
+                - fabric_site_name_device_ip_mapping (dict[str, set[str]]): Dictionary
+                  mapping each fabric site hierarchical name to a set of device management
+                  IP addresses. An empty set indicates no IP-based device filtering for
+                  that site.
+                - fabric_site_name_serial_number_mapping (dict[str, set[str]]): Dictionary
+                  mapping each fabric site hierarchical name to a set of device serial
+                  numbers. An empty set indicates no serial number-based device filtering
+                  for that site.
+                - fabric_site_name_hostname_mapping (dict[str, set[str]]): Dictionary
+                  mapping each fabric site hierarchical name to a set of device hostnames.
+                  An empty set indicates no hostname-based device filtering for that site.
+        """
+        self.log(
+            "Extracting fabric site name hierarchies and device detail mappings from "
+            "component-specific filters for targeted configuration extraction. This process "
+            "enables downstream methods to apply precise fabric site and device-based "
+            "filtering during API data retrieval and transformation workflows.",
+            "DEBUG"
+        )
+        fabric_site_name_hierarchies = []
+        fabric_site_name_device_ip_mapping = {}
+        fabric_site_name_serial_number_mapping = {}
+        fabric_site_name_hostname_mapping = {}
+
+        for filter_index, filter_item in enumerate(component_specific_filters, start=1):
+            fabric_site_name = filter_item.get("fabric_site_name_hierarchy")
+            device_ips = filter_item.get("device_ips", [])
+            serial_numbers = filter_item.get("serial_numbers", [])
+            hostnames = filter_item.get("hostnames", [])
+            self.log(
+                f"Processing filter {filter_index}/{len(component_specific_filters)} — "
+                f"fabric_site_name_hierarchy='{fabric_site_name}', device_ips={device_ips}, "
+                f"serial_numbers={serial_numbers}, hostnames={hostnames}.",
+                "DEBUG"
+            )
+            fabric_site_name_hierarchies.append(fabric_site_name)
+            fabric_site_name_device_ip_mapping[fabric_site_name] = set(device_ips)
+            fabric_site_name_serial_number_mapping[fabric_site_name] = set(serial_numbers)
+            fabric_site_name_hostname_mapping[fabric_site_name] = set(hostnames)
+
+        self.log(
+            f"Completed extraction of fabric site name hierarchies and device detail mappings. "
+            f"Extracted {len(fabric_site_name_hierarchies)} fabric site name hierarchy filter(s). "
+            f"Fabric site name to device IP mapping: {fabric_site_name_device_ip_mapping}. "
+            f"Fabric site name to serial number mapping: {fabric_site_name_serial_number_mapping}. "
+            f"Fabric site name to hostname mapping: {fabric_site_name_hostname_mapping}.",
+            "DEBUG"
+        )
+
+        return fabric_site_name_hierarchies, fabric_site_name_device_ip_mapping, fabric_site_name_serial_number_mapping, fabric_site_name_hostname_mapping
+
     def get_port_assignments_configuration(self, network_element, filters):
         """
         Retrieves and transforms port assignment configurations from Catalyst Center.
@@ -757,17 +1037,21 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         fabric_site_name_device_ip_mapping = {}
+        fabric_site_name_serial_number_mapping = {}
+        fabric_site_name_hostname_mapping = {}
+
         if component_specific_filters:
             self.log(
                 "Building fabric name to site ID mapping from cached "
                 "fabric_site_id_to_name_mapping for filter-based fabric ID resolution.",
                 "DEBUG"
             )
-
-            fabric_site_name_hierarchies = []
-            for filter_item in component_specific_filters:
-                fabric_site_name_hierarchies.append(filter_item.get("fabric_site_name_hierarchy"))
-                fabric_site_name_device_ip_mapping[filter_item.get("fabric_site_name_hierarchy")] = set(filter_item.get("device_ips", []))
+            (
+                fabric_site_name_hierarchies,
+                fabric_site_name_device_ip_mapping,
+                fabric_site_name_serial_number_mapping,
+                fabric_site_name_hostname_mapping
+            ) = self.get_fabric_site_names_and_device_details_mapping(component_specific_filters)
 
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
@@ -939,15 +1223,43 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 self.log(f"Device details response for device ID {network_device_id}: {device_response}", "DEBUG")
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
+                serial_number = device_info.get("serialNumber", "")
+                hostname = device_info.get("hostname", "")
+                fabric_site_name = self.fabric_site_id_to_name_mapping.get(fabric_id)
 
                 if fabric_site_name_device_ip_mapping:
-                    expected_ips = fabric_site_name_device_ip_mapping.get(self.fabric_site_id_to_name_mapping.get(fabric_id), set())
+                    expected_ips = fabric_site_name_device_ip_mapping.get(fabric_site_name, set())
                     if expected_ips and management_ip not in expected_ips:
                         self.log(
                             f"Warning: Resolved management IP '{management_ip}' for "
                             f"device ID '{network_device_id}' does not match expected "
                             f"IPs {expected_ips} from filters for fabric site "
-                            f"'{self.fabric_site_id_to_name_mapping.get(fabric_id)}'."
+                            f"'{fabric_site_name}'.",
+                            "DEBUG"
+                        )
+                        continue
+
+                if fabric_site_name_serial_number_mapping:
+                    expected_serials = fabric_site_name_serial_number_mapping.get(fabric_site_name, set())
+                    if expected_serials and serial_number not in expected_serials:
+                        self.log(
+                            f"Warning: Resolved serial number '{serial_number}' for "
+                            f"device ID '{network_device_id}' does not match expected "
+                            f"serial numbers {expected_serials} from filters for "
+                            f"fabric site '{fabric_site_name}'.",
+                            "DEBUG"
+                        )
+                        continue
+
+                if fabric_site_name_hostname_mapping:
+                    expected_hostnames = fabric_site_name_hostname_mapping.get(fabric_site_name, set())
+                    if expected_hostnames and hostname not in expected_hostnames:
+                        self.log(
+                            f"Warning: Resolved hostname '{hostname}' for device ID "
+                            f"'{network_device_id}' does not match expected hostnames "
+                            f"{expected_hostnames} from filters for fabric site "
+                            f"'{fabric_site_name}'.",
+                            "DEBUG"
                         )
                         continue
 
@@ -958,14 +1270,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
                 device_dict = {
                     'ip_address': management_ip,
-                    'fabric_site_name_hierarchy': self.fabric_site_id_to_name_mapping.get(fabric_id),
+                    'fabric_site_name_hierarchy': fabric_site_name,
                     'port_assignments': device_ports
                 }
                 all_fabric_port_assignments_details.append(device_dict)
                 self.log(
                     f"Added device configuration to final list. Device IP: "
                     f"{management_ip}, Fabric: "
-                    f"{self.fabric_site_id_to_name_mapping.get(fabric_id)}, Port "
+                    f"{fabric_site_name}, Port "
                     f"assignments: {len(device_ports)}.",
                     "DEBUG"
                 )
@@ -1081,17 +1393,21 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         fabric_site_name_device_ip_mapping = {}
+        fabric_site_name_serial_number_mapping = {}
+        fabric_site_name_hostname_mapping = {}
+
         if component_specific_filters:
             self.log(
                 "Building fabric name to site ID mapping from cached "
                 "fabric_site_id_to_name_mapping for filter-based fabric ID resolution.",
                 "DEBUG"
             )
-
-            fabric_site_name_hierarchies = []
-            for filter_item in component_specific_filters:
-                fabric_site_name_hierarchies.append(filter_item.get("fabric_site_name_hierarchy"))
-                fabric_site_name_device_ip_mapping[filter_item.get("fabric_site_name_hierarchy")] = set(filter_item.get("device_ips", []))
+            (
+                fabric_site_name_hierarchies,
+                fabric_site_name_device_ip_mapping,
+                fabric_site_name_serial_number_mapping,
+                fabric_site_name_hostname_mapping
+            ) = self.get_fabric_site_names_and_device_details_mapping(component_specific_filters)
 
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
@@ -1262,15 +1578,43 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
+                serial_number = device_info.get("serialNumber", "")
+                hostname = device_info.get("hostname", "")
+                fabric_site_name = self.fabric_site_id_to_name_mapping.get(fabric_id)
 
                 if fabric_site_name_device_ip_mapping:
-                    expected_ips = fabric_site_name_device_ip_mapping.get(self.fabric_site_id_to_name_mapping.get(fabric_id), set())
+                    expected_ips = fabric_site_name_device_ip_mapping.get(fabric_site_name, set())
                     if expected_ips and management_ip not in expected_ips:
                         self.log(
                             f"Warning: Resolved management IP '{management_ip}' for "
                             f"device ID '{network_device_id}' does not match expected "
                             f"IPs {expected_ips} from filters for fabric site "
-                            f"'{self.fabric_site_id_to_name_mapping.get(fabric_id)}'."
+                            f"'{fabric_site_name}'.",
+                            "DEBUG"
+                        )
+                        continue
+
+                if fabric_site_name_serial_number_mapping:
+                    expected_serials = fabric_site_name_serial_number_mapping.get(fabric_site_name, set())
+                    if expected_serials and serial_number not in expected_serials:
+                        self.log(
+                            f"Warning: Resolved serial number '{serial_number}' for "
+                            f"device ID '{network_device_id}' does not match expected "
+                            f"serial numbers {expected_serials} from filters for "
+                            f"fabric site '{fabric_site_name}'.",
+                            "DEBUG"
+                        )
+                        continue
+
+                if fabric_site_name_hostname_mapping:
+                    expected_hostnames = fabric_site_name_hostname_mapping.get(fabric_site_name, set())
+                    if expected_hostnames and hostname not in expected_hostnames:
+                        self.log(
+                            f"Warning: Resolved hostname '{hostname}' for device ID "
+                            f"'{network_device_id}' does not match expected hostnames "
+                            f"{expected_hostnames} from filters for fabric site "
+                            f"'{fabric_site_name}'.",
+                            "DEBUG"
                         )
                         continue
 
@@ -1281,14 +1625,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
                 device_dict = {
                     'ip_address': management_ip,
-                    'fabric_site_name_hierarchy': self.fabric_site_id_to_name_mapping.get(fabric_id),
+                    'fabric_site_name_hierarchy': fabric_site_name,
                     'port_channels': device_port_channels_list
                 }
                 all_fabric_port_channels_details.append(device_dict)
                 self.log(
                     "Added device configuration to final list. Device IP: "
                     f"{management_ip}, Fabric: "
-                    f"{self.fabric_site_id_to_name_mapping.get(fabric_id)}, Port channels: "
+                    f"{fabric_site_name}, Port channels: "
                     f"{len(device_port_channels_list)}.",
                     "DEBUG"
                 )
