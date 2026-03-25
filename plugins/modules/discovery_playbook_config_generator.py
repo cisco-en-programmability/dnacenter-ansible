@@ -327,7 +327,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             workflow schema for discovery components.
         """
         super().__init__(module)
-        self.module_name = "discovery"
+        self.module_name = "discovery_workflow_manager"
         self.supported_states = ["gathered"]
         self._global_credentials_lookup = None
         self.valid_global_filter_keys = {"discovery_name_list", "discovery_type_list"}
@@ -1359,6 +1359,88 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("IP filter list is empty or invalid type, returning empty list", "DEBUG")
         return []
 
+    def transform_discovery_type(self, discovery_data):
+        """
+        Transform discovery type to workflow-manager compatible values.
+
+        Reads the 'discoveryType' field from the Catalyst Center API response
+        and maps it to the value expected by the discovery_workflow_manager module.
+
+        RANGE discoveries can represent either a single range or multiple
+        ranges in the Catalyst Center API response. The workflow manager expects
+        these as 'RANGE' and 'MULTI RANGE' respectively. The distinction is made
+        by counting the number of comma-separated IP address range entries in the
+        'ipAddressList' field.
+
+        Note:
+            As per the Catalyst Center API documentation, the 'discoveryType' field
+            accepts the following values:
+                - 'Single'    : Discover a single IP address.
+                - 'Range'     : Discover a range of IP addresses (single or multiple ranges).
+                - 'CDP'       : Discover devices using the CDP (Cisco Discovery Protocol).
+                - 'LLDP'      : Discover devices using LLDP (Link Layer Discovery Protocol).
+                - 'CIDR'      : Discover devices using CIDR notation.
+
+        Args:
+            discovery_data (dict): Discovery configuration data retrieved from the
+                Catalyst Center API. Expected to contain at minimum:
+                    - 'discoveryType' (str): The raw discovery type value from the API.
+                    - 'ipAddressList' (str or list): Comma-separated IP ranges or a list
+                      of IP ranges, used to distinguish 'RANGE' from 'MULTI RANGE'.
+
+        Returns:
+            str or None: The workflow-manager compatible discovery type string.
+                - 'SINGLE'      : For single IP address discoveries.
+                - 'RANGE'       : For a single IP range discovery.
+                - 'MULTI RANGE' : For discoveries containing multiple IP ranges.
+                - 'CDP'         : For CDP-based discoveries.
+                - 'LLDP'        : For LLDP-based discoveries.
+                - 'CIDR'        : For CIDR-based discoveries.
+                - Original value: Passed through as-is if the type is unrecognized.
+                - None          : If discovery_data is invalid/empty or 'discoveryType'
+                                  is absent or empty.
+        """
+        if not discovery_data or not isinstance(discovery_data, dict):
+            self.log("Discovery type transformation skipped - invalid or empty discovery data", "DEBUG")
+            return None
+
+        discovery_type = str(discovery_data.get("discoveryType", "")).strip()
+        if not discovery_type:
+            self.log("Discovery type field is absent or empty, skipping type transformation", "DEBUG")
+            return None
+
+        normalized_type = discovery_type.upper()
+        if normalized_type == "RANGE":
+            raw_ip_ranges = discovery_data.get("ipAddressList", "")
+            if isinstance(raw_ip_ranges, str):
+                range_items = [item.strip() for item in raw_ip_ranges.split(",") if item.strip()]
+                if len(range_items) > 1:
+                    self.log(
+                        "RANGE with {0} IP ranges (str) detected, classifying as 'MULTI RANGE'".format(len(range_items)),
+                        "DEBUG"
+                    )
+                    return "MULTI RANGE"
+            elif isinstance(raw_ip_ranges, list):
+                range_items = [item for item in raw_ip_ranges if item]
+                if len(range_items) > 1:
+                    self.log(
+                        "RANGE with {0} IP ranges (list) detected, classifying as 'MULTI RANGE'".format(len(range_items)),
+                        "DEBUG"
+                    )
+                    return "MULTI RANGE"
+            self.log("Single IP range detected, classifying discovery as 'RANGE'", "DEBUG")
+            return "RANGE"
+
+        if normalized_type in {"SINGLE", "CDP", "LLDP", "CIDR"}:
+            return normalized_type
+
+        self.log(
+            "Unrecognized discovery type '{0}' encountered, passing through without normalization".format(discovery_type),
+            "WARNING"
+        )
+
+        return discovery_type
+
     def transform_to_boolean(self, value):
         """
         Transform value to boolean, handling None and string values.
@@ -1406,7 +1488,12 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return OrderedDict({
             "discovery_name": {"type": "str", "source_key": "name"},
-            "discovery_type": {"type": "str", "source_key": "discoveryType"},
+            "discovery_type": {
+                "type": "str",
+                "source_key": None,
+                "special_handling": True,
+                "transform": self.transform_discovery_type,
+            },
             "ip_address_list": {
                 "type": "list",
                 "source_key": None,
@@ -1792,18 +1879,18 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "config": discovery_details
         }
 
+        self.log(
+            "Writing YAML for {0} discoveries to file '{1}' with mode '{2}'".format(
+                len(discoveries_data), file_path, file_mode
+            ),
+            "INFO"
+        )
+
         # Write YAML file using BrownFieldHelper shared header generation.
-        header_notes = [
-            "Configuration Summary:",
-            "- Total Discoveries: {0}".format(len(discoveries_data)),
-            "Compatible with the 'discovery_workflow_manager' module.",
-            "Use this playbook to recreate or manage discovery configurations.",
-        ]
         success = self.write_dict_to_yaml(
             yaml_data,
             file_path,
             file_mode=file_mode,
-            notes=header_notes,
         )
 
         if success:
