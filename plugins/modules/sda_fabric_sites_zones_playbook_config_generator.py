@@ -53,8 +53,10 @@ options:
     - A dictionary of filters for generating YAML playbook compatible with the C(sda_fabric_sites_zones_workflow_manager)
       module.
     - Filters specify which components to include in the YAML configuration file.
-    - If config is not provided or empty, all configurations for all fabric sites and fabric zones will be generated.
+    - If config is not provided (omitted entirely), all configurations for all fabric sites and fabric zones will be generated.
     - This is useful for complete brownfield infrastructure discovery and documentation.
+    - Important - An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+      all configurations, or provide specific filters within 'config'.
     type: dict
     required: false
     suboptions:
@@ -354,11 +356,21 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available or empty - if not provided or empty, treat as generate all config
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - Error scenario
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate all config mode"
+            self.msg = "Configuration is not provided - treating as generate all config mode"
             self.log(self.msg, "INFO")
             return self
 

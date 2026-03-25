@@ -50,9 +50,11 @@ options:
   config:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the `template_workflow_manager` module.
-    - If config is not provided or empty, all configurations for all projects and templates will be generated.
+    - If config is not provided (omitted entirely), all configurations for all projects and templates will be generated.
     - This is useful for complete brownfield infrastructure discovery and documentation.
-    - IMPORTANT NOTE - When config is not provided or empty, it will only retrieve committed templates.
+    - Important - An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+      all configurations, or provide specific filters within 'config'.
+    - IMPORTANT NOTE - When config is not provided (omitted entirely), it will only retrieve committed templates.
       It does not include uncommitted templates. To include uncommitted templates, use the appropriate filters
       such as include_uncommitted under configuration_templates in component_specific_filters.
     type: dict
@@ -61,7 +63,6 @@ options:
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration file.
-        - If C(components_list) is specified, only those components are included, regardless of other filters.
         - If filters for specific components (e.g., projects or configuration_templates) are provided
           without explicitly including them in components_list, those components will be
           automatically added to components_list.
@@ -462,11 +463,21 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available or empty - if not provided or empty, treat as generate all config
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - Error scenario
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate all config mode"
+            self.msg = "Configuration is not provided - treating as generate all config mode"
             self.log(self.msg, "INFO")
             return self
 
