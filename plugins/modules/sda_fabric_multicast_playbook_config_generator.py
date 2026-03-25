@@ -684,7 +684,6 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         - api_function (str): API function name for retrieving fabric multicast
                         - api_family (str): API family identifier
                         - get_function_name (method): Method to get fabric multicast configuration
-                - global_filters (list): List of global filters (currently empty)
 
         Description:
             Constructs and returns a schema dictionary that defines how fabric multicast data
@@ -705,7 +704,6 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "get_function_name": self.get_fabric_multicast_configuration,
                 },
             },
-            "global_filters": [],
         }
 
         network_elements = list(schema["network_elements"].keys())
@@ -737,7 +735,6 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
 
         # Extract component_specific_filters from the filters dict
-        # brownfield_helper passes: {"component_specific_filters": [...], "global_filters": {...}}
         component_specific_filters = None
         if filters:
             component_specific_filters = filters.get("component_specific_filters")
