@@ -1,5 +1,5 @@
 {
-  "playbook_config_generate_all_configurations": {},
+  "playbook_config_generate_all_configurations": null,
   "playbook_config_fabric_vlan_by_vlan_name_single": {
     "component_specific_filters": {
       "components_list": [
@@ -279,6 +279,10 @@
         }
       ]
     }
+  },
+  "playbook_config_empty_config": {},
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
   },
   "get_empty_fabric_vlan_response": {
     "response": [],
