@@ -113,7 +113,8 @@ options:
             - Fabric site names must be full hierarchical paths (case-sensitive).
             - If not specified when component included in components_list, extracts
               all port assignments across all fabric sites.
-            type: dict
+            type: list
+            elements: dict
             required: false
             suboptions:
               fabric_site_name_hierarchy:
@@ -123,6 +124,12 @@ options:
                   (case-sensitive).
                 - Extracts port assignments for all devices within specified fabric sites.
                 - For example, ["Global/USA/San Jose/Building1", "Global/USA/RTP/Building2"]
+                type: str
+                required: false
+              device_ips:
+                description:
+                - List of device IPs to extract port assignments.
+                - If not specified, extracts port assignments for all devices within specified fabric sites.
                 type: list
                 elements: str
                 required: false
@@ -133,7 +140,8 @@ options:
             - Fabric site names must be full hierarchical paths (case-sensitive).
             - If not specified when component included in components_list, extracts
               all port channels across all fabric sites.
-            type: dict
+            type: list
+            elements: dict
             required: false
             suboptions:
               fabric_site_name_hierarchy:
@@ -143,6 +151,12 @@ options:
                   (case-sensitive).
                 - Extracts port channel configurations for all devices within specified fabric sites.
                 - For example, ["Global/USA/San Jose/Building1", "Global/USA/RTP/Building2"]
+                type: str
+                required: false
+              device_ips:
+                description:
+                - List of device IPs to extract port channels.
+                - If not specified, extracts port channels for all devices within specified fabric sites.
                 type: list
                 elements: str
                 required: false
@@ -256,8 +270,9 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["port_assignments"]
         port_assignments:
-          fabric_site_name_hierarchy:
-            - "Global/Site_India/Karnataka/Bangalore"
+          - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+            device_ips:
+              - 1.1.1.1
 
 - name: Generate YAML Configuration with specific component port channels filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -277,8 +292,9 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["port_channels"]
         port_channels:
-          fabric_site_name_hierarchy:
-            - "Global/Site_India/Karnataka/Bangalore"
+          - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+            device_ips:
+              - 1.1.1.1
 
 - name: Generate YAML Configuration with specific component wireless ssids filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -739,6 +755,8 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "Building fabric_ids list from filters or using all cached fabric sites.",
             "DEBUG"
         )
+
+        fabric_site_name_device_ip_mapping = {}
         if component_specific_filters:
             self.log(
                 "Building fabric name to site ID mapping from cached "
@@ -746,7 +764,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
 
-            fabric_site_name_hierarchies = component_specific_filters.get("fabric_site_name_hierarchy", [])
+            fabric_site_name_hierarchies = []
+            for filter_item in component_specific_filters:
+                fabric_site_name_hierarchies.append(filter_item.get("fabric_site_name_hierarchy"))
+                fabric_site_name_device_ip_mapping[filter_item.get("fabric_site_name_hierarchy")] = set(filter_item.get("device_ips", []))
+
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
@@ -917,6 +939,18 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 self.log(f"Device details response for device ID {network_device_id}: {device_response}", "DEBUG")
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
+
+                if fabric_site_name_device_ip_mapping:
+                    expected_ips = fabric_site_name_device_ip_mapping.get(self.fabric_site_id_to_name_mapping.get(fabric_id), set())
+                    if expected_ips and management_ip not in expected_ips:
+                        self.log(
+                            f"Warning: Resolved management IP '{management_ip}' for "
+                            f"device ID '{network_device_id}' does not match expected "
+                            f"IPs {expected_ips} from filters for fabric site "
+                            f"'{self.fabric_site_id_to_name_mapping.get(fabric_id)}'."
+                        )
+                        continue
+
                 self.log(
                     f"Resolved device ID '{network_device_id}' to management IP address '{management_ip}'.",
                     "DEBUG"
@@ -1045,6 +1079,8 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "Building fabric_ids list from filters or using all cached fabric sites.",
             "DEBUG"
         )
+
+        fabric_site_name_device_ip_mapping = {}
         if component_specific_filters:
             self.log(
                 "Building fabric name to site ID mapping from cached "
@@ -1052,7 +1088,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
 
-            fabric_site_name_hierarchies = component_specific_filters.get("fabric_site_name_hierarchy", [])
+            fabric_site_name_hierarchies = []
+            for filter_item in component_specific_filters:
+                fabric_site_name_hierarchies.append(filter_item.get("fabric_site_name_hierarchy"))
+                fabric_site_name_device_ip_mapping[filter_item.get("fabric_site_name_hierarchy")] = set(filter_item.get("device_ips", []))
+
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
@@ -1222,6 +1262,18 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
+
+                if fabric_site_name_device_ip_mapping:
+                    expected_ips = fabric_site_name_device_ip_mapping.get(self.fabric_site_id_to_name_mapping.get(fabric_id), set())
+                    if expected_ips and management_ip not in expected_ips:
+                        self.log(
+                            f"Warning: Resolved management IP '{management_ip}' for "
+                            f"device ID '{network_device_id}' does not match expected "
+                            f"IPs {expected_ips} from filters for fabric site "
+                            f"'{self.fabric_site_id_to_name_mapping.get(fabric_id)}'."
+                        )
+                        continue
+
                 self.log(
                     f"Resolved device ID '{network_device_id}' to management IP address '{management_ip}'.",
                     "DEBUG"
@@ -1699,334 +1751,6 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             },
         })
         return wireless_ssids
-
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using component-specific filters, processes the data,
-        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
-
-        Args:
-            yaml_config_generator (dict): Contains component_specific_filters and optionally generate_all_configurations flag.
-                file_path and file_mode are now taken from self.params.
-
-        Returns:
-            self: The current instance with the operation result and message updated.
-        """
-
-        self.log(
-            "Starting YAML configuration generation workflow for SDA host port onboarding "
-            "brownfield playbook. Workflow includes file path determination, "
-            "auto-discovery mode processing, component iteration with filters, and "
-            "YAML file writing with header comments.",
-            "DEBUG"
-        )
-
-        self.log(
-            f"YAML config generator parameters received: {yaml_config_generator}. "
-            "Extracting generate_all_configurations flag, file_path, and filter "
-            "configurations.",
-            "DEBUG"
-        )
-
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if generate_all:
-            self.log(
-                "Auto-discovery mode enabled (generate_all_configurations=True). Will "
-                "process all SDA host port onboarding configs and all supported components "
-                "without filter restrictions for complete brownfield fabric inventory.",
-                "INFO"
-            )
-        else:
-            self.log(
-                "Targeted extraction mode (generate_all_configurations=False). Will "
-                "apply provided filters for selective component and configuration retrieval.",
-                "DEBUG"
-            )
-
-        self.log(
-            "Determining output file path for YAML configuration. Checking for "
-            "user-provided file_path parameter or generating default timestamped "
-            "filename.",
-            "DEBUG"
-        )
-        file_path = self.params.get("file_path")
-        if not file_path:
-            self.log(
-                "No file_path provided in configuration. Generating default filename "
-                "with pattern sda_host_port_onboarding_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml in "
-                "current working directory.",
-                "DEBUG"
-            )
-            file_path = self.generate_filename()
-            self.log(
-                f"Default filename generated: {file_path}. File will be created in current working directory.",
-                "DEBUG"
-            )
-        else:
-            self.log(
-                f"Using user-provided file_path: {file_path}. File will be created at specified location with directory creation if needed.",
-                "DEBUG"
-            )
-
-        self.log(
-            f"YAML configuration file path determined: {file_path}. Path will be used for write_dict_to_yaml() operation.",
-            "INFO"
-        )
-        file_mode = self.params.get("file_mode", "overwrite")
-
-        self.log(
-            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
-            "DEBUG"
-        )
-
-        self.log(
-            "Initializing filter extraction from yaml_config_generator parameters. "
-            "Filters control component selection (port_assignments, port_channels, "
-            "wireless_ssids) and fabric site targeting for SDA configuration retrieval. "
-            "Auto-discovery mode override will clear filters if generate_all_configurations=True.",
-            "DEBUG"
-        )
-        if generate_all:
-            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log(
-                "Auto-discovery mode: Overriding any provided filters to ensure "
-                "complete fabric configuration and component extraction without restrictions.",
-                "INFO"
-            )
-
-            # Set empty filters to retrieve everything
-            component_specific_filters = {}
-        else:
-            # Use provided filters or default to empty
-            self.log(
-                "Normal mode: Using provided component_specific_filters from input",
-                "DEBUG",
-            )
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
-            self.log(
-                f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
-                "DEBUG",
-            )
-
-        self.log(
-            "Retrieving supported network elements schema from module_schema. Schema "
-            "defines available components (port_assignments, port_channels, "
-            "wireless_ssids) with their retrieval functions and filter specifications.",
-            "DEBUG"
-        )
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
-
-        self.log(
-            "Module supports "
-            f"{len(module_supported_network_elements)} network element component(s): "
-            f"{list(module_supported_network_elements.keys())}. Components define "
-            "available SDA host port onboarding configuration types and fabric site "
-            "mappings.",
-            "DEBUG"
-        )
-
-        self.log(
-            "Determining components list for processing. Extracting components_list "
-            "from component_specific_filters or defaulting to all supported components "
-            "from module schema.",
-            "DEBUG"
-        )
-        components_list = component_specific_filters.get(
-            "components_list", list(module_supported_network_elements.keys())
-        )
-
-        # If components_list is empty, default to all supported components
-        if not components_list:
-            self.log(
-                "No components specified in components_list. Defaulting to all "
-                "supported components for complete SDA host port onboarding "
-                "configuration extraction: "
-                f"{list(module_supported_network_elements.keys())}",
-                "DEBUG"
-            )
-            components_list = list(module_supported_network_elements.keys())
-        else:
-            self.log(
-                f"Components list extracted from filters: {components_list}. "
-                f"Will process {len(components_list)} component(s) for targeted SDA "
-                "configuration retrieval.",
-                "DEBUG"
-            )
-
-        self.log(
-            f"Components to process: {components_list}. Starting iteration through components for SDA configuration retrieval and configuration aggregation.",
-            "INFO"
-        )
-
-        self.log(
-            "Initializing final configuration list for aggregating component data. "
-            "List will contain retrieved configurations from all processed components "
-            "ready for YAML serialization.",
-            "DEBUG"
-        )
-
-        final_config_list = []
-        processed_count = 0
-        skipped_count = 0
-
-        self.log(
-            "Starting component iteration loop. Processing "
-            f"{len(components_list)} component(s) with retrieval functions, filter "
-            "application, and data aggregation for each.",
-            "DEBUG"
-        )
-        for component_index, component in enumerate(components_list, start=1):
-            self.log(
-                f"Processing component {component_index}/{len(components_list)}: "
-                f"'{component}'. Checking module schema for component support and "
-                "retrieval function availability.",
-                "DEBUG"
-            )
-            network_element = module_supported_network_elements.get(component)
-            if not network_element:
-                self.log(
-                    f"Component {component} not supported by module, skipping processing",
-                    "WARNING",
-                )
-                skipped_count += 1
-                continue
-
-            filters = {
-                "component_specific_filters": component_specific_filters.get(component, [])
-            }
-            self.log(
-                f"Filter dictionary constructed for component '{component}': "
-                "component_specific_filters="
-                f"{bool(filters['component_specific_filters'])}. Filters will be "
-                "passed to component retrieval function.",
-                "DEBUG"
-            )
-
-            self.log(
-                f"Extracting retrieval function for component '{component}' from "
-                "network element schema. Function will execute API calls and data "
-                "transformation for this component.",
-                "DEBUG"
-            )
-            operation_func = network_element.get("get_function_name")
-            if not callable(operation_func):
-                self.log(
-                    f"No retrieval function defined for component: {component}",
-                    "ERROR"
-                )
-                skipped_count += 1
-                continue
-
-            component_data = operation_func(network_element, filters)
-            # Validate retrieval success
-            if not component_data:
-                self.log(
-                    f"No data retrieved for component: {component}",
-                    "DEBUG"
-                )
-                continue
-
-            self.log(
-                f"Details retrieved for {component}: {component_data}", "DEBUG"
-            )
-            processed_count += 1
-
-            if isinstance(component_data, list):
-                final_config_list.extend(component_data)
-                self.log(
-                    f"Component '{component}' returned list with "
-                    f"{len(component_data)} item(s). Extended final configuration "
-                    f"list. Total configurations: {len(final_config_list)}",
-                    "DEBUG"
-                )
-            else:
-                final_config_list.append(component_data)
-                self.log(
-                    f"Component '{component}' returned single dictionary. "
-                    "Appended to final configuration list. Total configurations: "
-                    f"{len(final_config_list)}",
-                    "DEBUG"
-                )
-
-        self.log(
-            "Component iteration completed. Processed "
-            f"{processed_count}/{len(components_list)} component(s), skipped "
-            f"{skipped_count} component(s). Final configuration list contains "
-            f"{len(final_config_list)} item(s) for YAML generation.",
-            "INFO"
-        )
-        if not final_config_list:
-            self.log(
-                "No configurations retrieved after processing "
-                f"{len(components_list)} component(s). Processed: {processed_count}, "
-                f"Skipped: {skipped_count}. All filters may have excluded available "
-                "configurations or no SDA configurations exist in Catalyst Center "
-                f"for requested components: {components_list}",
-                "WARNING"
-            )
-            self.msg = {
-                "status": "ok",
-                "message": (
-                    f"No configurations found for module '{self.module_name}'. "
-                    "Verify filters and component availability. Components "
-                    f"attempted: {components_list}"
-                ),
-                "components_attempted": len(components_list),
-                "components_processed": processed_count,
-                "components_skipped": skipped_count
-            }
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
-
-        yaml_config_dict = {"config": final_config_list}
-        self.log(
-            "Final YAML configuration dictionary created successfully. "
-            f"Dictionary structure: {self.pprint(yaml_config_dict)}. Proceeding "
-            "with write_dict_to_yaml() operation.",
-            "DEBUG"
-        )
-
-        self.log(
-            f"Writing YAML configuration dictionary to file path: {file_path}. Using OrderedDumper for consistent key ordering and formatting.",
-            "DEBUG"
-        )
-
-        if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, dumper=OrderedDumper):
-            self.log(
-                f"YAML file write operation succeeded. File created at: {file_path}. "
-                f"File contains {len(final_config_list)} configuration(s) with "
-                "header comments and formatted structure.",
-                "INFO"
-            )
-            self.msg = {
-                "status": "success",
-                "message": "YAML configuration file generated successfully for module '{0}'".format(
-                    self.module_name
-                ),
-                "file_path": file_path,
-                "components_processed": processed_count,
-                "components_skipped": skipped_count,
-                "configurations_count": len(final_config_list)
-            }
-            self.set_operation_result("success", True, self.msg, "INFO")
-
-            self.log(
-                f"YAML configuration generation completed. File: {file_path}, "
-                f"Components: {processed_count}/{len(components_list)}, Configs: "
-                f"{len(final_config_list)}",
-                "INFO"
-            )
-        else:
-            self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
-            }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        return self
 
     def get_diff_gathered(self):
         """
