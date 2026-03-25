@@ -69,7 +69,7 @@ options:
         configuration file.
       - If C(config) is provided, C(global_filters) is mandatory.
       - If C(config) is omitted, internal auto-discovery mode is used
-        and generate_all_configurations defaults to C(True).
+        and generate all configurations.
     type: dict
     required: false
     suboptions:
@@ -523,11 +523,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             return self
 
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
             "global_filters": {
                 "type": "dict",
                 "required": False
@@ -536,15 +531,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.validate_invalid_params(self.config, set(temp_spec.keys()))
-
-        if valid_temp.get("generate_all_configurations"):
-            self.msg = (
-                "generate_all_configurations cannot be used when config is provided. "
-                "Omit config to generate all wireless profile configurations."
-            )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
 
         if not valid_temp.get("global_filters"):
             self.msg = (
@@ -584,21 +570,32 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
+        for filter_key in filter_keys:
+            filter_value = global_filters.get(filter_key)
+            if not isinstance(filter_value, list) or not filter_value:
+                self.msg = (
+                    f"Filter '{filter_key}' must be a non-empty list of strings. "
+                    f"Invalid value: {filter_value}. Please provide valid filter values."
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # remove the duplicate values from the filter list if any and maintain the order of the list
+            valid_temp["global_filters"][filter_key] = list(dict.fromkeys(filter_value))
+
         # Set validated configuration and return success
         self.validated_config = valid_temp
 
         self.msg = (
             "Successfully validated configuration for network profile wireless "
-            "playbook generation. Validated configuration: {0}".format(str(valid_temp))
+            f"playbook generation. Validated configuration: {str(valid_temp)}"
         )
 
         self.log(
-            "Input validation completed successfully. generate_all: {0}, "
-            "has_global_filters: {1}, file_mode: {2}".format(
-                bool(valid_temp.get("generate_all_configurations")),
-                bool(valid_temp.get("global_filters")),
-                self.params.get("file_mode", "overwrite")
-            ),
+            "Input validation completed successfully. "
+            f"has_global_filters: {bool(valid_temp.get('global_filters'))}, "
+            f"file_mode: {self.params.get('file_mode', 'overwrite')}",
             "INFO"
         )
 
@@ -2101,9 +2098,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         Args:
             yaml_config_generator (dict): Configuration parameters containing:
-                                        - generate_all_configurations (bool, optional):
-                                        Auto-discovery mode flag enabling complete
-                                        infrastructure extraction
                                         - global_filters (dict, optional): Filter
                                         criteria with profile_name_list,
                                         day_n_template_list, site_list, ssid_list,
