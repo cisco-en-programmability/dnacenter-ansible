@@ -1,5 +1,5 @@
 {
-    "playbook_config_generate_all_configurations": {},
+    "playbook_config_generate_all_configurations": null,
     "playbook_config_template_projects_by_name_single": {
         "component_specific_filters": {
             "components_list": [
@@ -149,6 +149,10 @@
                 }
             ]
         }
+    },
+    "playbook_config_empty_config": {},
+    "playbook_config_empty_component_specific_filters": {
+        "component_specific_filters": {}
     },
     "get_empty_projects_response": {
         "response": [],

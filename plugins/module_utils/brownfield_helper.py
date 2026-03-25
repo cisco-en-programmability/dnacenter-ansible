@@ -769,6 +769,21 @@ class BrownFieldHelper:
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
+        component_specific_filters = config_dict.get("component_specific_filters")
+        if component_specific_filters is None:
+            self.log(
+                "No 'component_specific_filters' provided in config; skipping validation.",
+                "DEBUG",
+            )
+        elif not component_specific_filters:
+            self.msg = (
+                "Invalid parameters in playbook config: 'component_specific_filters' "
+                "is provided but empty. Please provide at least one component filter "
+                "or remove 'component_specific_filters' from the configuration."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
         validated_config = validated_list[0] if validated_list else {}
         self.log(
             "Completed config dictionary validation. Validated config: {0}".format(
