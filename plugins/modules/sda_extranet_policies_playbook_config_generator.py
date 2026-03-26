@@ -76,14 +76,15 @@ options:
         description:
         - Filters to specify which components to include in the YAML configuration
           file.
-        - If "components_list" is specified, only those components are included,
+        - This parameter is mandatory when C(config) is provided. Omitting it or
+          providing an empty value will result in a validation error.
+        - If C(components_list) is specified, only those components are included,
           regardless of other filters.
-        - If filters for specific components (e.g., extranet_policies) are provided
-          without explicitly including them in components_list, those components will be
-          automatically added to components_list.
-        - At least one of components_list or component filters must be provided when config is specified.
+        - If filters for specific components (e.g., C(extranet_policies)) are provided
+          without explicitly including them in C(components_list), those components will
+          be automatically added to C(components_list).
         type: dict
-        required: false
+        required: true
         suboptions:
           components_list:
             description:
@@ -444,17 +445,17 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Auto-populate components_list from component filters and validate
         component_specific_filters = valid_temp.get("component_specific_filters")
-        if component_specific_filters is not None:
-            if not component_specific_filters:
-                self.msg = (
-                    "Validation Error: 'components_list' is mandatory and must be non-empty "
-                    "when no component filter blocks are provided under 'component_specific_filters'."
-                )
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+        if not component_specific_filters:
+            self.msg = (
+                "Validation Error: 'component_specific_filters' is mandatory and must be non-empty "
+                "when 'config' is provided. Either omit 'config' entirely to generate all "
+                "configurations, or provide 'component_specific_filters' within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
 
-            self.auto_populate_and_validate_components_list(component_specific_filters)
+        self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
