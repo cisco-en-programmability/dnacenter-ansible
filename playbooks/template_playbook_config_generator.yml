@@ -1,0 +1,237 @@
+---
+- name: Generates the template projects and templates in Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    # Example 1: Generate all configurations with default file path
+    - name: Generate the playbook config for all template projects and templates in Cisco Catalyst Center
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        # No config provided - generates all configurations
+
+    # Example 2: Generate all configurations with custom file path
+    - name: Generate the playbook config for all template projects and templates in Cisco Catalyst Center
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/all_configurations.yml"
+        file_mode: "overwrite"
+
+    # Example 3: Generate all the template projects with custom file path
+    - name: Generate the playbook config for all template projects in Cisco Catalyst Center
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/all_projects.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["projects"]
+
+    # Example 4: Generate all the templates with custom file path
+    - name: Generate the playbook config for all templates in Cisco Catalyst Center
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/all_templates.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["configuration_templates"]
+
+    # Example 5: Generate all the projects and templates with custom file path
+    - name: Generate the playbook config for all template projects and templates in Cisco Catalyst Center
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/all_configurations.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["projects", "configuration_templates"]
+
+    # Example 6: Generate projects using project name filter
+    - name: Generate the playbook config for project using project names
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/projects.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            # No components_list specified, but project filters are provided
+            # The 'projects' component will be automatically added to components_list
+            projects:
+              - name: "Sample Project1"
+              - name: "Sample Project2"
+
+    # Example 7: Generate templates using template name filter
+    - name: Generate the playbook config for template using template names
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/templates.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            # No components_list specified, but template filters are provided
+            # The 'configuration_templates' component will be automatically added to components_list
+            configuration_templates:
+              - template_name: "Template_1"
+              - template_name: "Template_2"
+
+    # Example 8: Generate all uncommitted templates
+    - name: Generate the playbook config for all the uncommitted templates
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/uncommitted_templates.yml"
+        config:
+          component_specific_filters:
+            components_list: ["configuration_templates"] # This line is optional
+            configuration_templates:
+              - include_uncommitted: true
+
+    # Example 9: Generate templates using project name filter
+    - name: Generate the playbook config for template with project name
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/templates.yml"
+        config:
+          component_specific_filters:
+            components_list: ["configuration_templates"] # This line is optional
+            configuration_templates:
+              - project_name: "Project1"
+              - project_name: "Project2"
+
+    # Example 10: Generate templates using multiple filters
+    - name: Generate the playbook config for template with multiple filters
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/templates.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["configuration_templates"] # This line is optional
+            configuration_templates:
+              # Fetches uncommitted template using project name and template name
+              - template_name: "Template1"
+                project_name: "Project1"
+                include_uncommitted: true
+              # Fetches committed template using project name and template name
+              - template_name: "Template2"
+                project_name: "Project2"
+
+    # Example 11: Generate projects and templates using multiple filters
+    - name: Generate the playbook config for projects and templates with filters
+      cisco.dnac.template_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/config.yml"
+        config:
+          component_specific_filters:
+            projects:
+              - name: "Sample Project1"
+              - name: "Sample Project2"
+            configuration_templates:
+              - template_name: "Template_1"
+              - template_name: "Template_2"
+
+      register: result
+
+      tags:
+        - templates_playbook_config_generator_testing

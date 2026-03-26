@@ -93,7 +93,7 @@ options:
               - If encryption scheme is given, then
                 message authenticator code and encryption
                 keys need to be required.
-              - Updation of encryption scheme is not
+              - Update of encryption scheme is not
                 possible.
               - >
                 KEYWRAP is used for securely wrapping
@@ -113,7 +113,7 @@ options:
             description:
               - Encryption key used to encrypt shared
                 secret.
-              - Updation of encryption scheme is not
+              - Update of encryption scheme is not
                 possible.
               - Required when encryption_scheme is provided.
               - >
@@ -124,7 +124,7 @@ options:
           message_authenticator_code_key:
             description:
               - Message key used to encrypt shared secret.
-              - Updation of message key is not possible.
+              - Update of message key is not possible.
               - Required when encryption_scheme is provided.
               - >
                 Message Authentication Code Key may
@@ -134,7 +134,7 @@ options:
           authentication_port:
             description:
               - Authentication port of RADIUS server.
-              - Updation of authentication port is not
+              - Update of authentication port is not
                 possible.
               - Authentication port should be from 1
                 to 65535.
@@ -143,7 +143,7 @@ options:
           accounting_port:
             description:
               - Accounting port of RADIUS server.
-              - Updation of accounting port is not possible.
+              - Update of accounting port is not possible.
               - Accounting port should be from 1 to
                 65535.
             type: int
@@ -167,7 +167,7 @@ options:
           role:
             description:
               - Role of authentication and policy server.
-              - Updation of role is not possible
+              - Update of role is not possible
             type: str
             default: secondary
           pxgrid_enabled:
@@ -429,7 +429,7 @@ response_1:
       },
       "version": "str"
     }
-# Case_2: Successful updation of Authentication and Policy Server.
+# Case_2: Successful update of Authentication and Policy Server.
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -442,7 +442,7 @@ response_2:
       },
       "version": "str"
     }
-# Case_3: Successful creation/updation of network
+# Case_3: Successful creation/update of network
 response_3:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
