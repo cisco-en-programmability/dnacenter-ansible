@@ -108,16 +108,28 @@ options:
             elements: str
           port_assignments:
             description:
-            - Filters for port assignment configuration extraction.
-            - Each list entry targets one fabric site with optional
-              device IP filtering.
-            - Extracts only port assignments for specified fabric
-              site hierarchies and optionally only for specified
-              device management IPs within those sites.
-            - Fabric site names must be full hierarchical paths
-              (case-sensitive).
+            - Filters for port channel configuration
+              extraction.
+            - Each list entry targets one fabric site with
+              optional device-level filtering by management
+              IP address, serial number, or hostname.
+            - Extracts only port channels for specified
+              fabric site hierarchies and optionally only
+              for devices matching the specified device_ips,
+              serial_numbers, or hostnames within those
+              sites.
+            - When multiple device filters (device_ips,
+              serial_numbers, hostnames) are specified in
+              the same list entry, they are combined using
+              AND logic. A device must match ALL specified
+              filters to be included.
+            - Each filter type is optional and independent.
+              Omitting a filter type means no restriction
+              on that attribute.
+            - Fabric site names must be full hierarchical
+              paths (case-sensitive).
             - If not specified when component included in
-              components_list, extracts all port assignments
+              components_list, extracts all port channels
               across all fabric sites and all devices.
             type: list
             elements: dict
@@ -134,53 +146,104 @@ options:
                 required: false
               device_ips:
                 description:
-                - List of device management IP addresses to filter
-                  extraction within this fabric site.
-                - IPs are matched against the managementIpAddress
-                  resolved from Catalyst Center for each device.
-                - Devices whose management IP does not match any IP
-                  in this list are skipped.
-                - If not specified, extracts configurations for all
-                  devices within the specified fabric site.
-                - For example, ["10.195.120.219", "10.195.120.220"]
+                - List of device management IP addresses to
+                  filter extraction within this fabric site.
+                - Each IP is matched against the
+                  managementIpAddress field resolved from
+                  Catalyst Center for each device in the
+                  fabric site.
+                - Devices whose management IP does not match
+                  any IP in this list are skipped.
+                - Combined with serial_numbers and hostnames
+                  using AND logic when multiple filter types
+                  are specified in the same list entry. A
+                  device must satisfy all specified filters
+                  to be included.
+                - Scoped per list entry. Each fabric site
+                  entry can specify its own set of device
+                  IPs independently.
+                - If omitted, no IP-based filtering is
+                  applied and all devices in the fabric
+                  site are candidates (subject to other
+                  filters).
+                - For example, ["1.1.1.1", "1.1.1.2"]
                 type: list
                 elements: str
                 required: false
               serial_numbers:
                 description:
-                - List of device serial numbers to filter extraction
-                  within this fabric site.
-                - Serial numbers are matched against the serialNumber
-                  resolved from Catalyst Center for each device.
-                - Devices whose serial number does not match any
-                  serial number in this list are skipped.
-                - If not specified, no serial number-based filtering
-                  is applied within the specified fabric site.
+                - List of device serial numbers to filter
+                  extraction within this fabric site.
+                - Each serial number is matched against the
+                  serialNumber field resolved from Catalyst
+                  Center for each device in the fabric site.
+                - Devices whose serial number does not match
+                  any value in this list are skipped.
+                - Combined with device_ips and hostnames
+                  using AND logic when multiple filter types
+                  are specified in the same list entry. A
+                  device must satisfy all specified filters
+                  to be included.
+                - Scoped per list entry. Each fabric site
+                  entry can specify its own set of serial
+                  numbers independently.
+                - If omitted, no serial number-based
+                  filtering is applied and all devices in
+                  the fabric site are candidates (subject
+                  to other filters).
                 - For example, ["FJC2327U0S2", "FJC2327U0S3"]
                 type: list
                 elements: str
                 required: false
               hostnames:
                 description:
-                - List of device hostnames to filter extraction
-                  within this fabric site.
-                - Hostnames are matched against the hostname resolved
-                  from Catalyst Center for each device.
-                - Devices whose hostname does not match any hostname
-                  in this list are skipped.
-                - If not specified, no hostname-based filtering is
-                  applied within the specified fabric site.
+                - List of device hostnames to filter
+                  extraction within this fabric site.
+                - Each hostname is matched against the
+                  hostname field resolved from Catalyst
+                  Center for each device in the fabric site.
+                - Devices whose hostname does not match any
+                  value in this list are skipped.
+                - Combined with device_ips and serial_numbers
+                  using AND logic when multiple filter types
+                  are specified in the same list entry. A
+                  device must satisfy all specified filters
+                  to be included.
+                - Scoped per list entry. Each fabric site
+                  entry can specify its own set of hostnames
+                  independently.
+                - If omitted, no hostname-based filtering is
+                  applied and all devices in the fabric site
+                  are candidates (subject to other filters).
                 - For example, ["switch1", "switch2"]
                 type: list
                 elements: str
                 required: false
           port_channels:
             description:
-            - Filters for port channel configuration extraction.
-            - Extracts only port channels for specified fabric site hierarchies.
-            - Fabric site names must be full hierarchical paths (case-sensitive).
-            - If not specified when component included in components_list, extracts
-              all port channels across all fabric sites.
+            - Filters for port channel configuration
+              extraction.
+            - Each list entry targets one fabric site with
+              optional device-level filtering by management
+              IP address, serial number, or hostname.
+            - Extracts only port channels for specified
+              fabric site hierarchies and optionally only
+              for devices matching the specified device_ips,
+              serial_numbers, or hostnames within those
+              sites.
+            - When multiple device filters (device_ips,
+              serial_numbers, hostnames) are specified in
+              the same list entry, they are combined using
+              AND logic. A device must match ALL specified
+              filters to be included.
+            - Each filter type is optional and independent.
+              Omitting a filter type means no restriction
+              on that attribute.
+            - Fabric site names must be full hierarchical
+              paths (case-sensitive).
+            - If not specified when component included in
+              components_list, extracts all port channels
+              across all fabric sites and all devices.
             type: list
             elements: dict
             required: false
@@ -196,42 +259,75 @@ options:
                 required: false
               device_ips:
                 description:
-                - List of device management IP addresses to filter
-                  extraction within this fabric site.
-                - IPs are matched against the managementIpAddress
-                  resolved from Catalyst Center for each device.
-                - Devices whose management IP does not match any IP
-                  in this list are skipped.
-                - If not specified, extracts configurations for all
-                  devices within the specified fabric site.
-                - For example, ["10.195.120.219", "10.195.120.220"]
+                - List of device management IP addresses to
+                  filter extraction within this fabric site.
+                - Each IP is matched against the
+                  managementIpAddress field resolved from
+                  Catalyst Center for each device in the
+                  fabric site.
+                - Devices whose management IP does not match
+                  any IP in this list are skipped.
+                - Combined with serial_numbers and hostnames
+                  using AND logic when multiple filter types
+                  are specified in the same list entry. A
+                  device must satisfy all specified filters
+                  to be included.
+                - Scoped per list entry. Each fabric site
+                  entry can specify its own set of device
+                  IPs independently.
+                - If omitted, no IP-based filtering is
+                  applied and all devices in the fabric
+                  site are candidates (subject to other
+                  filters).
+                - For example, ["1.1.1.1", "1.1.1.2"]
                 type: list
                 elements: str
                 required: false
               serial_numbers:
                 description:
-                - List of device serial numbers to filter extraction
-                  within this fabric site.
-                - Serial numbers are matched against the serialNumber
-                  resolved from Catalyst Center for each device.
-                - Devices whose serial number does not match any
-                  serial number in this list are skipped.
-                - If not specified, no serial number-based filtering
-                  is applied within the specified fabric site.
+                - List of device serial numbers to filter
+                  extraction within this fabric site.
+                - Each serial number is matched against the
+                  serialNumber field resolved from Catalyst
+                  Center for each device in the fabric site.
+                - Devices whose serial number does not match
+                  any value in this list are skipped.
+                - Combined with device_ips and hostnames
+                  using AND logic when multiple filter types
+                  are specified in the same list entry. A
+                  device must satisfy all specified filters
+                  to be included.
+                - Scoped per list entry. Each fabric site
+                  entry can specify its own set of serial
+                  numbers independently.
+                - If omitted, no serial number-based
+                  filtering is applied and all devices in
+                  the fabric site are candidates (subject
+                  to other filters).
                 - For example, ["FJC2327U0S2", "FJC2327U0S3"]
                 type: list
                 elements: str
                 required: false
               hostnames:
                 description:
-                - List of device hostnames to filter extraction
-                  within this fabric site.
-                - Hostnames are matched against the hostname resolved
-                  from Catalyst Center for each device.
-                - Devices whose hostname does not match any hostname
-                  in this list are skipped.
-                - If not specified, no hostname-based filtering is
-                  applied within the specified fabric site.
+                - List of device hostnames to filter
+                  extraction within this fabric site.
+                - Each hostname is matched against the
+                  hostname field resolved from Catalyst
+                  Center for each device in the fabric site.
+                - Devices whose hostname does not match any
+                  value in this list are skipped.
+                - Combined with device_ips and serial_numbers
+                  using AND logic when multiple filter types
+                  are specified in the same list entry. A
+                  device must satisfy all specified filters
+                  to be included.
+                - Scoped per list entry. Each fabric site
+                  entry can specify its own set of hostnames
+                  independently.
+                - If omitted, no hostname-based filtering is
+                  applied and all devices in the fabric site
+                  are candidates (subject to other filters).
                 - For example, ["switch1", "switch2"]
                 type: list
                 elements: str
@@ -344,7 +440,7 @@ EXAMPLES = r"""
     file_mode: "overwrite"
     config:
       component_specific_filters:
-        components_list: ["port_assignments, port_channels"]
+        components_list: ["port_assignments", "port_channels"]
         port_assignments:
           - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
             device_ips:
@@ -492,6 +588,44 @@ EXAMPLES = r"""
             hostnames:
               - switch1
               - switch2
+
+- name: Generate YAML with AND-combined device filters per site
+  cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    state: gathered
+    file_path: "host_onboarding_playbook.yml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        components_list:
+          - "port_assignments"
+          - "port_channels"
+        port_assignments:
+          # Site 1: AND filter — device must match IP AND hostname
+          - fabric_site_name_hierarchy: "Global/USA/San Jose/Building1"
+            device_ips:
+              - 1.1.1.1
+            hostnames:
+              - switch1
+          # Site 2: single filter — only serial number filtering
+          - fabric_site_name_hierarchy: "Global/USA/RTP/Building2"
+            serial_numbers:
+              - FJC2327U0S2
+              - FJC2327U0S3
+          # Site 3: no device filter — extracts all devices
+          - fabric_site_name_hierarchy: "Global/India/Bangalore/Building3"
+        port_channels:
+          - fabric_site_name_hierarchy: "Global/USA/San Jose/Building1"
+            device_ips:
+              - 1.1.1.1
 
 - name: Generate YAML Configuration with specific component wireless ssids filters
   cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -853,15 +987,26 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
     def get_fabric_site_names_and_device_details_mapping(self, component_specific_filters):
         """
-        Extracts fabric site name hierarchies and per-site device detail mappings from
-        component-specific filter entries.
+        Extracts fabric site name hierarchies and per-site device detail
+        mappings from component-specific filter entries.
 
-        Iterates over each filter entry in the provided component_specific_filters list,
-        collecting fabric site hierarchical names into an ordered list and building
-        dictionaries that map each fabric site name to sets of device management IP
-        addresses, serial numbers, and hostnames specified for that site. This enables
-        downstream methods to resolve fabric site IDs and apply per-device filtering
-        across multiple device identifiers during configuration extraction.
+        Iterates over each filter entry in the provided
+        component_specific_filters list, collecting fabric site hierarchical
+        names into an ordered list and building dictionaries that map each
+        fabric site name to sets of device management IP addresses, serial
+        numbers, and hostnames specified for that site.
+
+        Downstream filtering applies AND logic across filter types: when
+        multiple device filter types (device_ips, serial_numbers, hostnames)
+        are specified for the same fabric site, a device must match ALL
+        specified filter types to be included. Each individual filter type
+        uses OR logic within its own set (e.g., management IP must match
+        ANY IP in device_ips). Omitting a filter type means no restriction
+        on that attribute.
+
+        Filter evaluation order: device_ips → serial_numbers → hostnames.
+        A device that fails any filter is skipped immediately via 'continue'
+        without evaluating subsequent filters.
 
         Args:
             component_specific_filters (list[dict]): List of filter dictionaries, each
@@ -1227,6 +1372,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 hostname = device_info.get("hostname", "")
                 fabric_site_name = self.fabric_site_id_to_name_mapping.get(fabric_id)
 
+                # ----------------------------------------------------------
+                # Device filter evaluation (AND logic across filter types).
+                # The device must pass ALL specified filters to be included.
+                # Evaluation order: device_ips → serial_numbers → hostnames.
+                # Within each filter type, matching is OR (any value match).
+                # Omitted/empty filter type → no restriction on that attribute.
+                # ----------------------------------------------------------
+
                 if fabric_site_name_device_ip_mapping:
                     expected_ips = fabric_site_name_device_ip_mapping.get(fabric_site_name, set())
                     if expected_ips and management_ip not in expected_ips:
@@ -1581,6 +1734,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 serial_number = device_info.get("serialNumber", "")
                 hostname = device_info.get("hostname", "")
                 fabric_site_name = self.fabric_site_id_to_name_mapping.get(fabric_id)
+
+                # ----------------------------------------------------------
+                # Device filter evaluation (AND logic across filter types).
+                # The device must pass ALL specified filters to be included.
+                # Evaluation order: device_ips → serial_numbers → hostnames.
+                # Within each filter type, matching is OR (any value match).
+                # Omitted/empty filter type → no restriction on that attribute.
+                # ----------------------------------------------------------
 
                 if fabric_site_name_device_ip_mapping:
                     expected_ips = fabric_site_name_device_ip_mapping.get(fabric_site_name, set())
