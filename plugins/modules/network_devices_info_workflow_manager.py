@@ -1555,13 +1555,23 @@ class NetworkDevicesInfo(DnacBase):
             "DEBUG"
         )
 
-        is_and_logic = (
-            len(device_identifiers) == 1 and
-            len(device_identifiers[0].keys()) > 1
-        )
+        # Count only non-None keys when determining AND vs OR logic,
+        # because validate_list_of_dicts fills in None for unspecified keys
+        # (e.g. {ip_address: None, serial_number: [...], hostname: None, mac_address: None})
+        non_none_keys = []
+        if len(device_identifiers) == 1:
+            non_none_keys = [k for k, v in device_identifiers[0].items() if v is not None]
+            is_and_logic = len(non_none_keys) > 1
+        else:
+            is_and_logic = False
+
         logic_type = "AND" if is_and_logic else "OR"
-        self.log("Detected device_identifier logic type: {0} for {1} identifier groups".format(
-            logic_type, len(device_identifiers)), "DEBUG")
+        self.log(
+            "Device identifier AND/OR logic resolved — type: {0}, active keys: {1}".format(
+                logic_type, non_none_keys if len(device_identifiers) == 1 else 'N/A'
+            ),
+            "INFO"
+        )
 
         if is_and_logic:
             identifier = device_identifiers[0]
@@ -1883,6 +1893,27 @@ class NetworkDevicesInfo(DnacBase):
                     )
                     return devices
                 else:
+                    # For serial_number: the exact match returned nothing, which happens
+                    # with stacked devices whose serialNumber is stored as "SN1,SN2".
+                    # Try a stacked-device lookup that scans inventory for the serial
+                    # as a comma-separated member.
+                    if key == "serial_number":
+                        self.log(
+                            "Exact serial lookup returned no results for '{0}'. "
+                            "Trying stacked-device member lookup (device may have multiple serials).".format(value),
+                            "DEBUG"
+                        )
+                        stacked_device_matches = self.get_devices_by_serial_member_match(value)
+                        if stacked_device_matches:
+                            self.log(
+                                "Stacked-device lookup succeeded — found {0} device(s) "
+                                "containing serial '{1}' on attempt {2}".format(
+                                    len(stacked_device_matches), value, attempt + 1
+                                ),
+                                "INFO"
+                            )
+                            return stacked_device_matches
+
                     self.log(
                         "No devices found for {0}={1} on attempt {2}".format(
                             key, value, attempt + 1
@@ -1918,6 +1949,155 @@ class NetworkDevicesInfo(DnacBase):
 
         return []
 
+    def get_devices_by_serial_member_match(self, serial_number):
+        """
+        Search for a stacked device by matching a single serial number against
+        the comma-separated serialNumber field stored in Catalyst Center.
+
+        Stack devices in Catalyst Center store multiple serial numbers in one field,
+        for example: "FOC2437LBH3,FOC2438LB9W". A direct API lookup for just
+        "FOC2437LBH3" returns no results because the stored value is the full
+        comma-separated string. This method fetches all devices and checks whether
+        the given serial number appears as one of the comma-separated members.
+
+        Parameters:
+            serial_number (str): A single serial number to search for
+                                 (e.g. "FOC2437LBH3")
+
+        Returns:
+            list: Matching device dicts from the API, or empty list if none found.
+        """
+        target_serial = str(serial_number).strip().lower()
+        if not target_serial:
+            self.log("Skipping stacked-device serial lookup — empty serial number provided", "DEBUG")
+            return []
+
+        self.log(
+            "Starting stacked-device serial lookup for serial number: '{0}'".format(serial_number),
+            "DEBUG"
+        )
+
+        limit = 500
+        offset = 1
+        matched_devices = {}
+        total_scanned = 0
+        page_number = 0
+
+        while True:
+            page_number += 1
+            try:
+                self.log(
+                    "Fetching devices for stacked-device serial lookup — page: {0}, offset: {1}, limit: {2}".format(
+                        page_number, offset, limit
+                    ),
+                    "DEBUG"
+                )
+                response = self.dnac._exec(
+                    family="devices",
+                    function="get_device_list",
+                    params={"offset": offset, "limit": limit}
+                )
+                self.log(
+                    "Received API response for stacked-device serial lookup — page {0} returned {1} devices".format(
+                        page_number, len(response.get("response", []))
+                    ),
+                    "DEBUG"
+                )
+
+            except Exception as e:
+                self.log(
+                    "Stacked-device serial lookup API call failed on page {0} (offset {1}): {2}".format(
+                        page_number, offset, str(e)
+                    ),
+                    "WARNING"
+                )
+                break
+
+            devices = response.get("response", [])
+            if not devices:
+                self.log(
+                    "No more devices returned on page {0} (offset {1}). Ending pagination.".format(
+                        page_number, offset
+                    ),
+                    "DEBUG"
+                )
+                break
+
+            self.log(
+                "Processing {0} devices on page {1} for stacked-device serial match".format(
+                    len(devices), page_number
+                ),
+                "DEBUG"
+            )
+
+            total_scanned += len(devices)
+
+            for device_index, device in enumerate(devices, start=1):
+                self.log(
+                    "Checking device {0}/{1} on page {2} — management IP: {3}, stored serial: '{4}'".format(
+                        device_index, len(devices), page_number,
+                        device.get("managementIpAddress", "unknown"),
+                        device.get("serialNumber", "unknown")
+                    ),
+                    "DEBUG"
+                )
+                stored_serial = device.get("serialNumber")
+                if not stored_serial:
+                    self.log(
+                        "Device {0}/{1} on page {2} has no serial number stored. Skipping.".format(device_index, len(devices), page_number),
+                        "DEBUG"
+                    )
+                    continue
+
+                # Split the stored comma-separated serial numbers into individual members
+                # e.g. "FOC2437LBH3,FOC2438LB9W" -> ["FOC2437LBH3", "FOC2438LB9W"]
+                self.log(
+                    "Splitting stored serial '{0}' into members for device {1}/{2} on page {3}".format(
+                        stored_serial, device_index, len(devices), page_number
+                    ),
+                    "DEBUG"
+                )
+                serial_members = [
+                    member.strip().lower()
+                    for member in str(stored_serial).split(",")
+                    if member.strip()
+                ]
+
+                if target_serial in serial_members:
+                    device_uuid = device.get("instanceUuid")
+                    device_ip = device.get("managementIpAddress", "unknown")
+                    if device_uuid and device_uuid not in matched_devices:
+                        matched_devices[device_uuid] = device
+                        self.log(
+                            "Stacked-device match found — device {0}/{1} on page {2} — "
+                            "serial '{3}' is a member of device IP: {4}, "
+                            "stored serials: '{5}'".format(
+                                device_index, len(devices), page_number,
+                                serial_number, device_ip, stored_serial
+                            ),
+                            "DEBUG"
+                        )
+
+            if len(devices) < limit:
+                self.log(
+                    "Last page reached (page {0}, {1} devices < limit {2}). Ending pagination.".format(
+                        page_number, len(devices), limit
+                    ),
+                    "DEBUG"
+                )
+                break
+            offset += limit
+
+        self.log(
+            "Stacked-device serial lookup complete — scanned {0} devices, "
+            "found {1} match(es) for serial '{2}'".format(
+                total_scanned, len(matched_devices), serial_number
+            ),
+            "DEBUG"
+        )
+
+        return list(matched_devices.values())
+
     def get_devices_from_site(self, site_name):
         """
         Retrieves device UUIDs from a specified site hierarchy in Cisco Catalyst Center.
@@ -1945,6 +2125,17 @@ class NetworkDevicesInfo(DnacBase):
 
         if not site_name:
             return []
+
+        # Verify site exists in Catalyst Center before determining type
+        site_response = self.get_site(site_name)
+        if not site_response or not site_response.get("response"):
+            self.msg = (
+                "The site '{0}' does not exist in Cisco Catalyst Center. "
+                "Please verify the site_hierarchy value in your configuration."
+            ).format(site_name)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log("Site '{0}' verified successfully in Catalyst Center.".format(site_name), "DEBUG")
 
         # Determine site type
         site_type = self.get_sites_type(site_name)

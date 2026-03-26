@@ -207,6 +207,14 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 self.test_data.get("get_tasks_by_id_case_14_call_1"),
                 self.test_data.get("get_tag_case_14_call_2"),
             ]
+        elif (
+            "test_validate_stack_device_serial_numbers_case_15" in self._testMethodName
+        ):
+            # Validation test - no API calls needed
+            self.run_dnac_exec.side_effect = []
+        elif "test_validate_invalid_serial_numbers_case_16" in self._testMethodName:
+            # Validation test - no API calls needed
+            self.run_dnac_exec.side_effect = []
 
     def test_create_a_tag_with_device_port_rules_case_1(self):
 
@@ -337,7 +345,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "The playbook contains invalid parameters: \n"
             "name : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_rule_description_not_provided_properly_in_device_rules_case_7(self):
@@ -362,7 +370,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             "rule_name : Required parameter not found\n"
             "search_pattern : Required parameter not found\n"
             "value : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_rule_description_not_provided_properly_in_port_rules_case_8(self):
@@ -387,7 +395,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             "rule_name : Required parameter not found\n"
             "search_pattern : Required parameter not found\n"
             "value : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_scope_category_not_provided_case_9(self):
@@ -410,7 +418,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "The playbook contains invalid parameters: \n"
             "scope_category : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_not_enough_details_provided_in_device_details_in_tag_memberships_case_10(
@@ -456,7 +464,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "The playbook contains invalid parameters: \n"
             "tags : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_site_names_not_provided_in_tag_memberships_case_12(self):
@@ -479,7 +487,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "The playbook contains invalid parameters: \n"
             "site_names : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_updating_only_port_rules_description_when_no_port_rules_are_present_case_13(
@@ -528,4 +536,79 @@ class TestDnacTagsWorkflow(TestDnacModule):
         self.assertEqual(
             result.get("msg"),
             "Tag 'Test_tag_update' has been updated successfully in the Cisco Catalyst Center.",
+        )
+
+    def test_validate_stack_device_serial_numbers_case_15(self):
+        """Test validation of comma-separated serial numbers for stack devices (Bug Fix)."""
+        from unittest.mock import Mock
+        from ansible_collections.cisco.dnac.plugins.modules.tags_workflow_manager import (
+            Tags,
+        )
+
+        # Create a mock module object with the minimal required attributes
+        mock_module = Mock()
+        mock_module.params = {
+            "dnac_host": "1.1.1.1",
+            "dnac_username": "dummy",
+            "dnac_password": "dummy",
+            "dnac_version": "2.3.7.9",
+            "dnac_log": False,  # Disable logging to avoid logger setup
+            "state": "merged",
+            "config": [],
+        }
+        mock_module.deprecate = Mock()
+
+        # Create Tags instance with mock module
+        tags_obj = Tags(mock_module)
+
+        # Test case from bug: comma-space separated serial numbers (stack devices)
+        valid_stack = "FJB2407E036, FJB2407E024"
+        result = tags_obj.validate_device_detail(valid_stack, "serial_numbers")
+        self.assertTrue(
+            result, f"Stack device serial numbers '{valid_stack}' should be valid"
+        )
+
+        # Test single serial number (backward compatibility)
+        valid_single = "FJB2407E036"
+        result = tags_obj.validate_device_detail(valid_single, "serial_numbers")
+        self.assertTrue(
+            result, f"Single serial number '{valid_single}' should be valid"
+        )
+
+    def test_validate_invalid_serial_numbers_case_16(self):
+        """Test validation rejects invalid serial number formats."""
+        from unittest.mock import Mock
+        from ansible_collections.cisco.dnac.plugins.modules.tags_workflow_manager import (
+            Tags,
+        )
+
+        # Create a mock module object with the minimal required attributes
+        mock_module = Mock()
+        mock_module.params = {
+            "dnac_host": "1.1.1.1",
+            "dnac_username": "dummy",
+            "dnac_password": "dummy",
+            "dnac_version": "2.3.7.9",
+            "dnac_log": False,  # Disable logging to avoid logger setup
+            "state": "merged",
+            "config": [],
+        }
+        mock_module.deprecate = Mock()
+
+        # Create Tags instance with mock module
+        tags_obj = Tags(mock_module)
+
+        # Test invalid: comma without space after it
+        invalid_no_space = "FJB2407E036,FJB2407E024"
+        result = tags_obj.validate_device_detail(invalid_no_space, "serial_numbers")
+        self.assertFalse(
+            result,
+            f"Serial numbers '{invalid_no_space}' should be invalid (missing space after comma)",
+        )
+
+        # Test invalid: too short
+        invalid_short = "ABC123"
+        result = tags_obj.validate_device_detail(invalid_short, "serial_numbers")
+        self.assertFalse(
+            result, f"Serial number '{invalid_short}' should be invalid (too short)"
         )

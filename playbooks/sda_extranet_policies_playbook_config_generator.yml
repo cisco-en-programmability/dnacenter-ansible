@@ -1,0 +1,152 @@
+---
+# ==============================================================================
+# SDA EXTRANET POLICIES PLAYBOOK CONFIG GENERATOR - EXAMPLES
+# ==============================================================================
+
+# ====================================================================================
+# Example 1: Generate all configurations (default behavior when config is omitted)
+# ====================================================================================
+- name: Generate complete SDA extranet policies configuration
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate all configurations from Cisco Catalyst Center
+      cisco.dnac.sda_extranet_policies_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        state: gathered
+        # No config provided - generates all configurations
+
+# ====================================================================================
+# Example 2: Generate all configurations with custom file path
+# Tests behavior when file_path is specified but no config filters are provided
+# ====================================================================================
+- name: Generate all extranet policies with custom file path
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate all configs with custom file path
+      cisco.dnac.sda_extranet_policies_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        state: gathered
+        file_path: "/tmp/complete_sda_extranet_policies_config.yaml"
+        file_mode: "overwrite"
+        # No config provided - generates all configurations
+
+# ====================================================================================
+# Example 3: Generate configuration for specific extranet policy
+# Tests component specific filters with a single policy
+# ====================================================================================
+- name: Generate configuration for specific extranet policy
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export specific extranet policy
+      cisco.dnac.sda_extranet_policies_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        state: gathered
+        file_path: "/tmp/policy_specific.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list:
+              - extranet_policies
+            extranet_policies:
+              - extranet_policy_name: Test_3
+
+# ====================================================================================
+# Example 4: Auto-populate components_list from component filters
+# Tests behavior when component filters are provided without explicit components_list
+# ====================================================================================
+- name: Generate configuration with auto-populated components_list
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export extranet policy without explicit components_list
+      cisco.dnac.sda_extranet_policies_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        state: gathered
+        file_path: "/tmp/test_policy.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            # No components_list specified, but extranet_policies filters are provided
+            # The 'extranet_policies' component will be automatically added to components_list
+            extranet_policies:
+              - extranet_policy_name: Test_1
+
+# ====================================================================================
+# Example 5: Generate configuration with append mode
+# Tests file append mode to combine multiple configurations
+# ====================================================================================
+- name: Generate and append SDA extranet policies configuration
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Append extranet policies configurations to existing file
+      cisco.dnac.sda_extranet_policies_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        state: gathered
+        file_path: "/tmp/all_extranet_policies.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list:
+              - extranet_policies
+            extranet_policies:
+              - extranet_policy_name: Test_2
