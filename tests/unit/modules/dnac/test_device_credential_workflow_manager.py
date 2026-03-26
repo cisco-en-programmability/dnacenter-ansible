@@ -340,7 +340,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result['response'][0]['global_credential']['Updation']['msg'],
+            result['response'][0]['global_credential']['Update']['msg'],
             "Global Device Credential Updated Successfully"
         )
 
