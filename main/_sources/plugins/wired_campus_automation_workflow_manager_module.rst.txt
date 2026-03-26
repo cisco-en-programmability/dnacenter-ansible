@@ -42,7 +42,7 @@ cisco.dnac.wired_campus_automation_workflow_manager module -- Manage wired campu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.48.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -185,6 +185,52 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/config_verification_wait_time"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_workflow_manager_module__parameter-config/config_verification_wait_time:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verification_wait_time**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/config_verification_wait_time" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Time in seconds to wait before verifying the configuration deployment status.
+
+      Used when config\_verify is enabled to allow sufficient time for configuration to be applied.
+
+      Provides a delay between configuration deployment and verification checks.
+
+      Useful for large configurations or devices with slower response times.
+
+      Minimum recommended value is 10 seconds.
+
+      Maximum value depends on network conditions and device performance.
+
+      Default behavior uses internal timing based on operation complexity.
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">

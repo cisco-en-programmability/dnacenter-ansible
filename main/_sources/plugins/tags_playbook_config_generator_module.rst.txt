@@ -1,0 +1,1789 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.tags_playbook_config_generator module -- Generate YAML configurations playbook for 'tags\_workflow\_manager' module.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.tags_playbook_config_generator_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.tags_playbook_config_generator`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.43.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Generates YAML configurations compatible with the 'tags\_workflow\_manager' module.
+- Reduces manual effort in creating Ansible playbooks.
+- Enables programmatic modifications of infrastructure.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.5
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary of filters for generating YAML playbook compatible with the \`tags\_workflow\_manager\` module.
+
+      Filters specify which components to include in the YAML configuration file.
+
+      If "components\_list" is specified, only those components are included, regardless of the filters.
+
+      If config is not provided (omitted entirely), all configurations for all tags and tag memberships will be generated.
+
+      This is useful for complete brownfield infrastructure discovery and documentation.
+
+      Important: An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+          all configurations, or provide specific filters within 'config'.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters:
+
+      .. rst-class:: ansible-option-title
+
+      **component_specific_filters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Filters to specify which components to include in the YAML configuration file.
+
+      If "components\_list" is specified, only those components are included, regardless of other filters.
+
+      If filters for specific components (e.g., tag or tag\_memberships) are provided without explicitly including them in components\_list, those components will be automatically added to components\_list.
+
+      At least one of components\_list or component filters must be provided.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/components_list"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/components_list:
+
+      .. rst-class:: ansible-option-title
+
+      **components_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/components_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of components to include in the YAML configuration file.
+
+      Valid values are tag and tag\_memberships.
+
+      If specified, only the listed components will be included in the generated YAML file.
+
+      If not specified but component filters (tag or tag\_memberships) are provided, those components are automatically added to this list.
+
+      If neither components\_list nor any component filters are provided, an error will be raised.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"tag"`
+      - :ansible-option-choices-entry:`"tag\_memberships"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tag:
+
+      .. rst-class:: ansible-option-title
+
+      **tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Filters specific to tag configuration retrieval.
+
+      Used to narrow down which tags should be included in the generated YAML file.
+
+      If no filters are provided, all tags from Cisco Catalyst Center will be retrieved.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag/tag_name"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tag/tag_name:
+
+      .. rst-class:: ansible-option-title
+
+      **tag_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag/tag_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the tag to filter by.
+
+      Retrieves the tag with the exact matching name from Cisco Catalyst Center.
+
+      Example Production, Network-Core, Campus-Switches.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag_memberships"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tag_memberships:
+
+      .. rst-class:: ansible-option-title
+
+      **tag_memberships**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag_memberships" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Filters specific to tag membership configuration retrieval.
+
+      Used to specify which tag memberships (device and port associations) should be included.
+
+      If no filters are provided, all tag memberships from Cisco Catalyst Center will be retrieved.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag_memberships/device_identifier"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tag_memberships/device_identifier:
+
+      .. rst-class:: ansible-option-title
+
+      **device_identifier**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag_memberships/device_identifier" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the device identifier to use when generating the tag membership configuration.
+
+      This determines how devices and interfaces are identified in the output YAML file.
+
+      Applies to both network device and interface (port) tag memberships.
+
+      If not specified, defaults to serial\_number.
+
+      hostname: Uses the device hostname as the identifier
+
+      serial\_number: Uses the device serial number as the identifier (default)
+
+      mac\_address: Uses the device MAC address as the identifier
+
+      ip\_address: Uses the device IP address as the identifier
+
+      Fallback Behavior: If the chosen device\_identifier value is not available (None or empty) for a particular device, the module will automatically attempt to resolve the device using alternative identifiers in the following order: serial\_number -\> ip\_address -\> mac\_address -\> hostname (skipping the primary identifier in the fallback chain). If a fallback identifier is used, the output key in the generated YAML will change to match the fallback identifier (e.g., 'serial\_numbers' instead of 'hostnames'). If no identifier can be resolved for a device, that device is skipped with a warning. All fallback events are logged at WARNING level for visibility.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"hostname"`
+      - :ansible-option-choices-entry-default:`"serial\_number"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"mac\_address"`
+      - :ansible-option-choices-entry:`"ip\_address"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag_memberships/tag_name"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tag_memberships/tag_name:
+
+      .. rst-class:: ansible-option-title
+
+      **tag_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag_memberships/tag_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the tag whose memberships should be retrieved.
+
+      Retrieves all network devices and interfaces (ports) associated with this tag.
+
+      Example Production, Network-Core, Campus-Switches.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-file_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-file_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **file_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-file_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Controls how config is written to the YAML file.
+
+      \ :literal:`overwrite`\  replaces existing file content.
+
+      \ :literal:`append`\  appends generated YAML content to the existing file.
+
+      This parameter is only relevant when \ :literal:`file\_path`\  is specified. Defaults to \ :literal:`overwrite`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"overwrite"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"append"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Path where the YAML configuration file will be saved.
+
+      If not provided, the file will be saved in the current working directory with a default file name "tags\_playbook\_config\_\<YYYY-MM-DD\_HH-MM-SS\>.yml".
+
+      For example, "tags\_playbook\_config\_2026-01-24\_12-33-20.yml".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The desired state of Cisco Catalyst Center after module execution.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"gathered"` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - Cisco Catalyst Center \>= 2.3.7.9
+   - SDK Methods used are
+     tags.Tag.get\_tag
+     tags.Tag.get\_tag\_members\_by\_id
+   - SDK Paths used are
+     /dna/intent/api/v1/tag
+     /dna/intent/api/v1/tag/${id}/member
+   - Auto-population of components\_list:
+     If component-specific filters (such as 'tag' or 'tag\_memberships') are provided
+     without explicitly including them in 'components\_list', those components will be
+     automatically added to 'components\_list'. This simplifies configuration by eliminating
+     the need to redundantly specify components in both places.
+
+   - Example of auto-population behavior:
+     If you provide filters for 'tag' without including 'tag' in 'components\_list',
+     the module will automatically add 'tag' to 'components\_list' before processing.
+     This allows you to write more concise playbooks.
+
+   - Validation requirements:
+     If 'component\_specific\_filters' is provided, at least one of the following must be true:
+     (1) 'components\_list' contains at least one component, OR
+     (2) Component-specific filters (e.g., 'tag', 'tag\_memberships') are provided.
+     If neither condition is met, the module will fail with a validation error.
+
+   - System tags filtering:
+     System tags (tags with systemTag=True) are automatically excluded from the generated YAML configuration.
+     These tags are managed by Cisco Catalyst Center and cannot be modified by users, so they are filtered out
+     to ensure the generated playbook only contains user-manageable tags. This filtering is applied regardless
+     of whether you're generating all tags or using specific filters.
+
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   \ :ref:`cisco.dnac.tags\_workflow\_manager <ansible_collections.cisco.dnac.tags_workflow_manager_module>`\ 
+       Module for managing tags and tag memberships.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Example 1: Generate all configurations for all tags and tag memberships
+    - name: Generate complete brownfield tag configuration
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Generate all tag configurations from Cisco Catalyst Center
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            # No config provided - generates all configurations
+
+    # Example 2: Generate all configurations with custom file path
+    - name: Generate complete brownfield tag configuration with custom filename
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Generate all tag configurations to a specific file
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/complete_tags_config.yaml"
+            file_mode: "overwrite"
+            # No config provided - generates all configurations
+
+    # Example 3: Generate only tag configurations without memberships
+    - name: Generate tag definitions only
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export all tag definitions to YAML file
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/catc_tags.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag"]
+
+    # Example 4: Generate only tag membership configurations
+    - name: Generate tag memberships only
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export all tag memberships to YAML file
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/catc_tags.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag_memberships"]
+
+    # Example 5: Generate both tags and memberships together
+    - name: Generate tags and their memberships
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export tags and tag memberships to YAML file
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/catc_tags.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag", "tag_memberships"]
+
+    # Example 6: Auto-populate components_list from component filters
+    - name: Generate configuration with auto-populated components_list
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export tags by providing filters without explicit components_list
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/catc_tags.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                # No components_list specified, but tag filters are provided
+                # The 'tag' component will be automatically added to components_list
+                tag:
+                  - tag_name: Production
+                  - tag_name: Data-Center
+          # This will automatically include 'tag' in components_list and retrieve only those tags
+
+    # Example 7: Filter specific tags by name
+    - name: Generate configuration for specific tags by name
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export specific tags to YAML file
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/catc_tags.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag", "tag_memberships"]
+                tag:
+                  - tag_name: Production
+                  - tag_name: Data-Center
+
+    # Example 8: Filter specific tag memberships by tag name
+    - name: Generate memberships for specific tags
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export memberships for specific tags
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/catc_tags.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag", "tag_memberships"]
+                tag_memberships:
+                  - tag_name: Campus-Switches
+                  - tag_name: Core-Routers
+
+    # Example 9: Generate tag configuration with append mode
+    - name: Generate and append tag configuration
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Append tag configurations to existing file
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/all_tags.yaml"
+            file_mode: "append"
+            config:
+              component_specific_filters:
+                components_list: ["tag", "tag_memberships"]
+                tag:
+                  - tag_name: Branch-Office
+                  - tag_name: Access-Points
+
+    # Example 10: Retrieve all tag memberships with hostname as device identifier
+    - name: Generate all tag memberships using hostname identifier
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export all tag memberships with hostnames
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/tags_by_hostname.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag_memberships"]
+                tag_memberships:
+                  - device_identifier: hostname
+          # This will retrieve all tags with their members identified by hostname instead of serial_number
+
+    # Example 11: Retrieve specific tag membership with IP address as device identifier
+    - name: Generate specific tag membership using IP address identifier
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export specific tag membership with IP addresses
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/production_tag_by_ip.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag_memberships"]
+                tag_memberships:
+                  - tag_name: Production
+                    device_identifier: ip_address
+          # This will retrieve only the 'Production' tag's members with IP addresses
+
+    # Example 12: Retrieve tag memberships with MAC address as device identifier
+    - name: Generate tag memberships using MAC address identifier
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export tag memberships with MAC addresses
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/tags_by_mac.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag_memberships"]
+                tag_memberships:
+                  - tag_name: Campus-Switches
+                    device_identifier: mac_address
+                  - tag_name: Core-Routers
+                    device_identifier: mac_address
+          # This will retrieve specific tags' members with MAC addresses
+
+    # Example 13: Retrieve tag memberships with default device identifier (serial_number)
+    - name: Generate tag memberships with default serial number identifier
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export tag memberships with serial numbers (default)
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/tags_by_serial.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag_memberships"]
+                tag_memberships:
+                  - tag_name: Data-Center
+          # When device_identifier is not specified, it defaults to 'serial_number'
+
+    # Example 14: Mixed configuration with different device identifiers
+    - name: Generate tag configurations with mixed device identifiers
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Export tags with various device identifier formats
+          cisco.dnac.tags_playbook_config_generator:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            dnac_log_append: false
+            dnac_log_file_path: "{{ dnac_log_file_path }}"
+            state: gathered
+            file_path: "/tmp/mixed_identifiers.yaml"
+            file_mode: "overwrite"
+            config:
+              component_specific_filters:
+                components_list: ["tag_memberships"]
+                tag_memberships:
+                  - tag_name: Production
+                    device_identifier: hostname
+                  - tag_name: Development
+                    device_identifier: ip_address
+                  - tag_name: Testing
+                    device_identifier: mac_address
+                  - tag_name: Staging
+          # Different tags can use different device identifiers in the same configuration
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__return-response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response returned by Cisco Catalyst Center Python SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "YAML config generation Task succeeded for module 'tags\_workflow\_manager'", "response": {"response": "YAML configuration successfully generated", "version": "1.0"}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_2"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__return-response_2:
+
+      .. rst-class:: ansible-option-title
+
+      **response_2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Error message when generation fails.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` on failure
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "YAML config generation Task failed for module 'tags\_workflow\_manager': Invalid file path", "response": []}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Archit Soni (@koderchit)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
