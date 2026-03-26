@@ -1,0 +1,114 @@
+---
+- name: Ise radius config generator playbook
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate YAML Configuration with File Path specified for all components
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+
+    - name: Generate YAML Configuration for all components with File Path specified
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "/tmp/ise_radius_integration_config.yaml"
+        file_mode: "overwrite"
+
+    - name: Generate YAML Configuration for mentioned components without File Path specified
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "/tmp/ise_radius_integration_config.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["authentication_policy_server"]
+
+    - name: Generate YAML Configuration for mentioned components with component and specific server_type filter
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "/tmp/ise_radius_integration_config.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["authentication_policy_server"]
+            authentication_policy_server:
+              server_type: "ISE"
+
+    - name: Generate YAML Configuration for mentioned components with component and specific server_ip_address filter
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "/tmp/ise_radius_integration_config.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["authentication_policy_server"]
+            authentication_policy_server:
+              server_ip_address: 10.197.156.10
+
+    - name: Generate YAML Configuration for mentioned components with component and specific server_type and server_ip_address filter
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "/tmp/ise_radius_integration_config.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["authentication_policy_server"]
+            authentication_policy_server:
+              server_type: "ISE"
+              server_ip_address: 10.197.156.10

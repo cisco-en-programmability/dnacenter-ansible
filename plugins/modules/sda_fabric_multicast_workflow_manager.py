@@ -562,7 +562,7 @@ response_2:
       },
       "version": "str"
     }
-# Case_3: Successful updation of the replication mode
+# Case_3: Successful update of the replication mode
 response_3:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always

@@ -1,0 +1,30 @@
+---
+- name: Configure device credentials on Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate provision workflow playbook from brownfield devices
+      cisco.dnac.provision_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: gathered
+        file_path: "provision/global_single_ip_file.yml"
+        file_mode: append
+        config:
+          component_specific_filters:
+            components_list: ["wired"]
+            wired:
+              - management_ip_address:
+                  - "204.1.2.9"

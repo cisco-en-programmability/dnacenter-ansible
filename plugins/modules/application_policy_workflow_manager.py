@@ -1419,7 +1419,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation, updation and deletion of application are currently unavailable "
+                "The creation, update and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -2114,7 +2114,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation, updation and deletion of application are currently unavailable "
+                "The creation, update and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -3196,7 +3196,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occured while updating the application policy: {0}".format(
+            self.msg = "An exception occurred while updating the application policy: {0}".format(
                 e
             )
             self.set_operation_result(
@@ -3522,7 +3522,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occured while creating the application policy: {0}".format(
+            self.msg = "An exception occurred while creating the application policy: {0}".format(
                 e
             )
             self.set_operation_result(
@@ -4253,7 +4253,7 @@ class ApplicationPolicy(DnacBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while creating the application: {0}".format(e)
+                "An exception occurred while creating the application: {0}".format(e)
             )
             self.result["response"] = self.msg
             self.set_operation_result(
@@ -4350,7 +4350,7 @@ class ApplicationPolicy(DnacBase):
                 return self
 
         except Exception as e:
-            self.msg = "An error occured while creating application set: {0}".format(e)
+            self.msg = "An error occurred while creating application set: {0}".format(e)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
@@ -5815,7 +5815,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occured while updating the application policy queuing profile: {0}".format(
+            self.msg = "An exception occurred while updating the application policy queuing profile: {0}".format(
                 e
             )
             self.set_operation_result(
@@ -6160,7 +6160,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "error occured while creating queuing profile: {0}".format(e)
+            self.msg = "error occurred while creating queuing profile: {0}".format(e)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
@@ -6196,7 +6196,7 @@ class ApplicationPolicy(DnacBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation, updation and deletion of application are currently unavailable "
+                "The creation, update and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -6591,7 +6591,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "Error occured while deleting application set: {0}".format(e)
+            self.msg = "Error occurred while deleting application set: {0}".format(e)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
