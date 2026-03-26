@@ -1,5 +1,9 @@
 {
     "generate_all_configurations_case": null,
+    "empty_config_case": {},
+    "empty_component_specific_filters_case": {
+        "component_specific_filters": {}
+    },
     "component_specific_filters_case": {
         "component_specific_filters": {
             "components_list": ["extranet_policies"],
