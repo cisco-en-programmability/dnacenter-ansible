@@ -1234,7 +1234,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "types due to hierarchical priority.",
                 "INFO"
             )
-        elif day_n_templates and isinstance(day_n_templates, list):
+
+        if day_n_templates and isinstance(day_n_templates, list):
             self.log(
                 "Applying SECOND PRIORITY filter: day_n_template_list "
                 f"with {len(day_n_templates)} template(s): "
@@ -1316,7 +1317,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "filter types due to hierarchical priority.",
                 "INFO"
             )
-        elif site_list and isinstance(site_list, list):
+
+        if site_list and isinstance(site_list, list):
             self.log(
                 "Applying THIRD PRIORITY filter: site_list with "
                 f"{len(site_list)} site(s): {site_list}. "
@@ -1397,7 +1399,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "types due to hierarchical priority.",
                 "INFO"
             )
-        elif ssid_list and isinstance(ssid_list, list):
+
+        if ssid_list and isinstance(ssid_list, list):
             self.log(
                 "Applying FOURTH PRIORITY filter: ssid_list with "
                 f"{len(ssid_list)} SSID(s): {ssid_list}. "
@@ -1483,7 +1486,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "types due to hierarchical priority.",
                 "INFO"
             )
-        elif ap_zone_list and isinstance(ap_zone_list, list):
+
+        if ap_zone_list and isinstance(ap_zone_list, list):
             self.log(
                 f"Applying FIFTH PRIORITY filter: ap_zone_list with {len(ap_zone_list)} "
                 f"AP zone(s): {ap_zone_list}. "
@@ -1569,7 +1573,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "types due to hierarchical priority.",
                 "INFO"
             )
-        elif feature_template_list and isinstance(feature_template_list, list):
+
+        if feature_template_list and isinstance(feature_template_list, list):
             self.log(
                 f"Applying SIXTH PRIORITY filter: feature_template_list "
                 f"with {len(feature_template_list)} template(s): "
@@ -1658,7 +1663,8 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "remaining filter types due to hierarchical priority.",
                 "INFO"
             )
-        elif additional_interface_list and isinstance(additional_interface_list, list):
+
+        if additional_interface_list and isinstance(additional_interface_list, list):
             self.log(
                 f"Applying LOWEST PRIORITY filter: additional_interface_list with {len(additional_interface_list)} "
                 f"interface(s): {additional_interface_list}. Matching against wireless_profile_info "
@@ -1745,12 +1751,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 f"Final configurations collected: {len(final_list)}. All filter "
                 "types processed.",
                 "INFO"
-            )
-        else:
-            self.log(
-                "No specific global filters provided or no filters matched expected list "
-                "types. No filter-based processing performed. Filters received: {global_filters}",
-                "WARNING"
             )
 
         if not final_list:
