@@ -694,14 +694,15 @@ class BrownFieldHelper:
 
             if filters is None:
                 self.log(
-                    "No filters provided for component '{0}', skipping.".format(component),
+                    "Skipping deduplication for component '{0}' — no filters provided. "
+                    "Continuing to next component.".format(component),
                     "DEBUG",
                 )
                 continue
 
             if not isinstance(filters, list):
                 self.log(
-                    "Filters for component '{0}' is not a list (type: {1}), skipping.".format(
+                    "Filters for component '{0}' are not a list, got type '{1}'. Skipping.".format(
                         component, type(filters).__name__
                     ),
                     "DEBUG",
@@ -733,8 +734,8 @@ class BrownFieldHelper:
 
             for index, filter_entry in enumerate(filters, start=1):
                 self.log(
-                    "Evaluating filter entry [{0}] for component '{1}': {2}".format(
-                        index, component, filter_entry
+                    "Evaluating filter entry {0}/{1} for component '{2}': {3}".format(
+                        index, len(filters), component, filter_entry
                     ),
                     "DEBUG",
                 )
@@ -770,8 +771,9 @@ class BrownFieldHelper:
                     )
                 else:
                     self.log(
-                        "Duplicate filter entry found at index [{0}] in component '{1}': {2}".format(
-                            index, component, filter_entry
+                        "Skipping duplicate filter entry {0}/{1} in component '{2}': {3}. "
+                        "Already seen — continuing to next entry.".format(
+                            index, len(filters), component, filter_entry
                         ),
                         "DEBUG",
                     )
