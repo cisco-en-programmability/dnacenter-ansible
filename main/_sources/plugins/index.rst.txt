@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.48.2
+Collection version 6.49.0
 
 .. contents::
    :local:
@@ -46,6 +46,9 @@ DEPRECATED - Use cisco.catalystcenter instead. Ansible Modules for Cisco DNA Cen
 * Karthick S N <kasn@cisco.com>
 * Sunil Shatagopa <sshatago@cisco.com>
 * Vivek Raj Penke <vpenke@cisco.com>
+* Vidhya Rathinam <virathin@cisco.com>
+* Mridul Saurabh <msaurabh@cisco.com>
+* Jeet Ram <jeeram@cisco.com>
 
 **Supported ansible-core versions:**
 
@@ -85,7 +88,9 @@ Modules
 * :ref:`access_groups_count_info module <ansible_collections.cisco.dnac.access_groups_count_info_module>` -- Information module for Access Groups Count
 * :ref:`access_groups_info module <ansible_collections.cisco.dnac.access_groups_info_module>` -- Information module for Access Groups
 * :ref:`accesspoint_configuration_details_by_task_id_info module <ansible_collections.cisco.dnac.accesspoint_configuration_details_by_task_id_info_module>` -- Information module for Accesspoint Configuration Details By Task Id
+* :ref:`accesspoint_location_playbook_config_generator module <ansible_collections.cisco.dnac.accesspoint_location_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'accesspoint\_location\_workflow\_manager' module.
 * :ref:`accesspoint_location_workflow_manager module <ansible_collections.cisco.dnac.accesspoint_location_workflow_manager_module>` -- Resource module for managing Access Point planned positions and real positions in Cisco Catalyst Center
+* :ref:`accesspoint_playbook_config_generator module <ansible_collections.cisco.dnac.accesspoint_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'accesspoint\_workflow\_manager' module.
 * :ref:`accesspoint_workflow_manager module <ansible_collections.cisco.dnac.accesspoint_workflow_manager_module>` -- Manage Cisco Catalyst Center access points
 * :ref:`activities_activity_id_triggered_jobs_count_info module <ansible_collections.cisco.dnac.activities_activity_id_triggered_jobs_count_info_module>` -- Information module for Activities Activity Id Triggered Jobs Count
 * :ref:`activities_activity_id_triggered_jobs_info module <ansible_collections.cisco.dnac.activities_activity_id_triggered_jobs_info_module>` -- Information module for Activities Activity Id Triggered Jobs
@@ -101,6 +106,7 @@ Modules
 * :ref:`application_policy_application_set module <ansible_collections.cisco.dnac.application_policy_application_set_module>` -- Resource module for Application Policy Application Set
 * :ref:`application_policy_application_set_count_info module <ansible_collections.cisco.dnac.application_policy_application_set_count_info_module>` -- Information module for Application Policy Application Set Count
 * :ref:`application_policy_application_set_info module <ansible_collections.cisco.dnac.application_policy_application_set_info_module>` -- Information module for Application Policy Application Set
+* :ref:`application_policy_playbook_config_generator module <ansible_collections.cisco.dnac.application_policy_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'application\_policy\_workflow\_manager' module.
 * :ref:`application_policy_workflow_manager module <ansible_collections.cisco.dnac.application_policy_workflow_manager_module>` -- Resource module for managing queuing profiles, applications, application sets and application policies for wired and wireless in Cisco Catalyst Center.
 
 * :ref:`application_sets module <ansible_collections.cisco.dnac.application_sets_module>` -- Resource module for Application Sets
@@ -124,6 +130,7 @@ Modules
 * :ref:`assign_device_to_site module <ansible_collections.cisco.dnac.assign_device_to_site_module>` -- Resource module for Assign Device To Site
 * :ref:`assign_to_site_apply module <ansible_collections.cisco.dnac.assign_to_site_apply_module>` -- Resource module for Assign To Site Apply
 * :ref:`associate_site_to_network_profile module <ansible_collections.cisco.dnac.associate_site_to_network_profile_module>` -- Resource module for Associate Site To Network Profile
+* :ref:`assurance_device_health_score_settings_playbook_config_generator module <ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'assurance\_device\_health\_score\_settings\_workflow\_manager' module.
 * :ref:`assurance_device_health_score_settings_workflow_manager module <ansible_collections.cisco.dnac.assurance_device_health_score_settings_workflow_manager_module>` -- Resource module for managing assurance Health score settings in Cisco Catalyst Center.
 * :ref:`assurance_events_child_events_info module <ansible_collections.cisco.dnac.assurance_events_child_events_info_module>` -- Information module for Assurance Events Child Events
 * :ref:`assurance_events_count_info module <ansible_collections.cisco.dnac.assurance_events_count_info_module>` -- Information module for Assurance Events Count
@@ -131,6 +138,7 @@ Modules
 * :ref:`assurance_events_query module <ansible_collections.cisco.dnac.assurance_events_query_module>` -- Resource module for Assurance Events Query
 * :ref:`assurance_events_query_count module <ansible_collections.cisco.dnac.assurance_events_query_count_module>` -- Resource module for Assurance Events Query Count
 * :ref:`assurance_icap_settings_workflow_manager module <ansible_collections.cisco.dnac.assurance_icap_settings_workflow_manager_module>` -- Configure and manage ICAP (Intelligent Capture) settings in Cisco Catalyst Center for network assurance.
+* :ref:`assurance_issue_playbook_config_generator module <ansible_collections.cisco.dnac.assurance_issue_playbook_config_generator_module>` -- Generate YAML playbook for 'assurance\_issue\_workflow\_manager' module.
 * :ref:`assurance_issue_workflow_manager module <ansible_collections.cisco.dnac.assurance_issue_workflow_manager_module>` -- Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center
 * :ref:`assurance_issues_count_info module <ansible_collections.cisco.dnac.assurance_issues_count_info_module>` -- Information module for Assurance Issues Count
 * :ref:`assurance_issues_ignore module <ansible_collections.cisco.dnac.assurance_issues_ignore_module>` -- Resource module for Assurance Issues Ignore
@@ -149,6 +157,7 @@ Modules
 * :ref:`authentication_import_certificate_p12 module <ansible_collections.cisco.dnac.authentication_import_certificate_p12_module>` -- Resource module for Authentication Import Certificate P12
 * :ref:`authentication_policy_servers module <ansible_collections.cisco.dnac.authentication_policy_servers_module>` -- Resource module for Authentication Policy Servers
 * :ref:`authentication_policy_servers_info module <ansible_collections.cisco.dnac.authentication_policy_servers_info_module>` -- Information module for Authentication Policy Servers
+* :ref:`backup_and_restore_playbook_config_generator module <ansible_collections.cisco.dnac.backup_and_restore_playbook_config_generator_module>` -- Generate YAML playbook for 'backup\_and\_restore\_workflow\_manager' module.
 * :ref:`backup_and_restore_workflow_manager module <ansible_collections.cisco.dnac.backup_and_restore_workflow_manager_module>` -- Resource module for comprehensive backup and restore workflow management with NFS server configuration in Cisco Catalyst Center.
 
 * :ref:`backup_configuration module <ansible_collections.cisco.dnac.backup_configuration_module>` -- Resource module for Backup Configuration
@@ -237,6 +246,7 @@ Modules
 * :ref:`device_credential module <ansible_collections.cisco.dnac.device_credential_module>` -- Resource module for Device Credential
 * :ref:`device_credential_info module <ansible_collections.cisco.dnac.device_credential_info_module>` -- Information module for Device Credential
 * :ref:`device_credential_intent module <ansible_collections.cisco.dnac.device_credential_intent_module>` -- Resource module for Global Device Credentials and Assigning Credentials to sites.
+* :ref:`device_credential_playbook_config_generator module <ansible_collections.cisco.dnac.device_credential_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'device\_credential\_workflow\_manager' module.
 * :ref:`device_credential_workflow_manager module <ansible_collections.cisco.dnac.device_credential_workflow_manager_module>` -- Resource module for Global Device Credentials and Assigning Credentials to sites.
 * :ref:`device_details_info module <ansible_collections.cisco.dnac.device_details_info_module>` -- Information module for Device Details
 * :ref:`device_enrichment_details_info module <ansible_collections.cisco.dnac.device_enrichment_details_info_module>` -- Information module for Device Enrichment Details
@@ -279,6 +289,7 @@ Modules
 * :ref:`discovery_info module <ansible_collections.cisco.dnac.discovery_info_module>` -- Information module for Discovery
 * :ref:`discovery_intent module <ansible_collections.cisco.dnac.discovery_intent_module>` -- A resource module for handling device discovery tasks.
 * :ref:`discovery_job_info module <ansible_collections.cisco.dnac.discovery_job_info_module>` -- Information module for Discovery Job
+* :ref:`discovery_playbook_config_generator module <ansible_collections.cisco.dnac.discovery_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'discovery\_workflow\_manager' module.
 * :ref:`discovery_range_delete module <ansible_collections.cisco.dnac.discovery_range_delete_module>` -- Resource module for Discovery Range Delete
 * :ref:`discovery_range_info module <ansible_collections.cisco.dnac.discovery_range_info_module>` -- Information module for Discovery Range
 * :ref:`discovery_summary_info module <ansible_collections.cisco.dnac.discovery_summary_info_module>` -- Information module for Discovery Summary
@@ -371,6 +382,7 @@ Modules
 * :ref:`event_syslog_config_info module <ansible_collections.cisco.dnac.event_syslog_config_info_module>` -- Information module for Event Syslog Config
 * :ref:`event_webhook module <ansible_collections.cisco.dnac.event_webhook_module>` -- Resource module for Event Webhook
 * :ref:`event_webhook_info module <ansible_collections.cisco.dnac.event_webhook_info_module>` -- Information module for Event Webhook
+* :ref:`events_and_notifications_playbook_config_generator module <ansible_collections.cisco.dnac.events_and_notifications_playbook_config_generator_module>` -- Generate YAML playbook for 'events\_and\_notifications\_workflow\_manager' module.
 * :ref:`events_and_notifications_workflow_manager module <ansible_collections.cisco.dnac.events_and_notifications_workflow_manager_module>` -- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.
 * :ref:`execute_suggested_actions_commands module <ansible_collections.cisco.dnac.execute_suggested_actions_commands_module>` -- Resource module for Execute Suggested Actions Commands
 * :ref:`fabric_devices_info_workflow_manager module <ansible_collections.cisco.dnac.fabric_devices_info_workflow_manager_module>` -- Comprehensive fabric device information gathering module for Cisco Catalyst Center with advanced filtering and output capabilities.
@@ -523,6 +535,7 @@ Modules
 * :ref:`interfaces_query module <ansible_collections.cisco.dnac.interfaces_query_module>` -- Resource module for Interfaces Query
 * :ref:`interfaces_query_count module <ansible_collections.cisco.dnac.interfaces_query_count_module>` -- Resource module for Interfaces Query Count
 * :ref:`inventory_intent module <ansible_collections.cisco.dnac.inventory_intent_module>` -- Resource module for Network Device
+* :ref:`inventory_playbook_config_generator module <ansible_collections.cisco.dnac.inventory_playbook_config_generator_module>` -- Generate YAML playbook input for 'inventory\_workflow\_manager' module.
 * :ref:`inventory_workflow_manager module <ansible_collections.cisco.dnac.inventory_workflow_manager_module>` -- Comprehensive network device inventory management for Cisco Catalyst Center
 * :ref:`iot_fabric_rep_rings module <ansible_collections.cisco.dnac.iot_fabric_rep_rings_module>` -- Resource module for Iot Fabric Rep Rings
 * :ref:`iot_fabric_rep_rings_delete module <ansible_collections.cisco.dnac.iot_fabric_rep_rings_delete_module>` -- Resource module for Iot Fabric Rep Rings Delete
@@ -546,6 +559,7 @@ Modules
 * :ref:`ipam_site_ip_address_pools_count_info module <ansible_collections.cisco.dnac.ipam_site_ip_address_pools_count_info_module>` -- Information module for Ipam Site Ip Address Pools Count
 * :ref:`ipam_site_ip_address_pools_info module <ansible_collections.cisco.dnac.ipam_site_ip_address_pools_info_module>` -- Information module for Ipam Site Ip Address Pools
 * :ref:`ise_integration_status_info module <ansible_collections.cisco.dnac.ise_integration_status_info_module>` -- Information module for Ise Integration Status
+* :ref:`ise_radius_integration_playbook_config_generator module <ansible_collections.cisco.dnac.ise_radius_integration_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'ise\_radius\_integration\_workflow\_manager' module.
 * :ref:`ise_radius_integration_workflow_manager module <ansible_collections.cisco.dnac.ise_radius_integration_workflow_manager_module>` -- Resource module for Authentication and Policy Servers
 * :ref:`issue_enrichment_details_info module <ansible_collections.cisco.dnac.issue_enrichment_details_info_module>` -- Information module for Issue Enrichment Details
 * :ref:`issues_enrichment_details_info module <ansible_collections.cisco.dnac.issues_enrichment_details_info_module>` -- Information module for Issues Enrichment Details
@@ -718,7 +732,9 @@ Modules
 * :ref:`network_devices_update_create module <ansible_collections.cisco.dnac.network_devices_update_create_module>` -- Resource module for Network Devices Update Create
 * :ref:`network_devices_validate_device_create module <ansible_collections.cisco.dnac.network_devices_validate_device_create_module>` -- Resource module for Network Devices Validate Device Create
 * :ref:`network_info module <ansible_collections.cisco.dnac.network_info_module>` -- Information module for Network
+* :ref:`network_profile_switching_playbook_config_generator module <ansible_collections.cisco.dnac.network_profile_switching_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'network\_profile\_switching\_workflow\_manager' module.
 * :ref:`network_profile_switching_workflow_manager module <ansible_collections.cisco.dnac.network_profile_switching_workflow_manager_module>` -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center
+* :ref:`network_profile_wireless_playbook_config_generator module <ansible_collections.cisco.dnac.network_profile_wireless_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'network\_profile\_wireless\_workflow\_manager' module.
 * :ref:`network_profile_wireless_workflow_manager module <ansible_collections.cisco.dnac.network_profile_wireless_workflow_manager_module>` -- Resource module for managing network wireless profile in Cisco Catalyst Center
 * :ref:`network_profiles_for_sites_profile_id_templates_count_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_profile_id_templates_count_info_module>` -- Information module for Network Profiles For Sites Profile Id Templates Count
 * :ref:`network_profiles_for_sites_profile_id_templates_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_profile_id_templates_info_module>` -- Information module for Network Profiles For Sites Profile Id Templates
@@ -728,6 +744,7 @@ Modules
 * :ref:`network_profiles_for_sites_site_assignments_count_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_site_assignments_count_info_module>` -- Information module for Network Profiles For Sites Site Assignments Count
 * :ref:`network_profiles_for_sites_site_assignments_info module <ansible_collections.cisco.dnac.network_profiles_for_sites_site_assignments_info_module>` -- Information module for Network Profiles For Sites Site Assignments
 * :ref:`network_settings_intent module <ansible_collections.cisco.dnac.network_settings_intent_module>` -- Resource module for IP Address pools and network functions
+* :ref:`network_settings_playbook_config_generator module <ansible_collections.cisco.dnac.network_settings_playbook_config_generator_module>` -- Generate YAML playbook for 'network\_settings\_workflow\_manager' module.
 * :ref:`network_settings_workflow_manager module <ansible_collections.cisco.dnac.network_settings_workflow_manager_module>` -- Resource module for IP Address pools and network functions
 * :ref:`network_update module <ansible_collections.cisco.dnac.network_update_module>` -- Resource module for Network Update
 * :ref:`network_v2 module <ansible_collections.cisco.dnac.network_v2_module>` -- Resource module for Network V2
@@ -753,6 +770,7 @@ Modules
 * :ref:`pnp_global_settings module <ansible_collections.cisco.dnac.pnp_global_settings_module>` -- Resource module for Pnp Global Settings
 * :ref:`pnp_global_settings_info module <ansible_collections.cisco.dnac.pnp_global_settings_info_module>` -- Information module for Pnp Global Settings
 * :ref:`pnp_intent module <ansible_collections.cisco.dnac.pnp_intent_module>` -- Resource module for Site and PnP related functions
+* :ref:`pnp_playbook_config_generator module <ansible_collections.cisco.dnac.pnp_playbook_config_generator_module>` -- Generate YAML playbook for PnP workflow with device information
 * :ref:`pnp_server_profile_update module <ansible_collections.cisco.dnac.pnp_server_profile_update_module>` -- Resource module for Pnp Server Profile Update
 * :ref:`pnp_smart_account_domains_info module <ansible_collections.cisco.dnac.pnp_smart_account_domains_info_module>` -- Information module for Pnp Smart Account Domains
 * :ref:`pnp_virtual_account_add module <ansible_collections.cisco.dnac.pnp_virtual_account_add_module>` -- Resource module for Pnp Virtual Account Add
@@ -773,6 +791,7 @@ Modules
 * :ref:`projects_details_info module <ansible_collections.cisco.dnac.projects_details_info_module>` -- Information module for Projects Details
 * :ref:`projects_info module <ansible_collections.cisco.dnac.projects_info_module>` -- Information module for Projects
 * :ref:`provision_intent module <ansible_collections.cisco.dnac.provision_intent_module>` -- Resource module for provision functions
+* :ref:`provision_playbook_config_generator module <ansible_collections.cisco.dnac.provision_playbook_config_generator_module>` -- Generate YAML playbook for 'provision\_workflow\_manager' module.
 * :ref:`provision_workflow_manager module <ansible_collections.cisco.dnac.provision_workflow_manager_module>` -- Resource module for provision related functions
 * :ref:`provisioning_settings module <ansible_collections.cisco.dnac.provisioning_settings_module>` -- Resource module for Provisioning Settings
 * :ref:`provisioning_settings_info module <ansible_collections.cisco.dnac.provisioning_settings_info_module>` -- Information module for Provisioning Settings
@@ -791,6 +810,7 @@ Modules
 * :ref:`reports_workflow_manager module <ansible_collections.cisco.dnac.reports_workflow_manager_module>` -- Resource module for managing Reports in Cisco Catalyst Center.
 * :ref:`reserve_ip_subpool module <ansible_collections.cisco.dnac.reserve_ip_subpool_module>` -- Resource module for Reserve Ip Subpool
 * :ref:`reserve_ip_subpool_info module <ansible_collections.cisco.dnac.reserve_ip_subpool_info_module>` -- Information module for Reserve Ip Subpool
+* :ref:`rma_playbook_config_generator module <ansible_collections.cisco.dnac.rma_playbook_config_generator_module>` -- Generate YAML playbooks for RMA device replacement workflows from existing configurations.
 * :ref:`rma_workflow_manager module <ansible_collections.cisco.dnac.rma_workflow_manager_module>` -- Manage device replacement workflows in Cisco Catalyst Center.
 * :ref:`role_permissions_info module <ansible_collections.cisco.dnac.role_permissions_info_module>` -- Information module for Role Permissions
 * :ref:`roles module <ansible_collections.cisco.dnac.roles_module>` -- Resource module for Roles
@@ -808,6 +828,7 @@ Modules
 * :ref:`sda_extranet_policies module <ansible_collections.cisco.dnac.sda_extranet_policies_module>` -- Resource module for Sda Extranet Policies
 * :ref:`sda_extranet_policies_count_info module <ansible_collections.cisco.dnac.sda_extranet_policies_count_info_module>` -- Information module for Sda Extranet Policies Count
 * :ref:`sda_extranet_policies_info module <ansible_collections.cisco.dnac.sda_extranet_policies_info_module>` -- Information module for Sda Extranet Policies
+* :ref:`sda_extranet_policies_playbook_config_generator module <ansible_collections.cisco.dnac.sda_extranet_policies_playbook_config_generator_module>` -- Generate YAML playbooks for SDA extranet policies from existing configurations.
 * :ref:`sda_extranet_policies_workflow_manager module <ansible_collections.cisco.dnac.sda_extranet_policies_workflow_manager_module>` -- SDA Extranet Policies Module provides functionality for managing SD-Access Extranet Policies in Cisco Catalyst Center.
 * :ref:`sda_fabric_authentication_profile module <ansible_collections.cisco.dnac.sda_fabric_authentication_profile_module>` -- Resource module for Sda Fabric Authentication Profile
 * :ref:`sda_fabric_authentication_profile_info module <ansible_collections.cisco.dnac.sda_fabric_authentication_profile_info_module>` -- Information module for Sda Fabric Authentication Profile
@@ -827,17 +848,22 @@ Modules
 * :ref:`sda_fabric_devices_layer2_handoffs_sda_transits module <ansible_collections.cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_module>` -- Resource module for Sda Fabric Devices Layer2 Handoffs Sda Transits
 * :ref:`sda_fabric_devices_layer2_handoffs_sda_transits_count_info module <ansible_collections.cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_count_info_module>` -- Information module for Sda Fabric Devices Layer2 Handoffs Sda Transits Count
 * :ref:`sda_fabric_devices_layer2_handoffs_sda_transits_info module <ansible_collections.cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_info_module>` -- Information module for Sda Fabric Devices Layer2 Handoffs Sda Transits
+* :ref:`sda_fabric_devices_playbook_config_generator module <ansible_collections.cisco.dnac.sda_fabric_devices_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'sda\_fabric\_devices\_workflow\_manager' module.
 * :ref:`sda_fabric_devices_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module>` -- Manage SDA fabric devices in Cisco Catalyst Center.
 * :ref:`sda_fabric_edge_device module <ansible_collections.cisco.dnac.sda_fabric_edge_device_module>` -- Resource module for Sda Fabric Edge Device
 * :ref:`sda_fabric_edge_device_info module <ansible_collections.cisco.dnac.sda_fabric_edge_device_info_module>` -- Information module for Sda Fabric Edge Device
+* :ref:`sda_fabric_multicast_playbook_config_generator module <ansible_collections.cisco.dnac.sda_fabric_multicast_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'sda\_fabric\_multicast\_workflow\_manager' module.
 * :ref:`sda_fabric_multicast_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_multicast_workflow_manager_module>` -- Manage SDA fabric multicast in Cisco Catalyst Center.
 * :ref:`sda_fabric_site module <ansible_collections.cisco.dnac.sda_fabric_site_module>` -- Resource module for Sda Fabric Site
 * :ref:`sda_fabric_site_info module <ansible_collections.cisco.dnac.sda_fabric_site_info_module>` -- Information module for Sda Fabric Site
 * :ref:`sda_fabric_sites module <ansible_collections.cisco.dnac.sda_fabric_sites_module>` -- Resource module for Sda Fabric Sites
 * :ref:`sda_fabric_sites_count_info module <ansible_collections.cisco.dnac.sda_fabric_sites_count_info_module>` -- Information module for Sda Fabric Sites Count
 * :ref:`sda_fabric_sites_info module <ansible_collections.cisco.dnac.sda_fabric_sites_info_module>` -- Information module for Sda Fabric Sites
+* :ref:`sda_fabric_sites_zones_playbook_config_generator module <ansible_collections.cisco.dnac.sda_fabric_sites_zones_playbook_config_generator_module>` -- Generate YAML playbook for \ :literal:`sda\_fabric\_sites\_zones\_workflow\_manager`\  module.
 * :ref:`sda_fabric_sites_zones_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module>` -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
+* :ref:`sda_fabric_transits_playbook_config_generator module <ansible_collections.cisco.dnac.sda_fabric_transits_playbook_config_generator_module>` -- Generate YAML configurations playbook for \ :literal:`sda\_fabric\_transits\_workflow\_manager`\  module.
 * :ref:`sda_fabric_transits_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_transits_workflow_manager_module>` -- Resource module for SDA fabric transits
+* :ref:`sda_fabric_virtual_networks_playbook_config_generator module <ansible_collections.cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator_module>` -- Generate YAML playbook for \ :literal:`sda\_fabric\_virtual\_networks\_workflow\_manager`\  module.
 * :ref:`sda_fabric_virtual_networks_workflow_manager module <ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module>` -- Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.
 * :ref:`sda_fabric_zones module <ansible_collections.cisco.dnac.sda_fabric_zones_module>` -- Resource module for Sda Fabric Zones
 * :ref:`sda_fabric_zones_count_info module <ansible_collections.cisco.dnac.sda_fabric_zones_count_info_module>` -- Information module for Sda Fabric Zones Count
@@ -847,6 +873,7 @@ Modules
 * :ref:`sda_fabrics_vlan_to_ssids_fabric_id_count_info module <ansible_collections.cisco.dnac.sda_fabrics_vlan_to_ssids_fabric_id_count_info_module>` -- Information module for Sda Fabrics Vlan To Ssids Fabric Id Count
 * :ref:`sda_fabrics_vlan_to_ssids_fabric_id_info module <ansible_collections.cisco.dnac.sda_fabrics_vlan_to_ssids_fabric_id_info_module>` -- Information module for Sda Fabrics Vlan To Ssids Fabric Id
 * :ref:`sda_fabrics_vlan_to_ssids_info module <ansible_collections.cisco.dnac.sda_fabrics_vlan_to_ssids_info_module>` -- Information module for Sda Fabrics Vlan To Ssids
+* :ref:`sda_host_port_onboarding_playbook_config_generator module <ansible_collections.cisco.dnac.sda_host_port_onboarding_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'sda\_host\_port\_onboarding\_workflow\_manager' module.
 * :ref:`sda_host_port_onboarding_workflow_manager module <ansible_collections.cisco.dnac.sda_host_port_onboarding_workflow_manager_module>` -- Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.
 * :ref:`sda_layer2_virtual_networks module <ansible_collections.cisco.dnac.sda_layer2_virtual_networks_module>` -- Resource module for Sda Layer2 Virtual Networks
 * :ref:`sda_layer2_virtual_networks_count_info module <ansible_collections.cisco.dnac.sda_layer2_virtual_networks_count_info_module>` -- Information module for Sda Layer2 Virtual Networks Count
@@ -956,6 +983,7 @@ Modules
 * :ref:`site_kpi_summaries_trend_analytics module <ansible_collections.cisco.dnac.site_kpi_summaries_trend_analytics_module>` -- Resource module for Site Kpi Summaries Trend Analytics
 * :ref:`site_kpi_summaries_trend_analytics_info module <ansible_collections.cisco.dnac.site_kpi_summaries_trend_analytics_info_module>` -- Information module for Site Kpi Summaries Trend Analytics
 * :ref:`site_membership_info module <ansible_collections.cisco.dnac.site_membership_info_module>` -- Information module for Site Membership
+* :ref:`site_playbook_config_generator module <ansible_collections.cisco.dnac.site_playbook_config_generator_module>` -- Generate YAML playbook for 'site\_workflow\_manager' module.
 * :ref:`site_update module <ansible_collections.cisco.dnac.site_update_module>` -- Resource module for Site Update
 * :ref:`site_v2_info module <ansible_collections.cisco.dnac.site_v2_info_module>` -- Information module for Site V2
 * :ref:`site_wise_images_summary_info module <ansible_collections.cisco.dnac.site_wise_images_summary_info_module>` -- Information module for Site Wise Images Summary
@@ -1034,6 +1062,7 @@ Modules
 * :ref:`tags_network_devices_members_associations_count_info module <ansible_collections.cisco.dnac.tags_network_devices_members_associations_count_info_module>` -- Information module for Tags Network Devices Members Associations Count
 * :ref:`tags_network_devices_members_associations_info module <ansible_collections.cisco.dnac.tags_network_devices_members_associations_info_module>` -- Information module for Tags Network Devices Members Associations
 * :ref:`tags_network_devices_members_associations_query module <ansible_collections.cisco.dnac.tags_network_devices_members_associations_query_module>` -- Resource module for Tags Network Devices Members Associations Query
+* :ref:`tags_playbook_config_generator module <ansible_collections.cisco.dnac.tags_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'tags\_workflow\_manager' module.
 * :ref:`tags_workflow_manager module <ansible_collections.cisco.dnac.tags_workflow_manager_module>` -- Create/ Update/ Delete Tag(s) and Tag Memberships in Cisco Catalyst Center.
 * :ref:`task_count_info module <ansible_collections.cisco.dnac.task_count_info_module>` -- Information module for Task Count
 * :ref:`task_info module <ansible_collections.cisco.dnac.task_info_module>` -- Information module for Task
@@ -1044,6 +1073,7 @@ Modules
 * :ref:`tasks_info module <ansible_collections.cisco.dnac.tasks_info_module>` -- Information module for Tasks
 * :ref:`telemetry_settings_apply module <ansible_collections.cisco.dnac.telemetry_settings_apply_module>` -- Resource module for Telemetry Settings Apply
 * :ref:`template_intent module <ansible_collections.cisco.dnac.template_intent_module>` -- Resource module for Template functions
+* :ref:`template_playbook_config_generator module <ansible_collections.cisco.dnac.template_playbook_config_generator_module>` -- Generate YAML playbook for \ :literal:`template\_workflow\_manager`\  module.
 * :ref:`template_preview module <ansible_collections.cisco.dnac.template_preview_module>` -- Resource module for Template Preview
 * :ref:`template_workflow_manager module <ansible_collections.cisco.dnac.template_workflow_manager_module>` -- Resource module for Template functions
 * :ref:`templates_details_info module <ansible_collections.cisco.dnac.templates_details_info_module>` -- Information module for Templates Details
@@ -1077,6 +1107,7 @@ Modules
 * :ref:`user_enrichment_details_info module <ansible_collections.cisco.dnac.user_enrichment_details_info_module>` -- Information module for User Enrichment Details
 * :ref:`user_enrichment_details_v2_info module <ansible_collections.cisco.dnac.user_enrichment_details_v2_info_module>` -- Information module for User Enrichment Details V2
 * :ref:`user_info module <ansible_collections.cisco.dnac.user_info_module>` -- Information module for User
+* :ref:`user_role_playbook_config_generator module <ansible_collections.cisco.dnac.user_role_playbook_config_generator_module>` -- Generate YAML playbook for user and role management.
 * :ref:`user_role_workflow_manager module <ansible_collections.cisco.dnac.user_role_workflow_manager_module>` -- Resource module for managing users and roles in Cisco Catalyst Center.
 * :ref:`users_external_authentication module <ansible_collections.cisco.dnac.users_external_authentication_module>` -- Resource module for Users External Authentication
 * :ref:`users_external_authentication_info module <ansible_collections.cisco.dnac.users_external_authentication_info_module>` -- Information module for Users External Authentication
@@ -1086,6 +1117,7 @@ Modules
 * :ref:`virtual_network_health_summaries_count_info module <ansible_collections.cisco.dnac.virtual_network_health_summaries_count_info_module>` -- Information module for Virtual Network Health Summaries Count
 * :ref:`virtual_network_health_summaries_id_trend_analytics_info module <ansible_collections.cisco.dnac.virtual_network_health_summaries_id_trend_analytics_info_module>` -- Information module for Virtual Network Health Summaries Id Trend Analytics
 * :ref:`virtual_network_health_summaries_info module <ansible_collections.cisco.dnac.virtual_network_health_summaries_info_module>` -- Information module for Virtual Network Health Summaries
+* :ref:`wired_campus_automation_playbook_config_generator module <ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'wired\_campus\_automation\_workflow\_manager' module.
 * :ref:`wired_campus_automation_workflow_manager module <ansible_collections.cisco.dnac.wired_campus_automation_workflow_manager_module>` -- Manage wired campus automation operations in Cisco Catalyst Center
 * :ref:`wired_network_devices_id_config_features_deployed_layer2_feature_count_info module <ansible_collections.cisco.dnac.wired_network_devices_id_config_features_deployed_layer2_feature_count_info_module>` -- Information module for Wired Network Devices Id Config Features Deployed Layer2 Feature Count
 * :ref:`wired_network_devices_id_config_features_deployed_layer2_feature_info module <ansible_collections.cisco.dnac.wired_network_devices_id_config_features_deployed_layer2_feature_info_module>` -- Information module for Wired Network Devices Id Config Features Deployed Layer2 Feature
@@ -1128,6 +1160,7 @@ Modules
 * :ref:`wireless_controllers_wireless_mobility_groups_info module <ansible_collections.cisco.dnac.wireless_controllers_wireless_mobility_groups_info_module>` -- Information module for Wireless Controllers Wireless Mobility Groups
 * :ref:`wireless_controllers_wireless_mobility_groups_mobility_provision module <ansible_collections.cisco.dnac.wireless_controllers_wireless_mobility_groups_mobility_provision_module>` -- Resource module for Wireless Controllers Wireless Mobility Groups Mobility Provision
 * :ref:`wireless_controllers_wireless_mobility_groups_mobility_reset module <ansible_collections.cisco.dnac.wireless_controllers_wireless_mobility_groups_mobility_reset_module>` -- Resource module for Wireless Controllers Wireless Mobility Groups Mobility Reset
+* :ref:`wireless_design_playbook_config_generator module <ansible_collections.cisco.dnac.wireless_design_playbook_config_generator_module>` -- Generate YAML playbook for \ :literal:`wireless\_design\_workflow\_manager`\  module.
 * :ref:`wireless_design_workflow_manager module <ansible_collections.cisco.dnac.wireless_design_workflow_manager_module>` -- 
 * :ref:`wireless_dynamic_interface module <ansible_collections.cisco.dnac.wireless_dynamic_interface_module>` -- Resource module for Wireless Dynamic Interface
 * :ref:`wireless_dynamic_interface_info module <ansible_collections.cisco.dnac.wireless_dynamic_interface_info_module>` -- Information module for Wireless Dynamic Interface
@@ -1199,7 +1232,9 @@ Modules
     access_groups_count_info_module
     access_groups_info_module
     accesspoint_configuration_details_by_task_id_info_module
+    accesspoint_location_playbook_config_generator_module
     accesspoint_location_workflow_manager_module
+    accesspoint_playbook_config_generator_module
     accesspoint_workflow_manager_module
     activities_activity_id_triggered_jobs_count_info_module
     activities_activity_id_triggered_jobs_info_module
@@ -1215,6 +1250,7 @@ Modules
     application_policy_application_set_module
     application_policy_application_set_count_info_module
     application_policy_application_set_info_module
+    application_policy_playbook_config_generator_module
     application_policy_workflow_manager_module
     application_sets_module
     application_sets_count_info_module
@@ -1237,6 +1273,7 @@ Modules
     assign_device_to_site_module
     assign_to_site_apply_module
     associate_site_to_network_profile_module
+    assurance_device_health_score_settings_playbook_config_generator_module
     assurance_device_health_score_settings_workflow_manager_module
     assurance_events_child_events_info_module
     assurance_events_count_info_module
@@ -1244,6 +1281,7 @@ Modules
     assurance_events_query_module
     assurance_events_query_count_module
     assurance_icap_settings_workflow_manager_module
+    assurance_issue_playbook_config_generator_module
     assurance_issue_workflow_manager_module
     assurance_issues_count_info_module
     assurance_issues_ignore_module
@@ -1262,6 +1300,7 @@ Modules
     authentication_import_certificate_p12_module
     authentication_policy_servers_module
     authentication_policy_servers_info_module
+    backup_and_restore_playbook_config_generator_module
     backup_and_restore_workflow_manager_module
     backup_configuration_module
     backup_configuration_info_module
@@ -1349,6 +1388,7 @@ Modules
     device_credential_module
     device_credential_info_module
     device_credential_intent_module
+    device_credential_playbook_config_generator_module
     device_credential_workflow_manager_module
     device_details_info_module
     device_enrichment_details_info_module
@@ -1391,6 +1431,7 @@ Modules
     discovery_info_module
     discovery_intent_module
     discovery_job_info_module
+    discovery_playbook_config_generator_module
     discovery_range_delete_module
     discovery_range_info_module
     discovery_summary_info_module
@@ -1483,6 +1524,7 @@ Modules
     event_syslog_config_info_module
     event_webhook_module
     event_webhook_info_module
+    events_and_notifications_playbook_config_generator_module
     events_and_notifications_workflow_manager_module
     execute_suggested_actions_commands_module
     fabric_devices_info_workflow_manager_module
@@ -1634,6 +1676,7 @@ Modules
     interfaces_query_module
     interfaces_query_count_module
     inventory_intent_module
+    inventory_playbook_config_generator_module
     inventory_workflow_manager_module
     iot_fabric_rep_rings_module
     iot_fabric_rep_rings_delete_module
@@ -1657,6 +1700,7 @@ Modules
     ipam_site_ip_address_pools_count_info_module
     ipam_site_ip_address_pools_info_module
     ise_integration_status_info_module
+    ise_radius_integration_playbook_config_generator_module
     ise_radius_integration_workflow_manager_module
     issue_enrichment_details_info_module
     issues_enrichment_details_info_module
@@ -1829,7 +1873,9 @@ Modules
     network_devices_update_create_module
     network_devices_validate_device_create_module
     network_info_module
+    network_profile_switching_playbook_config_generator_module
     network_profile_switching_workflow_manager_module
+    network_profile_wireless_playbook_config_generator_module
     network_profile_wireless_workflow_manager_module
     network_profiles_for_sites_profile_id_templates_count_info_module
     network_profiles_for_sites_profile_id_templates_info_module
@@ -1839,6 +1885,7 @@ Modules
     network_profiles_for_sites_site_assignments_count_info_module
     network_profiles_for_sites_site_assignments_info_module
     network_settings_intent_module
+    network_settings_playbook_config_generator_module
     network_settings_workflow_manager_module
     network_update_module
     network_v2_module
@@ -1864,6 +1911,7 @@ Modules
     pnp_global_settings_module
     pnp_global_settings_info_module
     pnp_intent_module
+    pnp_playbook_config_generator_module
     pnp_server_profile_update_module
     pnp_smart_account_domains_info_module
     pnp_virtual_account_add_module
@@ -1884,6 +1932,7 @@ Modules
     projects_details_info_module
     projects_info_module
     provision_intent_module
+    provision_playbook_config_generator_module
     provision_workflow_manager_module
     provisioning_settings_module
     provisioning_settings_info_module
@@ -1902,6 +1951,7 @@ Modules
     reports_workflow_manager_module
     reserve_ip_subpool_module
     reserve_ip_subpool_info_module
+    rma_playbook_config_generator_module
     rma_workflow_manager_module
     role_permissions_info_module
     roles_module
@@ -1919,6 +1969,7 @@ Modules
     sda_extranet_policies_module
     sda_extranet_policies_count_info_module
     sda_extranet_policies_info_module
+    sda_extranet_policies_playbook_config_generator_module
     sda_extranet_policies_workflow_manager_module
     sda_fabric_authentication_profile_module
     sda_fabric_authentication_profile_info_module
@@ -1938,17 +1989,22 @@ Modules
     sda_fabric_devices_layer2_handoffs_sda_transits_module
     sda_fabric_devices_layer2_handoffs_sda_transits_count_info_module
     sda_fabric_devices_layer2_handoffs_sda_transits_info_module
+    sda_fabric_devices_playbook_config_generator_module
     sda_fabric_devices_workflow_manager_module
     sda_fabric_edge_device_module
     sda_fabric_edge_device_info_module
+    sda_fabric_multicast_playbook_config_generator_module
     sda_fabric_multicast_workflow_manager_module
     sda_fabric_site_module
     sda_fabric_site_info_module
     sda_fabric_sites_module
     sda_fabric_sites_count_info_module
     sda_fabric_sites_info_module
+    sda_fabric_sites_zones_playbook_config_generator_module
     sda_fabric_sites_zones_workflow_manager_module
+    sda_fabric_transits_playbook_config_generator_module
     sda_fabric_transits_workflow_manager_module
+    sda_fabric_virtual_networks_playbook_config_generator_module
     sda_fabric_virtual_networks_workflow_manager_module
     sda_fabric_zones_module
     sda_fabric_zones_count_info_module
@@ -1958,6 +2014,7 @@ Modules
     sda_fabrics_vlan_to_ssids_fabric_id_count_info_module
     sda_fabrics_vlan_to_ssids_fabric_id_info_module
     sda_fabrics_vlan_to_ssids_info_module
+    sda_host_port_onboarding_playbook_config_generator_module
     sda_host_port_onboarding_workflow_manager_module
     sda_layer2_virtual_networks_module
     sda_layer2_virtual_networks_count_info_module
@@ -2067,6 +2124,7 @@ Modules
     site_kpi_summaries_trend_analytics_module
     site_kpi_summaries_trend_analytics_info_module
     site_membership_info_module
+    site_playbook_config_generator_module
     site_update_module
     site_v2_info_module
     site_wise_images_summary_info_module
@@ -2145,6 +2203,7 @@ Modules
     tags_network_devices_members_associations_count_info_module
     tags_network_devices_members_associations_info_module
     tags_network_devices_members_associations_query_module
+    tags_playbook_config_generator_module
     tags_workflow_manager_module
     task_count_info_module
     task_info_module
@@ -2155,6 +2214,7 @@ Modules
     tasks_info_module
     telemetry_settings_apply_module
     template_intent_module
+    template_playbook_config_generator_module
     template_preview_module
     template_workflow_manager_module
     templates_details_info_module
@@ -2188,6 +2248,7 @@ Modules
     user_enrichment_details_info_module
     user_enrichment_details_v2_info_module
     user_info_module
+    user_role_playbook_config_generator_module
     user_role_workflow_manager_module
     users_external_authentication_module
     users_external_authentication_info_module
@@ -2197,6 +2258,7 @@ Modules
     virtual_network_health_summaries_count_info_module
     virtual_network_health_summaries_id_trend_analytics_info_module
     virtual_network_health_summaries_info_module
+    wired_campus_automation_playbook_config_generator_module
     wired_campus_automation_workflow_manager_module
     wired_network_devices_id_config_features_deployed_layer2_feature_count_info_module
     wired_network_devices_id_config_features_deployed_layer2_feature_info_module
@@ -2239,6 +2301,7 @@ Modules
     wireless_controllers_wireless_mobility_groups_info_module
     wireless_controllers_wireless_mobility_groups_mobility_provision_module
     wireless_controllers_wireless_mobility_groups_mobility_reset_module
+    wireless_design_playbook_config_generator_module
     wireless_design_workflow_manager_module
     wireless_dynamic_interface_module
     wireless_dynamic_interface_info_module

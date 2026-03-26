@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_sites_zones_workflow_manager module -- Manage fabric site(
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.48.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1542,7 +1542,7 @@ Notes
 -----
 
 .. note::
-   - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling the updation of authentication profile template, please provide valid input in the playbook. If any failure is encountered, the module will and halt execution without proceeding to further operations.
+   - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling the update of authentication profile template, please provide valid input in the playbook. If any failure is encountered, the module will and halt execution without proceeding to further operations.
    - When deleting fabric sites, make sure to provide the input to remove the fabric zones associated with them in the playbook. Fabric sites cannot be deleted until all underlying fabric zones have been removed and it can be any order as per the module design fabric zones will be deleted first followed by fabric sites.
    - Reconfiguration of fabric pending events is supported starting from version 2.3.7.9 onwards. Additionally, the authentication profile for the 'Low Impact' profile now allows more customization of its parameters
    - Parameter 'site\_name' is updated to 'site\_name\_hierarchy'.

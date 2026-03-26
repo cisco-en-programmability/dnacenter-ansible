@@ -1,0 +1,1528 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.assurance_device_health_score_settings_playbook_config_generator module -- Generate YAML configurations playbook for 'assurance\_device\_health\_score\_settings\_workflow\_manager' module.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.assurance_device_health_score_settings_playbook_config_generator`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.44.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Generates YAML configuration playbooks compatible with the \ :literal:`assurance\_device\_health\_score\_settings\_workflow\_manager`\  module from existing Cisco Catalyst Center configurations.
+- Extracts device health score settings including device family KPI thresholds, overall health inclusion flags, and issue threshold synchronization settings from Catalyst Center.
+- Reduces manual effort in creating Ansible playbooks for brownfield infrastructure by automatically discovering and documenting existing configurations.
+- Supports auto-discovery mode to extract all configured device health score settings across all device families.
+- Supports targeted extraction using device family filters for specific infrastructure components.
+- Uses multiple API calls with \ :literal:`includeForOverallHealth`\  parameter variations (both true and false) to ensure complete data extraction from Catalyst Center.
+- When device families are specified in filters, executes separate API calls for each device family for optimal data retrieval and filtering.
+- When no device families are specified, retrieves all available device health score settings from the system for complete brownfield discovery.
+- Generated YAML files include comprehensive header comments with metadata, generation timestamp, source system details, configuration summary statistics, and usage instructions.
+- Supports modern nested filter structures (\ :literal:`component\_specific\_filters`\ ) for backward compatibility.
+- Provides detailed operation summaries including success and failure statistics, device family categorization (complete success, partial success, complete failure), and comprehensive error reporting for troubleshooting.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.7.2
+- python \>= 3.9
+- PyYAML \>= 5.1
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary of configuration parameters for generating YAML playbooks compatible with the \ :literal:`assurance\_device\_health\_score\_settings\_workflow\_manager`\  module.
+
+      If not provided, module performs internal auto-discovery for all supported configurations.
+
+      If provided, \ :literal:`component\_specific\_filters`\  is mandatory.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-config/component_specific_filters:
+
+      .. rst-class:: ansible-option-title
+
+      **component_specific_filters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Required when \ :literal:`config`\  is provided.
+
+      If a component filter is specified but missing in \ :literal:`components\_list`\ , the component is auto-added internally.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/components_list"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-config/component_specific_filters/components_list:
+
+      .. rst-class:: ansible-option-title
+
+      **components_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/components_list" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of specific components to include in generated YAML.
+
+      Empty list means no component selected unless explicit component filters are provided.
+
+      Conditionally required when no component filter is provided.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"device\_health\_score\_settings"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/device_health_score_settings"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-config/component_specific_filters/device_health_score_settings:
+
+      .. rst-class:: ansible-option-title
+
+      **device_health_score_settings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/device_health_score_settings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Nested dictionary for device health score settings specific filters.
+
+      Provides fine-grained control over device families and KPI settings to extract from Catalyst Center.
+
+      Allows targeting specific device families without extracting all configured settings.
+
+      Modern recommended approach for filter specification in new playbooks.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/device_health_score_settings/device_families"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-config/component_specific_filters/device_health_score_settings/device_families:
+
+      .. rst-class:: ansible-option-title
+
+      **device_families**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/device_health_score_settings/device_families" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of specific device family names to extract KPI threshold settings for using modern nested filter format.
+
+      Valid device family names include \ :literal:`ROUTER`\  for routing devices, \ :literal:`SWITCH\_AND\_HUB`\  for switching infrastructure, \ :literal:`WIRELESS\_CONTROLLER`\  for wireless LAN controllers, \ :literal:`UNIFIED\_AP`\  for wireless access points, \ :literal:`WIRELESS\_CLIENT`\  for wireless client devices, and \ :literal:`WIRED\_CLIENT`\  for wired client devices.
+
+      If not specified, all device families with configured KPI threshold settings will be extracted for comprehensive brownfield documentation.
+
+      Duplicate device family values are automatically removed while preserving the original order of unique entries.
+
+      Each device family may have different KPI metrics and thresholds based on device capabilities and health monitoring requirements.
+
+      Example filter \ :literal:`["UNIFIED\_AP", "ROUTER", "SWITCH\_AND\_HUB", "WIRELESS\_CONTROLLER"]`\  extracts settings for wireless and wired infrastructure.
+
+      Device family names are case-sensitive and must match exact names used in Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ROUTER"`
+      - :ansible-option-choices-entry:`"SWITCH\_AND\_HUB"`
+      - :ansible-option-choices-entry:`"WIRELESS\_CONTROLLER"`
+      - :ansible-option-choices-entry:`"UNIFIED\_AP"`
+      - :ansible-option-choices-entry:`"WIRELESS\_CLIENT"`
+      - :ansible-option-choices-entry:`"WIRED\_CLIENT"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-file_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-file_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **file_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-file_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      File write mode for YAML output.
+
+      Relevant only when \ :literal:`file\_path`\  is provided.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"overwrite"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"append"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Output YAML file path.
+
+      If not provided, a default filename is generated by the brownfield helper file-name function.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The desired state of Cisco Catalyst Center after module completion.
+
+      Only \ :literal:`gathered`\  state is supported for brownfield configuration extraction.
+
+      In \ :literal:`gathered`\  state, the module extracts existing device health score settings from Catalyst Center and generates a YAML playbook file.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"gathered"` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used is devices.Devices.get\_all\_health\_score\_definitions\_for\_given\_filters
+   - Path used is GET /dna/intent/api/v1/device-health/health-score/definitions
+   - Module requires Catalyst Center version 2.3.7.9 or higher for device health score settings support.
+   - Generated YAML files include comprehensive header comments with generation metadata, configuration summary statistics, and usage instructions.
+   - The module executes multiple API calls with \ :literal:`includeForOverallHealth`\  parameter variations (true and false) to ensure complete KPI data extraction.
+   - When device families are specified, separate API calls are made for each device family for optimal performance and data filtering.
+   - Operation summaries include detailed success/failure statistics with device family categorization for troubleshooting and validation.
+   - Supports both internal auto-discovery mode (when \ :literal:`config`\  is omitted) and targeted mode (when \ :literal:`component\_specific\_filters`\  is provided).
+   - Check mode is supported but does not perform actual YAML file generation; it validates parameters and returns expected operation results.
+   - The module is idempotent; running multiple times with the same parameters generates identical YAML content (except generation timestamp in header).
+   - Generated YAML files can be used directly with \ :literal:`assurance\_device\_health\_score\_settings\_workflow\_manager`\  module to apply configurations to other Catalyst Center instances.
+   - Device family names are case-sensitive and must match exact names used in Catalyst Center (e.g., \ :literal:`UNIFIED\_AP`\  not \ :literal:`unified\_ap`\ ).
+   - KPI names in generated YAML use user-friendly format (e.g., \ :literal:`CPU Utilization`\ ) rather than internal API format (e.g., \ :literal:`cpuUtilizationThreshold`\ ) for improved readability.
+   - The module handles connection timeouts, API errors, and invalid responses with comprehensive error messages and operation summaries.
+   - Large-scale deployments with many device families and KPIs may require increased \ :literal:`dnac\_api\_task\_timeout`\  values for complete data extraction.
+   - Generated YAML structure follows ordered dictionary format to maintain consistent key ordering across multiple generations.
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   \ :ref:`cisco.dnac.assurance\_device\_health\_score\_settings\_workflow\_manager <ansible_collections.cisco.dnac.assurance_device_health_score_settings_workflow_manager_module>`\ 
+       Workflow manager module for applying device health score settings to Catalyst Center.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+
+    - name: Generate YAML Configuration for all device health score settings
+      cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: gathered
+
+    - name: Generate YAML Configuration with custom file path
+      cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: gathered
+        file_path: "tmp/assurance_health_score_settings.yml"
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list: ["device_health_score_settings"]
+
+    - name: Generate YAML Configuration for all device health score components
+      cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: gathered
+        file_path: "/tmp/assurance_health_score_settings.yml"
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list: ["device_health_score_settings"]
+
+    - name: Generate YAML Configuration for specific device families
+      cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: gathered
+        file_path: "/tmp/specific_device_health_score_settings.yml"
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list: ["device_health_score_settings"]
+            device_health_score_settings:
+              device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
+
+    - name: Generate YAML Configuration with implicit component auto-add
+      cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: gathered
+        file_path: "/tmp/implicit_component_device_health_score_settings.yml"
+        file_mode: append
+        config:
+          component_specific_filters:
+            device_health_score_settings:
+              device_families: ["UNIFIED_AP", "ROUTER"]
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-msg"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__return-msg:
+
+      .. rst-class:: ansible-option-title
+
+      **msg**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-msg" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Human-readable message describing the operation result.
+
+      Indicates success, failure, or informational status of YAML generation.
+
+      Matches the \ :literal:`message`\  field in response dictionary for consistency.
+
+      Provides high-level summary without detailed operation\_summary metrics.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"YAML config generation succeeded for module 'assurance\_device\_health\_score\_settings\_workflow\_manager'.\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_1"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__return-response_1:
+
+      .. rst-class:: ansible-option-title
+
+      **response_1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response returned when YAML configuration generation completes successfully with all requested device health score settings extracted and written to file.
+
+      Includes comprehensive operation summary with success statistics, device family categorization, and detailed configuration metrics.
+
+      Generated YAML file contains formatted playbook compatible with \ :literal:`assurance\_device\_health\_score\_settings\_workflow\_manager`\  module.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "YAML config generation succeeded for module 'assurance\_device\_health\_score\_settings\_workflow\_manager'.", "response": {"configurations\_generated": 15, "file\_path": "/tmp/assurance\_health\_score\_settings.yml", "message": "YAML config generation succeeded for module 'assurance\_device\_health\_score\_settings\_workflow\_manager'.", "operation\_summary": {"device\_families\_with\_complete\_failure": [], "device\_families\_with\_complete\_success": ["UNIFIED\_AP", "ROUTER", "SWITCH"], "device\_families\_with\_partial\_success": [], "failure\_details": [], "success\_details": [{"device\_family": "UNIFIED\_AP", "include\_for\_overall\_health": true, "kpi\_name": "Interference 6 GHz", "status": "success", "threshold\_value": 80.0}, {"device\_family": "UNIFIED\_AP", "include\_for\_overall\_health": true, "kpi\_name": "CPU Utilization", "status": "success", "threshold\_value": 85.0}, {"device\_family": "ROUTER", "include\_for\_overall\_health": true, "kpi\_name": "Memory Utilization", "status": "success", "threshold\_value": 90.0}], "total\_device\_families\_processed": 3, "total\_failed\_operations": 0, "total\_kpis\_processed": 15, "total\_successful\_operations": 15}}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_2"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__return-response_2:
+
+      .. rst-class:: ansible-option-title
+
+      **response_2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response returned when YAML generation completes but some device families or KPI configurations encountered errors during extraction.
+
+      Operation status is \ :literal:`failed`\  but file is still generated with successfully retrieved configurations.
+
+      \ :literal:`operation\_summary.failure\_details`\  contains specific error information for troubleshooting failed extractions.
+
+      \ :literal:`device\_families\_with\_partial\_success`\  lists families with both successful and failed KPI retrievals.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "YAML config generation completed with failures for module 'assurance\_device\_health\_score\_settings\_workflow\_manager'. Check operation\_summary for details.", "response": {"configurations\_generated": 12, "file\_path": "/tmp/assurance\_health\_score\_settings.yml", "message": "YAML config generation completed with failures for module 'assurance\_device\_health\_score\_settings\_workflow\_manager'. Check operation\_summary for details.", "operation\_summary": {"device\_families\_with\_complete\_failure": [], "device\_families\_with\_complete\_success": ["UNIFIED\_AP"], "device\_families\_with\_partial\_success": ["ROUTER", "SWITCH"], "failure\_details": [{"device\_family": "ROUTER", "error\_info": {"error\_code": "KPI\_NOT\_FOUND", "error\_message": "KPI configuration not available in Catalyst Center", "error\_type": "kpi\_retrieval\_error"}, "kpi\_name": "Unknown KPI", "status": "failed"}, {"device\_family": "SWITCH", "error\_info": {"error\_code": "API\_TIMEOUT\_ERROR", "error\_message": "API timeout while retrieving KPI settings", "error\_type": "api\_error"}, "kpi\_name": "Invalid Metric", "status": "failed"}], "success\_details": [{"device\_family": "UNIFIED\_AP", "include\_for\_overall\_health": true, "kpi\_name": "Air Quality 5 GHz", "status": "success", "threshold\_value": 75.0}, {"device\_family": "ROUTER", "include\_for\_overall\_health": true, "kpi\_name": "CPU Utilization", "status": "success", "threshold\_value": 85.0}], "total\_device\_families\_processed": 3, "total\_failed\_operations": 3, "total\_kpis\_processed": 12, "total\_successful\_operations": 12}}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_3"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__return-response_3:
+
+      .. rst-class:: ansible-option-title
+
+      **response_3**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response returned when no device health score settings configurations are found matching the specified filters or in the Catalyst Center system.
+
+      Operation status is \ :literal:`ok`\  indicating successful execution but no data available to generate.
+
+      Empty YAML file may be created with header comments but no configuration content.
+
+      \ :literal:`operation\_summary`\  shows zero counts for all metrics.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "No configurations or components to process for module 'assurance\_device\_health\_score\_settings\_workflow\_manager'. Verify input filters or configuration.", "response": {"file\_path": "assurance\_device\_health\_score\_settings\_playbook\_config\_2026-02-04\_14-30-15.yml", "message": "No configurations or components to process for module 'assurance\_device\_health\_score\_settings\_workflow\_manager'. Verify input filters or configuration.", "operation\_summary": {"device\_families\_with\_complete\_failure": [], "device\_families\_with\_complete\_success": [], "device\_families\_with\_partial\_success": [], "failure\_details": [], "success\_details": [], "total\_device\_families\_processed": 0, "total\_failed\_operations": 0, "total\_kpis\_processed": 0, "total\_successful\_operations": 0}}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_4"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__return-response_4:
+
+      .. rst-class:: ansible-option-title
+
+      **response_4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response returned when YAML generation fails completely due to system errors, API failures, or file write issues.
+
+      No configurations successfully retrieved or file could not be written to specified path.
+
+      \ :literal:`device\_families\_with\_complete\_failure`\  lists all families that failed entirely without any successful KPI retrievals.
+
+      Check \ :literal:`failure\_details`\  for specific error information and error codes.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "YAML config generation failed for module 'assurance\_device\_health\_score\_settings\_workflow\_manager' - unable to write to file.", "response": {"file\_path": "/tmp/assurance\_health\_score\_settings.yml", "message": "YAML config generation failed for module 'assurance\_device\_health\_score\_settings\_workflow\_manager' - unable to write to file.", "operation\_summary": {"device\_families\_with\_complete\_failure": ["UNIFIED\_AP", "ROUTER"], "device\_families\_with\_complete\_success": [], "device\_families\_with\_partial\_success": [], "failure\_details": [{"device\_family": "UNIFIED\_AP", "error\_info": {"error\_code": "CONNECTION\_TIMEOUT", "error\_message": "Connection timeout to Catalyst Center API", "error\_type": "api\_error"}, "kpi\_name": "UNKNOWN", "status": "failed"}, {"device\_family": "ROUTER", "error\_info": {"error\_code": "AUTH\_FAILED", "error\_message": "Invalid credentials or insufficient permissions", "error\_type": "authentication\_error"}, "kpi\_name": "UNKNOWN", "status": "failed"}], "success\_details": [], "total\_device\_families\_processed": 2, "total\_failed\_operations": 8, "total\_kpis\_processed": 0, "total\_successful\_operations": 0}}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_5"></div>
+
+      .. _ansible_collections.cisco.dnac.assurance_device_health_score_settings_playbook_config_generator_module__return-response_5:
+
+      .. rst-class:: ansible-option-title
+
+      **response_5**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_5" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response returned when playbook configuration parameters fail validation before YAML generation begins.
+
+      Occurs when invalid filter parameters, incorrect data types, or unsupported component names are provided.
+
+      No API calls executed and no file generation attempted.
+
+      Error message provides specific validation failure details and allowed parameter values.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Invalid component\_specific\_filters parameter(s) found: invalid\_param. Allowed parameters are: components\_list, device\_health\_score\_settings.", "response": {"message": "Invalid component\_specific\_filters parameter(s) found: invalid\_param. Allowed parameters are: components\_list, device\_health\_score\_settings."}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Megha Kandari (@mekandar)
+- Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

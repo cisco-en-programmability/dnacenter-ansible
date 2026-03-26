@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.48.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1154,7 +1154,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the layer3 virtual network associated with the layer2 fabric VLAN. This field is provided to support requests related to virtual network anchoring. The layer3 virtual network must have already been added to the fabric before association. This field must either be present in all payload elements or none. And updation of this field is not allowed.
+      Name of the layer3 virtual network associated with the layer2 fabric VLAN. This field is provided to support requests related to virtual network anchoring. The layer3 virtual network must have already been added to the fabric before association. This field must either be present in all payload elements or none. And update of this field is not allowed.
 
 
       .. raw:: html
@@ -1485,7 +1485,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding layer2 virtual network on the fabric site. And updation of this field is not allowed.
+      ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding layer2 virtual network on the fabric site. And update of this field is not allowed.
 
 
       .. raw:: html
@@ -2531,7 +2531,7 @@ Notes
    - To create or update a fabric VLAN according to the module design, the vlan\_id parameter must be provided as a required input. Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric site location.
    - If the playbook specifies fabric sites while deleting a virtual network, the module will operate at a lower level by removing only the fabric sites from the virtual network without deleting the virtual network itself. However, if only the virtual network name is provided, the module will first remove all associated fabric sites before proceeding with the deletion of the virtual network.
    - SDK Method used are ccc\_virtual\_network.sda.get\_site ccc\_virtual\_network.sda.get\_fabric\_sites ccc\_virtual\_network.sda.get\_fabric\_zones ccc\_virtual\_network.sda.get\_layer2\_virtual\_networks ccc\_virtual\_network.sda.add\_layer2\_virtual\_networks ccc\_virtual\_network.sda.update\_layer2\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer2\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_layer3\_virtual\_networks ccc\_virtual\_network.sda.add\_layer3\_virtual\_networks ccc\_virtual\_network.sda.update\_layer3\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer3\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_reserve\_ip\_subpool ccc\_virtual\_network.sda.get\_anycast\_gateways ccc\_virtual\_network.sda.add\_anycast\_gateways ccc\_virtual\_network.sda.update\_anycast\_gateways ccc\_virtual\_network.sda.delete\_anycast\_gateway\_by\_id
-   - New parameters added in the module are wireless\_flooding\_enable, resource\_guard\_enable, flooding\_address\_assignment, flooding\_address as part of fabric\_vlan and anycast\_gateways creation/updation will start supporting from Catalsyt Center with version 3.1.3.0 onwards.
+   - New parameters added in the module are wireless\_flooding\_enable, resource\_guard\_enable, flooding\_address\_assignment, flooding\_address as part of fabric\_vlan and anycast\_gateways creation/update will start supporting from Catalsyt Center with version 3.1.3.0 onwards.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
