@@ -55,7 +55,7 @@
             port_assignments:
               - fabric_site_name_hierarchy: "Global/California/23"
                 device_ips:
-                  - 10.195.120.219
+                  - 10.1.1.1
 
     - name: Generate YAML Configuration with specific component port channels filters
       cisco.dnac.sda_host_port_onboarding_playbook_config_generator:
@@ -77,7 +77,7 @@
             port_channels:
               - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
                 device_ips:
-                  - 10.195.120.219
+                  - 10.1.1.1
 
     - name: Generate YAML Configuration with specific component wireless ssids filters
       cisco.dnac.sda_host_port_onboarding_playbook_config_generator:

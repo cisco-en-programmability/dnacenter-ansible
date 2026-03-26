@@ -113,7 +113,7 @@ options:
             - Each list entry targets one fabric site with
               optional device-level filtering by management
               IP address, serial number, or hostname.
-            - Extracts only port channels for specified
+            - Extracts only port assignments for specified
               fabric site hierarchies and optionally only
               for devices matching the specified device_ips,
               serial_numbers, or hostnames within those
@@ -129,7 +129,7 @@ options:
             - Fabric site names must be full hierarchical
               paths (case-sensitive).
             - If not specified when component included in
-              components_list, extracts all port channels
+              components_list, extracts all port assignments
               across all fabric sites and all devices.
             type: list
             elements: dict
