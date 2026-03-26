@@ -54,6 +54,8 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
     playbook_config_all_components = test_data.get("playbook_config_all_components")
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
+    playbook_config_empty_config = test_data.get("playbook_config_empty_config")
+    playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
 
     def setUp(self):
         super(TestFabricVirtualNetworksPlaybookConfigGenerator, self).setUp()
@@ -277,6 +279,12 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
             ]
+        elif "empty_config" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+        elif "empty_component_specific_filters" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -750,3 +758,59 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_config(self, mock_exists, mock_file):
+        """
+        Test case for empty configuration dictionary.
+
+        This test verifies that the generator correctly fails when an empty
+        configuration dictionary is provided.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config=self.playbook_config_empty_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Configuration cannot be an empty dictionary.",
+            str(result.get("msg")),
+        )
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_component_specific_filters(self, mock_exists, mock_file):
+        """
+        Test case for empty component_specific_filters dictionary.
+
+        This test verifies that the generator correctly fails when
+        component_specific_filters is provided as an empty dictionary.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config=self.playbook_config_empty_component_specific_filters
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Invalid parameters in playbook config: 'component_specific_filters' is provided but empty.",
+            str(result.get("msg")),
+        )

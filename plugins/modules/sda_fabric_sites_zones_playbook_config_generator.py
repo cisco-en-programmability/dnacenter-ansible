@@ -24,7 +24,7 @@ extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Abhishek Maheshwari (@abmahesh)
-- Sunil Shatagopa (@sunilshatagopa)
+- Sunil Shatagopa (@shatagopasunil)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
   state:
@@ -53,8 +53,10 @@ options:
     - A dictionary of filters for generating YAML playbook compatible with the C(sda_fabric_sites_zones_workflow_manager)
       module.
     - Filters specify which components to include in the YAML configuration file.
-    - If config is not provided or empty, all configurations for all fabric sites and fabric zones will be generated.
+    - If config is not provided (omitted entirely), all configurations for all fabric sites and fabric zones will be generated.
     - This is useful for complete brownfield infrastructure discovery and documentation.
+    - Important - An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+      all configurations, or provide specific filters within 'config'.
     type: dict
     required: false
     suboptions:
@@ -124,12 +126,24 @@ notes:
   If component-specific filters (such as 'fabric_sites' or 'fabric_zones') are provided
   without explicitly including them in 'components_list', those components will be
   automatically added to 'components_list'.
-- |
-  Validation requirements:
-  If 'component_specific_filters' is provided, at least one of the following must be true:
-  (1) 'components_list' contains at least one component, OR
-  (2) Component-specific filters are provided.
-  If neither condition is met, the module will fail with a validation error.
+- |-
+  Module result behavior (changed/ok/failed):
+  The module result reflects local file state only, not Catalyst Center state.
+  In overwrite mode, the full file content is compared (excluding volatile
+  fields like timestamps and playbook path). In append mode, only the last
+  YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous
+  appends, only the most recent entry is used for the idempotency check.
+  - changed=true (status: success): The generated YAML configuration differs
+    from the existing output file (or the file does not exist). The file was
+    written and the configuration was updated.
+  - changed=false (status: ok): The generated YAML configuration matches the
+    existing output file content. The write was skipped as the file is
+    already up-to-date.
+  - failed=true (status: failed): The module encountered a validation error,
+    API failure, or file write error. No file was written or modified.
+  Note: Re-running with identical inputs and unchanged Catalyst Center state
+  will produce changed=false, ensuring idempotent playbook behavior.
 seealso:
 - module: cisco.dnac.sda_fabric_sites_zones_workflow_manager
   description: Module to manage SD-Access Fabric Sites and Zones in Cisco Catalyst Center.
@@ -342,11 +356,21 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available or empty - if not provided or empty, treat as generate all config
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - Error scenario
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate all config mode"
+            self.msg = "Configuration is not provided - treating as generate all config mode"
             self.log(self.msg, "INFO")
             return self
 
@@ -369,6 +393,7 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         component_specific_filters = valid_temp.get("component_specific_filters")
         if component_specific_filters:
             self.auto_populate_and_validate_components_list(component_specific_filters)
+            self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -993,32 +1018,59 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "Full configuration generates all fabric sites first, followed by all fabric zones."
             ]
 
-        if self.write_dict_to_yaml(yaml_config_dict, file_path, file_mode, notes=additional_config_headers):
+        file_written = self.write_dict_to_yaml(
+            yaml_config_dict,
+            file_path,
+            file_mode,
+            notes=additional_config_headers,
+        )
+
+        if file_written:
             self.msg = {
                 "status": "success",
                 "message": "YAML configuration file generated successfully for module '{0}'".format(
                     self.module_name
                 ),
                 "file_path": file_path,
+                "file_mode": file_mode,
                 "components_processed": processed_count,
                 "components_skipped": skipped_count,
-                "configurations_count": len(final_config_list)
+                "configurations_count": len(final_config_list),
             }
             self.set_operation_result("success", True, self.msg, "INFO")
 
             self.log(
                 "YAML configuration generation completed. File: {0}, Components: {1}/{2}, Configs: {3}".format(
-                    file_path, processed_count, len(components_list), len(final_config_list)
+                    file_path,
+                    processed_count,
+                    len(components_list),
+                    len(final_config_list),
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
+                "status": "ok",
+                "message": "YAML configuration file already up-to-date for module '{0}'. No changes written.".format(
                     self.module_name
-                ): {"file_path": file_path}
+                ),
+                "file_path": file_path,
+                "file_mode": file_mode,
+                "components_processed": processed_count,
+                "components_skipped": skipped_count,
+                "configurations_count": len(final_config_list),
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            self.set_operation_result("ok", False, self.msg, "INFO")
+
+            self.log(
+                "YAML configuration unchanged. File: {0}, Components: {1}/{2}, Configs: {3}".format(
+                    file_path,
+                    processed_count,
+                    len(components_list),
+                    len(final_config_list),
+                ),
+                "INFO",
+            )
 
         return self
 

@@ -1,5 +1,5 @@
 {
-  "playbook_config_generate_all_configurations": {},
+  "playbook_config_generate_all_configurations": null,
   "playbook_config_component_specific_filters_only": {
     "component_specific_filters": {
       "components_list": [
@@ -153,6 +153,10 @@
         }
       ]
     }
+  },
+  "playbook_config_empty_config": {},
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
   },
   "get_device_details": {
     "response": [
