@@ -29,15 +29,6 @@
   vars_files:
     - vars/credentials.yml
   vars:
-    # DNA Center connection parameters
-    dnac_host: "{{ ansible_host }}"
-    dnac_username: "{{ username }}"
-    dnac_password: "{{ password }}"
-    dnac_verify: false
-    dnac_port: 443
-    dnac_version: "3.1.3.0"
-    dnac_debug: false
-
     # Common login anchor for reuse
     dnac_login: &dnac_login
       dnac_host: "{{ dnac_host }}"
@@ -49,6 +40,8 @@
       dnac_debug: "{{ dnac_debug }}"
       dnac_log: true
       dnac_log_level: INFO
+      dnac_log_append: false
+      config_verify: true
 
   tasks:
     # =============================================================================

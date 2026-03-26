@@ -866,6 +866,15 @@ class Discovery(DnacBase):
             self.status = "failed"
             return self
 
+        # Normalize discovery_type to canonical uppercase value for every
+        # merged config entry so runtime branching is case-insensitive
+        # (e.g., "Single" -> "SINGLE").
+        if state == "merged":
+            for discovery in valid_discovery:
+                discovery_type = discovery.get("discovery_type")
+                if isinstance(discovery_type, str):
+                    discovery["discovery_type"] = discovery_type.upper()
+
         self.validated_config = valid_discovery
         self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
             str(valid_discovery)
@@ -932,7 +941,7 @@ class Discovery(DnacBase):
 
     def handle_global_credentials(self, response=None):
         """
-        Method to convert values for create_params API when global paramters
+        Method to convert values for create_params API when global parameters
         are passed as input.
 
         Parameters:
@@ -1324,7 +1333,7 @@ class Discovery(DnacBase):
 
     def handle_discovery_specific_credentials(self, new_object_params=None):
         """
-        Method to convert values for create_params API when discovery specific paramters
+        Method to convert values for create_params API when discovery specific parameters
         are passed as input.
 
         Parameters:
@@ -2110,7 +2119,7 @@ class Discovery(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of Discovery in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of Discovery in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -2247,7 +2256,17 @@ def main():
         ccc_discovery.check_return_status()
 
     ccc_discovery.validate_input(state=state).check_return_status()
-    for config in ccc_discovery.validated_config:
+    all_validated_configs = list(ccc_discovery.validated_config)
+    for idx, config in enumerate(all_validated_configs, start=1):
+        ccc_discovery.log(
+            "Processing config {0}/{1}: discovery_name='{2}', discovery_type='{3}'".format(
+                idx, len(all_validated_configs),
+                config.get("discovery_name", "unknown"),
+                config.get("discovery_type", "unknown")
+            ),
+            "INFO"
+        )
+        ccc_discovery.validated_config = [config]
         ccc_discovery.reset_values()
         ccc_discovery.get_diff_state_apply[state]().check_return_status()
         if config_verify:

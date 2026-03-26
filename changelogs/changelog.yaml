@@ -1985,3 +1985,23 @@ releases:
         - Changes in template_workflow_manager module
         - Changes in wired_campus_automation_workflow_manager module
         - Changes in wireless_design_workflow_manager module
+
+  6.49.0:
+    release_date: "2026-03-26"
+    changes:
+      release_summary: Added playbook config generator modules and shared helper
+        enhancements for workflow manager modules
+      minor_changes:
+        - Added playbook config generator modules for access point, application
+          policy, assurance, backup and restore, device credential, discovery,
+          events and notifications, inventory, ISE radius integration, network
+          profile, network settings, PnP, provision, and RMA workflows.
+        - Added playbook config generator modules for SDA fabric, SDA
+          extranet policies, SDA host port onboarding, site, tags, template,
+          user role, wired campus automation, and wireless design workflows.
+        - Added shared brownfield helper support, config validation, and
+          component filter deduplication for playbook config generator modules.
+        - Added device_ips, serial_numbers, and hostnames filters to
+          sda_host_port_onboarding_playbook_config_generator.
+        - Updated related workflow manager modules to align with the new
+          playbook config generator design.

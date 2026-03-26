@@ -1,0 +1,133 @@
+---
+- name: Generate YAML playbook for site configurations from Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    # ====================================================================================
+    # Scenario 1: Generate All Configurations (Brownfield Discovery)
+    # When config is not provided, all site hierarchy entries are retrieved.
+    # Optionally specify file_path and file_mode to customize output location.
+    # ====================================================================================
+    - name: Generate all site hierarchy configurations
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        # file_path: "/tmp/all_sites.yaml"  # Optional: specify custom output path
+        # file_mode: "overwrite"             # Optional: "overwrite" or "append"
+
+    # ====================================================================================
+    # Scenario 2: Filter by Parent Name Hierarchy
+    # Retrieves a parent site and all its children. Useful for exporting a specific
+    # branch of your site hierarchy.
+    # ====================================================================================
+    - name: Generate configurations for a parent site and its children
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "/tmp/parent_hierarchy.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            site:
+              - parent_name_hierarchy: "Global/USA"
+
+    # ====================================================================================
+    # Scenario 3: Filter by Parent Name Hierarchy and Site Type
+    # Retrieves specific site types (area, building, floor) under a parent hierarchy.
+    # This is the most practical pattern for targeted site exports.
+    # ====================================================================================
+    - name: Generate configurations by parent hierarchy and site type
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "/tmp/parent_with_types.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            site:
+              - parent_name_hierarchy: "Global/USA"
+                site_type:
+                  - "building"
+                  - "floor"
+
+    # ====================================================================================
+    # Scenario 4: Filter by Specific Site Name Hierarchy
+    # Retrieves specific sites by their exact hierarchy path without including children.
+    # Useful when you need just certain sites without their child elements.
+    # ====================================================================================
+    - name: Generate configurations for specific sites
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "/tmp/specific_sites.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            site:
+              - site_name_hierarchy:
+                  - "Global/USA/San Francisco"
+                  - "Global/USA/New York"
+
+#     # ====================================================================================
+#     # Scenario 5: Combined Filters - Multiple Parents with Site Types
+#     # Demonstrates combining multiple parent hierarchies with site type filters.
+#     # Results include all specified parents and their children filtered by type.
+#     # ====================================================================================
+    - name: Generate configurations with multiple parents and site types
+      cisco.dnac.site_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "/tmp/combined_filters.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            site:
+              - parent_name_hierarchy:
+                  - "Global/USA"
+                  - "Global/India"
+                site_type:
+                  - "building"
+                  - "floor"

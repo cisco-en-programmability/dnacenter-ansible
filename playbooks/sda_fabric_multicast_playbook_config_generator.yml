@@ -1,0 +1,197 @@
+---
+################################################################################
+# SDA Fabric Multicast Playbook Config Generator Examples
+################################################################################
+# This playbook demonstrates how to generate YAML configurations from existing
+# SDA fabric multicast deployments in Cisco Catalyst Center.
+#
+# The module supports:
+# - Complete infrastructure discovery (for all fabric sites, all multicast configs)
+# - Filtered extraction (specific fabric sites or virtual networks)
+# - File append mode for combining multiple configurations
+#
+# The module creates playbooks compatible with the
+# 'sda_fabric_multicast_workflow_manager' module for configuration management
+# and documentation.
+################################################################################
+
+# Example 1: Generate all configurations (default behavior when config is omitted)
+- name: Generate YAML playbook for all SDA fabric multicast configurations
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate all fabric multicast configurations
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        # No config provided - generates all configurations
+
+# Example 2: Generate all configurations with custom file path
+- name: Generate complete SDA fabric multicast configuration with custom filename
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate all multicast configs with custom file path
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: INFO
+        state: gathered
+        file_path: "/tmp/complete_sda_fabric_multicast_config.yaml"
+        file_mode: "overwrite"
+        # No config provided - generates all configurations
+
+# Example 3: Generate fabric multicast configurations for a specific fabric site
+- name: Generate YAML playbook for specific fabric site
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate fabric multicast configs for specific site
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        state: gathered
+        file_path: "/tmp/site_specific_multicast.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list:
+              - fabric_multicast
+            fabric_multicast:
+              - fabric_name: "Global/USA/San Jose/Building1"
+
+# Example 4: Generate configuration for specific fabric and virtual network
+- name: Generate YAML playbook for specific fabric and virtual network
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate configs for specific fabric and VN
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: gathered
+        file_path: "/tmp/fabric_vn_specific_multicast.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            fabric_multicast:
+              - fabric_name: "Global/USA/San Jose/Building1"
+                layer3_virtual_network: "GUEST_VN"
+
+# Example 5: Auto-populate components_list from component filters
+- name: Generate configuration with auto-populated components_list
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export fabric multicast without explicit components_list
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: gathered
+        file_path: "/tmp/san_jose_fabric.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            # No components_list specified, but fabric_multicast filters are provided
+            # The 'fabric_multicast' component will be automatically added to components_list
+            fabric_multicast:
+              - fabric_name: "Global/USA/San Jose/Building1"
+
+# Example 6: Generate configuration with append mode
+- name: Generate and append SDA fabric multicast configuration
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Append fabric multicast configurations to existing file
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: gathered
+        file_path: "/tmp/all_fabric_multicast.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list:
+              - fabric_multicast
+            fabric_multicast:
+              - fabric_name: "Global/Europe/London/DataCenter1"
+
+# Example 7: Generate playbook for multiple fabric sites
+- name: Generate playbook for multiple fabric sites
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate configs for multiple sites
+      cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        state: gathered
+        file_path: "/tmp/multiple_sites_multicast.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            fabric_multicast:
+              - fabric_name: "Global/USA/San Jose/Building1"
+              - fabric_name: "Global/USA/San Jose/Building2"
+              - fabric_name: "Global/Europe/London/DataCenter1"
