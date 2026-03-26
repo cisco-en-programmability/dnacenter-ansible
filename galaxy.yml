@@ -31,6 +31,9 @@ authors:
   - Karthick S N <kasn@cisco.com>
   - Sunil Shatagopa <sshatago@cisco.com>
   - Vivek Raj Penke <vpenke@cisco.com>
+  - Vidhya Rathinam <virathin@cisco.com>
+  - Mridul Saurabh <msaurabh@cisco.com>
+  - Jeet Ram <jeeram@cisco.com>
 
 description: "DEPRECATED - Use cisco.catalystcenter instead. Ansible Modules for Cisco DNA Center."
 license_file: "LICENSE"
