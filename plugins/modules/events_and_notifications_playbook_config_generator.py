@@ -316,7 +316,7 @@ notes:
 - Event IDs are automatically resolved to event names using Event Artifacts
   API.
 - Pagination is automatically handled for large datasets in webhook, syslog,
-  SNMP, and event subscriptions.
+  SNMP destinations, ITSM settings and webhook, email, syslog notifications.
 - Generated playbooks are compatible with
   events_and_notifications_workflow_manager module.
 - When filter blocks (C(destination_filters), C(notification_filters),
@@ -427,6 +427,60 @@ EXAMPLES = r"""
       component_specific_filters:
         itsm_filters:
           instance_names: ["ServiceNow Instance 1", "BMC Remedy Prod"]
+
+# destination_names with destination_types (new filter in isolation)
+- name: Generate config filtering specific destinations by name and type
+  cisco.dnac.events_and_notifications_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    component_specific_filters:
+      destination_filters:
+        destination_names:
+          - "Scale Syslog 7"
+          - "Prod Webhook Endpoint"
+        destination_types:        # Required when destination_names is specified
+          - "syslog"
+          - "webhook"
+
+# subscription_names with notification_types (new filter in isolation)
+- name: Generate config filtering specific subscriptions by name and type
+  cisco.dnac.events_and_notifications_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    component_specific_filters:
+      notification_filters:
+        subscription_names:
+          - "Critical Email Alerts"
+          - "Syslog Infra Events"
+        notification_types:       # Required when subscription_names is specified
+          - "email"
+          - "syslog"
+
+# Combined filters with components_list as the targeting mechanism (multi-entry, mixed)
+- name: Generate config with name filters targeted via components_list
+  cisco.dnac.events_and_notifications_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    component_specific_filters:
+      components_list:
+        - "syslog_destinations"          # Targets destination_names filter
+        - "email_event_notifications"    # Targets subscription_names filter
+        - "itsm_settings"                # No name filter, retrieves all
+      destination_filters:
+        destination_names:
+          - "Scale Syslog 7"             # Filtered — only syslog destinations matched
+      notification_filters:
+        subscription_names:
+          - "Critical Email Alerts"      # Filtered — only email notifications matched
+      itsm_filters:
+        instance_names:
+          - "ServiceNow Prod"
 """
 
 RETURN = r"""
@@ -761,14 +815,24 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_filters = validated_config.get("component_specific_filters")
         if config_provided and component_filters is None:
-            self.msg = (
-                "Validation Error: 'component_specific_filters' is mandatory when "
-                "'config' is provided. Please provide "
-                "'config.component_specific_filters' with either "
-                "'components_list' or component filter blocks."
+            if "component_specific_filters" not in self.config:
+                self.msg = (
+                    "Validation Error: 'component_specific_filters' is mandatory when "
+                    "'config' is provided. Please provide "
+                    "'config.component_specific_filters' with either "
+                    "'components_list' or component filter blocks."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log(
+                "'component_specific_filters' key is present but value is null/empty under "
+                "'config'. Normalizing to empty dict to enforce standard minimum requirement "
+                "validation for components_list/component filters.",
+                "DEBUG"
             )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+            component_filters = {}
+            validated_config["component_specific_filters"] = component_filters
 
         self.log(
             "Schema validation completed successfully. Validated configuration: {0}".format(
@@ -3280,12 +3344,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             while True:
                 page_count += 1
-                current_offset = offset * limit
 
                 self.log(
                     "Fetching webhook destinations page {0} with offset={1}, limit={2}. "
                     "Calling API to retrieve webhook configurations.".format(
-                        page_count, current_offset, limit
+                        page_count, offset, limit
                     ),
                     "DEBUG"
                 )
@@ -3293,7 +3356,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
-                    params={"offset": offset * limit, "limit": limit},
+                    params={"offset": offset, "limit": limit},
                 )
                 self.log(
                     "Received API response for webhook destinations page {0}. Response "
@@ -3333,7 +3396,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     break
 
-                offset += 1
+                offset += limit
                 self.log(
                     "Webhook destination retrieval completed successfully. Total pages "
                     "fetched: {0}, Total webhooks retrieved: {1}. Returning complete "
@@ -3452,12 +3515,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             while True:
                 page_count += 1
-                current_offset = offset * limit
 
                 self.log(
                     "Fetching syslog destinations page {0} with offset={1}, limit={2}. "
                     "Calling API to retrieve syslog configurations.".format(
-                        page_count, current_offset, limit
+                        page_count, offset, limit
                     ),
                     "DEBUG"
                 )
@@ -3466,7 +3528,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
-                    params={"offset": current_offset, "limit": limit},
+                    params={"offset": offset, "limit": limit},
                 )
                 self.log(
                     "Received API response for syslog destinations page {0}. Response "
@@ -3516,7 +3578,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     break
 
-                offset += 1
+                offset += limit
 
             self.log(
                 "Syslog destination retrieval completed successfully. Total pages fetched: "
@@ -3569,12 +3631,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             while True:
                 page_count += 1
-                current_offset = offset * limit
 
                 self.log(
                     "Fetching SNMP destinations page {0} with offset={1}, limit={2}. "
                     "Calling API to retrieve SNMP configurations.".format(
-                        page_count, current_offset, limit
+                        page_count, offset, limit
                     ),
                     "DEBUG"
                 )
@@ -3583,7 +3644,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
-                        params={"offset": offset * limit, "limit": limit},
+                        params={"offset": offset, "limit": limit},
                     )
                     self.log(
                         "Received API response for SNMP destinations page {0}. Response "
@@ -3622,7 +3683,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         break
 
-                    offset += 1
+                    offset += limit
 
                 except Exception as e:
                     self.log(
