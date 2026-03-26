@@ -52,8 +52,10 @@ options:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the `wireless_design_workflow_manager` module.
     - Filters specify which components to include in the YAML configuration file.
-    - If config is not provided or empty, all configurations for wireless design and feature templates will be generated.
+    - If config is not provided (omitted entirely), all configurations for wireless design and feature templates will be generated.
     - This is useful for complete brownfield infrastructure discovery and documentation.
+    - Important - An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+      all configurations, or provide specific filters within 'config'.
     type: dict
     required: false
     suboptions:
@@ -238,6 +240,24 @@ notes:
   (1) 'components_list' contains at least one component, OR
   (2) Component-specific filters (e.g., 'ssids', 'interfaces') are provided.
   If neither condition is met, the module will fail with a validation error.
+- |-
+  Module result behavior (changed/ok/failed):
+  The module result reflects local file state only, not Catalyst Center state.
+  In overwrite mode, the full file content is compared (excluding volatile
+  fields like timestamps and playbook path). In append mode, only the last
+  YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous
+  appends, only the most recent entry is used for the idempotency check.
+  - changed=true (status: success): The generated YAML configuration differs
+    from the existing output file (or the file does not exist). The file was
+    written and the configuration was updated.
+  - changed=false (status: ok): The generated YAML configuration matches the
+    existing output file content. The write was skipped as the file is
+    already up-to-date.
+  - failed=true (status: failed): The module encountered a validation error,
+    API failure, or file write error. No file was written or modified.
+  Note: Re-running with identical inputs and unchanged Catalyst Center state
+  will produce changed=false, ensuring idempotent playbook behavior.
 seealso:
 - module: cisco.dnac.wireless_design_workflow_manager
   description: Module for managing wireless design and feature template config.
@@ -422,11 +442,21 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available or empty - if not provided or empty, treat as generate all config
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - Error scenario
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate all config mode"
+            self.msg = "Configuration is not provided - treating as generate all config mode"
             self.log(self.msg, "INFO")
             return self
 
@@ -449,6 +479,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         component_specific_filters = valid_temp.get("component_specific_filters")
         if component_specific_filters:
             self.auto_populate_and_validate_components_list(component_specific_filters)
+            self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp

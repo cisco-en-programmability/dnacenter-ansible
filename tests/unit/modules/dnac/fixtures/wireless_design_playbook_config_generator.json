@@ -85,6 +85,10 @@
       ]
     }
   },
+  "playbook_config_empty_config": {},
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
+  },
   "get_site_response": {
     "response": [
       {
