@@ -980,7 +980,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "INFO"
                 )
 
-                if len(site_list) == 1 and site_list[0].lower() == "all":
+                if "all" in site_list:
                     self.log(
                         "Site list contains 'all' keyword. Skipping site validation, all floors "
                         "with APs will be included in YAML generation.",
@@ -1044,7 +1044,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "INFO"
                 )
 
-                if len(planned_ap_list) == 1 and planned_ap_list[0].lower() == "all":
+                if "all" in planned_ap_list:
                     self.log(
                         "Planned AP list contains 'all' keyword. Skipping planned AP validation, "
                         "all planned APs will be included in YAML generation.",
@@ -1106,7 +1106,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "INFO"
                 )
 
-                if len(real_ap_list) == 1 and real_ap_list[0].lower() == "all":
+                if "all" in real_ap_list:
                     self.log(
                         "Real AP list contains 'all' keyword. Skipping real AP validation, all "
                         "real/deployed APs will be included in YAML generation.",
@@ -1168,7 +1168,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "INFO"
                 )
 
-                if len(model_list) == 1 and model_list[0].lower() == "all":
+                if "all" in model_list:
                     self.log(
                         "AP model list contains 'all' keyword. Skipping model validation, all AP "
                         "models will be included in YAML generation.",
@@ -1230,7 +1230,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "INFO"
                 )
 
-                if len(mac_list) == 1 and mac_list[0].lower() == "all":
+                if "all" in mac_list:
                     self.log(
                         "MAC address list contains 'all' keyword. Skipping MAC validation, all "
                         "APs with MAC addresses will be included in YAML generation.",
@@ -3014,7 +3014,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            if len(site_list) == 1 and site_list[0].lower() == "all":
+            if "all" in site_list:
                 self.log(
                     "Site list contains 'all' keyword. Returning complete planned AP configuration "
                     "collection without individual site validation. This bypasses per-site matching.",
@@ -3097,7 +3097,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            if len(planned_accesspoint_list) == 1 and planned_accesspoint_list[0].lower() == "all":
+            if "all" in planned_accesspoint_list:
                 self.log(
                     "Planned AP list contains 'all' keyword. Returning complete planned AP configuration "
                     "collection without individual AP validation.",
@@ -3219,7 +3219,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            if len(real_accesspoint_list) == 1 and real_accesspoint_list[0].lower() == "all":
+            if "all" in real_accesspoint_list:
                 self.log(
                     "Real AP list contains 'all' keyword. Returning complete real AP configuration "
                     "collection without individual AP validation.",
@@ -3342,7 +3342,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            if len(accesspoint_model_list) == 1 and accesspoint_model_list[0].lower() == "all":
+            if "all" in accesspoint_model_list:
                 self.log(
                     "AP model list contains 'all' keyword. Returning complete AP configuration collection "
                     "(planned + real) without individual model validation.",
