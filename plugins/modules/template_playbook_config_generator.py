@@ -537,18 +537,20 @@ class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "projects": {
-                    "filters": ["name"],
+                    "filters": {
+                        "name": {"type": "str"}
+                    },
                     "reverse_mapping_function": self.projects_temp_spec,
                     "api_function": "get_projects_details",
                     "api_family": "configuration_templates",
                     "get_function_name": self.get_template_projects_details
                 },
                 "configuration_templates": {
-                    "filters": [
-                        "template_name",
-                        "project_name",
-                        "include_uncommitted"
-                    ],
+                    "filters": {
+                        "template_name": {"type": "str"},
+                        "project_name": {"type": "str"},
+                        "include_uncommitted": {"type": "bool"}
+                    },
                     "reverse_mapping_function": self.templates_temp_spec,
                     "api_function": "get_templates_details",
                     "api_family": "configuration_templates",
