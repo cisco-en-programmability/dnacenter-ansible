@@ -2582,5 +2582,104 @@
               ]
             }
         }
+    ],
+
+    "deploy_composite_template_playbook_case_13": [
+        {
+            "deploy_template": {
+                "project_name": "Composite_Project",
+                "template_name": "Composite_Parent_Template",
+                "is_composite": true,
+                "template_parameters": [
+                    {"param_name": "vlan", "param_value": "100"}
+                ],
+                "member_template_deployment_info": [
+                    {
+                        "template_name": "Member_Template_1",
+                        "project_name": "Composite_Project"
+                    }
+                ],
+                "device_details": {
+                    "device_ips": ["10.10.10.1"]
+                }
+            }
+        }
+    ],
+
+    "get_projects_details_case_13": {
+        "response": [
+            {
+                "name": "Composite_Project",
+                "id": "proj-comp-001",
+                "templates": [
+                    {"name": "Composite_Parent_Template", "id": "tmpl-parent-001", "composite": true},
+                    {"name": "Member_Template_1", "id": "tmpl-member-001", "composite": false}
+                ]
+            }
+        ]
+    },
+
+    "get_templates_details_case_13": {
+        "response": [
+            {"name": "Composite_Parent_Template", "id": "tmpl-parent-001", "projectName": "Composite_Project", "composite": true}
+        ]
+    },
+
+    "get_device_by_ip_case_13": {
+        "response": [{"id": "device-001", "managementIpAddress": "10.10.10.1"}]
+    },
+
+    "get_template_versions_parent_case_13": {
+        "response": [{"templateId": "tmpl-parent-001", "versionId": "tmpl-parent-v1", "version": "1"}]
+    },
+
+    "get_member_template_details_case_13": {
+        "response": [{"name": "Member_Template_1", "id": "tmpl-member-001", "projectName": "Composite_Project", "composite": false}]
+    },
+
+    "get_template_versions_member_case_13": {
+        "response": [{"templateId": "tmpl-member-001", "versionId": "tmpl-member-v1", "version": "1"}]
+    },
+
+    "deploy_template_task_case_13": {
+        "response": {"taskId": "a1b2c3d4-0001", "url": "/api/v1/task/a1b2c3d4-0001"}
+    },
+
+    "get_task_details_case_13": {
+        "response": {"progress": "Template Deployment Id: aabbccdd-0013-eeee-ffff-aabbccddeeff", "isError": false, "id": "a1b2c3d4-0001"}
+    },
+
+    "get_deployment_status_case_13": {
+        "status": "SUCCESS",
+        "deploymentId": "aabbccdd-0013-eeee-ffff-aabbccddeeff"
+    },
+
+    "deploy_composite_no_member_info_case_14": [
+        {
+            "deploy_template": {
+                "project_name": "Composite_Project",
+                "template_name": "Composite_Parent_Template",
+                "is_composite": true,
+                "device_details": {
+                    "device_ips": ["10.10.10.1"]
+                }
+            }
+        }
+    ],
+
+    "deploy_composite_missing_member_name_case_15": [
+        {
+            "deploy_template": {
+                "project_name": "Composite_Project",
+                "template_name": "Composite_Parent_Template",
+                "is_composite": true,
+                "member_template_deployment_info": [
+                    {}
+                ],
+                "device_details": {
+                    "device_ips": ["10.10.10.1"]
+                }
+            }
+        }
     ]
 }
