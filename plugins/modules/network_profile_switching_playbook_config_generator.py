@@ -398,11 +398,6 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         # Expected schema for configuration parameters
         # Define expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
             "global_filters": {
                 "type": "dict",
                 "required": False
@@ -412,15 +407,6 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         # Validate the config dict using helper
         valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.validate_invalid_params(self.config, set(temp_spec.keys()))
-
-        if valid_temp.get("generate_all_configurations"):
-            self.msg = (
-                "generate_all_configurations cannot be used when config is provided. "
-                "Omit config to generate all switch profile configurations."
-            )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
 
         if not valid_temp.get("global_filters"):
             self.msg = (
@@ -457,8 +443,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
             if not provided_filters:
                 self.msg = (
-                    "global_filters provided but no valid filter lists have values. "
-                    "At least one of {0} must contain values.".format(valid_filter_keys)
+                    f"Invalid filter key '{', '.join(global_filters.keys())}' in global_filters "
+                    f"or no filter values for {', '.join(global_filters.keys())} provided. "
+                    f"Supported keys are: {', '.join(valid_filter_keys)}"
                 )
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -476,21 +463,20 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
+                valid_temp["global_filters"][filter_key] = list(dict.fromkeys(filter_value))
+
         # Set validated configuration and return success
         self.validated_config = valid_temp
 
         self.msg = (
-            "Successfully validated configuration for network profile switching playbook "
-            "generation. Validated configuration: {0}".format(str(valid_temp))
+            f"Successfully validated configuration for network profile switching playbook "
+            f"generation. Validated configuration: {str(valid_temp)}"
         )
 
         self.log(
-            "Input validation completed successfully. generate_all: {0}, "
-            "has_global_filters: {1}, file_mode: {2}".format(
-                bool(valid_temp.get("generate_all_configurations")),
-                bool(valid_temp.get("global_filters")),
-                self.params.get("file_mode", "overwrite")
-            ),
+            "Input validation completed successfully. "
+            f"has_global_filters: {bool(valid_temp.get('global_filters'))}, "
+            f"file_mode: {self.params.get('file_mode', 'overwrite')}",
             "INFO"
         )
 
@@ -1821,11 +1807,10 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "WARNING"
             )
             self.msg = (
-                "No configurations or components to process for module '{0}'. Verify input "
-                "filters (global_filters) or configuration (generate_all_configurations). "
-                "Check that switch profiles exist in Catalyst Center and match filter criteria.".format(
-                    self.module_name
-                )
+                f"No configurations to process for the module '{self.module_name}'. Verify input "
+                "of (global_filters) to ensure it matches existing switch profiles in Catalyst Center. "
+                "If filters are correct, "
+                "check that switch profiles exist in Catalyst Center and match filter criteria."
             )
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
