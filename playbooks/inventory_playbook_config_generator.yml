@@ -14,6 +14,7 @@
 # 4. Three-Document Output: Separate YAML documents for each component
 # 5. HTTP Fields Support: http_username, http_password, http_port, http_secure
 # 6. Smart File Creation: No file created if no data matches filters
+# 7. Preferred Syntax: file_path and file_mode are top-level module arguments
 #
 # ===================================================================================================
 
@@ -44,10 +45,8 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
-        config:
-          generate_all_configurations: true
-          file_mode: "overwrite"
-          file_path: "inventory_all_devices_complete.yml"
+        file_path: "inventory_all_devices_complete.yml"
+        file_mode: "overwrite"
       tags: [scenario1, complete_discovery]
 
     # ===================================================================================
@@ -69,9 +68,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_specific_ips.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_specific_ips.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "172.27.248.223"
@@ -100,9 +99,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_device_details_only.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_device_details_only.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "172.27.248.223"
@@ -130,9 +129,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_provision_only.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_provision_only.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["provision_device"]
             provision_device:
@@ -158,9 +157,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_interface_only.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_interface_only.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "205.1.2.67"
@@ -191,9 +190,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_independent_filters.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_independent_filters.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_details", "provision_device", "interface_details"]
             device_details:
@@ -221,9 +220,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_global_component_filters.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_global_component_filters.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "172.27.248.223"
@@ -254,9 +253,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_access_role.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_access_role.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_details"]
             device_details:
@@ -282,9 +281,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_multi_role.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_multi_role.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_details"]
             device_details:
@@ -310,9 +309,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_device_provision.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_device_provision.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "172.27.248.223"
@@ -340,9 +339,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_site_bangalore_bld1.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_site_bangalore_bld1.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["provision_device"]
             provision_device:
@@ -362,9 +361,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_site_bangalore_bld2.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_site_bangalore_bld2.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["provision_device"]
             provision_device:
@@ -396,7 +395,6 @@
               - "172.27.248.223"
           component_specific_filters:
             components_list: ["device_details"]
-          file_mode: "overwrite"
       tags: [scenario12, default_path]
 
     # ===================================================================================
@@ -418,9 +416,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_interface_vlan100_only.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_interface_vlan100_only.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["interface_details"]
             interface_details:
@@ -446,9 +444,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_interface_multi_filter.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_interface_multi_filter.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["interface_details"]
             interface_details:
@@ -475,9 +473,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_ip_interface_filter.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_ip_interface_filter.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "100.1.1.61"
@@ -508,9 +506,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_device_filtered_interfaces.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_device_filtered_interfaces.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "172.27.248.223"
@@ -540,9 +538,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_all_filtered_interfaces.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_all_filtered_interfaces.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "172.27.248.223"
@@ -575,9 +573,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_interface_no_match.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_interface_no_match.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "172.27.248.223"
@@ -608,9 +606,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_gigabitethernet_only.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_gigabitethernet_only.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["interface_details"]
             interface_details:
@@ -636,9 +634,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_access_devices_interface_filter.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_access_devices_interface_filter.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_details", "interface_details"]
             device_details:
@@ -665,9 +663,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_udf_only.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_udf_only.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["user_defined_fields"]
       tags: [scenario21, udf_only]
@@ -692,9 +690,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_all_components_with_udf.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_all_components_with_udf.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_details", "provision_device", "interface_details", "user_defined_fields"]
       tags: [scenario22, all_components_udf]
@@ -718,9 +716,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_device_udf.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_device_udf.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_details", "user_defined_fields"]
       tags: [scenario23, device_udf]
@@ -745,9 +743,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_ip_filter_udf.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_ip_filter_udf.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "206.1.2.3"
@@ -776,9 +774,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_provision_site_udf.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_provision_site_udf.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["provision_device", "user_defined_fields"]
             provision_device:
@@ -804,9 +802,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_interface_udf.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_interface_udf.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["interface_details", "user_defined_fields"]
       tags: [scenario26, interface_udf]
@@ -830,9 +828,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_interface_name_udf.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_interface_name_udf.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["interface_details", "user_defined_fields"]
             interface_details:
@@ -858,9 +856,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_access_role_udf.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_access_role_udf.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_details", "user_defined_fields"]
             device_details:
@@ -886,9 +884,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_complex_multi_filter_udf.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_complex_multi_filter_udf.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "172.27.248.223"
@@ -924,10 +922,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_udf_audit_complete.yml"
+        file_mode: "overwrite"
         config:
-          generate_all_configurations: true
-          file_mode: "overwrite"
-          file_path: "inventory_udf_audit_complete.yml"
           component_specific_filters:
             components_list: ["user_defined_fields"]
       tags: [scenario30, udf_audit]
@@ -951,9 +948,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_udf_name_filter.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_udf_name_filter.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["user_defined_fields"]
             user_defined_fields:
@@ -980,9 +977,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_udf_value_filter.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_udf_value_filter.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["user_defined_fields"]
             user_defined_fields:
@@ -1008,9 +1005,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_ip_udf_name_filter.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_ip_udf_name_filter.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "206.1.2.4"
@@ -1041,9 +1038,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_device_udf_name_filter.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_device_udf_name_filter.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["device_details", "user_defined_fields"]
             user_defined_fields:
@@ -1070,9 +1067,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_all_udf_filtered.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_all_udf_filtered.yml"
-          file_mode: "overwrite"
           global_filters:
             ip_address_list:
               - "206.1.2.4"
@@ -1104,9 +1101,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_udf_name_filter_single.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_udf_name_filter_single.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["user_defined_fields"]
             user_defined_fields:
@@ -1132,9 +1129,9 @@
         dnac_log: true
         dnac_log_level: INFO
         state: gathered
+        file_path: "inventory_udf_value_filter_single.yml"
+        file_mode: "overwrite"
         config:
-          file_path: "inventory_udf_value_filter_single.yml"
-          file_mode: "overwrite"
           component_specific_filters:
             components_list: ["user_defined_fields"]
             user_defined_fields:
