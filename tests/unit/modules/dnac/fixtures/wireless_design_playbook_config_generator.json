@@ -89,6 +89,24 @@
   "playbook_config_empty_component_specific_filters": {
     "component_specific_filters": {}
   },
+  "playbook_config_invalid_component": {
+    "component_specific_filters": {
+      "invalid_component": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
+  "playbook_config_invalid_component_filters": {
+    "component_specific_filters": {
+      "ssids": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
   "get_site_response": {
     "response": [
       {
