@@ -2151,16 +2151,16 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - deploy_template:
-          project_name: "vpenke"
-          template_name: "comp_template"
+          project_name: "composite_project"
+          template_name: "composite_template"
           is_composite: true
           force_push: true
           member_template_deployment_info:
-            - template_name: "test2"
-              project_name: "vpenke"
+            - project_name: "composite_project"
+              template_name: "containing_template1"
               copy_config: false
-            - template_name: "test1"
-              project_name: "vpenke"
+            - project_name: "composite_project"
+              template_name: "containing_template2"
               copy_config: false
           device_details:
             device_ips:
@@ -2183,19 +2183,19 @@ EXAMPLES = r"""
     config_verify: true
     config:
       - deploy_template:
-          project_name: "vpenke"
-          template_name: "comp_template"
+          project_name: "composite_project"
+          template_name: "composite_template"
           is_composite: true
           force_push: true
           member_template_deployment_info:
-            - template_name: "test2"
-              project_name: "vpenke"
+            - project_name: "composite_project"
+              template_name: "containing_template1"
               copy_config: false
               template_parameters:
                 - param_name: "name"
                   param_value: "abc"
-            - template_name: "test1"
-              project_name: "vpenke"
+            - project_name: "composite_project"
+              template_name: "containing_template2"
               copy_config: false
               template_parameters:
                 - param_name: "name"
