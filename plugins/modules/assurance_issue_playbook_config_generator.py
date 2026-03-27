@@ -380,6 +380,92 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.status = "failed"
                 return self.check_return_status()
 
+            # Normalize duplicate components while preserving order.
+            if isinstance(components_list, list):
+                self.log(
+                    "Normalizing components_list with {0} candidate entries.".format(
+                        len(components_list)
+                    ),
+                    "DEBUG"
+                )
+                deduplicated_components_list = []
+                seen_components = set()
+                for component_index, component_name in enumerate(components_list, start=1):
+                    if component_name in seen_components:
+                        self.log(
+                            "Skipping duplicate components_list entry at index {0}: {1}".format(
+                                component_index, component_name
+                            ),
+                            "DEBUG"
+                        )
+                        continue
+
+                    seen_components.add(component_name)
+                    deduplicated_components_list.append(component_name)
+
+                if len(deduplicated_components_list) != len(components_list):
+                    self.log(
+                        (
+                            "Removing duplicate entries from components_list: "
+                            "{0} entries reduced to {1} unique entries to avoid "
+                            "redundant processing."
+                        ).format(
+                            len(components_list), len(deduplicated_components_list)
+                        ),
+                        "INFO"
+                    )
+                component_filters["components_list"] = deduplicated_components_list
+                valid_temp["component_specific_filters"] = component_filters
+
+            # Normalize duplicate issue filter blocks while preserving order.
+            issue_filters = component_filters.get("assurance_user_defined_issue_settings")
+            if isinstance(issue_filters, list):
+                self.log(
+                    "Normalizing assurance_user_defined_issue_settings filters with {0} candidate entries.".format(
+                        len(issue_filters)
+                    ),
+                    "DEBUG"
+                )
+                deduplicated_issue_filters = []
+                seen_filter_keys = set()
+                for filter_index, item in enumerate(issue_filters, start=1):
+                    if not isinstance(item, dict):
+                        self.log(
+                            "Retaining non-dict filter at index {0}: {1}".format(filter_index, item),
+                            "DEBUG"
+                        )
+                        deduplicated_issue_filters.append(item)
+                        continue
+
+                    filter_key = (
+                        item.get("name"),
+                        item.get("is_enabled")
+                    )
+                    if filter_key in seen_filter_keys:
+                        self.log(
+                            "Skipping duplicate assurance_user_defined_issue_settings filter at index {0} with key {1}".format(
+                                filter_index, filter_key
+                            ),
+                            "DEBUG"
+                        )
+                        continue
+
+                    seen_filter_keys.add(filter_key)
+                    deduplicated_issue_filters.append(item)
+                if len(deduplicated_issue_filters) != len(issue_filters):
+                    self.log(
+                        (
+                            "Deduplicated assurance_user_defined_issue_settings "
+                            "filters from {0} to {1} entries to prevent repeated "
+                            "API calls for the same filter combination."
+                        ).format(
+                            len(issue_filters), len(deduplicated_issue_filters)
+                        ),
+                        "INFO"
+                    )
+                component_filters["assurance_user_defined_issue_settings"] = deduplicated_issue_filters
+                valid_temp["component_specific_filters"] = component_filters
+
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
@@ -1026,6 +1112,53 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         else:
             component_specific_filters = []
 
+        # Normalize duplicate component filter blocks to avoid repeated API calls.
+        if isinstance(component_specific_filters, list):
+            self.log(
+                "Normalizing component-specific user issue filters with {0} candidate entries.".format(
+                    len(component_specific_filters)
+                ),
+                "DEBUG"
+            )
+            deduplicated_filters = []
+            seen_filter_keys = set()
+            for filter_index, item in enumerate(component_specific_filters, start=1):
+                if not isinstance(item, dict):
+                    self.log(
+                        "Retaining non-dict component-specific filter at index {0}: {1}".format(
+                            filter_index, item
+                        ),
+                        "DEBUG"
+                    )
+                    deduplicated_filters.append(item)
+                    self.log("Removed {0} duplicate filter entries in component-specific filters before API calls.".format(
+                        len(component_specific_filters) - len(deduplicated_filters)
+                    ), "INFO")
+                    continue
+
+                filter_key = (item.get("name"), item.get("is_enabled"))
+                if filter_key in seen_filter_keys:
+                    self.log(
+                        "Skipping duplicate component-specific filter at index {0} with key {1}".format(
+                            filter_index, filter_key
+                        ),
+                        "DEBUG"
+                    )
+                    continue
+
+                seen_filter_keys.add(filter_key)
+                deduplicated_filters.append(item)
+
+            if len(deduplicated_filters) != len(component_specific_filters):
+                self.log(
+                    "Deduplicated component-specific filters from {0} to {1} entries.".format(
+                        len(component_specific_filters), len(deduplicated_filters)
+                    ),
+                    "INFO"
+                )
+
+            component_specific_filters = deduplicated_filters
+
         self.log(
             "Component-specific filters count: {0}".format(len(component_specific_filters)),
             "DEBUG"
@@ -1079,6 +1212,54 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 final_user_issues.extend(
                     self._fetch_all_priority_enabled_combinations(api_family, api_function)
                 )
+
+            # Deduplicate merged issue entries (same issue can be returned across repeated filters).
+            deduplicated_user_issues = []
+            seen_issues = set()
+            self.log(
+                "Deduplicated final issue results from {0} to {1} entries to remove cross-filter duplicates.".format(
+                    len(final_user_issues), len(deduplicated_user_issues)
+                ),
+                "DEBUG"
+            )
+            for issue_index, issue in enumerate(final_user_issues, start=1):
+                if not isinstance(issue, dict):
+                    self.log(
+                        "Retaining non-dict merged issue entry at index {0}: {1}".format(
+                            issue_index, issue
+                        ),
+                        "DEBUG"
+                    )
+                    deduplicated_user_issues.append(issue)
+                    continue
+
+                issue_key = (
+                    issue.get("name"),
+                    issue.get("isEnabled"),
+                    issue.get("priority")
+                )
+                if issue_key in seen_issues:
+                    self.log(
+                        "Skipping duplicate merged issue entry at index {0} with key {1}".format(
+                            issue_index, issue_key
+                        ),
+                        "DEBUG"
+                    )
+                    continue
+
+                seen_issues.add(issue_key)
+                deduplicated_user_issues.append(issue)
+
+            if len(deduplicated_user_issues) != len(final_user_issues):
+                self.log(
+                    "Deduplicated merged issue entries from {0} to {1}.".format(
+                        len(final_user_issues), len(deduplicated_user_issues)
+                    ),
+                    "INFO"
+                )
+            else:
+                self.log("No duplicate merged issue entries found.", "DEBUG")
+            final_user_issues = deduplicated_user_issues
 
             # Track success
             self.add_success("assurance_user_defined_issue_settings", {
@@ -1334,6 +1515,10 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
         component_filters = config.get("component_specific_filters", {}) or {}
         components_list = component_filters.get("components_list", [])
 
+        # Safety normalization to avoid duplicate processing in gathered flow.
+        if isinstance(components_list, list):
+            components_list = list(dict.fromkeys(components_list))
+
         # Validate components_list to check for unexpected components
         if components_list:
             expected_components = ["assurance_user_defined_issue_settings"]
@@ -1431,6 +1616,21 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 all_configs.append({component_name: component_data})
 
+        # If nothing matched, do not generate/write any output file.
+        if not all_configs:
+            self.msg = (
+                "No configurations found for module '{0}' with the provided filters. "
+                "No output file was generated."
+            ).format(self.module_name)
+            self.result["changed"] = False
+            self.result["response"] = {
+                "message": self.msg,
+                "configurations_generated": 0
+            }
+            self.result["msg"] = self.msg
+            self.status = "success"
+            return self
+
         # Generate final YAML structure
         yaml_config = {}
 
@@ -1467,14 +1667,6 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 final_list.append(config_item)
 
             yaml_config = {"config": final_list}
-        else:
-            # Generate empty template structure when no configurations found and not in generate_all mode
-            final_list = []
-            issue_elements = self.module_schema.get("issue_elements", {})
-            for component_name in issue_elements.keys():
-                component_dict = {component_name: []}
-                final_list.append(component_dict)
-            yaml_config = {"config": final_list}
 
         # Write to YAML file with header comments
         if yaml_config:
@@ -1485,10 +1677,8 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             success = self.write_dict_to_yaml(yaml_config, file_path, file_mode)
             if success:
-                if all_configs:
-                    self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
-                else:
-                    self.msg = "YAML config generation completed for module '{0}' with empty template (no configurations found).".format(self.module_name)
+                self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
+                self.result["changed"] = True
                 self.result["response"] = {
                     "message": self.msg,
                     "file_path": file_path,
@@ -1499,6 +1689,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.status = "success"
             else:
                 self.msg = "Failed to write YAML configuration to file: {0}".format(file_path)
+                self.result["changed"] = False
                 self.result["response"] = {"message": self.msg}
                 self.result["msg"] = self.msg
                 self.status = "failed"
@@ -1506,6 +1697,7 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
             operation_summary = self.get_operation_summary()
             self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
                 self.module_name)
+            self.result["changed"] = False
             self.result["response"] = {
                 "message": self.msg,
                 "operation_summary": operation_summary

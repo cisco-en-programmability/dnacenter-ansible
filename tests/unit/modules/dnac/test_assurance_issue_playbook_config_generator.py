@@ -140,11 +140,11 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_generate_all
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
 
         # Verify the response structure
         self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)  # Module sets changed=False when configs are generated
+        self.assertEqual(result.get('changed'), True)
 
         # Check that the response contains the expected structure
         response = result.get('response', {})
@@ -177,11 +177,11 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_specific_components
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
 
         # Verify successful execution
         self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)
+        self.assertEqual(result.get('changed'), True)
 
         # Verify that components were processed
         response = result.get('response', {})
@@ -269,11 +269,11 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_with_file_path
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
 
         # Verify successful execution
         self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)
+        self.assertEqual(result.get('changed'), True)
 
         # Verify custom file path is used
         response = result.get('response', {})
@@ -303,8 +303,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=False, failed=False)
         self.assertIn("response", result)
         self.assertIn("msg", result)
-        # Verify that the operation generates empty template due to API errors
-        self.assertIn("empty template", result.get("msg", ""))
+        self.assertIn("No output file was generated", result.get("msg", ""))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -363,10 +362,8 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=False, failed=False)
         self.assertIn("response", result)
         self.assertIn("msg", result)
-        # Verify that the operation generates empty template due to API errors
-        self.assertIn("empty template", result.get("msg", ""))
-        # Check operation summary shows failures
-        self.assertGreater(result["response"]["operation_summary"]["total_failed_operations"], 0)
+        self.assertIn("No output file was generated", result.get("msg", ""))
+        self.assertNotIn("operation_summary", result["response"])
 
     def test_assurance_issue_playbook_generator_validation_error(self):
         """
@@ -464,13 +461,13 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=False)
 
-        # Verify operation summary is included
+        # Verify execution succeeds even when no matching data is found.
         self.assertIn('response', result)
         self.assertEqual(result.get('changed'), False)
 
-        # Check that we get meaningful response data
+        # In no-data scenarios, operation_summary should not be returned.
         response = result.get('response', {})
-        self.assertIn('operation_summary', response)
+        self.assertNotIn('operation_summary', response)
 
     def test_assurance_issue_playbook_generator_missing_config(self):
         """
@@ -491,7 +488,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=False, failed=False)
         self.assertIn("response", result)
         self.assertIn("msg", result)
-        self.assertIn("YAML config generation", result.get("msg", ""))
+        self.assertIn("No configurations found", result.get("msg", ""))
 
     def test_assurance_issue_playbook_generator_config_without_component_specific_filters(self):
         """
@@ -559,6 +556,82 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
+    def test_assurance_issue_playbook_generator_components_list_deduplicated(self, mock_exists, mock_file):
+        """
+        Test case to verify duplicate entries in components_list are deduplicated.
+        """
+        mock_exists.return_value = True
+        self.run_dnac_exec.side_effect = [
+            self.test_data.get("get_user_defined_issues_response")
+        ]
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.5.3",
+                config={
+                    "component_specific_filters": {
+                        "components_list": [
+                            "assurance_user_defined_issue_settings",
+                            "assurance_user_defined_issue_settings",
+                            "assurance_user_defined_issue_settings",
+                        ]
+                    }
+                }
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+
+        self.assertIn("response", result)
+        self.assertNotIn("operation_summary", result["response"])
+        self.assertEqual(
+            result["response"].get("configurations_generated"), 0
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_assurance_issue_playbook_generator_user_defined_filter_deduplicated(self, mock_exists, mock_file):
+        """
+        Test case to verify duplicate user-defined issue filters are deduplicated.
+        """
+        mock_exists.return_value = True
+
+        user_defined_response = self.test_data.get("get_user_defined_issues_response")
+        self.run_dnac_exec.side_effect = [user_defined_response]
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="2.3.5.3",
+                config={
+                    "component_specific_filters": {
+                        "components_list": ["assurance_user_defined_issue_settings"],
+                        "assurance_user_defined_issue_settings": [
+                            {"name": "Shut fangone", "is_enabled": True},
+                            {"name": "Shut lc fangone", "is_enabled": True},
+                            {"name": "Shut fangone", "is_enabled": True},
+                            {"name": "Shut fangone", "is_enabled": True},
+                        ]
+                    }
+                }
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+
+        self.assertIn("response", result)
+        # Two unique filter blocks should trigger only two API executions.
+        self.assertEqual(self.run_dnac_exec.call_count, 2)
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_assurance_issue_playbook_generator_default_file_path(self, mock_exists, mock_file):
         """
         Test case for assurance issue playbook generator with default file path.
@@ -582,11 +655,11 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestDnacModule):
                 config=config_without_path
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
 
         # Verify successful execution with default file path
         self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)
+        self.assertEqual(result.get('changed'), True)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
