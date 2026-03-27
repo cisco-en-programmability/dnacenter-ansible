@@ -472,7 +472,7 @@ options:
                     type: int
                     required: false
                     default: 20
-                  stp_instace_hello_interval_timer:
+                  stp_instance_hello_interval_timer:
                     description:
                       - Hello interval timer for this STP instance in seconds.
                       - Must be between 1 and 10 seconds.
@@ -482,7 +482,7 @@ options:
                     type: int
                     required: false
                     default: 2
-                  stp_instace_forward_delay_timer:
+                  stp_instance_forward_delay_timer:
                     description:
                       - Forward delay timer for this STP instance in seconds.
                       - Must be between 4 and 30 seconds.
