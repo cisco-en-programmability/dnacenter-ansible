@@ -981,6 +981,10 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 if self._is_wildcard_list(site_list, "Site list"):
+                    self.log(
+                        "Wildcard 'all' detected in site_list. Skipping validation of floor site existence. "
+                        "All floor sites from Catalyst Center will be included in YAML generation.", "INFO"
+                    )
                     return self
 
                 self.log(
@@ -1023,12 +1027,12 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                         f"and floors have APs positioned on floor maps before retrying."
                     )
                     self.log(self.msg, "ERROR")
-
-                self.log(
-                    f"All {len(site_list)} floor site(s) validated successfully. All requested "
-                    f"floors exist with access point configurations.",
-                    "INFO"
-                )
+                else:
+                    self.log(
+                        f"All {len(site_list)} floor site(s) validated successfully. All requested "
+                        f"floors exist with access point configurations.",
+                        "INFO"
+                    )
 
             # Process planned_accesspoint_list filter
             if planned_ap_list and isinstance(planned_ap_list, list):
@@ -1040,6 +1044,11 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 if self._is_wildcard_list(planned_ap_list, "Planned AP list"):
+                    self.log(
+                        "Wildcard 'all' detected in planned_accesspoint_list. Skipping validation of "
+                        "planned AP existence. All planned APs from Catalyst Center will be included in "
+                        "YAML generation.", "INFO"
+                    )
                     return self
 
                 self.log(
@@ -1097,6 +1106,11 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 if self._is_wildcard_list(real_ap_list, "Real AP list"):
+                    self.log(
+                        "Wildcard 'all' detected in real_accesspoint_list. Skipping validation of "
+                        "real AP existence. All real/deployed APs from Catalyst Center will be included in "
+                        "YAML generation.", "INFO"
+                    )
                     return self
 
                 self.log(
@@ -1154,6 +1168,11 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 if self._is_wildcard_list(model_list, "AP model list"):
+                    self.log(
+                        "Wildcard 'all' detected in accesspoint_model_list. Skipping validation of AP "
+                        "model existence. All AP models from Catalyst Center will be included in YAML "
+                        "generation.", "INFO"
+                    )
                     return self
 
                 self.log(
@@ -1211,6 +1230,11 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
                 if self._is_wildcard_list(mac_list, "MAC address list"):
+                    self.log(
+                        "Wildcard 'all' detected in mac_address_list. Skipping validation of MAC "
+                        "address existence. All MAC addresses from Catalyst Center will be included in "
+                        "YAML generation.", "INFO"
+                    )
                     return self
 
                 self.log(
@@ -3016,7 +3040,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            if self._is_wildcard_list(site_list, "site_list"):
+            if self._is_wildcard_list(site_list, "Site list"):
                 self.log(
                     "Site list contains 'all' keyword. Returning complete planned AP configuration "
                     "collection without individual site validation. This bypasses per-site matching.",
@@ -3099,7 +3123,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            if self._is_wildcard_list(planned_accesspoint_list, "planned_accesspoint_list"):
+            if self._is_wildcard_list(planned_accesspoint_list, "Planned AP list"):
                 self.log(
                     "Planned AP list contains 'all' keyword. Returning complete planned AP configuration "
                     "collection without individual AP validation.",
@@ -3221,7 +3245,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            if self._is_wildcard_list(real_accesspoint_list, "real_accesspoint_list"):
+            if self._is_wildcard_list(real_accesspoint_list, "Real AP list"):
                 self.log(
                     "Real AP list contains 'all' keyword. Returning complete real AP configuration "
                     "collection without individual AP validation.",
@@ -3344,7 +3368,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            if self._is_wildcard_list(accesspoint_model_list, "accesspoint_model_list"):
+            if self._is_wildcard_list(accesspoint_model_list, "AP model list"):
                 self.log(
                     "AP model list contains 'all' keyword. Returning complete AP configuration collection "
                     "(planned + real) without individual model validation.",
