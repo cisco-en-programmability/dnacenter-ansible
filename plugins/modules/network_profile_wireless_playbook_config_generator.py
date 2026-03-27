@@ -69,7 +69,7 @@ options:
         configuration file.
       - If C(config) is provided, C(global_filters) is mandatory.
       - If C(config) is omitted, internal auto-discovery mode is used
-        and generate_all_configurations defaults to C(True).
+        and generate all configurations.
     type: dict
     required: false
     suboptions:
@@ -77,24 +77,17 @@ options:
         description:
           - Global filters to apply when generating the YAML
             configuration file.
-          - These filters apply to all components unless overridden
-            by component-specific filters.
+          - These filters apply to all global filters unless overridden
+            by generate all configuration.
           - At least one filter type must be specified to identify
             target devices.
-          - Filter priority (highest to lowest) is profile_name_list,
-            day_n_template_list, site_list, ssid_list, ap_zone_list,
-            feature_template_list, additional_interface_list.
-          - Only the highest priority filter with valid data will
-            be processed.
         type: dict
         required: false
         suboptions:
           profile_name_list:
             description:
               - List of wireless profile names to extract
-                configurations from.
-              - HIGHEST PRIORITY - Used first if provided with
-                valid data.
+                configurations from and include in the generated YAML file.
               - Wireless Profile names must match those registered
                 in Catalyst Center.
               - Case-sensitive and must be exact matches.
@@ -108,8 +101,6 @@ options:
           day_n_template_list:
             description:
               - List of Day-N templates to filter wireless profiles.
-              - MEDIUM-HIGH PRIORITY - Only used if profile_name_list
-                is not provided.
               - Retrieves all wireless profiles containing any of
                 the specified templates.
               - Case-sensitive and must be exact matches.
@@ -123,9 +114,6 @@ options:
           site_list:
             description:
               - List of site hierarchies to filter wireless profiles.
-              - MEDIUM PRIORITY - Only used if neither
-                profile_name_list nor day_n_template_list are
-                provided.
               - Retrieves all wireless profiles assigned to any of
                 the specified sites.
               - Case-sensitive and must be exact matches.
@@ -139,8 +127,6 @@ options:
           ssid_list:
             description:
               - List of SSIDs to filter wireless profiles.
-              - MEDIUM-LOW PRIORITY - Only used if profile_name_list,
-                day_n_template_list, and site_list are not provided.
               - Retrieves all wireless profiles containing any of
                 the specified SSIDs.
               - Case-sensitive and must be exact matches.
@@ -151,8 +137,6 @@ options:
           ap_zone_list:
             description:
               - List of AP zones to filter wireless profiles.
-              - LOW PRIORITY - Only used if higher priority filters
-                are not provided.
               - Retrieves all wireless profiles containing any of
                 the specified AP zones.
               - Case-sensitive and must be exact matches.
@@ -163,8 +147,6 @@ options:
           feature_template_list:
             description:
               - List of feature templates to filter wireless profiles.
-              - LOWER PRIORITY - Only used if higher priority filters
-                are not provided.
               - Retrieves all wireless profiles containing any of
                 the specified feature templates.
               - Case-sensitive and must be exact matches.
@@ -176,8 +158,6 @@ options:
           additional_interface_list:
             description:
               - List of additional interfaces to filter wireless profiles.
-              - LOWEST PRIORITY - Only used if all other filters
-                are not provided.
               - Retrieves all wireless profiles containing any of
                 the specified additional interfaces.
               - Case-sensitive and must be exact matches.
@@ -477,9 +457,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         self.log("Initialized NetworkProfileWirelessPlaybookGenerator class instance.", "DEBUG")
         self.log(self.module_schema, "DEBUG")
 
-        # Initialize generate_all_configurations as class-level parameter
-        self.generate_all_configurations = False
-
     def validate_input(self):
         """
         This function performs comprehensive validation of input configuration parameters
@@ -506,7 +483,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             self.config = {"generate_all_configurations": True}
             self.validated_config = self.config
             self.msg = (
-                "Config not provided. Defaulting to generate_all_configurations=True "
+                "Config not provided. Defaulting to generate all configurations "
                 "for complete wireless profile discovery."
             )
             self.log(self.msg, "INFO")
@@ -523,11 +500,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             return self
 
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
             "global_filters": {
                 "type": "dict",
                 "required": False
@@ -537,16 +509,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
-        if valid_temp.get("generate_all_configurations"):
-            self.msg = (
-                "generate_all_configurations cannot be used when config is provided. "
-                "Omit config to generate all wireless profile configurations."
-            )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        if not valid_temp.get("global_filters"):
+        if not valid_temp.get("global_filters", False):
             self.msg = (
                 "Validation failed: global_filters is required when config is provided."
             )
@@ -584,21 +547,38 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
+            for filter_index, filter_key in enumerate(filter_keys, start=1):
+                self.log(
+                    f"Validating filter {filter_index}/{len(filter_keys)}: "
+                    f"'{filter_key}'. Checking type and removing duplicates.",
+                    "DEBUG"
+                )
+
+                filter_value = global_filters.get(filter_key)
+                if not isinstance(filter_value, list) or not filter_value:
+                    self.msg = (
+                        f"Filter '{filter_key}' must be a non-empty list of strings. "
+                        f"Invalid value: {filter_value}. Please provide valid filter values."
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                # Remove the duplicate values from the filter list if any and maintain the order of the list
+                valid_temp["global_filters"][filter_key] = list(dict.fromkeys(filter_value))
+
         # Set validated configuration and return success
         self.validated_config = valid_temp
 
         self.msg = (
             "Successfully validated configuration for network profile wireless "
-            "playbook generation. Validated configuration: {0}".format(str(valid_temp))
+            f"playbook generation. Validated configuration: {str(valid_temp)}"
         )
 
         self.log(
-            "Input validation completed successfully. generate_all: {0}, "
-            "has_global_filters: {1}, file_mode: {2}".format(
-                bool(valid_temp.get("generate_all_configurations")),
-                bool(valid_temp.get("global_filters")),
-                self.params.get("file_mode", "overwrite")
-            ),
+            "Input validation completed successfully. "
+            f"has_global_filters: {bool(valid_temp.get('global_filters'))}, "
+            f"file_mode: {self.params.get('file_mode', 'overwrite')}",
             "INFO"
         )
 
@@ -851,14 +831,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                             self.have.setdefault("wireless_profile_info", {})[
                                 profile_id
                             ] = profile_info
-                            self.log(
-                                f"Profile {profile_index}/{len(profile_names)} '{profile}' "
-                                "not found in wireless_profile_list with "
-                                f"{len(self.have['wireless_profile_list'])} profiles. "
-                                "Adding to non_existing_profiles list for batch "
-                                "error reporting.",
-                                "WARNING"
-                            )
                         else:
                             self.log(
                                 f"Profile ID not found for profile '{profile}' despite existence "
@@ -1184,7 +1156,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         if profile_names and isinstance(profile_names, list):
             self.log(
-                f"Applying HIGHEST PRIORITY filter: profile_name_list with {len(profile_names)} profile(s): "
+                f"Applying filter: profile_name_list with {len(profile_names)} profile(s): "
                 f"{profile_names}. Matching against wireless_profile_names with "
                 f"{len(self.have.get('wireless_profile_names', []))} cached profile(s). "
                 "Processing only profiles present in both lists.",
@@ -1237,9 +1209,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "types due to hierarchical priority.",
                 "INFO"
             )
-        elif day_n_templates and isinstance(day_n_templates, list):
+
+        if day_n_templates and isinstance(day_n_templates, list):
             self.log(
-                "Applying SECOND PRIORITY filter: day_n_template_list "
+                "Applying filter: day_n_template_list "
                 f"with {len(day_n_templates)} template(s): "
                 f"{len(day_n_templates)}. Matching against wireless_profile_templates "
                 f"with {len(self.have.get('wireless_profile_templates', {}))} cached profile(s). "
@@ -1319,9 +1292,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "filter types due to hierarchical priority.",
                 "INFO"
             )
-        elif site_list and isinstance(site_list, list):
+
+        if site_list and isinstance(site_list, list):
             self.log(
-                "Applying THIRD PRIORITY filter: site_list with "
+                "Applying filter: site_list with "
                 f"{len(site_list)} site(s): {site_list}. "
                 "Matching against wireless_profile_sites with "
                 f"{len(self.have.get('wireless_profile_sites', {}))} cached profile(s). "
@@ -1400,9 +1374,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "types due to hierarchical priority.",
                 "INFO"
             )
-        elif ssid_list and isinstance(ssid_list, list):
+
+        if ssid_list and isinstance(ssid_list, list):
             self.log(
-                "Applying FOURTH PRIORITY filter: ssid_list with "
+                "Applying filter: ssid_list with "
                 f"{len(ssid_list)} SSID(s): {ssid_list}. "
                 "Matching against wireless_profile_info ssidDetails "
                 f"with {len(self.have.get('wireless_profile_info', {}))} cached "
@@ -1486,9 +1461,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "types due to hierarchical priority.",
                 "INFO"
             )
-        elif ap_zone_list and isinstance(ap_zone_list, list):
+
+        if ap_zone_list and isinstance(ap_zone_list, list):
             self.log(
-                f"Applying FIFTH PRIORITY filter: ap_zone_list with {len(ap_zone_list)} "
+                f"Applying filter: ap_zone_list with {len(ap_zone_list)} "
                 f"AP zone(s): {ap_zone_list}. "
                 "Matching against wireless_profile_info apZones with "
                 f"{len(self.have.get('wireless_profile_info', {}))} cached profile(s). "
@@ -1572,9 +1548,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "types due to hierarchical priority.",
                 "INFO"
             )
-        elif feature_template_list and isinstance(feature_template_list, list):
+
+        if feature_template_list and isinstance(feature_template_list, list):
             self.log(
-                f"Applying SIXTH PRIORITY filter: feature_template_list "
+                f"Applying filter: feature_template_list "
                 f"with {len(feature_template_list)} template(s): "
                 f"{feature_template_list}. Matching against wireless_profile_info featureTemplates "
                 f"with {len(self.have.get('wireless_profile_info', {}))} cached "
@@ -1661,9 +1638,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "remaining filter types due to hierarchical priority.",
                 "INFO"
             )
-        elif additional_interface_list and isinstance(additional_interface_list, list):
+
+        if additional_interface_list and isinstance(additional_interface_list, list):
             self.log(
-                f"Applying LOWEST PRIORITY filter: additional_interface_list with {len(additional_interface_list)} "
+                f"Applying filter: additional_interface_list with {len(additional_interface_list)} "
                 f"interface(s): {additional_interface_list}. Matching against wireless_profile_info "
                 f"additionalInterfaces with {len(self.have.get('wireless_profile_info', {}))} "
                 "cached profile(s). Processing profiles "
@@ -1748,12 +1726,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 f"Final configurations collected: {len(final_list)}. All filter "
                 "types processed.",
                 "INFO"
-            )
-        else:
-            self.log(
-                "No specific global filters provided or no filters matched expected list "
-                "types. No filter-based processing performed. Filters received: {global_filters}",
-                "WARNING"
             )
 
         if not final_list:
@@ -2101,9 +2073,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         Args:
             yaml_config_generator (dict): Configuration parameters containing:
-                                        - generate_all_configurations (bool, optional):
-                                        Auto-discovery mode flag enabling complete
-                                        infrastructure extraction
                                         - global_filters (dict, optional): Filter
                                         criteria with profile_name_list,
                                         day_n_template_list, site_list, ssid_list,
@@ -2130,10 +2099,10 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         )
 
         # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        if generate_all:
+        global_filters = yaml_config_generator.get("global_filters", False)
+        if not global_filters:
             self.log(
-                "Auto-discovery mode enabled (generate_all_configurations=True). Will "
+                "Auto-discovery mode enabled to generate all configurations. Will "
                 "extract all wireless profiles with CLI templates, site assignments, "
                 "SSIDs, AP zones, feature templates, and additional interfaces without "
                 "filter restrictions for complete network wireless profile configuration.",
@@ -2141,7 +2110,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             )
         else:
             self.log(
-                "Targeted extraction mode (generate_all_configurations=False). Will "
+                "Targeted extraction mode (global_filters provided). Will "
                 "apply provided global filters for selective profile and component "
                 "retrieval based on filter criteria.",
                 "DEBUG"
@@ -2189,7 +2158,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
         # Set empty filters to retrieve everything
         global_filters = {}
         final_list = []
-        if generate_all:
+        if not global_filters:
             self.log(
                 "Auto-discovery mode: Extracting all wireless profiles from cached "
                 f"wireless_profile_names with {len(self.have.get('wireless_profile_names', []))} "
@@ -2397,7 +2366,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             )
             if yaml_config_generator.get("global_filters"):
                 self.log(
-                    "Warning: generate_all_configurations is False but global_filters "
+                    "Warning: global_filters "
                     "provided. This is expected for targeted extraction. Filters will be "
                     "applied to retrieve matching profiles.",
                     "DEBUG"
@@ -2431,13 +2400,13 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 self.log(
                     "No global_filters provided in targeted extraction mode. No profiles "
                     "will be collected. Verify configuration includes either "
-                    "generate_all_configurations=True or global_filters.",
+                    "generate all configuration or global_filters.",
                     "WARNING"
                 )
 
         if not final_list:
             self.log(
-                f"No configurations retrieved after processing. Auto-discovery mode: {generate_all}, "
+                f"No configurations retrieved after processing. "
                 f"Global filters provided: {bool(yaml_config_generator.get('global_filters'))}. "
                 "All filters may have excluded available "
                 "profiles or no profiles exist in Catalyst Center.",
@@ -2489,7 +2458,7 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             self.log(
                 "YAML configuration generation completed successfully. Summary - "
                 f"File: {file_path}, Profiles: {len(final_list)}, "
-                f"Auto-discovery: {generate_all}. Operation result set "
+                "Auto-discovery: generate all configurations. Operation result set "
                 "to 'success'.",
                 "INFO"
             )
@@ -3139,8 +3108,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         Args:
             config (dict): Configuration data containing:
-                        - generate_all_configurations (bool, optional): Auto-discovery
-                            mode flag for complete infrastructure extraction
                         - global_filters (dict, optional): Filter criteria with
                             profile_name_list, day_n_template_list, site_list,
                             ssid_list, ap_zone_list, feature_template_list,
@@ -3213,8 +3180,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         Args:
             config (dict): Configuration data containing:
-                        - generate_all_configurations (bool, optional): Auto-discovery
-                            mode flag enabling complete profile collection
                         - global_filters (dict, optional): Filter criteria with
                             profile_name_list, day_n_template_list, site_list, ssid_list,
                             ap_zone_list, feature_template_list, additional_interface_list
@@ -3248,13 +3213,14 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
 
         self.log(
             "Configuration received with type verification passed. Checking for "
-            "generate_all_configurations flag to determine collection mode.",
+            "global_filters to determine collection mode.",
             "DEBUG"
         )
 
-        if config.get("generate_all_configurations", False):
+        global_filters = config.get("global_filters")
+        if global_filters is None:
             self.log(
-                "Auto-discovery mode enabled (generate_all_configurations=True). "
+                "Auto-discovery mode enabled to generate all configurations. "
                 "Collecting all wireless profile details without filter restrictions for "
                 "complete network wireless profile configuration extraction.",
                 "INFO"
@@ -3297,7 +3263,6 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
                 "DEBUG"
             )
 
-            global_filters = config.get("global_filters")
             if global_filters:
                 self.log(
                     f"Global filters provided: {global_filters}. Extracting filter criteria for profile "
