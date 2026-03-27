@@ -225,8 +225,8 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
-    # file_path omitted; module auto-generates a timestamped filename
-    # config omitted; module generates all supported components
+    # file_path omitted - module auto-generates a timestamped filename
+    # config omitted - generates all supported components
 
 - name: Generate inventory playbook for specific devices by IP address
   cisco.dnac.inventory_playbook_config_generator:
@@ -304,7 +304,7 @@ EXAMPLES = r"""
     file_path: "./inventory_combined_filters.yml"
     config:
       global_filters:
-        # OR logic; a device matching any filter is included
+        # OR logic - device matching ANY filter is included
         ip_address_list:
           - "10.195.225.40"
         hostname_list:
@@ -329,7 +329,7 @@ EXAMPLES = r"""
     config:
       component_specific_filters:
         device_details:
-          # AND logic; device must match both role and type
+          # AND filter - device must match BOTH role AND type
           role: "ACCESS"
           type: "NETWORK_DEVICE"
 
@@ -570,7 +570,23 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         return self
 
     def _validate_inventory_string_or_list(self, value, field_name):
-        """Return an error message if value is not a string or list of strings."""
+        """
+        Validate and auto-populate component-specific filters.
+
+        Checks key validity, validates each component block via
+        _validate_inventory_component_block, and auto-adds
+        components to components_list when filter blocks are
+        provided.
+
+        Args:
+            component_filters (dict): The
+                'component_specific_filters' dictionary from
+                the user's config input.
+
+        Returns:
+            str | None: Error message string if validation
+                fails, None on success.
+        """
         if isinstance(value, str):
             return None
 
