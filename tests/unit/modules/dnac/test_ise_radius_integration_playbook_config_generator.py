@@ -37,9 +37,6 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
     test_data = loadPlaybookData("ise_radius_integration_playbook_config_generator")
 
     # Load all playbook configurations
-    playbook_config_generate_all_configurations = test_data.get(
-        "playbook_config_generate_all_configurations"
-    )
     playbook_config_with_file_path = test_data.get("playbook_config_with_file_path")
     playbook_config_filter_by_server_type = test_data.get(
         "playbook_config_filter_by_server_type"
@@ -123,7 +120,7 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
-                config=self.playbook_config_generate_all_configurations,
+                file_path="/tmp/ise_radius_all_config.yaml",
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -154,6 +151,7 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/custom_ise_config.yaml",
                 config=self.playbook_config_with_file_path,
             )
         )
@@ -185,6 +183,7 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/ise_servers_only.yaml",
                 config=self.playbook_config_filter_by_server_type,
             )
         )
@@ -216,6 +215,7 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/specific_server.yaml",
                 config=self.playbook_config_filter_by_server_ip,
             )
         )
@@ -247,6 +247,7 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/ise_server_by_ip.yaml",
                 config=self.playbook_config_filter_by_both,
             )
         )
@@ -278,6 +279,7 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/no_filters.yaml",
                 config=self.playbook_config_no_filters,
             )
         )
@@ -309,6 +311,7 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="gathered",
+                file_path="/tmp/invalid_type.yaml",
                 config=self.playbook_config_invalid_server_type,
             )
         )

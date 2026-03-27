@@ -46,6 +46,8 @@ class TestTemplatePlaybookConfigGenerator(TestDnacModule):
     playbook_config_template_all_filters = test_data.get("playbook_config_template_all_filters")
     playbook_invalid_project_details = test_data.get("playbook_invalid_project_details")
     playbook_invalid_template_details = test_data.get("playbook_invalid_template_details")
+    playbook_config_empty_config = test_data.get("playbook_config_empty_config")
+    playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
 
     def setUp(self):
         super(TestTemplatePlaybookConfigGenerator, self).setUp()
@@ -128,6 +130,12 @@ class TestTemplatePlaybookConfigGenerator(TestDnacModule):
         elif "invalid_template_details" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
             ]
+        elif "empty_config" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+        elif "empty_component_specific_filters" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -334,3 +342,43 @@ class TestTemplatePlaybookConfigGenerator(TestDnacModule):
             config=self.playbook_invalid_template_details
         ))
         self.execute_module(changed=False, failed=True)
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_empty_config(self, mock_exists, mock_file):
+        mock_exists.return_value = True
+
+        set_module_args(dict(
+            dnac_host="1.1.1.1",
+            dnac_username="dummy",
+            dnac_password="dummy",
+            dnac_version="2.3.7.9",
+            dnac_log=True,
+            state="gathered",
+            config=self.playbook_config_empty_config
+        ))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Configuration cannot be an empty dictionary.",
+            str(result.get("msg")),
+        )
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_empty_component_specific_filters(self, mock_exists, mock_file):
+        mock_exists.return_value = True
+
+        set_module_args(dict(
+            dnac_host="1.1.1.1",
+            dnac_username="dummy",
+            dnac_password="dummy",
+            dnac_version="2.3.7.9",
+            dnac_log=True,
+            state="gathered",
+            config=self.playbook_config_empty_component_specific_filters
+        ))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Invalid parameters in playbook config: 'component_specific_filters' is provided but empty.",
+            str(result.get("msg")),
+        )

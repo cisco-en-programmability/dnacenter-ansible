@@ -18,8 +18,10 @@
         dnac_log: true
         dnac_log_level: DEBUG
         state: gathered
+        file_path: "tmp/application_policy_generated.yml"
+        file_mode: append
         config:
           component_specific_filters:
-            components_list: ["application_policy", "queuing_profile"]
+            components_list: [queuing_profile]
             application_policy:
               policy_names_list: ["wired_traffic_policy"]

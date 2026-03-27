@@ -31,40 +31,45 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+      a default file name C(sda_fabric_devices_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(sda_fabric_devices_playbook_config_2026-01-30_19-16-01.yml).
+    type: str
+    required: false
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
+    required: false
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `sda_fabric_devices_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `sda_fabric_devices_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    type: list
-    elements: dict
-    required: true
+    - If config is not provided or is empty, all configurations for all fabric sites and devices will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to True, automatically generates YAML configurations for all fabric sites and all supported features.
-          - This mode discovers all SDA fabric sites in Cisco Catalyst Center and extracts all fabric device configurations.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - Useful for complete infrastructure discovery and documentation.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name C(sda_fabric_devices_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(sda_fabric_devices_playbook_config_2026-01-30_19-16-01.yml).
-        type: str
-        required: false
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
           file.
         - If "components_list" is specified, only those components are included,
           regardless of other filters.
+        - If filters for specific components (e.g., fabric_devices) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided when config is specified.
         type: dict
         suboptions:
           components_list:
@@ -172,8 +177,7 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          - generate_all_configurations: true
+        # No config provided - generates all configurations
 
 # Example 2: Generate all configurations with custom file path
 - name: Generate complete SDA fabric devices configuration with custom filename
@@ -197,9 +201,9 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
-        config:
-          - file_path: "/tmp/complete_sda_fabric_devices_config.yaml"
-            generate_all_configurations: true
+        file_path: "/tmp/complete_sda_fabric_devices_config.yaml"
+        file_mode: "overwrite"
+        # No config provided - generates all configurations
 
 # Example 3: Generate fabric device configurations for a specific fabric site
 - name: Generate fabric device configurations for one fabric site
@@ -223,12 +227,13 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/san_jose_fabric_devices.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/san_jose_fabric_devices.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/USA/SAN-JOSE"
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              fabric_name: "Global/USA/SAN-JOSE"
 
 # Example 4: Generate configuration for devices with specific roles in a fabric site
 - name: Generate configuration for border and control plane devices
@@ -252,13 +257,14 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/border_and_cp_devices.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/border_and_cp_devices.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/USA/SAN-JOSE"
-                device_roles: ["BORDER_NODE", "CONTROL_PLANE_NODE"]
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              fabric_name: "Global/USA/SAN-JOSE"
+              device_roles: ["BORDER_NODE", "CONTROL_PLANE_NODE"]
 
 # Example 5: Generate configuration for a specific device in a fabric site
 - name: Generate configuration for a specific fabric device
@@ -282,23 +288,24 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/specific_fabric_device.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/specific_fabric_device.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/USA/SAN-JOSE"
-                device_ip: "10.0.0.1"
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              fabric_name: "Global/USA/SAN-JOSE"
+              device_ip: "10.0.0.1"
 
-# Example 6: Generate multiple configuration files in a single playbook run
-- name: Generate multiple SDA fabric device configuration files
+# Example 6: Auto-populate components_list from component filters
+- name: Generate configuration with auto-populated components_list
   hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
-    - name: Generate multiple SDA fabric device configurations
+    - name: Export fabric devices without explicit components_list
       cisco.dnac.sda_fabric_devices_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -312,20 +319,45 @@ EXAMPLES = r"""
         dnac_log_append: false
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: gathered
+        file_path: "/tmp/san_jose_fabric.yaml"
+        file_mode: "overwrite"
         config:
-          - file_path: "/tmp/all_fabric_devices.yaml"
-            generate_all_configurations: true
-          - file_path: "/tmp/san_jose_only.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/USA/SAN-JOSE"
-          - file_path: "/tmp/bangalore_border_devices.yaml"
-            component_specific_filters:
-              components_list: ["fabric_devices"]
-              fabric_devices:
-                fabric_name: "Global/India/Bangalore"
-                device_roles: ["BORDER_NODE"]
+          component_specific_filters:
+            # No components_list specified, but fabric_devices filters are provided
+            # The 'fabric_devices' component will be automatically added to components_list
+            fabric_devices:
+              fabric_name: "Global/USA/SAN-JOSE"
+
+# Example 7: Generate configuration with append mode
+- name: Generate and append SDA fabric device configuration
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Append fabric device configurations to existing file
+      cisco.dnac.sda_fabric_devices_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        file_path: "/tmp/all_fabric_devices.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              fabric_name: "Global/India/Bangalore"
+              device_roles: ["BORDER_NODE"]
 """
 
 RETURN = r"""
@@ -374,7 +406,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 )
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 import time
 
@@ -464,50 +495,42 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Description:
             Validates config against expected schema and sets validation status.
+            If config is not provided or empty, treats it as generate_all_configurations mode.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
+        # Check if configuration is available or empty - if not provided or empty, treat as generate_all
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "WARNING")
-            self.log("Exiting validate_input method - no config provided", "DEBUG")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        self.log(f"Configuration to validate: {len(self.config)} item(s)", "DEBUG")
-
-        # Expected schema for configuration parameters
+        # Expected schema for configuration parameters (no file_path, file_mode, or generate_all_configurations)
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False,
-            },
-            "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
         }
-        self.log("Expected schema for validation defined", "DEBUG")
 
         # Validate params
-        self.log("Validating configuration parameters against schema", "DEBUG")
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        self.log("Validating configuration against schema", "DEBUG")
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
-        if invalid_params:
-            self.msg = f"Invalid parameters in playbook: {invalid_params}"
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.log("Exiting validate_input method - validation failed", "DEBUG")
-            return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.log(
-            f"Successfully validated {len(valid_temp)} configuration item(s)", "INFO"
+        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
+            str(valid_temp)
         )
-        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {str(valid_temp)}"
         self.set_operation_result("success", False, self.msg, "INFO")
-        self.log("Exiting validate_input method - validation successful", "DEBUG")
         return self
 
     def get_transit_id_to_name_mapping(self):
@@ -2681,7 +2704,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.want = want
         self.log(f"Desired State (want): {str(self.want)}", "DEBUG")
-        self.msg = "Successfully collected all parameters from the playbook for Wireless Design operations."
+        self.msg = "Successfully collected all parameters from the playbook for SDA Fabric Devices operations."
         self.status = "success"
         self.log(self.msg, "INFO")
         self.log("Exiting get_want method", "DEBUG")
@@ -2778,7 +2801,14 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -2834,26 +2864,14 @@ def main():
         "Validating input parameters", "DEBUG"
     )
     ccc_sda_fabric_devices_playbook_generator.validate_input().check_return_status()
-    config = ccc_sda_fabric_devices_playbook_generator.validated_config
-    ccc_sda_fabric_devices_playbook_generator.log(
-        f"Processing {len(config)} validated configuration item(s)", "INFO"
-    )
 
-    # Iterate over the validated configuration parameters
-    for idx, config_item in enumerate(
-        ccc_sda_fabric_devices_playbook_generator.validated_config, 1
-    ):
-        ccc_sda_fabric_devices_playbook_generator.log(
-            f"Processing configuration item {idx}/{len(ccc_sda_fabric_devices_playbook_generator.validated_config)}",
-            "DEBUG",
-        )
-        ccc_sda_fabric_devices_playbook_generator.reset_values()
-        ccc_sda_fabric_devices_playbook_generator.get_want(
-            config_item, state
-        ).check_return_status()
-        ccc_sda_fabric_devices_playbook_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+    config = ccc_sda_fabric_devices_playbook_generator.validated_config
+    ccc_sda_fabric_devices_playbook_generator.get_want(
+        config, state
+    ).check_return_status()
+    ccc_sda_fabric_devices_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     ccc_sda_fabric_devices_playbook_generator.log(
         "Module execution completed successfully", "INFO"

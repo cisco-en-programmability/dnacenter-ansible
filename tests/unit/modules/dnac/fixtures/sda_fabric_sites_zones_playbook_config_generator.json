@@ -1,13 +1,6 @@
 {
-  "playbook_config_generate_all_configurations": {
-    "generate_all_configurations": true
-  },
-  "playbook_config_fetch_specific_configurations": {
-    "generate_all_configurations": true,
-    "file_path": "/tmp/fb_sites.yaml"
-  },
+  "playbook_config_generate_all_configurations": null,
   "playbook_config_fabric_sites_only": {
-    "file_path": "demo.yml",
     "component_specific_filters": {
       "components_list": [
         "fabric_sites"
@@ -15,7 +8,6 @@
     }
   },
   "playbook_config_fabric_zones_only": {
-    "file_path": "demo.yml",
     "component_specific_filters": {
       "components_list": [
         "fabric_zones"
@@ -23,7 +15,6 @@
     }
   },
   "playbook_config_fabric_sites_and_zones": {
-    "file_path": "demo.yml",
     "component_specific_filters": {
       "components_list": [
         "fabric_sites",
@@ -32,7 +23,6 @@
     }
   },
   "playbook_config_fabric_sites_with_filters": {
-    "file_path": "demo.yml",
     "component_specific_filters": {
       "components_list": [
         "fabric_sites"
@@ -45,7 +35,6 @@
     }
   },
   "playbook_config_fabric_sites_with_multiple_filters": {
-    "file_path": "demo.yml",
     "component_specific_filters": {
       "components_list": [
         "fabric_sites"
@@ -61,7 +50,6 @@
     }
   },
   "playbook_config_fabric_zones_with_filters": {
-    "file_path": "demo.yml",
     "component_specific_filters": {
       "components_list": [
         "fabric_zones"
@@ -74,7 +62,6 @@
     }
   },
   "playbook_config_fabric_zones_with_multiple_filters": {
-    "file_path": "demo.yml",
     "component_specific_filters": {
       "components_list": [
         "fabric_zones"
@@ -97,7 +84,6 @@
     }
   },
   "playbook_config_empty_filters": {
-    "file_path": "demo.yml",
     "component_specific_filters": {
       "components_list": [
         "fabric_sites",
@@ -195,6 +181,10 @@
         }
       ]
     }
+  },
+  "playbook_config_empty_config": {},
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
   },
   "get_site_details": {
     "response": [

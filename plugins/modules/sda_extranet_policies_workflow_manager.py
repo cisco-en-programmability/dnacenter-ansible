@@ -54,6 +54,7 @@ options:
             delete).
           - Cannot be modified once set.
         type: str
+        required: true
       provider_virtual_network:
         description:
           - Specifies the Provider Virtual Network containing

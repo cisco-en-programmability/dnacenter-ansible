@@ -33,6 +33,10 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
     playbook_application_policy = test_data.get("playbook_application_policy")
     playbook_different_bandwidth = test_data.get("playbook_different_bandwidth")
     playbook_wireless_policy = test_data.get("playbook_wireless_policy")
+    playbook_top_level_file_path = test_data.get("playbook_top_level_file_path")
+    playbook_missing_component_specific_filters = test_data.get("playbook_missing_component_specific_filters")
+    playbook_nested_file_path_invalid = test_data.get("playbook_nested_file_path_invalid")
+    playbook_empty_config = test_data.get("playbook_empty_config")
 
     def setUp(self):
         super(TestDnacApplicationPolicyPlaybookGenerator, self).setUp()
@@ -59,7 +63,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
-        elif "playbook_application_policy" in self._testMethodName:
+        elif "playbook_application_policy" in self._testMethodName or "auto_components_list" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response1"),
                 self.test_data.get("response2"),
@@ -94,6 +98,47 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
                 self.test_data.get("response31"),
                 self.test_data.get("response32"),
                 self.test_data.get("response33")
+            ]
+        elif "without_config_defaults_generate_all" in self._testMethodName or "empty_config_defaults_generate_all" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("queuing_profile"),
+                self.test_data.get("response1"),
+                self.test_data.get("response2"),
+                self.test_data.get("response3"),
+                self.test_data.get("response4"),
+                self.test_data.get("response5"),
+                self.test_data.get("response6"),
+                self.test_data.get("response7"),
+                self.test_data.get("response8"),
+                self.test_data.get("response9"),
+                self.test_data.get("response10"),
+                self.test_data.get("response11"),
+                self.test_data.get("response12"),
+                self.test_data.get("response13"),
+                self.test_data.get("response14"),
+                self.test_data.get("response15"),
+                self.test_data.get("response16"),
+                self.test_data.get("response17"),
+                self.test_data.get("response18"),
+                self.test_data.get("response19"),
+                self.test_data.get("response20"),
+                self.test_data.get("response21"),
+                self.test_data.get("response22"),
+                self.test_data.get("response23"),
+                self.test_data.get("response24"),
+                self.test_data.get("response25"),
+                self.test_data.get("response26"),
+                self.test_data.get("response27"),
+                self.test_data.get("response28"),
+                self.test_data.get("response29"),
+                self.test_data.get("response30"),
+                self.test_data.get("response31"),
+                self.test_data.get("response32"),
+                self.test_data.get("response33")
+            ]
+        elif "top_level_file_path_success" in self._testMethodName or "file_mode_without_file_path" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("queuing_profile")
             ]
 
         elif "playbook_different_bandwidth" in self._testMethodName:
@@ -231,6 +276,123 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
+        self.assertEqual(
+            result.get("msg"),
+            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+        )
+
+    def test_application_policy_playbook_config_generator_top_level_file_path_success(self):
+        """Validate top-level file_path with component filters succeeds."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                file_path="/tmp/top_level_app_policy.yml",
+                config=self.playbook_top_level_file_path
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get("msg"),
+            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+        )
+
+    def test_application_policy_playbook_config_generator_without_config_defaults_generate_all_success(self):
+        """Validate omitted config defaults to generate_all_configurations=True."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                file_path="/tmp/default_generate_all_from_none.yml"
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get("msg"),
+            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+        )
+
+    def test_application_policy_playbook_config_generator_empty_config_defaults_generate_all_success(self):
+        """Validate empty config defaults to generate_all_configurations=True."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                file_path="/tmp/default_generate_all_from_empty.yml",
+                config=self.playbook_empty_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "'component_specific_filters' is mandatory when 'config' is provided as an empty dictionary."
+        )
+
+    def test_application_policy_playbook_config_generator_nested_file_path_validation_failure(self):
+        """Validate config.file_path is rejected."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                config=self.playbook_nested_file_path_invalid
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("top-level module parameters", result.get("msg"))
+
+    def test_application_policy_playbook_config_generator_missing_component_specific_filters_failure(self):
+        """Validate component_specific_filters is required for non-generate-all mode."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                config=self.playbook_missing_component_specific_filters
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("component_specific_filters", result.get("msg"))
+
+    def test_application_policy_playbook_config_generator_file_mode_without_file_path_success(self):
+        """Validate file_mode is ignored when file_path is absent."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                file_mode="append",
+                config=self.playbook_queuing_profile
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get("msg"),
             "YAML config generation succeeded for module 'application_policy_workflow_manager'."

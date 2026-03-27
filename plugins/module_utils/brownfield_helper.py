@@ -6,6 +6,7 @@
 
 from __future__ import absolute_import, division, print_function
 import datetime
+import hashlib
 import os
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,
@@ -599,6 +600,25 @@ class BrownFieldHelper:
                     "INFO",
                 )
 
+        # Remove duplicate components while preserving order
+        original_count = len(components_list)
+        components_list = list(dict.fromkeys(components_list))
+        duplicates_removed = original_count - len(components_list)
+
+        if duplicates_removed > 0:
+            self.log(
+                "Removed {0} duplicate component(s) from components_list. "
+                "Original count: {1}, After dedup: {2}".format(
+                    duplicates_removed, original_count, len(components_list)
+                ),
+                "DEBUG"
+            )
+        else:
+            self.log(
+                "No duplicate components found in components_list.",
+                "DEBUG"
+            )
+
         # Update the components_list in the config
         component_specific_filters["components_list"] = components_list
         self.log(
@@ -617,6 +637,166 @@ class BrownFieldHelper:
 
         self.log(
             f"Successfully validated components_list with {len(components_list)} component(s): {components_list}",
+            "INFO",
+        )
+
+    def deduplicate_component_filters(self, component_specific_filters):
+        """
+        Remove duplicate filter entries from each component's filter list
+        within component_specific_filters.
+
+        Traverses each component in components_list and deduplicates the
+        corresponding filter list by converting each filter dict to a
+        frozenset for comparison, preserving the original order.
+
+        Modifies component_specific_filters in-place.
+
+        Args:
+            component_specific_filters (dict): Dictionary containing component-specific filters.
+                Expected to have 'components_list' and component filter keys.
+
+        Returns:
+            None
+        """
+        self.log(
+            "Starting deduplication of filters in component_specific_filters.",
+            "INFO",
+        )
+
+        if not component_specific_filters:
+            self.log(
+                "No component_specific_filters provided, skipping deduplication.",
+                "DEBUG",
+            )
+            return
+
+        components_list = component_specific_filters.get("components_list")
+
+        if not components_list:
+            self.log(
+                "No components found in components_list, skipping deduplication.",
+                "DEBUG",
+            )
+            return
+
+        self.log(
+            "Components list for deduplication: {0}".format(components_list),
+            "DEBUG",
+        )
+
+        for component in components_list:
+            self.log(
+                "Processing deduplication for component: '{0}'".format(component),
+                "DEBUG",
+            )
+
+            filters = component_specific_filters.get(component)
+
+            if filters is None:
+                self.log(
+                    "Skipping deduplication for component '{0}' — no filters provided. "
+                    "Continuing to next component.".format(component),
+                    "DEBUG",
+                )
+                continue
+
+            if not isinstance(filters, list):
+                self.log(
+                    "Filters for component '{0}' are not a list, got type '{1}'. Skipping.".format(
+                        component, type(filters).__name__
+                    ),
+                    "DEBUG",
+                )
+                continue
+
+            if not filters:
+                self.log(
+                    "Filters list for component '{0}' is empty, skipping.".format(component),
+                    "DEBUG",
+                )
+                continue
+
+            self.log(
+                "Found {0} filter(s) for component '{1}': {2}".format(
+                    len(filters), component, filters
+                ),
+                "DEBUG",
+            )
+
+            seen = set()
+            unique_filters = []
+            self.log(
+                "Starting deduplication loop for {0} filter(s) in component '{1}'.".format(
+                    len(filters), component
+                ),
+                "DEBUG",
+            )
+
+            for index, filter_entry in enumerate(filters, start=1):
+                self.log(
+                    "Evaluating filter entry {0}/{1} for component '{2}': {3}".format(
+                        index, len(filters), component, filter_entry
+                    ),
+                    "DEBUG",
+                )
+
+                if isinstance(filter_entry, dict):
+                    key = frozenset(
+                        (k, v if not isinstance(v, list) else tuple(v))
+                        for k, v in sorted(filter_entry.items())
+                    )
+                    self.log(
+                        "Generated dedup key for dict filter entry [{0}]: {1}".format(
+                            index, key
+                        ),
+                        "DEBUG",
+                    )
+                else:
+                    key = filter_entry
+                    self.log(
+                        "Using raw value as dedup key for non-dict filter entry [{0}]: {1}".format(
+                            index, key
+                        ),
+                        "DEBUG",
+                    )
+
+                if key not in seen:
+                    seen.add(key)
+                    unique_filters.append(filter_entry)
+                    self.log(
+                        "Filter entry [{0}] for component '{1}' is unique, added to result.".format(
+                            index, component
+                        ),
+                        "DEBUG",
+                    )
+                else:
+                    self.log(
+                        "Skipping duplicate filter entry {0}/{1} in component '{2}': {3}. "
+                        "Already seen — continuing to next entry.".format(
+                            index, len(filters), component, filter_entry
+                        ),
+                        "DEBUG",
+                    )
+
+            duplicates_removed = len(filters) - len(unique_filters)
+            if duplicates_removed > 0:
+                component_specific_filters[component] = unique_filters
+                self.log(
+                    "Removed {0} duplicate filter(s) from component '{1}'. "
+                    "Original count: {2}, After dedup: {3}".format(
+                        duplicates_removed, component,
+                        len(filters), len(unique_filters)
+                    ),
+                    "INFO",
+                )
+            else:
+                self.log(
+                    "No duplicate filters found for component '{0}'.".format(component),
+                    "DEBUG",
+                )
+
+        self.log(
+            "Completed deduplication of filters in component_specific_filters.",
             "INFO",
         )
 
@@ -746,6 +926,21 @@ class BrownFieldHelper:
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        component_specific_filters = config_dict.get("component_specific_filters")
+        if component_specific_filters is None:
+            self.log(
+                "No 'component_specific_filters' provided in config; skipping validation.",
+                "DEBUG",
+            )
+        elif not component_specific_filters:
+            self.msg = (
+                "Invalid parameters in playbook config: 'component_specific_filters' "
+                "is provided but empty. Please provide at least one component filter "
+                "or remove 'component_specific_filters' from the configuration."
+            )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
@@ -995,7 +1190,7 @@ class BrownFieldHelper:
         )
 
     def yaml_config_generator(
-        self, yaml_config_generator, additional_header_comments=None
+        self, yaml_config_generator, additional_header_comments=None, dumper=OrderedDumper
     ):
         """
         Generates a YAML configuration file based on the provided parameters.
@@ -1003,7 +1198,7 @@ class BrownFieldHelper:
         and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
 
         Args:
-            yaml_config_generator (dict): Contains file_path, global_filters, and component_specific_filters.
+            yaml_config_generator (dict): Contains component_specific_filters and global_filters.
             additional_header_comments (list, optional): A list of additional comment lines to append after the
                                    standard header information. Each string in the list will be
                                    prefixed with "# " to maintain comment formatting. Defaults to None.
@@ -1023,13 +1218,14 @@ class BrownFieldHelper:
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
             self.log(
-                "Auto-discovery mode enabled - will process all devices and all features",
+                "Auto-discovery mode enabled - will process all the components",
                 "INFO",
             )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
 
-        file_path = yaml_config_generator.get("file_path")
+        # Get file_path and file_mode from self.params (top-level parameters)
+        file_path = self.params.get("file_path")
         if not file_path:
             self.log(
                 "No file_path provided by user, generating default filename", "DEBUG"
@@ -1038,8 +1234,7 @@ class BrownFieldHelper:
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
-
+        file_mode = self.params.get("file_mode", "overwrite")
         self.log(
             "YAML configuration file path determined: {0}, file_mode: {1}".format(
                 file_path, file_mode
@@ -1054,25 +1249,23 @@ class BrownFieldHelper:
                 "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
                 "INFO",
             )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
 
             # Set empty filters to retrieve everything
             global_filters = {}
             component_specific_filters = {}
         else:
-            # Use provided filters or default to empty
+            self.log(
+                "Normal mode: Using provided filters from input",
+                "DEBUG",
+            )
             global_filters = yaml_config_generator.get("global_filters") or {}
             component_specific_filters = (
                 yaml_config_generator.get("component_specific_filters") or {}
+            )
+            self.log(
+                f"Component specific filters initialized: {self.pprint(component_specific_filters)}, "
+                f"Global filters initialized: {self.pprint(global_filters)}",
+                "DEBUG",
             )
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
@@ -1084,13 +1277,6 @@ class BrownFieldHelper:
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
         )
-
-        # If components_list is empty, default to all supported components
-        if not components_list:
-            self.log(
-                "No components specified; processing all supported components.", "DEBUG"
-            )
-            components_list = list(module_supported_network_elements.keys())
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
@@ -1182,19 +1368,22 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
-        if self.write_dict_to_yaml(
+        file_written = self.write_dict_to_yaml(
             yaml_config_dict,
             file_path,
             file_mode,
             dumper=OrderedDumper,
             notes=additional_header_comments,
-        ):
+        )
+
+        if file_written:
             self.msg = {
                 "status": "success",
                 "message": "YAML configuration file generated successfully for module '{0}'".format(
                     self.module_name
                 ),
                 "file_path": file_path,
+                "file_mode": file_mode,
                 "components_processed": processed_count,
                 "components_skipped": skipped_count,
                 "configurations_count": len(final_config_list),
@@ -1212,11 +1401,27 @@ class BrownFieldHelper:
             )
         else:
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
+                "status": "ok",
+                "message": "YAML configuration file already up-to-date for module '{0}'. No changes written.".format(
                     self.module_name
-                ): {"file_path": file_path}
+                ),
+                "file_path": file_path,
+                "file_mode": file_mode,
+                "components_processed": processed_count,
+                "components_skipped": skipped_count,
+                "configurations_count": len(final_config_list),
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            self.set_operation_result("ok", False, self.msg, "INFO")
+
+            self.log(
+                "YAML configuration unchanged. File: {0}, Components: {1}/{2}, Configs: {3}".format(
+                    file_path,
+                    processed_count,
+                    len(components_list),
+                    len(final_config_list),
+                ),
+                "INFO",
+            )
 
         return self
 
@@ -1307,12 +1512,12 @@ class BrownFieldHelper:
             "#           {0}".format(title_text),
             eq_border,
             "#",
-            "#  Generated By            : {0}".format(generated_by),
+            "#  Generated by            : {0}".format(generated_by),
             "#  Generated from          : {0}".format(source_playbook),
-            "#  Generated On            : {0}".format(
+            "#  Generated on            : {0}".format(
                 datetime.datetime.now().strftime("%d %B %Y | %H:%M:%S")
             ),
-            "#  Target Module           : {0}".format(target_module),
+            "#  Target module           : {0}".format(target_module),
             "#  Catalyst Center IP      : {0}".format(catalyst_center_ip),
             "#  Catalyst Center Version : {0}".format(catalyst_center_version),
             eq_border,
@@ -1500,6 +1705,187 @@ class BrownFieldHelper:
             self.log("Failed to retrieve ansible command: {0}".format(str(e)), "DEBUG")
             return "Unknown"
 
+    def _get_last_yaml_document(self, file_path):
+        """
+        Extract the last YAML document's data from a multi-document YAML file.
+        Uses the '---' YAML document separator to split documents and parses only
+        the last one. Header comment lines are automatically ignored by the YAML parser.
+
+        Args:
+            file_path (str): Path to the multi-document YAML file.
+
+        Returns:
+            dict or None: The parsed data from the last YAML document, or None if
+                          the file is empty, doesn't exist, or parsing fails.
+        """
+        self.log(
+            "Attempting to extract last YAML document from '{0}'".format(file_path),
+            "DEBUG",
+        )
+
+        try:
+            if not os.path.isfile(file_path):
+                self.log(
+                    "File '{0}' does not exist, returning None".format(file_path),
+                    "DEBUG",
+                )
+                return None
+
+            with open(file_path, "r") as f:
+                content = f.read()
+
+            self.log(
+                "Successfully read file '{0}', content length: {1} characters".format(
+                    file_path, len(content)
+                ),
+                "DEBUG",
+            )
+
+            if not content.strip():
+                self.log(
+                    "File '{0}' is empty or contains only whitespace, returning None".format(file_path),
+                    "DEBUG",
+                )
+                return None
+
+            # Split by YAML document separator and take the last non-empty segment
+            documents = content.split("\n---\n")
+            self.log(
+                "File '{0}' split into {1} YAML document segment(s)".format(file_path, len(documents)),
+                "DEBUG",
+            )
+
+            last_segment = None
+            total_segments = len(documents)
+
+            for segment_number in range(total_segments, 0, -1):
+                segment = documents[segment_number - 1]
+                stripped = segment.strip()
+
+                self.log(
+                    "Checking segment {0}/{1}, "
+                    "empty: {2}, length: {3} characters".format(
+                        segment_number, total_segments,
+                        not bool(stripped), len(stripped)
+                    ),
+                    "DEBUG",
+                )
+
+                if stripped:
+                    self.log(
+                        "Found last non-empty YAML segment at position {0}".format(segment_number),
+                        "DEBUG",
+                    )
+                    last_segment = stripped
+                    break
+
+                self.log(
+                    "Segment {0} is empty, continuing to next".format(segment_number),
+                    "DEBUG",
+                )
+
+            if last_segment is None:
+                self.log(
+                    "No non-empty YAML segment found in '{0}', returning None".format(file_path),
+                    "DEBUG",
+                )
+                return None
+
+            self.log(
+                "Parsing last YAML segment from '{0}'".format(file_path),
+                "DEBUG",
+            )
+
+            last_doc = yaml.safe_load(last_segment)
+
+            self.log(
+                "Extracted last YAML document from '{0}', content: {1}"
+                .format(file_path, last_doc),
+                "DEBUG",
+            )
+
+            return last_doc
+
+        except Exception as e:
+            self.log(
+                "Failed to extract last YAML document from '{0}': {1}".format(
+                    file_path, str(e)
+                ),
+                "DEBUG",
+            )
+            return None
+
+    def _compute_content_hash(self, content):
+        """
+        Compute a SHA256 hash of file content after stripping volatile header
+        fields (timestamp, playbook path) so that two files generated from the
+        same config at different times produce an identical hash.
+
+        Uses streaming hash updates per line instead of building a full
+        normalized string in memory, which is significantly faster and more
+        memory-efficient for large configuration files.
+
+        Args:
+            content (str): Raw file content including header comments.
+
+        Returns:
+            str: Hex-encoded SHA256 digest of the normalized content.
+        """
+        self.log(
+            "Starting SHA256 content hash computation. "
+            "Input content length: {0} characters.".format(len(content)),
+            "DEBUG",
+        )
+
+        lines = content.splitlines()
+        total_lines = len(lines)
+
+        self.log(
+            "Content split into {0} lines for hash processing.".format(total_lines),
+            "DEBUG",
+        )
+
+        hasher = hashlib.sha256()
+        skipped_lines = 0
+        hashed_lines = 0
+
+        for index, line in enumerate(lines, start=1):
+            stripped = line.strip()
+
+            self.log(
+                "Processing line {0}/{1}: '{2}'".format(index, total_lines, stripped),
+                "DEBUG",
+            )
+
+            # Skip lines that change every run
+            if stripped.startswith("#  Generated on") or stripped.startswith("#  Generated from"):
+                self.log(
+                    "Line {0}: Skipping volatile header line: '{1}'".format(index, stripped),
+                    "DEBUG",
+                )
+                skipped_lines += 1
+                continue
+
+            hasher.update(line.encode("utf-8"))
+            hasher.update(b"\n")
+            hashed_lines += 1
+
+            self.log(
+                "Line {0}: Hashed successfully.".format(index),
+                "DEBUG",
+            )
+
+        digest = hasher.hexdigest()
+
+        self.log(
+            "SHA256 content hash computation completed. "
+            "Total lines: {0}, Lines hashed: {1}, Volatile lines skipped: {2}, "
+            "Computed hash: {3}".format(total_lines, hashed_lines, skipped_lines, digest),
+            "DEBUG",
+        )
+
+        return digest
+
     def write_dict_to_yaml(
         self,
         data_dict,
@@ -1510,6 +1896,13 @@ class BrownFieldHelper:
     ):
         """
         Converts a dictionary to YAML format and writes it to a specified file path.
+        Supports idempotent behavior: skips writing if the content is unchanged.
+
+        For overwrite mode: compares the full file content (excluding volatile header
+        fields like timestamp) against the new content.
+        For append mode: compares the data payload against the last YAML document
+        already present in the file.
+
         Args:
             data_dict (dict): The dictionary to convert to YAML format.
             file_path (str): The path where the YAML file will be written.
@@ -1519,7 +1912,7 @@ class BrownFieldHelper:
                                    prefixed with "# " to maintain comment formatting. Defaults to None.
             dumper: The YAML dumper class to use for serialization (default is OrderedDumper).
         Returns:
-            bool: True if the YAML file was successfully written, False otherwise.
+            bool: True if the file was written (content changed), False if skipped (no change).
         """
 
         self.log(
@@ -1528,9 +1921,6 @@ class BrownFieldHelper:
         )
         try:
             self.log("Starting conversion of dictionary to YAML format.", "INFO")
-            # yaml_content = yaml.dump(
-            #     data_dict, Dumper=OrderedDumper, default_flow_style=False
-            # )
             yaml_content = yaml.dump(
                 data_dict,
                 Dumper=dumper,
@@ -1546,15 +1936,103 @@ class BrownFieldHelper:
                 )
                 self.fail_and_exit(self.msg)
 
-            if file_mode == "overwrite":
-                open_mode = "w"
-            else:
-                open_mode = "a"
-
             header_comments = self.add_header_comments(notes=notes)
             yaml_content = header_comments + "\n---\n" + yaml_content
 
             self.log("Dictionary successfully converted to YAML format.", "DEBUG")
+
+            # --- Idempotency check ---
+            if file_mode == "overwrite" and os.path.isfile(file_path):
+                self.log(
+                    "Overwrite mode: Existing file found at '{0}'. "
+                    "Starting idempotency check by comparing content hashes.".format(file_path),
+                    "DEBUG",
+                )
+
+                try:
+                    with open(file_path, "r") as f:
+                        existing_content = f.read()
+
+                    self.log(
+                        "Read existing file '{0}' for comparison, length: {1} characters.".format(
+                            file_path, len(existing_content)
+                        ),
+                        "DEBUG",
+                    )
+
+                    existing_hash = self._compute_content_hash(existing_content)
+                    new_hash = self._compute_content_hash(yaml_content)
+
+                    self.log(
+                        "Content hash comparison for '{0}': existing_hash={1}, new_hash={2}".format(
+                            file_path, existing_hash, new_hash
+                        ),
+                        "DEBUG",
+                    )
+
+                    if existing_hash == new_hash:
+                        self.log(
+                            "Overwrite mode: File '{0}' already has identical content (hash match). "
+                            "Skipping write.".format(file_path),
+                            "INFO",
+                        )
+                        return False
+
+                    self.log(
+                        "Overwrite mode: Content hashes differ for '{0}'. Proceeding with write.".format(file_path),
+                        "DEBUG",
+                    )
+
+                except Exception as e:
+                    self.log(
+                        "Could not read existing file for comparison, proceeding with write: {0}".format(str(e)),
+                        "DEBUG",
+                    )
+
+            elif file_mode == "overwrite":
+                self.log(
+                    "Overwrite mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
+                    "DEBUG",
+                )
+
+            if file_mode == "append" and os.path.isfile(file_path):
+                self.log(
+                    "Append mode: Existing file found at '{0}'. "
+                    "Starting idempotency check by comparing last YAML document.".format(file_path),
+                    "DEBUG",
+                )
+
+                last_doc = self._get_last_yaml_document(file_path)
+
+                self.log(
+                    "Append mode: Last document from '{0}': {1}".format(file_path, last_doc),
+                    "DEBUG",
+                )
+
+                if last_doc is not None and last_doc == data_dict:
+                    self.log(
+                        "Append mode: Last document in '{0}' already matches the new data. "
+                        "Skipping write.".format(file_path),
+                        "INFO",
+                    )
+                    return False
+
+                self.log(
+                    "Append mode: Last document differs from new data for '{0}'. Proceeding with append.".format(file_path),
+                    "DEBUG",
+                )
+
+            elif file_mode == "append":
+                self.log(
+                    "Append mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
+                    "DEBUG",
+                )
+
+            # --- Write the file ---
+            if file_mode == "overwrite":
+                open_mode = "w"
+            else:
+                open_mode = "a"
 
             # Ensure the directory exists
             self.ensure_directory_exists(file_path)

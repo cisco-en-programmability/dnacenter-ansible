@@ -1,12 +1,13 @@
 ---
-- name: Generate SDA Fabric Transits Playbook Config with Various Filtering Scenarios
+- name: Generates the SDA Fabric Transits in Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
-    - name: Generate SDA Fabric Transits Playbook Config
+    # Example 1: Generate all configurations with default file path
+    - name: Generate the playbook config for all SDA Fabric Transits in Cisco Catalyst Center
       cisco.dnac.sda_fabric_transits_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -18,68 +19,128 @@
         dnac_log_level: DEBUG
         dnac_log: true
         state: gathered
+        # No config provided - generates all configurations
+
+    # Example 2: Generate all configurations with custom file path
+    - name: Generate the playbook config for all SDA Fabric Transits in Cisco Catalyst Center
+      cisco.dnac.sda_fabric_transits_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/all_configurations.yml"
+        file_mode: "overwrite"
+
+    # Example 3: Generate all SDA Fabric Transits with custom file path
+    - name: Generate the playbook config for all SDA Fabric Transits in Cisco Catalyst Center
+      cisco.dnac.sda_fabric_transits_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/all_sda_fabric_transits.yml"
+        file_mode: "append"
         config:
-          # ====================================================================================
-          # Scenario 1: Fabric Transits - Fetch All Configurations
-          # Tests behavior when no filters are provided
-          # ====================================================================================
-          generate_all_configurations: true
-          # ================================================
-          # Scenario 2: Fabric Transits - Component Specific Filters
-          # Tests behavior when component specific filters are provided
-          # ================================================
-          # file_path: "demo.yml"
-          # file_mode: "overwrite"
-          # component_specific_filters:
-          #   components_list: ["sda_fabric_transits"]
-          # ================================================
-          # Scenario 3: Fabric Transits - Component Specific Filters with Transit Type
-          # Tests behavior when component specific filters with transit type are provided
-          # ================================================
-          # file_path: "demo1.yml"
-          # file_mode: "overwrite"
-          # component_specific_filters:
-          #   components_list: ["sda_fabric_transits"]
-          #   sda_fabric_transits:
-          #     - transit_type: "IP_BASED_TRANSIT"
-          # ================================================
-          # Scenario 4: Fabric Transits - Component Specific Filters with Transit Name
-          # Tests behavior when component specific filters with transit name are provided
-          # ================================================
-          # file_path: "demo1.yml"
-          # file_mode: "append"
-          # component_specific_filters:
-          #   components_list: ["sda_fabric_transits"]
-          #   sda_fabric_transits:
-          #     - name: "sample_transit3"
-          # ================================================
-          # Scenario 5: Fabric Transits - Component Specific Filters with Transit Name and Type
-          # Tests behavior when component specific filters with transit name and type are provided
-          # ================================================
-          # file_path: "demo1.yml"
-          # component_specific_filters:
-          #   components_list: ["sda_fabric_transits"]
-          #   sda_fabric_transits:
-          #     - name: "sample_transit2"
-          #       transit_type: "IP_BASED_TRANSIT"
-          # ================================================
-          # Scenario 6: Fabric Transits - Component Specific Filters with Transit Type SDA_LISP_PUB_SUB_TRANSIT
-          # Tests behavior when component specific filters with transit type SDA_LISP_PUB_SUB_TRANSIT are provided
-          # ================================================
-          # file_path: "demo1.yml"
-          # component_specific_filters:
-          #   components_list: ["sda_fabric_transits"]
-          #   sda_fabric_transits:
-          #     - transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
-          # ================================================
-          # Scenario 7: Fabric Transits - Component Specific Filters with Transit Type SDA_LISP_BGP_TRANSIT
-          # Tests behavior when component specific filters with transit type SDA_LISP_BGP_TRANSIT are provided
-          # ================================================
-          # file_path: "demo2.yml"
-          # component_specific_filters:
-          #   components_list: ["sda_fabric_transits"]
-          #   sda_fabric_transits:
-          #     - transit_type: "SDA_LISP_BGP_TRANSIT"
+          component_specific_filters:
+            components_list: ["sda_fabric_transits"]
+
+    # Example 4: Generate SDA Fabric Transits using transit type filter
+    - name: Generate the playbook config for SDA Fabric Transits with transit type
+      cisco.dnac.sda_fabric_transits_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/transits_by_type.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["sda_fabric_transits"] # This line is optional
+            sda_fabric_transits:
+              - transit_type: "IP_BASED_TRANSIT"
+
+    # Example 5: Generate SDA Fabric Transits using transit name filter
+    - name: Generate the playbook config for SDA Fabric Transits with transit name
+      cisco.dnac.sda_fabric_transits_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/transits_by_name.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            # No components_list specified, but transit filters are provided
+            # The 'sda_fabric_transits' component will be automatically added to components_list
+            sda_fabric_transits:
+              - name: "sample_transit3"
+
+    # Example 6: Generate SDA Fabric Transits using transit name and type filters
+    - name: Generate the playbook config for SDA Fabric Transits with name and transit type
+      cisco.dnac.sda_fabric_transits_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/transits_name_type.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["sda_fabric_transits"] # This line is optional
+            sda_fabric_transits:
+              - name: "sample_transit2"
+                transit_type: "IP_BASED_TRANSIT"
+
+    # Example 7: Generate SDA Fabric Transits with specific transit types
+    - name: Generate the playbook config for SDA Fabric Transits with multiple transit types
+      cisco.dnac.sda_fabric_transits_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/transits_all_types.yml"
+        config:
+          component_specific_filters:
+            components_list: ["sda_fabric_transits"] # This line is optional
+            sda_fabric_transits:
+              - transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
+              - transit_type: "SDA_LISP_BGP_TRANSIT"
 
       register: result
 

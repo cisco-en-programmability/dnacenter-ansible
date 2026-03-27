@@ -1,10 +1,6 @@
 {
-  "playbook_config_generate_all_configurations": {
-    "generate_all_configurations": true,
-    "file_path": "/tmp/test_demo.yaml"
-  },
+  "playbook_config_generate_all_configurations": null,
   "playbook_config_fabric_vlan_by_vlan_name_single": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan"
@@ -17,7 +13,6 @@
     }
   },
   "playbook_config_fabric_vlan_by_vlan_name_multiple": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan"
@@ -33,7 +28,6 @@
     }
   },
   "playbook_config_fabric_vlan_by_vlan_id_single": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan"
@@ -46,7 +40,6 @@
     }
   },
   "playbook_config_fabric_vlan_by_vlan_id_multiple": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan"
@@ -62,7 +55,6 @@
     }
   },
   "playbook_config_fabric_vlan_by_vlan_name_and_id": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan"
@@ -79,7 +71,6 @@
     }
   },
   "playbook_config_fabric_vlan_by_vlan_id_large_values": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan"
@@ -95,7 +86,6 @@
     }
   },
   "playbook_config_virtual_networks_by_vn_name_single": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "virtual_networks"
@@ -108,7 +98,6 @@
     }
   },
   "playbook_config_virtual_networks_by_vn_name_multiple": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "virtual_networks"
@@ -124,7 +113,6 @@
     }
   },
   "playbook_config_anycast_gateways_by_vn_name": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "anycast_gateways"
@@ -140,7 +128,6 @@
     }
   },
   "playbook_config_anycast_gateways_by_ip_pool_name": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "anycast_gateways"
@@ -156,7 +143,6 @@
     }
   },
   "playbook_config_anycast_gateways_by_vlan_id": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "anycast_gateways"
@@ -175,7 +161,6 @@
     }
   },
   "playbook_config_anycast_gateways_by_vlan_name": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "anycast_gateways"
@@ -191,7 +176,6 @@
     }
   },
   "playbook_config_anycast_gateways_by_vlan_name_and_id": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "anycast_gateways"
@@ -209,7 +193,6 @@
     }
   },
   "playbook_config_anycast_gateways_all_filters": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "anycast_gateways"
@@ -231,7 +214,6 @@
     }
   },
   "playbook_config_multiple_components": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan",
@@ -256,7 +238,6 @@
     }
   },
   "playbook_config_all_components": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan",
@@ -281,7 +262,6 @@
     }
   },
   "playbook_config_empty_filters": {
-    "file_path": "/tmp/test_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "fabric_vlan"
@@ -299,6 +279,10 @@
         }
       ]
     }
+  },
+  "playbook_config_empty_config": {},
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
   },
   "get_empty_fabric_vlan_response": {
     "response": [],

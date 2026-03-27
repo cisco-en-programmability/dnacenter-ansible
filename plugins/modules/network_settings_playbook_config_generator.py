@@ -166,15 +166,21 @@ notes:
     - network_settings.NetworkSettings.retrieve_n_t_p_settings_for_a_site
     - network_settings.NetworkSettings.retrieve_time_zone_settings_for_a_site
     - network_settings.NetworkSettings.retrieve_aaa_settings_for_a_site
-    - network_settings.NetworkSettings.get_device_controllability_settings,
+    - network_settings.NetworkSettings.retrieve_banner_settings_for_a_site
+    - network_settings.NetworkSettings.get_device_controllability_settings
 
 - Paths used are
     - GET /dna/intent/api/v1/sites
     - GET /dna/intent/api/v1/ipam/globalIpAddressPools
     - GET /dna/intent/api/v1/ipam/siteIpAddressPools
-    - GET /dna/intent/api/v1/network
-    - GET /dna/intent/api/v1/device-credential
-    - GET /dna/intent/api/v1/network-aaa
+    - GET /dna/intent/api/v1/sites/{id}/dhcpSettings
+    - GET /dna/intent/api/v1/sites/{id}/dnsSettings
+    - GET /dna/intent/api/v1/sites/{id}/telemetrySettings
+    - GET /dna/intent/api/v1/sites/{id}/ntpSettings
+    - GET /dna/intent/api/v1/sites/{id}/timeZoneSettings
+    - GET /dna/intent/api/v1/sites/{id}/aaaSettings
+    - GET /dna/intent/api/v1/sites/{id}/bannerSettings
+    - GET /dna/intent/api/v1/networkDevices/deviceControllability/settings
 """
 
 EXAMPLES = r"""
@@ -376,7 +382,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"[{self.module_schema}] Initializing module",
             level="INFO"
         )
-        self.module_name = "network_settings"
+        self.module_name = "network_settings_workflow_manager"
 
         # Initialize class-level variables to track successes and failures
         self.operation_successes = []
@@ -7530,7 +7536,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         try:
             api_family = "network_settings"
             api_function = "retrieve_aaa_settings_for_a_site"
-            params = {"id": site_id}
+            params = {"id": site_id, "inherited": True}
 
             # Execute the API call
             aaa_network_response = self.dnac._exec(
@@ -7725,7 +7731,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_d_h_c_p_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
             # Extract DHCP details
             dhcp_details = dhcp_response.get("response", {}).get("dhcp")
@@ -7999,7 +8005,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_d_n_s_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
             # Extract DNS details
             self.log(
@@ -8266,7 +8272,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_telemetry_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
 
             self.log(
@@ -8520,7 +8526,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_n_t_p_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
             # Extract NTP server details
             ntpserver_details = ntpserver_response.get("response", {}).get("ntp")
@@ -8629,7 +8635,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_time_zone_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
 
             # Extract time zone details
@@ -8920,7 +8926,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_banner_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
             # Validate response structure
             if not isinstance(banner_response, dict):
