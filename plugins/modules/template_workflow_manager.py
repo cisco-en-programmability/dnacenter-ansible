@@ -1313,17 +1313,25 @@ options:
             type: list
             elements: dict
             suboptions:
+              project_name:
+                description:
+                - Name of the project under which the member
+                  template resides in Catalyst Center.
+                - Matched against the 'name' field of projects
+                  returned by the Catalyst Center API.
+                - If omitted, defaults to the parent template's
+                  project_name, allowing member templates in the
+                  same project to be referenced without
+                  repetition.
+                - Applies per member entry in the
+                  member_template_deployment_info list.
+                - For example, 'Composite_Project'.
+                type: str
               template_name:
                 description: Name of the member template
                   to deploy.
                 type: str
                 required: true
-              project_name:
-                description: Name of the project under
-                  which the member template resides.
-                  If not provided, defaults to the
-                  parent template's project_name.
-                type: str
               force_push_template:
                 description: Whether to force push the
                   member template to the device even if
@@ -2125,6 +2133,76 @@ EXAMPLES = r"""
           software_type: "IOS-XE"
           device_types:
             - product_family: Switches and Hubs
+
+- name: Deploy a composite template with member templates to devices based on device specific details
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    dnac_log_append: true
+    validate_response_schema: false
+    state: "merged"
+    config_verify: true
+    config:
+      - deploy_template:
+          project_name: "vpenke"
+          template_name: "comp_template"
+          is_composite: true
+          force_push: true
+          member_template_deployment_info:
+            - template_name: "test2"
+              project_name: "vpenke"
+              copy_config: false
+            - template_name: "test1"
+              project_name: "vpenke"
+              copy_config: false
+          device_details:
+            device_ips:
+              - 10.1.1.1
+
+- name: Deploy a composite template with member templates using template_parameters to devices based on device specific details
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: DEBUG
+    dnac_log_append: true
+    validate_response_schema: false
+    state: "merged"
+    config_verify: true
+    config:
+      - deploy_template:
+          project_name: "vpenke"
+          template_name: "comp_template"
+          is_composite: true
+          force_push: true
+          member_template_deployment_info:
+            - template_name: "test2"
+              project_name: "vpenke"
+              copy_config: false
+              template_parameters:
+                - param_name: "name"
+                  param_value: "abc"
+            - template_name: "test1"
+              project_name: "vpenke"
+              copy_config: false
+              template_parameters:
+                - param_name: "name"
+                  param_value: "xyz"
+          device_details:
+            device_ips:
+              - 10.1.1.1
 """
 
 RETURN = r"""
@@ -5796,6 +5874,12 @@ class Template(NetworkProfileFunctions):
             ).check_return_status()
 
         is_composite = deploy_temp_details.get("is_composite", False)
+        self.log(
+            "Preparing deployment payload for"
+            " template '{0}', is_composite={1}.".format(
+                template_name, is_composite),
+            "DEBUG",
+        )
         member_deployments = []
 
         self.log(
@@ -5840,7 +5924,6 @@ class Template(NetworkProfileFunctions):
                 ).format(template_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            # member_deployments = []
             for idx, member in enumerate(member_info_list):
                 member_template_name = member.get("template_name")
                 self.log(
@@ -5863,7 +5946,7 @@ class Template(NetworkProfileFunctions):
                     member_project_name, member_template_name
                 )
                 member_templates = member_response.get("response") if member_response else None
-                if not member_templates:
+                if not member_templates or not isinstance(member_templates, list):
                     self.msg = (
                         "Member template '{0}' not found under project '{1}' or it is not versioned."
                     ).format(member_template_name, member_project_name)
@@ -5963,7 +6046,7 @@ class Template(NetworkProfileFunctions):
             version_template_id = self.get_latest_template_version_id(template_id, template_name)
             if not version_template_id:
                 self.log(
-                    "No versioning found for the template: {0}".format(template_name),
+                    "Using base template ID for '{0}' — no committed version found in Catalyst Center.".format(template_name),
                     "INFO",
                 )
                 version_template_id = template_id
@@ -6120,6 +6203,8 @@ class Template(NetworkProfileFunctions):
 
                             resource_params_dict['value'] = value
                             member_res_list.append(resource_params_dict)
+                            self.log("Resolved runtime resource parameter '{0}' with scope '{1}' to value '{2}' for device '{3}'.".format(
+                                r_type, scope, value, device_id), "DEBUG")
                             continue
 
                         self.log("Processing resource parameter with type '{0}' and scope '{1}'.".format(r_type, scope), "DEBUG")
