@@ -18,9 +18,8 @@ description:
     provisioning, interface details, and user-defined fields.
   - Supports global device filters by IP address, hostname, serial number, and
     MAC address.
-  - If C(config) is omitted or empty, the module behaves as if
-    C(generate_all_configurations=true) was provided and generates all
-    supported components.
+  - If C(config) is omitted or empty, the module generates all supported
+    components.
 version_added: 6.44.0
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -50,6 +49,7 @@ options:
       - Relevant only when C(file_path) is provided.
       - C(overwrite) replaces the existing file content.
       - C(append) appends new YAML documents to the existing file.
+      - When omitted, defaults to C(overwrite).
     type: str
     choices:
       - overwrite
@@ -60,9 +60,8 @@ options:
     description:
       - Dictionary of filters controlling which inventory components are
         generated for C(inventory_workflow_manager).
-      - If omitted or empty, the module generates all supported components by
-        internally setting C(generate_all_configurations=true).
-      - If provided, it may contain only C(global_filters) and or
+      - If omitted or empty, the module generates all supported components.
+      - If provided, it may contain only C(global_filters) and/or
         C(component_specific_filters).
       - At least one of C(global_filters) or C(component_specific_filters) must
         be present when C(config) is provided.
@@ -71,40 +70,55 @@ options:
     suboptions:
       global_filters:
         description:
-          - Global device filters applied across components during playbook
+          - Global device filters applied across all components during playbook
             generation.
           - Supports filtering by IP address, hostname, serial number, or MAC
             address.
+          - When multiple filter types are specified, they are combined using
+            OR logic and a device matching any specified filter is included.
+          - Omitting a filter type means no restriction is applied on that
+            attribute.
+          - Evaluation order is C(ip_address_list), C(hostname_list),
+            C(serial_number_list), then C(mac_address_list).
         type: dict
         suboptions:
           ip_address_list:
             description:
-              - List of device management IP addresses to include.
+              - List of device management IP addresses to include in the
+                generated YAML configuration.
+              - Each value is matched against the C(managementIpAddress) field
+                returned by Cisco Catalyst Center.
+              - When multiple global filter types are specified, they are
+                combined using OR logic and a device matching any filter is
+                included.
+              - When omitted, no IP-based filtering is applied.
+              - For example, C(['10.1.1.1', '10.1.1.2']).
             type: list
             elements: str
           hostname_list:
             description:
-              - List of device hostnames to include.
+              - List of device hostnames to include in the generated YAML
+                configuration.
             type: list
             elements: str
           serial_number_list:
             description:
-              - List of device serial numbers to include.
+              - List of device serial numbers to include in the generated YAML
+                configuration.
             type: list
             elements: str
           mac_address_list:
             description:
-              - List of device MAC addresses to include.
+              - List of device MAC addresses to include in the generated YAML
+                configuration.
             type: list
             elements: str
       component_specific_filters:
         description:
           - Component-level filters controlling which sections are included in
             the generated YAML configuration.
-          - Mandatory when C(config) is provided and
-            C(generate_all_configurations) is false.
-          - If no component filter blocks are provided, C(components_list) must
-            be provided and must be non-empty.
+          - If no component filter blocks are provided, C(components_list) is
+            required and must be non-empty.
           - If a component filter block is provided, the corresponding component
             is auto-added to C(components_list) if missing.
         type: dict
@@ -126,8 +140,20 @@ options:
             description:
               - Filters for device detail generation.
               - Accepts either a single dictionary or a list of dictionaries.
-              - Multiple dictionaries use OR logic, while keys inside each
+              - Multiple dictionaries use OR logic and keys inside each
                 dictionary use AND logic.
+              - "Supported filter keys: C(type), C(role), C(snmp_version),
+                C(cli_transport)."
+              - "Allowed C(type) values: C(NETWORK_DEVICE),
+                C(COMPUTE_DEVICE), C(MERAKI_DASHBOARD),
+                C(THIRD_PARTY_DEVICE),
+                C(FIREPOWER_MANAGEMENT_SYSTEM)."
+              - "Allowed C(role) values: C(ACCESS), C(CORE),
+                C(DISTRIBUTION), C(BORDER ROUTER), C(UNKNOWN).
+                Accepts a string or list of strings."
+              - "Allowed C(snmp_version) values: C(v2), C(v2c), C(v3)."
+              - "Allowed C(cli_transport) values: C(ssh), C(telnet)."
+              - When omitted, no device-attribute filtering is applied.
             type: raw
           provision_device:
             description:
@@ -149,7 +175,7 @@ options:
                 type: raw
           user_defined_fields:
             description:
-              - Filters user-defined field output by field name and or value.
+              - Filters user-defined field output by field name and/or value.
             type: dict
             suboptions:
               name:
@@ -189,7 +215,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Generate inventory playbook for all devices
+- name: Generate inventory playbook with no config (generate all)
   cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_port: "{{ dnac_port }}"
@@ -199,7 +225,8 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
-    file_path: "./inventory_devices_all.yml"
+    # file_path omitted; module auto-generates a timestamped filename
+    # config omitted; module generates all supported components
 
 - name: Generate inventory playbook for specific devices by IP address
   cisco.dnac.inventory_playbook_config_generator:
@@ -223,6 +250,88 @@ EXAMPLES = r"""
           - device_details
           - provision_device
           - interface_details
+
+- name: Generate inventory playbook filtered by hostname
+  cisco.dnac.inventory_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    file_path: "./inventory_hostname_filter.yml"
+    config:
+      global_filters:
+        hostname_list:
+          - "switch-floor1.example.com"
+          - "switch-floor2.example.com"
+      component_specific_filters:
+        components_list:
+          - device_details
+
+- name: Generate inventory playbook filtered by serial number
+  cisco.dnac.inventory_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    file_path: "./inventory_serial_filter.yml"
+    config:
+      global_filters:
+        serial_number_list:
+          - "FJC2327U0S2"
+      component_specific_filters:
+        components_list:
+          - device_details
+          - provision_device
+
+- name: Generate inventory with combined global filters (OR logic)
+  cisco.dnac.inventory_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    file_path: "./inventory_combined_filters.yml"
+    config:
+      global_filters:
+        # OR logic; a device matching any filter is included
+        ip_address_list:
+          - "10.195.225.40"
+        hostname_list:
+          - "switch-floor2.example.com"
+      component_specific_filters:
+        components_list:
+          - device_details
+          - interface_details
+
+- name: Generate inventory with AND device_details filters
+  cisco.dnac.inventory_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    file_path: "./inventory_and_filter.yml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        device_details:
+          # AND logic; device must match both role and type
+          role: "ACCESS"
+          type: "NETWORK_DEVICE"
 
 - name: Generate inventory playbook for ACCESS role devices
   cisco.dnac.inventory_playbook_config_generator:
@@ -366,11 +475,11 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         Validate and normalize module input.
 
         Behavior:
-          - If C(config) is omitted or empty, defaults to
-            C(generate_all_configurations=true)
+          - If C(config) is omitted or empty, generates all supported
+            components
           - Uses top-level C(file_path) and C(file_mode)
           - If C(config) is provided, it may contain only C(global_filters)
-            and or C(component_specific_filters)
+            and/or C(component_specific_filters)
           - Auto-adds components to C(components_list) when component filter
             blocks are provided
 
@@ -403,10 +512,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         if not normalized_config:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = (
-                "No config provided. Defaulting to "
-                "'generate_all_configurations: true'."
-            )
+            self.msg = "No config provided. Generating all supported components."
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
@@ -467,8 +573,10 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """Return an error message if value is not a string or list of strings."""
         if isinstance(value, str):
             return None
+
         if isinstance(value, list) and all(isinstance(item, str) for item in value):
             return None
+
         return (
             "'{0}' must be a string or a list of strings, got: {1}.".format(
                 field_name, type(value).__name__
@@ -476,12 +584,29 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
     def _validate_inventory_component_block(self, component_name, component_value):
-        """Validate component-specific filter blocks for inventory generation."""
+        """
+        Validate a single component filter block for inventory generation.
+
+        For 'device_details', accepts a dictionary or list of dictionaries.
+        Keys inside each dictionary use AND logic and multiple dictionaries use
+        OR logic. For other components, accepts a dictionary only.
+
+        Args:
+            component_name (str): One of 'device_details',
+                'provision_device', 'interface_details', or
+                'user_defined_fields'.
+            component_value (dict | list): The filter block to validate.
+
+        Returns:
+            str | None: Error message if validation fails, otherwise None.
+        """
         if component_name == "device_details":
             if isinstance(component_value, dict):
                 filter_items = [component_value]
+
             elif isinstance(component_value, list):
                 filter_items = component_value
+
             else:
                 return (
                     "'device_details' must be a dictionary or list of dictionaries, "
@@ -541,8 +666,10 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     if isinstance(role, str):
                         role_values = [role]
                         filter_item["role"] = role_values
+
                     elif isinstance(role, list):
                         role_values = role
+
                     else:
                         return (
                             "'device_details.role' must be a string or list of strings, "
@@ -605,10 +732,16 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         sorted(list(invalid_keys))
                     )
                 )
-            if component_value.get("site_name") is not None and not isinstance(
-                component_value.get("site_name"), str
-            ):
+
+            site_name = component_value.get("site_name")
+            if site_name is not None and not isinstance(site_name, str):
+                self.log(
+                    "Validation failed: 'provision_device.site_name' must be "
+                    "a string, got '{0}'.".format(type(site_name).__name__),
+                    "WARNING",
+                )
                 return "'provision_device.site_name' must be a string."
+
             return None
 
         if component_name == "interface_details":
@@ -651,12 +784,26 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         return validation_error
                     if isinstance(field_value, str):
                         component_value[field_name] = [field_value]
+
             return None
 
         return None
 
     def _validate_inventory_component_specific_filters(self, component_filters):
-        """Validate and auto-populate inventory component filters."""
+        """
+        Validate and auto-populate component-specific filters.
+
+        Checks key validity, validates each component block via
+        _validate_inventory_component_block(), and auto-adds components to
+        'components_list' when filter blocks are provided.
+
+        Args:
+            component_filters (dict): The 'component_specific_filters'
+                dictionary from the user configuration.
+
+        Returns:
+            str | None: Error message if validation fails, otherwise None.
+        """
         if not isinstance(component_filters, dict):
             return (
                 "'component_specific_filters' must be a dictionary, got: {0}.".format(
@@ -732,20 +879,35 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
 
         component_blocks = []
-        for component_name in (
+        component_names_to_check = (
             "device_details",
             "provision_device",
             "interface_details",
             "user_defined_fields",
-        ):
+        )
+        total_component_names = len(component_names_to_check)
+        for idx, component_name in enumerate(component_names_to_check, start=1):
             if component_name not in component_filters:
+                self.log(
+                    "Processing component {0}/{1}: '{2}' is not present in "
+                    "component_specific_filters. Continuing.".format(
+                        idx, total_component_names, component_name
+                    ),
+                    "DEBUG",
+                )
                 continue
 
+            self.log(
+                "Processing component {0}/{1}: validating filter block for "
+                "'{2}'.".format(idx, total_component_names, component_name),
+                "DEBUG",
+            )
             validation_error = self._validate_inventory_component_block(
                 component_name, component_filters.get(component_name)
             )
             if validation_error:
                 return validation_error
+
             component_blocks.append(component_name)
 
         if component_blocks:
@@ -3485,7 +3647,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             final_yaml = header_comments + "\n---\n" + "\n---\n".join(serialized_documents) + "\n"
 
             self.ensure_directory_exists(file_path)
-            with open(file_path, "w", encoding="utf-8") as yaml_file:
+            with open(file_path, open_mode, encoding="utf-8") as yaml_file:
                 yaml_file.write(final_yaml)
 
             self.log("YAML documents written successfully to {0}.".format(file_path), "INFO")
