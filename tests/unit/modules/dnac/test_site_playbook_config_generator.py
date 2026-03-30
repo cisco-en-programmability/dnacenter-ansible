@@ -82,6 +82,9 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
     )
     playbook_config_all_components = test_data.get("playbook_config_all_components")
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
+    playbook_config_empty_component_specific_filters = test_data.get(
+        "playbook_config_empty_component_specific_filters"
+    )
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
     playbook_config_direct_filter_components_list_name_hierarchy = test_data.get(
         "playbook_config_direct_filter_components_list_name_hierarchy"
@@ -1042,6 +1045,41 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assert_success_result_message(result, self._testMethodName)
 
+    def test_site_playbook_config_generator_empty_component_specific_filters_fails_validation(
+        self,
+    ):
+        """
+        Validate that providing component_specific_filters as an empty dictionary
+        raises a validation error and prevents configuration generation.
+
+        An empty component_specific_filters: {} signals a misconfiguration — the
+        user has declared the key but omitted any actual filter blocks, which would
+        silently generate unexpected full-site configurations.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/test_empty_csf.yaml",
+                config=self.playbook_config_empty_component_specific_filters,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "'component_specific_filters' is provided but empty",
+            str(result.get("msg")),
+        )
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution when component_specific_filters is an empty dict.",
+        )
+
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_site_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
@@ -1947,9 +1985,9 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self.assertTrue(
             result.get("failed"), "Expected module to fail with invalid file_mode"
         )
-        self.assertIn("error", str(result.get("msg")).lower())
-        # Note: In current implementation, invalid file_mode error occurs during
-        # file writing, so API calls may have been made before the error
+        self.assertIn("file_mode", str(result.get("msg")))
+        # Note: In current implementation, invalid file_mode is rejected by Ansible
+        # argument spec validation before any module logic runs
 
     def test_validate_component_specific_filters_structure_rejects_empty_site_name_hierarchy_list(
         self,
