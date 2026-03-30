@@ -438,6 +438,20 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+
+                duplicate_components = [
+                    item for item in set(components_list)
+                    if components_list.count(item) > 1
+                ]
+                if duplicate_components:
+                    self.msg = (
+                        "Duplicate component names found in 'components_list': {0}. "
+                        "Each component must appear only once.".format(
+                            sorted(duplicate_components)
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
                 normalized_components_list = list(components_list)
 
             component_blocks = []
@@ -956,6 +970,18 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 continue
 
             clause_type = clause.get("type")
+
+            # Infer clause type from content if type field is missing or None
+            if not clause_type:
+                if "interfaceSpeedBandwidthClauses" in clause:
+                    clause_type = "BANDWIDTH"
+                    self.log(
+                        "Clause {0}/{1} has no 'type' field but contains "
+                        "'interfaceSpeedBandwidthClauses'. Inferred clause type as "
+                        "'BANDWIDTH'.".format(clause_index, len(clause_data)),
+                        "DEBUG"
+                    )
+
             # Process BANDWIDTH or BANDWIDTH_CUSTOM clause types
             if clause_type in ["BANDWIDTH", "BANDWIDTH_CUSTOM"]:
                 self.log(
@@ -1352,6 +1378,17 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 continue
 
             clause_type = clause.get("type")
+
+            # Infer clause type from content if type field is missing or None
+            if not clause_type:
+                if "tcDscpSettings" in clause:
+                    clause_type = "DSCP_CUSTOMIZATION"
+                    self.log(
+                        "Clause {0}/{1} has no 'type' field but contains "
+                        "'tcDscpSettings'. Inferred clause type as "
+                        "'DSCP_CUSTOMIZATION'.".format(clause_index, len(clause_data)),
+                        "DEBUG"
+                    )
 
             self.log(
                 "Clause {0}/{1} has type: '{2}'. Checking if this is a DSCP customization "
@@ -3693,6 +3730,23 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
             clause_type = clause.get("type")
 
+            # Infer clause type from content if type field is missing or None
+            if not clause_type:
+                if "interfaceSpeedBandwidthClauses" in clause:
+                    clause_type = "BANDWIDTH"
+                    self.log(
+                        "Clause {0}/{1} has no 'type' field but contains 'interfaceSpeedBandwidthClauses'. "
+                        "Inferred clause type as 'BANDWIDTH'.".format(clause_index, len(clauses)),
+                        "DEBUG"
+                    )
+                elif "tcDscpSettings" in clause:
+                    clause_type = "DSCP_CUSTOMIZATION"
+                    self.log(
+                        "Clause {0}/{1} has no 'type' field but contains 'tcDscpSettings'. "
+                        "Inferred clause type as 'DSCP_CUSTOMIZATION'.".format(clause_index, len(clauses)),
+                        "DEBUG"
+                    )
+
             self.log(
                 "Clause {0}/{1} type: '{2}'. Determining processing path based on clause type.".format(
                     clause_index, len(clauses), clause_type
@@ -4560,10 +4614,11 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            # Write to YAML file
+            # Write to YAML file - wrap output under 'config' key for schema compatibility
             file_mode = yaml_config_generator.get("file_mode", "overwrite")
+            wrapped_output = OrderedDict([("config", final_output)])
             success = self.write_dict_to_yaml_with_mode(
-                final_output, file_path, file_mode=file_mode
+                wrapped_output, file_path, file_mode=file_mode
             )
 
             if success:
