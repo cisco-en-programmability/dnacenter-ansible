@@ -271,18 +271,6 @@ options:
               by prioritizing network traffic within
               the application policy.
             type: str
-          application_set_name:
-            description:
-              - A list of application set names to remove
-                from the application policy.
-              - Used only with state set to deleted.
-              - When provided, only the specified application
-                sets are removed from the policy instead
-                of deleting the entire policy.
-              - If omitted during a delete operation, the
-                entire application policy is deleted.
-            type: list
-            elements: str
           clause:
             description: Defines specific rules or conditions
               under which an application set is added
@@ -401,6 +389,7 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
+
 # Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
 - name: Deploy Enterprise QoS Profile in Cisco Catalyst
     Center
@@ -448,6 +437,7 @@ EXAMPLES = r"""
                     broadcast_video: "2"
                     network_control: "3"
                     bulk_data: "5"
+
 # Playbook - QoS Profile Based on Interface Speeds
 - name: Deploy Interface-Specific QoS Profile in Cisco
     Catalyst Center
@@ -566,6 +556,7 @@ EXAMPLES = r"""
                         broadcast_video: "2"
                         network_control: "3"
                         bulk_data: "5"
+
 # Playbook - for some interface speeds having common bandwidth percentage
 - name: Configure an Application Queueing Profile for
     Traffic Prioritization
@@ -656,6 +647,7 @@ EXAMPLES = r"""
                         broadcast_video: "2"
                         network_control: "3"
                         bulk_data: "5"
+
 # Playbook - application queuing profile - type dscp
 - name: Configure Application Queuing Profile (DSCP)
     in Cisco Catalyst Center
@@ -699,6 +691,7 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
+
 # Playbook - update application queuing profile
 - name: Application Queuing Profile update in Cisco
     Catalyst Center
@@ -761,6 +754,7 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
+
 # Playbook - delete application queuing profile
 - name: Delete application queuing profile from Cisco
     Catalyst Center
@@ -789,6 +783,7 @@ EXAMPLES = r"""
         config:
           - queuing_profile:
               - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
+
 # Playbook - create application policy – wired
 - name: Create Wired Application Policy in Cisco Catalyst
     Center
@@ -829,6 +824,7 @@ EXAMPLES = r"""
                         application_set_name: ["email", "tunneling"]
                       - relevance: "DEFAULT"
                         application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
+
 # Playbook - create application policy – wireless
 - name: Create Wireless Application Policy in Cisco
     Catalyst Center
@@ -870,6 +866,7 @@ EXAMPLES = r"""
                         application_set_name: ["email", "backup-and-storage"]
                       - relevance: "DEFAULT"
                         application_set_name: ["collaboration-apps", "tunneling", "general-media"]
+
 # Playbook - delete application policy
 - name: Delete Application Policy from Cisco Catalyst
     Center
@@ -897,38 +894,6 @@ EXAMPLES = r"""
         config:
           - application_policy:
               - name: "ObsoleteTrafficPolicy"
-# Playbook - delete specific application set(s) from
-#   an application policy
-- name: Remove specific application set(s) from an
-    application policy in Cisco Catalyst Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Delete application set(s) from an application
-        policy
-      cisco.dnac.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        config_verify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
-        state: deleted
-        config:
-          - application_policy:
-              - name: "wired_traffic_policy"
-                application_set_name:
-                  - "email"
-                  - "tunneling"
 """
 
 RETURN = r"""
@@ -1203,7 +1168,6 @@ class ApplicationPolicy(DnacBase):
             self.no_update_application_policy,
         ) = ([], [], [])
         self.deleted_application_policy, self.no_deleted_application_policy = [], []
-        self.deleted_application_set_from_policy = []
         (
             self.created_queuing_profile,
             self.updated_queuing_profile,
@@ -1384,6 +1348,7 @@ class ApplicationPolicy(DnacBase):
                 "device_type": {"type": "str"},
                 "ssid_name": {"type": "str"},
                 "application_queuing_profile_name": {"type": "str"},
+                "application_set_name": {"type": "list", "elements": "str"},
                 "clause": {
                     "type": "list",
                     "elements": "dict",
@@ -6347,6 +6312,7 @@ class ApplicationPolicy(DnacBase):
                     ),
                     "DEBUG",
                 )
+                self.deleted_application_policy.append(policy_name)
                 self.check_tasks_response_status(response, "application_policy_intent")
 
                 # Proceed only if the status is successful
@@ -6357,17 +6323,11 @@ class ApplicationPolicy(DnacBase):
                             ", ".join(application_set_names), policy_name
                         )
                         self.set_operation_result("success", True, self.msg, "INFO")
-                        self.deleted_application_set_from_policy.append(
-                            "Application set(s) '{0}' removed from policy '{1}'".format(
-                                ", ".join(application_set_names), policy_name
-                            )
-                        )
                         application_sets_deleted.append(
                             f"Application set(s) '{', '.join(application_set_names)}' removed from policy '{policy_name}'"
                         )
                     else:
                         # If no application sets were specified, the whole policy is deleted
-                        self.deleted_application_policy.append(policy_name)
                         self.msg = (
                             "Application policy '{0}' deleted successfully.".format(
                                 policy_name
@@ -6831,12 +6791,6 @@ class ApplicationPolicy(DnacBase):
                 "', '".join(self.no_update_application_policy)
             )
             no_update_list.append(msg)
-
-        if self.deleted_application_set_from_policy:
-            msg = "{0} in Cisco Catalyst Center.".format(
-                "; ".join(self.deleted_application_set_from_policy)
-            )
-            result_msg_list.append(msg)
 
         if self.deleted_application_policy:
             msg = "Application Policy(ies) '{0}' deleted successfully from Cisco Catalyst Center.".format(
