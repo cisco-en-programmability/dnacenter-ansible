@@ -552,10 +552,20 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        # Auto-populate components_list from component filters if needed
+        # component_specific_filters is mandatory when config is provided.
+        # Catches both missing (None) and empty ({}) - same pattern as tags module.
         component_specific_filters = valid_temp.get("component_specific_filters")
-        if component_specific_filters:
-            self.auto_populate_and_validate_components_list(component_specific_filters)
+        if not component_specific_filters:
+            self.msg = (
+                "'component_specific_filters' is required when 'config' is provided and must not be empty. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or define 'component_specific_filters' with at least one filter block (e.g., 'site')."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Auto-populate components_list from component filters if needed
+        self.auto_populate_and_validate_components_list(component_specific_filters)
 
         invalid_params = self.validate_component_specific_filters_structure(valid_temp)
         if invalid_params:
@@ -4004,7 +4014,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         Supported payload:
         - Helper-wrapped form from BrownFieldHelper:
-          `{"global_filters": {...}, "component_specific_filters": [...]}`.
+          `{" ": {...}, "component_specific_filters": [...]}`.
         - Direct list form for internal/unit-test invocation:
           `[{"site_name_hierarchy": ...}, ...]`.
 
