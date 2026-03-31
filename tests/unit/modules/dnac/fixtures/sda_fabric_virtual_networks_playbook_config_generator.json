@@ -284,6 +284,24 @@
   "playbook_config_empty_component_specific_filters": {
     "component_specific_filters": {}
   },
+  "playbook_config_invalid_component": {
+    "component_specific_filters": {
+      "invalid_component": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
+  "playbook_config_invalid_component_filters": {
+    "component_specific_filters": {
+      "fabric_vlan": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
   "get_empty_fabric_vlan_response": {
     "response": [],
     "version": "1.0"

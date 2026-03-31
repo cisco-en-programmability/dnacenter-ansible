@@ -432,14 +432,14 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "fabric_sites": {
-                    "filters": ["site_name_hierarchy"],
+                    "filters": {"site_name_hierarchy": {"type": "str"}},
                     "reverse_mapping_function": self.fabric_site_temp_spec,
                     "api_function": "get_fabric_sites",
                     "api_family": "sda",
                     "get_function_name": self.get_fabric_sites_from_ccc,
                 },
                 "fabric_zones": {
-                    "filters": ["site_name_hierarchy"],
+                    "filters": {"site_name_hierarchy": {"type": "str"}},
                     "reverse_mapping_function": self.fabric_zone_temp_spec,
                     "api_function": "get_fabric_zones",
                     "api_family": "sda",
@@ -1012,11 +1012,9 @@ class FabricSiteZonePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        additional_config_headers = None
-        if generate_all:
-            additional_config_headers = [
-                "Full configuration generates all fabric sites first, followed by all fabric zones."
-            ]
+        additional_config_headers = [
+            "Full configuration generates all fabric sites first, followed by all fabric zones."
+        ]
 
         file_written = self.write_dict_to_yaml(
             yaml_config_dict,
