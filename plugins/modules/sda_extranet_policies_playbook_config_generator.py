@@ -535,10 +535,10 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 - Other policy details (not processed by this method)
 
         Returns:
-            list[str]: Fabric site name hierarchies in order:
+            list[str] | None: Fabric site name hierarchies in order:
                 - Format: "Global/Region/Site/Building"
                 - Only includes successfully resolved site names
-                - Returns empty list if no fabricIds or resolution failures
+                - Returns None if no fabricIds or resolution failures
 
         Processing Flow:
             1. Extract fabricIds list from policy details
@@ -574,11 +574,10 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         fabric_ids = extranet_policy_details.get("fabricIds", [])
         if not fabric_ids:
             self.log(
-                "No fabric IDs found in extranet policy "
-                "details, returning empty list",
+                "No fabric IDs found in extranet policy " "details, returning None",
                 "DEBUG",
             )
-            return []
+            return None
 
         self.log(
             "Processing {0} fabric ID(s) for site name "
@@ -763,7 +762,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         ...
                     ]
                 }
-                Returns {"extranet_policies": []} if no policies found
+                Returns None if no policies found
 
         Processing Workflow:
             1. Extract API family and function from network_element
@@ -916,11 +915,11 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if not final_extranet_policies:
             self.log(
                 "No extranet policies found matching the "
-                "specified filters. Returning empty "
+                "specified filters. Returning None "
                 "result.",
                 "WARNING",
             )
-            return {"extranet_policies": []}
+            return None
 
         # Deduplicate output policies before transformation using the unique policy name as key
         original_count = len(final_extranet_policies)
