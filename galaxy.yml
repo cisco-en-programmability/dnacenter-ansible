@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: dnac
-version: 6.49.0
+version: 6.50.0
 readme: README.md
 authors:
   - Rafael Campos <rcampos@cloverhound.com>
@@ -46,6 +46,7 @@ tags:
   - sdn
 dependencies:
   ansible.utils: ">=2.0.0,<7.0"
+  cisco.catalystcenter: ">=2.6.0"
 repository: https://github.com/cisco-en-programmability/dnacenter-ansible
 documentation: https://cisco-en-programmability.github.io/dnacenter-ansible/
 homepage: https://github.com/cisco-en-programmability/dnacenter-ansible
