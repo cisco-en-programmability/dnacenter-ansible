@@ -293,10 +293,10 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 config=self.playbook_config_bulk_site_2376
             )
         )
-        result = self.execute_module(changed=True, failed=True)
+        result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertIn(
-            "created successfully in Cisco Catalyst Center",
+            "created successfully in Cisco Catalyst Center.",
             result.get('msg')
         )
 
