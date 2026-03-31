@@ -22,6 +22,8 @@
         file_mode: append
         config:
           component_specific_filters:
-            components_list: []
+            components_list: ["queuing_profile"]
+            queuing_profile:
+              - profile_names_list: ["Enterprise-QoS-Profile"]
             application_policy:
-              policy_names_list: ["Sample"]
+              - policy_names_list: ["wired_traffic_policy", "wireless_traffic_policy"]
