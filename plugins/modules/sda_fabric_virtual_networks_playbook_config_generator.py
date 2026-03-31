@@ -687,21 +687,31 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "fabric_vlan": {
-                    "filters": ["vlan_name", "vlan_id"],
+                    "filters": {
+                        "vlan_name": {"type": "str"},
+                        "vlan_id": {"type": "int"}
+                    },
                     "reverse_mapping_function": self.fabric_vlan_temp_spec,
                     "api_function": "get_layer2_virtual_networks",
                     "api_family": "sda",
                     "get_function_name": self.get_fabric_vlans_configuration,
                 },
                 "virtual_networks": {
-                    "filters": ["vn_name"],
+                    "filters": {
+                        "vn_name": {"type": "str"}
+                    },
                     "reverse_mapping_function": self.virtual_network_temp_spec,
                     "api_function": "get_layer3_virtual_networks",
                     "api_family": "sda",
                     "get_function_name": self.get_virtual_networks_configuration,
                 },
                 "anycast_gateways": {
-                    "filters": ["vn_name", "vlan_id", "vlan_name", "ip_pool_name"],
+                    "filters": {
+                        "vn_name": {"type": "str"},
+                        "vlan_id": {"type": "int"},
+                        "vlan_name": {"type": "str"},
+                        "ip_pool_name": {"type": "str"}
+                    },
                     "reverse_mapping_function": self.anycast_gateway_temp_spec,
                     "api_function": "get_anycast_gateways",
                     "api_family": "sda",
