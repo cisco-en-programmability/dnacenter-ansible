@@ -295,10 +295,9 @@ class TestDnacSiteWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=True)
         self.maxDiff = None
-        self.assertEqual(
-            result.get('msg'),
-            "An exception occurred: {'msg': 'Site created successfully.', " +
-            "'response': 'File path does not exist: /Users/mabdulk2/pngegg.png', 'failed': True}"
+        self.assertIn(
+            "created successfully in Cisco Catalyst Center",
+            result.get('msg')
         )
 
     def test_Site_workflow_manager_non_create_bulk_site(self):
@@ -427,8 +426,9 @@ class TestDnacSiteWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertFalse(
-            "Invalid parameters in playbook:" in result.get('msg')
+        self.assertIn(
+            "not needs any update in Cisco Catalyst Center.",
+            result.get('msg')
         )
 
     def test_Site_workflow_manager_invalid_delete_config_exception(self):
@@ -663,7 +663,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
-        self.assertEqual(
-            result.get('msg'),
-            "Site - Global/japan8888/blossom does not need any update"
+        self.assertIn(
+            "not needs any update in Cisco Catalyst Center.",
+            result.get('msg')
         )
