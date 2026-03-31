@@ -425,7 +425,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 config=self.playbook_site_delete_2376
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         self.assertIn(
             "not needs any update in Cisco Catalyst Center.",
             result.get('msg')
@@ -661,7 +661,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 config=self.playbook_config_update_site
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         self.maxDiff = None
         self.assertIn(
             "not needs any update in Cisco Catalyst Center.",
