@@ -37,6 +37,9 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
     playbook_missing_component_specific_filters = test_data.get("playbook_missing_component_specific_filters")
     playbook_nested_file_path_invalid = test_data.get("playbook_nested_file_path_invalid")
     playbook_empty_config = test_data.get("playbook_empty_config")
+    playbook_list_wrapped_queuing_profile = test_data.get("playbook_list_wrapped_queuing_profile")
+    playbook_list_wrapped_application_policy = test_data.get("playbook_list_wrapped_application_policy")
+    playbook_dict_wrapped_application_policy_invalid = test_data.get("playbook_dict_wrapped_application_policy_invalid")
 
     def setUp(self):
         super(TestDnacApplicationPolicyPlaybookGenerator, self).setUp()
@@ -139,6 +142,14 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
         elif "top_level_file_path_success" in self._testMethodName or "file_mode_without_file_path" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("queuing_profile")
+            ]
+        elif "list_wrapped_queuing_profile" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("queuing_profile")
+            ]
+        elif "list_wrapped_application_policy" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("response1")
             ]
 
         elif "playbook_different_bandwidth" in self._testMethodName:
@@ -397,3 +408,54 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestDnacModule):
             result.get("msg"),
             "YAML config generation succeeded for module 'application_policy_workflow_manager'."
         )
+
+    def test_application_policy_playbook_config_generator_list_wrapped_queuing_profile_success(self):
+        """Validate queuing_profile accepts list-wrapped filter blocks."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                config=self.playbook_list_wrapped_queuing_profile
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No configurations found", result.get("msg"))
+
+    def test_application_policy_playbook_config_generator_list_wrapped_application_policy_success(self):
+        """Validate application_policy accepts list-wrapped filter blocks."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                config=self.playbook_list_wrapped_application_policy
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No configurations found", result.get("msg"))
+
+    def test_application_policy_playbook_config_generator_dict_wrapped_application_policy_failure(self):
+        """Validate application_policy rejects legacy dict-wrapped filter blocks."""
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="gathered",
+                dnac_version="3.1.3.0",
+                config=self.playbook_dict_wrapped_application_policy_invalid
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("must be a list of dictionaries", result.get("msg"))

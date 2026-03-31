@@ -79,7 +79,8 @@ options:
             description:
               - Specific queuing profile filtering options.
               - Allows extraction of only specific queuing profiles by name.
-            type: dict
+            type: list
+            elements: dict
             required: false
             suboptions:
               profile_names_list:
@@ -94,7 +95,8 @@ options:
             description:
               - Specific application policy filtering options.
               - Allows extraction of only specific policies by name.
-            type: dict
+            type: list
+            elements: dict
             required: false
             suboptions:
               policy_names_list:
@@ -162,7 +164,7 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["queuing_profile"]
         queuing_profile:
-          profile_names_list: ["Enterprise-QoS-Profile", "Wireless-QoS"]
+          - profile_names_list: ["Enterprise-QoS-Profile", "Wireless-QoS"]
 
 - name: Generate specific application policies
   cisco.dnac.application_policy_playbook_config_generator:
@@ -181,7 +183,7 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["application_policy"]
         application_policy:
-          policy_names_list: ["wired_traffic_policy"]
+          - policy_names_list: ["wired_traffic_policy"]
 
 - name: Generate both queuing profiles and policies with filters
   cisco.dnac.application_policy_playbook_config_generator:
@@ -200,9 +202,9 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["queuing_profile", "application_policy"]
         queuing_profile:
-          profile_names_list: ["Enterprise-QoS-Profile"]
+          - profile_names_list: ["Enterprise-QoS-Profile"]
         application_policy:
-          policy_names_list: ["wired_traffic_policy", "wireless_traffic_policy"]
+          - policy_names_list: ["wired_traffic_policy", "wireless_traffic_policy"]
 
 - name: Generate configurations in append mode
   cisco.dnac.application_policy_playbook_config_generator:
@@ -297,6 +299,75 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.generate_all_configurations = False
 
         self.log("Initialized ApplicationPolicyPlaybookGenerator for module: {0}".format(self.module_name), "INFO")
+
+    def _normalize_component_filter_block(self, component_name, component_value, list_key):
+        """
+        Normalize a component filter block to dictionary form.
+
+        Supported input form:
+            component_name:
+              - list_key: [...]
+
+        When multiple dictionaries are provided, all list_key values are merged.
+        """
+        if not isinstance(component_value, list):
+            self.msg = (
+                "'{0}' must be a list of dictionaries, got: {1}.".format(
+                    component_name, type(component_value).__name__
+                )
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return None
+        component_entries = component_value
+
+        normalized_filter = {}
+
+        for entry_index, component_entry in enumerate(component_entries, start=1):
+            if not isinstance(component_entry, dict):
+                self.msg = (
+                    "Each item in '{0}' must be a dictionary, got: {1} at index {2}.".format(
+                        component_name,
+                        type(component_entry).__name__,
+                        entry_index - 1
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return None
+
+            invalid_keys = set(component_entry.keys()) - {list_key}
+            if invalid_keys:
+                self.msg = (
+                    "Invalid keys found in '{0}' item {1}: {2}. Allowed keys are: ['{3}'].".format(
+                        component_name,
+                        entry_index,
+                        sorted(list(invalid_keys)),
+                        list_key
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return None
+
+            list_values = component_entry.get(list_key)
+            if list_values is not None:
+                if not isinstance(list_values, list):
+                    self.msg = (
+                        "'{0}' must be a list when provided in '{1}'.".format(
+                            list_key, component_name
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return None
+
+                normalized_filter.setdefault(list_key, [])
+                normalized_filter[list_key].extend(list_values)
+
+        self.log(
+            "Normalized '{0}' filter block to dictionary form: {1}".format(
+                component_name, normalized_filter
+            ),
+            "DEBUG"
+        )
+        return normalized_filter
 
     def validate_input(self):
         """
@@ -457,84 +528,42 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             component_blocks = []
 
             if "queuing_profile" in normalized_component_filters:
-                queuing_profile = normalized_component_filters.get("queuing_profile")
-                if not isinstance(queuing_profile, dict):
-                    self.msg = (
-                        "'queuing_profile' must be a dictionary, got: {0}.".format(
-                            type(queuing_profile).__name__
-                        )
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                queuing_profile = self._normalize_component_filter_block(
+                    "queuing_profile",
+                    normalized_component_filters.get("queuing_profile"),
+                    "profile_names_list"
+                )
+                if queuing_profile is None:
                     return self
 
-                self.log("Validated 'queuing_profile' - {0} is a dictionary.".format(queuing_profile), "DEBUG")
-
-                invalid_qp_keys = set(queuing_profile.keys()) - {"profile_names_list"}
-                if invalid_qp_keys:
-                    self.msg = (
-                        "Invalid keys found in 'queuing_profile': {0}. Allowed keys are: "
-                        "['profile_names_list'].".format(sorted(list(invalid_qp_keys)))
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
+                normalized_component_filters["queuing_profile"] = queuing_profile
 
                 self.log(
-                    "Validated keys in 'queuing_profile': {0}".format(
-                        sorted(list(queuing_profile.keys()))
+                    "Validated 'profile_names_list' - {0} for 'queuing_profile'.".format(
+                        queuing_profile.get("profile_names_list")
                     ),
                     "DEBUG"
                 )
-
-                profile_names_list = queuing_profile.get("profile_names_list")
-                if profile_names_list is not None and not isinstance(profile_names_list, list):
-                    self.msg = (
-                        "'profile_names_list' must be a list when provided."
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                self.log("validated 'profile_names_list' - {0} for 'queuing_profile'.".format(profile_names_list), "DEBUG")
 
                 component_blocks.append("queuing_profile")
 
             if "application_policy" in normalized_component_filters:
-                application_policy = normalized_component_filters.get("application_policy")
-                if not isinstance(application_policy, dict):
-                    self.msg = (
-                        "'application_policy' must be a dictionary, got: {0}.".format(
-                            type(application_policy).__name__
-                        )
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                application_policy = self._normalize_component_filter_block(
+                    "application_policy",
+                    normalized_component_filters.get("application_policy"),
+                    "policy_names_list"
+                )
+                if application_policy is None:
                     return self
 
-                self.log("validated 'application_policy' - {0} is a dictionary.".format(application_policy), "DEBUG")
-
-                invalid_ap_keys = set(application_policy.keys()) - {"policy_names_list"}
-                if invalid_ap_keys:
-                    self.msg = (
-                        "Invalid keys found in 'application_policy': {0}. Allowed keys are: "
-                        "['policy_names_list'].".format(sorted(list(invalid_ap_keys)))
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
+                normalized_component_filters["application_policy"] = application_policy
 
                 self.log(
-                    "Validated keys in 'application_policy': {0}".format(
-                        sorted(list(application_policy.keys()))
+                    "Validated 'policy_names_list' - {0} for 'application_policy'.".format(
+                        application_policy.get("policy_names_list")
                     ),
                     "DEBUG"
                 )
-
-                policy_names_list = application_policy.get("policy_names_list")
-                if policy_names_list is not None and not isinstance(policy_names_list, list):
-                    self.msg = (
-                        "'policy_names_list' must be a list when provided."
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                self.log("Validated 'policy_names_list' - {0} for 'application_policy'.".format(policy_names_list), "DEBUG")
 
                 component_blocks.append("application_policy")
 
