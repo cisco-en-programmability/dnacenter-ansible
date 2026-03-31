@@ -3107,11 +3107,11 @@ options:
                 required: true
               unlocked_attributes:
                 description:
-                  - Set to true to unlock attributes for manual configuration.
-                  - When false, attributes are locked and managed by the template.
-                  - Allows flexibility in attribute configuration when needed.
-                type: bool
-                default: false
+                  - List of AAA Radius attribute names to unlock for manual configuration.
+                  - Use snake_case attribute names in the playbook.
+                  - Supported value is C(called_station_id).
+                type: list
+                elements: str
           advanced_ssid:
             description:
               - Advanced SSID configuration parameters for enhanced wireless features.
@@ -5129,7 +5129,7 @@ EXAMPLES = r"""
               - design_name: "sample_design"
                 called_station_id: "sample_id"
                 unlocked_attributes:
-                  - "calledStationId"
+                  - "called_station_id"
 - name: Update aaa radius profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -5148,7 +5148,7 @@ EXAMPLES = r"""
               - design_name: "sample_designnn"
                 called_station_id: "sample_id"
                 unlocked_attributes:
-                  - "calledStationId"
+                  - "called_station_id"
 - name: Delete aaa radius profiles
   cisco.dnac.wireless_design_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -7873,7 +7873,11 @@ class WirelessDesign(DnacBase):
                             "design_name": {"type": "str"},
                             "new_design_name": {"type": "str"},
                             "called_station_id": {"type": "str"},
-                            "unlocked_attributes": {"type": "bool", "required": False},
+                            "unlocked_attributes": {
+                                "type": "list",
+                                "elements": "str",
+                                "required": False,
+                            },
                         },
                     },
                     "advanced_ssid": {
@@ -8284,6 +8288,12 @@ class WirelessDesign(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
+        validation_error = self._validate_feature_template_unlocked_attributes(valid_temp)
+        if validation_error:
+            self.msg = validation_error
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
@@ -8291,6 +8301,123 @@ class WirelessDesign(DnacBase):
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+
+    def _is_snake_case_unlocked_attribute(self, attribute_name):
+        """
+        Check whether an unlocked attribute path uses snake_case segments only.
+
+        Args:
+            attribute_name (str): Attribute name or dotted path from the playbook.
+
+        Returns:
+            bool: True when all path segments are snake_case, otherwise False.
+        """
+        if not isinstance(attribute_name, str) or not attribute_name:
+            return False
+
+        pattern = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
+        return all(pattern.match(segment) for segment in attribute_name.split("."))
+
+    def _collect_feature_template_attribute_paths(self, options, prefix=""):
+        """
+        Collect valid snake_case attribute paths from feature template schema options.
+
+        Args:
+            options (dict): Feature attribute schema options.
+            prefix (str): Optional prefix for nested attribute paths.
+
+        Returns:
+            set: Supported snake_case attribute paths.
+        """
+        collected_paths = set()
+
+        for key, spec in (options or {}).items():
+            full_key = "{0}.{1}".format(prefix, key) if prefix else key
+            nested_options = {}
+            if isinstance(spec, dict):
+                nested_options = spec.get("options") or {}
+
+            if nested_options:
+                collected_paths.update(
+                    self._collect_feature_template_attribute_paths(
+                        nested_options, full_key
+                    )
+                )
+            else:
+                collected_paths.add(full_key)
+
+        return collected_paths
+
+    def _validate_feature_template_unlocked_attributes(self, config):
+        """
+        Validate that feature_template_config unlocked_attributes use snake_case.
+
+        Args:
+            config (list): Validated top-level module config list.
+
+        Returns:
+            str | None: Error message on validation failure, otherwise None.
+        """
+        self.log("Validating feature_template_config unlocked_attributes for snake_case compliance.", "DEBUG")
+        feature_template_spec = (
+            self.temp_spec.get("feature_template_config", {}).get("options", {})
+        )
+
+        for config_item in config or []:
+            feature_template_config = config_item.get("feature_template_config") or []
+            for template_block in feature_template_config:
+                for template_name, template_entries in (template_block or {}).items():
+                    template_spec = feature_template_spec.get(template_name, {})
+                    entry_options = template_spec.get("options", {})
+                    unlocked_spec = entry_options.get("unlocked_attributes", {})
+
+                    if unlocked_spec.get("type") != "list":
+                        continue
+
+                    allowed_unlock_attributes = self._collect_feature_template_attribute_paths(
+                        entry_options.get("feature_attributes", {}).get("options", {})
+                    )
+                    if not allowed_unlock_attributes:
+                        allowed_unlock_attributes = {
+                            option_name for option_name in entry_options.keys()
+                            if option_name not in (
+                                "design_name",
+                                "new_design_name",
+                                "feature_attributes",
+                                "unlocked_attributes",
+                            )
+                        }
+
+                    for entry in template_entries or []:
+                        design_name = entry.get("design_name", "<unknown>")
+                        unlocked_attributes = entry.get("unlocked_attributes") or []
+
+                        invalid_style = [
+                            attribute_name for attribute_name in unlocked_attributes
+                            if not self._is_snake_case_unlocked_attribute(attribute_name)
+                        ]
+                        if invalid_style:
+                            return (
+                                "Invalid unlocked_attributes {0} for feature template "
+                                "'{1}' in design '{2}'. Use snake_case attribute names only."
+                            ).format(invalid_style, template_name, design_name)
+
+                        invalid_names = [
+                            attribute_name for attribute_name in unlocked_attributes
+                            if attribute_name not in allowed_unlock_attributes
+                        ]
+                        if invalid_names:
+                            return (
+                                "Invalid unlocked_attributes {0} for feature template "
+                                "'{1}' in design '{2}'. Allowed values are: {3}."
+                            ).format(
+                                invalid_names,
+                                template_name,
+                                design_name,
+                                sorted(allowed_unlock_attributes),
+                            )
+
+        return None
 
     def verify_delete_rrm_general_requirement(self, rrm_general_list):
         """
@@ -9727,7 +9854,7 @@ class WirelessDesign(DnacBase):
             if unlocked:
                 # Only valid attribute is overlap_ip_enable -> overlapIpEnable
                 name_map = {"overlap_ip_enable": "overlapIpEnable"}
-                payload["unlockedAttributes"] = [name_map.get(u, u) for u in unlocked]
+                payload["unlockedAttributes"] = [name_map[u] for u in unlocked]
 
             existing = existing_by_name.get(design_name)
             if not existing:
@@ -12451,7 +12578,9 @@ class WirelessDesign(DnacBase):
                     - design_name (str): The unique design/profile name
                     - new_design_name (str, optional): New name for the design (for rename operation)
                     - called_station_id (str): The called station ID value
-                    - unlocked_attributes (bool, optional): Whether to unlock the calledStationId attribute
+                    - unlocked_attributes (list, optional): List of snake_case
+                      attribute names to unlock. Supported value:
+                      called_station_id
         Returns:
             tuple: Three lists containing AAA Radius Attribute configurations:
                 - add_attrs (list): Payloads for new AAA Radius Attribute configurations to create
@@ -12483,7 +12612,8 @@ class WirelessDesign(DnacBase):
             self.log("Requested called_station_id: {0}".format(called_station_id), "DEBUG")
             if new_design_name:
                 self.log("New design name requested: {0}".format(new_design_name), "DEBUG")
-            unlocked_attributes = attr.get("unlocked_attributes", False)
+            unlocked_attributes = attr.get("unlocked_attributes", []) or []
+            desired_unlocked = ["calledStationId"] if unlocked_attributes else []
 
             # validate the called_station_id value
             allowed_values = [
@@ -12510,9 +12640,6 @@ class WirelessDesign(DnacBase):
                 existing_called = details.get("featureAttributes", {}).get("calledStationId")
                 existing_unlocked = details.get("unlockedAttributes", []) or []
 
-                # Desired unlocked (only set if explicitly requested True)
-                desired_unlocked = ["calledStationId"] if unlocked_attributes else []
-
                 # Determine if update is needed (config changes or rename)
                 config_changed = (
                     existing_called != called_station_id
@@ -12535,7 +12662,7 @@ class WirelessDesign(DnacBase):
                         "designName": new_design_name,  # Use new name
                         "featureAttributes": {"calledStationId": called_station_id},
                     }
-                    if unlocked_attributes:
+                    if desired_unlocked:
                         payload["unlockedAttributes"] = ["calledStationId"]
 
                     update_attrs.append(payload)
@@ -12549,7 +12676,7 @@ class WirelessDesign(DnacBase):
                         "designName": design_name,  # Keep original name
                         "featureAttributes": {"calledStationId": called_station_id},
                     }
-                    if unlocked_attributes:
+                    if desired_unlocked:
                         payload["unlockedAttributes"] = ["calledStationId"]
 
                     update_attrs.append(payload)
@@ -12578,7 +12705,7 @@ class WirelessDesign(DnacBase):
                     "designName": design_name,
                     "featureAttributes": {"calledStationId": called_station_id},
                 }
-                if unlocked_attributes:
+                if desired_unlocked:
                     payload["unlockedAttributes"] = ["calledStationId"]
 
                 add_attrs.append(payload)
