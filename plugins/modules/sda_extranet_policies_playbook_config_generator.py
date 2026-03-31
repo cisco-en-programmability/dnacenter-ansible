@@ -456,6 +456,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             return self
 
         self.auto_populate_and_validate_components_list(component_specific_filters)
+        self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -920,6 +921,26 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "WARNING",
             )
             return {"extranet_policies": []}
+
+        # Deduplicate output policies before transformation using the unique policy name as key
+        original_count = len(final_extranet_policies)
+        seen_policy_names = set()
+        deduped_policies = []
+        for policy in final_extranet_policies:
+            policy_name = policy.get("extranetPolicyName")
+            if policy_name not in seen_policy_names:
+                seen_policy_names.add(policy_name)
+                deduped_policies.append(policy)
+        final_extranet_policies = deduped_policies
+        dedup_count = original_count - len(final_extranet_policies)
+        if dedup_count > 0:
+            self.log(
+                "Removed {0} duplicate extranet policy(ies) from API results. "
+                "Original count: {1}, After dedup: {2}".format(
+                    dedup_count, original_count, len(final_extranet_policies)
+                ),
+                "INFO",
+            )
 
         self.log(
             "Transforming {0} extranet policy(ies) using "
