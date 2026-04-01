@@ -506,9 +506,9 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         generator = self._build_validation_generator()
         component_specific_filters = {
             "components_list": [],
-            "device_health_score_settings": {
-                "device_families": ["ROUTER"]
-            }
+            "device_health_score_settings": [
+                {"device_families": ["ROUTER"]}
+            ]
         }
         result = generator.validate_component_specific_filters(component_specific_filters)
         self.assertTrue(result)
@@ -555,7 +555,8 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         }
         result = generator.validate_component_specific_filters(component_specific_filters)
         self.assertTrue(result)
-        self.assertEqual(component_specific_filters["device_health_score_settings"], {})
+        # None is normalized to an empty list then flattened to {"device_families": []}
+        self.assertEqual(component_specific_filters["device_health_score_settings"], {"device_families": []})
 
 
 if __name__ == '__main__':
