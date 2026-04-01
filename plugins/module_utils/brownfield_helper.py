@@ -6,7 +6,6 @@
 
 from __future__ import absolute_import, division, print_function
 import datetime
-import hashlib
 import os
 from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
     validate_list_of_dicts,
