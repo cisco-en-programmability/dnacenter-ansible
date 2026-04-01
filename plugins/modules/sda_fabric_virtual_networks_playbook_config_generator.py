@@ -171,11 +171,11 @@ notes:
 - |-
   Module result behavior (changed/ok/failed):
   The module result reflects local file state only, not Catalyst Center state.
-  In overwrite mode, the full file content is compared (excluding volatile
-  fields like timestamps and playbook path). In append mode, only the last
-  YAML document in the file is compared against the newly generated
-  configuration. If a file contains multiple config entries from previous
-  appends, only the most recent entry is used for the idempotency check.
+  In overwrite mode, the full generated YAML content is compared against the
+  existing file after excluding generated header comment lines. In append mode,
+  only the last YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous appends,
+  only the most recent entry is used for the idempotency check.
   - changed=true (status: success): The generated YAML configuration differs
     from the existing output file (or the file does not exist). The file was
     written and the configuration was updated.
@@ -186,6 +186,9 @@ notes:
     API failure, or file write error. No file was written or modified.
   Note: Re-running with identical inputs and unchanged Catalyst Center state
   will produce changed=false, ensuring idempotent playbook behavior.
+  Note: If append mode creates multiple config entries in the generated file,
+  replaying the file as config in the workflow manager module uses the last
+  config entry in the file.
 seealso:
 - module: cisco.dnac.sda_fabric_virtual_networks_workflow_manager
   description: Module for managing fabric VLANs, Virtual Networks,
