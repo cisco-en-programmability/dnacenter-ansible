@@ -574,7 +574,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         fabric_ids = extranet_policy_details.get("fabricIds", [])
         if not fabric_ids:
             self.log(
-                "No fabric IDs found in extranet policy " "details, returning None",
+                "No fabric IDs found in extranet policy details, returning None",
                 "DEBUG",
             )
             return None
