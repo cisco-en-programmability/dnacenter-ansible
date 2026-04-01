@@ -1853,55 +1853,16 @@ class BrownFieldHelper:
                 )
                 return None
 
-            # Split by YAML document separator and take the last non-empty segment
-            documents = content.split("\n---\n")
+            # Parse the entire file with yaml.safe_load which uses last-key-wins
+            # semantics. This correctly extracts the last config: block regardless
+            # of whether --- separators are present.
             self.log(
-                "File '{0}' split into {1} YAML document segment(s)".format(file_path, len(documents)),
+                "Parsing file '{0}' with safe_load (last-key-wins) to extract "
+                "last config block.".format(file_path),
                 "DEBUG",
             )
 
-            last_segment = None
-            total_segments = len(documents)
-
-            for segment_number in range(total_segments, 0, -1):
-                segment = documents[segment_number - 1]
-                stripped = segment.strip()
-
-                self.log(
-                    "Checking segment {0}/{1}, "
-                    "empty: {2}, length: {3} characters".format(
-                        segment_number, total_segments,
-                        not bool(stripped), len(stripped)
-                    ),
-                    "DEBUG",
-                )
-
-                if stripped:
-                    self.log(
-                        "Found last non-empty YAML segment at position {0}".format(segment_number),
-                        "DEBUG",
-                    )
-                    last_segment = stripped
-                    break
-
-                self.log(
-                    "Segment {0} is empty, continuing to next".format(segment_number),
-                    "DEBUG",
-                )
-
-            if last_segment is None:
-                self.log(
-                    "No non-empty YAML segment found in '{0}', returning None".format(file_path),
-                    "DEBUG",
-                )
-                return None
-
-            self.log(
-                "Parsing last YAML segment from '{0}'".format(file_path),
-                "DEBUG",
-            )
-
-            last_doc = yaml.safe_load(last_segment)
+            last_doc = yaml.safe_load(content)
 
             self.log(
                 "Extracted last YAML document from '{0}', content: {1}"
@@ -1920,76 +1881,29 @@ class BrownFieldHelper:
             )
             return None
 
-    def _compute_content_hash(self, content):
+    def _strip_header_comment_lines(self, content):
         """
-        Compute a SHA256 hash of file content after stripping volatile header
-        fields (timestamp, playbook path) so that two files generated from the
-        same config at different times produce an identical hash.
-
-        Uses streaming hash updates per line instead of building a full
-        normalized string in memory, which is significantly faster and more
-        memory-efficient for large configuration files.
+        Return content lines with generated header comment lines removed.
 
         Args:
             content (str): Raw file content including header comments.
 
         Returns:
-            str: Hex-encoded SHA256 digest of the normalized content.
+            list: Content lines excluding comment lines.
         """
-        self.log(
-            "Starting SHA256 content hash computation. "
-            "Input content length: {0} characters.".format(len(content)),
-            "DEBUG",
-        )
-
         lines = content.splitlines()
-        total_lines = len(lines)
+        filtered_lines = [
+            line for line in lines if not line.strip().startswith("#")
+        ]
 
         self.log(
-            "Content split into {0} lines for hash processing.".format(total_lines),
+            "Stripped header comment lines from content. Total lines: {0}, "
+            "retained lines: {1}, removed comment lines: {2}".format(
+                len(lines), len(filtered_lines), len(lines) - len(filtered_lines)
+            ),
             "DEBUG",
         )
-
-        hasher = hashlib.sha256()
-        skipped_lines = 0
-        hashed_lines = 0
-
-        for index, line in enumerate(lines, start=1):
-            stripped = line.strip()
-
-            self.log(
-                "Processing line {0}/{1}: '{2}'".format(index, total_lines, stripped),
-                "DEBUG",
-            )
-
-            # Skip lines that change every run
-            if stripped.startswith("#  Generated on") or stripped.startswith("#  Generated from"):
-                self.log(
-                    "Line {0}: Skipping volatile header line: '{1}'".format(index, stripped),
-                    "DEBUG",
-                )
-                skipped_lines += 1
-                continue
-
-            hasher.update(line.encode("utf-8"))
-            hasher.update(b"\n")
-            hashed_lines += 1
-
-            self.log(
-                "Line {0}: Hashed successfully.".format(index),
-                "DEBUG",
-            )
-
-        digest = hasher.hexdigest()
-
-        self.log(
-            "SHA256 content hash computation completed. "
-            "Total lines: {0}, Lines hashed: {1}, Volatile lines skipped: {2}, "
-            "Computed hash: {3}".format(total_lines, hashed_lines, skipped_lines, digest),
-            "DEBUG",
-        )
-
-        return digest
+        return filtered_lines
 
     def write_dict_to_yaml(
         self,
@@ -2001,10 +1915,10 @@ class BrownFieldHelper:
     ):
         """
         Converts a dictionary to YAML format and writes it to a specified file path.
-        Supports idempotent behavior: skips writing if the content is unchanged.
+        Supports idempotent behavior: skips writing if the YAML payload is unchanged.
 
-        For overwrite mode: compares the full file content (excluding volatile header
-        fields like timestamp) against the new content.
+        For overwrite mode: compares the full rendered YAML content while ignoring
+        generated header comments entirely.
         For append mode: compares the data payload against the last YAML document
         already present in the file.
 
@@ -2042,7 +1956,24 @@ class BrownFieldHelper:
                 self.fail_and_exit(self.msg)
 
             header_comments = self.add_header_comments(notes=notes)
-            yaml_content = header_comments + "\n---\n" + yaml_content
+
+            # Use --- separator only for overwrite mode or when file doesn't exist yet.
+            # In append mode, skip --- so the file remains a single YAML document
+            # where the last config: key wins (history-style structure).
+            if file_mode == "append" and os.path.isfile(file_path) and os.path.getsize(file_path) > 0:
+                self.log(
+                    "Append mode with non-empty existing file '{0}'. Building YAML "
+                    "content without document separator.".format(file_path),
+                    "DEBUG",
+                )
+                yaml_content = "\n" + header_comments + "\n" + yaml_content
+            else:
+                self.log(
+                    "Using standard YAML content format for '{0}' with header comments "
+                    "and document separator.".format(file_path),
+                    "DEBUG",
+                )
+                yaml_content = header_comments + "\n---\n" + yaml_content
 
             self.log("Dictionary successfully converted to YAML format.", "DEBUG")
 
@@ -2050,7 +1981,8 @@ class BrownFieldHelper:
             if file_mode == "overwrite" and os.path.isfile(file_path):
                 self.log(
                     "Overwrite mode: Existing file found at '{0}'. "
-                    "Starting idempotency check by comparing content hashes.".format(file_path),
+                    "Starting idempotency check by comparing full YAML content "
+                    "without header comments.".format(file_path),
                     "DEBUG",
                 )
 
@@ -2065,26 +1997,17 @@ class BrownFieldHelper:
                         "DEBUG",
                     )
 
-                    existing_hash = self._compute_content_hash(existing_content)
-                    new_hash = self._compute_content_hash(yaml_content)
-
-                    self.log(
-                        "Content hash comparison for '{0}': existing_hash={1}, new_hash={2}".format(
-                            file_path, existing_hash, new_hash
-                        ),
-                        "DEBUG",
-                    )
-
-                    if existing_hash == new_hash:
+                    if self._strip_header_comment_lines(existing_content) == self._strip_header_comment_lines(yaml_content):
                         self.log(
-                            "Overwrite mode: File '{0}' already has identical content (hash match). "
-                            "Skipping write.".format(file_path),
+                            "Overwrite mode: File '{0}' already has identical YAML content "
+                            "after excluding header comments. Skipping write.".format(file_path),
                             "INFO",
                         )
                         return False
 
                     self.log(
-                        "Overwrite mode: Content hashes differ for '{0}'. Proceeding with write.".format(file_path),
+                        "Overwrite mode: YAML content differs for '{0}' after excluding "
+                        "header comments. Proceeding with write.".format(file_path),
                         "DEBUG",
                     )
 
