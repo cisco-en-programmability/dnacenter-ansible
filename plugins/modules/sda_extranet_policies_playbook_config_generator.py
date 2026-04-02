@@ -456,6 +456,9 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             return self
 
         self.auto_populate_and_validate_components_list(component_specific_filters)
+        # Deduplicate user-provided filters to avoid issuing redundant API calls
+        # for the same policy name. Note: API-level deduplication is done separately
+        # in get_extranet_policies_configuration() for paginated response overlap.
         self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
@@ -538,7 +541,8 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             list[str] | None: Fabric site name hierarchies in order:
                 - Format: "Global/Region/Site/Building"
                 - Only includes successfully resolved site names
-                - Returns None if no fabricIds or resolution failures
+                - Returns None if no fabricIds found, or if all fabric IDs
+                  fail to resolve (empty result list)
 
         Processing Flow:
             1. Extract fabricIds list from policy details
@@ -618,7 +622,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "DEBUG",
             )
-        return fabric_site_names
+        return fabric_site_names if fabric_site_names else None
 
     def extranet_policy_temp_spec(self):
         """
@@ -779,11 +783,16 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             5. For full retrieval:
                 - Execute paginated API call with empty params
                 - Collect all policies from Catalyst Center
-            6. Transform results:
+            6. Deduplicate output policies before transformation using the unique policy
+               name (extranetPolicyName) as key:
+                - Track seen policy names in a set
+                - Skip policies with duplicate names
+                - Log count of removed duplicates if any
+            7. Transform results:
                 - Generate extranet_policy_temp_spec()
                 - Apply modify_parameters(temp_spec, policies)
                 - Convert API format to YAML format
-            7. Return structured result dictionary
+            8. Return structured result dictionary
 
         API Integration:
             - Family: sda
@@ -823,8 +832,8 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         Error Handling:
             - API failures: Logged and propagated to calling function
-            - Empty results: Returns empty list, not error
-            - Invalid filter names: Logged as warning, skipped
+            - Empty results: Returns None, not an error
+            - Invalid filter names: Logged as a warning and skipped
             - Failed transformations: Logged and may cause failures
 
         Logging:
