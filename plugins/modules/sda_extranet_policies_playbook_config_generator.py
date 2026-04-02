@@ -456,6 +456,10 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             return self
 
         self.auto_populate_and_validate_components_list(component_specific_filters)
+        # Deduplicate user-provided filters to avoid issuing redundant API calls
+        # for the same policy name. Note: API-level deduplication is done separately
+        # in get_extranet_policies_configuration() for paginated response overlap.
+        self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -534,10 +538,11 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 - Other policy details (not processed by this method)
 
         Returns:
-            list[str]: Fabric site name hierarchies in order:
+            list[str] | None: Fabric site name hierarchies in order:
                 - Format: "Global/Region/Site/Building"
                 - Only includes successfully resolved site names
-                - Returns empty list if no fabricIds or resolution failures
+                - Returns None if no fabricIds found, or if all fabric IDs
+                  fail to resolve (empty result list)
 
         Processing Flow:
             1. Extract fabricIds list from policy details
@@ -573,11 +578,10 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         fabric_ids = extranet_policy_details.get("fabricIds", [])
         if not fabric_ids:
             self.log(
-                "No fabric IDs found in extranet policy "
-                "details, returning empty list",
+                "No fabric IDs found in extranet policy details, returning None",
                 "DEBUG",
             )
-            return []
+            return None
 
         self.log(
             "Processing {0} fabric ID(s) for site name "
@@ -618,7 +622,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "DEBUG",
             )
-        return fabric_site_names
+        return fabric_site_names if fabric_site_names else None
 
     def extranet_policy_temp_spec(self):
         """
@@ -762,7 +766,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         ...
                     ]
                 }
-                Returns {"extranet_policies": []} if no policies found
+                Returns None if no policies found
 
         Processing Workflow:
             1. Extract API family and function from network_element
@@ -779,11 +783,16 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             5. For full retrieval:
                 - Execute paginated API call with empty params
                 - Collect all policies from Catalyst Center
-            6. Transform results:
+            6. Deduplicate output policies before transformation using the unique policy
+               name (extranetPolicyName) as key:
+                - Track seen policy names in a set
+                - Skip policies with duplicate names
+                - Log count of removed duplicates if any
+            7. Transform results:
                 - Generate extranet_policy_temp_spec()
                 - Apply modify_parameters(temp_spec, policies)
                 - Convert API format to YAML format
-            7. Return structured result dictionary
+            8. Return structured result dictionary
 
         API Integration:
             - Family: sda
@@ -823,8 +832,8 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         Error Handling:
             - API failures: Logged and propagated to calling function
-            - Empty results: Returns empty list, not error
-            - Invalid filter names: Logged as warning, skipped
+            - Empty results: Returns None, not an error
+            - Invalid filter names: Logged as a warning and skipped
             - Failed transformations: Logged and may cause failures
 
         Logging:
@@ -915,11 +924,31 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if not final_extranet_policies:
             self.log(
                 "No extranet policies found matching the "
-                "specified filters. Returning empty "
+                "specified filters. Returning None "
                 "result.",
                 "WARNING",
             )
-            return {"extranet_policies": []}
+            return None
+
+        # Deduplicate output policies before transformation using the unique policy name as key
+        original_count = len(final_extranet_policies)
+        seen_policy_names = set()
+        deduped_policies = []
+        for policy in final_extranet_policies:
+            policy_name = policy.get("extranetPolicyName")
+            if policy_name not in seen_policy_names:
+                seen_policy_names.add(policy_name)
+                deduped_policies.append(policy)
+        final_extranet_policies = deduped_policies
+        dedup_count = original_count - len(final_extranet_policies)
+        if dedup_count > 0:
+            self.log(
+                "Removed {0} duplicate extranet policy(ies) from API results. "
+                "Original count: {1}, After dedup: {2}".format(
+                    dedup_count, original_count, len(final_extranet_policies)
+                ),
+                "INFO",
+            )
 
         self.log(
             "Transforming {0} extranet policy(ies) using "
