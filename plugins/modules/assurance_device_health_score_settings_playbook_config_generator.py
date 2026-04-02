@@ -124,6 +124,9 @@ options:
                 description:
                 - List of specific device family names to extract KPI threshold
                   settings.
+                - Multiple device family sets are specified by adding entries to
+                  the parent C(device_health_score_settings) list, each with its
+                  own C(device_families) list.
                 - Valid device family names include C(ROUTER) for routing devices,
                   C(SWITCH_AND_HUB) for switching infrastructure,
                   C(WIRELESS_CONTROLLER) for wireless LAN controllers,
@@ -134,8 +137,13 @@ options:
                   configured KPI threshold settings will be extracted.
                 - Duplicate device family values across entries are automatically
                   removed while preserving the original order of first occurrence.
+                - When omitted from a single entry but present in others, only
+                  the families specified in the remaining entries are used; an
+                  entry without C(device_families) does not broaden the filter to
+                  all families.
                 - Device family names are case-sensitive and must match exact
                   names used in Catalyst Center.
+                  For example, C(UNIFIED_AP) not C(unified_ap).
                 type: list
                 elements: str
                 choices:
@@ -319,6 +327,33 @@ EXAMPLES = r"""
         device_health_score_settings:
           - device_families: ["ROUTER", "UNIFIED_AP"]
           - device_families: ["UNIFIED_AP"]  # UNIFIED_AP is a duplicate and will be removed
+
+- name: >
+    Generate YAML Configuration showing that an entry without device_families
+    does NOT expand the filter to all families.
+    Only ROUTER and SWITCH_AND_HUB (from the first entry) are fetched.
+    The second entry omits device_families entirely but does not cause all
+    device families to be included - it is simply ignored for filtering
+    purposes. Result is identical to specifying only the first entry.
+  cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/partial_omission_device_health_score_settings.yml"
+    file_mode: overwrite
+    config:
+      component_specific_filters:
+        components_list: ["device_health_score_settings"]
+        device_health_score_settings:
+          - device_families: ["ROUTER", "SWITCH_AND_HUB"]  # only these two families are fetched
+          - {}  # entry with no device_families key - does NOT add "all families" to the filter
 """
 
 RETURN = r"""
@@ -797,7 +832,8 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             component_specific_filters (dict): Component filters configuration containing:
                 - components_list (list, optional): List of component names to process
-                - device_health_score_settings (dict, optional): Nested filters with:
+                - device_health_score_settings (list[dict], optional): List of filter
+                    entries, each a dict with:
                     - device_families (list, optional): Device families within settings
 
         Returns:
