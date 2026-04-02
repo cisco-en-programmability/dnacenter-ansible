@@ -272,20 +272,51 @@ options:
               the application policy.
             type: str
           clause:
-            description: Defines specific rules or conditions
-              under which an application set is added
-              to the application policy.
+            description:
+              - Defines specific rules or conditions
+                under which application sets are added
+                to or removed from the application
+                policy.
+              - When C(state=merged), the clause defines
+                application sets to add to the policy.
+              - When C(state=deleted) and clause is
+                provided, it specifies which application
+                sets to remove from the policy.
+              - If C(relevance_details) contains only
+                C(relevance) without
+                C(application_set_name), all application
+                sets under that relevance level are
+                removed.
+              - If C(relevance_details) contains both
+                C(relevance) and C(application_set_name),
+                only those specific application sets
+                are removed.
+              - If clause is omitted during a delete
+                operation, the entire application
+                policy is deleted.
+              - Only C(clause_type)
+                C(BUSINESS_RELEVANCE) supports partial
+                deletion of application sets. The
+                C(APPLICATION_POLICY_KNOBS) clause type
+                is not affected by delete operations.
             type: list
             elements: dict
             suboptions:
               clause_type:
                 description: |
-                  - Specifies the type of clause for the application policy.
+                  - Specifies the type of clause for
+                    the application policy.
                   - Permissible values:
-                    - "BUSINESS_RELEVANCE": Defines the importance of the application to business operations, affecting its priority and
-                    handling in the network policy.
-                    - "APPLICATION_POLICY_KNOBS": Configurable settings that manage the application's network behavior,
-                    such as traffic prioritization and resource allocation.
+                    - "BUSINESS_RELEVANCE": Defines
+                      the importance of the application
+                      to business operations, affecting
+                      its priority and handling in the
+                      network policy.
+                    - "APPLICATION_POLICY_KNOBS":
+                      Configurable settings that manage
+                      the application's network behavior,
+                      such as traffic prioritization
+                      and resource allocation.
                 type: str
               relevance_details:
                 description: Details about how relevant
@@ -295,16 +326,52 @@ options:
                 suboptions:
                   relevance:
                     description: |
-                      - Specifies whether the application set is relevant to the application policy.
+                      - Specifies the relevance level
+                        of the application set within
+                        the application policy.
+                      - When C(state=merged), determines
+                        which relevance group the
+                        application sets are added to.
+                      - When C(state=deleted), specifies
+                        which relevance level to target
+                        for application set removal.
                       - Permissible values:
-                        - "BUSINESS_RELEVANT": The application is critical for business functions.
-                        - "BUSINESS_IRRELEVANT": The application is not essential for business operations.
-                        - "DEFAULT": A default setting when no specific relevance is assigned.
+                        - "BUSINESS_RELEVANT": The
+                          application is critical for
+                          business functions.
+                        - "BUSINESS_IRRELEVANT": The
+                          application is not essential
+                          for business operations.
+                        - "DEFAULT": A default setting
+                          when no specific relevance
+                          is assigned.
                     type: str
                   application_set_name:
-                    description: Include all the application
-                      sets for which the application
-                      policy has to be created
+                    description:
+                      - List of application set names to
+                        associate with or remove from
+                        the specified relevance level.
+                      - Matched against the application
+                        set names currently associated
+                        with the policy in Cisco
+                        Catalyst Center.
+                      - When C(state=merged), includes
+                        the application sets to add to
+                        the policy under this relevance
+                        level.
+                      - When C(state=deleted), specifies
+                        which application sets to
+                        remove from the given relevance
+                        level.
+                      - If omitted with C(state=deleted),
+                        all application sets under the
+                        specified relevance level are
+                        removed.
+                      - Scoped per C(relevance_details)
+                        entry, not globally across the
+                        entire clause.
+                      - "For example: ['file-sharing',
+                        'collaboration-apps']."
                     type: list
                     elements: str
 requirements:
@@ -389,6 +456,7 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
+
 # Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
 - name: Deploy Enterprise QoS Profile in Cisco Catalyst
     Center
@@ -436,6 +504,7 @@ EXAMPLES = r"""
                     broadcast_video: "2"
                     network_control: "3"
                     bulk_data: "5"
+
 # Playbook - QoS Profile Based on Interface Speeds
 - name: Deploy Interface-Specific QoS Profile in Cisco
     Catalyst Center
@@ -554,6 +623,7 @@ EXAMPLES = r"""
                         broadcast_video: "2"
                         network_control: "3"
                         bulk_data: "5"
+
 # Playbook - for some interface speeds having common bandwidth percentage
 - name: Configure an Application Queueing Profile for
     Traffic Prioritization
@@ -644,6 +714,7 @@ EXAMPLES = r"""
                         broadcast_video: "2"
                         network_control: "3"
                         bulk_data: "5"
+
 # Playbook - application queuing profile - type dscp
 - name: Configure Application Queuing Profile (DSCP)
     in Cisco Catalyst Center
@@ -687,6 +758,7 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
+
 # Playbook - update application queuing profile
 - name: Application Queuing Profile update in Cisco
     Catalyst Center
@@ -749,6 +821,7 @@ EXAMPLES = r"""
                   bulk_data: "10"
                   scavenger: "2"
                   real_time_interactive: "34"
+
 # Playbook - delete application queuing profile
 - name: Delete application queuing profile from Cisco
     Catalyst Center
@@ -777,6 +850,7 @@ EXAMPLES = r"""
         config:
           - queuing_profile:
               - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
+
 # Playbook - create application policy – wired
 - name: Create Wired Application Policy in Cisco Catalyst
     Center
@@ -817,6 +891,7 @@ EXAMPLES = r"""
                         application_set_name: ["email", "tunneling"]
                       - relevance: "DEFAULT"
                         application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
+
 # Playbook - create application policy – wireless
 - name: Create Wireless Application Policy in Cisco
     Catalyst Center
@@ -858,6 +933,7 @@ EXAMPLES = r"""
                         application_set_name: ["email", "backup-and-storage"]
                       - relevance: "DEFAULT"
                         application_set_name: ["collaboration-apps", "tunneling", "general-media"]
+
 # Playbook - delete application policy
 - name: Delete Application Policy from Cisco Catalyst
     Center
@@ -885,6 +961,77 @@ EXAMPLES = r"""
         config:
           - application_policy:
               - name: "ObsoleteTrafficPolicy"
+
+# Playbook - delete all application sets under a specific
+#   relevance level from an application policy
+- name: Remove all application sets under a relevance
+    level from an application policy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Delete all BUSINESS_RELEVANT application
+        sets from policy
+      cisco.dnac.application_policy_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:
+          - application_policy:
+              - name: "wired_traffic_policy"
+                clause:
+                  - clause_type: "BUSINESS_RELEVANCE"
+                    relevance_details:
+                      - relevance: "BUSINESS_RELEVANT"
+
+# Playbook - delete specific application set(s) from
+#   an application policy
+- name: Remove specific application set(s) from an
+    application policy in Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Delete specific application set(s) from
+        a policy
+      cisco.dnac.application_policy_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:
+          - application_policy:
+              - name: "wired_traffic_policy"
+                clause:
+                  - clause_type: "BUSINESS_RELEVANCE"
+                    relevance_details:
+                      - relevance: "BUSINESS_RELEVANT"
+                        application_set_name: ["collaboration-apps"]
+                      - relevance: "BUSINESS_IRRELEVANT"
+                        application_set_name: ["email", "tunneling"]
 """
 
 RETURN = r"""
@@ -1159,6 +1306,7 @@ class ApplicationPolicy(DnacBase):
             self.no_update_application_policy,
         ) = ([], [], [])
         self.deleted_application_policy, self.no_deleted_application_policy = [], []
+        self.deleted_application_set_from_policy = []
         (
             self.created_queuing_profile,
             self.updated_queuing_profile,
@@ -6210,90 +6358,284 @@ class ApplicationPolicy(DnacBase):
 
     def delete_application_policy(self):
         """
-        Delete an existing application policy or just the application set(s) if specified in the playbook.
+        Delete an existing application policy or specific
+        application sets based on clause configuration.
 
         Args:
-            self (object): An instance of the class for interacting with Cisco Catalyst Center.
+            self (object): An instance of the class for
+                interacting with Cisco Catalyst Center.
+                Reads from self.config["application_policy"]
+                (list[dict]), where each dict may contain:
+                - name (str): Policy name. Required.
+                - clause (list[dict], optional): Each dict
+                  has clause_type (str) and
+                  relevance_details (list[dict]).
+                  Each relevance_details dict has:
+                  - relevance (str): The relevance level.
+                  - application_set_name (list[str],
+                    optional): Specific sets to remove.
 
         Returns:
-            self: The updated instance with 'status', 'msg', and 'result' attributes.
+            self: The updated instance with 'status',
+                'msg', and 'result' attributes.
 
         Description:
-            This method deletes an application policy or only the application set(s) from Cisco Catalyst Center.
-            If 'application_set_name' is provided in the playbook, only the application set will be deleted.
-            If not, the entire policy will be deleted. If the policy does not exist, a message is logged.
-            If an error occurs, it is caught and handled appropriately.
+            Deletes application policies or application
+            sets from Cisco Catalyst Center.
+            - If no 'clause' is provided in the config
+              entry, the entire policy is deleted.
+            - If 'clause' with 'relevance_details' is
+              provided:
+              - With 'application_set_name': only the
+                specified sets are removed from that
+                relevance level.
+              - Without 'application_set_name': all sets
+                under that relevance level are removed.
+            - If the policy does not exist, the policy
+              name is added to
+              self.no_deleted_application_policy and
+              processing continues to the next entry.
         """
-
         application_policy_details = self.config.get("application_policy", [])
-        exists_false, exists_true, success_msg, failed_msg = [], [], [], []
-        application_sets_deleted = (
-            []
-        )  # To track which application sets were deleted from which policies
-        application_set_not_present = (
-            []
-        )  # To track missing application sets for policies
+        self.log(
+            "Starting deletion of application policies. "
+            "Total policies to process: {0}. "
+            "Policy names: {1}.".format(
+                len(application_policy_details),
+                [p.get("name") for p in application_policy_details],
+            ),
+            "INFO",
+        )
+        success_msg, failed_msg = [], []
+        application_sets_deleted = []
+        application_set_not_present = []
 
-        # Loop through each policy in the config
-        for policy in application_policy_details:
+        total_policies = len(application_policy_details)
+        for policy_idx, policy in enumerate(application_policy_details, start=1):
             policy_name = policy.get("name")
-            application_set_name_in_config = policy.get("application_set_name")
-
+            self.log(
+                "Processing policy {0}/{1} with name='{2}'.".format(
+                    policy_idx, total_policies, policy_name
+                ),
+                "DEBUG",
+            )
+            clause_config = policy.get("clause")
+            self.log(
+                "Verifying policy {0}/{1}: '{2}'.".format(
+                    policy_idx, total_policies, policy_name
+                ),
+                "DEBUG",
+            )
             # Fetch current application policy details
             application_policy_exists, current_application_policy = (
                 self.get_application_policy_details(policy_name)
             )
 
             if not application_policy_exists:
-                exists_false.append(policy_name)
+                self.log(
+                    "Policy '{0}' does not exist. Skipping "
+                    "deletion. Continuing.".format(policy_name),
+                    "INFO",
+                )
                 failed_msg.append(policy_name)
+                self.no_deleted_application_policy.append(policy_name)
                 continue
 
-            ids_list = []  # Store the IDs of application sets or policies to be deleted
-            application_set_names = []  # List to track valid application sets
-            application_set_name_not_available = (
-                []
-            )  # List of application sets not found
+            ids_list = []
+            application_set_names_deleted = []
 
-            if application_set_name_in_config:
-                # If application set name is provided, check if they exist or are already deleted
-                for current_policy in current_application_policy:
-                    if "id" in current_policy:
-                        for app_name in application_set_name_in_config:
-                            if app_name in current_policy.get("name", ""):
-                                application_set_names.append(app_name)
-                                ids_list.append(
-                                    current_policy.get("id")
-                                )  # Add the application set's ID
-                                break
+            if clause_config:
+                # Build a set of (relevance, app_set_name) pairs to delete
+                # and a set of relevance levels where ALL sets should be deleted
+                targeted_sets = set()
+                delete_all_for_relevance = set()
 
-                # Identify any application sets that are missing in the policy
-                application_set_name_not_available = [
-                    app_name
-                    for app_name in application_set_name_in_config
-                    if app_name not in application_set_names
-                ]
-
-                # Proceed with valid application sets even if some are not available
-                if application_set_name_not_available:
-                    application_set_not_present.append(
-                        (policy_name, application_set_name_not_available)
+                total_clauses = len(clause_config)
+                for clause_idx, clause_item in enumerate(clause_config):
+                    relevance_details = clause_item.get("relevance_details", [])
+                    self.log(
+                        "Processing clause {0}/{1} with type='{2}'.".format(
+                            clause_idx + 1,
+                            total_clauses,
+                            clause_item.get("clause_type", "unknown")
+                        ),
+                        "DEBUG",
                     )
+
+                    total_details = len(relevance_details)
+                    for detail_idx, detail in enumerate(relevance_details):
+                        relevance = detail.get("relevance")
+                        self.log(
+                            "Processing relevance_detail {0}/{1} "
+                            "with relevance='{2}'.".format(
+                                detail_idx + 1, total_details, relevance
+                            ),
+                            "DEBUG",
+                        )
+                        app_set_names = detail.get("application_set_name")
+                        if app_set_names:
+                            total_names = len(app_set_names)
+                            for name_idx, name in enumerate(app_set_names):
+                                self.log(
+                                    "Adding targeted set {0}/{1}: "
+                                    "relevance='{2}', name='{3}'.".format(
+                                        name_idx + 1, total_names, relevance, name
+                                    ),
+                                    "DEBUG",
+                                )
+                                targeted_sets.add((relevance, name))
+                        else:
+                            # No application_set_name means delete ALL sets under this relevance
+                            self.log(
+                                "No specific application sets provided for relevance='{0}'. "
+                                "All sets under this relevance will be deleted.".format(
+                                    relevance
+                                ),
+                                "DEBUG",
+                            )
+                            delete_all_for_relevance.add(relevance)
+
+                self.log(
+                    "Policy '{0}': targeted_sets={1}, delete_all_for_relevance={2}".format(
+                        policy_name, targeted_sets, delete_all_for_relevance
+                    ),
+                    "DEBUG",
+                )
+
+                # Match current policy entries to the targeted sets/relevance levels
+                prefix = policy_name + "_"
+
+                total_current = len(current_application_policy)
+                for cp_idx, current_policy in enumerate(
+                    current_application_policy
+                ):
+                    current_name = current_policy.get("name", "")
+                    self.log(
+                        "Evaluating policy entry {0}/{1} "
+                        "with name='{2}'.".format(
+                            cp_idx + 1, total_current, current_name
+                        ),
+                        "DEBUG",
+                    )
+                    current_name = current_policy.get("name", "")
+                    policy_id = current_policy.get("id")
+                    if not policy_id:
+                        self.log(
+                            "Skipping policy entry '{0}' — no 'id' "
+                            "field found. Continuing.".format(
+                                current_name
+                            ),
+                            "DEBUG",
+                        )
+                        continue
+
+                    # Determine the relevance level from exclusiveContract clause
+                    entry_relevance = None
+                    exclusive_contract = current_policy.get("exclusiveContract", {})
+                    contract_clauses = exclusive_contract.get("clause", [])
+                    for cc_idx, cc in enumerate(contract_clauses):
+                        if cc.get("type") == "BUSINESS_RELEVANCE":
+                            entry_relevance = cc.get("relevanceLevel")
+                            self.log(
+                                "Found BUSINESS_RELEVANCE at clause "
+                                "index {0} with relevanceLevel='{1}'. "
+                                "Breaking out of loop.".format(
+                                    cc_idx, entry_relevance
+                                ),
+                                "DEBUG",
+                            )
+                            break
+
+                    if not entry_relevance:
+                        self.log(
+                            "Skipping policy entry '{0}' — no "
+                            "BUSINESS_RELEVANCE clause found. "
+                            "Continuing.".format(current_name),
+                            "DEBUG",
+                        )
+                        continue
+
+                    # Catalyst Center names policy entries as
+                    # "{policy_name}_{app_set_name}". Strip the prefix
+                    # to extract the app set name for matching against
+                    # user-specified targets.
+                    if current_name.startswith(prefix):
+                        entry_app_set_name = current_name[len(prefix):]
+                    else:
+                        entry_app_set_name = current_name
+
+                    # Check if we should delete all sets under this relevance
+                    if entry_relevance in delete_all_for_relevance:
+                        ids_list.append(policy_id)
+                        application_set_names_deleted.append(
+                            entry_app_set_name
+                        )
+                        self.log(
+                            "Marked '{0}' for deletion — matches "
+                            "delete-all for relevance='{1}'. "
+                            "Continuing.".format(
+                                entry_app_set_name, entry_relevance
+                            ),
+                            "DEBUG",
+                        )
+                        continue
+
+                    # Check if specific sets are targeted under this relevance
+                    for ts_idx, (rel, app_name) in enumerate(targeted_sets):
+                        if rel == entry_relevance and app_name == entry_app_set_name:
+                            ids_list.append(policy_id)
+                            application_set_names_deleted.append(app_name)
+                            self.log(
+                                "Match found for targeted set "
+                                "relevance='{0}', app_name='{1}'. "
+                                "Breaking out of loop.".format(
+                                    rel, app_name
+                                ),
+                                "DEBUG",
+                            )
+                            break
+
+                # Check for targeted sets that were not found
+                if targeted_sets:
+                    found_names = set(application_set_names_deleted)
+                    not_found = [
+                        targeted_set[1] for targeted_set in targeted_sets if targeted_set[1] not in found_names
+                    ]
+                    if not_found:
+                        self.log("Targeted sets not found in policy '{0}': {1}.".format(policy_name, not_found), "WARNING")
+                        application_set_not_present.append((policy_name, not_found))
+
+                if not ids_list:
+                    self.log(
+                        "No matching application sets found for deletion in policy '{0}'.".format(
+                            policy_name
+                        ),
+                        "WARNING",
+                    )
+                    continue
             else:
-                # If application_set_name is not in the config, delete the entire policy
-                for current_policy in current_application_policy:
+                # No clause provided - delete the entire policy
+                total_current = len(current_application_policy)
+                for cp_idx, current_policy in enumerate(
+                    current_application_policy
+                ):
                     if "id" in current_policy:
                         ids_list.append(current_policy["id"])
+                        self.log(
+                            "Collecting policy entry {0}/{1} "
+                            "with ID='{2}' for full delete.".format(
+                                cp_idx + 1, total_current,
+                                current_policy["id"]
+                            ),
+                            "DEBUG",
+                        )
 
             try:
-                # Sending the list of application set or policy IDs for deletion
                 response = self.dnac._exec(
                     family="application_policy",
                     function="application_policy_intent",
                     op_modifies=True,
-                    params={
-                        "deleteList": ids_list
-                    },  # Pass the collected IDs for deletion
+                    params={"deleteList": ids_list},
                 )
 
                 self.log(
@@ -6302,40 +6644,42 @@ class ApplicationPolicy(DnacBase):
                     ),
                     "DEBUG",
                 )
-                self.deleted_application_policy.append(policy_name)
                 self.check_tasks_response_status(response, "application_policy_intent")
 
-                # Proceed only if the status is successful
                 if self.status not in ["failed", "exited"]:
-                    # If specific application sets were provided for deletion
-                    if application_set_names:
+                    if clause_config and application_set_names_deleted:
                         self.msg = "Application set(s) '{0}' removed from policy '{1}' successfully.".format(
-                            ", ".join(application_set_names), policy_name
+                            ", ".join(application_set_names_deleted), policy_name
                         )
                         self.set_operation_result("success", True, self.msg, "INFO")
-                        application_sets_deleted.append(
-                            f"Application set(s) '{', '.join(application_set_names)}' removed from policy '{policy_name}'"
+                        delete_msg = (
+                            "Application set(s) '{0}' removed from "
+                            "policy '{1}'".format(
+                                ", ".join(application_set_names_deleted),
+                                policy_name,
+                            )
                         )
+                        self.deleted_application_set_from_policy.append(delete_msg)
+                        application_sets_deleted.append(delete_msg)
                     else:
-                        # If no application sets were specified, the whole policy is deleted
+                        self.deleted_application_policy.append(policy_name)
                         self.msg = (
                             "Application policy '{0}' deleted successfully.".format(
                                 policy_name
                             )
                         )
                         self.set_operation_result("success", True, self.msg, "INFO")
-                        success_msg.append(self.msg)  # Track the success message
+                        success_msg.append(self.msg)
 
             except Exception as e:
                 self.msg = "Error occurred while deleting policy '{0}': {1}".format(
                     policy_name, e
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
-                failed_msg.append(self.msg)  # Track the failed message
+                failed_msg.append(self.msg)
 
         final_msg = []
 
-        # Reporting application set deletions first
         if application_sets_deleted:
             final_msg.append(
                 "Successfully deleted the following application set(s): {0}".format(
@@ -6343,23 +6687,23 @@ class ApplicationPolicy(DnacBase):
                 )
             )
 
-        # Reporting missing or already deleted application sets with policy names in the required format
         if application_set_not_present:
-            # Now collect all missing sets and group by policy
             missing_sets_message = []
-            for policy_name, missing_sets in application_set_not_present:
-                if missing_sets:  # Ensure only policies with missing sets are reported
+            for ms_idx, (pol_name, missing_sets) in enumerate(
+                application_set_not_present
+            ):
+                if missing_sets:
                     missing_sets_message.append(
-                        f"'{policy_name}': [{', '.join(missing_sets)}]"
+                        "'{0}': [{1}]".format(
+                            pol_name, ", ".join(missing_sets)
+                        )
                     )
-
             if missing_sets_message:
                 final_msg.append(
                     "The following application set(s) are not present or already deleted in policies: "
                     + ", ".join(missing_sets_message)
                 )
 
-        # Reporting policy deletions
         if success_msg:
             final_msg.append(
                 "Successfully deleted the following policy(ies): {0}".format(
@@ -6373,19 +6717,18 @@ class ApplicationPolicy(DnacBase):
                     ", ".join(failed_msg)
                 )
             )
-            self.no_deleted_application_policy.append(policy_name)
 
-        # Join all the messages together
         self.msg = final_msg
 
-        # Determine final operation result
-        if not success_msg and failed_msg:
+        if not success_msg and not application_sets_deleted and failed_msg:
             self.set_operation_result("success", False, self.msg, "ERROR")
-        elif success_msg and failed_msg:
-            self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.set_operation_result("success", True, self.msg, "INFO")
-
+        self.log(
+            "Completed application policy deletion. "
+            "Final message: {0}".format(self.msg),
+            "INFO",
+        )
         return self
 
     def delete_application_queuing_profile(self):
@@ -6782,6 +7125,12 @@ class ApplicationPolicy(DnacBase):
             )
             no_update_list.append(msg)
 
+        if self.deleted_application_set_from_policy:
+            msg = "{0} in Cisco Catalyst Center.".format(
+                "; ".join(self.deleted_application_set_from_policy)
+            )
+            result_msg_list.append(msg)
+
         if self.deleted_application_policy:
             msg = "Application Policy(ies) '{0}' deleted successfully from Cisco Catalyst Center.".format(
                 "', '".join(self.deleted_application_policy)
@@ -6967,29 +7316,33 @@ class ApplicationPolicy(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Verifies the deletion status of configurations in Cisco Catalyst Center.
+        Verify deletion of application policies or
+        application sets from Cisco Catalyst Center.
 
         Args:
-            self (object): An instance of the class used for interacting with Cisco Catalyst Center.
-            config (dict): The configuration dictionary containing the details to be verified, including application
-                        queuing profiles, applications, and application policies.
+            self (object): An instance of the class for
+                interacting with Cisco Catalyst Center.
+            config (dict): The playbook configuration
+                containing application_policy details.
 
         Returns:
-            self: The current instance of the class, with updated 'status' and 'msg' attributes based on the verification.
+            self: The updated instance with verification
+                results in 'msg' attribute.
 
         Description:
-            This method checks the deletion status of configurations in Cisco Catalyst Center by comparing the current state
-            (have) and desired state (want) of the configuration. It verifies that the configurations, if requested for deletion,
-            are no longer present in the Cisco Catalyst Center.
+            Verifies whether the delete operation
+            completed successfully by comparing the
+            current state against the desired state.
 
-            The method performs the following verifications:
-            - Ensures that the specified application queuing profile has been deleted.
-            - Ensures that the specified application has been deleted.
-            - Ensures that the specified application policy has been deleted.
-
-            The function logs the success or failure of the deletion verification and updates the status accordingly. If the
-            configuration to be deleted is found to be absent in the current state, the deletion is considered successful, and
-            a success message is logged.
+            Two verification paths:
+            - Full policy delete (no clause in config):
+              Confirms the policy no longer exists in
+              Catalyst Center.
+            - Partial delete (clause provided in config):
+              Confirms the policy still exists but the
+              targeted application sets have been
+              removed. Logs whether the policy persists
+              after partial deletion.
         """
         self.log("Verify starts here verify diff deleted", "INFO")
 
@@ -7052,27 +7405,71 @@ class ApplicationPolicy(DnacBase):
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-            # Code to validate ccc config for merged state
-            application_policy_exist = self.have.get("application_policy_exists")
-            application_policy_name = self.want.get("application_policy")[0].get("name")
+            application_policies = self.want.get("application_policy", [])
 
-            if not application_policy_exist:
-                self.msg = (
-                    "The requested application policy {0} is not present in the Cisco Catalyst Center "
-                    "and its deletion has been verified.".format(
-                        application_policy_name
-                    )
-                )
-                self.log(self.msg, "INFO")
-
-            else:
+            for index, application_policy in enumerate(application_policies, start=1):
+                application_policy_name = application_policy.get("name")
                 self.log(
-                    "The playbook input for application policy {0} does not align with the Cisco Catalyst Center, indicating that the \
-                         merge task may not have executed successfully.".format(
-                        application_policy_name
+                    "Verifying deletion for application policy entry #{0}: {1}".format(
+                        index, application_policy_name
                     ),
                     "INFO",
                 )
+
+                if not application_policy_name:
+                    self.msg = (
+                        "The following parameter(s): 'name' could not be found and "
+                        "are mandatory to create or update application policy."
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+
+                clause_config = application_policy.get("clause")
+
+                current_application_policies = self.have.get("application_policies", {})
+                policy_info = current_application_policies.get(
+                    application_policy_name, {}
+                )
+                application_policy_exist = policy_info.get(
+                    "application_policy_exists", False
+                )
+
+                if clause_config:
+                    # Partial delete (app sets from policy) - policy may still exist
+                    if application_policy_exist:
+                        self.log(
+                            "Application policy '{0}' still exists after partial delete. "
+                            "Verifying that the targeted application sets were removed.".format(
+                                application_policy_name
+                            ),
+                            "INFO",
+                        )
+                    else:
+                        self.log(
+                            "Application policy '{0}' is no longer present after the delete operation.".format(
+                                application_policy_name
+                            ),
+                            "INFO",
+                        )
+                else:
+                    # Full policy delete
+                    if not application_policy_exist:
+                        self.msg = (
+                            "The requested application policy {0} is not present in the Cisco Catalyst Center "
+                            "and its deletion has been verified.".format(
+                                application_policy_name
+                            )
+                        )
+                        self.log(self.msg, "INFO")
+                    else:
+                        self.log(
+                            "The playbook input for application policy {0} does not align with the Cisco Catalyst Center, indicating that the "
+                            "delete task may not have executed successfully.".format(
+                                application_policy_name
+                            ),
+                            "INFO",
+                        )
         return self
 
 
