@@ -163,9 +163,11 @@ notes:
     API failure, or file write error. No file was written or modified.
   Note: Re-running with identical inputs and unchanged Catalyst Center state
   will produce changed=false, ensuring idempotent playbook behavior.
-  Note: If append mode creates multiple config entries in the generated file,
-  replaying the file as config in the workflow manager module uses the last
-  config entry in the file.
+  Note: If append mode creates multiple config entries in the
+  generated file, replaying the file as config in the workflow
+  manager module applies only the last config entry because
+  yaml.safe_load uses last-key-wins semantics for duplicate
+  keys in a single YAML document.
 seealso:
 - module: cisco.dnac.template_workflow_manager
   description: Module for managing template projects and templates.
