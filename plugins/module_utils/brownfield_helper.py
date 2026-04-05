@@ -1811,19 +1811,31 @@ class BrownFieldHelper:
 
     def _get_last_yaml_document(self, file_path):
         """
-        Extract the last YAML document's data from a multi-document YAML file.
-        Uses the '---' YAML document separator to split documents and parses only
-        the last one. Header comment lines are automatically ignored by the YAML parser.
+        Extract the effective YAML data from a file that uses
+        last-key-wins semantics (single-document, no ---
+        separators between appended blocks).
+
+        Uses yaml.safe_load which, for duplicate top-level keys
+        such as config:, returns the value from the last
+        occurrence. This matches the append-mode file format
+        where new config blocks are appended without ---
+        separators.
+
+        Note: For files containing multiple YAML documents
+        (separated with ---), yaml.safe_load may fail because it
+        expects a single document. In that case, this function
+        returns None (exception is handled).
 
         Args:
-            file_path (str): Path to the multi-document YAML file.
+            file_path (str): Path to the YAML file.
 
         Returns:
             dict or None: The parsed data from the last YAML document, or None if
-                          the file is empty, doesn't exist, or parsing fails.
+                          the file is empty, doesn't exist, does not exist, or parsing fails.
         """
         self.log(
-            "Attempting to extract last YAML document from '{0}'".format(file_path),
+            "Reading file '{0}' to extract the last YAML "
+            "document.".format(file_path),
             "DEBUG",
         )
 
@@ -1835,8 +1847,8 @@ class BrownFieldHelper:
                 )
                 return None
 
-            with open(file_path, "r") as f:
-                content = f.read()
+            with open(file_path, "r") as yaml_file:
+                content = yaml_file.read()
 
             self.log(
                 "Successfully read file '{0}', content length: {1} characters".format(
@@ -1852,9 +1864,12 @@ class BrownFieldHelper:
                 )
                 return None
 
-            # Parse the entire file with yaml.safe_load which uses last-key-wins
-            # semantics. This correctly extracts the last config: block regardless
-            # of whether --- separators are present.
+            # -----------------------------------------------
+            # yaml.safe_load returns last-key-wins for
+            # duplicate top-level keys. Append mode omits
+            # --- separators so the file stays as a single
+            # document - safe_load returns the last config.
+            # -----------------------------------------------
             self.log(
                 "Parsing file '{0}' with safe_load (last-key-wins) to extract "
                 "last config block.".format(file_path),
@@ -1871,6 +1886,24 @@ class BrownFieldHelper:
 
             return last_doc
 
+        except yaml.YAMLError as yaml_err:
+            self.log(
+                "YAML parsing error while reading '{0}': {1}".format(
+                    file_path, str(yaml_err)
+                ),
+                "ERROR",
+            )
+            return None
+
+        except (IOError, OSError) as io_err:
+            self.log(
+                "File read error for '{0}': {1}".format(
+                    file_path, str(io_err)
+                ),
+                "ERROR",
+            )
+            return None
+
         except Exception as e:
             self.log(
                 "Failed to extract last YAML document from '{0}': {1}".format(
@@ -1880,25 +1913,40 @@ class BrownFieldHelper:
             )
             return None
 
-    def _strip_header_comment_lines(self, content):
+    def strip_comment_lines(self, content):
         """
-        Return content lines with generated header comment lines removed.
+        Return content lines with all comment lines removed.
+
+        Strips every line whose first non-whitespace character is '#'.
+        This removes generated header blocks as well as any other
+        comment lines so that two YAML files differing only in
+        comments compare as equal during the idempotency check.
 
         Args:
-            content (str): Raw file content including header comments.
+            content (str): Raw file content including header
+                comments and YAML payload.
 
         Returns:
             list: Content lines excluding comment lines.
         """
+        self.log(
+            "Stripping comment lines from content of "
+            "length {0} characters.".format(len(content)),
+            "DEBUG",
+        )
+
         lines = content.splitlines()
         filtered_lines = [
             line for line in lines if not line.strip().startswith("#")
         ]
 
         self.log(
-            "Stripped header comment lines from content. Total lines: {0}, "
-            "retained lines: {1}, removed comment lines: {2}".format(
-                len(lines), len(filtered_lines), len(lines) - len(filtered_lines)
+            "Stripped comment lines from content. "
+            "Total lines: {0}, retained lines: {1}, "
+            "removed comment lines: {2}".format(
+                len(lines),
+                len(filtered_lines),
+                len(lines) - len(filtered_lines),
             ),
             "DEBUG",
         )
@@ -1913,24 +1961,33 @@ class BrownFieldHelper:
         notes=None,
     ):
         """
-        Converts a dictionary to YAML format and writes it to a specified file path.
-        Supports idempotent behavior: skips writing if the YAML payload is unchanged.
+        Converts a dictionary to YAML format and writes it to
+        a specified file path. Supports idempotent behavior:
+        skips writing if the YAML payload is unchanged.
 
-        For overwrite mode: compares the full rendered YAML content while ignoring
-        generated header comments entirely.
-        For append mode: compares the data payload against the last YAML document
-        already present in the file.
+        For overwrite mode: compares the full rendered YAML
+        content while ignoring all comment lines (lines
+        starting with '#').
+        For append mode: compares the data payload against the
+        last config block in the file using yaml.safe_load
+        last-key-wins semantics.
+
+        In append mode the --- document separator is omitted
+        so the file remains a single YAML document where the
+        last config: key wins.
 
         Args:
-            data_dict (dict): The dictionary to convert to YAML format.
-            file_path (str): The path where the YAML file will be written.
-            file_mode (str): File write mode. Supported values: "overwrite", "append".
-            notes (list, optional): A list of additional comment lines to append after the
-                                   standard header information. Each string in the list will be
-                                   prefixed with "# " to maintain comment formatting. Defaults to None.
-            dumper: The YAML dumper class to use for serialization (default is OrderedDumper).
+            data_dict (dict): The dictionary to convert to YAML.
+            file_path (str): The path where the YAML file will
+                be written.
+            file_mode (str): 'overwrite' or 'append'.
+            dumper: The YAML dumper class (default OrderedDumper).
+            notes (list, optional): Additional comment lines to
+                append after the standard header.
+
         Returns:
-            bool: True if the file was written (content changed), False if skipped (no change).
+            bool: True if written (content changed), False if
+                skipped (no change).
         """
 
         self.log(
@@ -1996,7 +2053,7 @@ class BrownFieldHelper:
                         "DEBUG",
                     )
 
-                    if self._strip_header_comment_lines(existing_content) == self._strip_header_comment_lines(yaml_content):
+                    if self.strip_comment_lines(existing_content) == self.strip_comment_lines(yaml_content):
                         self.log(
                             "Overwrite mode: File '{0}' already has identical YAML content "
                             "after excluding header comments. Skipping write.".format(file_path),
