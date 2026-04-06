@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: tag_member_count_info
-short_description: Information module for Tag Member
-  Count
+short_description: Information module for Tag Member Count
 description:
   - Get all Tag Member Count.
   - Returns the number of members in a given tag.
@@ -33,12 +32,11 @@ options:
       - MemberAssociationType query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag GetTagMemberCount
-    description: Complete reference of the GetTagMemberCount
-      API.
+    description: Complete reference of the GetTagMemberCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag-member-count
 notes:
   - SDK Method used are

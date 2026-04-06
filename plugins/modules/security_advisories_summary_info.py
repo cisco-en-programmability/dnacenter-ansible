@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_summary_info
-short_description: Information module for Security Advisories
-  Summary
+short_description: Information module for Security Advisories Summary
 description:
   - Get all Security Advisories Summary.
   - Retrieves summary of advisories on the network.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Security
-      Advisories GetAdvisoriesSummary
-    description: Complete reference of the GetAdvisoriesSummary
-      API.
+  - name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesSummary
+    description: Complete reference of the GetAdvisoriesSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!get-advisories-summary
 notes:
   - SDK Method used are

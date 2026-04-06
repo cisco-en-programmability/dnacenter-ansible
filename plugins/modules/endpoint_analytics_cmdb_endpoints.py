@@ -7,21 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_cmdb_endpoints
-short_description: Resource module for Endpoint Analytics
-  Cmdb Endpoints
+short_description: Resource module for Endpoint Analytics Cmdb Endpoints
 description:
-  - Manage operation create of the resource Endpoint
-    Analytics Cmdb Endpoints.
-  - Processes incoming CMDB endpoints data and imports
-    the same in AI Endpoint Analytics.
+  - Manage operation create of the resource Endpoint Analytics Cmdb Endpoints.
+  - Processes incoming CMDB endpoints data and imports the same in AI Endpoint Analytics.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Endpoint Analytics Cmdb Endpoints's
-      payload.
+    description: Endpoint Analytics Cmdb Endpoints's payload.
     elements: dict
     suboptions:
       assetTag:
@@ -34,8 +30,7 @@ options:
         description: Display name of the asset.
         type: str
       lastUpdateTimestamp:
-        description: Last update timestamp in epoch
-          milliseconds.
+        description: Last update timestamp in epoch milliseconds.
         type: int
       location:
         description: Location of the asset.
@@ -57,13 +52,11 @@ options:
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics ProcessCMDBEndpoints
-    description: Complete reference of the ProcessCMDBEndpoints
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics ProcessCMDBEndpoints
+    description: Complete reference of the ProcessCMDBEndpoints API.
     link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
 notes:
   - SDK Method used are

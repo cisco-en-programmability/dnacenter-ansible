@@ -69,6 +69,9 @@ class TestWirelessDesign(TestDnacModule):
     playbook_80211be_add = test_data.get("playbook_80211be_add")
     playbook_80211be_update = test_data.get("playbook_80211be_update")
     playbook_80211be_delete = test_data.get("playbook_80211be_delete")
+    playbook_config_interfaces_vlan_id_zero_no_change = test_data.get(
+        "playbook_config_interfaces_vlan_id_zero_no_change"
+    )
 
     def setUp(self):
         super(TestWirelessDesign, self).setUp()
@@ -184,6 +187,11 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_interfaces_post_create_success"),
+            ]
+
+        if "interfaces_vlan_id_zero_no_change" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("response_get_interfaces_2_success"),
             ]
 
         if "update_interfaces" in self._testMethodName:
@@ -947,6 +955,27 @@ class TestWirelessDesign(TestDnacModule):
         self.assertIn(
             "Delete Interface(s) Task succeeded for the following interface(s)",
             result.get("msg"),
+        )
+
+    def test_interfaces_vlan_id_zero_no_change(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=False,
+                dnac_log_level="DEBUG",
+                dnac_version="2.3.7.9",
+                config_verify=True,
+                dnac_log_append=False,
+                state="merged",
+                config=self.playbook_config_interfaces_vlan_id_zero_no_change,
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get("msg"),
+            "No Wireless Design operations were required for the provided parameters in the Cisco Catalyst Center.",
         )
 
     def test_add_power_profiles(self):

@@ -39,6 +39,7 @@ class TestDnacreportsWorkflow(TestDnacModule):
     playbook_config_schedule_recurrance = test_data.get("playbook_config_schedule_recurrance")
     playbook_config_schedule_recurrance_weekly = test_data.get("playbook_config_schedule_recurrance_weekly")
     playbook_config_schedule_recurrance_weekly_daily = test_data.get("playbook_config_schedule_recurrance_weekly_daily")
+    playbook_parallel_report_creation = test_data.get("playbook_parallel_report_creation")
 
     def setUp(self):
         super(TestDnacreportsWorkflow, self).setUp()
@@ -157,6 +158,15 @@ class TestDnacreportsWorkflow(TestDnacModule):
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("delete_get_list_of_scheduled_reports"),
                 self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
+            ]
+
+        if "parallel_report_creation" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("create_get_all_view_groups"),
+                self.test_data.get("create_get_views_for_a_given_view_group"),
+                self.test_data.get("create_get_list_of_scheduled_reports"),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
+                self.test_data.get("create_first_report_response"),
             ]
 
     @unittest.skipIf(not HAS_PYTZ, "pytz is not installed")
@@ -377,4 +387,32 @@ class TestDnacreportsWorkflow(TestDnacModule):
         self.assertIn(
             "Successfully created or scheduled report 'compliance_report_check'.",
             result['response'][0]["create_report"]["msg"]
+        )
+
+    @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
+    def test_reports_workflow_manager_parallel_report_creation(self):
+        """
+        Test case for reports workflow manager when creating and scheduling reports for download.
+
+        Verifies that the reports workflow manager correctly handles the creation and scheduling of parallel reports,
+        ensuring the system behaves as expected during this process.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_log_level="DEBUG",
+                dnac_version="3.1.3.0",
+                config=self.playbook_parallel_report_creation
+            )
+        )
+        result = self.execute_module(changed=True, failed=True)
+        print(result['response'])
+        self.assertEqual(
+            [],
+            result['response']
         )

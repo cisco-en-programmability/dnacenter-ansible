@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -92,8 +91,9 @@ class SnmpProperties(object):
         requested_obj = self.new_object.get("payload")
         if requested_obj and len(requested_obj) > 0:
             requested_obj = requested_obj[0]
+
         o_id = self.new_object.get("id") or requested_obj.get("id")
-        name = self.new_object.get("name") or requested_obj.get("name")
+        name = requested_obj.get("systemPropertyName")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -104,10 +104,12 @@ class SnmpProperties(object):
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
                 raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object"
+                    "The 'id' and 'systemPropertyName' params don't refer to the same object"
                 )
             if _id:
-                self.new_object.update(dict(id=_id))
+                payload = self.new_object.get("payload")
+                payload.update(id=_id)
+                self.new_object.update(dict(payload=payload))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -184,11 +186,15 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
-                    response = prev_obj
-                    dnac.object_present_and_different()
+                    try:
+                        response = obj.create()
+                        dnac.object_updated()
+                    except Exception:
+                        response = prev_obj
+                        dnac.object_present_and_different()
                 else:
                     response = prev_obj
                     dnac.object_already_present()

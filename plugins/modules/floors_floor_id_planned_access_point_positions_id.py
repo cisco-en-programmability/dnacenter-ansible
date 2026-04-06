@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_id
-short_description: Resource module for Floors Floor
-  Id Planned Access Point Positions Id
+short_description: Resource module for Floors Floor Id Planned Access Point Positions
 description:
-  - Manage operation delete of the resource Floors Floor
-    Id Planned Access Point Positions Id.
-  - Delete specified Planned Access Points Position
-    designated for a specific floor.
+  - Manage operation delete of the resource Floors Floor Id Planned Access Point Positions.
+  - Delete specified Planned Access Points Position designated for a specific floor.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,17 +20,14 @@ options:
     description: FloorId path parameter. Floor Id.
     type: str
   id:
-    description: Id path parameter. Planned Access Point
-      Id.
+    description: Id path parameter. Planned Access Point Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      DeletePlannedAccessPointsPositionV2
-    description: Complete reference of the DeletePlannedAccessPointsPositionV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design DeletePlannedAccessPointsPositionV2
+    description: Complete reference of the DeletePlannedAccessPointsPositionV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-points-position-v-2
 notes:
   - SDK Method used are
@@ -53,6 +47,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    state: absent
     floorId: string
     id: string
 """
@@ -65,8 +60,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

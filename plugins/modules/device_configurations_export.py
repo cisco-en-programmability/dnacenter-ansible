@@ -7,40 +7,30 @@
 DOCUMENTATION = r"""
 ---
 module: device_configurations_export
-short_description: Resource module for Device Configurations
-  Export
+short_description: Resource module for Device Configurations Export
 description:
-  - Manage operation create of the resource Device Configurations
-    Export.
-  - Export Device configuration for every device that
-    is provided will be included in an encrypted zip
-    file.
+  - Manage operation create of the resource Device Configurations Export.
+  - Export Device configuration for every device that is provided will be included in an encrypted zip file.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   deviceId:
-    description: UUIDs of the devices for which configurations
-      need to be exported.
+    description: UUIDs of the devices for which configurations need to be exported.
     elements: str
     type: list
   password:
-    description: Password for the zip file to protect
-      exported configurations. Must contain, at minimum
-      8 characters, one lowercase letter, one uppercase
-      letter, one number, one special character(-=;,./~!@#$%^&*()_+{}|
-      ?). It may not contain white space or the characters
-      <>.
+    description: Password for the zip file to protect exported configurations. Must contain, at minimum 8 characters, one
+      lowercase letter, one uppercase letter, one number, one special character(-=;,./~!@#$%^&*()_+{}| ?). It may not contain
+      white space or the characters <>.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Archive ExportDeviceConfigurations
-    description: Complete reference of the ExportDeviceConfigurations
-      API.
+  - name: Cisco DNA Center documentation for Configuration Archive ExportDeviceConfigurations
+    description: Complete reference of the ExportDeviceConfigurations API.
     link: https://developer.cisco.com/docs/dna-center/#!export-device-configurations
 notes:
   - SDK Method used are

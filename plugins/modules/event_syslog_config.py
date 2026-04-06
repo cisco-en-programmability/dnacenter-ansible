@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: event_syslog_config
-short_description: Resource module for Event Syslog
-  Config
+short_description: Resource module for Event Syslog Config
 description:
-  - Manage operations create and update of the resource
-    Event Syslog Config.
+  - Manage operations create and update of the resource Event Syslog Config.
   - Create Syslog Destination.
   - Update Syslog Destination.
 version_added: '3.1.0'
@@ -38,18 +36,14 @@ options:
     description: Protocol.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      CreateSyslogDestination
-    description: Complete reference of the CreateSyslogDestination
-      API.
+  - name: Cisco DNA Center documentation for Event Management CreateSyslogDestination
+    description: Complete reference of the CreateSyslogDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!create-syslog-destination
-  - name: Cisco DNA Center documentation for Event Management
-      UpdateSyslogDestination
-    description: Complete reference of the UpdateSyslogDestination
-      API.
+  - name: Cisco DNA Center documentation for Event Management UpdateSyslogDestination
+    description: Complete reference of the UpdateSyslogDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!update-syslog-destination
 notes:
   - SDK Method used are
@@ -62,7 +56,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Update all
+- name: Create
   cisco.dnac.event_syslog_config:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -78,7 +72,7 @@ EXAMPLES = r"""
     name: string
     port: 0
     protocol: string
-- name: Create
+- name: Update all
   cisco.dnac.event_syslog_config:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -743,9 +743,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Configuration validation failed with invalid parameters: "
-            "['name : Required parameter not found', "
-            "'encryption_passphrase : Required parameter not found']"
+            "Invalid fields ['names'] found in 'restore_operations'. Allowed fields: ['encryption_passphrase', 'name', 'restore_task_timeout']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_restore_exception(self):

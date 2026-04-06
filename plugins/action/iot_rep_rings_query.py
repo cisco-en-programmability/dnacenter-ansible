@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -90,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="industrial_configuration",
-            function="retrieves_the_list_of_r_e_p_rings",
+            function="retrieves_the_list_of_rep_rings",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

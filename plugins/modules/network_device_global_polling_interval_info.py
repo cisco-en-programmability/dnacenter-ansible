@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_global_polling_interval_info
-short_description: Information module for Network Device
-  Global Polling Interval
+short_description: Information module for Network Device Global Polling Interval
 description:
   - Get all Network Device Global Polling Interval.
   - Returns polling interval of all devices.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetPollingIntervalForAllDevices
-    description: Complete reference of the GetPollingIntervalForAllDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices GetPollingIntervalForAllDevices
+    description: Complete reference of the GetPollingIntervalForAllDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-for-all-devices
 notes:
   - SDK Method used are

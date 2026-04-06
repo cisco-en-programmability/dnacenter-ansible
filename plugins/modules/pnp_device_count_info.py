@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_device_count_info
-short_description: Information module for Pnp Device
-  Count
+short_description: Information module for Pnp Device Count
 description:
   - Get all Pnp Device Count.
-  - Returns the device count based on filter criteria.
-    This is useful for pagination.
+  - Returns the device count based on filter criteria. This is useful for pagination.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,8 +21,7 @@ options:
     type: dict
   serialNumber:
     description:
-      - SerialNumber query parameter. Device Serial
-        Number.
+      - SerialNumber query parameter. Device Serial Number.
     elements: str
     type: list
   state_:
@@ -34,8 +31,7 @@ options:
     type: list
   onbState:
     description:
-      - OnbState query parameter. Device Onboarding
-        State.
+      - OnbState query parameter. Device Onboarding State.
     elements: str
     type: list
   name:
@@ -55,42 +51,35 @@ options:
     type: list
   workflowId:
     description:
-      - WorkflowId query parameter. Device Workflow
-        Id.
+      - WorkflowId query parameter. Device Workflow Id.
     elements: str
     type: list
   workflowName:
     description:
-      - WorkflowName query parameter. Device Workflow
-        Name.
+      - WorkflowName query parameter. Device Workflow Name.
     elements: str
     type: list
   smartAccountId:
     description:
-      - SmartAccountId query parameter. Device Smart
-        Account.
+      - SmartAccountId query parameter. Device Smart Account.
     elements: str
     type: list
   virtualAccountId:
     description:
-      - VirtualAccountId query parameter. Device Virtual
-        Account.
+      - VirtualAccountId query parameter. Device Virtual Account.
     elements: str
     type: list
   lastContact:
     description:
-      - LastContact query parameter. Device Has Contacted
-        lastContact > 0.
+      - LastContact query parameter. Device Has Contacted lastContact > 0.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetDeviceCount
-    description: Complete reference of the GetDeviceCount
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-count-2
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceCountSiteManagement
+    description: Complete reference of the GetDeviceCountSiteManagement API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-count-site-management
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_count,

@@ -2,7 +2,7 @@
 - name: Template pnp intent
   hosts: localhost
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
     - device_details.template
   gather_facts: false
   connection: local

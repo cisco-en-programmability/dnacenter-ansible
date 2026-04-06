@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: compliance_device_id_info
-short_description: Information module for Compliance
-  Device Id
+short_description: Information module for Compliance Device Id
 description:
   - Get Compliance Device Id by id.
   - Return compliance status of a device.
@@ -25,13 +24,11 @@ options:
       - DeviceUuid path parameter. Device Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      DeviceComplianceStatus
-    description: Complete reference of the DeviceComplianceStatus
-      API.
+  - name: Cisco DNA Center documentation for Compliance DeviceComplianceStatus
+    description: Complete reference of the DeviceComplianceStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!device-compliance-status
 notes:
   - SDK Method used are

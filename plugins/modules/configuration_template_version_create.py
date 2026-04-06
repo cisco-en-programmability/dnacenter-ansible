@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_version_create
-short_description: Resource module for Configuration
-  Template Version Create
+short_description: Resource module for Configuration Template Version Create
 description:
-  - Manage operation create of the resource Configuration
-    Template Version Create.
+  - Manage operation create of the resource Configuration Template Version Create.
   - API to version the current contents of the template.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -25,13 +23,11 @@ options:
     description: UUID of template.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates VersionTemplate
-    description: Complete reference of the VersionTemplate
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates VersionTemplate
+    description: Complete reference of the VersionTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!version-template
 notes:
   - SDK Method used are

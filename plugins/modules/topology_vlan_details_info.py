@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: topology_vlan_details_info
-short_description: Information module for Topology Vlan
-  Details
+short_description: Information module for Topology Vlan Details
 description:
   - Get all Topology Vlan Details.
-  - Returns the list of VLAN names that are involved
-    in a loop as identified by the Spanning Tree Protocol.
+  - Returns the list of VLAN names that are involved in a loop as identified by the Spanning Tree Protocol.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Topology
-      GetVLANDetails
-    description: Complete reference of the GetVLANDetails
-      API.
+  - name: Cisco DNA Center documentation for Topology GetVLANDetails
+    description: Complete reference of the GetVLANDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-vlan-details
 notes:
   - SDK Method used are

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_polling_interval_info
-short_description: Information module for Network Device
-  Polling Interval
+short_description: Information module for Network Device Polling Interval
 description:
   - Get all Network Device Polling Interval.
   - Returns polling interval by device id.
@@ -25,13 +24,11 @@ options:
       - Id path parameter. Device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetPollingIntervalById
-    description: Complete reference of the GetPollingIntervalById
-      API.
+  - name: Cisco DNA Center documentation for Devices GetPollingIntervalById
+    description: Complete reference of the GetPollingIntervalById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-by-id
 notes:
   - SDK Method used are

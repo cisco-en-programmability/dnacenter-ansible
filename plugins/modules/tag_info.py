@@ -23,8 +23,7 @@ options:
     type: dict
   name:
     description:
-      - Name query parameter. Tag name is mandatory
-        when filter operation is used.
+      - Name query parameter. Tag name is mandatory when filter operation is used.
     type: str
   additionalInfo_nameSpace:
     description:
@@ -41,14 +40,13 @@ options:
   offset:
     description:
       - Offset query parameter.
-    type: float
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of tags to
-        be retrieved. If not specified, the default
-        is 500. The maximum allowed limit is 500.
-    type: float
+        Limit query parameter. The number of tags to be retrieved. If not specified, the default is 500. The
+        maximum allowed limit is 500.
+    type: int
   size:
     description:
       - Size query parameter. Size in kilobytes(KB).
@@ -56,19 +54,16 @@ options:
   field:
     description:
       - >
-        Field query parameter. Available field names
-        are 'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
+        Field query parameter. Available field names are
+        'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
     type: str
   sortBy:
     description:
-      - SortBy query parameter. Only supported attribute
-        is name. SortyBy is mandatory when order is
-        used.
+      - SortBy query parameter. Only supported attribute is name. SortyBy is mandatory when order is used.
     type: str
   order:
     description:
-      - Order query parameter. Available values are
-        asc and des.
+      - Order query parameter. Available values are asc and des.
     type: str
   systemTag:
     description:
@@ -79,15 +74,14 @@ options:
       - Id path parameter. Tag ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag GetTag
     description: Complete reference of the GetTag API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag
   - name: Cisco DNA Center documentation for Tag GetTagById
-    description: Complete reference of the GetTagById
-      API.
+    description: Complete reference of the GetTagById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
 notes:
   - SDK Method used are
@@ -154,7 +148,7 @@ dnac_response:
                 "string"
               ],
               "items": [
-                {}
+                "string"
               ],
               "operation": "string",
               "name": "string",

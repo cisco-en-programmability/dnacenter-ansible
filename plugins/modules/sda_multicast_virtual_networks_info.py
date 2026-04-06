@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_multicast_virtual_networks_info
-short_description: Information module for Sda Multicast
-  Virtual Networks
+short_description: Information module for Sda Multicast Virtual Networks
 description:
   - Get all Sda Multicast Virtual Networks.
-  - Returns a list of multicast configurations for virtual
-    networks that match the provided query parameters.
+  - Returns a list of multicast configurations for virtual networks that match the provided query parameters.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,34 +21,28 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric site
-        where multicast is configured.
+      - FabricId query parameter. ID of the fabric site where multicast is configured.
     type: str
   virtualNetworkName:
     description:
-      - VirtualNetworkName query parameter. Name of
-        the virtual network associated to the multicast
-        configuration.
+      - VirtualNetworkName query parameter. Name of the virtual network associated to the multicast configuration.
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
+      - Offset query parameter. Starting record for pagination.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetMulticastVirtualNetworks
-    description: Complete reference of the GetMulticastVirtualNetworks
-      API.
+    description: Complete reference of the GetMulticastVirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks
 notes:
   - SDK Method used are

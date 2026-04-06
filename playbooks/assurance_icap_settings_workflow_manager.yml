@@ -2,7 +2,7 @@
 - name: Configure ICAP on Cisco Catalyst Center
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:

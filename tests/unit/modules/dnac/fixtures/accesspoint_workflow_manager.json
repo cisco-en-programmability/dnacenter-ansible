@@ -178,6 +178,7 @@
         "ap_mode": "Local",
         "ap_name": "LTTS_Test_9124_T2",
         "eth_mac": "34:b8:83:15:7c:6c",
+        "provisioning_status": true,
         "failover_priority": "Low",
         "led_brightness_level": 8,
         "led_status": "Enabled",
@@ -864,6 +865,7 @@
             }
         ]
     },
+
   "get_membership_empty": [
     {
       "site": {
@@ -1103,5 +1105,303 @@
             "siteId": "17301034-7715-4363-952f-3d290ea6ca59"
         }
         ]
+    },
+
+    "playbook_config_provision_new_positive": [
+        {
+            "mac_address": "a4:88:73:d4:dd:80",
+            "management_ip_address": null,
+            "hostname": null,
+            "rf_profile": "LOW",
+            "site": {
+                "floor": {
+                    "name": "FLOOR1",
+                    "parent_name": "Global/USA/SAN JOSE/SJ_BLD23"
+                }
+            },
+            "type": null
+        }
+    ],
+
+    "get_device_detail_for_provision": {
+        "response": [{
+                "type": "Cisco Catalyst 9120AXE Unified Access Point",
+                "up_time": "20:42:51.040",
+                "mac_address": "a4:88:73:d4:dd:80",
+                "device_support_level": "Supported",
+                "software_type": null,
+                "software_version": "17.15.4.18",
+                "serial_number": "FJC24391KBC",
+                "last_managed_resync_reasons": "",
+                "management_state": "Managed",
+                "pending_sync_requests_count": "0",
+                "reasons_for_device_resync": "",
+                "reasons_for_pending_sync_requests": "",
+                "inventory_status_detail": "NA",
+                "sync_requested_by_app": "",
+                "collection_interval": "NA",
+                "dns_resolved_management_address": "",
+                "last_updated": "2025-11-13 14:08:42",
+                "boot_date_time": null,
+                "ap_manager_interface_ip": "204.192.4.200",
+                "collection_status": "Managed",
+                "family": "Unified AP",
+                "hostname": "AP687D.B402.1614-AP-Test6",
+                "last_update_time": 1763042922702,
+                "location_name": null,
+                "management_ip_address": "204.192.106.2",
+                "platform_id": "C9120AXE-B",
+                "reachability_failure_reason": "NA",
+                "reachability_status": "Reachable",
+                "series": "Cisco Catalyst 9120AXE Series Unified Access Points",
+                "snmp_contact": "",
+                "snmp_location": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR4",
+                "role_source": "AUTO",
+                "interface_count": "0",
+                "ap_ethernet_mac_address": "a4:88:73:ce:9b:b0",
+                "error_code": "null",
+                "error_description": null,
+                "last_device_resync_start_time": "",
+                "line_card_count": "0",
+                "line_card_id": "",
+                "managed_atleast_once": false,
+                "memory_size": "NA",
+                "tag_count": "0",
+                "tunnel_udp_port": null,
+                "uptime_seconds": 81363,
+                "vendor": "NA",
+                "waas_device_mode": null,
+                "associated_wlc_ip": "204.192.4.200",
+                "description": null,
+                "location": null,
+                "role": "ACCESS",
+                "instance_tenant_id": "68593aeecd0f400013b8604e",
+                "instance_uuid": "8954ff26-aa2d-4991-b2be-6462121ee710",
+                "id": "8954ff26-aa2d-4991-b2be-6462121ee710"
+            }
+        ]
+    },
+
+    "get_config_detail_for_provision": {
+        "mac_address": "a4:88:73:d4:dd:80",
+        "ap_name": "AP687D.B402.1614-AP-Test6",
+        "location": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR2",
+        "led_status": "Enabled",
+        "led_brightness_level": 2,
+        "failover_priority": "Low",
+        "ap_mode": "Local",
+        "ap_height": 0.0,
+        "admin_status": "Enabled",
+        "primary_controller_name": "SJ-EWLC-1.cisco.local",
+        "primary_ip_address": "204.192.4.200",
+        "secondary_controller_name": "NY-EWLC-1.cisco.local",
+        "secondary_ip_address": "204.192.6.200",
+        "tertiary_controller_name": "Clear",
+        "tertiary_ip_address": "0.0.0.0",
+        "eth_mac": "a4:88:73:ce:9b:b0",
+        "provisioning_status": true,
+        "mesh_dtos": [],
+        "radio_dtos": [
+            {
+                "bss_color": null,
+                "bss_color_assignment_mode": null,
+                "bss_color_radio_admin_status": null,
+                "bss_color_capable": false,
+                "if_type": 3,
+                "if_type_value": "Dual Radio",
+                "slot_id": 0,
+                "mac_address": "a4:88:73:d4:dd:80",
+                "admin_status": "Disabled",
+                "power_assignment_mode": "Global",
+                "powerlevel": 1,
+                "channel_assignment_mode": "Global",
+                "channel_number": 11,
+                "channel_width": null,
+                "antenna_pattern_name": null,
+                "antenna_angle": 0,
+                "antenna_elev_angle": 0,
+                "antenna_gain": 6,
+                "radio_role_assignment": "Auto",
+                "radio_band": null,
+                "clean_air_si": "Enabled",
+                "dual_radio_mode": null
+            },
+            {
+                "bss_color": null,
+                "bss_color_assignment_mode": null,
+                "bss_color_radio_admin_status": null,
+                "bss_color_capable": false,
+                "if_type": 2,
+                "if_type_value": "5 GHz",
+                "slot_id": 1,
+                "mac_address": "a4:88:73:d4:dd:80",
+                "admin_status": "Enabled",
+                "power_assignment_mode": "Global",
+                "powerlevel": 3,
+                "channel_assignment_mode": "Global",
+                "channel_number": 36,
+                "channel_width": "40 MHz",
+                "antenna_pattern_name": null,
+                "antenna_angle": 0,
+                "antenna_elev_angle": 0,
+                "antenna_gain": 6,
+                "radio_role_assignment": null,
+                "radio_band": null,
+                "clean_air_si": "Enabled",
+                "dual_radio_mode": null
+            }
+        ],
+        "cable_length": 10,
+        "is_geolocation_supported": true,
+        "is_cable_length_supported": false,
+        "cable_length_supported": false,
+        "geolocation_supported": true
+    },
+
+    "get_site_for_provision": {
+        "response": [{
+            "id": "4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+            "siteHierarchyId": "73273999-4fde-4376-b071-25ebee51d155/0cc72385-0e00-4a5a-b11b-a9b79fe2abd1/18d688cb-e9ca-4a16-abdc-5923edadfb00/ca6442ab-00e7-4454-b52c-cba2137fa66f/4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+            "parentId": "ca6442ab-00e7-4454-b52c-cba2137fa66f",
+            "name": "FLOOR1",
+            "nameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1",
+            "type": "floor",
+            "floorNumber": 1,
+            "rfModel": "Cubes And Walled Offices",
+            "width": 100.0,
+            "length": 100.0,
+            "height": 10.0,
+            "unitsOfMeasure": "feet"
+        }]
+    },
+
+    "get_device_for_site_for_provision": {
+        "response": [
+            {
+            "deviceId": "52898352-c099-4869-8f18-9c94fe8a560e",
+            "siteId": "4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+            "siteNameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1",
+            "siteType": "floor"
+            },
+            {
+            "deviceId": "7427ea0a-627b-434d-aa59-ac8ea474f21c",
+            "siteId": "4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+            "siteNameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1",
+            "siteType": "floor"
+            },
+            {
+            "deviceId": "e5ef32dc-0897-43a8-b79d-a5f8c1e1c3b2",
+            "siteId": "4f3b43a9-b29b-43f8-8ca8-7c141efcdf95",
+            "siteNameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR1",
+            "siteType": "floor"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_wlc_device_for_provision": {
+        "name": "SJ-EWLC-1.cisco.local",
+        "roles": [
+            "Wireless Controller"
+        ],
+        "deviceManagementIpAddress": "204.192.4.200",
+        "siteNameHierarchy": "Global/USA/SAN JOSE/SJ_BLD23",
+        "status": "success",
+        "description": "Fabric device info successfully retrieved from sda fabric.",
+        "executionId": "8769a224-0315-4f6e-a48d-8941ae703f9a"
+    },
+
+    "get_deviceip_for_deviceid_provision": {
+        "response": [
+            {
+            "type": "Cisco Catalyst 9120AXE Unified Access Point",
+            "upTime": "20:42:51.040",
+            "macAddress": "a4:88:73:d4:dd:80",
+            "deviceSupportLevel": "Supported",
+            "softwareType": null,
+            "softwareVersion": "17.15.4.18",
+            "serialNumber": "FJC24391KBC",
+            "lastManagedResyncReasons": "",
+            "managementState": "Managed",
+            "pendingSyncRequestsCount": "0",
+            "reasonsForDeviceResync": "",
+            "reasonsForPendingSyncRequests": "",
+            "inventoryStatusDetail": "NA",
+            "syncRequestedByApp": "",
+            "collectionInterval": "NA",
+            "dnsResolvedManagementAddress": "",
+            "lastUpdated": "2025-11-13 14:08:42",
+            "bootDateTime": null,
+            "apManagerInterfaceIp": "204.192.4.200",
+            "collectionStatus": "Managed",
+            "family": "Unified AP",
+            "hostname": "AP687D.B402.1614-AP-Test6",
+            "lastUpdateTime": 1763042922702,
+            "locationName": null,
+            "managementIpAddress": "204.192.106.2",
+            "platformId": "C9120AXE-B",
+            "reachabilityFailureReason": "NA",
+            "reachabilityStatus": "Reachable",
+            "series": "Cisco Catalyst 9120AXE Series Unified Access Points",
+            "snmpContact": "",
+            "snmpLocation": "Global/USA/SAN JOSE/SJ_BLD23/FLOOR4",
+            "roleSource": "AUTO",
+            "interfaceCount": "0",
+            "apEthernetMacAddress": "a4:88:73:ce:9b:b0",
+            "errorCode": "null",
+            "errorDescription": null,
+            "lastDeviceResyncStartTime": "",
+            "lineCardCount": "0",
+            "lineCardId": "",
+            "managedAtleastOnce": false,
+            "memorySize": "NA",
+            "tagCount": "0",
+            "tunnelUdpPort": null,
+            "uptimeSeconds": 81367,
+            "vendor": "NA",
+            "waasDeviceMode": null,
+            "associatedWlcIp": "204.192.4.200",
+            "description": null,
+            "location": null,
+            "role": "ACCESS",
+            "instanceTenantId": "68593aeecd0f400013b8604e",
+            "instanceUuid": "8954ff26-aa2d-4991-b2be-6462121ee710",
+            "id": "8954ff26-aa2d-4991-b2be-6462121ee710"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "assign_site_for_task_execution": {
+        "taskId": "019a7df3-c538-730e-bf0f-589468da2025",
+        "url": "/api/v1/task/019a7df3-c538-730e-bf0f-589468da2025"
+    },
+
+    "assign_device_to_site_for_provision": {
+        "response": {
+            "endTime": 1763049719304,
+            "status": "success",
+            "startTime": 1763049719096,
+            "resultLocation": "/dna/intent/api/v1/tasks/019a7df3-c538-730e-bf0f-589468da2025/detail",
+            "id": "019a7df3-c538-730e-bf0f-589468da2025"
+        },
+        "version": "1.0"
+    },
+
+    "provision_site_for_task_execution": {
+        "taskId": "019a7df3-c7e3-7c6f-8f5b-a9de17278c79",
+        "url": "/api/v1/task/019a7df3-c7e3-7c6f-8f5b-a9de17278c79"
+    },
+
+    "task_details_for_provision": {
+        "response": {
+            "endTime": 1763049779573,
+            "lastUpdate": 1763049722553,
+            "status": "success",
+            "startTime": 1763049719779,
+            "resultLocation": "/dna/intent/api/v1/tasks/019a7df3-c7e3-7c6f-8f5b-a9de17278c79/detail",
+            "id": "019a7df3-c7e3-7c6f-8f5b-a9de17278c79"
+        },
+        "version": "1.0"
     }
 }

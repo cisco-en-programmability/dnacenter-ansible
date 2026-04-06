@@ -1,0 +1,217 @@
+---
+# ==============================================================================
+# NETWORK SETTINGS PLAYBOOK CONFIG GENERATOR - EXAMPLES
+# ==============================================================================
+
+# Example 1: Auto-discovery (Extract all available network settings)
+- name: Auto-discovery - Extract all network settings
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Auto-discover all network settings
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+
+    - name: Auto-discover all network settings
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "generated_files/network_settings_generated_playbook.yml"
+        file_mode: "overwrite"
+
+# Example 2: Individual Components
+- name: Individual Components - Extract specific components
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    # Task 1: Global Pool Details Only
+    - name: Extract global pool configurations
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "generated_files/global_pool_details2.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["global_pool_details"]
+            global_pool_details:
+              - pool_type: Generic
+                pool_name: VN4-POOL1
+
+    # Task 2: Reserve Pool Details Only
+    - name: Extract reserve pool configurations
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          component_specific_filters:
+            components_list: ["reserve_pool_details"]
+            reserve_pool_details:
+              - site_name: "Global/USA"
+
+    # Task 3: Network Management Settings Only
+    - name: Extract network management configurations
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          component_specific_filters:
+            components_list: ["network_management_details"]
+            network_management_details:
+              - site_name_list: ["Global/USA"]
+
+    # Task 4: Device Controllability Settings Only
+    - name: Extract device controllability configurations
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "generated_files/device_controllability_generator.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["device_controllability_details"]
+
+# # Example 3: Multiple Components in Single Task
+- name: Multiple Components - Extract several components together
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Extract multiple network setting components
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        config:
+          component_specific_filters:
+            components_list:
+              - "global_pool_details"
+              - "reserve_pool_details"
+              - "network_management_details"
+              - "device_controllability_details"
+
+# Example 4: Multiple Configuration Files
+- name: Multiple Configurations - Generate separate files per component
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Generate global pools configuration file
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "generated_files/all_global_pools.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["global_pool_details"]
+
+    - name: Generate reserve pool configuration file
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "generated_files/reserve_pool.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["reserve_pool_details"]
+
+    - name: Generate network management configuration file
+      cisco.dnac.network_settings_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "generated_files/production_network_mgmt.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["network_management_details"]

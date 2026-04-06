@@ -97,6 +97,7 @@ options:
                   your local system (Eg "/path/to/your/file").
                   Accepted files formats are - .gz,.bin,.img,.tar,.smu,.pie,.aes,.iso,.ova,.tar_gz,.qcow2,.nfvispkg,.zip,.spa,.rpm.
                 type: str
+                required: true
               is_third_party:
                 description: Query parameter to determine
                   if the image is from a third party
@@ -257,6 +258,7 @@ options:
                       list
                     type: list
                     elements: str
+                    required: true
                   is_third_party:
                     description: Flag indicates whether
                       the image is uploaded from a third
@@ -348,6 +350,10 @@ options:
               not provided, SWIM image will be mapped
               to global site.
             type: str
+          supervisor_product_name_ordinal:
+            description: Supervisor Product Name
+              Ordinal value.
+            type: int
           tagging:
             description: Booelan value to tag/untag
               SWIM image as golden If True then the
@@ -440,7 +446,30 @@ options:
               default: 1800
               type: int
               version_added: 3.1.3.0
+          convert_to_wlc:
+            description: |
+              Flag to indicate device conversion to Wireless LAN Controller (WLC) during image distribution.
 
+              When set to True:
+              - Skips the device compliance check for image distribution
+              - Treats the device as eligible for image distribution regardless of current state
+              - Useful for scenarios where converting a device to WLC mode requires non-compliant image operations
+
+              When set to False (default):
+              - Performs normal device compliance validation before distribution
+              - Only distributes images to devices that are marked as NON_COMPLIANT
+              - Follows standard SWIM workflow with full validation
+
+              Use Cases:
+              - Converting access points or switches to operate as Wireless LAN Controllers
+              - Scenarios where compliance checks should be bypassed for specific device transformations
+              - Forced image distribution for WLC conversion processes
+
+              Security Note:
+              Use this parameter with caution as it bypasses standard compliance
+              checks. Ensure device compatibility before enabling this option.
+            type: bool
+            default: false
           site_name:
             description: Used to get device details
               associated to this site.
@@ -465,6 +494,9 @@ options:
           device_serial_number:
             description: Device serial number where
               the image needs to be distributed
+            type: str
+          device_tag:
+            description: Device tag for filtering the target device(s)
             type: str
           device_ip_address:
             description: Device IP address where the
@@ -588,6 +620,30 @@ options:
             description: Enable the distribute_if_needed
               option when activating the SWIM image.
             type: bool
+          convert_to_wlc:
+            description: |
+              Flag to indicate device conversion to Wireless LAN Controller (WLC) during image activation.
+
+              When set to True:
+              - Skips the device compliance check for image activation
+              - Treats the device as eligible for image activation regardless of current state
+              - Useful for scenarios where converting a device to WLC mode requires non-compliant image operations
+
+              When set to False (default):
+              - Performs normal device compliance validation before activation
+              - Only activates images on devices that are marked as NON_COMPLIANT
+              - Follows standard SWIM workflow with full validation
+
+              Use Cases:
+              - Converting access points or switches to operate as Wireless LAN Controllers
+              - Scenarios where compliance checks should be bypassed for specific device transformations
+              - Forced image activation for WLC conversion processes
+
+              Security Note:
+              Use this parameter with caution as it bypasses standard compliance
+              checks. Ensure device compatibility before enabling this option.
+            type: bool
+            default: false
           image_name:
             description: Specifies the name of the SWIM
               image to be activated.
@@ -600,6 +656,9 @@ options:
           device_serial_number:
             description: Device serial number where
               the image needs to be activated
+            type: str
+          device_tag:
+            description: Device tag for filtering the target device(s)
             type: str
           device_ip_address:
             description: Device IP address where the
@@ -895,6 +954,50 @@ EXAMPLES = r"""
           device_series_name: Cisco Catalyst 9300 Series
             Switches
 
+- name: Distribute the given image on devices associated with device tag
+    to that site with specified role.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_distribution_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/a_swim/swim_test1
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+
+- name: Activate the given image on devices associated with device tag
+    to that site with specified role.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          site_name: Global/USA/San Francisco/BGL_18
+          device_role: ALL
+          device_family_name: Switches and Hubs
+          device_series_name: Cisco Catalyst 9300 Series Switches
+          device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+          schedule_validate: false
+          activate_lower_image_version: true
+          distribute_if_needed: true
+
 - name: Activate the given image on devices associated
     to that site with specified role.
   cisco.dnac.swim_workflow_manager:
@@ -999,6 +1102,45 @@ EXAMPLES = r"""
     config:
       - sync_cco: true
 
+- name: Distribute WLC image with convert_to_wlc flag to skip compliance check
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_distribution_details:
+          sub_package_images:
+            - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
+          convert_to_wlc: true
+          site_name: Global/a_swim
+
+- name: Activate WLC image with convert_to_wlc flag to skip compliance check
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+      - image_activation_details:
+          sub_package_images:
+            - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
+          convert_to_wlc: true
+          site_name: Global/a_swim
+          activate_lower_image_version: true
+          distribute_if_needed: true
+          schedule_validate: false
+
 - name: Delete image from Cisco Catalyst Center for v3.1.3.0.
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1060,6 +1202,7 @@ class Swim(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.images_to_import, self.existing_images = [], []
+        self.state = self.params.get("state")
 
     def validate_input(self):
         """
@@ -1387,6 +1530,90 @@ class Swim(DnacBase):
             image_exist = True
 
         return image_exist
+
+    def is_access_point(self, device):
+        """
+        Determine if a device is an Access Point (AP) and should be excluded from SWIM operations.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device (dict): The device information dictionary.
+        Returns:
+            bool: True if the device is an Access Point, False otherwise.
+        Description:
+            Access Points (APs) are not eligible for SWIM (Software Image Management) operations
+            including distribution and activation. This function performs multi-criteria detection
+            by examining:
+            1. Device family (e.g., "Unified AP", "Access Point")
+            2. Device role (e.g., "Access Point", "AP")
+            3. Device series (e.g., contains "Access Point" or "Aironet")
+            4. Device type (e.g., "Unified AP", "Access Point")
+
+            The function uses case-insensitive substring matching to ensure robust detection
+            across different Cisco Catalyst Center versions and device naming conventions.
+        """
+
+        self.log(
+            "Checking if device is an Access Point for SWIM eligibility - "
+            "device_info: {0}".format(device),
+            "DEBUG"
+        )
+
+        if not isinstance(device, dict):
+            self.log(
+                "Device validation failed - expected dict but received {0}, "
+                "treating as non-AP device".format(type(device).__name__),
+                "WARNING"
+            )
+            return False
+
+        def safe_lower(value):
+            return str(value).lower() if value is not None else ""
+
+        family = safe_lower(device.get("family"))
+        if "unified ap" in family or "access point" in family:
+            self.log(
+                "Device identified as Access Point based on family field '{0}' - "
+                "excluding from SWIM operations".format(device.get("family")),
+                "INFO"
+            )
+            return True
+
+        role = safe_lower(device.get("role"))
+        if "access point" in role or role == "ap":
+            self.log(
+                "Device identified as Access Point based on role field '{0}' - "
+                "excluding from SWIM operations".format(device.get("role")),
+                "INFO"
+            )
+            return True
+
+        series = safe_lower(device.get("series"))
+        if "access point" in series or "aironet" in series:
+            self.log(
+                "Device identified as Access Point based on series field '{0}' - "
+                "excluding from SWIM operations".format(device.get("series")),
+                "INFO"
+            )
+            return True
+
+        device_type = safe_lower(device.get("type"))
+        if "unified ap" in device_type or "access point" in device_type:
+            self.log(
+                "Device identified as Access Point based on type field '{0}' - "
+                "excluding from SWIM operations".format(device.get("type")),
+                "INFO"
+            )
+            return True
+
+        self.log(
+            "Device is not an Access Point - eligible for SWIM operations based on "
+            "family: '{0}', role: '{1}', series: '{2}', type: '{3}'".format(
+                device.get("family"), device.get("role"),
+                device.get("series"), device.get("type")
+            ),
+            "DEBUG"
+        )
+        return False
 
     def get_device_id(self, params):
         """
@@ -1806,6 +2033,18 @@ class Swim(DnacBase):
                         break
 
                     for item in site_response_list:
+                        # Skip Access Points - they are not eligible for SWIM operations
+                        if self.is_access_point(item):
+                            self.log(
+                                "Skipping Access Point device '{0}' (Family: {1}, Role: {2}) - APs are not eligible for SWIM operations.".format(
+                                    item.get("managementIpAddress", "Unknown"),
+                                    item.get("family", "N/A"),
+                                    item.get("role", "N/A")
+                                ),
+                                "INFO",
+                            )
+                            continue
+
                         if item["reachabilityStatus"] != "Reachable":
                             self.log(
                                 """Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
@@ -1825,6 +2064,18 @@ class Swim(DnacBase):
                         site_memberships_ids.append(item["instanceUuid"])
 
                     for item in device_response:
+                        # Skip Access Points - they are not eligible for SWIM operations
+                        if self.is_access_point(item):
+                            self.log(
+                                "Skipping Access Point device '{0}' (Family: {1}, Role: {2}) - APs are not eligible for SWIM operations.".format(
+                                    item.get("managementIpAddress", "Unknown"),
+                                    item.get("family", "N/A"),
+                                    item.get("role", "N/A")
+                                ),
+                                "INFO",
+                            )
+                            continue
+
                         if item["reachabilityStatus"] != "Reachable":
                             self.log(
                                 """Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
@@ -1843,7 +2094,7 @@ class Swim(DnacBase):
                         )
                         device_response_ids.append(item["instanceUuid"])
                 except Exception as e:
-                    self.msg = "An exception occured while fetching the device uuids from Cisco Catalyst Center: {0}".format(
+                    self.msg = "An exception occurred while fetching the device uuids from Cisco Catalyst Center: {0}".format(
                         str(e)
                     )
                     self.log(self.msg, "ERROR")
@@ -1903,6 +2154,11 @@ class Swim(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
+        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if not family_name:
+                self.msg = "Device family name is required for Catalyst Center version 3.1.3.0 or higher"
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         if device_family_db:
             device_family_details = get_dict_result(
                 device_family_db, "deviceFamily", family_name
@@ -1939,7 +2195,7 @@ class Swim(DnacBase):
         """
         self.log("Retrieving and storing software image and device details from Cisco Catalyst Center", "DEBUG")
 
-        if self.want.get("image_name"):
+        if self.want.get("image_name") and self.state == "merged":
             self.log("Processing bulk image names for ID resolution", "DEBUG")
             have = {}
             names = self.want.get("image_name")
@@ -1960,6 +2216,9 @@ class Swim(DnacBase):
         if self.want.get("tagging_details"):
             have = {}
             tagging_details = self.want.get("tagging_details")
+            have["device_tags"] = tagging_details.get("device_tags")
+            have["product_name_ordinal"] = tagging_details.get("product_name_ordinal")
+            have["supervisor_product_name_ordinal"] = tagging_details.get("supervisor_product_name_ordinal")
             if tagging_details.get("image_name"):
                 name = tagging_details.get("image_name").split("/")[-1]
                 image_id = self.get_image_id(name)
@@ -2777,214 +3036,457 @@ class Swim(DnacBase):
                 self.result["response"] = self.msg
                 self.check_return_status()
 
-        self.log("Checking golden tag status for each role...", "DEBUG")
-        for role in device_role.split(","):
-            image_params = {
-                "image_id": self.have.get("tagging_image_id"),
-                "site_id": self.have.get("site_id"),
-                "device_family_identifier": self.have.get("device_family_identifier"),
-                "device_role": role.upper(),
-            }
-
-            self.log(
-                "Parameters for checking tag status for role '{0}': {1}".format(
-                    role, image_params
-                ),
-                "DEBUG",
-            )
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function="get_golden_tag_status_of_an_image",
-                op_modifies=True,
-                params=image_params,
-            )
-            self.log(
-                "Received API response from 'get_golden_tag_status_of_an_image': {0}".format(
-                    str(response)
-                ),
-                "DEBUG",
-            )
-
-            api_response = response.get("response")
-            if api_response:
-                image_status = api_response.get("taggedGolden")
-                if image_status and tag_image_golden is True:
-                    msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(
-                        image_name
-                    )
-                    self.log(msg, "INFO")
-                    already_tagged_device_role.append(role)
-                elif not image_status and not tag_image_golden:
-                    msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(
-                        image_name
-                    )
-                    self.log(msg, "INFO")
-                    already_un_tagged_device_role.append(role)
-            self.log("Verifying if all roles are in the desired tag status...", "DEBUG")
-
-        # Check if all roles are tagged as Golden
-        if tag_image_golden:
-            if len(already_tagged_device_role) == len(device_role_no):
-                self.status = "success"
-                self.result["changed"] = False
-                self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for the roles - {1}.".format(
-                    image_name, device_role
-                )
-                self.result["msg"] = self.msg
-                self.result["response"] = self.msg
-                self.log(self.msg, "INFO")
-                return self
-        else:
-            if len(already_un_tagged_device_role) == len(device_role_no):
-                self.status = "success"
-                self.result["changed"] = False
-                self.msg = "SWIM Image '{0}' already un-tagged as Golden image in Cisco Catalyst Center for the roles - {1}.".format(
-                    image_name, device_role
-                )
-                self.result["msg"] = self.msg
-                self.result["response"] = self.msg
-                self.log(self.msg, "INFO")
-                return self
-
-        if tag_image_golden:
-            for role in device_role.split(","):
-                image_params = dict(
-                    imageId=self.have.get("tagging_image_id"),
-                    siteId=self.have.get("site_id"),
-                    deviceFamilyIdentifier=self.have.get("device_family_identifier"),
-                    deviceRole=role.upper(),
-                )
-                self.log(
-                    "Parameters for tagging the image as golden for role {0}: {1}".format(
-                        role, str(image_params)
-                    ),
-                    "INFO",
-                )
-
-                response = self.dnac._exec(
-                    family="software_image_management_swim",
-                    function="tag_as_golden_image",
-                    op_modifies=True,
-                    params=image_params,
-                )
-                self.log(
-                    "Received API response from 'tag_as_golden_image': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
-
-        else:
+        # old version API call structure
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            self.log("Checking golden tag status for each role...", "DEBUG")
             for role in device_role.split(","):
                 image_params = {
                     "image_id": self.have.get("tagging_image_id"),
                     "site_id": self.have.get("site_id"),
-                    "device_family_identifier": self.have.get(
-                        "device_family_identifier"
-                    ),
+                    "device_family_identifier": self.have.get("device_family_identifier"),
                     "device_role": role.upper(),
                 }
-                self.log(
-                    "Parameters for un-tagging the image as golden for role {0}: {1}".format(
-                        role, str(image_params)
-                    ),
-                    "INFO",
-                )
 
+                self.log(
+                    "Parameters for checking tag status for role '{0}': {1}".format(
+                        role, image_params
+                    ),
+                    "DEBUG",
+                )
                 response = self.dnac._exec(
                     family="software_image_management_swim",
-                    function="remove_golden_tag_for_image",
-                    op_modifies=True,
+                    function="get_golden_tag_status_of_an_image",
                     params=image_params,
                 )
                 self.log(
-                    "Received API response from 'remove_golden_tag_for_image': {0}".format(
+                    "Received API response from 'get_golden_tag_status_of_an_image': {0}".format(
                         str(response)
                     ),
                     "DEBUG",
                 )
 
-        if not response:
-            self.status = "failed"
-            self.msg = "Did not get the response of API so cannot check the Golden tagging status of image - {0}".format(
-                image_name
-            )
-            self.log(self.msg, "ERROR")
-            self.result["response"] = self.msg
-            return self
+                api_response = response.get("response")
+                if api_response:
+                    image_status = api_response.get("taggedGolden")
+                    if image_status and tag_image_golden is True:
+                        msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(
+                            image_name
+                        )
+                        self.log(msg, "INFO")
+                        already_tagged_device_role.append(role)
+                    elif not image_status and not tag_image_golden:
+                        msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(
+                            image_name
+                        )
+                        self.log(msg, "INFO")
+                        already_un_tagged_device_role.append(role)
+                self.log("Verifying if all roles are in the desired tag status...", "DEBUG")
 
-        task_details = {}
-        task_id = response.get("response").get("taskId")
+            # Check if all roles are tagged as Golden
+            if tag_image_golden:
+                if len(already_tagged_device_role) == len(device_role_no):
+                    self.status = "success"
+                    self.result["changed"] = False
+                    self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for the roles - {1}.".format(
+                        image_name, device_role
+                    )
+                    self.result["msg"] = self.msg
+                    self.result["response"] = self.msg
+                    self.log(self.msg, "INFO")
+                    return self
+            else:
+                if len(already_un_tagged_device_role) == len(device_role_no):
+                    self.status = "success"
+                    self.result["changed"] = False
+                    self.msg = "SWIM Image '{0}' already un-tagged as Golden image in Cisco Catalyst Center for the roles - {1}.".format(
+                        image_name, device_role
+                    )
+                    self.result["msg"] = self.msg
+                    self.result["response"] = self.msg
+                    self.log(self.msg, "INFO")
+                    return self
 
-        device_family = tagging_details.get("device_image_family_name")
-        device_role = tagging_details.get("device_role", "ALL")
-        site_name = tagging_details.get("site_name")
+            if tag_image_golden:
+                for role in device_role.split(","):
+                    image_params = dict(
+                        imageId=self.have.get("tagging_image_id"),
+                        siteId=self.have.get("site_id"),
+                        deviceFamilyIdentifier=self.have.get("device_family_identifier"),
+                        deviceRole=role.upper(),
+                    )
+                    self.log(
+                        "Parameters for tagging the image as golden for role {0}: {1}".format(
+                            role, str(image_params)
+                        ),
+                        "INFO",
+                    )
 
-        if not site_name:
-            site_name = "Global"
-        else:
+                    response = self.dnac._exec(
+                        family="software_image_management_swim",
+                        function="tag_as_golden_image",
+                        op_modifies=True,
+                        params=image_params,
+                    )
+                    self.log(
+                        "Received API response from 'tag_as_golden_image': {0}".format(
+                            str(response)
+                        ),
+                        "DEBUG",
+                    )
+
+            else:
+                for role in device_role.split(","):
+                    image_params = {
+                        "image_id": self.have.get("tagging_image_id"),
+                        "site_id": self.have.get("site_id"),
+                        "device_family_identifier": self.have.get(
+                            "device_family_identifier"
+                        ),
+                        "device_role": role.upper(),
+                    }
+                    self.log(
+                        "Parameters for un-tagging the image as golden for role {0}: {1}".format(
+                            role, str(image_params)
+                        ),
+                        "INFO",
+                    )
+
+                    response = self.dnac._exec(
+                        family="software_image_management_swim",
+                        function="remove_golden_tag_for_image",
+                        op_modifies=True,
+                        params=image_params,
+                    )
+                    self.log(
+                        "Received API response from 'remove_golden_tag_for_image': {0}".format(
+                            str(response)
+                        ),
+                        "DEBUG",
+                    )
+
+            if not response:
+                self.status = "failed"
+                self.msg = "Did not get the response of API so cannot check the Golden tagging status of image - {0}".format(
+                    image_name
+                )
+                self.log(self.msg, "ERROR")
+                self.result["response"] = self.msg
+                return self
+
+            task_details = {}
+            task_id = response.get("response").get("taskId")
+
+            device_family = tagging_details.get("device_image_family_name")
+            device_role = tagging_details.get("device_role", "ALL")
             site_name = tagging_details.get("site_name")
 
-        start_time = time.time()
+            if not site_name:
+                site_name = "Global"
+            else:
+                site_name = tagging_details.get("site_name")
 
-        while True:
-            task_details = self.get_task_details(task_id)
-            is_error = task_details.get("isError")
-            progress = task_details.get("progress", "")
-            failure_reason = task_details.get("failureReason", "")
+            start_time = time.time()
 
-            if is_error:
-                if (
-                    not tag_image_golden
-                    and "An inheritted tag cannot be un-tagged" in failure_reason
-                ):
-                    self.msg = failure_reason
-                else:
+            while True:
+                task_details = self.get_task_details(task_id)
+                is_error = task_details.get("isError")
+                progress = task_details.get("progress", "")
+                failure_reason = task_details.get("failureReason", "")
+
+                if is_error:
+                    if (
+                        not tag_image_golden
+                        and "An inheritted tag cannot be un-tagged" in failure_reason
+                    ):
+                        self.msg = failure_reason
+                    else:
+                        action = "Tagging" if tag_image_golden else "Un-Tagging"
+                        self.msg = "{0} image {1} golden for site {2} for family {3} for device role {4} failed.".format(
+                            action, image_name, site_name, device_family, device_role
+                        )
+                    self.status = "failed"
+                    self.result["changed"] = False
+                    self.result["msg"] = self.msg
+                    self.result["response"] = self.msg
+                    self.log(self.msg, "ERROR")
+                    break
+
+                if "successful" in progress:
                     action = "Tagging" if tag_image_golden else "Un-Tagging"
-                    self.msg = "{0} image {1} golden for site {2} for family {3} for device role {4} failed.".format(
+                    self.msg = "{0} image {1} golden for site {2} for family {3} for device role {4} successful.".format(
                         action, image_name, site_name, device_family, device_role
                     )
-                self.status = "failed"
-                self.result["changed"] = False
-                self.result["msg"] = self.msg
-                self.result["response"] = self.msg
-                self.log(self.msg, "ERROR")
-                break
+                    self.status = "success"
+                    self.result["changed"] = True
+                    self.result["msg"] = self.msg
+                    self.result["response"] = self.msg
+                    self.log(self.msg, "INFO")
+                    break
 
-            if "successful" in progress:
-                action = "Tagging" if tag_image_golden else "Un-Tagging"
-                self.msg = "{0} image {1} golden for site {2} for family {3} for device role {4} successful.".format(
-                    action, image_name, site_name, device_family, device_role
-                )
-                self.status = "success"
-                self.result["changed"] = True
-                self.result["msg"] = self.msg
-                self.result["response"] = self.msg
-                self.log(self.msg, "INFO")
-                break
-
-            elapsed_time = time.time() - start_time
-            if elapsed_time >= self.max_timeout:
-                self.msg = (
-                    "Max timeout of {0} sec has reached for the task id '{1}'. ".format(
-                        self.max_timeout, task_id
+                elapsed_time = time.time() - start_time
+                if elapsed_time >= self.max_timeout:
+                    self.msg = (
+                        "Max timeout of {0} sec has reached for the task id '{1}'. ".format(
+                            self.max_timeout, task_id
+                        )
+                        + "Exiting the loop due to unexpected API status."
                     )
-                    + "Exiting the loop due to unexpected API status."
-                )
-                self.log(self.msg, "WARNING")
-                self.status = "failed"
-                break
+                    self.log(self.msg, "WARNING")
+                    self.status = "failed"
+                    break
 
-            poll_interval = self.params.get("dnac_task_poll_interval")
+                poll_interval = self.params.get("dnac_task_poll_interval")
+                self.log(
+                    "Waiting for the next poll interval of {0} seconds before checking task status again.".format(
+                        poll_interval
+                    ),
+                    "DEBUG",
+                )
+                time.sleep(poll_interval)
+
+            return self
+        else:
+            # -----------------------------------------------------
+            # New API flow for versions > 2.3.7.9
+            # -----------------------------------------------------
+            self.log("Starting new version golden tagging workflow", "DEBUG")
+
+            image_id = self.have.get("tagging_image_id")
+            device_role = tagging_details.get("device_role")
+            raw_roles = device_role.strip()
+
+            ROLE_MAP = {
+                "UNKNOWN": "UNKNOWN",
+                "ACCESS": "ACCESS",
+                "CORE": "CORE",
+                "DISTRIBUTION": "DISTRIBUTION",
+                "BORDER ROUTER": "BORDER_ROUTER",
+                "BORDER_ROUTER": "BORDER_ROUTER",
+            }
+
+            if raw_roles.lower() == "all":
+                desired_roles = [
+                    "CORE",
+                    "DISTRIBUTION",
+                    "ACCESS",
+                    "BORDER_ROUTER",
+                    "UNKNOWN",
+                ]
+            else:
+                desired_roles = []
+
+                for role in raw_roles.split(","):
+                    # Normalize role:
+                    # - strip spaces
+                    # - convert to upper
+                    # - replace multiple spaces with single space
+                    normalized_role = " ".join(role.strip().upper().split())
+
+                    if normalized_role not in ROLE_MAP:
+                        self.msg = (
+                            f"Invalid device_role '{role}'. "
+                            f"Permissible values are: ALL, UNKNOWN, ACCESS, "
+                            f"BORDER ROUTER, DISTRIBUTION, CORE."
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    desired_roles.append(ROLE_MAP[normalized_role])
+
             self.log(
-                "Waiting for the next poll interval of {0} seconds before checking task status again.".format(
-                    poll_interval
+                "Normalized device roles for golden tagging: {0}".format(desired_roles),
+                "DEBUG"
+            )
+
+            tag_action = "tag" if tag_image_golden else "untag"
+
+            # -----------------------------------------------------
+            # STEP 1: Fetch all software images
+            # -----------------------------------------------------
+            self.log("Fetching software images to identify golden status", "DEBUG")
+
+            images_response = self.dnac._exec(
+                family="software_image_management_swim",
+                function="returns_list_of_software_images",
+                params={"payload": {"siteId": self.have.get("site_id")}},
+            )
+
+            self.log("Received images response: {0}".format(images_response), "DEBUG")
+            if not images_response or "response" not in images_response:
+                self.msg = "Failed to retrieve software images from Cisco Catalyst Center"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            image_list = images_response.get("response", [])
+
+            matching_image = next(
+                (img for img in image_list if img.get("id") == image_id),
+                None
+            )
+
+            if not matching_image:
+                self.msg = "Image ID {0} not found in Cisco Catalyst Center.".format(image_id)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            current_golden = matching_image.get("isGoldenTagged", False)
+            golden_details = matching_image.get("goldenTaggingDetails") or []
+
+            self.log("Current golden tag status: {0}".format(current_golden), "DEBUG")
+            self.log("Golden tagging details: {0}".format(golden_details), "DEBUG")
+
+            # -----------------------------------------------------
+            # STEP 2: Extract existing golden roles
+            # -----------------------------------------------------
+            existing_roles = set()
+
+            for entry in golden_details:
+                for role in entry.get("deviceRoles", []):
+                    existing_roles.add(role.upper())
+
+            self.log("Existing golden roles: {0}".format(existing_roles), "DEBUG")
+
+            # -----------------------------------------------------
+            # STEP 3: Idempotency check (DNAC-safe)
+            # -----------------------------------------------------
+            if tag_image_golden and current_golden:
+                self.msg = (
+                    "SWIM Image '{0}' is already Golden tagged. Skipping operation."
+                    .format(image_name)
+                )
+                self.set_operation_result("success", False, self.msg, "INFO")
+                return self
+
+            if not tag_image_golden and not current_golden:
+                self.msg = (
+                    "SWIM Image '{0}' is already not Golden tagged. Skipping operation."
+                    .format(image_name)
+                )
+                self.set_operation_result("success", False, self.msg, "INFO")
+                return self
+
+            if not tagging_details.get("device_image_family_name"):
+                self.msg = "Device image family name is required in tagging details from the version 3.1.3.0."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            product_name_ordinal = self.get_product_name_ordinal_from_image_name(
+                tagging_details.get("device_image_family_name"),
+                image_id
+            )
+            self.log("Product name ordinal: {0}".format(product_name_ordinal), "DEBUG")
+
+            device_tags = tagging_details.get("device_tags")
+            device_tags_ids = []
+            for device_tag in device_tags:
+                self.log("Device tag to be applied: {0}".format(device_tag), "DEBUG")
+                device_tags_id = self.get_network_device_tag_id(device_tag)
+                device_tags_ids.append(device_tags_id)
+            # -----------------------------------------------------
+            # STEP 4: Build payload
+            # -----------------------------------------------------
+            payload = {
+                "productNameOrdinal": product_name_ordinal,
+                "supervisorProductNameOrdinal": tagging_details.get("supervisor_product_name_ordinal"),
+                "deviceRoles": desired_roles,
+                "deviceTags": device_tags_ids
+            }
+
+            # Remove None values
+            payload = {k: v for k, v in payload.items() if v is not None}
+
+            self.log("Payload for {0}: {1}".format(tag_action, payload), "INFO")
+
+            # -----------------------------------------------------
+            # STEP 5: Execute Tag / Untag API
+            # -----------------------------------------------------
+            try:
+                api_response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function="tagging_golden_image" if tag_image_golden else "untagging_golden_image",
+                    op_modifies=True,
+                    params={
+                        "id": image_id,
+                        "site_id" : self.have.get("site_id"),
+                        "payload": payload
+                    }
+                )
+
+                self.log("Golden image {0} API response: {1}".format(tag_action, api_response), "DEBUG")
+
+            except Exception as e:
+                self.msg = "Exception occurred during golden image {0}: {1}".format(tag_action, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            task_id = api_response.get("response", {}).get("taskId")
+
+            if not task_id:
+                self.msg = "No taskId returned for golden image {0}.".format(tag_action)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            site_name = tagging_details.get("site_name") or "Global"
+            device_family = tagging_details.get("device_image_family_name") or "Unknown"
+
+            action = "Tagging" if tag_image_golden else "Un-Tagging"
+            success_msg = (
+                "{0} image {1} golden for site {2}, family {3}, device roles {4} successful."
+                .format(action, image_name, site_name, device_family, device_role)
+            )
+
+            self.get_task_status_from_tasks_by_id(
+                task_id,
+                "golden_image_{0}".format(tag_action),
+                success_msg
+            )
+
+            return self
+
+    def get_product_name_ordinal_from_image_name(self, device_image_family_name, image_id):
+        """
+        Retrieve the product name ordinal for a given device image family and image name.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - device_image_family_name (str): The name of the device image family.
+            - image_name (str): The name of the software image.
+        Returns:
+            int: The product name ordinal associated with the given device image family and image name.
+        Description:
+            This method queries Cisco Catalyst Center to retrieve the product name ordinal for a specified
+            device image family and image name. It uses the 'get_product_name_ordinal' function in the
+            'software_image_management_swim' family and extracts the ordinal from the response.
+        """
+
+        try:
+            response = self.dnac._exec(
+                family="software_image_management_swim",
+                function="retrieves_network_device_product_names_assigned_to_a_software_image",
+                op_modifies=True,
+                params={
+                    "image_id": image_id,
+                    "product_name": device_image_family_name,
+                },
+            )
+            self.log(
+                "Received API response from 'get_product_name_ordinal': {0}".format(
+                    str(response)
                 ),
                 "DEBUG",
             )
-            time.sleep(poll_interval)
+            response = response.get("response")
+            self.log(
+                "Parsed response for product name ordinal: {0}".format(str(response)),
+                "DEBUG",
+            )
+            product_name_ordinal = response[0].get("productNameOrdinal")
 
-        return self
+            return product_name_ordinal
+
+        except Exception as e:
+            self.msg = "Error occurred while getting the product name ordinal from Cisco Catalyst Center: {0}".format(
+                str(e)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
     def get_device_ip_from_id(self, device_id):
         """
@@ -3095,6 +3597,285 @@ class Swim(DnacBase):
 
         return device_ips_list, device_count
 
+    def filter_device_uuids_by_tag(self, device_uuid_list, device_tag):
+        """
+        Filter device UUIDs based on a specified device tag using real-time tag association API.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_uuid_list (list): A list of device UUIDs to be filtered.
+            device_tag (str): The tag used to filter the devices.
+        Returns:
+            list: A list of device UUIDs that match the specified device tag.
+        Description:
+            This function filters the provided list of device UUIDs based on the specified device tag.
+            It uses the 'Retrieve tags associated with network devices' API which provides near real-time
+            tag updates, avoiding the delayed visibility issue with the 'Get Device Detail' API.
+        """
+        self.log(
+            "Starting device UUID filtering based on tag criteria for SWIM operations",
+            "INFO"
+        )
+
+        self.log(
+            "Processing tag-based device filtering with parameters - "
+            "device_uuid_list: {0} devices, device_tag: '{1}'".format(
+                len(device_uuid_list), device_tag
+            ),
+            "DEBUG"
+        )
+
+        if not device_uuid_list:
+            self.log("Empty device UUID list provided for tag filtering", "DEBUG")
+            return []
+
+        if not device_tag or not isinstance(device_tag, str):
+            self.log("Invalid device tag provided: {0}".format(device_tag), "WARNING")
+            return []
+
+        filtered_device_uuids = []
+
+        # Statistics tracking
+        statistics = {
+            'devices_processed': 0,
+            'devices_with_matching_tags': 0,
+            'devices_without_tags': 0,
+            'devices_with_api_errors': 0,
+            'invalid_uuids': 0
+        }
+
+        try:
+            # Get the tag ID from the tag name
+            self.log("Retrieving tag ID for tag name: '{0}'".format(device_tag), "DEBUG")
+
+            tag_id = self.get_network_device_tag_id(device_tag)
+
+            if not tag_id:
+                self.log(
+                    "Tag '{0}' not found in Cisco Catalyst Center. Unable to filter devices.".format(
+                        device_tag
+                    ),
+                    "ERROR"
+                )
+                return []
+
+            self.log("Successfully retrieved tag ID '{0}' for tag '{1}'".format(tag_id, device_tag), "DEBUG")
+
+            # Fetch all tag associations from the API with pagination
+            self.log(
+                "Fetching all tag associations using 'retrieve_tags_associated_with_network_devices' API with pagination",
+                "DEBUG"
+            )
+
+            limit = 500
+            offset = 1
+            all_tag_associations = []
+
+            while True:
+                try:
+                    response = self.dnac._exec(
+                        family="tag",
+                        function="retrieve_tags_associated_with_network_devices",
+                        op_modifies=True,
+                        params={"offset": offset, "limit": limit}
+                    )
+
+                    self.log(
+                        "Received API response from 'retrieve_tags_associated_with_network_devices' (offset: {0}, limit: {1}): {2}".format(
+                            offset, limit, str(response)
+                        ),
+                        "DEBUG"
+                    )
+
+                    tag_associations = response.get("response", [])
+
+                    if not tag_associations:
+                        self.log(
+                            "No more device-tag associations returned at offset {0}".format(offset),
+                            "DEBUG"
+                        )
+                        break
+
+                    all_tag_associations.extend(tag_associations)
+
+                    self.log(
+                        "Retrieved {0} device-tag association entries in this batch (offset: {1})".format(
+                            len(tag_associations), offset
+                        ),
+                        "DEBUG"
+                    )
+
+                    # Check if we received fewer results than the limit (indicates last page)
+                    if len(tag_associations) < limit:
+                        self.log(
+                            "Received fewer associations ({0}) than limit ({1}), reached end of results".format(
+                                len(tag_associations), limit
+                            ),
+                            "DEBUG"
+                        )
+                        break
+
+                    # Move to next page
+                    offset += limit
+
+                except Exception as e:
+                    self.log(
+                        "Exception occurred while fetching tag associations at offset {0}: {1}".format(
+                            offset, str(e)
+                        ),
+                        "ERROR"
+                    )
+                    break
+
+            if not all_tag_associations:
+                self.log(
+                    "No device-tag associations found in Cisco Catalyst Center after fetching all pages",
+                    "INFO"
+                )
+                return []
+
+            self.log(
+                "Successfully retrieved {0} total device-tag association entries from API".format(
+                    len(all_tag_associations)
+                ),
+                "INFO"
+            )
+
+            # Build a mapping of device IDs to their associated tag IDs
+            device_tag_map = {}
+
+            for association in all_tag_associations:
+                device_id = association.get("id")
+                tags = association.get("tags", [])
+
+                if not device_id:
+                    self.log(
+                        "Skipping association entry with missing device ID: {0}".format(association),
+                        "WARNING"
+                    )
+                    continue
+
+                # Store all tag IDs for this device
+                if device_id not in device_tag_map:
+                    device_tag_map[device_id] = set()
+
+                for tag in tags:
+                    tag_entry_id = tag.get("id")
+                    if tag_entry_id:
+                        device_tag_map[device_id].add(tag_entry_id)
+
+            self.log(
+                "Built device-to-tags mapping for {0} unique devices".format(
+                    len(device_tag_map)
+                ),
+                "DEBUG"
+            )
+
+            # Create a set of device IDs that have the target tag
+            tagged_device_ids = set()
+            for device_id, tag_ids in device_tag_map.items():
+                if tag_id in tag_ids:
+                    tagged_device_ids.add(device_id)
+
+            self.log(
+                "Found {0} devices associated with tag '{1}' (ID: {2})".format(
+                    len(tagged_device_ids), device_tag, tag_id
+                ),
+                "INFO"
+            )
+
+            # Filter the provided device UUIDs against the tagged device IDs
+            for device_index, device_uuid in enumerate(device_uuid_list, start=1):
+                statistics['devices_processed'] += 1
+
+                self.log(
+                    "Processing device {0}/{1} - UUID: {2}".format(
+                        device_index, len(device_uuid_list), device_uuid
+                    ),
+                    "DEBUG"
+                )
+
+                # Validate device UUID format
+                if not device_uuid or not isinstance(device_uuid, str):
+                    self.log(
+                        "Skipping invalid device UUID at index {0}: {1}".format(
+                            device_index, device_uuid
+                        ),
+                        "WARNING"
+                    )
+                    statistics['invalid_uuids'] += 1
+                    continue
+
+                # Check if this device UUID is in the tagged devices set
+                if device_uuid in tagged_device_ids:
+                    self.log(
+                        "Device UUID {0} matches the specified tag '{1}' - "
+                        "adding to filtered results".format(device_uuid, device_tag),
+                        "DEBUG"
+                    )
+                    filtered_device_uuids.append(device_uuid)
+                    statistics['devices_with_matching_tags'] += 1
+                else:
+                    self.log(
+                        "Device UUID {0} does not contain the specified tag '{1}' - "
+                        "excluding from filtered results".format(device_uuid, device_tag),
+                        "DEBUG"
+                    )
+                    statistics['devices_without_tags'] += 1
+
+        except Exception as e:
+            self.log(
+                "Exception occurred while filtering devices by tag: {0}".format(str(e)),
+                "ERROR"
+            )
+            return []
+
+        # Log comprehensive filtering statistics
+        self.log(
+            "Device tag filtering completed - "
+            "processed: {0}, matching tags: {1}, without tags: {2}, invalid UUIDs: {3}".format(
+                statistics['devices_processed'],
+                statistics['devices_with_matching_tags'],
+                statistics['devices_without_tags'],
+                statistics['invalid_uuids']
+            ),
+            "INFO"
+        )
+
+        self.log(
+            "Tag-based device filtering results for tag '{0}': {1} devices matched "
+            "out of {2} total devices processed".format(
+                device_tag, len(filtered_device_uuids), len(device_uuid_list)
+            ),
+            "INFO"
+        )
+
+        # Log warnings for problematic scenarios
+        if statistics['invalid_uuids'] > 0:
+            self.log(
+                "Warning: {0} invalid device UUIDs were skipped during filtering".format(
+                    statistics['invalid_uuids']
+                ),
+                "WARNING"
+            )
+
+        if len(filtered_device_uuids) == 0:
+            self.log(
+                "No devices found matching the specified tag '{0}'. "
+                "Consider checking if the tag exists or if devices are properly tagged.".format(
+                    device_tag
+                ),
+                "WARNING"
+            )
+
+        self.log(
+            "Final filtered device UUIDs based on tag '{0}': {1}".format(
+                device_tag, filtered_device_uuids
+            ),
+            "DEBUG"
+        )
+
+        return filtered_device_uuids
+
     def get_diff_distribution(self):
         """
         Get image distribution parameters from the playbook and trigger image distribution.
@@ -3119,9 +3900,11 @@ class Swim(DnacBase):
 
         site_name = distribution_details.get("site_name")
         device_family = distribution_details.get("device_family_name")
+        device_tag = distribution_details.get("device_tag")
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
         self.max_timeout = distribution_details.get("image_distribution_timeout", 1800)
+        convert_to_wlc = distribution_details.get("convert_to_wlc", False)
         self.log(
             "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
                 site_name, device_family, device_role, device_series_name
@@ -3132,6 +3915,22 @@ class Swim(DnacBase):
         device_uuid_list = self.get_device_uuids(
             site_name, device_family, device_role, device_series_name
         )
+
+        self.log(
+            "Initial device UUIDs retrieved for distribution: {0}".format(
+                device_uuid_list
+            ),
+            "DEBUG",
+        )
+        if device_tag:
+            device_uuid_list = self.filter_device_uuids_by_tag(
+                device_uuid_list, device_tag
+            )
+            self.log(
+                "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
+                "DEBUG",
+            )
+
         image_id = self.have.get("distribution_image_id")
         distribution_device_id = self.have.get("distribution_device_id")
         device_ip = self.get_device_ip_from_id(distribution_device_id)
@@ -3191,9 +3990,38 @@ class Swim(DnacBase):
                 "INFO",
             )
 
-            elg_device_ip, device_id = self.check_device_compliance(
-                distribution_device_id, image_name
-            )
+            # Initialize variables
+            elg_device_ip = None
+            device_id = distribution_device_id
+
+            if not convert_to_wlc:
+                self.log(
+                    "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                        image_name, device_ip
+                    ),
+                    "DEBUG"
+                )
+                self.log("Convert to WLC is set to False", "DEBUG")
+                elg_device_ip, device_id = self.check_device_compliance(
+                    distribution_device_id, image_name
+                )
+                if elg_device_ip:
+                    self.log(
+                        "Device {0} passed compliance validation for image '{1}'".format(
+                            elg_device_ip, image_name
+                        ),
+                        "INFO"
+                    )
+            else:
+                self.log(
+                    "WLC conversion mode enabled - bypassing compliance validation "
+                    "for image '{0}' on device {1}".format(image_name, device_ip),
+                    "WARNING"
+                )
+                # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                elg_device_ip = device_ip
+                device_id = distribution_device_id
+
             self.log(
                 "Device compliance check completed. IP: {0}, Device ID: {1}".format(
                     elg_device_ip, device_id
@@ -3425,8 +4253,28 @@ class Swim(DnacBase):
                 distributed = False
 
                 for img_name, img_id in image_ids.items():
-                    self.log("Checking compliance for image '{0}' on device {1}".format(img_name, device_ip), "DEBUG")
-                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
+                    # Initialize variables
+                    elg_device_ip = None
+                    device_id = device_uuid
+
+                    if not convert_to_wlc:
+                        self.log(
+                            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                                image_name, device_ip
+                            ),
+                            "DEBUG"
+                        )
+                        self.log("Convert to WLC is set to False", "DEBUG")
+                        elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
+                    else:
+                        self.log(
+                            "WLC conversion mode enabled - bypassing compliance validation "
+                            "for image '{0}' on device {1}".format(image_name, device_ip),
+                            "WARNING"
+                        )
+                        # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                        elg_device_ip = device_ip
+                        device_id = device_uuid
 
                     if not elg_device_ip:
                         device_ip_for_not_elg_list.append(device_ip)
@@ -3474,7 +4322,28 @@ class Swim(DnacBase):
                 self.log("Processing device: {0}".format(device_ip), "DEBUG")
                 device_distributed_images = []
 
-                elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid)
+                # Initialize variables
+                elg_device_ip = None
+                elg_device_uuid = device_uuid
+
+                if not convert_to_wlc:
+                    self.log(
+                        "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                            image_name, device_ip
+                        ),
+                        "DEBUG"
+                    )
+                    self.log("Convert to WLC is set to False", "DEBUG")
+                    elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid)
+                else:
+                    self.log(
+                        "WLC conversion mode enabled - bypassing compliance validation "
+                        "for image '{0}' on device {1}".format(image_name, device_ip),
+                        "WARNING"
+                    )
+                    # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                    elg_device_ip = device_ip
+                    elg_device_uuid = device_uuid
 
                 if not elg_device_ip:
                     device_ip_for_not_elg_list.append(device_ip)
@@ -3682,7 +4551,9 @@ class Swim(DnacBase):
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
         device_series_name = activation_details.get("device_series_name")
+        device_tag = activation_details.get("device_tag")
         self.max_timeout = activation_details.get("image_activation_timeout", 1800)
+        convert_to_wlc = activation_details.get("convert_to_wlc", False)
 
         self.log(
             "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
@@ -3694,6 +4565,22 @@ class Swim(DnacBase):
         device_uuid_list = self.get_device_uuids(
             site_name, device_family, device_role, device_series_name
         )
+
+        self.log(
+            "Initial device UUIDs retrieved for distribution: {0}".format(
+                device_uuid_list
+            ),
+            "DEBUG",
+        )
+        if device_tag:
+            device_uuid_list = self.filter_device_uuids_by_tag(
+                device_uuid_list, device_tag
+            )
+            self.log(
+                "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
+                "DEBUG",
+            )
+
         image_id = self.have.get("activation_image_id")
         activation_device_id = self.have.get("activation_device_id")
         device_ip = self.get_device_ip_from_id(activation_device_id)
@@ -3753,9 +4640,30 @@ class Swim(DnacBase):
                 "INFO",
             )
 
-            elg_device_ip, device_id = self.check_device_compliance(
-                self.have.get("activation_device_id"), image_name
-            )
+            # Initialize variables
+            elg_device_ip = None
+            device_id = activation_device_id
+
+            if not convert_to_wlc:
+                self.log(
+                    "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                        image_name, device_ip
+                    ),
+                    "DEBUG"
+                )
+                self.log("Convert to WLC is set to False", "DEBUG")
+                elg_device_ip, device_id = self.check_device_compliance(
+                    self.have.get("activation_device_id"), image_name
+                )
+            else:
+                self.log(
+                    "WLC conversion mode enabled - bypassing compliance validation "
+                    "for image '{0}' on device {1}".format(image_name, device_ip),
+                    "WARNING"
+                )
+                # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                elg_device_ip = device_ip
+                device_id = self.have.get("activation_device_id")
 
             if not elg_device_ip:
                 self.msg = "The image '{0}' has already been activated on the device '{1}'.".format(
@@ -3785,7 +4693,7 @@ class Swim(DnacBase):
                             "deviceUpgradeMode": activation_details.get("device_upgrade_mode"),
                             "distributeIfNeeded": activation_details.get("distribute_if_needed"),
                             "deviceUuid": self.have.get("activation_device_id"),
-                            "imageUuidList": [image_id],
+                            "imageUuidList": [image_id] if image_id else [],
                         }
                     ]
 
@@ -3942,13 +4850,38 @@ class Swim(DnacBase):
 
         # OLD FLOW (for DNAC <= 2.3.7.9)
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            self.log(
+                "Using old version of SWIM API for image activation (<= 2.3.7.9)",
+                "INFO",
+            )
             for device_uuid in device_uuid_list:
                 device_ip = self.get_device_ip_from_id(device_uuid)
                 activated = False
                 self.log("Checking compliance for device {0}".format(device_ip), "INFO")
 
                 for image_name, image_id in image_ids.items():
-                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+                    # Initialize variables
+                    elg_device_ip = None
+                    device_id = device_uuid
+
+                    if not convert_to_wlc:
+                        self.log(
+                            "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                                image_name, device_ip
+                            ),
+                            "DEBUG"
+                        )
+                        self.log("Convert to WLC is set to False", "DEBUG")
+                        elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+                    else:
+                        self.log(
+                            "WLC conversion mode enabled - bypassing compliance validation "
+                            "for image '{0}' on device {1}".format(image_name, device_ip),
+                            "WARNING"
+                        )
+                        # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                        elg_device_ip = device_ip
+                        device_id = device_uuid
 
                     if not elg_device_ip:
                         device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
@@ -3967,7 +4900,7 @@ class Swim(DnacBase):
                             deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
                             distributeIfNeeded=activation_details.get("distribute_if_needed"),
                             deviceUuid=device_id,
-                            imageUuidList=[image_id],
+                            imageUuidList=[image_id] if image_id else [],
                         )
                     ]
 
@@ -4050,7 +4983,28 @@ class Swim(DnacBase):
                     if sid:
                         installed_image_ids.add(sid)
 
-                elg_device_ip, device_id = self.check_device_compliance(device_uuid)
+                # Initialize variables
+                elg_device_ip = None
+                device_id = device_uuid
+
+                if not convert_to_wlc:
+                    self.log(
+                        "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
+                            image_name, device_ip
+                        ),
+                        "DEBUG"
+                    )
+                    self.log("Convert to WLC is set to False", "DEBUG")
+                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+                else:
+                    self.log(
+                        "WLC conversion mode enabled - bypassing compliance validation "
+                        "for image '{0}' on device {1}".format(image_name, device_ip),
+                        "WARNING"
+                    )
+                    # When convert_to_wlc is True, skip compliance check and use the device as eligible
+                    elg_device_ip = device_ip
+                    device_id = device_uuid
 
                 if not elg_device_ip:
                     self.log("Device not eligible for activation: {0}".format(device_ip), "INFO")
@@ -4065,11 +5019,11 @@ class Swim(DnacBase):
 
                 activation_payload["installedImages"] = [{"id": iid} for iid in installed_image_ids]
 
-                compatible_features = activation_details.get("compatible_features")
+                compatible_features = activation_details.get("compatible_features") or []
                 if compatible_features:
                     activation_payload["compatibleFeatures"] = compatible_features
 
-                network_validation_ids = activation_details.get("network_validation_ids")
+                network_validation_ids = activation_details.get("network_validation_ids") or []
                 if network_validation_ids:
                     activation_payload["networkValidationIds"] = network_validation_ids
 
@@ -4473,6 +5427,8 @@ class Swim(DnacBase):
         """
 
         image_id = self.have.get("distribution_image_id")
+        image_name = None
+
         if image_id:
             image_name = self.get_image_name_from_id(image_id)
 
@@ -4543,6 +5499,8 @@ class Swim(DnacBase):
         """
 
         image_id = self.have.get("activation_image_id")
+        image_name = None
+
         if image_id:
             image_name = self.get_image_name_from_id(image_id)
 
@@ -4659,14 +5617,15 @@ class Swim(DnacBase):
         results = []
         success_deletions = []
         failed_deletions = []
+        non_existent_images = []
 
         for image_name in image_names:
             self.log("Processing deletion request for image: '{0}'".format(image_name), "DEBUG")
-            image_id = self.get_image_id(image_name)
+            image_id = self.get_image_id_v1(image_name)
 
             if not image_id:
                 msg = "Image '{0}' does not exist in Cisco Catalyst Center.".format(image_name)
-                failed_deletions.append(image_name)
+                non_existent_images.append(image_name)
                 results.append({"image": image_name, "status": "failed", "message": msg})
                 continue
 
@@ -4674,13 +5633,13 @@ class Swim(DnacBase):
                 self.log("Attempting to delete image '{0}' with ID '{1}'.".format(image_name, image_id), "INFO")
                 response = self.dnac._exec(
                     family="software_image_management_swim",
-                    function='delete_image_v1',
+                    function='delete_image',
                     op_modifies=True,
                     params={"id": image_id}
                 )
 
-                self.check_tasks_response_status(response, "delete_image_v1")
-                self.log("Received API response from 'delete_image_v1': {0}".format(str(response)), "DEBUG")
+                self.check_tasks_response_status(response, "delete_image")
+                self.log("Received API response from 'delete_image': {0}".format(str(response)), "DEBUG")
 
                 if self.status not in ["failed", "exited"]:
                     msg = "Image '{0}' deleted successfully.".format(image_name)
@@ -4717,21 +5676,32 @@ class Swim(DnacBase):
             failed_list = "', '".join(failed_deletions)
             status_parts.append("Failed to delete image(s): '{0}'".format(failed_list))
 
+        if non_existent_images:
+            non_existent_list = "', '".join(non_existent_images)
+            status_parts.append("Image(s) not found and could not be deleted: '{0}'".format(non_existent_list))
+
         final_message = ". ".join(status_parts) + "."
 
         # Determine final operation status
-        if success_deletions and not failed_deletions:
+        if success_deletions and not failed_deletions and not non_existent_images:
             # All deletions successful
             self.msg = final_message
             self.log("All image deletion operations completed successfully", "INFO")
             self.set_operation_result("success", True, self.msg, "INFO")
             return self
 
-        if success_deletions and failed_deletions:
+        if success_deletions and (failed_deletions or non_existent_images):
             # Partial success
             self.msg = final_message
             self.log("Image deletion completed with partial success", "WARNING")
             self.set_operation_result("success", True, self.msg, "WARNING")
+            return self
+
+        if not success_deletions and non_existent_images and not failed_deletions:
+            # Only non-existent images (nothing to delete)
+            self.msg = final_message
+            self.log("No images were deleted as all specified images do not exist", "WARNING")
+            self.set_operation_result("success", False, self.msg, "WARNING")
             return self
 
         # All deletions failed
@@ -4764,7 +5734,7 @@ class Swim(DnacBase):
         for image_name in image_names:
             self.log("Verifying deletion status for image: '{0}'".format(image_name), "DEBUG")
 
-            image_id = self.get_image_id(image_name)
+            image_id = self.get_image_id_v1(image_name)
 
             if not image_id:
                 self.log("Verification successful: Image '{0}' no longer exists in Cisco Catalyst Center".format(image_name), "INFO")
@@ -4801,20 +5771,17 @@ class Swim(DnacBase):
             # All deletions verified successfully
             self.msg = final_message
             self.log("All image deletion operations have been successfully verified", "INFO")
-            self.set_operation_result("success", True, self.msg, "INFO")
             return self
 
         if verified_deleted and still_existing:
             # Partial verification success
             self.msg = final_message
             self.log("Image deletion verification completed with partial success", "WARNING")
-            self.set_operation_result("success", True, self.msg, "WARNING")
             return self
 
         # All verifications failed (all images still exist)
         self.msg = final_message
         self.log("All image deletion verification attempts failed - no images were successfully deleted", "ERROR")
-        self.set_operation_result("failed", False, self.msg, "ERROR")
         return self
 
     def update_swim_profile_messages(self):
@@ -4898,7 +5865,12 @@ def main():
         )
         ccc_swims.status = "failed"
         ccc_swims.check_return_status()
-
+    if ccc_swims.compare_dnac_versions(ccc_swims.get_ccc_version(), "2.3.7.6") <= 0 and state == "deleted":
+        ccc_swims.msg = (
+            "The 'deleted' state is not supported in version '{0}' and earlier. "
+            "Please use version '2.3.7.9' or latest.".format(ccc_swims.get_ccc_version())
+        )
+        ccc_swims.set_operation_result("failed", False, ccc_swims.msg, "ERROR").check_return_status()
     if state not in ccc_swims.supported_states:
         ccc_swims.status = "invalid"
         ccc_swims.msg = "State {0} is invalid".format(state)

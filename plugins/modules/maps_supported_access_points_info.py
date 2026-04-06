@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: maps_supported_access_points_info
-short_description: Information module for Maps Supported
-  Access Points
+short_description: Information module for Maps Supported Access Points
 description:
   - Get all Maps Supported Access Points.
-  - Gets the list of supported access point types as
-    well as valid antenna pattern names that can be
-    used for each.
+  - Gets the list of supported access point types as well as valid antenna pattern names that can be used for each.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,12 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites MapsSupportedAccessPoints
-    description: Complete reference of the MapsSupportedAccessPoints
-      API.
+    description: Complete reference of the MapsSupportedAccessPoints API.
     link: https://developer.cisco.com/docs/dna-center/#!maps-supported-access-points
 notes:
   - SDK Method used are

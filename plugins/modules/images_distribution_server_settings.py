@@ -7,18 +7,20 @@
 DOCUMENTATION = r"""
 ---
 module: images_distribution_server_settings
-short_description: Resource module for Images Distribution
-  Server Settings
+short_description: Resource module for Images Distribution Server Settings
 description:
-  - Manage operations create, update and delete of the
-    resource Images Distribution Server Settings.
-  - Add remote server for distributing software images.
-    Upto two such distribution servers are supported.
+  - Manage operations create, update and delete of the resource Images Distribution Server Settings.
+  - Add remote server for distributing software images. Upto two such distribution servers are supported.
+  - Delete remote image distribution server.
+  - Update remote image distribution server details.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  id:
+    description: Id path parameter. Remote server identifier.
+    type: str
   password:
     description: Server password.
     type: str
@@ -35,19 +37,27 @@ options:
     description: Server username.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) AddImageDistributionServer
-    description: Complete reference of the AddImageDistributionServer
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) AddImageDistributionServer
+    description: Complete reference of the AddImageDistributionServer API.
     link: https://developer.cisco.com/docs/dna-center/#!add-image-distribution-server
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RemoveImageDistributionServer
+    description: Complete reference of the RemoveImageDistributionServer API.
+    link: https://developer.cisco.com/docs/dna-center/#!remove-image-distribution-server
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) UpdateRemoteImageDistributionServer
+    description: Complete reference of the UpdateRemoteImageDistributionServer API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-remote-image-distribution-server
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.add_image_distribution_server,
+    software_image_management_swim.SoftwareImageManagementSwim.remove_image_distribution_server,
+    software_image_management_swim.SoftwareImageManagementSwim.update_remote_image_distribution_server,
   - Paths used are
     post /dna/intent/api/v1/images/distributionServerSettings,
+    delete /dna/intent/api/v1/images/distributionServerSettings/{id},
+    put /dna/intent/api/v1/images/distributionServerSettings/{id},
 """
 
 EXAMPLES = r"""
@@ -66,6 +76,31 @@ EXAMPLES = r"""
     portNumber: 0
     rootLocation: string
     serverAddress: string
+    username: string
+- name: Delete by id
+  cisco.dnac.images_distribution_server_settings:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
+- name: Update by id
+  cisco.dnac.images_distribution_server_settings:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: present
+    id: string
+    password: string
+    portNumber: 0
     username: string
 """
 RETURN = r"""

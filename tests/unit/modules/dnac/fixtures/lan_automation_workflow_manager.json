@@ -1,0 +1,1943 @@
+{
+    "delete_port_channel_when_it_doesnot_exist_playbook_case_1": [
+        {
+            "port_channel": [
+                {
+                    "source_device_management_ip_address": "172.255.0.64"
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_1": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre netconf enabled",
+                "memorySize": "NA",
+                "family": "Switches and Hubs",
+                "lastUpdateTime": 1760003943383,
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "deviceSupportLevel": "Supported",
+                "serialNumber": "FCW2236E0LH",
+                "syncRequestedByApp": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.255.0.64",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Config Change Event",
+                "reasonsForPendingSyncRequests": "",
+                "upTime": "20 days, 0:53:17.95",
+                "lastUpdated": "2025-10-09 09:59:03",
+                "interfaceCount": "0",
+                "locationName": null,
+                "managementIpAddress": "172.255.0.64",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-09-19 09:06:03",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "hostname": "New_edge",
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-09 09:57:57",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 1733589,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "type": "Cisco Catalyst 9300 Switch",
+                "location": null,
+                "role": "ACCESS",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "instanceUuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "id": "a5f38866-5fd6-478f-84cd-886d55138e93"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_port_channel_call_1_case_1": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_lan_automation_status_call_1_case_1": {
+        "response": {}
+    },
+    "get_active_lan_automation_sessions_call_1_case_1": {
+        "response": {}
+    },
+    "create_port_channel_playbook_case_2": [
+        {
+            "port_channel": [
+                {
+                    "source_device_management_ip_address": "172.255.0.64",
+                    "destination_device_management_ip_address": "172.101.1.1",
+                    "links": [
+                        {
+                            "source_port": "GigabitEthernet1/0/15",
+                            "destination_port": "TwentyFiveGigE2/0/24"
+                        },
+                        {
+                            "source_port": "GigabitEthernet1/0/17",
+                            "destination_port": "TwentyFiveGigE2/0/22"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_2": {
+        "response": [
+            {
+                "memorySize": "NA",
+                "family": "Switches and Hubs",
+                "lastUpdateTime": 1760003943383,
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "deviceSupportLevel": "Supported",
+                "serialNumber": "FCW2236E0LH",
+                "syncRequestedByApp": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.255.0.64",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Config Change Event",
+                "reasonsForPendingSyncRequests": "",
+                "upTime": "20 days, 0:53:17.95",
+                "lastUpdated": "2025-10-09 09:59:03",
+                "interfaceCount": "0",
+                "locationName": null,
+                "managementIpAddress": "172.255.0.64",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-09-19 09:06:03",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "hostname": "New_edge",
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-09 09:57:57",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 1733592,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "type": "Cisco Catalyst 9300 Switch",
+                "location": null,
+                "role": "ACCESS",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "instanceUuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "id": "a5f38866-5fd6-478f-84cd-886d55138e93"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_call_2_case_2": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "memorySize": "NA",
+                "family": "Switches and Hubs",
+                "lastUpdateTime": 1760003960022,
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "deviceSupportLevel": "Supported",
+                "serialNumber": "FXS2240Q0QX",
+                "syncRequestedByApp": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Config Change Event",
+                "reasonsForPendingSyncRequests": "",
+                "upTime": "188 days, 18:21:50.44",
+                "lastUpdated": "2025-10-09 09:59:20",
+                "interfaceCount": "0",
+                "locationName": null,
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-04-03 15:38:20",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-09 09:58:14",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 16311656,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "type": "Cisco Catalyst 9606R Switch",
+                "location": null,
+                "role": "DISTRIBUTION",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "instanceUuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "id": "7899bf09-a285-4d2a-a883-64c52db968fa"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_lan_automation_status_call_1_case_2": {
+        "response": {}
+    },
+    "get_active_lan_automation_sessions_call_1_case_2": {
+        "response": {}
+    },
+    "get_port_channel_call_1_case_2": {
+        "response": [],
+        "version": "1.0"
+    },
+    "create_a_new_port_channel_between_devices_call_1_case_2": {
+        "response": {
+            "taskId": "0199c88d-bc0d-7595-9375-436c211bfa7a",
+            "url": "/dna/intent/api/v1/tasks/0199c88d-bc0d-7595-9375-436c211bfa7a"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_call_1_case_2": {
+        "response": {
+            "endTime": 1760006614748,
+            "lastUpdate": 1760006614747,
+            "status": "SUCCESS",
+            "startTime": 1760006355981,
+            "resultLocation": "/dna/intent/api/v1/tasks/0199c88d-bc0d-7595-9375-436c211bfa7a/detail",
+            "id": "0199c88d-bc0d-7595-9375-436c211bfa7a"
+        }
+    },
+    "get_port_channel_call_2_case_2": {
+        "response": [
+            {
+                "id": "8ddbab6c-dba7-489a-a306-cc96a1f453e4_89d1792d-2098-464f-a5d4-d1f5cc881b88",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    },
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "create_second_port_channel_playbook_case_3": [
+        {
+            "port_channel": [
+                {
+                    "source_device_management_ip_address": "172.255.0.64",
+                    "destination_device_management_ip_address": "172.101.1.1",
+                    "links": [
+                        {
+                            "source_port": "GigabitEthernet1/0/16",
+                            "destination_port": "TwentyFiveGigE2/0/20"
+                        },
+                        {
+                            "source_port": "GigabitEthernet1/0/18",
+                            "destination_port": "TwentyFiveGigE2/0/21"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_3": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre netconf enabled",
+                "memorySize": "NA",
+                "family": "Switches and Hubs",
+                "lastUpdateTime": 1760006576638,
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "deviceSupportLevel": "Supported",
+                "serialNumber": "FCW2236E0LH",
+                "syncRequestedByApp": "SDA",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.255.0.64",
+                "lastManagedResyncReasons": "Application Requested",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Application Requested",
+                "reasonsForPendingSyncRequests": "",
+                "upTime": "20 days, 1:37:03.31",
+                "lastUpdated": "2025-10-09 10:42:56",
+                "interfaceCount": "0",
+                "locationName": null,
+                "managementIpAddress": "172.255.0.64",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-09-19 09:05:56",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "hostname": "New_edge",
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-09 10:42:52",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 1733872,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "type": "Cisco Catalyst 9300 Switch",
+                "location": null,
+                "role": "ACCESS",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "instanceUuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "id": "a5f38866-5fd6-478f-84cd-886d55138e93"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_call_2_case_3": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "memorySize": "NA",
+                "family": "Switches and Hubs",
+                "lastUpdateTime": 1760006607588,
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "deviceSupportLevel": "Supported",
+                "serialNumber": "FXS2240Q0QX",
+                "syncRequestedByApp": "SDA",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "lastManagedResyncReasons": "Application Requested",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Application Requested",
+                "reasonsForPendingSyncRequests": "",
+                "upTime": "188 days, 19:05:52.88",
+                "lastUpdated": "2025-10-09 10:43:27",
+                "interfaceCount": "0",
+                "locationName": null,
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-04-03 15:38:27",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-09 10:43:23",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 16311921,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "type": "Cisco Catalyst 9606R Switch",
+                "location": null,
+                "role": "DISTRIBUTION",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "instanceUuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "id": "7899bf09-a285-4d2a-a883-64c52db968fa"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_lan_automation_status_call_1_case_3": {
+        "response": {}
+    },
+    "get_active_lan_automation_sessions_call_1_case_3": {
+        "response": {}
+    },
+    "get_port_channel_call_1_case_3": {
+        "response": [
+            {
+                "id": "8ddbab6c-dba7-489a-a306-cc96a1f453e4_89d1792d-2098-464f-a5d4-d1f5cc881b88",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    },
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "create_a_new_port_channel_between_devices_call_1_case_3": {
+        "response": {
+            "taskId": "0199c891-e846-7fd0-bf74-5b24cc8cb516",
+            "url": "/dna/intent/api/v1/tasks/0199c891-e846-7fd0-bf74-5b24cc8cb516"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_call_1_case_3": {
+        "response": {
+            "endTime": 1760006899880,
+            "lastUpdate": 1760006749778,
+            "status": "SUCCESS",
+            "startTime": 1760006629446,
+            "resultLocation": "/dna/intent/api/v1/tasks/0199c891-e846-7fd0-bf74-5b24cc8cb516/detail",
+            "id": "0199c891-e846-7fd0-bf74-5b24cc8cb516"
+        },
+        "version": "1.0"
+    },
+    "get_port_channel_call_2_case_3": {
+        "response": [
+            {
+                "id": "7c27c28d-a874-4864-b861-3f6c3d2354f5_5b0d7572-107e-4173-8498-0abb85b9c690",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 4,
+                "device2PortChannelNumber": 4,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "23c64d3d-e402-4ad6-a91c-2250c116bf0b",
+                        "device1Interface": "GigabitEthernet1/0/18",
+                        "device2InterfaceUuid": "0ce5f1e7-0009-442a-9722-040289c3f4db",
+                        "device2Interface": "TwentyFiveGigE2/0/21"
+                    },
+                    {
+                        "device1InterfaceUuid": "52d6aa48-7d30-49fe-ad68-eb22940a7be6",
+                        "device1Interface": "GigabitEthernet1/0/16",
+                        "device2InterfaceUuid": "f9fe6ee7-2bd7-4656-99c3-5ec1c0593bea",
+                        "device2Interface": "TwentyFiveGigE2/0/20"
+                    }
+                ]
+            },
+            {
+                "id": "8ddbab6c-dba7-489a-a306-cc96a1f453e4_89d1792d-2098-464f-a5d4-d1f5cc881b88",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    },
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "delete_port_channel_negative_playbook_case_4": [
+        {
+            "port_channel": [
+                {
+                    "destination_device_management_ip_address": "172.101.1.1"
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_4": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "type": "Cisco Catalyst 9606R Switch",
+                "lastUpdateTime": 1760613081498,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "serialNumber": "FXS2240Q0QX",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Config Change Event",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "upTime": "195 days, 19:33:43.28",
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-04-03 15:38:21",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-16 11:11:21",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-16 11:11:17",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 16918452,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "DISTRIBUTION",
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "instanceUuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "7899bf09-a285-4d2a-a883-64c52db968fa"
+            }
+        ],
+        "version": "1.0"
+    },
+    "delete_second_port_channel_playbook_case_5": [
+        {
+            "port_channel": [
+                {
+                    "source_device_management_ip_address": "172.255.0.64",
+                    "destination_device_management_ip_address": "172.101.1.1",
+                    "links": [
+                        {
+                            "source_port": "GigabitEthernet1/0/16",
+                            "destination_port": "TwentyFiveGigE2/0/20"
+                        },
+                        {
+                            "source_port": "GigabitEthernet1/0/18",
+                            "destination_port": "TwentyFiveGigE2/0/21"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_5": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre netconf enabled",
+                "type": "Cisco Catalyst 9300 Switch",
+                "lastUpdateTime": 1760625804186,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "serialNumber": "FCW2236E0LH",
+                "syncRequestedByApp": "SDA",
+                "lastManagedResyncReasons": "Application Requested",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Application Requested",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.255.0.64",
+                "upTime": "3:40:32.79",
+                "managementIpAddress": "172.255.0.64",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-10-16 11:03:24",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "Edge_New",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-16 14:43:24",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-16 14:43:19",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 13321,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "ACCESS",
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "instanceUuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "a5f38866-5fd6-478f-84cd-886d55138e93"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_call_2_case_5": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "type": "Cisco Catalyst 9606R Switch",
+                "lastUpdateTime": 1760625813483,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "serialNumber": "FXS2240Q0QX",
+                "syncRequestedByApp": "SDA",
+                "lastManagedResyncReasons": "Application Requested",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Application Requested",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "upTime": "195 days, 23:05:58.22",
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-04-03 15:38:33",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-16 14:43:33",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-16 14:43:29",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 16931212,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "DISTRIBUTION",
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "instanceUuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "7899bf09-a285-4d2a-a883-64c52db968fa"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_lan_automation_status_call_1_case_5": {
+        "response": {}
+    },
+    "get_active_lan_automation_sessions_call_1_case_5": {
+        "response": {}
+    },
+    "get_port_channel_call_1_case_5": {
+        "response": [
+            {
+                "id": "bd2652c3-3815-40dc-a90f-93e71d4b6ad6_0e9dd07c-146e-4232-9e63-415eb67beabc",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    }
+                ]
+            },
+            {
+                "id": "c1398030-eafd-412a-a965-8f3b2458e5fc_23c9d0c8-a83a-4ec9-901c-6ddfcc13ccc2",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 4,
+                "device2PortChannelNumber": 4,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "52d6aa48-7d30-49fe-ad68-eb22940a7be6",
+                        "device1Interface": "GigabitEthernet1/0/16",
+                        "device2InterfaceUuid": "f9fe6ee7-2bd7-4656-99c3-5ec1c0593bea",
+                        "device2Interface": "TwentyFiveGigE2/0/20"
+                    },
+                    {
+                        "device1InterfaceUuid": "23c64d3d-e402-4ad6-a91c-2250c116bf0b",
+                        "device1Interface": "GigabitEthernet1/0/18",
+                        "device2InterfaceUuid": "0ce5f1e7-0009-442a-9722-040289c3f4db",
+                        "device2Interface": "TwentyFiveGigE2/0/21"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "delete_port_channel_call_1_case_5": {
+        "response": {
+            "taskId": "0199ed7b-a307-7b3e-9eb8-6a6d15cd8616",
+            "url": "/dna/intent/api/v1/tasks/0199ed7b-a307-7b3e-9eb8-6a6d15cd8616"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_call_1_case_5": {
+        "response": {
+            "endTime": 1760626501777,
+            "lastUpdate": 1760626501777,
+            "status": "SUCCESS",
+            "startTime": 1760625926919,
+            "resultLocation": "/dna/intent/api/v1/tasks/0199ed7b-a307-7b3e-9eb8-6a6d15cd8616/detail",
+            "id": "0199ed7b-a307-7b3e-9eb8-6a6d15cd8616"
+        },
+        "version": "1.0"
+    },
+    "get_port_channel_call_2_case_5": {
+        "response": [
+            {
+                "id": "bd2652c3-3815-40dc-a90f-93e71d4b6ad6_0e9dd07c-146e-4232-9e63-415eb67beabc",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "add_links_to_first_port_channel_playbook_case_6": [
+        {
+            "port_channel": [
+                {
+                    "source_device_management_ip_address": "172.255.0.64",
+                    "destination_device_management_ip_address": "172.101.1.1",
+                    "links": [
+                        {
+                            "source_port": "GigabitEthernet1/0/17",
+                            "destination_port": "TwentyFiveGigE2/0/22"
+                        },
+                        {
+                            "source_port": "GigabitEthernet1/0/16",
+                            "destination_port": "TwentyFiveGigE2/0/20"
+                        },
+                        {
+                            "source_port": "GigabitEthernet1/0/18",
+                            "destination_port": "TwentyFiveGigE2/0/21"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_6": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre netconf enabled",
+                "type": "Cisco Catalyst 9300 Switch",
+                "lastUpdateTime": 1760626500462,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "serialNumber": "FCW2236E0LH",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Config Change Event",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.255.0.64",
+                "upTime": "3:52:15.97",
+                "managementIpAddress": "172.255.0.64",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-10-16 11:03:00",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "Edge_New",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-16 14:55:00",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-16 14:53:54",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 14054,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "ACCESS",
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "instanceUuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "a5f38866-5fd6-478f-84cd-886d55138e93"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_call_2_case_6": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "type": "Cisco Catalyst 9606R Switch",
+                "lastUpdateTime": 1760626272557,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "serialNumber": "FXS2240Q0QX",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Config Change Event",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "upTime": "195 days, 23:13:38.36",
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-04-03 15:38:12",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-16 14:51:12",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-16 14:51:08",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 16931942,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "DISTRIBUTION",
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "instanceUuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "7899bf09-a285-4d2a-a883-64c52db968fa"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_lan_automation_status_call_1_case_6": {
+        "response": {}
+    },
+    "get_active_lan_automation_sessions_call_1_case_6": {
+        "response": {}
+    },
+    "get_port_channel_call_1_case_6": {
+        "response": [
+            {
+                "id": "bd2652c3-3815-40dc-a90f-93e71d4b6ad6_0e9dd07c-146e-4232-9e63-415eb67beabc",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_port_channel_information_by_id_call_1_case_6": {
+        "response": [
+            {
+                "id": "bd2652c3-3815-40dc-a90f-93e71d4b6ad6_0e9dd07c-146e-4232-9e63-415eb67beabc",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "add_links_to_port_channel_call_1_case_6": {
+        "response": {
+            "taskId": "0199ed86-71d7-7a17-a1a4-38a06c4040e3",
+            "url": "/dna/intent/api/v1/tasks/0199ed86-71d7-7a17-a1a4-38a06c4040e3"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_call_1_case_6": {
+        "response": {
+            "endTime": 1760626847061,
+            "lastUpdate": 1760626726887,
+            "status": "SUCCESS",
+            "startTime": 1760626635223,
+            "resultLocation": "/dna/intent/api/v1/tasks/0199ed86-71d7-7a17-a1a4-38a06c4040e3/detail",
+            "id": "0199ed86-71d7-7a17-a1a4-38a06c4040e3"
+        },
+        "version": "1.0"
+    },
+    "get_port_channel_call_2_case_6": {
+        "response": [
+            {
+                "id": "bd2652c3-3815-40dc-a90f-93e71d4b6ad6_0e9dd07c-146e-4232-9e63-415eb67beabc",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "23c64d3d-e402-4ad6-a91c-2250c116bf0b",
+                        "device1Interface": "GigabitEthernet1/0/18",
+                        "device2InterfaceUuid": "0ce5f1e7-0009-442a-9722-040289c3f4db",
+                        "device2Interface": "TwentyFiveGigE2/0/21"
+                    },
+                    {
+                        "device1InterfaceUuid": "52d6aa48-7d30-49fe-ad68-eb22940a7be6",
+                        "device1Interface": "GigabitEthernet1/0/16",
+                        "device2InterfaceUuid": "f9fe6ee7-2bd7-4656-99c3-5ec1c0593bea",
+                        "device2Interface": "TwentyFiveGigE2/0/20"
+                    },
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "remove_link_from_port_channel_playbook_case_7": [
+        {
+            "port_channel": [
+                {
+                    "source_device_management_ip_address": "172.255.0.64",
+                    "destination_device_management_ip_address": "172.101.1.1",
+                    "links": [
+                        {
+                            "source_port": "GigabitEthernet1/0/17",
+                            "destination_port": "TwentyFiveGigE2/0/22"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_7": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre netconf enabled",
+                "type": "Cisco Catalyst 9300 Switch",
+                "lastUpdateTime": 1760626844184,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "serialNumber": "FCW2236E0LH",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Link Up/Down Event",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.255.0.64",
+                "upTime": "3:58:21.24",
+                "managementIpAddress": "172.255.0.64",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-10-16 11:02:44",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "Edge_New",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-16 15:00:44",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-16 14:59:59",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 14386,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "ACCESS",
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "instanceUuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "a5f38866-5fd6-478f-84cd-886d55138e93"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_call_2_case_7": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "type": "Cisco Catalyst 9606R Switch",
+                "lastUpdateTime": 1760626844247,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "serialNumber": "FXS2240Q0QX",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Link Up/Down Event",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "upTime": "195 days, 23:23:34.62",
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-04-03 15:37:44",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-16 15:00:44",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-16 14:59:59",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 16932286,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "DISTRIBUTION",
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "instanceUuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "7899bf09-a285-4d2a-a883-64c52db968fa"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_lan_automation_status_call_1_case_7": {
+        "response": {}
+    },
+    "get_active_lan_automation_sessions_call_1_case_7": {
+        "response": {}
+    },
+    "get_port_channel_call_1_case_7": {
+        "response": [
+            {
+                "id": "bd2652c3-3815-40dc-a90f-93e71d4b6ad6_0e9dd07c-146e-4232-9e63-415eb67beabc",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "23c64d3d-e402-4ad6-a91c-2250c116bf0b",
+                        "device1Interface": "GigabitEthernet1/0/18",
+                        "device2InterfaceUuid": "0ce5f1e7-0009-442a-9722-040289c3f4db",
+                        "device2Interface": "TwentyFiveGigE2/0/21"
+                    },
+                    {
+                        "device1InterfaceUuid": "52d6aa48-7d30-49fe-ad68-eb22940a7be6",
+                        "device1Interface": "GigabitEthernet1/0/16",
+                        "device2InterfaceUuid": "f9fe6ee7-2bd7-4656-99c3-5ec1c0593bea",
+                        "device2Interface": "TwentyFiveGigE2/0/20"
+                    },
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_port_channel_information_by_id_call_1_case_7": {
+        "response": [
+            {
+                "id": "bd2652c3-3815-40dc-a90f-93e71d4b6ad6_0e9dd07c-146e-4232-9e63-415eb67beabc",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "23c64d3d-e402-4ad6-a91c-2250c116bf0b",
+                        "device1Interface": "GigabitEthernet1/0/18",
+                        "device2InterfaceUuid": "0ce5f1e7-0009-442a-9722-040289c3f4db",
+                        "device2Interface": "TwentyFiveGigE2/0/21"
+                    },
+                    {
+                        "device1InterfaceUuid": "52d6aa48-7d30-49fe-ad68-eb22940a7be6",
+                        "device1Interface": "GigabitEthernet1/0/16",
+                        "device2InterfaceUuid": "f9fe6ee7-2bd7-4656-99c3-5ec1c0593bea",
+                        "device2Interface": "TwentyFiveGigE2/0/20"
+                    },
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "10acddd2-c6fc-42de-9fb1-21a55fcf565f",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "9b797c59-8316-4fe2-ab21-da3130a4a6b9",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "remove_a_link_from_port_channel_case_7": {
+        "response": {
+            "taskId": "0199ed8b-42e3-7db1-b929-cc9a44494668",
+            "url": "/dna/intent/api/v1/tasks/0199ed8b-42e3-7db1-b929-cc9a44494668"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_call_1_case_7": {
+        "response": {
+            "endTime": 1760627110995,
+            "lastUpdate": 1760626990914,
+            "status": "SUCCESS",
+            "startTime": 1760626950883,
+            "resultLocation": "/dna/intent/api/v1/tasks/0199ed8b-42e3-7db1-b929-cc9a44494668/detail",
+            "id": "0199ed8b-42e3-7db1-b929-cc9a44494668"
+        },
+        "version": "1.0"
+    },
+    "get_port_channel_call_2_case_7": {
+        "response": [
+            {
+                "id": "bd2652c3-3815-40dc-a90f-93e71d4b6ad6_0e9dd07c-146e-4232-9e63-415eb67beabc",
+                "device1Uuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "device1ManagementIPAddress": "172.255.0.64",
+                "device2Uuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 3,
+                "device2PortChannelNumber": 3,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "23c64d3d-e402-4ad6-a91c-2250c116bf0b",
+                        "device1Interface": "GigabitEthernet1/0/18",
+                        "device2InterfaceUuid": "0ce5f1e7-0009-442a-9722-040289c3f4db",
+                        "device2Interface": "TwentyFiveGigE2/0/21"
+                    },
+                    {
+                        "device1InterfaceUuid": "52d6aa48-7d30-49fe-ad68-eb22940a7be6",
+                        "device1Interface": "GigabitEthernet1/0/16",
+                        "device2InterfaceUuid": "f9fe6ee7-2bd7-4656-99c3-5ec1c0593bea",
+                        "device2Interface": "TwentyFiveGigE2/0/20"
+                    },
+                    {
+                        "device1InterfaceUuid": "0d613160-f653-4771-920b-d6a12a6057ed",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "74cf0dd8-e8f3-4414-b1da-4b0322d63ecf",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "create_port_channel_negative_testcase_playbook_case_8": [
+        {
+            "port_channel": [
+                {
+                    "destination_device_management_ip_address": "172.101.1.1",
+                    "source_device_management_ip_address": "172.255.0.64"
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_8": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre netconf enabled",
+                "type": "Cisco Catalyst 9300 Switch",
+                "lastUpdateTime": 1760699946657,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "serialNumber": "FCW2236E0LH",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Periodic",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Periodic",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.255.0.64",
+                "upTime": "1 day, 0:16:17.69",
+                "managementIpAddress": "172.255.0.64",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-10-16 11:03:06",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "Edge_New",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-17 11:19:06",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-17 11:17:56",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 157263,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "ACCESS",
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "instanceUuid": "a5f38866-5fd6-478f-84cd-886d55138e93",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "a5f38866-5fd6-478f-84cd-886d55138e93"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_call_2_case_8": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "type": "Cisco Catalyst 9606R Switch",
+                "lastUpdateTime": 1760750829537,
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "serialNumber": "FXS2240Q0QX",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Config Change Event",
+                "reasonsForPendingSyncRequests": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "upTime": "197 days, 9:49:32.94",
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "bootDateTime": "2025-04-03 15:38:09",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "locationName": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "lastUpdated": "2025-10-18 01:27:09",
+                "interfaceCount": "0",
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-10-18 01:27:05",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 17075160,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "location": null,
+                "role": "DISTRIBUTION",
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "instanceUuid": "7899bf09-a285-4d2a-a883-64c52db968fa",
+                "instanceTenantId": "6852f7d3443b6f001493c782",
+                "id": "7899bf09-a285-4d2a-a883-64c52db968fa"
+            }
+        ],
+        "version": "1.0"
+    },
+    "update_port_channel_negative_testcase_playbook_case_9": [
+        {
+            "port_channel": [
+                {
+                    "source_device_management_ip_address": "172.101.1.1",
+                    "destination_device_management_ip_address": "172.254.0.2",
+                    "port_channel_number": 11,
+                    "links": [
+                        {
+                            "source_port": "GigabitEthernet1/0/1",
+                            "destination_port": "GigabitEthernet1/0/2"
+                        },
+                        {
+                            "source_port": "GigabitEthernet1/0/3",
+                            "destination_port": "GigabitEthernet1/0/4"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_9": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "lastUpdateTime": 1763977060385,
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-11-24 09:37:51",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 20282418,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "interfaceCount": "0",
+                "lastUpdated": "2025-11-24 09:37:40",
+                "bootDateTime": "2025-04-03 15:38:40",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "In Progress",
+                "family": "Switches and Hubs",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "locationName": null,
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "serialNumber": "FXS2240Q0QX",
+                "inventoryStatusDetail": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "syncRequestedByApp": "SDA",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Application Requested",
+                "reasonsForPendingSyncRequests": "",
+                "upTime": "234 days, 17:59:57.07",
+                "type": "Cisco Catalyst 9606R Switch",
+                "location": null,
+                "role": "DISTRIBUTION",
+                "instanceTenantId": "68f9d3a03064e76251a3a50f",
+                "instanceUuid": "9e11c8f3-3843-453f-bda1-4d2947b88b56",
+                "id": "9e11c8f3-3843-453f-bda1-4d2947b88b56"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_call_2_case_9": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre netconf enabled",
+                "lastUpdateTime": 1763969578547,
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-11-24 09:37:51",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 10680,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "interfaceCount": "0",
+                "lastUpdated": "2025-11-24 07:32:58",
+                "bootDateTime": "2025-11-24 06:40:58",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "In Progress",
+                "family": "Switches and Hubs",
+                "hostname": "BGL-EDGE3",
+                "locationName": null,
+                "managementIpAddress": "172.254.0.2",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "serialNumber": "FCW2236E0LH",
+                "inventoryStatusDetail": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.254.0.2",
+                "syncRequestedByApp": "SDA",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Application Requested",
+                "reasonsForPendingSyncRequests": "",
+                "upTime": "0:52:36.54",
+                "type": "Cisco Catalyst 9300 Switch",
+                "location": null,
+                "role": "ACCESS",
+                "instanceTenantId": "68f9d3a03064e76251a3a50f",
+                "instanceUuid": "679ded4d-9474-436d-b00f-43418efcc60d",
+                "id": "679ded4d-9474-436d-b00f-43418efcc60d"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_lan_automation_status_call_1_case_9": {
+        "response": {}
+    },
+    "get_active_lan_automation_sessions_call_1_case_9": {
+        "response": {}
+    },
+    "get_port_channel_call_1_case_9": {
+        "response": [],
+        "version": "1.0"
+    },
+    "add_link_to_port_channel_when_the_order_of_source_and_destination_device_is_reversed_case_10": [
+        {
+            "port_channel": [
+                {
+                    "source_device_management_ip_address": "172.254.0.2",
+                    "destination_device_management_ip_address": "172.101.1.1",
+                    "links": [
+                        {
+                            "destination_port": "TwentyFiveGigE2/0/20",
+                            "source_port": "GigabitEthernet1/0/16"
+                        },
+                        {
+                            "source_port": "GigabitEthernet1/0/18",
+                            "destination_port": "TwentyFiveGigE2/0/21"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "get_device_list_call_1_case_10": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [Dublin], Catalyst L3 Switch Software (CAT9K_IOSXE), Version 17.12.5, RELEASE SOFTWARE (fc5) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Fri 14-Mar-25 02:41 by mcpre netconf enabled",
+                "lastUpdateTime": 1764936937305,
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-12-05 12:20:31",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 970802,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "interfaceCount": "0",
+                "lastUpdated": "2025-12-05 12:15:37",
+                "bootDateTime": "2025-11-24 06:40:37",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "In Progress",
+                "family": "Switches and Hubs",
+                "hostname": "BGL-EDGE3",
+                "locationName": null,
+                "managementIpAddress": "172.254.0.2",
+                "platformId": "C9300-48U",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9300 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "macAddress": "70:0b:4f:c5:1d:80",
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.12.5",
+                "serialNumber": "FCW2236E0LH",
+                "inventoryStatusDetail": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.254.0.2",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Link Up/Down Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "1",
+                "reasonsForDeviceResync": "Link Up/Down Event",
+                "reasonsForPendingSyncRequests": "Link Up/Down Event",
+                "upTime": "11 days, 5:35:06.87",
+                "type": "Cisco Catalyst 9300 Switch",
+                "location": null,
+                "role": "ACCESS",
+                "instanceTenantId": "68f9d3a03064e76251a3a50f",
+                "instanceUuid": "679ded4d-9474-436d-b00f-43418efcc60d",
+                "id": "679ded4d-9474-436d-b00f-43418efcc60d"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_list_call_2_case_10": {
+        "response": [
+            {
+                "description": "Cisco IOS Software [IOSXE], Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.15.20241115:085712 [BLD_V1715_THROTTLE_LATEST_20241115_081107:/nobackup/mcpre/s2c-build-ws 101] Copyright (c) 1986-2024 by Cisco Systems, Inc. Compiled Fri 15 netconf enabled",
+                "lastUpdateTime": 1764931839917,
+                "associatedWlcIp": "",
+                "apEthernetMacAddress": null,
+                "errorCode": null,
+                "errorDescription": null,
+                "lastDeviceResyncStartTime": "2025-12-05 10:49:30",
+                "lineCardCount": "0",
+                "lineCardId": "",
+                "managedAtleastOnce": true,
+                "memorySize": "NA",
+                "tagCount": "0",
+                "tunnelUdpPort": null,
+                "uptimeSeconds": 21242580,
+                "vendor": "Cisco",
+                "waasDeviceMode": null,
+                "newRoleReason": null,
+                "newRoleValue": null,
+                "roleSource": "AUTO",
+                "interfaceCount": "0",
+                "lastUpdated": "2025-12-05 10:50:39",
+                "bootDateTime": "2025-04-03 15:37:39",
+                "apManagerInterfaceIp": "",
+                "collectionStatus": "Managed",
+                "family": "Switches and Hubs",
+                "hostname": "S1-BGL-CORE-1.pavankk.com",
+                "locationName": null,
+                "managementIpAddress": "172.101.1.1",
+                "platformId": "C9606R",
+                "reachabilityFailureReason": "",
+                "reachabilityStatus": "Reachable",
+                "series": "Cisco Catalyst 9600 Series Switches",
+                "snmpContact": "",
+                "snmpLocation": "",
+                "macAddress": "6c:b2:ae:4a:44:c0",
+                "deviceSupportLevel": "Supported",
+                "softwareType": "IOS-XE",
+                "softwareVersion": "17.15.20241115:085712",
+                "serialNumber": "FXS2240Q0QX",
+                "inventoryStatusDetail": "",
+                "collectionInterval": "Global Default",
+                "dnsResolvedManagementAddress": "172.101.1.1",
+                "syncRequestedByApp": "",
+                "lastManagedResyncReasons": "Config Change Event",
+                "managementState": "Managed",
+                "pendingSyncRequestsCount": "0",
+                "reasonsForDeviceResync": "Config Change Event",
+                "reasonsForPendingSyncRequests": "",
+                "upTime": "245 days, 19:13:01.81",
+                "type": "Cisco Catalyst 9606R Switch",
+                "location": null,
+                "role": "DISTRIBUTION",
+                "instanceTenantId": "68f9d3a03064e76251a3a50f",
+                "instanceUuid": "9e11c8f3-3843-453f-bda1-4d2947b88b56",
+                "id": "9e11c8f3-3843-453f-bda1-4d2947b88b56"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_lan_automation_status_call_1_case_10": {
+        "response": {}
+    },
+    "get_active_lan_automation_sessions_call_1_case_10": {
+        "response": {}
+    },
+    "get_port_channel_call_1_case_10": {
+        "response": [
+            {
+                "id": "3ee1ca31-4cfc-436e-8300-9e5429a6c59d_a00a6d98-dacf-4369-b8ea-19ccc01629ab",
+                "device1Uuid": "679ded4d-9474-436d-b00f-43418efcc60d",
+                "device1ManagementIPAddress": "172.254.0.2",
+                "device2Uuid": "9e11c8f3-3843-453f-bda1-4d2947b88b56",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 4,
+                "device2PortChannelNumber": 4,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "9d7314f2-f5a8-4407-9551-60820b0400db",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "87de8282-9402-4c40-b557-98bbbc1f2bac",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    },
+                    {
+                        "device1InterfaceUuid": "fd90798b-862b-4ab8-be4f-b8cf127000c3",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "ce803552-9086-45ea-ad97-39dd8a8507a1",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "fc584e1d-34a3-45c2-a4eb-881874925af2",
+                        "device1Interface": "GigabitEthernet1/0/16",
+                        "device2InterfaceUuid": "9ed9ffb2-2653-4d52-aef5-184693f20b64",
+                        "device2Interface": "TwentyFiveGigE2/0/20"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_port_channel_information_by_id_call_1_case_10": {
+        "response": [
+            {
+                "id": "3ee1ca31-4cfc-436e-8300-9e5429a6c59d_a00a6d98-dacf-4369-b8ea-19ccc01629ab",
+                "device1Uuid": "9e11c8f3-3843-453f-bda1-4d2947b88b56",
+                "device1ManagementIPAddress": "172.101.1.1",
+                "device2Uuid": "679ded4d-9474-436d-b00f-43418efcc60d",
+                "device2ManagementIPAddress": "172.254.0.2",
+                "device1PortChannelNumber": 4,
+                "device2PortChannelNumber": 4,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "87de8282-9402-4c40-b557-98bbbc1f2bac",
+                        "device1Interface": "TwentyFiveGigE2/0/22",
+                        "device2InterfaceUuid": "9d7314f2-f5a8-4407-9551-60820b0400db",
+                        "device2Interface": "GigabitEthernet1/0/17"
+                    },
+                    {
+                        "device1InterfaceUuid": "9ed9ffb2-2653-4d52-aef5-184693f20b64",
+                        "device1Interface": "TwentyFiveGigE2/0/20",
+                        "device2InterfaceUuid": "fc584e1d-34a3-45c2-a4eb-881874925af2",
+                        "device2Interface": "GigabitEthernet1/0/16"
+                    },
+                    {
+                        "device1InterfaceUuid": "ce803552-9086-45ea-ad97-39dd8a8507a1",
+                        "device1Interface": "TwentyFiveGigE2/0/24",
+                        "device2InterfaceUuid": "fd90798b-862b-4ab8-be4f-b8cf127000c3",
+                        "device2Interface": "GigabitEthernet1/0/15"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    },
+    "add_a_link_to_port_channel_case_10": {
+        "response": {
+            "taskId": "019aee75-0ef9-7aa2-8900-5ed34eb3bea7",
+            "url": "/dna/intent/api/v1/tasks/019aee75-0ef9-7aa2-8900-5ed34eb3bea7"
+        },
+        "version": "1.0"
+    },
+    "get_tasks_by_id_call_1_case_10": {
+        "response": {
+            "endTime": 1764937515935,
+            "lastUpdate": 1764937385591,
+            "status": "SUCCESS",
+            "startTime": 1764937240313,
+            "resultLocation": "/dna/intent/api/v1/tasks/019aee75-0ef9-7aa2-8900-5ed34eb3bea7/detail",
+            "id": "019aee75-0ef9-7aa2-8900-5ed34eb3bea7"
+        },
+        "version": "1.0"
+    },
+    "get_port_channel_call_2_case_10": {
+        "response": [
+            {
+                "id": "3ee1ca31-4cfc-436e-8300-9e5429a6c59d_a00a6d98-dacf-4369-b8ea-19ccc01629ab",
+                "device1Uuid": "679ded4d-9474-436d-b00f-43418efcc60d",
+                "device1ManagementIPAddress": "172.254.0.2",
+                "device2Uuid": "9e11c8f3-3843-453f-bda1-4d2947b88b56",
+                "device2ManagementIPAddress": "172.101.1.1",
+                "device1PortChannelNumber": 4,
+                "device2PortChannelNumber": 4,
+                "portChannelMembers": [
+                    {
+                        "device1InterfaceUuid": "9d7314f2-f5a8-4407-9551-60820b0400db",
+                        "device1Interface": "GigabitEthernet1/0/17",
+                        "device2InterfaceUuid": "87de8282-9402-4c40-b557-98bbbc1f2bac",
+                        "device2Interface": "TwentyFiveGigE2/0/22"
+                    },
+                    {
+                        "device1InterfaceUuid": "3c8154e7-12c7-4656-9476-1764584d90e4",
+                        "device1Interface": "GigabitEthernet1/0/18",
+                        "device2InterfaceUuid": "b46a1483-3836-48e5-9326-7ccb00f3c4b6",
+                        "device2Interface": "TwentyFiveGigE2/0/21"
+                    },
+                    {
+                        "device1InterfaceUuid": "fd90798b-862b-4ab8-be4f-b8cf127000c3",
+                        "device1Interface": "GigabitEthernet1/0/15",
+                        "device2InterfaceUuid": "ce803552-9086-45ea-ad97-39dd8a8507a1",
+                        "device2Interface": "TwentyFiveGigE2/0/24"
+                    },
+                    {
+                        "device1InterfaceUuid": "fc584e1d-34a3-45c2-a4eb-881874925af2",
+                        "device1Interface": "GigabitEthernet1/0/16",
+                        "device2InterfaceUuid": "9ed9ffb2-2653-4d52-aef5-184693f20b64",
+                        "device2Interface": "TwentyFiveGigE2/0/20"
+                    }
+                ]
+            }
+        ],
+        "version": "1.0"
+    }
+}

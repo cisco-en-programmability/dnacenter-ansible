@@ -26,46 +26,37 @@ options:
   memberType:
     description:
       - >
-        MemberType query parameter. Entity type of the
-        member. Possible values can be retrieved by
-        using /tag/member/type API.
+        MemberType query parameter. Entity type of the member. Possible values can be retrieved by using
+        /tag/member/type API.
     type: str
   offset:
     description:
-      - Offset query parameter. Used for pagination.
-        It indicates the starting row number out of
-        available member records.
-    type: float
+      - Offset query parameter. Used for pagination. It indicates the starting row number out of available member records.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of members
-        to be retrieved. If not specified, the default
-        is 500. The maximum allowed limit is 500.
-    type: float
+        Limit query parameter. The number of members to be retrieved. If not specified, the default is 500. The
+        maximum allowed limit is 500.
+    type: int
   memberAssociationType:
     description:
       - >
-        MemberAssociationType query parameter. Indicates
-        how the member is associated with the tag. Possible
-        values and description. 1) DYNAMIC The member
-        is associated to the tag through rules. 2) STATIC
-        – The member is associated to the tag manually.
-        3) MIXED – The member is associated manually
-        and also satisfies the rule defined for the
-        tag.
+        MemberAssociationType query parameter. Indicates how the member is associated with the tag. Possible
+        values and description. 1) DYNAMIC The member is associated to the tag through rules. 2) STATIC – The
+        member is associated to the tag manually. 3) MIXED – The member is associated manually and also
+        satisfies the rule defined for the tag.
     type: str
   level:
     description:
       - Level query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag GetTagMembersById
-    description: Complete reference of the GetTagMembersById
-      API.
+    description: Complete reference of the GetTagMembersById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag-members-by-id
 notes:
   - SDK Method used are

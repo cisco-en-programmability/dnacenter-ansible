@@ -124,6 +124,9 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("get_fabric_devices11"),
                 self.test_data.get("192.168.200.69_10"),
                 self.test_data.get("get_port_assignments"),
+                self.test_data.get("192.168.200.69_4"),
+                self.test_data.get("get_port_channels"),
+                self.test_data.get("192.168.200.69_5"),
                 self.test_data.get("get_network_device_by_ip"),
                 self.test_data.get("get_provisioned_wired_device")
             ]
@@ -244,11 +247,6 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
 
             ]
 
-        elif "playbook_negative_scenario_11" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_sites30"),
-            ]
-
         elif "playbook_negative_scenario_12" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites31"),
@@ -302,7 +300,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_fabric_info
@@ -350,7 +348,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_handoff_info
@@ -409,7 +407,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_onboarding_info
@@ -423,10 +421,10 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 "The fabric devices filtered from the network devices are: ['192.168.200.69']",
                 [
                     {
-                        "device_onboarding_info": [
+                        "port_assignment_info": [
                             {
                                 "device_ip": "192.168.200.69",
-                                "port_details": [
+                                "port_assignment_details": [
                                     {
                                         "authenticateTemplateName": "No Authentication",
                                         "connectedDeviceType": "ACCESS_POINT",
@@ -458,6 +456,16 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                                         "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
                                     }
                                 ]
+                            }
+                        ]
+                    }
+                ],
+                [
+                    {
+                        "port_channel_info": [
+                            {
+                                "device_ip": "192.168.200.69",
+                                "port_channel_details": []
                             }
                         ]
                     }
@@ -504,7 +512,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_health_info
@@ -577,7 +585,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_issues_info
@@ -616,7 +624,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_connected_devices_info
@@ -995,7 +1003,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_1
@@ -1022,7 +1030,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_2
@@ -1052,7 +1060,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_3
@@ -1079,7 +1087,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_4
@@ -1108,7 +1116,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_5
@@ -1135,7 +1143,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_6
@@ -1162,7 +1170,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_7
@@ -1194,7 +1202,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_8
@@ -1221,7 +1229,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_9
@@ -1248,7 +1256,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_10
@@ -1263,11 +1271,11 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_11(self):
         """
-        Test configuration validation when fabric site does not exist in Cisco Catalyst Center.
+        Test configuration validation when both 'ip_address' and 'ip_address_range' are specified.
 
         This test verifies that the workflow correctly identifies and reports an error
-        when the specified fabric_site_hierarchy does not exist in the system, ensuring
-        proper validation and error messaging for site hierarchy validation.
+        when both 'ip_address' and 'ip_address_range' are provided in the device_identifier,
+        ensuring proper validation and error messaging for mutually exclusive parameters.
         """
         set_module_args(
             dict(
@@ -1275,7 +1283,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_11
@@ -1285,11 +1293,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "An exception occurred while retrieving Site details for Site "
-            "'Global/rishipat_area/Fabric-area' does not exist in the Cisco Catalyst Center. "
-            "Error: {'msg': 'No site details retrieved for site name: "
-            "Global/rishipat_area/Fabric-area', 'response': 'No site details retrieved for site "
-            "name: Global/rishipat_area/Fabric-area', 'failed': True}"
+            "Both 'ip_address' and 'ip_address_range' are specified across device_identifier entries. Please specify only one of them."
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_12(self):
@@ -1306,7 +1310,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_negative_scenario_12
@@ -1333,7 +1337,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_ip_range_OR_logic_exception
@@ -1366,7 +1370,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                state="merged",
+                state="gathered",
                 config_verify=True,
                 dnac_version="2.3.7.9",
                 config=self.playbook_ip_range_AND_logic_exception

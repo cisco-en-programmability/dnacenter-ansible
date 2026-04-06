@@ -4,7 +4,7 @@
   gather_facts: false
 
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
 
   vars:
     dnac_login: &dnac_login
@@ -22,7 +22,7 @@
 
   tasks:
     - name: Create Extranet Policy
-      cisco.dnac.network_compliance_workflow_manager:
+      cisco.dnac.sda_extranet_policies_workflow_manager:
         <<: *dnac_login
         state: merged
         config:
@@ -32,7 +32,7 @@
 
 
     - name: Create Extranet Policy with Fabric Site(s) specified
-      cisco.dnac.network_compliance_workflow_manager:
+      cisco.dnac.sda_extranet_policies_workflow_manager:
         <<: *dnac_login
         state: merged
         config:
@@ -43,7 +43,7 @@
 
 
     - name: Update existing Extranet Policy
-      cisco.dnac.network_compliance_workflow_manager:
+      cisco.dnac.sda_extranet_policies_workflow_manager:
         <<: *dnac_login
         state: merged
         config:
@@ -52,7 +52,7 @@
             subscriber_virtual_networks: ["VN_2", "VN_4"]
 
     - name: Update existing Extranet Policy with Fabric Site(s) specified
-      cisco.dnac.network_compliance_workflow_manager:
+      cisco.dnac.sda_extranet_policies_workflow_manager:
         <<: *dnac_login
         state: merged
         config:
@@ -63,7 +63,7 @@
 
 
     - name: Delete Extranet Policy
-      cisco.dnac.network_compliance_workflow_manager:
+      cisco.dnac.sda_extranet_policies_workflow_manager:
         <<: *dnac_login
         state: deleted
         config:

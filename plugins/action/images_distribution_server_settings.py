@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -40,6 +39,7 @@ argument_spec.update(
         portNumber=dict(type="float"),
         rootLocation=dict(type="str"),
         password=dict(type="str", no_log=True),
+        id=dict(type="str"),
     )
 )
 
@@ -58,6 +58,7 @@ class ImagesDistributionServerSettings(object):
             portNumber=params.get("portNumber"),
             rootLocation=params.get("rootLocation"),
             password=params.get("password"),
+            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -71,6 +72,19 @@ class ImagesDistributionServerSettings(object):
         new_object_params["portNumber"] = self.new_object.get("portNumber")
         new_object_params["rootLocation"] = self.new_object.get("rootLocation")
         new_object_params["password"] = self.new_object.get("password")
+        return new_object_params
+
+    def delete_by_id_params(self):
+        new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        return new_object_params
+
+    def update_by_id_params(self):
+        new_object_params = {}
+        new_object_params["username"] = self.new_object.get("username")
+        new_object_params["portNumber"] = self.new_object.get("portNumber")
+        new_object_params["password"] = self.new_object.get("password")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -92,12 +106,11 @@ class ImagesDistributionServerSettings(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
                 family="software_image_management_swim",
-                function="retrieve_image_distribution_servers",
-                params=self.get_all_params(id=id),
+                function="retrieve_specific_image_distribution_server",
+                params={"id": id},
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -127,6 +140,8 @@ class ImagesDistributionServerSettings(object):
                 )
             if _id:
                 self.new_object.update(dict(id=_id))
+            if _id:
+                prev_obj = self.get_object_by_id(_id)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -138,6 +153,7 @@ class ImagesDistributionServerSettings(object):
             ("username", "username"),
             ("portNumber", "portNumber"),
             ("rootLocation", "rootLocation"),
+            ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
@@ -161,14 +177,37 @@ class ImagesDistributionServerSettings(object):
         id = self.new_object.get("id")
         name = self.new_object.get("name")
         result = None
-        # NOTE: Does not have update method. What do we do?
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+            if id_:
+                self.new_object.update(dict(id=id_))
+        result = self.dnac.exec(
+            family="software_image_management_swim",
+            function="update_remote_image_distribution_server",
+            params=self.update_by_id_params(),
+            op_modifies=True,
+        )
         return result
 
     def delete(self):
         id = self.new_object.get("id")
         name = self.new_object.get("name")
         result = None
-        # NOTE: Does not have delete method. What do we do?
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+            if id_:
+                self.new_object.update(dict(id=id_))
+        result = self.dnac.exec(
+            family="software_image_management_swim",
+            function="remove_image_distribution_server",
+            params=self.delete_by_id_params(),
+        )
         return result
 
 
@@ -215,7 +254,7 @@ class ActionModule(ActionBase):
         response = None
 
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -228,7 +267,7 @@ class ActionModule(ActionBase):
                 dnac.object_created()
 
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

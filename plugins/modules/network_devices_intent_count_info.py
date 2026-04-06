@@ -7,13 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_intent_count_info
-short_description: Information module for Network Devices
-  Intent Count
+short_description: Information module for Network Devices Intent Count
 description:
-  - Get all Network Devices Intent Count. - > API to
-    fetch the count of network devices using basic filters.
-    Use the `/dna/intent/api/v1/networkDevices/query/count`
-    API if you need advanced filtering.
+  - Get all Network Devices Intent Count.
+  - API to fetch the count of network devices using basic filters.
+  - Use the `/dna/intent/api/v1/networkDevices/query/count` API if you need advanced filtering.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -28,67 +26,52 @@ options:
     type: str
   managementAddress:
     description:
-      - ManagementAddress query parameter. Management
-        address of the network device.
+      - ManagementAddress query parameter. Management address of the network device.
     type: str
   serialNumber:
     description:
-      - SerialNumber query parameter. Serial number
-        of the network device.
+      - SerialNumber query parameter. Serial number of the network device.
     type: str
   family:
     description:
-      - Family query parameter. Product family of the
-        network device. For example, Switches, Routers,
-        etc.
+      - Family query parameter. Product family of the network device. For example, Switches, Routers, etc.
     type: str
   stackDevice:
     description:
-      - StackDevice query parameter. Flag indicating
-        if the device is a stack device.
+      - StackDevice query parameter. Flag indicating if the device is a stack device.
     type: str
   role:
     description:
       - >
-        Role query parameter. Role assigned to the network
-        device. Available values BORDER_ROUTER, CORE,
+        Role query parameter. Role assigned to the network device. Available values BORDER_ROUTER, CORE,
         DISTRIBUTION, ACCESS, UNKNOWN.
     type: str
   status:
     description:
       - >
-        Status query parameter. Inventory related status
-        of the network device. Available values MANAGED,
-        SYNC_NOT_STARTED, SYNC_INIT_FAILED, SYNC_PRECHECK_FAILED,
-        SYNC_IN_PROGRESS, SYNC_INTERNAL_ERROR, SYNC_DISABLED,
-        DELETING_DEVICE, UNDER_MAINTENANCE, QUARANTINED,
-        UNASSOCIATED, UNREACHABLE, UNKNOWN. Refer features
-        for more details.
+        Status query parameter. Inventory related status of the network device. Available values MANAGED,
+        SYNC_NOT_STARTED, SYNC_INIT_FAILED, SYNC_PRECHECK_FAILED, SYNC_IN_PROGRESS, SYNC_INTERNAL_ERROR,
+        SYNC_DISABLED, DELETING_DEVICE, UNDER_MAINTENANCE, QUARANTINED, UNASSOCIATED, UNREACHABLE, UNKNOWN.
+        Refer features for more details.
     type: str
   reachabilityStatus:
     description:
       - >
-        ReachabilityStatus query parameter. Reachability
-        status of the network device. Available values
-        REACHABLE, ONLY_PING_REACHABLE, UNREACHABLE,
-        UNKNOWN. Refer features for more details.
+        ReachabilityStatus query parameter. Reachability status of the network device. Available values
+        REACHABLE, ONLY_PING_REACHABLE, UNREACHABLE, UNKNOWN. Refer features for more details.
     type: str
   managementState:
     description:
       - >
-        ManagementState query parameter. The status
-        of the network device's manageability. Available
-        values MANAGED, UNDER_MAINTENANCE, NEVER_MANAGED.
-        Refer features for more details.
+        ManagementState query parameter. The status of the network device's manageability. Available values
+        MANAGED, UNDER_MAINTENANCE, NEVER_MANAGED. Refer features for more details.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      CountTheNumberOfNetworkDevices
-    description: Complete reference of the CountTheNumberOfNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices CountTheNumberOfNetworkDevices
+    description: Complete reference of the CountTheNumberOfNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-network-devices
 notes:
   - SDK Method used are

@@ -996,7 +996,7 @@ EXAMPLES = r"""
             subscription"
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash", "Device
-              Updation"]
+              Update"]
           destination: "Webhook Demo"
 - name: Updating Webhook Notification with the list
     of names of subscribed events in the system.
@@ -1059,12 +1059,12 @@ EXAMPLES = r"""
       - email_event_notification:
           name: "Email Notification"
           description: "Notification description for
-            email subscription updation"
+            email subscription update"
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash"]
           sender_email: "catalyst@cisco.com"
           recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
-          subject: "Mail test for updation"
+          subject: "Mail test for update"
           instance: Email Instance test
 - name: Creating Syslog Notification with the list of
     names of subscribed events in the system.
@@ -2352,11 +2352,32 @@ class Events(DnacBase):
 
         if webhook_details.get("headers") == []:
             playbook_params["headers"] = []
+            self.log(
+                "Webhook headers explicitly set to empty list in playbook - "
+                "existing headers will be removed during update.",
+                "DEBUG",
+            )
         elif webhook_details.get("headers"):
             custom_header = webhook_details["headers"]
             playbook_params["headers"] = []
             for header in custom_header:
                 playbook_params["headers"].append(header)
+            self.log(
+                "Webhook headers collected from playbook: {0}".format(
+                    playbook_params["headers"]
+                ),
+                "DEBUG",
+            )
+        else:
+            # Headers not specified in playbook — set to empty list so that
+            # any existing headers on the destination are detected as a change
+            # and removed during update.
+            playbook_params["headers"] = []
+            self.log(
+                "No webhook headers specified in playbook - defaulting to empty list. "
+                "Any existing headers on the destination will be removed during update.",
+                "DEBUG",
+            )
 
         return playbook_params
 
@@ -6666,14 +6687,14 @@ class Events(DnacBase):
             if destinations_in_ccc:
                 self.status = "success"
                 msg = """Requested Syslog Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     syslog_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that the Syslog destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         syslog_name
                     ),
                     "INFO",
@@ -6686,14 +6707,14 @@ class Events(DnacBase):
             if self.have.get("snmp_destinations"):
                 self.status = "success"
                 msg = """Requested SNMP Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     snmp_dest_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that the SNMP destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         snmp_dest_name
                     ),
                     "INFO",
@@ -6706,14 +6727,14 @@ class Events(DnacBase):
             if self.have.get("webhook_destinations"):
                 self.status = "success"
                 msg = """Requested Rest Webhook Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     webhook_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Rest Webhook destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         webhook_name
                     ),
                     "INFO",
@@ -6741,14 +6762,14 @@ class Events(DnacBase):
             if itsm_detail_in_ccc:
                 self.status = "success"
                 msg = """Requested ITSM Integration setting '{0}' have been successfully added/updated to the Cisco Catalyst Center
-                    and their addition/updation has been verified.""".format(
+                    and their addition/update has been verified.""".format(
                     itsm_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that ITSM Integration setting with
-                        name '{0}' addition/updation task may not have executed successfully.""".format(
+                        name '{0}' addition/update task may not have executed successfully.""".format(
                         itsm_name
                     ),
                     "INFO",
@@ -6761,14 +6782,14 @@ class Events(DnacBase):
             if self.have.get("webhook_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Webhook Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     web_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Webhook Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         web_notification_name
                     ),
                     "INFO",
@@ -6781,14 +6802,14 @@ class Events(DnacBase):
             if self.have.get("email_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Email Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     email_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Email Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         email_notification_name
                     ),
                     "INFO",
@@ -6801,14 +6822,14 @@ class Events(DnacBase):
             if self.have.get("syslog_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Syslog Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     syslog_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Syslog Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         syslog_notification_name
                     ),
                     "INFO",

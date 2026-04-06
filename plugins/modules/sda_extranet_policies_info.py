@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_info
-short_description: Information module for Sda Extranet
-  Policies
+short_description: Information module for Sda Extranet Policies
 description:
   - Get all Sda Extranet Policies.
-  - Returns a list of extranet policies that match the
-    provided query parameters.
+  - Returns a list of extranet policies that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,28 +21,24 @@ options:
     type: dict
   extranetPolicyName:
     description:
-      - ExtranetPolicyName query parameter. Name of
-        the extranet policy.
+      - ExtranetPolicyName query parameter. Name of the extranet policy.
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
+      - Offset query parameter. Starting record for pagination.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetExtranetPolicies
-    description: Complete reference of the GetExtranetPolicies
-      API.
+    description: Complete reference of the GetExtranetPolicies API.
     link: https://developer.cisco.com/docs/dna-center/#!get-extranet-policies
 notes:
   - SDK Method used are
@@ -80,14 +74,19 @@ dnac_response:
       "response": [
         {
           "id": "string",
-          "extranetPolicyName": "string",
-          "fabricIds": [
-            "string"
-          ],
-          "providerVirtualNetworkName": "string",
-          "subscriberVirtualNetworkNames": [
-            "string"
-          ]
+          "name": "string",
+          "siteId": "string",
+          "type": "string",
+          "ipTransitSettings": {
+            "routingProtocolName": "string",
+            "autonomousSystemNumber": "string"
+          },
+          "sdaTransitSettings": {
+            "isMulticastOverTransitEnabled": true,
+            "controlPlaneNetworkDeviceIds": [
+              "string"
+            ]
+          }
         }
       ],
       "version": "string"

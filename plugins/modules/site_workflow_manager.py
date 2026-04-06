@@ -52,7 +52,7 @@ options:
     elements: dict
     required: true
     suboptions:
-      site_type:
+      type:
         description:
           - Specifies the type of site component to manage.
           - Must be one of "area", "building", or "floor".
@@ -296,7 +296,7 @@ EXAMPLES = r"""
           area:
             name: Test
             parent_name: Global/India
-        site_type: area
+        type: area
 
 - name: Create a new building site
   cisco.dnac.site_workflow_manager:
@@ -318,7 +318,7 @@ EXAMPLES = r"""
             address: Bengaluru, Karnataka, India
             latitude: 24.12
             longitude: 23.45
-        site_type: building
+        type: building
 
 - name: Create a Floor site under the building
   cisco.dnac.site_workflow_manager:
@@ -342,7 +342,7 @@ EXAMPLES = r"""
             height: 30.12
             rf_model: Cubes And Walled Offices
             floor_number: 2
-        site_type: floor
+        type: floor
 
 - name: Updating the Floor details under the building
   cisco.dnac.site_workflow_manager:
@@ -364,7 +364,7 @@ EXAMPLES = r"""
             length: 75.76
             width: 35.54
             height: 30.12
-        site_type: floor
+        type: floor
 
 - name: Deleting any site you need site name and parent name
   cisco.dnac.site_workflow_manager:
@@ -383,7 +383,7 @@ EXAMPLES = r"""
           floor:
             name: Floor_1
             parent_name: Global/India/Building_1
-        site_type: floor
+        type: floor
 
 - name: Create bulk sites and upload floor map
   cisco.dnac.site_workflow_manager:
@@ -1313,7 +1313,7 @@ class Site(DnacBase):
 
     def get_want(self, config):
         """
-        Get all site-related information from the playbook needed for creation/updation/deletion of site in Cisco Catalyst Center.
+        Get all site-related information from the playbook needed for creation/update/deletion of site in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): A dictionary containing configuration information.
@@ -1868,7 +1868,7 @@ class Site(DnacBase):
 
         task_name = "create_sites"
         success_msg = "Site created successfully."
-        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg, True)
 
         for site in process_config:
             site_name = site.get("name")
@@ -2049,8 +2049,6 @@ class Site(DnacBase):
             except Exception as e:
                 self.log("Yaml is not available for bulk: {}".format(str(e)), "ERROR")
 
-            return self
-
         else:
             site_params = self.want.get("site_params")
             site_type = site_params.get("type")
@@ -2158,13 +2156,18 @@ class Site(DnacBase):
                         site_name_hierarchy = self.want.get("site_name_hierarchy")
                         self.created_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
                         self.log("Site '{0}' created successfully".format(site_name_hierarchy), "INFO")
-                    return self
 
                 except Exception as e:
                     self.msg = "Unexpected error occurred while create: {0}".format(str(e))
                     self.log(self.msg, "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR",
                                               site_name_hierarchy).check_return_status()
+
+        if self.created_site_list and len(self.update_not_needed_sites) < 1:
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO", str(self.created_site_list))
+        elif len(self.update_not_needed_sites) > 0:
+            self.update_site_messages().check_return_status()
 
         return self
 
@@ -2555,7 +2558,7 @@ class Site(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status (Creation/Updation) of site configuration in Cisco Catalyst Center.
+        Verify the merged status (Creation/Update) of site configuration in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.

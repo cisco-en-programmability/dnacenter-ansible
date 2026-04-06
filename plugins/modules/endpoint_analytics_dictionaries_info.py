@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_dictionaries_info
-short_description: Information module for Endpoint Analytics
-  Dictionaries
+short_description: Information module for Endpoint Analytics Dictionaries
 description:
   - Get all Endpoint Analytics Dictionaries.
   - Fetches the list of attribute dictionaries.
@@ -23,18 +22,15 @@ options:
   includeAttributes:
     description:
       - >
-        IncludeAttributes query parameter. Flag to indicate
-        whether attribute list for each dictionary should
-        be included in response.
+        IncludeAttributes query parameter. Flag to indicate whether attribute list for each dictionary should be
+        included in response.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics GetAIEndpointAnalyticsAttributeDictionaries
-    description: Complete reference of the GetAIEndpointAnalyticsAttributeDictionaries
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics GetAIEndpointAnalyticsAttributeDictionaries
+    description: Complete reference of the GetAIEndpointAnalyticsAttributeDictionaries API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
 notes:
   - SDK Method used are

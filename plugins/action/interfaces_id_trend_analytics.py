@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -98,7 +97,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="devices",
-            function="the_trend_analytcis_data_for_the_interfaces_in_the_specified_time_range",
+            function="get_trend_analytics_data_for_the_interfaces_in_the_specified_time_range",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_device_role_info
-short_description: Information module for Sda Device
-  Role
+short_description: Information module for Sda Device Role
 description:
   - Get all Sda Device Role.
   - Get device role in SDA Fabric.
@@ -22,16 +21,14 @@ options:
     type: dict
   deviceManagementIpAddress:
     description:
-      - DeviceManagementIpAddress query parameter. Device
-        Management IP Address.
+      - DeviceManagementIpAddress query parameter. Device Management IP Address.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetDeviceRoleInSDAFabric
-    description: Complete reference of the GetDeviceRoleInSDAFabric
-      API.
+    description: Complete reference of the GetDeviceRoleInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-role-in-sda-fabric
 notes:
   - SDK Method used are

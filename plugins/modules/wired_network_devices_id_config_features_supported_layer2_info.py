@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wired_network_devices_id_config_features_supported_layer2_info
-short_description: Information module for Wired Network
-  Devices Id Config Features Supported Layer2
+short_description: Information module for Wired Network Devices Id Config Features Supported Layer2
 description:
-  - Get all Wired Network Devices Id Config Features
-    Supported Layer2.
-  - The API returns the supported layer 2 features on
-    a wired device.
+  - Get all Wired Network Devices Id Config Features Supported Layer2.
+  - The API returns the supported layer 2 features on a wired device.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,16 +21,14 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. Network device ID of the
-        wired device.
+      - Id path parameter. Network device ID of the wired device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Wired GetTheSupportedLayer2FeaturesOnAWiredDevice
-    description: Complete reference of the GetTheSupportedLayer2FeaturesOnAWiredDevice
-      API.
+    description: Complete reference of the GetTheSupportedLayer2FeaturesOnAWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-supported-layer-2-features-on-a-wired-device
 notes:
   - SDK Method used are
@@ -44,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wired Network Devices Id Config Features
-    Supported Layer2
+- name: Get all Wired Network Devices Id Config Features Supported Layer2
   cisco.dnac.wired_network_devices_id_config_features_supported_layer2_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

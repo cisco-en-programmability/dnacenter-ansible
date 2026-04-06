@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: authentication_policy_servers_info
-short_description: Information module for Authentication
-  Policy Servers
+short_description: Information module for Authentication Policy Servers
 description:
   - Get all Authentication Policy Servers.
   - API to get Authentication and Policy Servers.
@@ -22,28 +21,22 @@ options:
     type: dict
   isIseEnabled:
     description:
-      - IsIseEnabled query parameter. Valid values are
-        true, false.
+      - IsIseEnabled query parameter. Valid values are true, false.
     type: bool
   state_:
     description:
-      - State query parameter. Valid values are ACTIVE,
-        DELETED, FAILED, INACTIVE, INPROGRESS, RBAC-FAILURE,
-        RBAC-SUCCESS.
+      - State query parameter. Valid values are ACTIVE, DELETED, FAILED, INACTIVE, INPROGRESS, RBAC-FAILURE, RBAC-SUCCESS.
     type: str
   role:
     description:
-      - Role query parameter. Authentication and Policy
-        Server Role (Example primary, secondary).
+      - Role query parameter. Authentication and Policy Server Role (Example primary, secondary).
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System
-      Settings GetAuthenticationAndPolicyServers
-    description: Complete reference of the GetAuthenticationAndPolicyServers
-      API.
+  - name: Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServers
+    description: Complete reference of the GetAuthenticationAndPolicyServers API.
     link: https://developer.cisco.com/docs/dna-center/#!get-authentication-and-policy-servers
 notes:
   - SDK Method used are

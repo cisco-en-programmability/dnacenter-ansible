@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -35,6 +34,8 @@ argument_spec.update(
         apAuthorizationListName=dict(type="str"),
         authorizeMeshAndNonMeshAccessPoints=dict(type="bool"),
         featureTemplatesOverridenAttributes=dict(type="dict"),
+        lscProfileName=dict(type="str"),
+        lscPercentage=dict(type="int"),
         deviceId=dict(type="str"),
     )
 )
@@ -86,6 +87,8 @@ class ActionModule(ActionBase):
             featureTemplatesOverridenAttributes=params.get(
                 "featureTemplatesOverridenAttributes"
             ),
+            lscProfileName=params.get("lscProfileName"),
+            lscPercentage=params.get("lscPercentage"),
             device_id=params.get("deviceId"),
         )
         return new_object

@@ -139,7 +139,8 @@ options:
             Capture (ICAP) data.
           - Used to configure the parameters for capturing
             client data during a specific timeframe.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           capture_type:
             description: The type of ICAP session to
