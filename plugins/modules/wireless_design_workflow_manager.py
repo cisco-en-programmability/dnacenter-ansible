@@ -3112,6 +3112,8 @@ options:
                   - Supported value is C(called_station_id).
                 type: list
                 elements: str
+                choices:
+                  - called_station_id
           advanced_ssid:
             description:
               - Advanced SSID configuration parameters for enhanced wireless features.
@@ -7462,6 +7464,7 @@ class WirelessDesign(DnacBase):
         self.supported_states = ["merged", "deleted"]
         self.is_default_rf_profile_in_config = False
         super().__init__(module)
+        self._SNAKE_CASE_RE = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
 
     def validate_input(self):
         """
@@ -8315,8 +8318,7 @@ class WirelessDesign(DnacBase):
         if not isinstance(attribute_name, str) or not attribute_name:
             return False
 
-        pattern = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
-        return all(pattern.match(segment) for segment in attribute_name.split("."))
+        return all(self._SNAKE_CASE_RE.match(segment) for segment in attribute_name.split("."))
 
     def _collect_feature_template_attribute_paths(self, options, prefix=""):
         """
@@ -8372,6 +8374,10 @@ class WirelessDesign(DnacBase):
                     unlocked_spec = entry_options.get("unlocked_attributes", {})
 
                     if unlocked_spec.get("type") != "list":
+                        self.log(
+                            "Skipping template '{0}': unlocked_attributes is not type 'list'.".format(template_name),
+                            "DEBUG"
+                        )
                         continue
 
                     allowed_unlock_attributes = self._collect_feature_template_attribute_paths(
@@ -8397,25 +8403,27 @@ class WirelessDesign(DnacBase):
                             if not self._is_snake_case_unlocked_attribute(attribute_name)
                         ]
                         if invalid_style:
-                            return (
+                            error_msg = (
                                 "Invalid unlocked_attributes {0} for feature template "
                                 "'{1}' in design '{2}'. Use snake_case attribute names only."
                             ).format(invalid_style, template_name, design_name)
+                            self.log(error_msg, "WARNING")
+                            return error_msg
 
                         invalid_names = [
                             attribute_name for attribute_name in unlocked_attributes
                             if attribute_name not in allowed_unlock_attributes
                         ]
                         if invalid_names:
-                            return (
+                            error_msg = (
                                 "Invalid unlocked_attributes {0} for feature template "
                                 "'{1}' in design '{2}'. Allowed values are: {3}."
                             ).format(
-                                invalid_names,
-                                template_name,
-                                design_name,
+                                invalid_names, template_name, design_name,
                                 sorted(allowed_unlock_attributes),
                             )
+                            self.log(error_msg, "WARNING")
+                            return error_msg
 
         return None
 
@@ -9854,6 +9862,16 @@ class WirelessDesign(DnacBase):
             if unlocked:
                 # Only valid attribute is overlap_ip_enable -> overlapIpEnable
                 name_map = {"overlap_ip_enable": "overlapIpEnable"}
+
+                invalid = [u for u in unlocked if u not in name_map]
+                if invalid:
+                    self.msg = (
+                        "Invalid unlocked_attributes {0} for flexconnect design '{1}'. "
+                        "Allowed values are: {2}."
+                    ).format(invalid, design_name, sorted(name_map.keys()))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
                 payload["unlockedAttributes"] = [name_map[u] for u in unlocked]
 
             existing = existing_by_name.get(design_name)
@@ -12608,12 +12626,19 @@ class WirelessDesign(DnacBase):
             new_design_name = attr.get("new_design_name")
             called_station_id = attr.get("called_station_id")
             called_station_id = called_station_id.upper()
+            unlocked_attributes = attr.get("unlocked_attributes", []) or []
+            aaa_name_map = {"called_station_id": "calledStationId"}
+            desired_unlocked = [aaa_name_map[a] for a in unlocked_attributes]
             self.log("Evaluating AAA Radius Attribute design: {0}".format(design_name), "DEBUG")
             self.log("Requested called_station_id: {0}".format(called_station_id), "DEBUG")
+            self.log(
+                "Resolved unlocked_attributes for design '{0}': desired_unlocked={1}".format(
+                    design_name, desired_unlocked
+                ),
+                "DEBUG"
+            )
             if new_design_name:
                 self.log("New design name requested: {0}".format(new_design_name), "DEBUG")
-            unlocked_attributes = attr.get("unlocked_attributes", []) or []
-            desired_unlocked = ["calledStationId"] if unlocked_attributes else []
 
             # validate the called_station_id value
             allowed_values = [
