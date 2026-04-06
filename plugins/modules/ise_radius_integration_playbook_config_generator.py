@@ -52,8 +52,7 @@ options:
     - A dictionary of filters for generating YAML playbook compatible with the `ise_radius_integration_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
-    - When C(components_list) is provided, only those components are included,
-      regardless of other filters or C(generate_all_configurations).
+    - When C(components_list) is provided, only those components are included.
     type: dict
     required: false
     suboptions:
@@ -104,7 +103,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Generate YAML Configuration with File Path specified for all components
+- name: Generate YAML Configuration with default file path for all components
   cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -116,8 +115,6 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
-    config:
-      generate_all_configurations: true
 
 - name: Generate YAML Configuration for all components with File Path specified
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -133,8 +130,6 @@ EXAMPLES = r"""
     state: gathered
     file_path: "/tmp/ise_radius_integration_config.yaml"
     file_mode: "overwrite"
-    config:
-      generate_all_configurations: true
 
 - name: Generate YAML Configuration for mentioned components without File Path specified
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -249,10 +244,8 @@ response_2:
   type: list
   sample: >
     {
-        "msg": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-                when 'generate_all_configurations' is set to False.",
-        "response": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-                     when 'generate_all_configurations' is set to False."
+        "msg": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key.",
+        "response": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key."
     }
 """
 from ansible.module_utils.basic import AnsibleModule
@@ -353,8 +346,8 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Check if configuration is available
         if not self.config:
             self.status = "success"
-            self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.validated_config = {}
+            self.msg = "Configuration is not provided or empty. Internal auto-discovery mode enabled."
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
