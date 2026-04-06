@@ -302,14 +302,25 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def _normalize_component_filter_block(self, component_name, component_value, list_key):
         """
-        Normalize a component filter block to dictionary form.
+        Normalize a component filter block from list-of-dicts form to a single merged dictionary.
 
-        Supported input form:
-            component_name:
-              - list_key: [...]
+        When multiple dictionaries are provided in the list, all values under the
+        specified list_key are merged into a single list with duplicates preserved.
 
-        When multiple dictionaries are provided, all list_key values are merged.
+        Args:
+            component_name (str): The name of the component (e.g., 'queuing_profile',
+                'application_policy'). Used in error messages.
+            component_value (list): A list of dictionaries, each optionally containing
+                the list_key.
+            list_key (str): The expected dictionary key within each entry
+                (e.g., 'profile_names_list', 'policy_names_list').
+
+        Returns:
+            dict: A merged dictionary with a single list_key containing all merged values,
+                or None if validation fails. On failure, self.msg is set with the error
+                detail and set_operation_result is called.
         """
+
         if not isinstance(component_value, list):
             self.msg = (
                 "'{0}' must be a list of dictionaries, got: {1}.".format(
@@ -318,17 +329,16 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
-        component_entries = component_value
 
         normalized_filter = {}
 
-        for entry_index, component_entry in enumerate(component_entries, start=1):
+        for entry_index, component_entry in enumerate(component_value, start=1):
             if not isinstance(component_entry, dict):
                 self.msg = (
                     "Each item in '{0}' must be a dictionary, got: {1} at index {2}.".format(
                         component_name,
                         type(component_entry).__name__,
-                        entry_index - 1
+                        entry_index
                     )
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
