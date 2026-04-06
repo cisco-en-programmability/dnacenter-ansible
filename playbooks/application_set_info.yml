@@ -2,7 +2,7 @@
 - name: Application Set Info
   hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   tasks:
     - name: Get application sets local-services

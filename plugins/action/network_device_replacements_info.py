@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -40,6 +39,7 @@ argument_spec.update(
         limit=dict(type="int"),
         sortBy=dict(type="str"),
         sortOrder=dict(type="str"),
+        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -94,6 +94,7 @@ class ActionModule(ActionBase):
             limit=params.get("limit"),
             sort_by=params.get("sortBy"),
             sort_order=params.get("sortOrder"),
+            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -108,11 +109,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="device_replacement",
-            function="retrieve_the_status_of_all_the_device_replacement_workflows",
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = dnac.exec(
+                family="device_replacement",
+                function="retrieve_the_status_of_device_replacement_workflow_that_replaces_a_faulty_device_with_a_replacement_device",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="device_replacement",
+                function="retrieve_the_status_of_all_the_device_replacement_workflows",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result

@@ -9,23 +9,19 @@ DOCUMENTATION = r"""
 module: license_deregister
 short_description: Resource module for License Deregister
 description:
-  - Manage operation create of the resource License
-    Deregister.
-  - Deregisters the system with Cisco Smart Software
-    Manager CSSM .
+  - Manage operation create of the resource License Deregister.
+  - Deregisters the system with Cisco Smart Software Manager CSSM .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      SmartLicensingDeregistration
-    description: Complete reference of the SmartLicensingDeregistration
-      API.
+  - name: Cisco DNA Center documentation for Licenses SmartLicensingDeregistration
+    description: Complete reference of the SmartLicensingDeregistration API.
     link: https://developer.cisco.com/docs/dna-center/#!smart-licensing-deregistration
 notes:
   - SDK Method used are

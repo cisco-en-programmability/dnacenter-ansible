@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_count_info
-short_description: Information module for Sda Extranet
-  Policies Count
+short_description: Information module for Sda Extranet Policies Count
 description:
   - Get all Sda Extranet Policies Count.
-  - Returns the count of extranet policies that match
-    the provided query parameters.
+  - Returns the count of extranet policies that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,12 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetExtranetPolicyCount
-    description: Complete reference of the GetExtranetPolicyCount
-      API.
+    description: Complete reference of the GetExtranetPolicyCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-extranet-policy-count
 notes:
   - SDK Method used are

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: device_interface_count_info
-short_description: Information module for Device Interface
-  Count
+short_description: Information module for Device Interface Count
 description:
   - Get all Device Interface Count.
   - Returns the count of interfaces for all devices.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceInterfaceCountForMultipleDevices
-    description: Complete reference of the GetDeviceInterfaceCountForMultipleDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCountForMultipleDevices
+    description: Complete reference of the GetDeviceInterfaceCountForMultipleDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-for-multiple-devices
 notes:
   - SDK Method used are

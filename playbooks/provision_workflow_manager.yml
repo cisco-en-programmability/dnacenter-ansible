@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Provision a wired device to a site
       cisco.dnac.provision_workflow_manager:

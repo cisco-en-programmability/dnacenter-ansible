@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: event_email_config
 short_description: Resource module for Event Email Config
 description:
-  - Manage operations create and update of the resource
-    Event Email Config.
+  - Manage operations create and update of the resource Event Email Config.
   - Create Email Destination.
   - Update Email Destination.
 version_added: '3.1.0'
@@ -69,18 +68,14 @@ options:
     description: To Email.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      CreateEmailDestination
-    description: Complete reference of the CreateEmailDestination
-      API.
+  - name: Cisco DNA Center documentation for Event Management CreateEmailDestination
+    description: Complete reference of the CreateEmailDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!create-email-destination
-  - name: Cisco DNA Center documentation for Event Management
-      UpdateEmailDestination
-    description: Complete reference of the UpdateEmailDestination
-      API.
+  - name: Cisco DNA Center documentation for Event Management UpdateEmailDestination
+    description: Complete reference of the UpdateEmailDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!update-email-destination
 notes:
   - SDK Method used are
@@ -93,7 +88,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Update all
+- name: Create
   cisco.dnac.event_email_config:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -119,7 +114,7 @@ EXAMPLES = r"""
       userName: string
     subject: string
     toEmail: string
-- name: Create
+- name: Update all
   cisco.dnac.event_email_config:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_validations_count_info
-short_description: Information module for Network Device
-  Images Validations Count
+short_description: Information module for Network Device Images Validations Count
 description:
   - Get all Network Device Images Validations Count.
   - Count the number of network device validations.
@@ -22,30 +21,24 @@ options:
     type: dict
   productSeriesOrdinal:
     description:
-      - ProductSeriesOrdinal query parameter. Unique
-        identifier of product series.
+      - ProductSeriesOrdinal query parameter. Unique identifier of product series.
     type: float
   operationType:
     description:
       - >
-        OperationType query parameter. The operation
-        type, as part of which this validation will
-        get triggered. Available values DISTRIBUTION,
-        ACTIVATION, READINESS_CHECK.
+        OperationType query parameter. The operation type, as part of which this validation will get triggered.
+        Available values DISTRIBUTION, ACTIVATION, READINESS_CHECK.
     type: str
   type:
     description:
-      - Type query parameter. Type of the validation.
-        Available values PRE_VALIDATION, POST_VALIDATION.
+      - Type query parameter. Type of the validation. Available values PRE_VALIDATION, POST_VALIDATION.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) CountOfCustomNetworkDeviceValidations
-    description: Complete reference of the CountOfCustomNetworkDeviceValidations
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) CountOfCustomNetworkDeviceValidations
+    description: Complete reference of the CountOfCustomNetworkDeviceValidations API.
     link: https://developer.cisco.com/docs/dna-center/#!count-of-custom-network-device-validations
 notes:
   - SDK Method used are
@@ -79,7 +72,8 @@ dnac_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "taskId": "string",
+        "url": "string"
       },
       "version": "string"
     }

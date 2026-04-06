@@ -7,52 +7,38 @@
 DOCUMENTATION = r"""
 ---
 module: application_visibility_network_devices_enable_app_telemetry
-short_description: Resource module for Application Visibility
-  Network Devices Enable App Telemetry
+short_description: Resource module for Application Visibility Network Devices Enable App Telemetry
 description:
-  - Manage operation create of the resource Application
-    Visibility Network Devices Enable App Telemetry.
-    - > This API can be used to enable application telemetry
-    feature on multiple network devices. Request payload
-    should include the list of network devices where
-    application telemetry has to be enabled. For wireless
-    controllers, it also needs the WLAN modes / SSID
-    details to be included for enablement.
+  - Manage operation create of the resource Application Visibility Network Devices Enable App Telemetry.
+  - This API can be used to enable application telemetry feature on multiple network devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   networkDevices:
-    description: Application Visibility Network Devices
-      Enable App Telemetry's networkDevices.
+    description: Application Visibility Network Devices Enable App Telemetry's networkDevices.
     elements: dict
     suboptions:
       id:
         description: Network device identifier.
         type: str
       includeGuestSsids:
-        description: Flag to indicate whether guest
-          SSIDs should be included for application telemetry
-          enablement. Applicable only for wireless devices.
-          Default value is false.
+        description: Flag to indicate whether guest SSIDs should be included for application telemetry enablement. Applicable
+          only for wireless devices. Default value is false.
         type: bool
       includeWlanModes:
-        description: Types of WLAN modes which needs
-          to be included for enablement. Applicable
-          and mandatory only for wireless devices. Available
-          values LOCAL or NON_LOCAL.
+        description: Types of WLAN modes which needs to be included for enablement. Applicable and mandatory only for wireless
+          devices. Available values LOCAL or NON_LOCAL.
         elements: str
         type: list
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy EnableApplicationTelemetryFeatureOnMultipleNetworkDevices
-    description: Complete reference of the EnableApplicationTelemetryFeatureOnMultipleNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Application Policy EnableApplicationTelemetryFeatureOnMultipleNetworkDevices
+    description: Complete reference of the EnableApplicationTelemetryFeatureOnMultipleNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!enable-application-telemetry-feature-on-multiple-network-devices
 notes:
   - SDK Method used are

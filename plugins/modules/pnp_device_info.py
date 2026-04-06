@@ -11,10 +11,8 @@ short_description: Information module for Pnp Device
 description:
   - Get all Pnp Device.
   - Get Pnp Device by id.
-  - Returns device details specified by device id. -
-    > Returns list of devices from Plug & Play based
-    on filter criteria. Returns 50 devices by default.
-    This endpoint supports Pagination and Sorting.
+  - Returns device details specified by device id. - > Returns list of devices from Plug & Play based on filter criteria.
+    Returns 50 devices by default. This endpoint supports Pagination and Sorting.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,32 +24,27 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. The minimum and maximum
-        values are 0 and 500, respectively.
-    type: float
+        Limit query parameter. The number of records to show for this page. The minimum and maximum values are 0
+        and 500, respectively.
+    type: int
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        0. The Minimum value is 0.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 0. The
+        Minimum value is 0.
+    type: int
   sort:
     description:
-      - Sort query parameter. Comma seperated list of
-        fields to sort on.
+      - Sort query parameter. Comma seperated list of fields to sort on.
     elements: str
     type: list
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
   serialNumber:
     description:
-      - SerialNumber query parameter. Device Serial
-        Number.
+      - SerialNumber query parameter. Device Serial Number.
     elements: str
     type: list
   state_:
@@ -61,8 +54,7 @@ options:
     type: list
   onbState:
     description:
-      - OnbState query parameter. Device Onboarding
-        State.
+      - OnbState query parameter. Device Onboarding State.
     elements: str
     type: list
   name:
@@ -82,32 +74,27 @@ options:
     type: list
   workflowId:
     description:
-      - WorkflowId query parameter. Device Workflow
-        Id.
+      - WorkflowId query parameter. Device Workflow Id.
     elements: str
     type: list
   workflowName:
     description:
-      - WorkflowName query parameter. Device Workflow
-        Name.
+      - WorkflowName query parameter. Device Workflow Name.
     elements: str
     type: list
   smartAccountId:
     description:
-      - SmartAccountId query parameter. Device Smart
-        Account.
+      - SmartAccountId query parameter. Device Smart Account.
     elements: str
     type: list
   virtualAccountId:
     description:
-      - VirtualAccountId query parameter. Device Virtual
-        Account.
+      - VirtualAccountId query parameter. Device Virtual Account.
     elements: str
     type: list
   lastContact:
     description:
-      - LastContact query parameter. Device Has Contacted
-        lastContact > 0.
+      - LastContact query parameter. Device Has Contacted lastContact > 0.
     type: bool
   macAddress:
     description:
@@ -126,18 +113,14 @@ options:
       - Id path parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetDeviceById
-    description: Complete reference of the GetDeviceById
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceById
+    description: Complete reference of the GetDeviceById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetDeviceListSiteManagement
-    description: Complete reference of the GetDeviceListSiteManagement
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceListSiteManagement
+    description: Complete reference of the GetDeviceListSiteManagement API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-list-site-management
 notes:
   - SDK Method used are
@@ -299,7 +282,7 @@ dnac_response:
             "macAddress": "string",
             "ipv4Address": {},
             "ipv6AddressList": [
-              {}
+              "string"
             ],
             "name": "string"
           }

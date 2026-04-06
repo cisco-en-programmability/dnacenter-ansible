@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: flexible_report_schedules_info
-short_description: Information module for Flexible Report
-  Schedules
+short_description: Information module for Flexible Report Schedules
 description:
   - Get all Flexible Report Schedules.
   - Get all flexible report schedules.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      GetAllFlexibleReportSchedules
-    description: Complete reference of the GetAllFlexibleReportSchedules
-      API.
+  - name: Cisco DNA Center documentation for Reports GetAllFlexibleReportSchedules
+    description: Complete reference of the GetAllFlexibleReportSchedules API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-flexible-report-schedules
 notes:
   - SDK Method used are

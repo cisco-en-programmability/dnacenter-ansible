@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: interface_network_device_range_info
-short_description: Information module for Interface
-  Network Device Range
+short_description: Information module for Interface Network Device Range
 description:
   - Get all Interface Network Device Range.
-  - Returns the list of interfaces for the device for
-    the specified range.
+  - Returns the list of interfaces for the device for the specified range.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -31,17 +29,14 @@ options:
     type: int
   recordsToReturn:
     description:
-      - RecordsToReturn path parameter. Number of records
-        to return.
+      - RecordsToReturn path parameter. Number of records to return.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceInterfacesBySpecifiedRange
-    description: Complete reference of the GetDeviceInterfacesBySpecifiedRange
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceInterfacesBySpecifiedRange
+    description: Complete reference of the GetDeviceInterfacesBySpecifiedRange API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-interfaces-by-specified-range
 notes:
   - SDK Method used are

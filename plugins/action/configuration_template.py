@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -142,46 +141,6 @@ class ConfigurationTemplate(object):
         new_object_params["sort_order"] = self.new_object.get(
             "sortOrder"
         ) or self.new_object.get("sort_order")
-        return new_object_params
-
-    def create_params(self):
-        new_object_params = {}
-        new_object_params["tags"] = self.new_object.get("tags")
-        new_object_params["author"] = self.new_object.get("author")
-        new_object_params["composite"] = self.new_object.get("composite")
-        new_object_params["containingTemplates"] = self.new_object.get(
-            "containingTemplates"
-        )
-        new_object_params["createTime"] = self.new_object.get("createTime")
-        new_object_params["customParamsOrder"] = self.new_object.get(
-            "customParamsOrder"
-        )
-        new_object_params["description"] = self.new_object.get("description")
-        new_object_params["deviceTypes"] = self.new_object.get("deviceTypes")
-        new_object_params["failurePolicy"] = self.new_object.get("failurePolicy")
-        new_object_params["id"] = self.new_object.get("id")
-        new_object_params["language"] = self.new_object.get("language")
-        new_object_params["lastUpdateTime"] = self.new_object.get("lastUpdateTime")
-        new_object_params["latestVersionTime"] = self.new_object.get(
-            "latestVersionTime"
-        )
-        new_object_params["name"] = self.new_object.get("name")
-        new_object_params["parentTemplateId"] = self.new_object.get("parentTemplateId")
-        new_object_params["projectId"] = self.new_object.get("projectId")
-        new_object_params["projectName"] = self.new_object.get("projectName")
-        new_object_params["rollbackTemplateContent"] = self.new_object.get(
-            "rollbackTemplateContent"
-        )
-        new_object_params["rollbackTemplateParams"] = self.new_object.get(
-            "rollbackTemplateParams"
-        )
-        new_object_params["softwareType"] = self.new_object.get("softwareType")
-        new_object_params["softwareVariant"] = self.new_object.get("softwareVariant")
-        new_object_params["softwareVersion"] = self.new_object.get("softwareVersion")
-        new_object_params["templateContent"] = self.new_object.get("templateContent")
-        new_object_params["templateParams"] = self.new_object.get("templateParams")
-        new_object_params["validationErrors"] = self.new_object.get("validationErrors")
-        new_object_params["version"] = self.new_object.get("version")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -331,35 +290,6 @@ class ConfigurationTemplate(object):
             for (dnac_param, ansible_param) in obj_params
         )
 
-    def create(self):
-        id = self.new_object.get("id")
-        name = self.new_object.get("name")
-        project_id = self.new_object.get("projectId") or self.new_object.get(
-            "project_id"
-        )
-        if not project_id:
-            raise InconsistentParameters(
-                "Project ID must be provided to create a template"
-            )
-        if not (id or name):
-            raise InconsistentParameters(
-                "Either 'id' or 'name' must be provided to create a template"
-            )
-        if id and name:
-            prev_obj = self.get_object_by_name(name)
-            if prev_obj:
-                raise InconsistentParameters(
-                    "Template with name '{}' already exists".format(name)
-                )
-        result = None
-        result = self.dnac.exec(
-            family="configuration_templates",
-            function="create_template",
-            params=self.create_params(),
-            op_modifies=True,
-        )
-        return result
-
     def update(self):
         id = self.new_object.get("id")
         name = self.new_object.get("name")
@@ -435,7 +365,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -444,10 +374,9 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                response = obj.create()
-                dnac.object_created()
+                dnac.fail_json("Object does not exists, plugin only has update")
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

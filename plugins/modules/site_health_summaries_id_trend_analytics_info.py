@@ -7,18 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: site_health_summaries_id_trend_analytics_info
-short_description: Information module for Site Health
-  Summaries Id Trend Analytics
+short_description: Information module for Site Health Summaries Id Trend Analytics
 description:
-  - Get all Site Health Summaries Id Trend Analytics.
-    - > Retrieves the time series information of health
-    and issue data for a site specified by the path
-    parameter. The data will be grouped based on the
-    specified trend time interval. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    siteHealthSummaries-2.0.0-resolved.yaml.
+  - Get all Site Health Summaries Id Trend Analytics. - > Retrieves the time series information of health and issue data for
+    a site specified by the path parameter. The data will be grouped based on the specified trend time interval.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,86 +26,65 @@ options:
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which
-        API queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive.
+        StartTime query parameter. Start time from which API queries the data set related to the resource. It
+        must be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API
-        queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive.
+        EndTime query parameter. End time to which API queries the data set related to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   trendInterval:
     description:
       - >
-        TrendInterval query parameter. The time window
-        to aggregate the metrics. Interval can be 5
-        minutes or 10 minutes or 1 hour or 1 day or
-        7 days.
+        TrendInterval query parameter. The time window to aggregate the metrics. Interval can be 5 minutes or 10
+        minutes or 1 hour or 1 day or 7 days.
     type: str
   limit:
     description:
-      - Limit query parameter. Maximum number of records
-        to return.
-    type: float
+      - Limit query parameter. Maximum number of records to return.
+    type: int
   offset:
     description:
       - >
-        Offset query parameter. Specifies the starting
-        point within all records returned by the API.
-        It's one based offset. The starting value is
-        1.
-    type: float
+        Offset query parameter. Specifies the starting point within all records returned by the API. It's one
+        based offset. The starting value is 1.
+    type: int
   timeSortOrder:
     description:
-      - TimeSortOrder query parameter. The sort order
-        of a time sorted API response.
+      - TimeSortOrder query parameter. The sort order of a time sorted API response.
     type: str
   attribute:
     description:
       - >
-        Attribute query parameter. Supported Analytics
-        Attributes networkDeviceCount, networkDeviceGoodHealthCount,wirelessDeviceCount,
-        wirelessDeviceGoodHealthCount, accessDeviceCount,
-        accessDeviceGoodHealthCount, coreDeviceCount,
-        coreDeviceGoodHealthCount, distributionDeviceCount,
-        distributionDeviceGoodHealthCount, routerDeviceCount,
-        routerDeviceGoodHealthCount, apDeviceCount,
-        apDeviceGoodHealthCount, wlcDeviceCount, wlcDeviceGoodHealthCount,
-        switchDeviceCount, switchDeviceGoodHealthCount,
-        networkDeviceGoodHealthPercentage, accessDeviceGoodHealthPercentage,
+        Attribute query parameter. Supported Analytics Attributes networkDeviceCount,
+        networkDeviceGoodHealthCount,wirelessDeviceCount, wirelessDeviceGoodHealthCount, accessDeviceCount,
+        accessDeviceGoodHealthCount, coreDeviceCount, coreDeviceGoodHealthCount, distributionDeviceCount,
+        distributionDeviceGoodHealthCount, routerDeviceCount, routerDeviceGoodHealthCount, apDeviceCount,
+        apDeviceGoodHealthCount, wlcDeviceCount, wlcDeviceGoodHealthCount, switchDeviceCount,
+        switchDeviceGoodHealthCount, networkDeviceGoodHealthPercentage, accessDeviceGoodHealthPercentage,
         coreDeviceGoodHealthPercentage, distributionDeviceGoodHealthPercentage,
-        routerDeviceGoodHealthPercentage, apDeviceGoodHealthPercentage,
-        wlcDeviceGoodHealthPercentage, switchDeviceGoodHealthPercentage,
-        wirelessDeviceGoodHealthPercentage, clientCount,
-        clientGoodHealthCount, wiredClientCount, wirelessClientCount,
-        wiredClientGoodHealthCount, wirelessClientGoodHealthCount,
-        clientGoodHealthPercentage, wiredClientGoodHealthPercentage,
-        wirelessClientGoodHealthPercentage, clientDataUsage,
-        p1IssueCount, p2IssueCount, p3IssueCount, p4IssueCount,
-        issueCount attribute=networkDeviceCount (single
-        attribute requested) attribute=networkDeviceCount&attribute=clientCount
-        (multiple attributes requested).
+        routerDeviceGoodHealthPercentage, apDeviceGoodHealthPercentage, wlcDeviceGoodHealthPercentage,
+        switchDeviceGoodHealthPercentage, wirelessDeviceGoodHealthPercentage, clientCount,
+        clientGoodHealthCount, wiredClientCount, wirelessClientCount, wiredClientGoodHealthCount,
+        wirelessClientGoodHealthCount, clientGoodHealthPercentage, wiredClientGoodHealthPercentage,
+        wirelessClientGoodHealthPercentage, clientDataUsage, p1IssueCount, p2IssueCount, p3IssueCount,
+        p4IssueCount, issueCount attribute=networkDeviceCount (single attribute requested)
+        attribute=networkDeviceCount&attribute=clientCount (multiple attributes requested).
     type: str
   taskId:
     description:
       - >
-        TaskId query parameter. Used to retrieve asynchronously
-        processed & stored data. When this parameter
-        is used, the rest of the request params will
-        be ignored.
+        TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is
+        used, the rest of the request params will be ignored.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites ReadTrendAnalyticsDataForASpecificSiteInYourNetwork
-    description: Complete reference of the ReadTrendAnalyticsDataForASpecificSiteInYourNetwork
-      API.
+    description: Complete reference of the ReadTrendAnalyticsDataForASpecificSiteInYourNetwork API.
     link: https://developer.cisco.com/docs/dna-center/#!read-trend-analytics-data-for-a-specific-site-in-your-network
 notes:
   - SDK Method used are

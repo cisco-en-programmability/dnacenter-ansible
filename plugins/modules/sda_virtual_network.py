@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sda_virtual_network
 short_description: Resource module for Sda Virtual Network
 description:
-  - Manage operations create and delete of the resource
-    Sda Virtual Network.
+  - Manage operations create and delete of the resource Sda Virtual Network.
   - Add virtual network VN in SDA Fabric.
   - Delete virtual network VN from SDA Fabric.
 version_added: '3.1.0'
@@ -25,16 +24,14 @@ options:
     description: VirtualNetworkName query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddVNInFabric
-    description: Complete reference of the AddVNInFabric
-      API.
+    description: Complete reference of the AddVNInFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric
   - name: Cisco DNA Center documentation for SDA DeleteVNFromSDAFabric
-    description: Complete reference of the DeleteVNFromSDAFabric
-      API.
+    description: Complete reference of the DeleteVNFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric
 notes:
   - SDK Method used are

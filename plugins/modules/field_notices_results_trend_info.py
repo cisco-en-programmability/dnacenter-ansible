@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_results_trend_info
-short_description: Information module for Field Notices
-  Results Trend
+short_description: Information module for Field Notices Results Trend
 description:
   - Get all Field Notices Results Trend.
-  - Get field notices results trend over time. The default
-    sort is by scan time descending.
+  - Get field notices results trend over time. The default sort is by scan time descending.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,31 +21,26 @@ options:
     type: dict
   scanTime:
     description:
-      - ScanTime query parameter. Return field notices
-        trend with scanTime greater than this scanTime.
+      - ScanTime query parameter. Return field notices trend with scanTime greater than this scanTime.
     type: float
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. Default value is 1.
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. Default
+        value is 1.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Minimum value is 1. Maximum
-        value is 500. Default value is 500.
+        Limit query parameter. The number of records to show for this page. Minimum value is 1. Maximum value is
+        500. Default value is 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetFieldNoticesResultsTrendOverTime
-    description: Complete reference of the GetFieldNoticesResultsTrendOverTime
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetFieldNoticesResultsTrendOverTime
+    description: Complete reference of the GetFieldNoticesResultsTrendOverTime API.
     link: https://developer.cisco.com/docs/dna-center/#!get-field-notices-results-trend-over-time
 notes:
   - SDK Method used are

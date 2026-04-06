@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: flexible_report_schedule
-short_description: Resource module for Flexible Report
-  Schedule
+short_description: Resource module for Flexible Report Schedule
 description:
-  - Manage operation update of the resource Flexible
-    Report Schedule.
+  - Manage operation update of the resource Flexible Report Schedule.
   - Update schedule of flexible report.
 version_added: '6.14.0'
 extends_documentation_fragment:
@@ -19,20 +17,17 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   reportId:
-    description: ReportId path parameter. Id of the
-      report.
+    description: ReportId path parameter. Id of the report.
     type: str
   schedule:
     description: Schedule information.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      UpdateScheduleOfFlexibleReport
-    description: Complete reference of the UpdateScheduleOfFlexibleReport
-      API.
+  - name: Cisco DNA Center documentation for Reports UpdateScheduleOfFlexibleReport
+    description: Complete reference of the UpdateScheduleOfFlexibleReport API.
     link: https://developer.cisco.com/docs/dna-center/#!update-schedule-of-flexible-report
 notes:
   - SDK Method used are

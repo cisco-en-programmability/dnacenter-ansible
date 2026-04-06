@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_profile_id_templates_info
-short_description: Information module for Network Profiles
-  For Sites Profile Id Templates
+short_description: Information module for Network Profiles For Sites Profile Id Templates
 description:
   - Get all Network Profiles For Sites Profile Id Templates.
-  - Retrieves a list of CLI templates attached to a
-    network profile based on the network profile ID.
+  - Retrieves a list of CLI templates attached to a network profile based on the network profile ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,17 +22,15 @@ options:
   profileId:
     description:
       - >
-        ProfileId path parameter. The `id` of the network
-        profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
+        ProfileId path parameter. The `id` of the network profile, retrievable from `GET
+        /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings RetrieveCLITemplatesAttachedToANetworkProfile
-    description: Complete reference of the RetrieveCLITemplatesAttachedToANetworkProfile
-      API.
+  - name: Cisco DNA Center documentation for Network Settings RetrieveCLITemplatesAttachedToANetworkProfile
+    description: Complete reference of the RetrieveCLITemplatesAttachedToANetworkProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-cli-templates-attached-to-a-network-profile
 notes:
   - SDK Method used are
@@ -45,8 +41,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Profiles For Sites Profile Id
-    Templates
+- name: Get all Network Profiles For Sites Profile Id Templates
   cisco.dnac.network_profiles_for_sites_profile_id_templates_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

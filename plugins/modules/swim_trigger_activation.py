@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: swim_trigger_activation
-short_description: Resource module for Swim Trigger
-  Activation
+short_description: Resource module for Swim Trigger Activation
 description:
-  - Manage operation create of the resource Swim Trigger
-    Activation.
-  - Activates a software image on a given device. Software
-    image must be present in the device flash.
+  - Manage operation create of the resource Swim Trigger Activation.
+  - Activates a software image on a given device. Software image must be present in the device flash.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -48,17 +45,14 @@ options:
         type: list
     type: list
   scheduleValidate:
-    description: ScheduleValidate query parameter. ScheduleValidate,
-      validates data before schedule (Optional).
+    description: ScheduleValidate query parameter. ScheduleValidate, validates data before schedule (Optional).
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) TriggerSoftwareImageActivation
-    description: Complete reference of the TriggerSoftwareImageActivation
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivation
+    description: Complete reference of the TriggerSoftwareImageActivation API.
     link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
 notes:
   - SDK Method used are

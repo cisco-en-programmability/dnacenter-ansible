@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_licenses_summary_info
-short_description: Information module for Network Device
-  Licenses Summary
+short_description: Information module for Network Device Licenses Summary
 description:
-  - Get all Network Device Licenses Summary. - > Retrieves
-    the summary of consumed network, DNA, and Cisco
-    Networking Subscription CNS licenses, along with
-    the counts of unregistered and out-of-compliance
-    network devices, and expired and expiring network
+  - Get all Network Device Licenses Summary. - > Retrieves the summary of consumed network, DNA, and Cisco Networking Subscription
+    CNS licenses, along with the counts of unregistered and out-of-compliance network devices, and expired and expiring network
     device licenses.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -25,13 +21,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) RetrievesSummaryOfNetworkDeviceLicenses
-    description: Complete reference of the RetrievesSummaryOfNetworkDeviceLicenses
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesSummaryOfNetworkDeviceLicenses
+    description: Complete reference of the RetrievesSummaryOfNetworkDeviceLicenses API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-of-network-device-licenses
 notes:
   - SDK Method used are

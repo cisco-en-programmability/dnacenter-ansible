@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_network_profiles_for_sites_count_info
-short_description: Information module for Network Devices
-  Network Profiles For Sites Count
+short_description: Information module for Network Devices Network Profiles For Sites Count
 description:
-  - Get all Network Devices Network Profiles For Sites
-    Count.
+  - Get all Network Devices Network Profiles For Sites Count.
   - Retrieves the count of network profiles for sites.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -23,17 +21,14 @@ options:
     type: dict
   type:
     description:
-      - Type query parameter. Filter the response to
-        only count profiles of a given type.
+      - Type query parameter. Filter the response to only count profiles of a given type.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      RetrievesTheCountOfNetworkProfilesForSites
-    description: Complete reference of the RetrievesTheCountOfNetworkProfilesForSites
-      API.
+  - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfNetworkProfilesForSites
+    description: Complete reference of the RetrievesTheCountOfNetworkProfilesForSites API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-network-profiles-for-sites
 notes:
   - SDK Method used are
@@ -44,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Devices Network Profiles For
-    Sites Count
+- name: Get all Network Devices Network Profiles For Sites Count
   cisco.dnac.network_devices_network_profiles_for_sites_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

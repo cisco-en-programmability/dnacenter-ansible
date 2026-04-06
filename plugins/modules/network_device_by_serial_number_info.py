@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_by_serial_number_info
-short_description: Information module for Network Device
-  By Serial Number
+short_description: Information module for Network Device By Serial Number
 description:
   - Get Network Device By Serial Number by id.
   - Returns the network device with given serial number.
@@ -25,13 +24,11 @@ options:
       - SerialNumber path parameter. Device serial number.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceBySerialNumber
-    description: Complete reference of the GetDeviceBySerialNumber
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceBySerialNumber
+    description: Complete reference of the GetDeviceBySerialNumber API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-by-serial-number
 notes:
   - SDK Method used are

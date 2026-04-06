@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: discovery_device_count_info
-short_description: Information module for Discovery
-  Device Count
+short_description: Information module for Discovery Device Count
 description:
-  - Get all Discovery Device Count. - > Returns the
-    count of network devices discovered in the given
-    discovery. Discovery ID can be obtained using the
-    "Get Discoveries by range" API.
+  - Get all Discovery Device Count. - > Returns the count of network devices discovered in the given discovery. Discovery
+    ID can be obtained using the "Get Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -31,13 +28,11 @@ options:
       - TaskId query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      GetDevicesDiscoveredById
-    description: Complete reference of the GetDevicesDiscoveredById
-      API.
+  - name: Cisco DNA Center documentation for Discovery GetDevicesDiscoveredById
+    description: Complete reference of the GetDevicesDiscoveredById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-devices-discovered-by-id
 notes:
   - SDK Method used are

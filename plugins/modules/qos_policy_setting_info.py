@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: qos_policy_setting_info
-short_description: Information module for Qos Policy
-  Setting
+short_description: Information module for Qos Policy Setting
 description:
   - Get all Qos Policy Setting.
   - API to retrieve the application QoS policy setting.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy RetrievesTheApplicationQoSPolicySetting
-    description: Complete reference of the RetrievesTheApplicationQoSPolicySetting
-      API.
+  - name: Cisco DNA Center documentation for Application Policy RetrievesTheApplicationQoSPolicySetting
+    description: Complete reference of the RetrievesTheApplicationQoSPolicySetting API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-application-qo-s-policy-setting
 notes:
   - SDK Method used are

@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -34,14 +33,16 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        state=dict(type="str", default="present", choices=["present"]),
+        state=dict(type="str", default="present", choices=["present", "absent"]),
         name=dict(type="str"),
         scope=dict(type="str"),
+        id=dict(type="str"),
     )
 )
 
 required_if = [
     ("state", "present", ["name"], True),
+    ("state", "absent", ["id", "name"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -54,6 +55,7 @@ class Backups(object):
         self.new_object = dict(
             name=params.get("name"),
             scope=params.get("scope"),
+            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -71,6 +73,11 @@ class Backups(object):
         new_object_params = {}
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["scope"] = self.new_object.get("scope")
+        return new_object_params
+
+    def delete_by_id_params(self):
+        new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -92,7 +99,16 @@ class Backups(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="backup", function="get_backup_by_id", params={"id": id}
+            )
+            if isinstance(items, dict):
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
@@ -115,6 +131,8 @@ class Backups(object):
                 )
             if _id:
                 self.new_object.update(dict(id=_id))
+            if _id:
+                prev_obj = self.get_object_by_id(_id)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -124,6 +142,7 @@ class Backups(object):
         obj_params = [
             ("name", "name"),
             ("scope", "scope"),
+            ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
@@ -140,6 +159,24 @@ class Backups(object):
             function="create_backup",
             params=self.create_params(),
             op_modifies=True,
+        )
+        return result
+
+    def delete(self):
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+            if id_:
+                self.new_object.update(dict(id=id_))
+        result = self.dnac.exec(
+            family="backup",
+            function="delete_backup",
+            params=self.delete_by_id_params(),
         )
         return result
 
@@ -186,7 +223,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = prev_obj
@@ -197,6 +234,13 @@ class ActionModule(ActionBase):
             else:
                 response = obj.create()
                 dnac.object_created()
+        elif state == "absent":
+            obj_exists, prev_obj = obj.exists()
+            if obj_exists:
+                response = obj.delete()
+                dnac.object_deleted()
+            else:
+                dnac.object_already_absent()
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

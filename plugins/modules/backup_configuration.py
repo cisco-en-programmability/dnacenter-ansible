@@ -10,10 +10,7 @@ module: backup_configuration
 short_description: Resource module for Backup Configuration
 description:
   - Manage operation create of the resource Backup Configuration.
-    - > This api is used to create or update backup
-    configuration. Obtain the `mountPath` value from
-    the mountPoint attribute in the response of the
-    `/dna/system/api/v1/backupStorages` API.
+  - This api is used to create or update backup configuration.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,13 +29,11 @@ options:
     description: The storage type.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Backup
-      CreateBackupConfiguration
-    description: Complete reference of the CreateBackupConfiguration
-      API.
+  - name: Cisco DNA Center documentation for Backup CreateBackupConfiguration
+    description: Complete reference of the CreateBackupConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!create-backup-configuration
 notes:
   - SDK Method used are
@@ -70,5 +65,10 @@ dnac_response:
   returned: always
   type: dict
   sample: >
-    {}
+    {
+      "response": {
+        "message": "string"
+      },
+      "version": "string"
+    }
 """

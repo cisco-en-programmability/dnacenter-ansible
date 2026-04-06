@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: site_wise_product_names_count_info
-short_description: Information module for Site Wise
-  Product Names Count
+short_description: Information module for Site Wise Product Names Count
 description:
   - Get all Site Wise Product Names Count.
-  - Returns the count of network device product names
-    for given filters. The default value of `siteId`
-    is global.
+  - Returns the count of network device product names for given filters. The default value of `siteId` is global.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,28 +22,21 @@ options:
   siteId:
     description:
       - >
-        SiteId query parameter. Site identifier to get
-        the list of all available products under the
-        site. The default value is global site id. See
-        https //developer.cisco.com/docs/dna-center/get-site/
-        for siteId.
+        SiteId query parameter. Site identifier to get the list of all available products under the site. The
+        default value is global site id. See https //developer.cisco.com/docs/dna-center/get-site/ for siteId.
     type: str
   productName:
     description:
       - >
-        ProductName query parameter. Filter with network
-        device product name. Supports partial case-insensitive
-        search. A minimum of 3 characters are required
-        for search.
+        ProductName query parameter. Filter with network device product name. Supports partial case-insensitive
+        search. A minimum of 3 characters are required for search.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) ReturnsTheCountOfNetworkDeviceProductNamesForASite
-    description: Complete reference of the ReturnsTheCountOfNetworkDeviceProductNamesForASite
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsTheCountOfNetworkDeviceProductNamesForASite
+    description: Complete reference of the ReturnsTheCountOfNetworkDeviceProductNamesForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!returns-the-count-of-network-device-product-names-for-a-site
 notes:
   - SDK Method used are
@@ -79,7 +69,8 @@ dnac_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "taskId": "string",
+        "url": "string"
       },
       "version": "string"
     }

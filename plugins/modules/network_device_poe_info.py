@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_poe_info
-short_description: Information module for Network Device
-  Poe
+short_description: Information module for Network Device Poe
 description:
   - Get all Network Device Poe.
   - Returns POE details for device.
@@ -25,13 +24,11 @@ options:
       - DeviceUuid path parameter. UUID of the device.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      POEDetails
-    description: Complete reference of the POEDetails
-      API.
+  - name: Cisco DNA Center documentation for Devices POEDetails
+    description: Complete reference of the POEDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!p-oe-details
 notes:
   - SDK Method used are

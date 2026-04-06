@@ -9,12 +9,10 @@ DOCUMENTATION = r"""
 module: pnp_device
 short_description: Resource module for Pnp Device
 description:
-  - Manage operations create, update and delete of the
-    resource Pnp Device.
+  - Manage operations create, update and delete of the resource Pnp Device.
   - Adds a device to the PnP database.
   - Deletes specified device from PnP database.
-  - Updates device details specified by device id in
-    PnP database.
+  - Updates device details specified by device id in PnP database.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -117,9 +115,8 @@ options:
         elements: str
         type: list
       userSudiSerialNos:
-        description: List of Secure Unique Device Identifier
-          (SUDI) serial numbers to perform SUDI authorization,
-          Required if sudiRequired is true.
+        description: List of Secure Unique Device Identifier (SUDI) serial numbers to perform SUDI authorization, Required
+          if sudiRequired is true.
         elements: str
         type: list
       workflowId:
@@ -130,26 +127,20 @@ options:
         type: str
     type: dict
   id:
-    description: Id.
+    description: Id path parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) AddDevice
-    description: Complete reference of the AddDevice
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!add-device-2
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) DeleteDeviceByIdFromPnP
-    description: Complete reference of the DeleteDeviceByIdFromPnP
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDeviceSiteManagement
+    description: Complete reference of the AddDeviceSiteManagement API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-device-site-management
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnP
+    description: Complete reference of the DeleteDeviceByIdFromPnP API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) UpdateDevice
-    description: Complete reference of the UpdateDevice
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDevice
+    description: Complete reference of the UpdateDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!update-device
 notes:
   - SDK Method used are
@@ -159,7 +150,8 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device,
     delete /dna/intent/api/v1/onboarding/pnp-device/{id},
-    put /dna/intent/api/v1/onboarding/pnp-device/{id},
+    put
+    /dna/intent/api/v1/onboarding/pnp-device/{id},
 """
 
 EXAMPLES = r"""
@@ -211,6 +203,17 @@ EXAMPLES = r"""
         - string
       workflowId: string
       workflowName: string
+- name: Delete by id
+  cisco.dnac.pnp_device:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    state: absent
+    id: string
 - name: Update by id
   cisco.dnac.pnp_device:
     dnac_host: "{{dnac_host}}"
@@ -229,17 +232,6 @@ EXAMPLES = r"""
       sudiRequired: true
       userSudiSerialNos:
         - string
-    id: string
-- name: Delete by id
-  cisco.dnac.pnp_device:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    state: absent
     id: string
 """
 RETURN = r"""
@@ -349,7 +341,7 @@ dnac_response:
             "macAddress": "string",
             "ipv4Address": {},
             "ipv6AddressList": [
-              {}
+              "string"
             ],
             "name": "string"
           }

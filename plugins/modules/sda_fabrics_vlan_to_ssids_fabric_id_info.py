@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabrics_vlan_to_ssids_fabric_id_info
-short_description: Information module for Sda Fabrics
-  Vlan To Ssids Fabric Id
+short_description: Information module for Sda Fabrics Vlan To Ssids Fabric Id
 description:
-  - Get all Sda Fabrics Vlan To Ssids Fabric Id. - >
-    Retrieve the VLANs and SSIDs mapped to the VLAN,
-    within a Fabric Site. The 'fabricId' represents
-    the Fabric ID of a particular Fabric Site.
+  - Get all Sda Fabrics Vlan To Ssids Fabric Id. - > Retrieve the VLANs and SSIDs mapped to the VLAN, within a Fabric Site.
+    The 'fabricId' represents the Fabric ID of a particular Fabric Site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,30 +21,24 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId path parameter. The 'fabricId' represents
-        the Fabric ID of a particular Fabric Site.
+      - FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site.
     type: str
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Default is 500 if not
-        specified. Maximum allowed limit is 500.
+        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
+        Maximum allowed limit is 500.
     type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSite
-    description: Complete reference of the RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSite
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSite
+    description: Complete reference of the RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSite API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site
 notes:
   - SDK Method used are

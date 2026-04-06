@@ -9,11 +9,8 @@ DOCUMENTATION = r"""
 module: swim_import_local
 short_description: Resource module for Swim Import Local
 description:
-  - Manage operation create of the resource Swim Import
-    Local. - > Fetches a software image from local file
-    system and uploads to DNA Center. Supported software
-    image files extensions are bin, img, tar, smu, pie,
-    aes, iso, ova, tar_gz and qcow2.
+  - Manage operation create of the resource Swim Import Local. - > Fetches a software image from local file system and uploads
+    to DNA Center. Supported software image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,29 +20,23 @@ options:
     description: File absolute path.
     type: str
   isThirdParty:
-    description: IsThirdParty query parameter. Third
-      party Image check.
+    description: IsThirdParty query parameter. Third party Image check.
     type: bool
   thirdPartyApplicationType:
-    description: ThirdPartyApplicationType query parameter.
-      Third Party Application Type.
+    description: ThirdPartyApplicationType query parameter. Third Party Application Type.
     type: str
   thirdPartyImageFamily:
-    description: ThirdPartyImageFamily query parameter.
-      Third Party image family.
+    description: ThirdPartyImageFamily query parameter. Third Party image family.
     type: str
   thirdPartyVendor:
-    description: ThirdPartyVendor query parameter. Third
-      Party Vendor.
+    description: ThirdPartyVendor query parameter. Third Party Vendor.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) ImportLocalSoftwareImage
-    description: Complete reference of the ImportLocalSoftwareImage
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportLocalSoftwareImage
+    description: Complete reference of the ImportLocalSoftwareImage API.
     link: https://developer.cisco.com/docs/dna-center/#!import-local-software-image
 notes:
   - SDK Method used are

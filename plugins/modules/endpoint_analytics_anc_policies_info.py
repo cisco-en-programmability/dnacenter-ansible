@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_anc_policies_info
-short_description: Information module for Endpoint Analytics
-  Anc Policies
+short_description: Information module for Endpoint Analytics Anc Policies
 description:
   - Get all Endpoint Analytics Anc Policies.
   - Fetches the list of ANC policies available in ISE.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics GetANCPolicies
-    description: Complete reference of the GetANCPolicies
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics GetANCPolicies
+    description: Complete reference of the GetANCPolicies API.
     link: https://developer.cisco.com/docs/dna-center/#!get-anc-policies
 notes:
   - SDK Method used are

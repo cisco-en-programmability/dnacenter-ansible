@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_workflow_count_info
-short_description: Information module for Pnp Workflow
-  Count
+short_description: Information module for Pnp Workflow Count
 description:
   - Get all Pnp Workflow Count.
   - Returns the workflow count.
@@ -26,13 +25,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetWorkflowCount
-    description: Complete reference of the GetWorkflowCount
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowCount
+    description: Complete reference of the GetWorkflowCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-workflow-count
 notes:
   - SDK Method used are

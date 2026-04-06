@@ -2,7 +2,7 @@
 - name: Configuration Template Version Create
   hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   tasks:
     - name: Create Configuration Template Version

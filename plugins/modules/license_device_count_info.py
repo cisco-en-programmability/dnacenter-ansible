@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: license_device_count_info
-short_description: Information module for License Device
-  Count
+short_description: Information module for License Device Count
 description:
   - Get all License Device Count.
   - Get total number of managed devices.
@@ -26,32 +25,26 @@ options:
     type: str
   registration_status:
     description:
-      - Registration_status query parameter. Smart license
-        registration status of device.
+      - Registration_status query parameter. Smart license registration status of device.
     type: str
   dna_level:
     description:
-      - Dna_level query parameter. Device Cisco DNA
-        License Level.
+      - Dna_level query parameter. Device Cisco DNA License Level.
     type: str
   virtual_account_name:
     description:
-      - Virtual_account_name query parameter. Virtual
-        account name.
+      - Virtual_account_name query parameter. Virtual account name.
     type: str
   smart_account_id:
     description:
-      - Smart_account_id query parameter. Smart account
-        id.
+      - Smart_account_id query parameter. Smart account id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      DeviceCountDetails
-    description: Complete reference of the DeviceCountDetails
-      API.
+  - name: Cisco DNA Center documentation for Licenses DeviceCountDetails
+    description: Complete reference of the DeviceCountDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!device-count-details
 notes:
   - SDK Method used are

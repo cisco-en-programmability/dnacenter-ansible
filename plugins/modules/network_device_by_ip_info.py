@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_by_ip_info
-short_description: Information module for Network Device
-  By Ip
+short_description: Information module for Network Device By Ip
 description:
   - Get Network Device By Ip by id.
   - Returns the network device by specified IP address.
@@ -25,13 +24,11 @@ options:
       - IpAddress path parameter. Device IP address.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetNetworkDeviceByIP
-    description: Complete reference of the GetNetworkDeviceByIP
-      API.
+  - name: Cisco DNA Center documentation for Devices GetNetworkDeviceByIP
+    description: Complete reference of the GetNetworkDeviceByIP API.
     link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-ip
 notes:
   - SDK Method used are

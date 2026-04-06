@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -45,7 +44,7 @@ argument_spec.update(
         allTemplateAttributes=dict(type="bool"),
         includeVersionDetails=dict(type="bool"),
         offset=dict(type="int"),
-        limit=dict(type="float"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
@@ -120,7 +119,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="configuration_templates",
-            function="get_templates_details",
+            function="get_templates_details_v2",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

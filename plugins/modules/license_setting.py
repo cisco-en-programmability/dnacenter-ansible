@@ -9,15 +9,10 @@ DOCUMENTATION = r"""
 module: license_setting
 short_description: Resource module for License Setting
 description:
-  - Manage operation update of the resource License
-    Setting. - > Update license setting - Configure
-    default smart account id and/or virtual account
-    id for auto registration of devices for smart license
-    flow. Virtual account should be part of default
-    smart account. Default smart account id cannot be
-    set to 'null'. Auto registration of devices for
-    smart license flow is applicable only for direct
-    or on-prem SSM connection mode.
+  - Manage operation update of the resource License Setting. - > Update license setting - Configure default smart account
+    id and/or virtual account id for auto registration of devices for smart license flow. Virtual account should be part of
+    default smart account. Default smart account id cannot be set to 'null'. Auto registration of devices for smart license
+    flow is applicable only for direct or on-prem SSM connection mode.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,13 +25,11 @@ options:
     description: Default smart account id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      UpdateLicenseSetting
-    description: Complete reference of the UpdateLicenseSetting
-      API.
+  - name: Cisco DNA Center documentation for Licenses UpdateLicenseSetting
+    description: Complete reference of the UpdateLicenseSetting API.
     link: https://developer.cisco.com/docs/dna-center/#!update-license-setting
 notes:
   - SDK Method used are

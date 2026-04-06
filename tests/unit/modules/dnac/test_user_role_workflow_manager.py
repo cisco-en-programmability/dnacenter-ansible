@@ -24,6 +24,13 @@ from ansible_collections.cisco.dnac.plugins.modules import user_role_workflow_ma
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
+INVALID_MISSING_CONFIG_MSG = (
+    "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or "
+    "'The 'user_details' key is invalid for role creation, update, or deletion' or "
+    "'The 'role_details' key is invalid for user creation, update, or deletion'"
+)
+
+
 class TestDnacUserRoleWorkflowManager(TestDnacModule):
 
     module = user_role_workflow_manager
@@ -51,6 +58,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
     playbook_config_invalid_param_role_invalid_permission = test_data.get("playbook_config_invalid_param_role_invalid_permission")
     playbook_config_for_creating_default_role = test_data.get("playbook_config_for_creating_default_role")
     playbook_config_invalid_invalid_param_state = test_data.get("playbook_config_invalid_invalid_param_state")
+    playbook_new_version_user_create = test_data.get("playbook_new_version_user_create")
 
     def setUp(self):
         super(TestDnacUserRoleWorkflowManager, self).setUp()
@@ -207,6 +215,15 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         elif "invalid_param_state" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("invalid_param_state_responce"),
+            ]
+
+        elif "playbook_new_version_user_create" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_users_api"),
+                self.test_data.get("get_roles_api"),
+                self.test_data.get("create_user"),
+                self.test_data.get("get_users_api1"),
+                self.test_data.get("get_roles_api2"),
             ]
 
     def test_user_role_workflow_manager_create_user(self):
@@ -374,8 +391,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' \
-key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'"
+            INVALID_MISSING_CONFIG_MSG
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_correct_formate(self):
@@ -645,8 +661,7 @@ key is invalid for role creation, updation, or deletion' or 'The 'role_details' 
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' \
-key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'"
+            INVALID_MISSING_CONFIG_MSG
         )
 
     def test_user_role_workflow_manager_role_invalid_param_not_type_list(self):
@@ -840,4 +855,28 @@ numbers, periods, underscores, and hyphens."
         self.assertEqual(
             result.get('msg'),
             "value of state must be one of: merged, deleted, got: mergeddd"
+        )
+
+    def test_user_role_workflow_manager_playbook_new_version_user_create(self):
+        """
+        Test case for user role workflow manager when update is not needed for a role .
+
+        This test case checks the behavior of the role workflow when update is not needed for a role in the specified Cisco Calyst Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="3.1.3.0",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_new_version_user_create
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(f"result --> {result}")
+        self.assertEqual(
+            result.get('response'),
+            "User(s) 'Priyadharshini' created successfully in Cisco Catalyst Center."
         )

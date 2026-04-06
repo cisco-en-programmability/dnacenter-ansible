@@ -10,16 +10,11 @@ module: device_interface_info
 short_description: Information module for Device Interface
 description:
   - Get all Device Interface.
-  - Get Device Interface by id. - > Returns all available
-    interfaces. This endpoint can return a maximum of
-    500 interfaces. The API returns a paginated response
-    based on 'limit' and 'offset' parameters, allowing
-    up to 500 records per page. 'limit' specifies the
-    number of records, and 'offset' sets the starting
-    point using 1-based indexing. Use '/dna/intent/api/v1/interface/count'
-    to get the total record count. For data sets over
-    500 records, make multiple calls, adjusting 'limit'
-    and 'offset' to retrieve all records incrementally.
+  - Get Device Interface by id. - > Returns all available interfaces. This endpoint can return a maximum of 500 interfaces.
+    The API returns a paginated response based on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit'
+    specifies the number of records, and 'offset' sets the starting point using 1-based indexing. Use '/dna/intent/api/v1/interface/count'
+    to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to
+    retrieve all records incrementally.
   - Returns the interface for the given interface ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -35,8 +30,7 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
   lastInputTime:
     description:
@@ -44,26 +38,21 @@ options:
     type: str
   lastOutputTime:
     description:
-      - LastOutputTime query parameter. Last Output
-        Time.
+      - LastOutputTime query parameter. Last Output Time.
     type: str
   id:
     description:
       - Id path parameter. Interface ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetAllInterfaces
-    description: Complete reference of the GetAllInterfaces
-      API.
+  - name: Cisco DNA Center documentation for Devices GetAllInterfaces
+    description: Complete reference of the GetAllInterfaces API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-interfaces
-  - name: Cisco DNA Center documentation for Devices
-      GetInterfaceById
-    description: Complete reference of the GetInterfaceById
-      API.
+  - name: Cisco DNA Center documentation for Devices GetInterfaceById
+    description: Complete reference of the GetInterfaceById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id
 notes:
   - SDK Method used are

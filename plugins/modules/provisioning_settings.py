@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: provisioning_settings
-short_description: Resource module for Provisioning
-  Settings
+short_description: Resource module for Provisioning Settings
 description:
-  - Manage operation update of the resource Provisioning
-    Settings.
+  - Manage operation update of the resource Provisioning Settings.
   - Sets provisioning settings.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -19,24 +17,18 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   requireItsmApproval:
-    description: If require ITSM approval is enabled,
-      the planned configurations must be submitted for
-      ITSM approval. Also if enabled, requirePreview
-      will default to enabled.
+    description: If require ITSM approval is enabled, the planned configurations must be submitted for ITSM approval. Also
+      if enabled, requirePreview will default to enabled.
     type: bool
   requirePreview:
-    description: If require preview is enabled, the
-      device configurations must be reviewed before
-      deploying them.
+    description: If require preview is enabled, the device configurations must be reviewed before deploying them.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System
-      Settings SetProvisioningSettings
-    description: Complete reference of the SetProvisioningSettings
-      API.
+  - name: Cisco DNA Center documentation for System Settings SetProvisioningSettings
+    description: Complete reference of the SetProvisioningSettings API.
     link: https://developer.cisco.com/docs/dna-center/#!set-provisioning-settings
 notes:
   - SDK Method used are
@@ -69,8 +61,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

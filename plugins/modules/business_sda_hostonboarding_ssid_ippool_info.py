@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: business_sda_hostonboarding_ssid_ippool_info
-short_description: Information module for Business Sda
-  Hostonboarding Ssid Ippool
+short_description: Information module for Business Sda Hostonboarding Ssid Ippool
 description:
   - Get all Business Sda Hostonboarding Ssid Ippool.
   - Get SSID to IP Pool Mapping.
@@ -26,17 +25,14 @@ options:
     type: str
   siteNameHierarchy:
     description:
-      - SiteNameHierarchy query parameter. Site Name
-        Heirarchy.
+      - SiteNameHierarchy query parameter. Site Name Heirarchy.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless GetSSIDToIPPoolMapping
-    description: Complete reference of the GetSSIDToIPPoolMapping
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless GetSSIDToIPPoolMapping
+    description: Complete reference of the GetSSIDToIPPoolMapping API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are

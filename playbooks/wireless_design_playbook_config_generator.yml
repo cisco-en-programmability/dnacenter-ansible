@@ -1,0 +1,229 @@
+---
+- name: Generate wireless design configurations in Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    # Example 1: Generate all configurations with default file path
+    - name: Generate wireless design playbook config for all components
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        # No config provided - generates all configurations
+
+    # Example 2: Generate all configurations with custom file path
+    - name: Generate wireless design playbook config with custom output file
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_all_configurations.yml"
+        file_mode: "overwrite"
+        # No config provided - generates all configurations
+
+    # Example 3: Generate only SSIDs using component list
+    - name: Generate wireless design config for SSIDs only
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_ssids.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["ssids"]
+
+    # Example 4: Generate SSIDs with filters (auto-populates components_list)
+    - name: Generate wireless SSID config using site and SSID filters
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_ssids_filtered.yml"
+        config:
+          component_specific_filters:
+            ssids:
+              - site_name_hierarchy: "Global/USA/San Jose"
+                ssid_name: "Enterprise_WiFi"
+                ssid_type: "Enterprise"
+
+    # Example 5: Generate feature template config with filters
+    - name: Generate wireless feature template config
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_feature_template_config.yml"
+        config:
+          component_specific_filters:
+            components_list: ["feature_template_config"] # Optional
+            feature_template_config:
+              - feature_template_type: "advanced_ssid"
+                design_name: "AdvancedSSID_Default"
+
+    # Example 6: Generate multiple components using independent filters
+    - name: Generate wireless design config for multiple components
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_multi_component_filters.yml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list: ["ssids", "interfaces", "feature_template_config"] # Optional
+            ssids:
+              - site_name_hierarchy: "Global/USA/San Jose"
+                ssid_type: "Guest"
+            interfaces:
+              - vlan_id: 200
+            feature_template_config:
+              - feature_template_type: "multicast_configuration"
+
+    # Example 7: Generate interfaces using interface and VLAN filters
+    - name: Generate wireless interface config with filters
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_interfaces.yml"
+        config:
+          component_specific_filters:
+            components_list: ["interfaces"] # Optional
+            interfaces:
+              - interface_name: "guest_interface"
+              - vlan_id: 100
+
+    # Example 8: Generate power profiles using profile name filter
+    - name: Generate wireless power profile config
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_power_profiles.yml"
+        config:
+          component_specific_filters:
+            power_profiles:
+              - power_profile_name: "EthernetSpeeds"
+
+    # Example 9: Generate access point profiles using AP profile name filter
+    - name: Generate wireless AP profile config
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_ap_profiles.yml"
+        config:
+          component_specific_filters:
+            access_point_profiles:
+              - ap_profile_name: "Default_AP_Profile_AireOS"
+
+    # Example 10: Generate radio frequency profiles using RF profile name filter
+    - name: Generate wireless RF profile config
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_rf_profiles.yml"
+        config:
+          component_specific_filters:
+            radio_frequency_profiles:
+              - rf_profile_name: "rf_profile_5ghz_basic"
+
+    # Example 11: Generate 802.11be profiles using profile name filter
+    - name: Generate wireless 802.11be profile config
+      cisco.dnac.wireless_design_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: DEBUG
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/wireless_design_80211be_profiles.yml"
+        config:
+          component_specific_filters:
+            components_list: ["802_11_be_profiles"] # Optional
+            802_11_be_profiles:
+              - profile_name: "dot11be_profile_1"
+
+      register: result
+
+      tags:
+        - wireless_design_config_generator_testing

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: users_external_servers_aaa_attribute_info
-short_description: Information module for Users External
-  Servers Aaa Attribute
+short_description: Information module for Users External Servers Aaa Attribute
 description:
   - Get all Users External Servers Aaa Attribute.
   - Get the current value of the custom AAA attribute.
@@ -21,17 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and
-      Roles GetAAAAttributeAPI
-    description: Complete reference of the GetAAAAttributeAPI
-      API.
+  - name: Cisco DNA Center documentation for User and Roles GetAAAAttributeAPI
+    description: Complete reference of the GetAAAAttributeAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!get-aaa-attribute-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.get_aaa_attribute_api,
+    userand_roles.UserandRoles.get_aaa_attribute_api,
   - Paths used are
     get /dna/system/api/v1/users/external-servers/aaa-attribute,
 """

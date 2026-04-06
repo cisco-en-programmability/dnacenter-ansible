@@ -21,17 +21,14 @@ options:
     type: dict
   name:
     description:
-      - Name query parameter. Name of project to be
-        searched.
+      - Name query parameter. Name of project to be searched.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetTemplateProjectCount
-    description: Complete reference of the GetTemplateProjectCount
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateProjectCount
+    description: Complete reference of the GetTemplateProjectCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-template-project-count
 notes:
   - SDK Method used are

@@ -7,33 +7,25 @@
 DOCUMENTATION = r"""
 ---
 module: application_visibility_network_devices_disable_app_telemetry
-short_description: Resource module for Application Visibility
-  Network Devices Disable App Telemetry
+short_description: Resource module for Application Visibility Network Devices Disable App Telemetry
 description:
-  - Manage operation create of the resource Application
-    Visibility Network Devices Disable App Telemetry.
-    - > This API can be used to disable application
-    telemetry feature on multiple network devices. Request
-    payload should include the list of network devices
-    where it has to be disabled.
+  - Manage operation create of the resource Application Visibility Network Devices Disable App Telemetry.
+  - This API can be used to disable application telemetry feature on multiple network devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   networkDeviceIds:
-    description: List of network device ids where Application
-      Telemetry has to be disabled.
+    description: List of network device ids where Application Telemetry has to be disabled.
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy DisableApplicationTelemetryFeatureOnMultipleNetworkDevices
-    description: Complete reference of the DisableApplicationTelemetryFeatureOnMultipleNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Application Policy DisableApplicationTelemetryFeatureOnMultipleNetworkDevices
+    description: Complete reference of the DisableApplicationTelemetryFeatureOnMultipleNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!disable-application-telemetry-feature-on-multiple-network-devices
 notes:
   - SDK Method used are

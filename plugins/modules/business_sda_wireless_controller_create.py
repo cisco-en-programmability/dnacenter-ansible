@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: business_sda_wireless_controller_create
-short_description: Resource module for Business Sda
-  Wireless Controller Create
+short_description: Resource module for Business Sda Wireless Controller Create
 description:
-  - Manage operation create of the resource Business
-    Sda Wireless Controller Create.
+  - Manage operation create of the resource Business Sda Wireless Controller Create.
   - Add WLC to Fabric Domain.
 version_added: '4.0.0'
 extends_documentation_fragment:
@@ -21,17 +19,18 @@ options:
   deviceName:
     description: WLC Device Name.
     type: str
+  headers:
+    description: Additional headers.
+    type: dict
   siteNameHierarchy:
     description: Fabric Site Name Hierarchy.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless AddWLCToFabricDomain
-    description: Complete reference of the AddWLCToFabricDomain
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless AddWLCToFabricDomain
+    description: Complete reference of the AddWLCToFabricDomain API.
     link: https://developer.cisco.com/docs/dna-center/#!add-wlc-to-fabric-domain
 notes:
   - SDK Method used are
@@ -53,6 +52,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceName: string
+    headers: '{{my_headers | from_json}}'
     siteNameHierarchy: string
 """
 RETURN = r"""

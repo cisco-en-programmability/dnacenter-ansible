@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_results_advisories_count_info
-short_description: Information module for Security Advisories
-  Results Advisories Count
+short_description: Information module for Security Advisories Results Advisories Count
 description:
   - Get all Security Advisories Results Advisories Count.
-  - Get count of security advisories affecting the network
-    devices.
+  - Get count of security advisories affecting the network devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,30 +25,24 @@ options:
     type: str
   deviceCount:
     description:
-      - DeviceCount query parameter. Return advisories
-        with deviceCount greater than this deviceCount.
+      - DeviceCount query parameter. Return advisories with deviceCount greater than this deviceCount.
     type: float
   cvssBaseScore:
     description:
-      - CvssBaseScore query parameter. Return advisories
-        with cvssBaseScore greater than this cvssBaseScore.
-        E.g. 8.5.
+      - CvssBaseScore query parameter. Return advisories with cvssBaseScore greater than this cvssBaseScore. E.g. 8.5.
     type: str
   securityImpactRating:
     description:
       - >
-        SecurityImpactRating query parameter. Return
-        advisories with this securityImpactRating. Available
-        values CRITICAL, HIGH.
+        SecurityImpactRating query parameter. Return advisories with this securityImpactRating. Available values
+        CRITICAL, HIGH.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfSecurityAdvisoriesAffectingTheNetworkDevices
-    description: Complete reference of the GetCountOfSecurityAdvisoriesAffectingTheNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoriesAffectingTheNetworkDevices
+    description: Complete reference of the GetCountOfSecurityAdvisoriesAffectingTheNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisories-affecting-the-network-devices
 notes:
   - SDK Method used are
@@ -61,8 +53,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Security Advisories Results Advisories
-    Count
+- name: Get all Security Advisories Results Advisories Count
   cisco.dnac.security_advisories_results_advisories_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

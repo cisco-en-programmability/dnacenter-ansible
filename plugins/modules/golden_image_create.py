@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: golden_image_create
-short_description: Resource module for Golden Image
-  Create
+short_description: Resource module for Golden Image Create
 description:
-  - Manage operation create of the resource Golden Image
-    Create.
+  - Manage operation create of the resource Golden Image Create.
   - Golden Tag image. Set siteId as -1 for Global site.
 version_added: '4.0.0'
 extends_documentation_fragment:
@@ -19,29 +17,23 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceFamilyIdentifier:
-    description: Device Family Identifier e.g. 277696480-283933147,
-      277696480.
+    description: Device Family Identifier e.g. 277696480-283933147, 277696480.
     type: str
   deviceRole:
-    description: Device Role. Permissible Values ALL,
-      UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION and
-      CORE.
+    description: Device Role. Permissible Values ALL, UNKNOWN, ACCESS, BORDER ROUTER, DISTRIBUTION and CORE.
     type: str
   imageId:
     description: ImageId in uuid format.
     type: str
   siteId:
-    description: SiteId in uuid format. For Global Site
-      "-1" to be used.
+    description: SiteId in uuid format. For Global Site "-1" to be used.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) TagAsGoldenImage
-    description: Complete reference of the TagAsGoldenImage
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TagAsGoldenImage
+    description: Complete reference of the TagAsGoldenImage API.
     link: https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image
 notes:
   - SDK Method used are
@@ -75,8 +67,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

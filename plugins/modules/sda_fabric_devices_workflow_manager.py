@@ -219,6 +219,7 @@ options:
                             is also allowed. For example,
                             65534.65535.
                         type: str
+                        required: true
                       is_default_exit:
                         description:
                           - Indicates whether this Border
@@ -292,6 +293,7 @@ options:
                             `transit_network_name` after
                             initial configuration.
                         type: str
+                        required: true
                       interface_name:
                         description:
                           - Refers to the specific network
@@ -463,6 +465,7 @@ options:
                           - The transit_network_name
                             cannot be updated.
                         type: str
+                        required: true
                       affinity_id_prime:
                         description:
                           - It supersedes the border
@@ -1269,7 +1272,7 @@ class FabricDevices(DnacBase):
         )
         self.fabric_l3_handoff_ip_obj_params = self.get_obj_params("fabricIpL3Handoff")
         self.max_timeout = self.params.get("dnac_api_task_timeout")
-        self.fabric_type = None                     # Can be either 'fabric_site' or 'fabric_zone'
+        self.fabric_type = None  # Can be either 'fabric_site' or 'fabric_zone'
 
     def validate_input(self):
         """
@@ -1332,7 +1335,10 @@ class FabricDevices(DnacBase):
                         "elements": "dict",
                         "layer3_settings": {
                             "type": "dict",
-                            "local_autonomous_system_number": {"type": "str"},
+                            "local_autonomous_system_number": {
+                                "type": "str",
+                                "required": True,
+                            },
                             "is_default_exit": {"type": "bool"},
                             "import_external_routes": {"type": "bool"},
                             "border_priority": {"type": "int"},
@@ -1341,7 +1347,7 @@ class FabricDevices(DnacBase):
                         "layer3_handoff_ip_transit": {
                             "type": "list",
                             "elements": "dict",
-                            "transit_network_name": {"type": "str"},
+                            "transit_network_name": {"type": "str", "required": True},
                             "interface_name": {"type": "str"},
                             "external_connectivity_ip_pool_name": {"type": "str"},
                             "virtual_network_name": {"type": "str"},
@@ -1355,7 +1361,7 @@ class FabricDevices(DnacBase):
                         "layer3_handoff_sda_transit": {
                             "type": "list",
                             "elements": "dict",
-                            "transit_network_name": {"type": "str"},
+                            "transit_network_name": {"type": "str", "required": True},
                             "affinity_id_prime": {"type": "int"},
                             "affinity_id_decider": {"type": "int"},
                             "connected_to_internet": {"type": "bool"},
@@ -2885,14 +2891,19 @@ class FabricDevices(DnacBase):
                 "DEBUG",
             )
             if self.fabric_type == "fabric_site":
-                wireless_controller_settings = self.get_have_wireless_controller_settings(
-                    fabric_name, fabric_site_id, network_device_id, fabric_device_ip
+                wireless_controller_settings = (
+                    self.get_have_wireless_controller_settings(
+                        fabric_name, fabric_site_id, network_device_id, fabric_device_ip
+                    )
                 )
                 fabric_devices_info.update(
                     {"wireless_controller_settings": wireless_controller_settings}
                 )
             else:
-                self.log(f"Fabric type is '{self.fabric_type}', skipping wireless controller settings retrieval.", "DEBUG")
+                self.log(
+                    f"Fabric type is '{self.fabric_type}', skipping wireless controller settings retrieval.",
+                    "DEBUG",
+                )
 
             is_border_device = False
             if "BORDER_NODE" in device_roles:
@@ -3448,7 +3459,9 @@ class FabricDevices(DnacBase):
             If any device_role is not correct, The workflow will fail with an error.
         """
         if not device_roles:
-            self.msg = f"The 'device_roles' list cannot be empty for the IP '{device_ip}'."
+            self.msg = (
+                f"The 'device_roles' list cannot be empty for the IP '{device_ip}'."
+            )
             self.fail_and_exit(self.msg)
 
         valid_device_roles_list = [
@@ -3496,7 +3509,7 @@ class FabricDevices(DnacBase):
         device_info = {
             "networkDeviceId": network_id,
             "fabricId": fabric_id,
-            "embedded_wireless_controller_capabilities": False
+            "embedded_wireless_controller_capabilities": False,
         }
 
         # If the user didnot provide the mandatory information and if it can be
@@ -3559,7 +3572,10 @@ class FabricDevices(DnacBase):
             self.log("Device is a Wireless Controller.", "DEBUG")
             device_info["embedded_wireless_controller_capabilities"] = False
         else:
-            self.log("Device is a switch with Embedded Wireless Controller capabilities.", "DEBUG")
+            self.log(
+                "Device is a switch with Embedded Wireless Controller capabilities.",
+                "DEBUG",
+            )
             device_info["embedded_wireless_controller_capabilities"] = True
             if not have_device_exists:
                 if not device_roles:
@@ -3580,15 +3596,23 @@ class FabricDevices(DnacBase):
                 else:
                     self.validate_device_roles(device_roles, device_ip)
                     have_wireless_controller_node = (
-                        "WIRELESS_CONTROLLER_NODE" in have_device_details.get("deviceRoles")
+                        "WIRELESS_CONTROLLER_NODE"
+                        in have_device_details.get("deviceRoles")
                     )
-                    want_wireless_controller_node = "WIRELESS_CONTROLLER_NODE" in device_roles
+                    want_wireless_controller_node = (
+                        "WIRELESS_CONTROLLER_NODE" in device_roles
+                    )
 
-                    if want_wireless_controller_node and not have_wireless_controller_node:
+                    if (
+                        want_wireless_controller_node
+                        and not have_wireless_controller_node
+                    ):
                         device_roles.remove("WIRELESS_CONTROLLER_NODE")
                         # WIRELESS_CONTROLLER_NODE is added from backend and can't be passed to the API if not present in the backend.
 
-                    if sorted(device_roles) != sorted(have_device_details.get("deviceRoles")):
+                    if sorted(device_roles) != sorted(
+                        have_device_details.get("deviceRoles")
+                    ):
                         self.msg = "The parameter 'device_roles' cannot be updated in the device with IP '{ip}'.".format(
                             ip=device_ip
                         )
@@ -5238,8 +5262,10 @@ class FabricDevices(DnacBase):
         )
         if primary_managed_ap_locations is None:
             if have_wireless_controller_settings:
-                have_primary_managed_ap_locations = have_wireless_controller_settings.get(
-                    "primary_managed_ap_locations"
+                have_primary_managed_ap_locations = (
+                    have_wireless_controller_settings.get(
+                        "primary_managed_ap_locations"
+                    )
                 )
             else:
                 have_primary_managed_ap_locations = None
@@ -5268,8 +5294,10 @@ class FabricDevices(DnacBase):
         )
         if secondary_managed_ap_locations is None:
             if have_wireless_controller_settings:
-                have_secondary_managed_ap_locations = have_wireless_controller_settings.get(
-                    "secondary_managed_ap_locations"
+                have_secondary_managed_ap_locations = (
+                    have_wireless_controller_settings.get(
+                        "secondary_managed_ap_locations"
+                    )
                 )
             else:
                 have_secondary_managed_ap_locations = None
@@ -5423,12 +5451,20 @@ class FabricDevices(DnacBase):
                 ),
             }
             if self.fabric_type == "fabric_site":
-                self.log(f"Gathering wireless controller settings for fabric type: {self.fabric_type}", "DEBUG")
-                fabric_devices_info["wireless_controller_settings"] = self.get_want_wireless_controller_settings(
-                    item, fabric_name, device_ip, device_config_index
+                self.log(
+                    f"Gathering wireless controller settings for fabric type: {self.fabric_type}",
+                    "DEBUG",
+                )
+                fabric_devices_info["wireless_controller_settings"] = (
+                    self.get_want_wireless_controller_settings(
+                        item, fabric_name, device_ip, device_config_index
+                    )
                 )
             else:
-                self.log(f"Skipping wireless controller settings for fabric type: {self.fabric_type}", "DEBUG")
+                self.log(
+                    f"Skipping wireless controller settings for fabric type: {self.fabric_type}",
+                    "DEBUG",
+                )
                 fabric_devices_info["wireless_controller_settings"] = None
 
             self.log(
@@ -5621,7 +5657,7 @@ class FabricDevices(DnacBase):
         Returns:
             self (object): The current object with added L2 Handoff information.
         Description:
-            Seperate the L2 Handoffs which need to be created and the rest. Since L2 Handoff can
+            Separate the L2 Handoffs which need to be created and the rest. Since L2 Handoff can
             only be created not updated. Call the API 'add_fabric_devices_layer2_handoffs' to
             create the L2 Handoff in the provided device.
         """
@@ -6058,10 +6094,10 @@ class FabricDevices(DnacBase):
                 "INFO",
             )
             result_fabric_device_response.get("ip_l3_handoff_details").update(
-                {"updation": update_ip_l3_handoff}
+                {"update": update_ip_l3_handoff}
             )
             result_fabric_device_msg.get("ip_l3_handoff_details").update(
-                {"updation": "IP L3 Handoffs updation is successful."}
+                {"update": "IP L3 Handoffs update is successful."}
             )
 
         self.msg = "L3 Handoff(s) with IP Transit operations are successful."
@@ -6333,7 +6369,9 @@ class FabricDevices(DnacBase):
             self.log(f"Processing device at index {device_config_index}.", "DEBUG")
 
             # Retrieve desired device details to check if embedded wireless controller capabilities are present
-            want_device_details = self.want.get("fabric_devices")[device_config_index].get("device_details")
+            want_device_details = self.want.get("fabric_devices")[
+                device_config_index
+            ].get("device_details")
 
             if not want_device_details.get("embedded_wireless_controller_capabilities"):
                 self.log(
@@ -6986,7 +7024,10 @@ class FabricDevices(DnacBase):
                 if self.fabric_type == "fabric_site":
                     # To Update Wireless Controller Settings, have should be updated with the fabric ID in case of new fabric creation.
                     self.get_have(config)
-                    self.log("Updating wireless controller settings for fabric type 'fabric_site'.", "DEBUG")
+                    self.log(
+                        "Updating wireless controller settings for fabric type 'fabric_site'.",
+                        "DEBUG",
+                    )
                     self.update_wireless_controller_settings(
                         fabric_devices
                     ).check_return_status()
@@ -7101,7 +7142,7 @@ class FabricDevices(DnacBase):
         Returns:
             self (object): The current object with deleted L2 Handoffs information.
         Description:
-            Seperate which L2 Handoff exist and which are not. If there are L2 Handoff,
+            Separate which L2 Handoff exist and which are not. If there are L2 Handoff,
             which needs to be deleted. Call the API 'delete_fabric_device_layer2_handoff_by_id'.
         """
 
@@ -7141,7 +7182,7 @@ class FabricDevices(DnacBase):
                 task_name = "delete_fabric_device_layer2_handoff_by_id"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7252,7 +7293,7 @@ class FabricDevices(DnacBase):
                 task_name = "delete_fabric_device_layer3_handoffs_with_sda_transit"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7302,7 +7343,7 @@ class FabricDevices(DnacBase):
         Returns:
             self (object): The current object with deleted IP L3 Handoffs information.
         Description:
-            Seperate which IP L3 Handoff exist and which are not. If there are IP L3 Handoff,
+            Separate which IP L3 Handoff exist and which are not. If there are IP L3 Handoff,
             which needs to be deleted. Call the API 'delete_fabric_device_layer3_handoff_with_ip_transit_by_id'.
         """
 
@@ -7343,7 +7384,7 @@ class FabricDevices(DnacBase):
                 task_name = "delete_fabric_device_layer3_handoff_with_ip_transit_by_id"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7564,7 +7605,7 @@ class FabricDevices(DnacBase):
                             "sda", task_name, payload
                         )
                         if not task_id:
-                            self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                            self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                                 task_name=task_name
                             )
                             self.set_operation_result(
@@ -7978,11 +8019,14 @@ class FabricDevices(DnacBase):
                                 "DEBUG",
                             )
                             self.verify_disable_wireless_controller_settings(
-                                have_wireless_controller_settings, fabric_name, device_ip
+                                have_wireless_controller_settings,
+                                fabric_name,
+                                device_ip,
                             ).check_return_status()
                     else:
                         self.log(
-                            f"Skipping wireless controller settings verification for fabric type '{self.fabric_type}'.", "DEBUG"
+                            f"Skipping wireless controller settings verification for fabric type '{self.fabric_type}'.",
+                            "DEBUG",
                         )
 
                 # Verifying whether the IP L3 Handoff is applied to the Cisco Catalyst Center or not

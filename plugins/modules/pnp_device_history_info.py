@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_device_history_info
-short_description: Information module for Pnp Device
-  History
+short_description: Information module for Pnp Device History
 description:
   - Get all Pnp Device History.
-  - Returns history for a specific device. Serial number
-    is a required parameter.
+  - Returns history for a specific device. Serial number is a required parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,28 +21,23 @@ options:
     type: dict
   serialNumber:
     description:
-      - SerialNumber query parameter. Device Serial
-        Number.
+      - SerialNumber query parameter. Device Serial Number.
     type: str
   sort:
     description:
-      - Sort query parameter. Comma seperated list of
-        fields to sort on.
+      - Sort query parameter. Comma seperated list of fields to sort on.
     elements: str
     type: list
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetDeviceHistory
-    description: Complete reference of the GetDeviceHistory
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceHistory
+    description: Complete reference of the GetDeviceHistory API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-history
 notes:
   - SDK Method used are

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_ssid_details_count_info
-short_description: Information module for Wireless Controllers
-  Ssid Details Count
+short_description: Information module for Wireless Controllers Ssid Details Count
 description:
   - Get all Wireless Controllers Ssid Details Count.
-  - Retrieves the count of SSIDs associated with the
-    specific wireless controller.
+  - Retrieves the count of SSIDs associated with the specific wireless controller.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,35 +22,28 @@ options:
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId path parameter. Obtain the network
-        device ID value by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+        NetworkDeviceId path parameter. Obtain the network device ID value by using the API call GET
+        /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   adminStatus:
     description:
       - >
-        AdminStatus query parameter. Utilize this query
-        parameter to obtain the number of SSIDs according
-        to their administrative status. A 'true' value
-        signifies that the admin status of the SSID
-        is enabled, while a 'false' value indicates
-        that the admin status of the SSID is disabled.
+        AdminStatus query parameter. Utilize this query parameter to obtain the number of SSIDs according to
+        their administrative status. A 'true' value signifies that the admin status of the SSID is enabled,
+        while a 'false' value indicates that the admin status of the SSID is disabled.
     type: bool
   managed:
     description:
       - >
-        Managed query parameter. If value is 'true'
-        means SSIDs are configured through design.If
-        the value is 'false' means out of band configuration
-        from the Wireless Controller.
+        Managed query parameter. If value is 'true' means SSIDs are configured through design.If the value is
+        'false' means out of band configuration from the Wireless Controller.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetSSIDCountForSpecificWirelessController
-    description: Complete reference of the GetSSIDCountForSpecificWirelessController
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetSSIDCountForSpecificWirelessController
+    description: Complete reference of the GetSSIDCountForSpecificWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ssid-count-for-specific-wireless-controller
 notes:
   - SDK Method used are

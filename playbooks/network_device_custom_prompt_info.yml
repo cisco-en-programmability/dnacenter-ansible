@@ -2,7 +2,7 @@
 - name: Network device custom prompt info
   hosts: dnac_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   tasks:
     - name: Get all Network Device Custom Prompt

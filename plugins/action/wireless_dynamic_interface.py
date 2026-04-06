@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -37,6 +36,7 @@ argument_spec.update(
         state=dict(type="str", default="present", choices=["present", "absent"]),
         interfaceName=dict(type="str"),
         vlanId=dict(type="float"),
+        headers=dict(type="dict"),
     )
 )
 
@@ -52,6 +52,7 @@ class WirelessDynamicInterface(object):
         self.new_object = dict(
             interfaceName=params.get("interfaceName"),
             vlanId=params.get("vlanId"),
+            headers=params.get("headers"),
             interface_name=params.get("interfaceName"),
         )
 
@@ -84,7 +85,7 @@ class WirelessDynamicInterface(object):
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
-            result = get_dict_result(items, "name", name)
+            result = get_dict_result(items, "interfaceName", name)
         except Exception:
             result = None
         return result
@@ -197,7 +198,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = prev_obj
@@ -209,7 +210,7 @@ class ActionModule(ActionBase):
                 response = obj.create()
                 dnac.object_created()
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

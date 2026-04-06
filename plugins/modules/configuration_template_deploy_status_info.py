@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_deploy_status_info
-short_description: Information module for Configuration
-  Template Deploy Status
+short_description: Information module for Configuration Template Deploy Status
 description:
   - Get Configuration Template Deploy Status by id.
   - API to retrieve the status of template deployment.
@@ -22,17 +21,14 @@ options:
     type: dict
   deploymentId:
     description:
-      - DeploymentId path parameter. UUID of deployment
-        to retrieve template deployment status.
+      - DeploymentId path parameter. UUID of deployment to retrieve template deployment status.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates StatusOfTemplateDeployment
-    description: Complete reference of the StatusOfTemplateDeployment
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates StatusOfTemplateDeployment
+    description: Complete reference of the StatusOfTemplateDeployment API.
     link: https://developer.cisco.com/docs/dna-center/#!status-of-template-deployment
 notes:
   - SDK Method used are
@@ -43,8 +39,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get Configuration Template Deploy Status by
-    id
+- name: Get Configuration Template Deploy Status by id
   cisco.dnac.configuration_template_deploy_status_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

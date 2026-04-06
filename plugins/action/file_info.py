@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -96,7 +95,7 @@ class ActionModule(ActionBase):
         if id:
             download_response = dnac.exec(
                 family="file",
-                function="download_a_file_by_fileid",
+                function="download_a_file_by_file_id",
                 params=self.get_object(self._task.args),
             )
             response = dict(

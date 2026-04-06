@@ -23,12 +23,11 @@ options:
     description: NameSpace path parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for File UploadFile
-    description: Complete reference of the UploadFile
-      API.
+    description: Complete reference of the UploadFile API.
     link: https://developer.cisco.com/docs/dna-center/#!upload-file
 notes:
   - SDK Method used are
@@ -57,5 +56,18 @@ dnac_response:
   returned: always
   type: dict
   sample: >
-    {}
+    {
+      "response": {
+        "nameSpace": "string",
+        "name": "string",
+        "downloadPath": "string",
+        "fileSize": "string",
+        "fileFormat": "string",
+        "md5Checksum": "string",
+        "sha1Checksum": "string",
+        "sha2Checksum": "string",
+        "id": "string"
+      },
+      "version": "string"
+    }
 """

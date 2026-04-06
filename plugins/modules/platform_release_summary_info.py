@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: platform_release_summary_info
-short_description: Information module for Platform Release
-  Summary
+short_description: Information module for Platform Release Summary
 description:
-  - Get all Platform Release Summary. - > Provides information
-    such as API version, mandatory core packages for
-    installation or upgrade, optional packages, Cisco
-    Catalyst Center name and version, supported direct
-    updates, and tenant ID.
+  - Get all Platform Release Summary. - > Provides information such as API version, mandatory core packages for installation
+    or upgrade, optional packages, Cisco Catalyst Center name and version, supported direct updates, and tenant ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Platform
-      Configuration CiscoCatalystCenterReleaseSummary
-    description: Complete reference of the CiscoCatalystCenterReleaseSummary
-      API.
+  - name: Cisco DNA Center documentation for Platform Configuration CiscoCatalystCenterReleaseSummary
+    description: Complete reference of the CiscoCatalystCenterReleaseSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary
 notes:
   - SDK Method used are
@@ -72,7 +66,7 @@ dnac_response:
         "installedVersion": "string",
         "systemVersion": "string",
         "supportedDirectUpdates": [
-          {}
+          "string"
         ],
         "tenantId": "string"
       }

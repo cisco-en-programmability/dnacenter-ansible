@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -31,6 +30,7 @@ argument_spec.update(
     dict(
         settings=dict(type="dict"),
         siteId=dict(type="str"),
+        headers=dict(type="dict"),
     )
 )
 
@@ -73,6 +73,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             settings=params.get("settings"),
             site_id=params.get("siteId"),
+            headers=params.get("headers"),
         )
         return new_object
 

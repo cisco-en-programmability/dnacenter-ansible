@@ -891,7 +891,7 @@ response_create:
           "lastUpdatedTime": 1672617600
       }
   }
-#Case 2: Successful updation of issue
+#Case 2: Successful update of issue
 response_update:
   description: Details of the response returned by the assurance settings update API.
   returned: always
@@ -2909,7 +2909,6 @@ class AssuranceSettings(DnacBase):
                 )
                 continue
 
-            self.result["response"][0].setdefault("msg", {}).update({issue_name: {}})
             self.log("Processing issue: {0}".format(issue_name), "DEBUG")
 
             # If the issue exists, add it to the update list and skip further processing
@@ -3319,6 +3318,16 @@ class AssuranceSettings(DnacBase):
                         ),
                         "DEBUG",
                     )
+                    # Update result with success message and detailed response
+                    deleted_issue = assurance_user_defined_issue_details[assurance_issue_index - 1]
+                    result_assurance_issue.get("response").update(
+                        {"deleted user-defined issue": deleted_issue}
+                    )
+                    result_assurance_issue.get("msg").update(
+                        {name: "Assurance issue deleted successfully"}
+                    )
+                    self.result["changed"] = True
+                    self.log("Assurance Issue '{0}' deleted successfully".format(name), "INFO")
                 except Exception as e:
                     expected_exception_msgs = [
                         "Expecting value: line 1 column 1",
@@ -3336,6 +3345,10 @@ class AssuranceSettings(DnacBase):
                             )
                         result_assurance_issue = self.result.get("response")[0].get(
                             "assurance_user_defined_issue_settings"
+                        )
+                        deleted_issue = assurance_user_defined_issue_details[assurance_issue_index - 1]
+                        result_assurance_issue.get("response").update(
+                            {"deleted user-defined issue": deleted_issue}
                         )
                         result_assurance_issue.get("msg").update(
                             {name: "Assurance user-defined issue deleted successfully"}

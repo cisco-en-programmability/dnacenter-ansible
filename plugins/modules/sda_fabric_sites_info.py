@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_sites_info
-short_description: Information module for Sda Fabric
-  Sites
+short_description: Information module for Sda Fabric Sites
 description:
   - Get all Sda Fabric Sites.
-  - Returns a list of fabric sites that match the provided
-    query parameters.
+  - Returns a list of fabric sites that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,28 +25,24 @@ options:
     type: str
   siteId:
     description:
-      - SiteId query parameter. ID of the network hierarchy
-        associated with the fabric site.
+      - SiteId query parameter. ID of the network hierarchy associated with the fabric site.
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
+      - Offset query parameter. Starting record for pagination.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetFabricSites
-    description: Complete reference of the GetFabricSites
-      API.
+    description: Complete reference of the GetFabricSites API.
     link: https://developer.cisco.com/docs/dna-center/#!get-fabric-sites
 notes:
   - SDK Method used are

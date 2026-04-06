@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_id_readiness_checks
-short_description: Resource module for Network Device
-  Images Id Readiness Checks
+short_description: Resource module for Network Device Images Id Readiness Checks
 description:
-  - Manage operation create of the resource Network
-    Device Images Id Readiness Checks. - > Triggers
-    an on-demand network device update readiness check,
-    where system-defined pre-checks will be performed.
-    Upon task completion, the task API response's `resultLocation`
-    attribute will contain the URL for fetching the
-    validation result.
+  - Manage operation create of the resource Network Device Images Id Readiness Checks. - > Triggers an on-demand network device
+    update readiness check, where system-defined pre-checks will be performed. Upon task completion, the task API response's
+    `resultLocation` attribute will contain the URL for fetching the validation result.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,13 +21,11 @@ options:
     description: Id path parameter. Network device identifier.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) TriggerUpdateReadinessForNetworkDevice
-    description: Complete reference of the TriggerUpdateReadinessForNetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerUpdateReadinessForNetworkDevice
+    description: Complete reference of the TriggerUpdateReadinessForNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!trigger-update-readiness-for-network-device
 notes:
   - SDK Method used are

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_results_trend_count_info
-short_description: Information module for Field Notices
-  Results Trend Count
+short_description: Information module for Field Notices Results Trend Count
 description:
   - Get all Field Notices Results Trend Count.
   - Get count of field notices results trend over time.
@@ -22,17 +21,14 @@ options:
     type: dict
   scanTime:
     description:
-      - ScanTime query parameter. Return field notices
-        trend with scanTime greater than this scanTime.
+      - ScanTime query parameter. Return field notices trend with scanTime greater than this scanTime.
     type: float
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfFieldNoticesResultsTrendOverTime
-    description: Complete reference of the GetCountOfFieldNoticesResultsTrendOverTime
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfFieldNoticesResultsTrendOverTime
+    description: Complete reference of the GetCountOfFieldNoticesResultsTrendOverTime API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-field-notices-results-trend-over-time
 notes:
   - SDK Method used are

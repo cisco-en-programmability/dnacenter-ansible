@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_wireless_mobility_groups_info
-short_description: Information module for Wireless Controllers
-  Wireless Mobility Groups
+short_description: Information module for Wireless Controllers Wireless Mobility Groups
 description:
-  - Get all Wireless Controllers Wireless Mobility Groups.
-    - > Retrieve configured mobility groups if no Network
-    Device Id is provided as a query parameter. If a
-    Network Device Id is given and a mobility group
-    is configured for it, return the configured details;
-    otherwise, return the default values from the device.
+  - Get all Wireless Controllers Wireless Mobility Groups. - > Retrieve configured mobility groups if no Network Device Id
+    is provided as a query parameter. If a Network Device Id is given and a mobility group is configured for it, return the
+    configured details; otherwise, return the default values from the device.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,20 +23,16 @@ options:
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId query parameter. Employ this
-        query parameter to obtain the details of the
-        Mobility Group corresponding to the provided
-        networkDeviceId. Obtain the network device ID
-        value by using the API GET call /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+        NetworkDeviceId query parameter. Employ this query parameter to obtain the details of the Mobility Group
+        corresponding to the provided networkDeviceId. Obtain the network device ID value by using the API GET
+        call /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetMobilityGroups
-    description: Complete reference of the GetMobilityGroups
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetMobilityGroups
+    description: Complete reference of the GetMobilityGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!get-mobility-groups
 notes:
   - SDK Method used are
@@ -51,8 +43,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Controllers Wireless Mobility
-    Groups
+- name: Get all Wireless Controllers Wireless Mobility Groups
   cisco.dnac.wireless_controllers_wireless_mobility_groups_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_summary_info
-short_description: Information module for Network Device
-  Summary
+short_description: Information module for Network Device Summary
 description:
   - Get all Network Device Summary.
-  - Returns brief summary of device info for the given
-    device Id.
+  - Returns brief summary of device info for the given device Id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,13 +24,11 @@ options:
       - Id path parameter. Device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceSummary
-    description: Complete reference of the GetDeviceSummary
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceSummary
+    description: Complete reference of the GetDeviceSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-summary
 notes:
   - SDK Method used are

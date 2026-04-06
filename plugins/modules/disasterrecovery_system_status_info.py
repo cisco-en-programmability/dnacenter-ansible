@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: disasterrecovery_system_status_info
-short_description: Information module for Disasterrecovery
-  System Status
+short_description: Information module for Disasterrecovery System Status
 description:
   - Get all Disasterrecovery System Status.
-  - Detailed and Summarized status of DR components
-    Active, Standby and Witness system's health .
+  - Detailed and Summarized status of DR components Active, Standby and Witness system's health .
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,8 +20,8 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 notes:
   - SDK Method used are
     disaster_recovery.DisasterRecovery.disaster_recovery_status,

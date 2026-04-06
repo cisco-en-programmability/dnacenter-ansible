@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_summary_analytics
-short_description: Resource module for Site Kpi Summaries
-  Summary Analytics
+short_description: Resource module for Site Kpi Summaries Summary Analytics
 description:
-  - Manage operation create of the resource Site Kpi
-    Summaries Summary Analytics. - > Submits the task
-    to get summary analytics data for a given site.
-    For detailed information about the usage of the
-    API, please refer to the Open API specification
+  - Manage operation create of the resource Site Kpi Summaries Summary Analytics. - > Submits the task to get summary analytics
+    data for a given site. For detailed information about the usage of the API, please refer to the Open API specification
     document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
@@ -30,8 +26,7 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Site Kpi Summaries Summary Analytics's
-      filters.
+    description: Site Kpi Summaries Summary Analytics's filters.
     elements: dict
     suboptions:
       key:
@@ -44,16 +39,18 @@ options:
         description: Value.
         type: str
     type: list
+  headers:
+    description: Additional headers.
+    type: dict
   startTime:
     description: Start Time.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites SubmitRequestForSiteAnalyticsSummaryData
-    description: Complete reference of the SubmitRequestForSiteAnalyticsSummaryData
-      API.
+    description: Complete reference of the SubmitRequestForSiteAnalyticsSummaryData API.
     link: https://developer.cisco.com/docs/dna-center/#!submit-request-for-site-analytics-summary-data
 notes:
   - SDK Method used are
@@ -81,6 +78,7 @@ EXAMPLES = r"""
       - key: string
         operator: string
         value: string
+    headers: '{{my_headers | from_json}}'
     startTime: 0
 """
 RETURN = r"""

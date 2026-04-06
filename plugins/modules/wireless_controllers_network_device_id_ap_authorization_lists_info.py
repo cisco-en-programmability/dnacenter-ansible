@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_network_device_id_ap_authorization_lists_info
-short_description: Information module for Wireless Controllers
-  Network Device Id Ap Authorization Lists
+short_description: Information module for Wireless Controllers Network Device Id Ap Authorization Lists
 description:
-  - Get all Wireless Controllers Network Device Id Ap
-    Authorization Lists. - > This API allows the user
-    to get an AP Authorization List details configured
-    for the given provisioned network device Id. Obtain
-    the network device ID value by using the API GET
-    call '/dna/intent/api/v1/network-device/ip- address/${ipAddress}'.
+  - Get all Wireless Controllers Network Device Id Ap Authorization Lists. - > This API allows the user to get an AP Authorization
+    List details configured for the given provisioned network device Id. Obtain the network device ID value by using the API
+    GET call '/dna/intent/api/v1/network-device/ip- address/${ipAddress}'.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,17 +22,14 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Network Device
-        ID.
+      - NetworkDeviceId path parameter. Network Device ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAPAuthorizationListByNetworkDeviceId
-    description: Complete reference of the GetAPAuthorizationListByNetworkDeviceId
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAPAuthorizationListByNetworkDeviceId
+    description: Complete reference of the GetAPAuthorizationListByNetworkDeviceId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-list-by-network-device-id
 notes:
   - SDK Method used are
@@ -47,8 +40,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Controllers Network Device
-    Id Ap Authorization Lists
+- name: Get all Wireless Controllers Network Device Id Ap Authorization Lists
   cisco.dnac.wireless_controllers_network_device_id_ap_authorization_lists_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_summary_analytics_info
-short_description: Information module for Site Kpi Summaries
-  Summary Analytics
+short_description: Information module for Site Kpi Summaries Summary Analytics
 description:
-  - Get all Site Kpi Summaries Summary Analytics. -
-    > Get site analytics summary data for the given
-    task id. For detailed information about the usage
-    of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-
+  - Get all Site Kpi Summaries Summary Analytics. - > Get site analytics summary data for the given task id. For detailed
+    information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
     center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -27,18 +23,15 @@ options:
   taskId:
     description:
       - >
-        TaskId query parameter. Used to retrieve asynchronously
-        processed & stored data. When this parameter
-        is used, the rest of the request params will
-        be ignored.
+        TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is
+        used, the rest of the request params will be ignored.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetSiteAnalyticsSummaryDataForTheGivenTaskId
-    description: Complete reference of the GetSiteAnalyticsSummaryDataForTheGivenTaskId
-      API.
+    description: Complete reference of the GetSiteAnalyticsSummaryDataForTheGivenTaskId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-analytics-summary-data-for-the-given-task-id
 notes:
   - SDK Method used are

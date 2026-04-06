@@ -7,24 +7,19 @@
 DOCUMENTATION = r"""
 ---
 module: lan_automation_update_device
-short_description: Resource module for Lan Automation
-  Update Device
+short_description: Resource module for Lan Automation Update Device
 description:
-  - Manage operation update of the resource Lan Automation
-    Update Device. - > Invoke this API to perform a
-    DAY-N update on LAN Automation-related devices.
-    Supported features include Loopback0 IP update,
-    hostname update, link addition, and link deletion.
+  - Manage operation update of the resource Lan Automation Update Device. - > Invoke this API to perform a DAY-N update on
+    LAN Automation-related devices. Supported features include Loopback0 IP update, hostname update, link addition, and link
+    deletion.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   feature:
-    description: Feature query parameter. Feature ID
-      for the update. Supported feature IDs include
-      LOOPBACK0_IPADDRESS_UPDATE, HOSTNAME_UPDATE, LINK_ADD,
-      and LINK_DELETE.
+    description: Feature query parameter. Feature ID for the update. Supported feature IDs include LOOPBACK0_IPADDRESS_UPDATE,
+      HOSTNAME_UPDATE, LINK_ADD, and LINK_DELETE.
     type: str
   hostnameUpdateDevices:
     description: Lan Automation Update Device's hostnameUpdateDevices.
@@ -44,14 +39,11 @@ options:
         description: Destination Device Interface Name.
         type: str
       destinationDeviceManagementIPAddress:
-        description: Destination Device Management IP
-          Address.
+        description: Destination Device Management IP Address.
         type: str
       ipPoolName:
-        description: Name of the IP LAN Pool, required
-          for Link Add should be from discovery site
-          of source and destination device. It is optional
-          for Link Delete.
+        description: Name of the IP LAN Pool, required for Link Add should be from discovery site of source and destination
+          device. It is optional for Link Delete.
         type: str
       sourceDeviceInterfaceName:
         description: Source Device Interface Name.
@@ -68,19 +60,15 @@ options:
         description: Device Management IP Address.
         type: str
       newLoopback0IPAddress:
-        description: New Loopback0 IP Address from LAN
-          Pool of Device Discovery Site(Shared pool
-          should not be used).
+        description: New Loopback0 IP Address from LAN Pool of Device Discovery Site(Shared pool should not be used).
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation
-      LANAutomationDeviceUpdate
-    description: Complete reference of the LANAutomationDeviceUpdate
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdate
+    description: Complete reference of the LANAutomationDeviceUpdate API.
     link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update
 notes:
   - SDK Method used are

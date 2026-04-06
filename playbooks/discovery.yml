@@ -6,7 +6,7 @@
       - "90acbab8-03d5-4726-9c19-e1e51a40b3cd"
       - "f979d842-f6fd-456a-8137-2cb5113cd2e8"
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   tasks:
     - name: Find discovery

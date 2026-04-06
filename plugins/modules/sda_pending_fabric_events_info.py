@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_pending_fabric_events_info
-short_description: Information module for Sda Pending
-  Fabric Events
+short_description: Information module for Sda Pending Fabric Events
 description:
   - Get all Sda Pending Fabric Events.
-  - Returns a list of pending fabric events that match
-    the provided query parameters.
+  - Returns a list of pending fabric events that match the provided query parameters.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,23 +25,20 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
+      - Offset query parameter. Starting record for pagination.
     type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetPendingFabricEvents
-    description: Complete reference of the GetPendingFabricEvents
-      API.
+    description: Complete reference of the GetPendingFabricEvents API.
     link: https://developer.cisco.com/docs/dna-center/#!get-pending-fabric-events
 notes:
   - SDK Method used are

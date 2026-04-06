@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_account_add
-short_description: Resource module for Pnp Virtual Account
-  Add
+short_description: Resource module for Pnp Virtual Account Add
 description:
-  - Manage operation create of the resource Pnp Virtual
-    Account Add. - > Registers a Smart Account, Virtual
-    Account and the relevant server profile info with
-    the PnP System & database. The devices present in
-    the registered virtual account are synced with the
-    PnP database as well. The response payload returns
-    the new profile.
+  - Manage operation create of the resource Pnp Virtual Account Add. - > Registers a Smart Account, Virtual Account and the
+    relevant server profile info with the PnP System & database. The devices present in the registered virtual account are
+    synced with the PnP database as well. The response payload returns the new profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -38,16 +33,13 @@ options:
     description: Pnp Virtual Account Add's profile.
     suboptions:
       addressFqdn:
-        description: Required when cluster is configured
-          with fully qualified domain name (FQDN).
+        description: Required when cluster is configured with fully qualified domain name (FQDN).
         type: str
       addressIpV4:
-        description: Required when cluster is configured
-          with IPv4.
+        description: Required when cluster is configured with IPv4.
         type: str
       addressIpV6:
-        description: Required when cluster is configured
-          with IPv6.
+        description: Required when cluster is configured with IPv6.
         type: str
       cert:
         description: Pnp Virtual Account Add's cert.
@@ -91,35 +83,29 @@ options:
         type: str
     type: dict
   syncResultStr:
-    description: Represent internal state and SHOULD
-      not be used or relied upon. (Deprecated).
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     type: str
   syncStartTime:
     description: Pnp Virtual Account Add's syncStartTime.
     type: int
   syncStatus:
-    description: Represent internal state and SHOULD
-      not be used or relied upon. (Deprecated).
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     type: str
   tenantId:
-    description: Represent internal state and SHOULD
-      not be used or relied upon. (Deprecated).
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     type: str
   token:
-    description: Represent internal state and SHOULD
-      not be used or relied upon. (Deprecated).
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     type: str
   virtualAccountId:
     description: Pnp Virtual Account Add's virtualAccountId.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) AddVirtualAccount
-    description: Complete reference of the AddVirtualAccount
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccount
+    description: Complete reference of the AddVirtualAccount API.
     link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
 notes:
   - SDK Method used are

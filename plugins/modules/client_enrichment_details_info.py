@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: client_enrichment_details_info
-short_description: Information module for Client Enrichment
-  Details
+short_description: Information module for Client Enrichment Details
 description:
-  - Get all Client Enrichment Details. - > Enriches
-    a given network End User context a network user-id
-    or end user's device Mac Address with details about
-    the user, the devices that the user is connected
-    to and the assurance issues that the user is impacted
-    by.
+  - Get all Client Enrichment Details. - > Enriches a given network End User context a network user-id or end user's device
+    Mac Address with details about the user, the devices that the user is connected to and the assurance issues that the user
+    is impacted by.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,13 +21,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients
-      GetClientEnrichmentDetails
-    description: Complete reference of the GetClientEnrichmentDetails
-      API.
+  - name: Cisco DNA Center documentation for Clients GetClientEnrichmentDetails
+    description: Complete reference of the GetClientEnrichmentDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details
 notes:
   - SDK Method used are
@@ -83,7 +77,7 @@ dnac_response:
           "hostMac": "string",
           "hostIpV4": "string",
           "hostIpV6": [
-            {}
+            "string"
           ],
           "authType": {},
           "vlanId": "string",
@@ -91,7 +85,7 @@ dnac_response:
           "location": {},
           "clientConnection": "string",
           "connectedDevice": [
-            {}
+            "string"
           ],
           "issueCount": 0,
           "rssi": {},
@@ -167,7 +161,7 @@ dnac_response:
                       "source": "string",
                       "linkStatus": "string",
                       "label": [
-                        {}
+                        "string"
                       ],
                       "target": "string",
                       "id": {},
@@ -198,7 +192,7 @@ dnac_response:
                 {
                   "message": "string",
                   "steps": [
-                    {}
+                    "string"
                   ]
                 }
               ],
@@ -218,7 +212,7 @@ dnac_response:
                     "building": "string",
                     "floor": {},
                     "apsImpacted": [
-                      {}
+                      "string"
                     ]
                   },
                   "timestamp": 0

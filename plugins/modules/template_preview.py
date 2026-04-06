@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: template_preview
 short_description: Resource module for Template Preview
 description:
-  - Manage operation update of the resource Template
-    Preview.
+  - Manage operation update of the resource Template Preview.
   - API to preview a template.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -21,7 +20,7 @@ options:
     description: UUID of device to get template preview.
     type: str
   params:
-    description: Params to render preview.
+    description: Template Preview's params.
     type: dict
   resourceParams:
     description: Resource params to render preview.
@@ -30,13 +29,11 @@ options:
     description: UUID of template to get template preview.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates PreviewTemplate
-    description: Complete reference of the PreviewTemplate
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates PreviewTemplate
+    description: Complete reference of the PreviewTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!preview-template
 notes:
   - SDK Method used are

@@ -7,16 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: reports_view_group_info
-short_description: Information module for Reports View
-  Group
+short_description: Information module for Reports View Group
 description:
   - Get all Reports View Group.
   - Get Reports View Group by id.
-  - Gives a list of summary of all view groups. - >
-    Gives a list of summary of all views in a viewgroup.
-    Use "Get all view groups" API to get the viewGroupIds
-    required as a query param for this API for available
-    viewgroups.
+  - Gives a list of summary of all view groups. - > Gives a list of summary of all views in a viewgroup. Use "Get all view
+    groups" API to get the viewGroupIds required as a query param for this API for available viewgroups.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -30,18 +26,14 @@ options:
       - ViewGroupId path parameter. ViewGroupId of viewgroup.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      GetAllViewGroups
-    description: Complete reference of the GetAllViewGroups
-      API.
+  - name: Cisco DNA Center documentation for Reports GetAllViewGroups
+    description: Complete reference of the GetAllViewGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-view-groups
-  - name: Cisco DNA Center documentation for Reports
-      GetViewsForAGivenViewGroup
-    description: Complete reference of the GetViewsForAGivenViewGroup
-      API.
+  - name: Cisco DNA Center documentation for Reports GetViewsForAGivenViewGroup
+    description: Complete reference of the GetViewsForAGivenViewGroup API.
     link: https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group
 notes:
   - SDK Method used are

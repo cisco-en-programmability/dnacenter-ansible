@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_psk_override
-short_description: Resource module for Wireless Psk
-  Override
+short_description: Resource module for Wireless Psk Override
 description:
-  - Manage operation create of the resource Wireless
-    Psk Override.
+  - Manage operation create of the resource Wireless Psk Override.
   - Update/Override passphrase of SSID.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -36,13 +34,11 @@ options:
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      PSKOverride
-    description: Complete reference of the PSKOverride
-      API.
+  - name: Cisco DNA Center documentation for Wireless PSKOverride
+    description: Complete reference of the PSKOverride API.
     link: https://developer.cisco.com/docs/dna-center/#!p-sk-override
 notes:
   - SDK Method used are

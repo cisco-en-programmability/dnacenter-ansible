@@ -49,20 +49,36 @@ jobs:
 
       - name: Run sanity tests
         run: |
-          if [ -s changed_files.txt ]; then
-            changed_files=$(cat changed_files.txt)
-            for file in $changed_files; do
-              # Ensure file paths are relative to the working directory
-              if [ -f "$file" ]; then
-                echo "Running ansible sanity test for file: $file"
-                ansible-test sanity --docker -v --color yes $file
-              else
-                echo "File not found: $file"
-              fi
-            done
-            echo "Ansible sanity tests completed successfully."
-          else
+          if [ ! -s changed_files.txt ]; then
             echo "No changed files to test."
+            exit 0
+          fi
+
+          testable_files=""
+          file_count=0
+          while IFS= read -r file; do
+            if [ -f "$file" ]; then
+              testable_files="$testable_files $file"
+              file_count=$((file_count + 1))
+            fi
+          done < changed_files.txt
+
+          echo "Testable files: $file_count"
+
+          if [ "$file_count" -eq 0 ]; then
+            echo "No existing files to test."
+            exit 0
+          elif [ "$file_count" -le 50 ]; then
+            echo "Running targeted sanity tests on $file_count files..."
+            ansible-test sanity --docker -v --color yes $testable_files
+          else
+            echo "Large changeset ($file_count files). Running full sanity tests..."
+            while true; do echo "Sanity tests still running..."; sleep 60; done &
+            KEEPALIVE_PID=$!
+            timeout 55m ansible-test sanity --docker -v --color
+            EXIT_CODE=$?
+            kill $KEEPALIVE_PID 2>/dev/null
+            exit $EXIT_CODE
           fi
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
@@ -71,26 +87,24 @@ jobs:
 
       - name: Run yamllint
         run: |
-          if [ -s changed_files.txt ]; then
-            changed_files=$(cat changed_files.txt)
-            lintable_files=""
-            for file in $changed_files; do
-              # Check if the file belongs to the plugins/modules or playbooks directory
-              if [[ $file == playbooks/* ]]; then
-                lintable_files="$lintable_files $file"
-              fi
-            done
-
-            echo "Lintable Files: $lintable_files"
-
-            if [ -n "$lintable_files" ]; then
-              echo "Running yamllint test for files: $lintable_files"
-              yamllint -c .yamllint.yml $lintable_files
-              echo "Yamllint tests completed successfully."
-            else
-              echo "No relevant files to lint."
-            fi
-          else
+          if [ ! -s changed_files.txt ]; then
             echo "No changed files to lint."
+            exit 0
           fi
+
+          lintable_files=""
+          while IFS= read -r file; do
+            if [ -f "$file" ] && [[ "$file" == playbooks/*.yml || "$file" == playbooks/*.yaml ]]; then
+              lintable_files="$lintable_files $file"
+            fi
+          done < changed_files.txt
+
+          if [ -z "$lintable_files" ]; then
+            echo "No relevant playbook files to lint."
+            exit 0
+          fi
+
+          echo "Running yamllint on:$lintable_files"
+          yamllint -c .yamllint.yml $lintable_files
+          echo "Yamllint completed successfully."
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_zones_count_info
-short_description: Information module for Sda Fabric
-  Zones Count
+short_description: Information module for Sda Fabric Zones Count
 description:
   - Get all Sda Fabric Zones Count.
-  - Returns the count of fabric zones that match the
-    provided query parameters.
+  - Returns the count of fabric zones that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,12 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetFabricZoneCount
-    description: Complete reference of the GetFabricZoneCount
-      API.
+    description: Complete reference of the GetFabricZoneCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-fabric-zone-count
 notes:
   - SDK Method used are

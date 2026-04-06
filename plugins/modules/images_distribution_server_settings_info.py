@@ -7,14 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: images_distribution_server_settings_info
-short_description: Information module for Images Distribution
-  Server Settings
+short_description: Information module for Images Distribution Server Settings
 description:
-  - Get all Images Distribution Server Settings. - >
-    Retrieve the list of remote image distribution servers.
-    There can be up to two remote servers.Product always
-    acts as local distribution server, and it is not
-    part of this API response.
+  - Get all Images Distribution Server Settings.
+  - Get Images Distribution Server Settings by id.
+  - Retrieve image distribution server for the given server identifier. - > Retrieve the list of remote image distribution
+    servers. There can be up to two remote servers.Product always acts as local distribution server, and it is not part of
+    this API response.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,20 +22,27 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Server identifier.
+    type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) RetrieveImageDistributionServers
-    description: Complete reference of the RetrieveImageDistributionServers
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveImageDistributionServers
+    description: Complete reference of the RetrieveImageDistributionServers API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-servers
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveSpecificImageDistributionServer
+    description: Complete reference of the RetrieveSpecificImageDistributionServer API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-specific-image-distribution-server
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.retrieve_image_distribution_servers,
+    software_image_management_swim.SoftwareImageManagementSwim.retrieve_specific_image_distribution_server,
   - Paths used are
     get /dna/intent/api/v1/images/distributionServerSettings,
+    get /dna/intent/api/v1/images/distributionServerSettings/{id},
 """
 
 EXAMPLES = r"""
@@ -51,6 +57,18 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
+  register: result
+- name: Get Images Distribution Server Settings by id
+  cisco.dnac.images_distribution_server_settings_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
   register: result
 """
 RETURN = r"""

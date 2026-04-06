@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: sda_pending_fabric_events_apply
-short_description: Resource module for Sda Pending Fabric
-  Events Apply
+short_description: Resource module for Sda Pending Fabric Events Apply
 description:
-  - Manage operation create of the resource Sda Pending
-    Fabric Events Apply.
+  - Manage operation create of the resource Sda Pending Fabric Events Apply.
   - Applies pending fabric events based on user input.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -26,17 +24,15 @@ options:
         description: ID of the fabric.
         type: str
       id:
-        description: ID of the pending fabric event
-          to be applied.
+        description: ID of the pending fabric event to be applied.
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA ApplyPendingFabricEvents
-    description: Complete reference of the ApplyPendingFabricEvents
-      API.
+    description: Complete reference of the ApplyPendingFabricEvents API.
     link: https://developer.cisco.com/docs/dna-center/#!apply-pending-fabric-events
 notes:
   - SDK Method used are

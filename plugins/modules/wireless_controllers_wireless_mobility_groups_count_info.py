@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_wireless_mobility_groups_count_info
-short_description: Information module for Wireless Controllers
-  Wireless Mobility Groups Count
+short_description: Information module for Wireless Controllers Wireless Mobility Groups Count
 description:
-  - Get all Wireless Controllers Wireless Mobility Groups
-    Count.
+  - Get all Wireless Controllers Wireless Mobility Groups Count.
   - Retrieves count of mobility groups configured.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetMobilityGroupsCount
-    description: Complete reference of the GetMobilityGroupsCount
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetMobilityGroupsCount
+    description: Complete reference of the GetMobilityGroupsCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-mobility-groups-count
 notes:
   - SDK Method used are
@@ -39,8 +35,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Controllers Wireless Mobility
-    Groups Count
+- name: Get all Wireless Controllers Wireless Mobility Groups Count
   cisco.dnac.wireless_controllers_wireless_mobility_groups_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

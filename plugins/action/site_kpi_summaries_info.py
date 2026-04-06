@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -42,10 +41,11 @@ argument_spec.update(
         failureReason=dict(type="str"),
         view=dict(type="str"),
         attribute=dict(type="str"),
-        limit=dict(type="float"),
-        offset=dict(type="float"),
+        limit=dict(type="int"),
+        offset=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
+        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -105,6 +105,7 @@ class ActionModule(ActionBase):
             sort_by=params.get("sortBy"),
             order=params.get("order"),
             headers=params.get("headers"),
+            id=params.get("id"),
         )
         return new_object
 
@@ -118,11 +119,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="sites",
-            function="get_site_analytics_for_the_child_sites_of_given_parent_site_and_other_query_parameters",
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = dnac.exec(
+                family="sites",
+                function="get_site_analytics_for_one_site",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="sites",
+                function="get_site_analytics_for_the_child_sites_of_given_parent_site_and_other_query_parameters",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result

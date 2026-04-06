@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sites_wireless_settings_ssids_count_info
-short_description: Information module for Sites Wireless
-  Settings Ssids Count
+short_description: Information module for Sites Wireless Settings Ssids Count
 description:
   - Get all Sites Wireless Settings Ssids Count.
-  - This API allows the user to get count of all SSIDs
-    Service Set Identifier .
+  - This API allows the user to get count of all SSIDs Service Set Identifier .
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -28,19 +26,15 @@ options:
   _inherited:
     description:
       - >
-        _inherited query parameter. This query parameter
-        indicates whether the current SSID count at
-        the given 'siteId' is of the SSID(s) it is inheriting
-        or count of non-inheriting SSID(s).
+        _inherited query parameter. This query parameter indicates whether the current SSID count at the given
+        'siteId' is of the SSID(s) it is inheriting or count of non-inheriting SSID(s).
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetSSIDCountBySite
-    description: Complete reference of the GetSSIDCountBySite
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetSSIDCountBySite
+    description: Complete reference of the GetSSIDCountBySite API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ssid-count-by-site
 notes:
   - SDK Method used are

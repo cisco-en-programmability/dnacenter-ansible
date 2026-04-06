@@ -7,32 +7,25 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_resync_interval_settings
-short_description: Resource module for Network Devices
-  Resync Interval Settings
+short_description: Resource module for Network Devices Resync Interval Settings
 description:
-  - Manage operation update of the resource Network
-    Devices Resync Interval Settings. - > Updates the
-    resync interval in minutes globally for devices
-    which do not have custom resync interval. To override
-    this setting for all network devices refer to /networkDevices/resyncIntervalSettings/override
-    .
+  - Manage operation update of the resource Network Devices Resync Interval Settings. - > Updates the resync interval in minutes
+    globally for devices which do not have custom resync interval. To override this setting for all network devices refer
+    to /networkDevices/resyncIntervalSettings/override .
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   interval:
-    description: Resync Interval should be between 25
-      to 1440 minutes.
+    description: Resync Interval should be between 360 to 1440 minutes.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      UpdateGlobalResyncInterval
-    description: Complete reference of the UpdateGlobalResyncInterval
-      API.
+  - name: Cisco DNA Center documentation for Devices UpdateGlobalResyncInterval
+    description: Complete reference of the UpdateGlobalResyncInterval API.
     link: https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval
 notes:
   - SDK Method used are

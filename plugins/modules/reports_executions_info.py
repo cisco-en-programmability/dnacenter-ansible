@@ -11,11 +11,8 @@ short_description: Information module for Reports Executions
 description:
   - Get all Reports Executions.
   - Get Reports Executions by id.
-  - Get details of all executions for a given report.
-    - > Returns report content. Save the response to
-    a file by converting the response data as a blob
-    and setting the file format available from content-disposition
-    response header.
+  - Get details of all executions for a given report. - > Returns report content. Save the response to a file by converting
+    the response data as a blob and setting the file format available from content-disposition response header.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -30,36 +27,29 @@ options:
     type: str
   executionId:
     description:
-      - ExecutionId path parameter. ExecutionId of report
-        execution.
+      - ExecutionId path parameter. ExecutionId of report execution.
     type: str
   dirPath:
     description:
-      - Directory absolute path. Defaults to the current
-        working directory.
+      - Directory absolute path. Defaults to the current working directory.
     type: str
   saveFile:
     description:
-      - Enable or disable automatic file creation of
-        raw response.
+      - Enable or disable automatic file creation of raw response.
     type: bool
   filename:
     description:
       - The filename used to save the download file.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      DownloadReportContent
-    description: Complete reference of the DownloadReportContent
-      API.
+  - name: Cisco DNA Center documentation for Reports DownloadReportContent
+    description: Complete reference of the DownloadReportContent API.
     link: https://developer.cisco.com/docs/dna-center/#!download-report-content
-  - name: Cisco DNA Center documentation for Reports
-      GetAllExecutionDetailsForAGivenReport
-    description: Complete reference of the GetAllExecutionDetailsForAGivenReport
-      API.
+  - name: Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReport
+    description: Complete reference of the GetAllExecutionDetailsForAGivenReport API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report
 notes:
   - SDK Method used are

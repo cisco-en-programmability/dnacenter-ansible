@@ -20,17 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and
-      Roles GetPermissionsAPI
-    description: Complete reference of the GetPermissionsAPI
-      API.
+  - name: Cisco DNA Center documentation for User and Roles GetPermissionsAPI
+    description: Complete reference of the GetPermissionsAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!get-permissions-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.get_permissions_api,
+    userand_roles.UserandRoles.get_permissions_api,
   - Paths used are
     get /dna/system/api/v1/role/permissions,
 """
@@ -53,16 +51,23 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "resource-types": [
-        {
-          "type": "string",
-          "displayName": "string",
-          "description": "string",
-          "defaultPermission": "string"
-        }
-      ]
-    }
+    [
+      {
+        "id": "string",
+        "description": "string",
+        "displayName": "string",
+        "defaultPrivilege": "string",
+        "minimumPrivilege": "string",
+        "maximumPrivilege": "string",
+        "dependencies": [
+          {
+            "id": "string",
+            "privilege": "string"
+          }
+        ]
+      }
+    ]
 """

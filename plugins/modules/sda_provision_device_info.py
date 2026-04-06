@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_provision_device_info
-short_description: Information module for Sda Provision
-  Device
+short_description: Information module for Sda Provision Device
 description:
   - Get all Sda Provision Device.
   - Get Provisioned Wired Device.
@@ -25,12 +24,11 @@ options:
       - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetProvisionedWiredDevice
-    description: Complete reference of the GetProvisionedWiredDevice
-      API.
+    description: Complete reference of the GetProvisionedWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device
 notes:
   - SDK Method used are

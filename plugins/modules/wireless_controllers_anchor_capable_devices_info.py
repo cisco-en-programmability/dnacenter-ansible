@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_anchor_capable_devices_info
-short_description: Information module for Wireless Controllers
-  Anchor Capable Devices
+short_description: Information module for Wireless Controllers Anchor Capable Devices
 description:
   - Get all Wireless Controllers Anchor Capable Devices.
   - This API allows the user to get Anchor capable devices.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAnchorCapableDevices
-    description: Complete reference of the GetAnchorCapableDevices
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAnchorCapableDevices
+    description: Complete reference of the GetAnchorCapableDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-anchor-capable-devices
 notes:
   - SDK Method used are
@@ -38,8 +35,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Controllers Anchor Capable
-    Devices
+- name: Get all Wireless Controllers Anchor Capable Devices
   cisco.dnac.wireless_controllers_anchor_capable_devices_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

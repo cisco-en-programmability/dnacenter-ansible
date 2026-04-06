@@ -7,16 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_query
-short_description: Resource module for Network Devices
-  Query
+short_description: Resource module for Network Devices Query
 description:
-  - Manage operation create of the resource Network
-    Devices Query. - > Gets the list of Network Devices
-    based on the provided complex filters and aggregation
-    functions. For detailed information about the usage
-    of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Query.
+  - Gets the list of Network Devices based on the provided complex filters and aggregation functions.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -78,11 +74,10 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+  - name: Cisco DNA Center documentation for Devices GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
     description: Complete reference of the GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
       API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions
@@ -145,6 +140,7 @@ dnac_response:
           "deviceRole": "string",
           "deviceType": "string",
           "communicationState": "string",
+          "reachabilityHealthStatus": "string",
           "collectionStatus": "string",
           "haStatus": "string",
           "lastBootTime": 0,

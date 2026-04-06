@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: assurance_events_query
-short_description: Resource module for Assurance Events
-  Query
+short_description: Resource module for Assurance Events Query
 description:
-  - Manage operation create of the resource Assurance
-    Events Query. - > Returns the list of events discovered
-    by Catalyst Center, determined by the complex filters.
-    Please refer to the 'API Support Documentation'
-    section to understand which fields are supported.
-    For detailed information about the usage of the
-    API, please refer to the Open API specification
+  - Manage operation create of the resource Assurance Events Query. - > Returns the list of events discovered by Catalyst
+    Center, determined by the complex filters. Please refer to the 'API Support Documentation' section to understand which
+    fields are supported. For detailed information about the usage of the API, please refer to the Open API specification
     document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     AssuranceEvents-1.0.0-resolved.yaml.
 version_added: '6.15.0'
@@ -81,13 +76,11 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      QueryAssuranceEventsWithFilters
-    description: Complete reference of the QueryAssuranceEventsWithFilters
-      API.
+  - name: Cisco DNA Center documentation for Devices QueryAssuranceEventsWithFilters
+    description: Complete reference of the QueryAssuranceEventsWithFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events-with-filters
 notes:
   - SDK Method used are

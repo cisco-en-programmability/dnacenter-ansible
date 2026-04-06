@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: application_policy_application_set_count_info
-short_description: Information module for Application
-  Policy Application Set Count
+short_description: Information module for Application Policy Application Set Count
 description:
   - Get all Application Policy Application Set Count.
   - Get the number of all existing application sets.
@@ -22,17 +21,14 @@ options:
     type: dict
   scalableGroupType:
     description:
-      - ScalableGroupType query parameter. Scalable
-        group type to retrieve, valid value APPLICATION_GROUP.
+      - ScalableGroupType query parameter. Scalable group type to retrieve, valid value APPLICATION_GROUP.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplicationSetCountV2
-    description: Complete reference of the GetApplicationSetCountV2
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationSetCountV2
+    description: Complete reference of the GetApplicationSetCountV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-application-set-count-v-2
 notes:
   - SDK Method used are

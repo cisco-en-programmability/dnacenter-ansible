@@ -7,119 +7,75 @@
 DOCUMENTATION = r"""
 ---
 module: sda_multicast_virtual_networks
-short_description: Resource module for Sda Multicast
-  Virtual Networks
+short_description: Resource module for Sda Multicast Virtual Networks
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Multicast Virtual Networks.
-  - Adds multicast for virtual networks based on user
-    input.
-  - Deletes a multicast configuration for a virtual
-    network based on id.
-  - Updates multicast configurations for virtual networks
-    based on user input.
+  - Manage operations create, update and delete of the resource Sda Multicast Virtual Networks.
+  - Adds multicast for virtual networks based on user input.
+  - Deletes a multicast configuration for a virtual network based on id.
+  - Updates multicast configurations for virtual networks based on user input.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of the multicast
-      configuration.
+    description: Id path parameter. ID of the multicast configuration.
     type: str
   payload:
     description: Sda Multicast Virtual Networks's payload.
     elements: dict
     suboptions:
       fabricId:
-        description: ID of the fabric site this multicast
-          configuration is associated with.
+        description: ID of the fabric site this multicast configuration is associated with.
         type: str
       ipPoolName:
-        description: Name of the IP Pool associated
-          with the fabric site.
+        description: Name of the IP Pool associated with the fabric site.
         type: str
       ipv4SsmRanges:
-        description: IPv4 Source Specific Multicast
-          (SSM) ranges. Allowed ranges are from 225.0.0.0/8
-          to 239.0.0.0/8. SSM ranges should not conflict
-          with ranges provided for ASM multicast.
+        description: IPv4 Source Specific Multicast (SSM) ranges. Allowed ranges are from 225.0.0.0/8 to 239.0.0.0/8. SSM
+          ranges should not conflict with ranges provided for ASM multicast.
         elements: str
         type: list
       multicastRPs:
-        description: Sda Multicast Virtual Networks's
-          multicastRPs.
+        description: Sda Multicast Virtual Networks's multicastRPs.
         elements: dict
         suboptions:
           ipv4Address:
-            description: IPv4 address of the RP. For
-              external RP configuration, exactly one
-              of ipv4Address or ipv6Address must be
-              provided. For fabric RP, this address
-              is allocated by SDA and should not be
-              provided during RP creation request and
-              SDA allocated address should be retained
-              in subsequent requests.
+            description: IPv4 address of the RP. For external RP configuration, exactly one of ipv4Address or ipv6Address
+              must be provided. For fabric RP, this address is allocated by SDA and should not be provided during RP creation
+              request and SDA allocated address should be retained in subsequent requests.
             type: str
           ipv4AsmRanges:
-            description: IPv4 Any Source Multicast ranges.
-              Comma seperated list of IPv4 multicast
-              group ranges that will be served by a
-              given Multicast RP. Only IPv4 ranges can
-              be provided. For fabric RP, both IPv4
-              and IPv6 ranges can be provided together.
-              For external RP, IPv4 ranges should be
-              provided for IPv4 external RP and IPv6
-              ranges should be provided for IPv6 external
-              RP.
+            description: IPv4 Any Source Multicast ranges. Comma seperated list of IPv4 multicast group ranges that will be
+              served by a given Multicast RP. Only IPv4 ranges can be provided. For fabric RP, both IPv4 and IPv6 ranges can
+              be provided together. For external RP, IPv4 ranges should be provided for IPv4 external RP and IPv6 ranges should
+              be provided for IPv6 external RP.
             elements: str
             type: list
           ipv6Address:
-            description: IPv6 address of the RP. For
-              external RP configuration, exactly one
-              of ipv4Address or ipv6Address must be
-              provided. For fabric RP, this address
-              is allocated by SDA and should not be
-              provided during RP creation request and
-              SDA allocated address should be retained
-              in subsequent requests. Ipv6Address can
-              only be provided for virtual networks
-              with dual stack (IPv4 + IPv6) multicast
-              pool.
+            description: IPv6 address of the RP. For external RP configuration, exactly one of ipv4Address or ipv6Address
+              must be provided. For fabric RP, this address is allocated by SDA and should not be provided during RP creation
+              request and SDA allocated address should be retained in subsequent requests. Ipv6Address can only be provided
+              for virtual networks with dual stack (IPv4 + IPv6) multicast pool.
             type: str
           ipv6AsmRanges:
-            description: IPv6 Any Source Multicast ranges.
-              Comma seperated list of IPv6 multicast
-              group ranges that will be served by a
-              given Multicast RP. Only IPv6 ranges can
-              be provided. IPv6 ranges can only be provided
-              for dual stack multicast pool. For fabric
-              RP, both IPv4 and IPv6 ranges can be provided
-              together. For external RP, IPv4 ranges
-              should be provided for IPv4 external RP
-              and IPv6 ranges should be provided for
-              IPv6 external RP.
+            description: IPv6 Any Source Multicast ranges. Comma seperated list of IPv6 multicast group ranges that will be
+              served by a given Multicast RP. Only IPv6 ranges can be provided. IPv6 ranges can only be provided for dual
+              stack multicast pool. For fabric RP, both IPv4 and IPv6 ranges can be provided together. For external RP, IPv4
+              ranges should be provided for IPv4 external RP and IPv6 ranges should be provided for IPv6 external RP.
             elements: str
             type: list
           isDefaultV4RP:
-            description: Specifies whether it is a default
-              IPv4 RP.
+            description: Specifies whether it is a default IPv4 RP.
             type: bool
           isDefaultV6RP:
-            description: Specifies whether it is a default
-              IPv6 RP.
+            description: Specifies whether it is a default IPv6 RP.
             type: bool
           networkDeviceIds:
-            description: IDs of the network devices.
-              This is a required field for fabric RPs.
-              There can be maximum of two fabric RPs
-              for a fabric site and these are shared
-              across all multicast virtual networks.
-              For configuring two fabric RPs in a fabric
-              site both devices must have border roles.
-              Only one RP can be configured in scenarios
-              where a fabric edge device is used as
-              RP or a dual stack multicast pool is used.
+            description: IDs of the network devices. This is a required field for fabric RPs. There can be maximum of two
+              fabric RPs for a fabric site and these are shared across all multicast virtual networks. For configuring two
+              fabric RPs in a fabric site both devices must have border roles. Only one RP can be configured in scenarios
+              where a fabric edge device is used as RP or a dual stack multicast pool is used.
             elements: str
             type: list
           rpDeviceLocation:
@@ -127,25 +83,21 @@ options:
             type: str
         type: list
       virtualNetworkName:
-        description: Name of the virtual network associated
-          with the fabric site.
+        description: Name of the virtual network associated with the fabric site.
         type: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddMulticastVirtualNetworks
-    description: Complete reference of the AddMulticastVirtualNetworks
-      API.
+    description: Complete reference of the AddMulticastVirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!add-multicast-virtual-networks
   - name: Cisco DNA Center documentation for SDA DeleteMulticastVirtualNetworkById
-    description: Complete reference of the DeleteMulticastVirtualNetworkById
-      API.
+    description: Complete reference of the DeleteMulticastVirtualNetworkById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-multicast-virtual-network-by-id
   - name: Cisco DNA Center documentation for SDA UpdateMulticastVirtualNetworks
-    description: Complete reference of the UpdateMulticastVirtualNetworks
-      API.
+    description: Complete reference of the UpdateMulticastVirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!update-multicast-virtual-networks
 notes:
   - SDK Method used are

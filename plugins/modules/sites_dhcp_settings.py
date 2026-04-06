@@ -9,11 +9,8 @@ DOCUMENTATION = r"""
 module: sites_dhcp_settings
 short_description: Resource module for Sites Dhcp Settings
 description:
-  - Manage operation update of the resource Sites Dhcp
-    Settings. - > Set DHCP settings for a site; `null`
-    values indicate that the setting will be inherited
-    from the parent site; empty objects `{}` indicate
-    that the settings is unset.
+  - Manage operation update of the resource Sites Dhcp Settings. - > Set DHCP settings for a site; `null` values indicate
+    that the setting will be inherited from the parent site; empty objects `{}` indicate that the settings is unset.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,8 +20,7 @@ options:
     description: Sites Dhcp Settings's dhcp.
     suboptions:
       servers:
-        description: DHCP servers for managing client
-          device networking configuration. Max 10.
+        description: NTP servers to facilitate system clock synchronization for your network. Max 10.
         elements: str
         type: list
     type: dict
@@ -32,13 +28,11 @@ options:
     description: Id path parameter. Site Id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings SetDhcpSettingsForASite
-    description: Complete reference of the SetDhcpSettingsForASite
-      API.
+  - name: Cisco DNA Center documentation for Network Settings SetDhcpSettingsForASite
+    description: Complete reference of the SetDhcpSettingsForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!set-dhcp-settings-for-a-site
 notes:
   - SDK Method used are
@@ -73,8 +67,7 @@ dnac_response:
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

@@ -7,52 +7,37 @@
 DOCUMENTATION = r"""
 ---
 module: authentication_policy_servers
-short_description: Resource module for Authentication
-  Policy Servers
+short_description: Resource module for Authentication Policy Servers
 description:
-  - Manage operations create, update and delete of the
-    resource Authentication Policy Servers. - > API
-    to add AAA/ISE server access configuration. Protocol
-    can be configured as either RADIUS OR TACACS OR
-    RADIUS_TACACS. If configuring Cisco ISE server,
-    after configuration, use "Cisco ISE Server Integration
-    Status" Intent API to check the integration status.
-    Based on integration status, if require use 'Accept
-    Cisco ISE Server Certificate for Cisco ISE Server
-    Integration' Intent API to accept the Cisco ISE
-    certificate for Cisco ISE server integration, then
-    use again "Cisco ISE Server Integration Status"
+  - Manage operations create, update and delete of the resource Authentication Policy Servers. - > API to add AAA/ISE server
+    access configuration. Protocol can be configured as either RADIUS OR TACACS OR RADIUS_TACACS. If configuring Cisco ISE
+    server, after configuration, use 'Cisco ISE Server Integration Status' Intent API to check the integration status. Based
+    on integration status, if require use 'Accept Cisco ISE Server Certificate for Cisco ISE Server Integration' Intent API
+    to accept the Cisco ISE certificate for Cisco ISE server integration, then use again 'Cisco ISE Server Integration Status'
     Intent API to check the integration status.
-  - API to delete AAA/ISE server access configuration.
-    - > API to edit AAA/ISE server access configuration.
-    After edit, use "Cisco ISE Server Integration Status"
-    Intent API to check the integration status.
+  - API to delete AAA/ISE server access configuration. - > API to edit AAA/ISE server access configuration. After edit, use
+    'Cisco ISE Server Integration Status' Intent API to check the integration status.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   accountingPort:
-    description: Accounting port of RADIUS server. It
-      is required for RADIUS server. The range is from
-      1 to 65535. E.g. 1813.
+    description: Accounting port of RADIUS server. It is required for RADIUS server. The range is from 1 to 65535. E.g. 1813.
     type: int
   authenticationPort:
-    description: Authentication port of RADIUS server.
-      It is required for RADIUS server. The range is
-      from 1 to 65535. E.g. 1812.
+    description: Authentication port of RADIUS server. It is required for RADIUS server. The range is from 1 to 65535. E.g.
+      1812.
     type: int
   ciscoIseDtos:
     description: Authentication Policy Servers's ciscoIseDtos.
     elements: dict
     suboptions:
       description:
-        description: Description about the Cisco ISE
-          server.
+        description: Description about the Cisco ISE server.
         type: str
       fqdn:
-        description: Fully-qualified domain name of
-          the Cisco ISE server. E.g. Xi-62.my.com.
+        description: Fully-qualified domain name of the Cisco ISE server. E.g. Xi-62.my.com.
         type: str
       ipAddress:
         description: IP Address of the Cisco ISE Server.
@@ -64,28 +49,24 @@ options:
         description: SSH key of the Cisco ISE server.
         type: str
       subscriberName:
-        description: Subscriber name of the Cisco ISE
-          server. E.g. Pxgrid_client_1662589467.
+        description: Subscriber name of the Cisco ISE server. E.g. Pxgrid_client_1662589467.
         type: str
       userName:
         description: User name of the Cisco ISE server.
         type: str
     type: list
   encryptionKey:
-    description: Encryption key used to encrypt shared
-      secret.
+    description: Encryption key used to encrypt shared secret.
     type: str
   encryptionScheme:
-    description: Type of encryption scheme for additional
-      security.
+    description: Type of encryption scheme for additional security.
     type: str
   externalCiscoIseIpAddrDtos:
     description: Authentication Policy Servers's externalCiscoIseIpAddrDtos.
     elements: dict
     suboptions:
       externalCiscoIseIpAddresses:
-        description: Authentication Policy Servers's
-          externalCiscoIseIpAddresses.
+        description: Authentication Policy Servers's externalCiscoIseIpAddresses.
         elements: dict
         suboptions:
           externalIpAddress:
@@ -97,76 +78,57 @@ options:
         type: str
     type: list
   id:
-    description: Id path parameter. Authentication and
-      Policy Server Identifier. Use 'Get Authentication
-      and Policy Servers' intent API to find the identifier.
+    description: Id path parameter. Authentication and Policy Server Identifier. Use 'Get Authentication and Policy Servers'
+      intent API to find the identifier.
     type: str
   ipAddress:
-    description: IP address of authentication and policy
-      server.
+    description: IP address of authentication and policy server.
     type: str
   isIseEnabled:
-    description: Value true for Cisco ISE Server. Default
-      value is false.
+    description: Value true for Cisco ISE Server. Default value is false.
     type: bool
   messageKey:
-    description: Message key used to encrypt shared
-      secret.
+    description: Message key used to encrypt shared secret.
     type: str
   port:
-    description: Port of TACACS server. It is required
-      for TACACS server. The range is from 1 to 65535.
+    description: Port of TACACS server. It is required for TACACS server. The range is from 1 to 65535.
     type: int
   protocol:
-    description: Type of protocol for authentication
-      and policy server. If already saved with RADIUS,
-      can update to RADIUS_TACACS. If already saved
-      with TACACS, can update to RADIUS_TACACS.
+    description: Type of protocol for authentication and policy server. If already saved with RADIUS, can update to RADIUS_TACACS.
+      If already saved with TACACS, can update to RADIUS_TACACS.
     type: str
   pxgridEnabled:
-    description: Value true for enable, false for disable.
-      Default value is true.
+    description: Value true for enable, false for disable. Default value is true.
     type: bool
   retries:
-    description: Number of communication retries between
-      devices and authentication and policy server.
-      The range is from 1 to 3.
+    description: Number of communication retries between devices and authentication and policy server. The range is from 1
+      to 3.
     type: str
   role:
-    description: Role of authentication and policy server.
-      E.g. Primary, secondary.
+    description: Role of authentication and policy server. E.g. Primary, secondary.
     type: str
   sharedSecret:
-    description: Shared secret between devices and authentication
-      and policy server.
+    description: Shared secret between devices and authentication and policy server.
     type: str
   timeoutSeconds:
-    description: Number of seconds before timing out
-      between devices and authentication and policy
-      server. The range is from 2 to 20.
+    description: Number of seconds before timing out between devices and authentication and policy server. The range is from
+      2 to 20.
     type: str
   useDnacCertForPxgrid:
-    description: Value true to use Catalyst Center certificate
-      for Pxgrid. Default value is false.
+    description: Value true to use Catalyst Center certificate for Pxgrid. Default value is false.
     type: bool
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System
-      Settings AddAuthenticationAndPolicyServerAccessConfiguration
-    description: Complete reference of the AddAuthenticationAndPolicyServerAccessConfiguration
-      API.
+  - name: Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfiguration
+    description: Complete reference of the AddAuthenticationAndPolicyServerAccessConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration
-  - name: Cisco DNA Center documentation for System
-      Settings DeleteAuthenticationAndPolicyServerAccessConfiguration
-    description: Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfiguration
-      API.
+  - name: Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfiguration
+    description: Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration
-  - name: Cisco DNA Center documentation for System
-      Settings EditAuthenticationAndPolicyServerAccessConfiguration
-    description: Complete reference of the EditAuthenticationAndPolicyServerAccessConfiguration
-      API.
+  - name: Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfiguration
+    description: Complete reference of the EditAuthenticationAndPolicyServerAccessConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration
 notes:
   - SDK Method used are
@@ -242,9 +204,12 @@ EXAMPLES = r"""
     accountingPort: 0
     authenticationPort: 0
     ciscoIseDtos:
-      - fqdn: string
+      - description: string
+        fqdn: string
+        ipAddress: string
         password: string
         sshkey: string
+        subscriberName: string
         userName: string
     externalCiscoIseIpAddrDtos:
       - externalCiscoIseIpAddresses:

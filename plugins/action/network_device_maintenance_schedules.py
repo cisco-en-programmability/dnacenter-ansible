@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -34,10 +33,11 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        state=dict(type="str", default="present", choices=["present"]),
+        state=dict(type="str", default="present", choices=["present", "absent"]),
         description=dict(type="str"),
         maintenanceSchedule=dict(type="dict"),
         networkDeviceIds=dict(type="list"),
+        id=dict(type="str"),
     )
 )
 
@@ -54,6 +54,7 @@ class NetworkDeviceMaintenanceSchedules(object):
             description=params.get("description"),
             maintenanceSchedule=params.get("maintenanceSchedule"),
             networkDeviceIds=params.get("networkDeviceIds"),
+            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -79,9 +80,24 @@ class NetworkDeviceMaintenanceSchedules(object):
         new_object_params["networkDeviceIds"] = self.new_object.get("networkDeviceIds")
         return new_object_params
 
+    def delete_by_id_params(self):
+        new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        return new_object_params
+
+    def update_by_id_params(self):
+        new_object_params = {}
+        new_object_params["description"] = self.new_object.get("description")
+        new_object_params["maintenanceSchedule"] = self.new_object.get(
+            "maintenanceSchedule"
+        )
+        new_object_params["networkDeviceIds"] = self.new_object.get("networkDeviceIds")
+        new_object_params["id"] = self.new_object.get("id")
+        return new_object_params
+
     def get_object_by_name(self, name):
         result = None
-        # NOTE: Does not have a get by name method, using get all
+        # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
                 family="devices",
@@ -98,13 +114,24 @@ class NetworkDeviceMaintenanceSchedules(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="devices",
+                function="retrieves_the_maintenance_schedule_information",
+                params={"id": id},
+            )
+            if isinstance(items, dict):
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
-        prev_obj = None
         id_exists = False
         name_exists = False
+        prev_obj = None
         o_id = self.new_object.get("id")
         name = self.new_object.get("name")
         if o_id:
@@ -121,6 +148,8 @@ class NetworkDeviceMaintenanceSchedules(object):
                 )
             if _id:
                 self.new_object.update(dict(id=_id))
+            if _id:
+                prev_obj = self.get_object_by_id(_id)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 
@@ -131,8 +160,9 @@ class NetworkDeviceMaintenanceSchedules(object):
             ("description", "description"),
             ("maintenanceSchedule", "maintenanceSchedule"),
             ("networkDeviceIds", "networkDeviceIds"),
+            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not dnac_compare_equality(
@@ -147,6 +177,43 @@ class NetworkDeviceMaintenanceSchedules(object):
             function="create_maintenance_schedule_for_network_devices",
             params=self.create_params(),
             op_modifies=True,
+        )
+        return result
+
+    def update(self):
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+            if id_:
+                self.new_object.update(dict(id=id_))
+        result = self.dnac.exec(
+            family="devices",
+            function="updates_the_maintenance_schedule_information",
+            params=self.update_by_id_params(),
+            op_modifies=True,
+        )
+        return result
+
+    def delete(self):
+        id = self.new_object.get("id")
+        name = self.new_object.get("name")
+        result = None
+        if not id:
+            prev_obj_name = self.get_object_by_name(name)
+            id_ = None
+            if prev_obj_name:
+                id_ = prev_obj_name.get("id")
+            if id_:
+                self.new_object.update(dict(id=id_))
+        result = self.dnac.exec(
+            family="devices",
+            function="delete_maintenance_schedule",
+            params=self.delete_by_id_params(),
         )
         return result
 
@@ -192,18 +259,27 @@ class ActionModule(ActionBase):
         state = self._task.args.get("state")
 
         response = None
+
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
-                    response = prev_obj
-                    dnac.object_present_and_different()
+                    response = obj.update()
+                    dnac.object_updated()
                 else:
                     response = prev_obj
                     dnac.object_already_present()
             else:
                 response = obj.create()
                 dnac.object_created()
+
+        elif state == "absent":
+            obj_exists, prev_obj = obj.exists()
+            if obj_exists:
+                response = obj.delete()
+                dnac.object_deleted()
+            else:
+                dnac.object_already_absent()
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

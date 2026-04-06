@@ -9,24 +9,20 @@ DOCUMENTATION = r"""
 module: auth_token_create
 short_description: Resource module for Auth Token Create
 description:
-  - Manage operation create of the resource Auth Token
-    Create. - > API to obtain an access token, which
-    remains valid for 1 hour. The token obtained using
-    this API is required to be set as value to the X-Auth-Token
-    HTTP Header for all API calls to Cisco DNA Center.
+  - Manage operation create of the resource Auth Token Create. - > API to obtain an access token, which remains valid for
+    1 hour. The token obtained using this API is required to be set as value to the X-Auth-Token HTTP Header for all API calls
+    to System.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Authentication
-      AuthenticationAPI
-    description: Complete reference of the AuthenticationAPI
-      API.
+  - name: Cisco DNA Center documentation for Authentication AuthenticationAPI
+    description: Complete reference of the AuthenticationAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!authentication-api
 notes:
   - SDK Method used are

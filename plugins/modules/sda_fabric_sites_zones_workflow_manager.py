@@ -59,15 +59,16 @@ options:
     required: true
     suboptions:
       fabric_sites:
-        description: A dictionary containing detailed
+        description: A list containing detailed
           configurations for managing REST Endpoints
           that will receive Audit log and Events from
-          the Cisco Catalyst Center Platform. This dictionary
+          the Cisco Catalyst Center Platform. This list
           is essential for specifying attributes and
           parameters required for the lifecycle management
           of fabric sites, zones, and associated authentication
           profiles.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           site_name_hierarchy:
             description: This name uniquely identifies
@@ -275,7 +276,7 @@ notes:
   - To ensure the module operates correctly for scaled
     sets,
     which involve creating or updating fabric
-    sites/zones and handling the updation of authentication
+    sites/zones and handling the update of authentication
     profile template,
     please provide valid input in
     the playbook. If any failure is encountered,
@@ -748,9 +749,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -881,9 +881,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -924,7 +923,7 @@ class FabricSitesZones(DnacBase):
             self.create_site.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while creating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while creating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1021,7 +1020,7 @@ class FabricSitesZones(DnacBase):
             self.update_site.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while updating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while updating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.log(self.msg, "ERROR")
@@ -1054,9 +1053,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -1091,7 +1089,7 @@ class FabricSitesZones(DnacBase):
             self.create_zone.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while creating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while creating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1155,7 +1153,7 @@ class FabricSitesZones(DnacBase):
             self.update_zone.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while updating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while updating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.log(self.msg, "ERROR")
@@ -1675,7 +1673,7 @@ class FabricSitesZones(DnacBase):
                 "DEBUG",
             )
         except Exception as e:
-            self.msg = "An exception occured while updating the authentication profile for site '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while updating the authentication profile for site '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2065,7 +2063,7 @@ class FabricSitesZones(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
         except Exception as e:
             self.msg = (
-                "An exception occured while enabling the Wired Data Collection for the site '{0}' "
+                "An exception occurred while enabling the Wired Data Collection for the site '{0}' "
                 "in Cisco Catalyst Center: {1}"
             ).format(site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2191,7 +2189,7 @@ class FabricSitesZones(DnacBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
-            self.msg = "An exception occured while applying the pending fabric event '{0}' for site {1}: {2}".format(
+            self.msg = "An exception occurred while applying the pending fabric event '{0}' for site {1}: {2}".format(
                 event_name, site_name, str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2346,9 +2344,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2669,9 +2666,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2753,8 +2749,9 @@ class FabricSitesZones(DnacBase):
                 fabric_type = site.get("fabric_type", "fabric_site")
                 site_exists, site_id = self.get_site_id(site_name)
                 if not site_exists:
-                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
+                    self.msg = (
+                        f"The site '{site_name}' does not exist in the Catalyst Center. "
+                        "A site must be created first before it can be converted into a Fabric Site."
                     )
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR"
@@ -2846,9 +2843,8 @@ class FabricSitesZones(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"

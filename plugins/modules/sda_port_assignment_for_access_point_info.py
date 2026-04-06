@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignment_for_access_point_info
-short_description: Information module for Sda Port Assignment
-  For Access Point
+short_description: Information module for Sda Port Assignment For Access Point
 description:
   - Get all Sda Port Assignment For Access Point.
   - Get Port assignment for access point in SDA Fabric.
@@ -30,12 +29,11 @@ options:
       - InterfaceName query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetPortAssignmentForAccessPointInSDAFabric
-    description: Complete reference of the GetPortAssignmentForAccessPointInSDAFabric
-      API.
+    description: Complete reference of the GetPortAssignmentForAccessPointInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are

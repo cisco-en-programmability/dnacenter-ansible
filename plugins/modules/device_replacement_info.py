@@ -9,12 +9,9 @@ DOCUMENTATION = r"""
 module: device_replacement_info
 short_description: Information module for Device Replacement
 description:
-  - Get all Device Replacement. - > Get list of replacement
-    devices with replacement details and it can filter
-    replacement devices based on Faulty Device Name,Faulty
-    Device Platform, Replacement Device Platform, Faulty
-    Device Serial Number,Replacement Device Serial Number,
-    Device Replacement status, Product Family.
+  - Get all Device Replacement. - > Get list of replacement devices with replacement details and it can filter replacement
+    devices based on Faulty Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement
+    Device Serial Number, Device Replacement status, Product Family.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,48 +22,39 @@ options:
     type: dict
   faultyDeviceName:
     description:
-      - FaultyDeviceName query parameter. Faulty Device
-        Name.
+      - FaultyDeviceName query parameter. Faulty Device Name.
     type: str
   faultyDevicePlatform:
     description:
-      - FaultyDevicePlatform query parameter. Faulty
-        Device Platform.
+      - FaultyDevicePlatform query parameter. Faulty Device Platform.
     type: str
   replacementDevicePlatform:
     description:
-      - ReplacementDevicePlatform query parameter. Replacement
-        Device Platform.
+      - ReplacementDevicePlatform query parameter. Replacement Device Platform.
     type: str
   faultyDeviceSerialNumber:
     description:
-      - FaultyDeviceSerialNumber query parameter. Faulty
-        Device Serial Number.
+      - FaultyDeviceSerialNumber query parameter. Faulty Device Serial Number.
     type: str
   replacementDeviceSerialNumber:
     description:
-      - ReplacementDeviceSerialNumber query parameter.
-        Replacement Device Serial Number.
+      - ReplacementDeviceSerialNumber query parameter. Replacement Device Serial Number.
     type: str
   replacementStatus:
     description:
-      - "ReplacementStatus query parameter. Device Replacement
-        status READY-FOR-REPLACEMENT, REPLACEMENT-IN-
-        PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR,
-        NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED.
-        \n"
+      - >
+        ReplacementStatus query parameter. Device Replacement status READY-FOR-REPLACEMENT, REPLACEMENT-IN-
+        PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED.
     elements: str
     type: list
   family:
     description:
-      - Family query parameter. List of familiesRouters,
-        Switches and Hubs, AP.
+      - Family query parameter. List of familiesRouters, Switches and Hubs, AP.
     elements: str
     type: list
   sortBy:
     description:
-      - SortBy query parameter. SortBy this field. SortBy
-        is mandatory when order is used.
+      - SortBy query parameter. SortBy this field. SortBy is mandatory when order is used.
     type: str
   sortOrder:
     description:
@@ -74,23 +62,18 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page.
+      - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Replacement ReturnListOfReplacementDevicesWithReplacementDetails
-    description: Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetails
-      API.
+  - name: Cisco DNA Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetails
+    description: Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details
 notes:
   - SDK Method used are

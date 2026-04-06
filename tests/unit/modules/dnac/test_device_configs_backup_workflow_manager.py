@@ -361,7 +361,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config=self.test_data.get("playbook_config_device_configs_backup_scenario_1"),
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         self.assertIn(
             "No reachable devices found among the provided parameters",
             result.get("msg"),

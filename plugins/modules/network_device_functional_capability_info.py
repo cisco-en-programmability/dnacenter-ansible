@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_functional_capability_info
-short_description: Information module for Network Device
-  Functional Capability
+short_description: Information module for Network Device Functional Capability
 description:
   - Get all Network Device Functional Capability.
   - Get Network Device Functional Capability by id.
@@ -25,11 +24,8 @@ options:
   deviceId:
     description:
       - >
-        DeviceId query parameter. Accepts comma separated
-        deviceid's and return list of functional-capabilities
-        for the given id's. If invalid or not-found
-        id's are provided, null entry will be returned
-        in the list.
+        DeviceId query parameter. Accepts comma separated deviceid's and return list of functional-capabilities
+        for the given id's. If invalid or not-found id's are provided, null entry will be returned in the list.
     type: str
   functionName:
     description:
@@ -41,18 +37,14 @@ options:
       - Id path parameter. Functional Capability UUID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetFunctionalCapabilityById
-    description: Complete reference of the GetFunctionalCapabilityById
-      API.
+  - name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityById
+    description: Complete reference of the GetFunctionalCapabilityById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id
-  - name: Cisco DNA Center documentation for Devices
-      GetFunctionalCapabilityForDevices
-    description: Complete reference of the GetFunctionalCapabilityForDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices GetFunctionalCapabilityForDevices
+    description: Complete reference of the GetFunctionalCapabilityForDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-functional-capability-for-devices
 notes:
   - SDK Method used are
@@ -78,8 +70,7 @@ EXAMPLES = r"""
     deviceId: string
     functionName: []
   register: result
-- name: Get Network Device Functional Capability by
-    id
+- name: Get Network Device Functional Capability by id
   cisco.dnac.network_device_functional_capability_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

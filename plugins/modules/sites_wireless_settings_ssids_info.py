@@ -7,15 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: sites_wireless_settings_ssids_info
-short_description: Information module for Sites Wireless
-  Settings Ssids
+short_description: Information module for Sites Wireless Settings Ssids
 description:
   - Get all Sites Wireless Settings Ssids.
   - Get Sites Wireless Settings Ssids by id.
-  - This API allows the user to get all SSIDs Service
-    Set Identifier at the given site.
-  - This API allows the user to get an SSID Service
-    Set Identifier by ID at the given site.
+  - This API allows the user to get all SSIDs Service Set Identifier at the given site.
+  - This API allows the user to get an SSID Service Set Identifier by ID at the given site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -31,16 +28,13 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Default is 500 if not
-        specified. Maximum allowed limit is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
+        Maximum allowed limit is 500.
+    type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
   ssid:
     description:
       - Ssid query parameter. SSID Name.
@@ -62,18 +56,14 @@ options:
       - Id path parameter. SSID ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetSSIDByID
-    description: Complete reference of the GetSSIDByID
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetSSIDByID
+    description: Complete reference of the GetSSIDByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-id
-  - name: Cisco DNA Center documentation for Wireless
-      GetSSIDBySite
-    description: Complete reference of the GetSSIDBySite
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetSSIDBySite
+    description: Complete reference of the GetSSIDBySite API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-site
 notes:
   - SDK Method used are
@@ -125,95 +115,96 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "ssid": "string",
-        "authType": "string",
-        "passphrase": "string",
-        "isFastLaneEnabled": true,
-        "isMacFilteringEnabled": true,
-        "ssidRadioType": "string",
-        "isBroadcastSSID": true,
-        "fastTransition": "string",
-        "sessionTimeOutEnable": true,
-        "sessionTimeOut": 0,
-        "clientExclusionEnable": true,
-        "clientExclusionTimeout": 0,
-        "basicServiceSetMaxIdleEnable": true,
-        "basicServiceSetClientIdleTimeout": 0,
-        "directedMulticastServiceEnable": true,
-        "neighborListEnable": true,
-        "managementFrameProtectionClientprotection": "string",
-        "nasOptions": [
-          "string"
-        ],
-        "profileName": "string",
-        "policyProfileName": "string",
-        "aaaOverride": true,
-        "coverageHoleDetectionEnable": true,
-        "protectedManagementFrame": "string",
-        "multiPSKSettings": [
-          {
-            "priority": 0,
-            "passphraseType": "string",
-            "passphrase": "string"
-          }
-        ],
-        "clientRateLimit": 0,
-        "rsnCipherSuiteGcmp256": true,
-        "rsnCipherSuiteCcmp256": true,
-        "rsnCipherSuiteGcmp128": true,
-        "rsnCipherSuiteCcmp128": true,
-        "ghz6PolicyClientSteering": true,
-        "isAuthKey8021x": true,
-        "isAuthKey8021xPlusFT": true,
-        "isAuthKey8021x_SHA256": true,
-        "isAuthKeySae": true,
-        "isAuthKeySaePlusFT": true,
-        "isAuthKeyPSK": true,
-        "isAuthKeyPSKPlusFT": true,
-        "isAuthKeyOWE": true,
-        "isAuthKeyEasyPSK": true,
-        "isAuthKeyPSKSHA256": true,
-        "openSsid": "string",
-        "isCustomNasIdOptions": true,
-        "wlanBandSelectEnable": true,
-        "isEnabled": true,
-        "authServers": [
-          "string"
-        ],
-        "acctServers": [
-          "string"
-        ],
-        "egressQos": "string",
-        "ingressQos": "string",
-        "inheritedSiteId": "string",
-        "inheritedSiteName": "string",
-        "wlanType": "string",
-        "l3AuthType": "string",
-        "authServer": "string",
-        "externalAuthIpAddress": "string",
-        "webPassthrough": true,
-        "sleepingClientEnable": true,
-        "sleepingClientTimeout": 0,
-        "aclName": "string",
-        "isPosturingEnabled": true,
-        "isAuthKeySuiteB1x": true,
-        "isAuthKeySuiteB1921x": true,
-        "isAuthKeySaeExt": true,
-        "isAuthKeySaeExtPlusFT": true,
-        "isApBeaconProtectionEnabled": true,
-        "ghz24Policy": "string",
-        "cckmTsfTolerance": 0,
-        "isCckmEnabled": true,
-        "isHex": true,
-        "isSensorPnp": true,
-        "id": "string",
-        "isRandomMacFilterEnabled": true,
-        "fastTransitionOverTheDistributedSystemEnable": true,
-        "inheritedSiteNameHierarchy": "string",
-        "inheritedSiteUUID": "string",
-        "isRadiusProfilingEnabled": true
-      },
+      "response": [
+        {
+          "ssid": "string",
+          "authType": "string",
+          "passphrase": "string",
+          "isFastLaneEnabled": true,
+          "isMacFilteringEnabled": true,
+          "ssidRadioType": "string",
+          "isBroadcastSSID": true,
+          "fastTransition": "string",
+          "sessionTimeOutEnable": true,
+          "sessionTimeOut": 0,
+          "clientExclusionEnable": true,
+          "clientExclusionTimeout": 0,
+          "basicServiceSetMaxIdleEnable": true,
+          "basicServiceSetClientIdleTimeout": 0,
+          "directedMulticastServiceEnable": true,
+          "neighborListEnable": true,
+          "managementFrameProtectionClientprotection": "string",
+          "nasOptions": [
+            "string"
+          ],
+          "profileName": "string",
+          "policyProfileName": "string",
+          "aaaOverride": true,
+          "coverageHoleDetectionEnable": true,
+          "protectedManagementFrame": "string",
+          "multiPSKSettings": [
+            {
+              "priority": 0,
+              "passphraseType": "string",
+              "passphrase": "string"
+            }
+          ],
+          "clientRateLimit": 0,
+          "rsnCipherSuiteGcmp256": true,
+          "rsnCipherSuiteCcmp256": true,
+          "rsnCipherSuiteGcmp128": true,
+          "rsnCipherSuiteCcmp128": true,
+          "ghz6PolicyClientSteering": true,
+          "isAuthKey8021x": true,
+          "isAuthKey8021xPlusFT": true,
+          "isAuthKey8021x_SHA256": true,
+          "isAuthKeySae": true,
+          "isAuthKeySaePlusFT": true,
+          "isAuthKeyPSK": true,
+          "isAuthKeyPSKPlusFT": true,
+          "isAuthKeyOWE": true,
+          "isAuthKeyEasyPSK": true,
+          "isAuthKeyPSKSHA256": true,
+          "openSsid": "string",
+          "isCustomNasIdOptions": true,
+          "wlanBandSelectEnable": true,
+          "isEnabled": true,
+          "authServers": [
+            "string"
+          ],
+          "acctServers": [
+            "string"
+          ],
+          "egressQos": "string",
+          "ingressQos": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string",
+          "wlanType": "string",
+          "l3AuthType": "string",
+          "authServer": "string",
+          "externalAuthIpAddress": "string",
+          "webPassthrough": true,
+          "sleepingClientEnable": true,
+          "sleepingClientTimeout": 0,
+          "aclName": "string",
+          "isPosturingEnabled": true,
+          "isAuthKeySuiteB1x": true,
+          "isAuthKeySuiteB1921x": true,
+          "isAuthKeySaeExt": true,
+          "isAuthKeySaeExtPlusFT": true,
+          "isApBeaconProtectionEnabled": true,
+          "ghz24Policy": "string",
+          "cckmTsfTolerance": 0,
+          "isCckmEnabled": true,
+          "isHex": true,
+          "isSensorPnp": true,
+          "id": "string",
+          "isRandomMacFilterEnabled": true,
+          "fastTransitionOverTheDistributedSystemEnable": true,
+          "inheritedSiteNameHierarchy": "string",
+          "isRadiusProfilingEnabled": true
+        }
+      ],
       "version": "string"
     }
 """

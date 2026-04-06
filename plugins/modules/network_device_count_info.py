@@ -7,14 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_count_info
-short_description: Information module for Network Device
-  Count
+short_description: Information module for Network Device Count
 description:
   - Get all Network Device Count.
-  - Get Network Device Count by id. - > Returns the
-    count of network devices based on the filter criteria
-    by management IP address, mac address, hostname
-    and location name.
+  - Get Network Device Count by id. - > Returns the count of network devices based on the filter criteria by management IP
+    address, mac address, hostname and location name.
   - Returns the interface count for the given device.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -49,18 +46,14 @@ options:
     elements: str
     type: list
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceCountKnowYourNetwork
-    description: Complete reference of the GetDeviceCountKnowYourNetwork
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-count-know-your-network
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceInterfaceCount
-    description: Complete reference of the GetDeviceInterfaceCount
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceCount
+    description: Complete reference of the GetDeviceCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-count-2
+  - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCount
+    description: Complete reference of the GetDeviceInterfaceCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count
 notes:
   - SDK Method used are

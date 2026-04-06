@@ -40,12 +40,11 @@ options:
       - SystemTag query parameter.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag GetTagCount
-    description: Complete reference of the GetTagCount
-      API.
+    description: Complete reference of the GetTagCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag-count
 notes:
   - SDK Method used are

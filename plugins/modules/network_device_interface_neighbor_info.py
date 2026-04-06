@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_interface_neighbor_info
-short_description: Information module for Network Device
-  Interface Neighbor
+short_description: Information module for Network Device Interface Neighbor
 description:
   - Get all Network Device Interface Neighbor.
-  - Get connected device detail for given deviceUuid
-    and interfaceUuid.
+  - Get connected device detail for given deviceUuid and interfaceUuid.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -27,17 +25,14 @@ options:
     type: str
   interfaceUuid:
     description:
-      - InterfaceUuid path parameter. Instanceuuid of
-        interface.
+      - InterfaceUuid path parameter. Instanceuuid of interface.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetConnectedDeviceDetail
-    description: Complete reference of the GetConnectedDeviceDetail
-      API.
+  - name: Cisco DNA Center documentation for Devices GetConnectedDeviceDetail
+    description: Complete reference of the GetConnectedDeviceDetail API.
     link: https://developer.cisco.com/docs/dna-center/#!get-connected-device-detail
 notes:
   - SDK Method used are

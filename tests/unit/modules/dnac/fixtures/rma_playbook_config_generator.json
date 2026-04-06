@@ -1,0 +1,418 @@
+{
+  "playbook_generate_all_configurations": [
+    {
+      "file_path": "/Users/priyadharshini/Downloads/rma_info",
+      "generate_all_configurations": true
+    }
+  ],
+  "response1": {
+    "response": [
+      {
+        "id": "4e17c188-0217-470e-8014-d2b4b3185523",
+        "faultyDeviceName": "IAC2-SJ-BN-1-8KV.cisco.local",
+        "faultyDevicePlatform": "C8000V",
+        "replacementDevicePlatform": "C8000V",
+        "faultyDeviceSerialNumber": "9HHVY74U6BJ",
+        "replacementDeviceSerialNumber": "9TRQFABSFR2",
+        "replacementStatus": "REPLACED",
+        "family": "Routers",
+        "creationTime": "1763371118786",
+        "replacementTime": "1763371675056",
+        "faultyDeviceId": "c524fdd0-afbe-4871-9de2-eb9accc21b98",
+        "workflowId": "60d59646-dbe8-4350-8b4c-39e1ec0fcd1d",
+        "neighbourDeviceId": null,
+        "networkReadinessTaskId": null,
+        "workflowFailedStep": null,
+        "readinesscheckTaskId": "019a911c-0195-7f97-8bb7-2def84fb5d90"
+      }
+    ],
+    "version": "1.0"
+  },
+  "response2": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "response3": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "response4": {
+    "response": [
+      {
+        "type": "Cisco Catalyst 8000V Edge Software",
+        "upTime": "28 days, 19:20:52.05",
+        "macAddress": "00:1e:14:3d:d3:00",
+        "deviceSupportLevel": "Supported",
+        "softwareType": "IOS-XE",
+        "softwareVersion": "17.15.4prd3",
+        "serialNumber": "9TRQFABSFR2",
+        "lastManagedResyncReasons": "Periodic",
+        "managementState": "Managed",
+        "pendingSyncRequestsCount": "0",
+        "reasonsForDeviceResync": "Periodic",
+        "reasonsForPendingSyncRequests": "",
+        "inventoryStatusDetail": "<status><general code=DEV_UNREACHED/></status>",
+        "syncRequestedByApp": "",
+        "collectionInterval": "Global Default",
+        "dnsResolvedManagementAddress": "204.1.1.101",
+        "lastUpdated": "2025-12-17 04:45:56",
+        "bootDateTime": "2025-11-18 09:25:56",
+        "apManagerInterfaceIp": "",
+        "collectionStatus": "Partial Collection Failure",
+        "family": "Routers",
+        "hostname": "IAC2-SJ-BN-1-8KV.cisco.local",
+        "lastUpdateTime": 1765946756511,
+        "locationName": null,
+        "managementIpAddress": "204.1.1.101",
+        "platformId": "C8000V",
+        "reachabilityFailureReason": "SNMP Connectivity Failed",
+        "reachabilityStatus": "Unreachable",
+        "series": "Cloud Edge",
+        "snmpContact": "",
+        "snmpLocation": "",
+        "roleSource": "AUTO",
+        "interfaceCount": "0",
+        "apEthernetMacAddress": null,
+        "errorCode": "DEV-UNREACHED",
+        "errorDescription": "NCIM12013: SNMP timeouts are occurring with this device. Either the SNMP credentials are not correctly provided to Catalyst Center or the device is responding slow and SNMP timeout is low. If it's a timeout issue, Catalyst Center will attempt to progressively adjust the timeout in subsequent collection cycles to get device to managed state. User can also run discovery again only for this device using the discovery feature after adjusting the timeout and SNMP credentials as required. Or user can update the timeout and SNMP credentials as required using update credentials.",
+        "lastDeviceResyncStartTime": "2025-12-17 04:44:56",
+        "lineCardCount": "0",
+        "lineCardId": "",
+        "managedAtleastOnce": true,
+        "memorySize": "NA",
+        "tagCount": "0",
+        "tunnelUdpPort": null,
+        "uptimeSeconds": 2517171,
+        "vendor": "Cisco",
+        "waasDeviceMode": null,
+        "associatedWlcIp": "",
+        "description": "Cisco IOS Software [IOSXE], Virtual XE Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 17.15.4prd3, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Thu 19-Jun-25 18: netconf enabled",
+        "location": null,
+        "role": "BORDER ROUTER",
+        "instanceTenantId": "68593aeecd0f400013b8604e",
+        "instanceUuid": "c524fdd0-afbe-4871-9de2-eb9accc21b98",
+        "id": "c524fdd0-afbe-4871-9de2-eb9accc21b98"
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_component_filters": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "device_replacement_workflows"
+        ]
+      },
+      "file_path": "/Users/priyadharshini/Downloads/rma_info"
+    }
+  ],
+  "response5": {
+    "response": [
+      {
+        "id": "4e17c188-0217-470e-8014-d2b4b3185523",
+        "faultyDeviceName": "IAC2-SJ-BN-1-8KV.cisco.local",
+        "faultyDevicePlatform": "C8000V",
+        "replacementDevicePlatform": "C8000V",
+        "faultyDeviceSerialNumber": "9HHVY74U6BJ",
+        "replacementDeviceSerialNumber": "9TRQFABSFR2",
+        "replacementStatus": "REPLACED",
+        "family": "Routers",
+        "creationTime": "1763371118786",
+        "replacementTime": "1763371675056",
+        "faultyDeviceId": "c524fdd0-afbe-4871-9de2-eb9accc21b98",
+        "workflowId": "60d59646-dbe8-4350-8b4c-39e1ec0fcd1d",
+        "neighbourDeviceId": null,
+        "networkReadinessTaskId": null,
+        "workflowFailedStep": null,
+        "readinesscheckTaskId": "019a911c-0195-7f97-8bb7-2def84fb5d90"
+      }
+    ],
+    "version": "1.0"
+  },
+  "response6": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "response7": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "response8": {
+    "response": [
+      {
+        "type": "Cisco Catalyst 8000V Edge Software",
+        "upTime": "28 days, 19:20:52.05",
+        "macAddress": "00:1e:14:3d:d3:00",
+        "deviceSupportLevel": "Supported",
+        "softwareType": "IOS-XE",
+        "softwareVersion": "17.15.4prd3",
+        "serialNumber": "9TRQFABSFR2",
+        "lastManagedResyncReasons": "Periodic",
+        "managementState": "Managed",
+        "pendingSyncRequestsCount": "0",
+        "reasonsForDeviceResync": "Periodic",
+        "reasonsForPendingSyncRequests": "",
+        "inventoryStatusDetail": "<status><general code=DEV_UNREACHED/></status>",
+        "syncRequestedByApp": "",
+        "collectionInterval": "Global Default",
+        "dnsResolvedManagementAddress": "204.1.1.101",
+        "lastUpdated": "2025-12-17 04:45:56",
+        "bootDateTime": "2025-11-18 09:25:56",
+        "apManagerInterfaceIp": "",
+        "collectionStatus": "Partial Collection Failure",
+        "family": "Routers",
+        "hostname": "IAC2-SJ-BN-1-8KV.cisco.local",
+        "lastUpdateTime": 1765946756511,
+        "locationName": null,
+        "managementIpAddress": "204.1.1.101",
+        "platformId": "C8000V",
+        "reachabilityFailureReason": "SNMP Connectivity Failed",
+        "reachabilityStatus": "Unreachable",
+        "series": "Cloud Edge",
+        "snmpContact": "",
+        "snmpLocation": "",
+        "roleSource": "AUTO",
+        "interfaceCount": "0",
+        "apEthernetMacAddress": null,
+        "errorCode": "DEV-UNREACHED",
+        "errorDescription": "NCIM12013: SNMP timeouts are occurring with this device. Either the SNMP credentials are not correctly provided to Catalyst Center or the device is responding slow and SNMP timeout is low. If it's a timeout issue, Catalyst Center will attempt to progressively adjust the timeout in subsequent collection cycles to get device to managed state. User can also run discovery again only for this device using the discovery feature after adjusting the timeout and SNMP credentials as required. Or user can update the timeout and SNMP credentials as required using update credentials.",
+        "lastDeviceResyncStartTime": "2025-12-17 04:44:56",
+        "lineCardCount": "0",
+        "lineCardId": "",
+        "managedAtleastOnce": true,
+        "memorySize": "NA",
+        "tagCount": "0",
+        "tunnelUdpPort": null,
+        "uptimeSeconds": 2572628,
+        "vendor": "Cisco",
+        "waasDeviceMode": null,
+        "associatedWlcIp": "",
+        "description": "Cisco IOS Software [IOSXE], Virtual XE Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 17.15.4prd3, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Thu 19-Jun-25 18: netconf enabled",
+        "location": null,
+        "role": "BORDER ROUTER",
+        "instanceTenantId": "68593aeecd0f400013b8604e",
+        "instanceUuid": "c524fdd0-afbe-4871-9de2-eb9accc21b98",
+        "id": "c524fdd0-afbe-4871-9de2-eb9accc21b98"
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_specifc_filters": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "device_replacement_workflows"
+        ],
+        "device_replacement_workflows": [
+          {
+            "faulty_device_serial_number": "9HHVY74U6BJ"
+          },
+          {
+            "replacement_status": "REPLACED"
+          }
+        ]
+      },
+      "file_path": "/Users/priyadharshini/Downloads/rma_info"
+    }
+  ],
+  "response9": {
+    "response": [
+      {
+        "id": "4e17c188-0217-470e-8014-d2b4b3185523",
+        "faultyDeviceName": "IAC2-SJ-BN-1-8KV.cisco.local",
+        "faultyDevicePlatform": "C8000V",
+        "replacementDevicePlatform": "C8000V",
+        "faultyDeviceSerialNumber": "9HHVY74U6BJ",
+        "replacementDeviceSerialNumber": "9TRQFABSFR2",
+        "replacementStatus": "REPLACED",
+        "family": "Routers",
+        "creationTime": "1763371118786",
+        "replacementTime": "1763371675056",
+        "faultyDeviceId": "c524fdd0-afbe-4871-9de2-eb9accc21b98",
+        "workflowId": "60d59646-dbe8-4350-8b4c-39e1ec0fcd1d",
+        "neighbourDeviceId": null,
+        "networkReadinessTaskId": null,
+        "workflowFailedStep": null,
+        "readinesscheckTaskId": "019a911c-0195-7f97-8bb7-2def84fb5d90"
+      }
+    ],
+    "version": "1.0"
+  },
+  "response11": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "response12": {
+    "response": [
+      
+    ],
+    "version": "1.0"
+  },
+  "response13": {
+    "response": [
+      {
+        "type": "Cisco Catalyst 8000V Edge Software",
+        "upTime": "28 days, 19:20:52.05",
+        "macAddress": "00:1e:14:3d:d3:00",
+        "deviceSupportLevel": "Supported",
+        "softwareType": "IOS-XE",
+        "softwareVersion": "17.15.4prd3",
+        "serialNumber": "9TRQFABSFR2",
+        "lastManagedResyncReasons": "Periodic",
+        "managementState": "Managed",
+        "pendingSyncRequestsCount": "0",
+        "reasonsForDeviceResync": "Periodic",
+        "reasonsForPendingSyncRequests": "",
+        "inventoryStatusDetail": "<status><general code=DEV_UNREACHED/></status>",
+        "syncRequestedByApp": "",
+        "collectionInterval": "Global Default",
+        "dnsResolvedManagementAddress": "204.1.1.101",
+        "lastUpdated": "2025-12-18 04:45:56",
+        "bootDateTime": "2025-11-19 09:25:56",
+        "apManagerInterfaceIp": "",
+        "collectionStatus": "Partial Collection Failure",
+        "family": "Routers",
+        "hostname": "IAC2-SJ-BN-1-8KV.cisco.local",
+        "lastUpdateTime": 1766033156548,
+        "locationName": null,
+        "managementIpAddress": "204.1.1.101",
+        "platformId": "C8000V",
+        "reachabilityFailureReason": "SNMP Connectivity Failed",
+        "reachabilityStatus": "Unreachable",
+        "series": "Cloud Edge",
+        "snmpContact": "",
+        "snmpLocation": "",
+        "roleSource": "AUTO",
+        "interfaceCount": "0",
+        "apEthernetMacAddress": null,
+        "errorCode": "DEV-UNREACHED",
+        "errorDescription": "NCIM12013: SNMP timeouts are occurring with this device. Either the SNMP credentials are not correctly provided to Catalyst Center or the device is responding slow and SNMP timeout is low. If it's a timeout issue, Catalyst Center will attempt to progressively adjust the timeout in subsequent collection cycles to get device to managed state. User can also run discovery again only for this device using the discovery feature after adjusting the timeout and SNMP credentials as required. Or user can update the timeout and SNMP credentials as required using update credentials.",
+        "lastDeviceResyncStartTime": "2025-12-18 04:44:56",
+        "lineCardCount": "0",
+        "lineCardId": "",
+        "managedAtleastOnce": true,
+        "memorySize": "NA",
+        "tagCount": "0",
+        "tunnelUdpPort": null,
+        "uptimeSeconds": 2492197,
+        "vendor": "Cisco",
+        "waasDeviceMode": null,
+        "associatedWlcIp": "",
+        "description": "Cisco IOS Software [IOSXE], Virtual XE Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 17.15.4prd3, RELEASE SOFTWARE (fc3) Technical Support: http://www.cisco.com/techsupport Copyright (c) 1986-2025 by Cisco Systems, Inc. Compiled Thu 19-Jun-25 18: netconf enabled",
+        "location": null,
+        "role": "BORDER ROUTER",
+        "instanceTenantId": "68593aeecd0f400013b8604e",
+        "instanceUuid": "c524fdd0-afbe-4871-9de2-eb9accc21b98",
+        "id": "c524fdd0-afbe-4871-9de2-eb9accc21b98"
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_no_device_found": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "device_replacement_workflows"
+        ],
+        "device_replacement_workflows": [
+          {
+            "faulty_device_serial_number": "9HHVY74J"
+          }
+        ]
+      },
+      "file_path": "/Users/priyadharshini/Downloads/rma_info"
+    }
+  ],
+  "response10": {
+    "response": [
+      {
+        "id": "4e17c188-0217-470e-8014-d2b4b3185523",
+        "faultyDeviceName": "IAC2-SJ-BN-1-8KV.cisco.local",
+        "faultyDevicePlatform": "C8000V",
+        "replacementDevicePlatform": "C8000V",
+        "faultyDeviceSerialNumber": "9HHVY74U6BJ",
+        "replacementDeviceSerialNumber": "9TRQFABSFR2",
+        "replacementStatus": "REPLACED",
+        "family": "Routers",
+        "creationTime": "1763371118786",
+        "replacementTime": "1763371675056",
+        "faultyDeviceId": "c524fdd0-afbe-4871-9de2-eb9accc21b98",
+        "workflowId": "60d59646-dbe8-4350-8b4c-39e1ec0fcd1d",
+        "neighbourDeviceId": null,
+        "networkReadinessTaskId": null,
+        "workflowFailedStep": null,
+        "readinesscheckTaskId": "019a911c-0195-7f97-8bb7-2def84fb5d90"
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_component_specific_filters1": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "device_replacement_workflows"
+        ],
+        "device_replacement_workflows": [
+          {
+            "replacement_device_serial_number": "9TRQFABSFR2"
+          },
+          {
+            "replacement_status": "REPLACED"
+          }
+        ]
+      },
+      "file_path": "/Users/priyadharshini/Downloads/rma_info"
+    }
+  ],
+  "response14": {
+    "response": [
+      {
+        "id": "4e17c188-0217-470e-8014-d2b4b3185523",
+        "faultyDeviceName": "IAC2-SJ-BN-1-8KV.cisco.local",
+        "faultyDevicePlatform": "C8000V",
+        "replacementDevicePlatform": "C8000V",
+        "faultyDeviceSerialNumber": "9HHVY74U6BJ",
+        "replacementDeviceSerialNumber": "9TRQFABSFR2",
+        "replacementStatus": "REPLACED",
+        "family": "Routers",
+        "creationTime": "1763371118786",
+        "replacementTime": "1763371675056",
+        "faultyDeviceId": "c524fdd0-afbe-4871-9de2-eb9accc21b98",
+        "workflowId": "60d59646-dbe8-4350-8b4c-39e1ec0fcd1d",
+        "neighbourDeviceId": null,
+        "networkReadinessTaskId": null,
+        "workflowFailedStep": null,
+        "readinesscheckTaskId": "019a911c-0195-7f97-8bb7-2def84fb5d90"
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_negative_scenario1": [
+    {
+      "component_specific_filters": {
+        "components_list": [
+          "device_replacement_workflow"
+        ],
+        "device_replacement_workflows": [
+          {
+            "replacement_device_serial_number": "9TRQFABSFR2"
+          },
+          {
+            "replacement_status": "REPLACED"
+          }
+        ]
+      },
+      "file_path": "/Users/priyadharshini/Downloads/rma_info"
+    }
+  ]
+}

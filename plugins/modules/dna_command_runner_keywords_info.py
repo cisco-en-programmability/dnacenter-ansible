@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: dna_command_runner_keywords_info
-short_description: Information module for Dna Command
-  Runner Keywords
+short_description: Information module for Dna Command Runner Keywords
 description:
   - Get all Dna Command Runner Keywords.
   - Get valid keywords.
@@ -21,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Command
-      Runner GetAllKeywordsOfCLIsAcceptedByCommandRunner
-    description: Complete reference of the GetAllKeywordsOfCLIsAcceptedByCommandRunner
-      API.
+  - name: Cisco DNA Center documentation for Command Runner GetAllKeywordsOfCLIsAcceptedByCommandRunner
+    description: Complete reference of the GetAllKeywordsOfCLIsAcceptedByCommandRunner API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-keywords-of-cl-is-accepted-by-command-runner
 notes:
   - SDK Method used are

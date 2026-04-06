@@ -11,10 +11,8 @@ short_description: Information module for Path Trace
 description:
   - Get all Path Trace.
   - Get Path Trace by id.
-  - Returns a summary of all flow analyses stored. Results
-    can be filtered by specified parameters.
-  - Returns result of a previously requested flow analysis
-    by its Flow Analysis id.
+  - Returns a summary of all flow analyses stored. Results can be filtered by specified parameters.
+  - Returns result of a previously requested flow analysis by its Flow Analysis id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,8 +23,7 @@ options:
     type: dict
   periodicRefresh:
     description:
-      - PeriodicRefresh query parameter. Is analysis
-        periodically refreshed?.
+      - PeriodicRefresh query parameter. Is analysis periodically refreshed?.
     type: bool
   sourceIP:
     description:
@@ -46,13 +43,11 @@ options:
     type: float
   gtCreateTime:
     description:
-      - GtCreateTime query parameter. Analyses requested
-        after this time.
+      - GtCreateTime query parameter. Analyses requested after this time.
     type: float
   ltCreateTime:
     description:
-      - LtCreateTime query parameter. Analyses requested
-        before this time.
+      - LtCreateTime query parameter. Analyses requested before this time.
     type: float
   protocol:
     description:
@@ -68,18 +63,16 @@ options:
     type: str
   lastUpdateTime:
     description:
-      - LastUpdateTime query parameter. Last update
-        time.
+      - LastUpdateTime query parameter. Last update time.
     type: float
   limit:
     description:
       - Limit query parameter. Number of resources returned.
-    type: float
+    type: int
   offset:
     description:
-      - Offset query parameter. Start index of resources
-        returned (1-based).
-    type: float
+      - Offset query parameter. Start index of resources returned (1-based).
+    type: int
   order:
     description:
       - Order query parameter. Order by this field.
@@ -90,22 +83,17 @@ options:
     type: str
   flowAnalysisId:
     description:
-      - FlowAnalysisId path parameter. Flow analysis
-        request id.
+      - FlowAnalysisId path parameter. Flow analysis request id.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Path Trace
-      RetrievesAllPreviousPathtracesSummary
-    description: Complete reference of the RetrievesAllPreviousPathtracesSummary
-      API.
+  - name: Cisco DNA Center documentation for Path Trace RetrievesAllPreviousPathtracesSummary
+    description: Complete reference of the RetrievesAllPreviousPathtracesSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-previous-pathtraces-summary
-  - name: Cisco DNA Center documentation for Path Trace
-      RetrievesPreviousPathtrace
-    description: Complete reference of the RetrievesPreviousPathtrace
-      API.
+  - name: Cisco DNA Center documentation for Path Trace RetrievesPreviousPathtrace
+    description: Complete reference of the RetrievesPreviousPathtrace API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace
 notes:
   - SDK Method used are

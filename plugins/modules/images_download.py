@@ -9,28 +9,22 @@ DOCUMENTATION = r"""
 module: images_download
 short_description: Resource module for Images Download
 description:
-  - Manage operation create of the resource Images Download.
-    - > Initiates download of the software image from
-    Cisco.com on the disk for the given `id`. Refer
-    to `/dna/intent/api/v1/images` for obtaining `id`.
+  - Manage operation create of the resource Images Download. - > Initiates download of the software image from Cisco.com on
+    the disk for the given `id`. Refer to `/dna/intent/api/v1/images` for obtaining `id`.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Software image identifier.
-      Check API `/dna/intent/api/v1/images` for `id`
-      from response.
+    description: Id path parameter. Software image identifier. Check API `/dna/intent/api/v1/images` for `id` from response.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) DownloadTheSoftwareImage
-    description: Complete reference of the DownloadTheSoftwareImage
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) DownloadTheSoftwareImage
+    description: Complete reference of the DownloadTheSoftwareImage API.
     link: https://developer.cisco.com/docs/dna-center/#!download-the-software-image
 notes:
   - SDK Method used are

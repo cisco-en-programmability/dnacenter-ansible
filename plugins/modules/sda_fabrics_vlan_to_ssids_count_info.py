@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabrics_vlan_to_ssids_count_info
-short_description: Information module for Sda Fabrics
-  Vlan To Ssids Count
+short_description: Information module for Sda Fabrics Vlan To Ssids Count
 description:
   - Get all Sda Fabrics Vlan To Ssids Count.
-  - Return the count of all the fabric site which has
-    SSID to IP Pool mapping.
+  - Return the count of all the fabric site which has SSID to IP Pool mapping.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,13 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMapping
-    description: Complete reference of the ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMapping
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMapping
+    description: Complete reference of the ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMapping API.
     link: https://developer.cisco.com/docs/dna-center/#!return-the-count-of-all-the-fabric-site-which-has-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_rf_profile_info
-short_description: Information module for Wireless Rf
-  Profile
+short_description: Information module for Wireless Rf Profile
 description:
   - Get all Wireless Rf Profile.
   - Retrieve all RF profiles.
@@ -22,17 +21,14 @@ options:
     type: dict
   rf_profile_name:
     description:
-      - Rf-profile-name query parameter. RF Profile
-        Name.
+      - Rf-profile-name query parameter. RF Profile Name.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      RetrieveRFProfiles
-    description: Complete reference of the RetrieveRFProfiles
-      API.
+  - name: Cisco DNA Center documentation for Wireless RetrieveRFProfiles
+    description: Complete reference of the RetrieveRFProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
   - SDK Method used are

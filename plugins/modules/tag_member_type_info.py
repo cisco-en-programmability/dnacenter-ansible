@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: tag_member_type_info
-short_description: Information module for Tag Member
-  Type
+short_description: Information module for Tag Member Type
 description:
   - Get all Tag Member Type.
   - Returns list of supported resource types.
@@ -21,12 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag GetTagResourceTypes
-    description: Complete reference of the GetTagResourceTypes
-      API.
+    description: Complete reference of the GetTagResourceTypes API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag-resource-types
 notes:
   - SDK Method used are

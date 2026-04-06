@@ -10,8 +10,7 @@ module: task_tree_info
 short_description: Information module for Task Tree
 description:
   - Get all Task Tree.
-  - Returns a task with its children tasks by based
-    on their id.
+  - Returns a task with its children tasks by based on their id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,12 +24,11 @@ options:
       - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task GetTaskTree
-    description: Complete reference of the GetTaskTree
-      API.
+    description: Complete reference of the GetTaskTree API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-tree
 notes:
   - SDK Method used are

@@ -23,8 +23,7 @@ options:
     type: dict
   viewGroupId:
     description:
-      - ViewGroupId query parameter. ViewGroupId of
-        viewgroup for report.
+      - ViewGroupId query parameter. ViewGroupId of viewgroup for report.
     type: str
   viewId:
     description:
@@ -35,18 +34,14 @@ options:
       - ReportId path parameter. ReportId of report.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      GetAScheduledReport
-    description: Complete reference of the GetAScheduledReport
-      API.
+  - name: Cisco DNA Center documentation for Reports GetAScheduledReport
+    description: Complete reference of the GetAScheduledReport API.
     link: https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report
-  - name: Cisco DNA Center documentation for Reports
-      GetListOfScheduledReports
-    description: Complete reference of the GetListOfScheduledReports
-      API.
+  - name: Cisco DNA Center documentation for Reports GetListOfScheduledReports
+    description: Complete reference of the GetListOfScheduledReports API.
     link: https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports
 notes:
   - SDK Method used are
@@ -97,7 +92,7 @@ dnac_response:
       ],
       "dataCategory": "string",
       "deliveries": [
-        {}
+        "string"
       ],
       "executionCount": 0,
       "executions": [

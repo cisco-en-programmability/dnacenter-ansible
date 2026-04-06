@@ -7,14 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_interfaces_info
-short_description: Information module for Wireless Settings
-  Interfaces
+short_description: Information module for Wireless Settings Interfaces
 description:
   - Get all Wireless Settings Interfaces.
   - Get Wireless Settings Interfaces by id.
   - This API allows the user to get all Interfaces.
-  - This API allows the user to get an interface by
-    ID.
+  - This API allows the user to get an interface by ID.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,16 +24,13 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Default is 500 if not
-        specified. Maximum allowed limit is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
+        Maximum allowed limit is 500.
+    type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page. The first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page. The first record is numbered 1.
+    type: int
   interfaceName:
     description:
       - InterfaceName query parameter. Interface Name.
@@ -49,18 +44,14 @@ options:
       - Id path parameter. Interface ID.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetInterfaceByID
-    description: Complete reference of the GetInterfaceByID
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetInterfaceByID
+    description: Complete reference of the GetInterfaceByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id
-  - name: Cisco DNA Center documentation for Wireless
-      GetInterfaces
-    description: Complete reference of the GetInterfaces
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetInterfaces
+    description: Complete reference of the GetInterfaces API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interfaces
 notes:
   - SDK Method used are
@@ -108,11 +99,13 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "interfaceName": "string",
-        "vlanId": 0,
-        "id": "string"
-      },
+      "response": [
+        {
+          "interfaceName": "string",
+          "vlanId": 0,
+          "id": "string"
+        }
+      ],
       "version": "string"
     }
 """

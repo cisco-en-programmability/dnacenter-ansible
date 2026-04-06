@@ -25,25 +25,22 @@ options:
     type: str
   dirPath:
     description:
-      - Directory absolute path. Defaults to the current
-        working directory.
+      - Directory absolute path. Defaults to the current working directory.
     type: str
   saveFile:
     description:
-      - Enable or disable automatic file creation of
-        raw response.
+      - Enable or disable automatic file creation of raw response.
     type: bool
   filename:
     description:
       - The filename used to save the download file.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for File DownloadAFileByFileId
-    description: Complete reference of the DownloadAFileByFileId
-      API.
+    description: Complete reference of the DownloadAFileByFileId API.
     link: https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id
 notes:
   - SDK Method used are

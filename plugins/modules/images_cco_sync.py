@@ -9,27 +9,21 @@ DOCUMENTATION = r"""
 module: images_cco_sync
 short_description: Resource module for Images Cco Sync
 description:
-  - Manage operation create of the resource Images Cco
-    Sync. - > Initiating the synchronization of the
-    software images from Cisco.com. The latest and suggested
-    images will be retrieved, along with the corresponding
-    product name and PIDs for imported and retrieved
-    images from Cisco.com. Once the task is completed,
-    the API `/intent/api/v1/images?imported=false` will
-    display all the images fetched from Cisco.com.
+  - Manage operation create of the resource Images Cco Sync. - > Initiating the synchronization of the software images from
+    Cisco.com. The latest and suggested images will be retrieved, along with the corresponding product name and PIDs for imported
+    and retrieved images from Cisco.com. Once the task is completed, the API `/intent/api/v1/images?imported=false` will display
+    all the images fetched from Cisco.com.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) InitiatesSyncOfSoftwareImagesFromCiscoCom
-    description: Complete reference of the InitiatesSyncOfSoftwareImagesFromCiscoCom
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) InitiatesSyncOfSoftwareImagesFromCiscoCom
+    description: Complete reference of the InitiatesSyncOfSoftwareImagesFromCiscoCom API.
     link: https://developer.cisco.com/docs/dna-center/#!initiates-sync-of-software-images-from-cisco-com
 notes:
   - SDK Method used are

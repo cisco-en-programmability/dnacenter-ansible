@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_network_device_id_provision_status_info
-short_description: Information module for Wireless Controllers
-  Network Device Id Provision Status
+short_description: Information module for Wireless Controllers Network Device Id Provision Status
 description:
-  - Get all Wireless Controllers Network Device Id Provision
-    Status.
+  - Get all Wireless Controllers Network Device Id Provision Status.
   - Retrieves wireless controller's provision status.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -24,17 +22,15 @@ options:
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId path parameter. Obtain the networkDeviceId
-        value by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+        NetworkDeviceId path parameter. Obtain the networkDeviceId value by using the API call GET
+        /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      WirelessControllerProvisionStatus
-    description: Complete reference of the WirelessControllerProvisionStatus
-      API.
+  - name: Cisco DNA Center documentation for Wireless WirelessControllerProvisionStatus
+    description: Complete reference of the WirelessControllerProvisionStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision-status
 notes:
   - SDK Method used are
@@ -45,8 +41,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Controllers Network Device
-    Id Provision Status
+- name: Get all Wireless Controllers Network Device Id Provision Status
   cisco.dnac.wireless_controllers_network_device_id_provision_status_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

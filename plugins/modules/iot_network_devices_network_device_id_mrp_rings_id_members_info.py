@@ -7,18 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: iot_network_devices_network_device_id_mrp_rings_id_members_info
-short_description: Information module for Iot Network
-  Devices  Network Device Id Mrp Rings Id Members
+short_description: Information module for Iot Network Devices  Network Device Id Mrp Rings Id Members
 description:
-  - Get all Iot Network Devices  Network Device Id Mrp
-    Rings Id Members. - > This API returns the list
-    of MRP ring members for the given fields - networkDeviceId
-    Network device ID of the MRP ring member. The networkDeviceId
-    is the instanceUuid attribute in the response of
-    API - /dna/intent/api/v1/networkDevices and id ID
-    of the MRP ring. The id of the configured MRP Ring
-    can be retrieved using the API /dna/intent/api/v1/iot/networkDevices/${networkDeviceId}/mrpRings
-    .
+  - Get all Iot Network Devices  Network Device Id Mrp Rings Id Members. - > This API returns the list of MRP ring members
+    for the given fields - networkDeviceId Network device ID of the MRP ring member. The networkDeviceId is the instanceUuid
+    attribute in the response of API - /dna/intent/api/v1/networkDevices and id ID of the MRP ring. The id of the configured
+    MRP Ring can be retrieved using the API /dna/intent/api/v1/iot/networkDevices/${networkDeviceId}/mrpRings .
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,8 +23,7 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Network device
-        ID of the MRP ring member.
+      - NetworkDeviceId path parameter. Network device ID of the MRP ring member.
     type: str
   id:
     description:
@@ -38,23 +31,18 @@ options:
     type: float
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page.
+      - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Industrial
-      Configuration RetrievesTheListOfNetworkDevicesPartOfMRPRing
-    description: Complete reference of the RetrievesTheListOfNetworkDevicesPartOfMRPRing
-      API.
+  - name: Cisco DNA Center documentation for Industrial Configuration RetrievesTheListOfNetworkDevicesPartOfMRPRing
+    description: Complete reference of the RetrievesTheListOfNetworkDevicesPartOfMRPRing API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-devices-part-of-mrp-ring
 notes:
   - SDK Method used are
@@ -65,9 +53,8 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Iot Network Devices  Network Device
-    Id Mrp Rings Id Members
-  cisco.dnac.iot_network_devices__network_device_id_mrp_rings_id_members_info:
+- name: Get all Iot Network Devices  Network Device Id Mrp Rings Id Members
+  cisco.dnac.iot_network_devices_network_device_id_mrp_rings_id_members_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

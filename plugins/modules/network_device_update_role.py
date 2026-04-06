@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_update_role
-short_description: Resource module for Network Device
-  Update Role
+short_description: Resource module for Network Device Update Role
 description:
-  - Manage operation update of the resource Network
-    Device Update Role.
-  - Updates the role of the device as access, core,
-    distribution, border router.
+  - Manage operation update of the resource Network Device Update Role.
+  - Updates the role of the device as access, core, distribution, border router.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,20 +20,17 @@ options:
     description: DeviceId of the Device.
     type: str
   role:
-    description: Role of device as ACCESS, CORE, DISTRIBUTION,
-      BORDER ROUTER.
+    description: Role of device as ACCESS, CORE, DISTRIBUTION, BORDER ROUTER.
     type: str
   roleSource:
     description: Role source as MANUAL / AUTO.
     type: str
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      UpdateDeviceRole
-    description: Complete reference of the UpdateDeviceRole
-      API.
+  - name: Cisco DNA Center documentation for Devices UpdateDeviceRole
+    description: Complete reference of the UpdateDeviceRole API.
     link: https://developer.cisco.com/docs/dna-center/#!update-device-role
 notes:
   - SDK Method used are

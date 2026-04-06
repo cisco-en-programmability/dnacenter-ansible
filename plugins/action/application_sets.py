@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -94,6 +93,18 @@ class ApplicationSets(object):
     def get_object_by_id(self, id):
         result = None
         # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.dnac.exec(
+                family="application_policy",
+                function="get_application_sets",
+                params=self.get_all_params(id=id),
+            )
+            if isinstance(items, dict):
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
@@ -206,7 +217,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = prev_obj
@@ -218,7 +229,7 @@ class ActionModule(ActionBase):
                 response = obj.create()
                 dnac.object_created()
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 dnac.object_deleted()

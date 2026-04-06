@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: command_runner_run_command
-short_description: Resource module for Command Runner
-  Run Command
+short_description: Resource module for Command Runner Run Command
 description:
-  - Manage operation create of the resource Command
-    Runner Run Command.
+  - Manage operation create of the resource Command Runner Run Command.
   - Submit request for read-only CLIs.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -23,29 +21,24 @@ options:
     elements: str
     type: list
   description:
-    description: Describe the details about the command
-      request.
+    description: Describe the details about the command request.
     type: str
   deviceUuids:
     description: Device Id of the device.
     elements: str
     type: list
   name:
-    description: Name of the the request like getshowrun
-      , deviceinterfacestatusCli.
+    description: Name of the the request like getshowrun , deviceinterfacestatusCli.
     type: str
   timeout:
-    description: The timeout value in unit of second.
-      If no timeout provided wait till 300sec.
+    description: The timeout value in unit of second. If no timeout provided wait till 300sec.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Command
-      Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration
-    description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration
-      API.
+  - name: Cisco DNA Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration
+    description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!run-read-only-commands-on-devices-to-get-their-real-time-configuration
 notes:
   - SDK Method used are

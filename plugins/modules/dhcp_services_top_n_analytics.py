@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: dhcp_services_top_n_analytics
-short_description: Resource module for Dhcpservices
-  Topnanalytics
+short_description: Resource module for Dhcp Services Top N Analytics
 description:
-  - Manage operation create of the resource Dhcpservices
-    Topnanalytics. - > Gets the Top N analytics data
-    related to DHCP Services based on given filters
-    and group by field. For detailed information about
-    the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Dhcp Services Top N Analytics. - > Gets the Top N analytics data related to DHCP
+    Services based on given filters and group by field. For detailed information about the usage of the API, please refer
+    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     DHCPServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -58,7 +54,7 @@ options:
         description: Operator.
         type: str
       value:
-        description: Value.
+        description: Dhcp Services Top N Analytics's value.
         type: dict
     type: list
   groupBy:
@@ -78,8 +74,7 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Dhcp Services Top N Analytics's
-          sortBy.
+        description: Dhcp Services Top N Analytics's sortBy.
         elements: dict
         suboptions:
           function:
@@ -100,13 +95,11 @@ options:
     description: Top N.
     type: int
 requirements:
-  - dnacentersdk >= 2.10.1
-  - python >= 3.5
+  - dnacentersdk >= 2.11.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetTopNAnalyticsDataOfDHCPServicesForGivenSetOfComplexFilters
-    description: Complete reference of the GetTopNAnalyticsDataOfDHCPServicesForGivenSetOfComplexFilters
-      API.
+  - name: Cisco DNA Center documentation for Devices GetTopNAnalyticsDataOfDHCPServicesForGivenSetOfComplexFilters
+    description: Complete reference of the GetTopNAnalyticsDataOfDHCPServicesForGivenSetOfComplexFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!get-top-n-analytics-data-of-dhcp-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
@@ -118,7 +111,7 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.dnac.dhcpServices_topNAnalytics:
+  cisco.dnac.dhcp_services_top_n_analytics:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
