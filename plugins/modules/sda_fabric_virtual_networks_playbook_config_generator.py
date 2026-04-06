@@ -1081,7 +1081,9 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             filters (dict): Dictionary containing global filters and component_specific_filters for fabric VLANs.
 
         Returns:
-            dict: A dictionary containing the modified details of fabric VLANs.
+            dict: A dictionary with key 'fabric_vlan' mapped to a list of transformed VLAN details when matching
+            records are found. Returns an empty dict when the API family or function is missing, no records match the
+            filters, or no fabric VLANs exist in Catalyst Center.
         """
 
         component_specific_filters = None
@@ -1111,7 +1113,7 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        fabric_vlan_details = self.execute_get_with_pagination(api_family, api_function)
+        fabric_vlan_details = self.execute_get_with_pagination(api_family, api_function) or []
 
         final_fabric_vlans = []
         field_map = {
@@ -1146,7 +1148,7 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 active_filters = {
                     filter_key: filter_value
                     for filter_key, filter_value in filter_param.items()
-                    if filter_key in field_map
+                    if filter_key in field_map and filter_value is not None
                 }
 
                 self.log(
@@ -1230,7 +1232,9 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             filters (dict): Dictionary containing global filters and component_specific_filters for virtual networks.
 
         Returns:
-            dict: A dictionary containing the modified details of virtual networks.
+            dict: A dictionary with key 'virtual_networks' mapped to a list of transformed virtual network details when
+            matching records are found. Returns an empty dict when the API family or function is missing, no records match
+            the filters, or no virtual networks exist in Catalyst Center.
         """
 
         component_specific_filters = None
@@ -1260,7 +1264,7 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        virtual_network_details = self.execute_get_with_pagination(api_family, api_function)
+        virtual_network_details = self.execute_get_with_pagination(api_family, api_function) or []
 
         final_virtual_networks = []
 
@@ -1359,7 +1363,9 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             filters (dict): Dictionary containing global filters and component_specific_filters for anycast gateways.
 
         Returns:
-            dict: A dictionary containing the modified details of anycast gateways.
+            dict: A dictionary with key 'anycast_gateways' mapped to a list of transformed anycast gateway details when
+            matching records are found. Returns an empty dict when the API family or function is missing, no records match
+            the filters, or no anycast gateways exist in Catalyst Center.
         """
 
         component_specific_filters = None
@@ -1389,7 +1395,7 @@ class VirtualNetworksPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        anycast_gateway_details = self.execute_get_with_pagination(api_family, api_function)
+        anycast_gateway_details = self.execute_get_with_pagination(api_family, api_function) or []
 
         final_anycast_gateways = []
         field_map = {
