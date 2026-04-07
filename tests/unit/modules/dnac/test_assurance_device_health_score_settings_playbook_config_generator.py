@@ -448,9 +448,9 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             'file_mode': 'overwrite',
             'config': {
                 'component_specific_filters': {
-                    'device_health_score_settings': {
-                        'device_families': ['UNIFIED_AP', 'ROUTER']
-                    }
+                    'device_health_score_settings': [
+                        {'device_families': ['UNIFIED_AP', 'ROUTER']}
+                    ]
                 }
             }
         }
@@ -502,13 +502,97 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         generator.set_operation_result = _set_operation_result
         return generator
 
+    def test_device_health_score_settings_non_dict_entry_fails(self):
+        """Entry that is not a dict should fail validation."""
+        generator = self._build_validation_generator()
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": ["ROUTER"]
+        }
+        result = generator.validate_component_specific_filters(
+            component_specific_filters
+        )
+        self.assertFalse(result)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("must be a dictionary", generator.msg)
+
+    def test_device_health_score_settings_invalid_key_in_entry_fails(self):
+        """Unrecognized key inside an entry should fail validation."""
+        generator = self._build_validation_generator()
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": [
+                {"device_families": ["ROUTER"], "bad_key": "value"}
+            ]
+        }
+        result = generator.validate_component_specific_filters(
+            component_specific_filters
+        )
+        self.assertFalse(result)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("Invalid key(s)", generator.msg)
+
+    def test_device_health_score_settings_cross_entry_deduplication(self):
+        """Duplicate families across entries should be deduplicated."""
+        generator = self._build_validation_generator()
+        generator.deduplicate_component_filters = MagicMock()
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": [
+                {"device_families": ["ROUTER", "UNIFIED_AP"]},
+                {"device_families": ["UNIFIED_AP", "SWITCH_AND_HUB"]}
+            ]
+        }
+        result = generator.validate_component_specific_filters(
+            component_specific_filters
+        )
+        self.assertTrue(result)
+        normalized = component_specific_filters["device_health_score_settings"]
+        self.assertEqual(
+            normalized["device_families"],
+            ["ROUTER", "UNIFIED_AP", "SWITCH_AND_HUB"]
+        )
+
+    def test_device_health_score_settings_single_entry_normalizes(self):
+        """Single entry should normalize to flat dict."""
+        generator = self._build_validation_generator()
+        generator.deduplicate_component_filters = MagicMock()
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": [
+                {"device_families": ["ROUTER"]}
+            ]
+        }
+        result = generator.validate_component_specific_filters(
+            component_specific_filters
+        )
+        self.assertTrue(result)
+        self.assertEqual(
+            component_specific_filters["device_health_score_settings"],
+            {"device_families": ["ROUTER"]}
+        )
+
+    def test_device_health_score_settings_wrong_type_fails(self):
+        """Passing a string instead of list should fail."""
+        generator = self._build_validation_generator()
+        component_specific_filters = {
+            "components_list": ["device_health_score_settings"],
+            "device_health_score_settings": "ROUTER"
+        }
+        result = generator.validate_component_specific_filters(
+            component_specific_filters
+        )
+        self.assertFalse(result)
+        self.assertEqual(generator.status, "failed")
+        self.assertIn("must be a list", generator.msg)
+
     def test_components_list_auto_add_when_component_filter_present(self):
         generator = self._build_validation_generator()
         component_specific_filters = {
             "components_list": [],
-            "device_health_score_settings": {
-                "device_families": ["ROUTER"]
-            }
+            "device_health_score_settings": [
+                {"device_families": ["ROUTER"]}
+            ]
         }
         result = generator.validate_component_specific_filters(component_specific_filters)
         self.assertTrue(result)
@@ -555,7 +639,8 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         }
         result = generator.validate_component_specific_filters(component_specific_filters)
         self.assertTrue(result)
-        self.assertEqual(component_specific_filters["device_health_score_settings"], {})
+        # None is normalized to an empty list then flattened to {"device_families": []}
+        self.assertEqual(component_specific_filters["device_health_score_settings"], {"device_families": []})
 
 
 if __name__ == '__main__':
