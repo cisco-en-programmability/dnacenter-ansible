@@ -1942,8 +1942,8 @@ EXAMPLES = r"""
       - ip_address: 204.1.2.3
         layer2_configuration:
           authentication:
-          enable_dot1x_authentication: true
-          authentication_config_mode: NEW_STYLE
+            enable_dot1x_authentication: true
+            authentication_config_mode: NEW_STYLE
 
 - name: Configure LACP and PAGP Port Channels
   cisco.dnac.wired_campus_automation_workflow_manager:
@@ -8885,6 +8885,38 @@ class WiredCampusAutomation(DnacBase):
                     "DEBUG",
                 )
                 return True
+
+        return False
+
+    def _deep_compare_nested_dict(self, desired_dict, current_dict):
+        """
+        Recursive comparison for nested dictionaries.
+        Args:
+            desired_dict (dict): Desired dictionary configuration
+            current_dict (dict): Current dictionary configuration
+        Returns:
+            bool: True if dictionaries differ, False if they match
+        """
+        for key, desired_value in desired_dict.items():
+            current_value = current_dict.get(key)
+
+            if isinstance(desired_value, dict) and isinstance(current_value, dict):
+                if self._deep_compare_nested_dict(desired_value, current_value):
+                    self.log("Nested dict key '{0}' differs".format(key), "DEBUG")
+                    return True
+            elif isinstance(desired_value, list) and isinstance(current_value, list):
+                if self._deep_compare_nested_list(desired_value, current_value):
+                    self.log("Nested list key '{0}' differs".format(key), "DEBUG")
+                    return True
+            else:
+                if desired_value != current_value:
+                    self.log(
+                        "Dict key '{0}' differs: desired='{1}', current='{2}'".format(
+                            key, desired_value, current_value
+                        ),
+                        "DEBUG",
+                    )
+                    return True
 
         return False
 
