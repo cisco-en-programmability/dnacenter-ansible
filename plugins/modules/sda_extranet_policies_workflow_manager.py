@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Archit Soni"
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_workflow_manager
@@ -26,7 +26,7 @@ version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
-  (@madhansansel)
+  (@madhansansel) Archit Soni (@koderchit)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -255,6 +255,11 @@ class SDAExtranetPolicies(DnacBase):
         """
         self.supported_states = ["merged", "deleted"]
         super().__init__(module)
+        self.created_extranet_policy = []
+        self.updated_extranet_policy = []
+        self.not_updated_extranet_policy = []
+        self.deleted_extranet_policy = []
+        self.absent_extranet_policy = []
 
     def validate_input(self):
         """
@@ -780,8 +785,28 @@ class SDAExtranetPolicies(DnacBase):
             extranet_policy_name
         )
 
-        # Retrieve and return the task status using the provided task ID
-        return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+        # Retrieve the task status using the provided task ID
+        self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
+        # If the task succeeded, record the policy name
+        if self.status == "success":
+            self.created_extranet_policy.append(extranet_policy_name)
+            self.log(
+                "Extranet Policy '{0}' successfully recorded in 'created_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "INFO",
+            )
+        else:
+            self.log(
+                "Add Extranet Policy task for '{0}' did not succeed; "
+                "policy not recorded in 'created_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "WARNING",
+            )
+
+        return self
 
     def update_extranet_policy(self, update_extranet_policy_params):
         """
@@ -818,8 +843,28 @@ class SDAExtranetPolicies(DnacBase):
             extranet_policy_name
         )
 
-        # Retrieve and return the task status using the provided task ID
-        return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+        # Retrieve the task status using the provided task ID
+        self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
+        # If the task succeeded, record the policy name
+        if self.status == "success":
+            self.updated_extranet_policy.append(extranet_policy_name)
+            self.log(
+                "Extranet Policy '{0}' successfully recorded in 'updated_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "INFO",
+            )
+        else:
+            self.log(
+                "Update Extranet Policy task for '{0}' did not succeed; "
+                "policy not recorded in 'updated_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "WARNING",
+            )
+
+        return self
 
     def delete_extranet_policy(self, delete_extranet_policy_params):
         """
@@ -851,8 +896,28 @@ class SDAExtranetPolicies(DnacBase):
             extranet_policy_name
         )
 
-        # Retrieve and return the task status using the provided task ID
-        return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+        # Retrieve the task status using the provided task ID
+        self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
+        # If the task succeeded, record the policy name
+        if self.status == "success":
+            self.deleted_extranet_policy.append(extranet_policy_name)
+            self.log(
+                "Extranet Policy '{0}' successfully recorded in 'deleted_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "INFO",
+            )
+        else:
+            self.log(
+                "Delete Extranet Policy task for '{0}' did not succeed; "
+                "policy not recorded in 'deleted_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "WARNING",
+            )
+
+        return self
 
     def get_have(self, config):
         """
@@ -957,11 +1022,15 @@ class SDAExtranetPolicies(DnacBase):
                 if self.compare_extranet_policies(
                     extranet_policy_details, want["update_extranet_policy_params"]
                 ):
-                    self.msg = "Extranet Policy '{0}' is identical to the update requested. No update operation needed.".format(
-                        extranet_policy_name
+                    self.not_updated_extranet_policy.append(extranet_policy_name)
+                    self.log(
+                        "Extranet Policy '{0}' is identical to the update requested. No update operation needed.".format(
+                            extranet_policy_name
+                        ),
+                        "INFO",
                     )
-                    self.set_operation_result("ok", False, self.msg, "INFO")
-                    self.check_return_status()
+                    self.msg = "Successfully collected all parameters from the playbook for creating/updating/deleting the extranet policy."
+                    self.status = "success"
                     return self
             else:
                 self.log(
@@ -993,12 +1062,14 @@ class SDAExtranetPolicies(DnacBase):
                     ),
                 )
             else:
-                self.msg = (
+                self.absent_extranet_policy.append(extranet_policy_name)
+                self.log(
                     "Extranet Policy - '{0}' does not exist in the Cisco Catalyst Center and "
-                    "hence delete operation not required.".format(extranet_policy_name)
+                    "hence delete operation not required.".format(extranet_policy_name),
+                    "INFO",
                 )
-                self.set_operation_result("ok", False, self.msg, "INFO")
-                self.check_return_status()
+                self.msg = "Successfully collected all parameters from the playbook for creating/updating/deleting the extranet policy."
+                self.status = "success"
                 return self
 
         self.want = want
@@ -1236,6 +1307,91 @@ class SDAExtranetPolicies(DnacBase):
         self.log("Completed 'verify_diff_deleted' operation.", "INFO")
         return self
 
+    def update_sda_extranet_policies_profile_messages(self):
+        """
+        Compiles all per-policy operation results into a single consolidated message and sets
+        the final operation result.
+
+        Returns:
+            self: The instance of the class, allowing for method chaining.
+
+        Description:
+            Iterates over all tracking lists populated during the config loop and builds a
+            human-readable summary message covering created, updated, not-updated, deleted,
+            and absent extranet policies.  Sets 'changed' to True only when at least one
+            create, update, or delete operation was carried out.
+        """
+        self.log(
+            "Starting 'update_sda_extranet_policies_profile_messages' operation.",
+            "INFO",
+        )
+        self.log(
+            "Summary — created: {0}, updated: {1}, not_updated: {2}, deleted: {3}, absent: {4}".format(
+                self.created_extranet_policy,
+                self.updated_extranet_policy,
+                self.not_updated_extranet_policy,
+                self.deleted_extranet_policy,
+                self.absent_extranet_policy,
+            ),
+            "DEBUG",
+        )
+        self.result["changed"] = False
+        result_msg_list = []
+
+        policy_messages = {
+            "created_extranet_policy": (
+                "Extranet Policy '{0}' has been created successfully in the Cisco Catalyst Center."
+            ),
+            "updated_extranet_policy": (
+                "Extranet Policy '{0}' has been updated successfully in the Cisco Catalyst Center."
+            ),
+            "not_updated_extranet_policy": (
+                "Extranet Policy '{0}' needs no update in the Cisco Catalyst Center."
+            ),
+            "deleted_extranet_policy": (
+                "Extranet Policy '{0}' has been deleted successfully from the Cisco Catalyst Center."
+            ),
+            "absent_extranet_policy": (
+                "Extranet Policy '{0}' is not present in the Cisco Catalyst Center; "
+                "delete operation skipped."
+            ),
+        }
+
+        for attr, msg_template in policy_messages.items():
+            policy_list = getattr(self, attr, [])
+            for policy_name in policy_list:
+                msg = msg_template.format(policy_name)
+                result_msg_list.append(msg)
+                self.log(msg, "INFO")
+
+        if any(
+            [
+                self.created_extranet_policy,
+                self.updated_extranet_policy,
+                self.deleted_extranet_policy,
+            ]
+        ):
+            self.result["changed"] = True
+
+        self.msg = (
+            "\n".join(result_msg_list)
+            if result_msg_list
+            else "No extranet policy operations were performed."
+        )
+        self.log(
+            "Final consolidated message for extranet policy operations: {0}".format(
+                self.msg
+            ),
+            "INFO",
+        )
+        self.set_operation_result("success", self.result["changed"], self.msg, "INFO")
+        self.log(
+            "Completed 'update_sda_extranet_policies_profile_messages' operation.",
+            "INFO",
+        )
+
+        return self
+
 
 def main():
     """main entry point for module execution"""
@@ -1307,6 +1463,8 @@ def main():
             ccc_sda_extranet_policies.verify_diff_state_apply[state](
                 config
             ).check_return_status()
+
+    ccc_sda_extranet_policies.update_sda_extranet_policies_profile_messages().check_return_status()
 
     module.exit_json(**ccc_sda_extranet_policies.result)
 
