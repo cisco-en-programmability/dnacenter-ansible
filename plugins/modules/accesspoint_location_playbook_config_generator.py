@@ -2908,7 +2908,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.msg = {
-                f"YAML config generation Task failed for module '{self.module_name}'.": {
+                f"YAML configuration file already up-to-date for module '{self.module_name}'.  No changes written.": {
                     "file_path": file_path
                 }
             }
@@ -2918,7 +2918,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 f"validity. Review write_dict_to_yaml() error messages for specific failure details.",
                 "ERROR"
             )
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            self.set_operation_result("ok", False, self.msg, "ERROR")
 
         return self
 
