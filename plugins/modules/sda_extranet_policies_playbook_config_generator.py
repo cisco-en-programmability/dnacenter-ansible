@@ -500,7 +500,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "extranet_policies": {
-                    "filters": ["extranet_policy_name"],
+                    "filters": {"extranet_policy_name": {"type": "str"}},
                     "reverse_mapping_function": (self.extranet_policy_temp_spec),
                     "api_function": "get_extranet_policies",
                     "api_family": "sda",
