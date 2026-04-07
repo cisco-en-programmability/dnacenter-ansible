@@ -51,6 +51,14 @@ options:
       up to 20 anycast gateways at a time.
     type: int
     default: 20
+  sda_virtual_network_limit:
+    description: Sets the maximum number of layer3
+      virtual networks that can be created or updated
+      at a time via the SDA API, aligning with GUI
+      constraints. The default is 20, as the GUI allows
+      creating up to 20 virtual networks at a time.
+    type: int
+    default: 20
   config:
     description: A list containing detailed configurations
       for creating, updating, or deleting fabric sites/zones
@@ -1711,8 +1719,8 @@ class VirtualNetwork(DnacBase):
         )
 
         for i in range(0, len(vlan_payloads), req_limit):
-            fabric_vlan_payload = vlan_payloads[i : i + req_limit]
-            fabric_vlan_details = self.created_fabric_vlans[i : i + req_limit]
+            fabric_vlan_payload = vlan_payloads[i: i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
 
             try:
                 payload = {"payload": fabric_vlan_payload}
@@ -2064,8 +2072,8 @@ class VirtualNetwork(DnacBase):
         )
 
         for i in range(0, len(update_vlan_payload), req_limit):
-            vlan_payload = update_vlan_payload[i : i + req_limit]
-            fabric_vlan_details = self.created_fabric_vlans[i : i + req_limit]
+            vlan_payload = update_vlan_payload[i: i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
 
             try:
                 payload = {"payload": vlan_payload}
@@ -2678,33 +2686,49 @@ class VirtualNetwork(DnacBase):
                 "Proceeding with creation of remaining Virtual Networks in Cisco Catalyst Center.",
                 "INFO",
             )
-            payload = {"payload": add_vn_payloads}
-            self.log(
-                "Constructed payload for VN creation: {0}".format(payload), "DEBUG"
-            )
-            task_name = "add_layer3_virtual_networks"
-            self.log(
-                "Triggering '{0}' API call with payload.".format(task_name), "DEBUG"
-            )
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            if not task_id:
-                self.msg = (
-                    "Failed to retrieve task ID for '{0}'. VN creation aborted.".format(
-                        task_name
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
+            req_limit = self.params.get("sda_virtual_network_limit", 20)
             self.log(
-                "Received task ID: {0}. Monitoring task status.".format(task_id),
+                "API request batch size set to '{0}' for virtual network(s) creation.".format(
+                    req_limit
+                ),
                 "DEBUG",
             )
-            success_msg = "Layer3 Virtual Network(s) '{0}' created successfully in the Cisco Catalyst Center.".format(
-                self.created_virtual_networks
-            )
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            for i in range(0, len(add_vn_payloads), req_limit):
+                batch_number = (i // req_limit) + 1
+                vn_payload = add_vn_payloads[i: i + req_limit]
+                vn_names = [vn.get("virtualNetworkName") for vn in vn_payload]
+                payload = {"payload": vn_payload}
+
+                self.log(
+                    "Processing batch {0}: Constructed payload for VN creation: {1}".format(
+                        batch_number, payload
+                    ),
+                    "DEBUG",
+                )
+                task_name = "add_layer3_virtual_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+                if not task_id:
+                    self.msg = (
+                        "Batch {0}: Failed to retrieve task ID for '{1}'. VN creation aborted.".format(
+                            batch_number, task_name
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                self.log(
+                    "Batch {0}: Received task ID: {1}. Monitoring task status.".format(
+                        batch_number, task_id
+                    ),
+                    "DEBUG",
+                )
+                success_msg = "Batch {0}: Layer3 Virtual Network(s) '{1}' created successfully in the Cisco Catalyst Center.".format(
+                    batch_number, vn_names
+                )
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
             self.msg = (
@@ -2926,23 +2950,41 @@ class VirtualNetwork(DnacBase):
             same instance.
         """
 
-        payload = {"payload": update_vn_payloads}
-        task_name = "update_layer3_virtual_networks"
-
         try:
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
-
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
-                    task_name
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            success_msg = "Layer3 Virtual Network(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(
-                self.updated_virtual_networks
+            req_limit = self.params.get("sda_virtual_network_limit", 20)
+            self.log(
+                "API request batch size set to '{0}' for virtual network(s) update.".format(
+                    req_limit
+                ),
+                "DEBUG",
             )
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            for i in range(0, len(update_vn_payloads), req_limit):
+                batch_number = (i // req_limit) + 1
+                vn_payload = update_vn_payloads[i: i + req_limit]
+                vn_names = [vn.get("virtualNetworkName") for vn in vn_payload]
+                payload = {"payload": vn_payload}
+
+                self.log(
+                    "Processing batch {0}: Constructed payload for VN updation: {1}".format(
+                        batch_number, payload
+                    ),
+                    "DEBUG",
+                )
+                task_name = "update_layer3_virtual_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+                if not task_id:
+                    self.msg = "Batch {0}: Unable to retrieve the task_id for the task '{1}'.".format(
+                        batch_number, task_name
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = "Batch {0}: Layer3 Virtual Network(s) '{1}' updated successfully in the Cisco Catalyst Center.".format(
+                    batch_number, vn_names
+                )
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
             self.msg = (
@@ -3755,8 +3797,8 @@ class VirtualNetwork(DnacBase):
         )
         for i in range(0, len(add_anycast_payloads), req_limit):
             batch_number = (i // req_limit) + 1
-            gateway_payload = add_anycast_payloads[i : i + req_limit]
-            batch_gateways_added = self.created_anycast_gateways[i : i + req_limit]
+            gateway_payload = add_anycast_payloads[i: i + req_limit]
+            batch_gateways_added = self.created_anycast_gateways[i: i + req_limit]
             payload = {"payload": gateway_payload}
             task_name = "add_anycast_gateways"
             self.log(
@@ -3831,8 +3873,8 @@ class VirtualNetwork(DnacBase):
         )
         for i in range(0, len(update_anycast_payloads), req_limit):
             batch_number = (i // req_limit) + 1
-            gateway_payload = update_anycast_payloads[i : i + req_limit]
-            batch_gateways_updated = self.updated_anycast_gateways[i : i + req_limit]
+            gateway_payload = update_anycast_payloads[i: i + req_limit]
+            batch_gateways_updated = self.updated_anycast_gateways[i: i + req_limit]
             payload = {"payload": gateway_payload}
             task_name = "update_anycast_gateways"
 
@@ -5971,6 +6013,7 @@ def main():
         "config_verify": {"type": "bool", "default": False},
         "sda_fabric_vlan_limit": {"type": "int", "default": 20},
         "sda_fabric_gateway_limit": {"type": "int", "default": 20},
+        "sda_virtual_network_limit": {"type": "int", "default": 20},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
