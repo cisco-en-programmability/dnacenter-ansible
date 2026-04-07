@@ -8907,26 +8907,6 @@ class WiredCampusAutomation(DnacBase):
         for key, desired_value in desired_dict.items():
             current_value = current_dict.get(key)
 
-            self.log(
-                "Comparing key '{0}': desired_type={1}, current_type={2}, desired_value={3}, current_value={4}".format(
-                    key,
-                    type(desired_value).__name__,
-                    type(current_value).__name__ if current_value is not None else "None",
-                    desired_value,
-                    current_value,
-                ),
-                "DEBUG",
-            )
-
-            if current_value is None:
-                self.log(
-                    "Key '{0}' not found in current dict - differs (desired='{1}')".format(
-                        key, desired_value
-                    ),
-                    "DEBUG",
-                )
-                return True
-
             if isinstance(desired_value, dict) and isinstance(current_value, dict):
                 self.log(
                     "Key '{0}' is a nested dict - recursing for deep comparison".format(key),
@@ -8948,12 +8928,8 @@ class WiredCampusAutomation(DnacBase):
             else:
                 if desired_value != current_value:
                     self.log(
-                        "Dict key '{0}' differs: desired='{1}' (type={2}), current='{3}' (type={4})".format(
-                            key,
-                            desired_value,
-                            type(desired_value).__name__,
-                            current_value,
-                            type(current_value).__name__,
+                        "Dict key '{0}' differs: desired='{1}', current='{2}'".format(
+                            key, desired_value, current_value
                         ),
                         "DEBUG",
                     )
