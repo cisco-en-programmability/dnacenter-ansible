@@ -8897,27 +8897,74 @@ class WiredCampusAutomation(DnacBase):
         Returns:
             bool: True if dictionaries differ, False if they match
         """
+        self.log(
+            "Starting deep nested dict comparison - desired keys: {0}, current keys: {1}".format(
+                list(desired_dict.keys()), list(current_dict.keys())
+            ),
+            "DEBUG",
+        )
+
         for key, desired_value in desired_dict.items():
             current_value = current_dict.get(key)
 
+            self.log(
+                "Comparing key '{0}': desired_type={1}, current_type={2}, desired_value={3}, current_value={4}".format(
+                    key,
+                    type(desired_value).__name__,
+                    type(current_value).__name__ if current_value is not None else "None",
+                    desired_value,
+                    current_value,
+                ),
+                "DEBUG",
+            )
+
+            if current_value is None:
+                self.log(
+                    "Key '{0}' not found in current dict - differs (desired='{1}')".format(
+                        key, desired_value
+                    ),
+                    "DEBUG",
+                )
+                return True
+
             if isinstance(desired_value, dict) and isinstance(current_value, dict):
+                self.log(
+                    "Key '{0}' is a nested dict - recursing for deep comparison".format(key),
+                    "DEBUG",
+                )
                 if self._deep_compare_nested_dict(desired_value, current_value):
                     self.log("Nested dict key '{0}' differs".format(key), "DEBUG")
                     return True
             elif isinstance(desired_value, list) and isinstance(current_value, list):
+                self.log(
+                    "Key '{0}' is a nested list - desired_len={1}, current_len={2}".format(
+                        key, len(desired_value), len(current_value)
+                    ),
+                    "DEBUG",
+                )
                 if self._deep_compare_nested_list(desired_value, current_value):
                     self.log("Nested list key '{0}' differs".format(key), "DEBUG")
                     return True
             else:
                 if desired_value != current_value:
                     self.log(
-                        "Dict key '{0}' differs: desired='{1}', current='{2}'".format(
-                            key, desired_value, current_value
+                        "Dict key '{0}' differs: desired='{1}' (type={2}), current='{3}' (type={4})".format(
+                            key,
+                            desired_value,
+                            type(desired_value).__name__,
+                            current_value,
+                            type(current_value).__name__,
                         ),
                         "DEBUG",
                     )
                     return True
+                else:
+                    self.log(
+                        "Key '{0}' matches: value='{1}'".format(key, desired_value),
+                        "DEBUG",
+                    )
 
+        self.log("Deep nested dict comparison completed - no differences found", "DEBUG")
         return False
 
     def _deep_compare_nested_list(self, desired_list, current_list):
