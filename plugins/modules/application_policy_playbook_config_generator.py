@@ -79,6 +79,9 @@ options:
             description:
               - Specific queuing profile filtering options.
               - Allows extraction of only specific queuing profiles by name.
+              - Provide one or more dictionaries in the list.
+              - When multiple entries include C(profile_names_list), values are merged
+                uniquely while preserving input order.
             type: list
             elements: dict
             required: false
@@ -95,6 +98,9 @@ options:
             description:
               - Specific application policy filtering options.
               - Allows extraction of only specific policies by name.
+              - Provide one or more dictionaries in the list.
+              - When multiple entries include C(policy_names_list), values are merged
+                uniquely while preserving input order.
             type: list
             elements: dict
             required: false
@@ -302,10 +308,14 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def _normalize_component_filter_block(self, component_name, component_value, list_key):
         """
-        Normalize a component filter block from list-of-dicts form to a single merged dictionary.
+        Normalize a component filter block to dictionary form.
 
-        When multiple dictionaries are provided in the list, all values under the
-        specified list_key are merged into a single list with duplicates preserved.
+        Supported input form:
+            component_name:
+              - list_key: [...]
+
+        When multiple dictionaries are provided, all list_key values are merged
+        uniquely while preserving their first-seen order.
 
         Args:
             component_name (str): The name of the component (e.g., 'queuing_profile',
@@ -316,9 +326,9 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 (e.g., 'profile_names_list', 'policy_names_list').
 
         Returns:
-            dict: A merged dictionary with a single list_key containing all merged values,
-                or None if validation fails. On failure, self.msg is set with the error
-                detail and set_operation_result is called.
+            dict: A merged dictionary with a single list_key containing all merged
+                values, or None if validation fails. On failure, self.msg is set
+                with the error detail and set_operation_result is called.
         """
 
         if not isinstance(component_value, list):
@@ -331,6 +341,17 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             return None
 
         normalized_filter = {}
+
+        self.log(
+            "Normalizing filter block for component '{0}' with expected key '{1}'. "
+            "Input type: {2}, input length: {3}.".format(
+                component_name,
+                list_key,
+                type(component_value).__name__,
+                len(component_value)
+            ),
+            "DEBUG"
+        )
 
         for entry_index, component_entry in enumerate(component_value, start=1):
             if not isinstance(component_entry, dict):
@@ -369,7 +390,9 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     return None
 
                 normalized_filter.setdefault(list_key, [])
-                normalized_filter[list_key].extend(list_values)
+                for value in list_values:
+                    if value not in normalized_filter[list_key]:
+                        normalized_filter[list_key].append(value)
 
         self.log(
             "Normalized '{0}' filter block to dictionary form: {1}".format(
@@ -378,6 +401,38 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
         return normalized_filter
+
+    def _infer_clause_type(self, clause, clause_index, total_clauses):
+        """
+        Infer clause type from content when the 'type' field is missing or None.
+
+        Args:
+            clause (dict): The clause dictionary to inspect.
+            clause_index (int): The 1-based clause index for logging.
+            total_clauses (int): Total number of clauses for logging.
+
+        Returns:
+            str or None: The existing or inferred clause type.
+        """
+        clause_type = clause.get("type")
+        if not clause_type:
+            if "interfaceSpeedBandwidthClauses" in clause:
+                clause_type = "BANDWIDTH"
+                self.log(
+                    "Clause {0}/{1} has no 'type' field but contains "
+                    "'interfaceSpeedBandwidthClauses'. Inferred clause type as "
+                    "'BANDWIDTH'.".format(clause_index, total_clauses),
+                    "DEBUG"
+                )
+            elif "tcDscpSettings" in clause:
+                clause_type = "DSCP_CUSTOMIZATION"
+                self.log(
+                    "Clause {0}/{1} has no 'type' field but contains "
+                    "'tcDscpSettings'. Inferred clause type as "
+                    "'DSCP_CUSTOMIZATION'.".format(clause_index, total_clauses),
+                    "DEBUG"
+                )
+        return clause_type
 
     def validate_input(self):
         """
@@ -544,6 +599,11 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "profile_names_list"
                 )
                 if queuing_profile is None:
+                    self.log(
+                        "Normalization failed for 'queuing_profile' filter block. "
+                        "Stopping validation.",
+                        "ERROR"
+                    )
                     return self
 
                 normalized_component_filters["queuing_profile"] = queuing_profile
@@ -564,6 +624,11 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "policy_names_list"
                 )
                 if application_policy is None:
+                    self.log(
+                        "Normalization failed for 'application_policy' filter block. "
+                        "Stopping validation.",
+                        "ERROR"
+                    )
                     return self
 
                 normalized_component_filters["application_policy"] = application_policy
@@ -1008,18 +1073,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 continue
 
-            clause_type = clause.get("type")
-
-            # Infer clause type from content if type field is missing or None
-            if not clause_type:
-                if "interfaceSpeedBandwidthClauses" in clause:
-                    clause_type = "BANDWIDTH"
-                    self.log(
-                        "Clause {0}/{1} has no 'type' field but contains "
-                        "'interfaceSpeedBandwidthClauses'. Inferred clause type as "
-                        "'BANDWIDTH'.".format(clause_index, len(clause_data)),
-                        "DEBUG"
-                    )
+            clause_type = self._infer_clause_type(clause, clause_index, len(clause_data))
 
             # Process BANDWIDTH or BANDWIDTH_CUSTOM clause types
             if clause_type in ["BANDWIDTH", "BANDWIDTH_CUSTOM"]:
@@ -1416,18 +1470,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 continue
 
-            clause_type = clause.get("type")
-
-            # Infer clause type from content if type field is missing or None
-            if not clause_type:
-                if "tcDscpSettings" in clause:
-                    clause_type = "DSCP_CUSTOMIZATION"
-                    self.log(
-                        "Clause {0}/{1} has no 'type' field but contains "
-                        "'tcDscpSettings'. Inferred clause type as "
-                        "'DSCP_CUSTOMIZATION'.".format(clause_index, len(clause_data)),
-                        "DEBUG"
-                    )
+            clause_type = self._infer_clause_type(clause, clause_index, len(clause_data))
 
             self.log(
                 "Clause {0}/{1} has type: '{2}'. Checking if this is a DSCP customization "
@@ -3767,24 +3810,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 continue
 
-            clause_type = clause.get("type")
-
-            # Infer clause type from content if type field is missing or None
-            if not clause_type:
-                if "interfaceSpeedBandwidthClauses" in clause:
-                    clause_type = "BANDWIDTH"
-                    self.log(
-                        "Clause {0}/{1} has no 'type' field but contains 'interfaceSpeedBandwidthClauses'. "
-                        "Inferred clause type as 'BANDWIDTH'.".format(clause_index, len(clauses)),
-                        "DEBUG"
-                    )
-                elif "tcDscpSettings" in clause:
-                    clause_type = "DSCP_CUSTOMIZATION"
-                    self.log(
-                        "Clause {0}/{1} has no 'type' field but contains 'tcDscpSettings'. "
-                        "Inferred clause type as 'DSCP_CUSTOMIZATION'.".format(clause_index, len(clauses)),
-                        "DEBUG"
-                    )
+            clause_type = self._infer_clause_type(clause, clause_index, len(clauses))
 
             self.log(
                 "Clause {0}/{1} type: '{2}'. Determining processing path based on clause type.".format(

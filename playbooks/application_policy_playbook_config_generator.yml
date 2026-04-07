@@ -24,6 +24,6 @@
           component_specific_filters:
             components_list: ["queuing_profile"]
             queuing_profile:
-              - profile_names_list: ["Enterprise-QoS-Profile"]
+              - profile_names_list: ["Enterprise-QoS-Profile", "Enterprise-QoS-Profile"]
             application_policy:
               - policy_names_list: ["wired_traffic_policy", "wireless_traffic_policy"]
