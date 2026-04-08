@@ -481,6 +481,15 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 continue
 
+            if cisco_ise_dto.get("role") != "PRIMARY":
+                self.log(
+                    "Skipping entry due to non-primary role; index={0}, role={1}".format(
+                        idx, cisco_ise_dto.get("role")
+                    ),
+                    "WARNING",
+                )
+                continue
+
             user_name = cisco_ise_dto.get("userName")
             fqdn = cisco_ise_dto.get("fqdn")
             ip_address = cisco_ise_dto.get("ipAddress")
