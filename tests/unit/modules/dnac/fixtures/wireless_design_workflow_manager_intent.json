@@ -31572,7 +31572,7 @@
             "called_station_id": "AP_ETHMAC_ONLY",
             "design_name": "sample_design",
             "unlocked_attributes": [
-              "calledStationId"
+              "called_station_id"
             ]
           }
         ]
@@ -31622,7 +31622,7 @@
             "called_station_id": "AP_MACADDRESS",
             "design_name": "sample_design",
             "unlocked_attributes": [
-              "calledStationId"
+              "called_station_id"
             ]
           }
         ]
@@ -32368,7 +32368,6 @@
               "bss_color",
               "target_waketime_broadcast",
               "non_srg_obss_pd_max_threshold",
-              "target_wake_up_time_11ax",
               "obss_pd"
             ]
           }
