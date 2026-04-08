@@ -2908,17 +2908,16 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.msg = {
-                f"YAML config generation Task failed for module '{self.module_name}'.": {
+                f"YAML configuration file already up-to-date for module '{self.module_name}'.  No changes required.": {
                     "file_path": file_path
                 }
             }
             self.log(
-                f"YAML configuration file write operation FAILED for file: {file_path}. File may not "
-                f"have been created or may be incomplete. Check file permissions, disk space, and path "
-                f"validity. Review write_dict_to_yaml() error messages for specific failure details.",
-                "ERROR"
+                f"YAML configuration file is already up-to-date at: {file_path}. "
+                f"No write operation performed.",
+                "INFO"
             )
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            self.set_operation_result("ok", False, self.msg, "INFO")
 
         return self
 
