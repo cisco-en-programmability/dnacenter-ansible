@@ -40,7 +40,7 @@ options:
       that can be created or updated at a time via the
       SDA API, aligning with GUI constraints. The default
       is 20, as the GUI allows creating up to 20 fabric
-      VLANs at a time.
+      VLANs at a time. Valid range is from 1 to 20.
     type: int
     default: 20
   sda_fabric_gateway_limit:
@@ -49,6 +49,7 @@ options:
       via the SDA API, aligning with GUI constraints.
       The default is 20, as the GUI allows creating
       up to 20 anycast gateways at a time.
+      Valid range is from 1 to 20.
     type: int
     default: 20
   sda_virtual_network_limit:
@@ -57,6 +58,7 @@ options:
       at a time via the SDA API, aligning with GUI
       constraints. The default is 20, as the GUI allows
       creating up to 20 virtual networks at a time.
+      Valid range is from 1 to 20.
     type: int
     default: 20
   config:
@@ -1027,6 +1029,34 @@ class VirtualNetwork(DnacBase):
             will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
             'self.msg' will describe the validation issues.
         """
+
+        limit_params = [
+            "sda_fabric_vlan_limit",
+            "sda_fabric_gateway_limit",
+            "sda_virtual_network_limit",
+        ]
+
+        self.log(
+            "Validating bulk request limit parameters: {0}".format(limit_params),
+            "DEBUG",
+        )
+
+        for limit_param in limit_params:
+            limit_value = self.params.get(limit_param)
+
+            self.log(
+                "Validating parameter '{0}' with value '{1}'.".format(
+                    limit_param, limit_value
+                ),
+                "DEBUG",
+            )
+            if limit_value is not None and not 1 <= limit_value <= 20:
+                self.msg = (
+                    "Invalid value '{0}' given for '{1}'. Supported range is 1 to 20 as per SDA API batch limits."
+                ).format(limit_value, limit_param)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
         temp_spec = {
             "fabric_vlan": {
