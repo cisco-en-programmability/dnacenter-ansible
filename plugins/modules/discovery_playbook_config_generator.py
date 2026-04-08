@@ -1798,13 +1798,11 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                 )
                 self.log(error_msg, "ERROR")
-                self.msg = {
-                    "message": "YAML config generation failed for module '{0}' - invalid file_path parameter.".format(
-                        self.module_name
-                    ),
-                    "error": error_msg
-                }
-                self.set_operation_result("failed", False, self.msg, "ERROR")
+                self.msg = "YAML config generation failed for module '{0}' - invalid file_path parameter.".format(
+                    self.module_name
+                )
+                additional_info = {"error": error_msg}
+                self.set_operation_result("failed", False, self.msg, "ERROR", additional_info)
                 return self
 
             self.log(
@@ -1832,13 +1830,11 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                         directory, str(e)
                     )
                     self.log(error_msg, "ERROR")
-                    self.msg = {
-                        "message": "YAML config generation failed for module '{0}' - cannot create output directory.".format(
-                            self.module_name
-                        ),
-                        "error": error_msg
-                    }
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.msg = "YAML config generation failed for module '{0}' - cannot create output directory.".format(
+                        self.module_name
+                    )
+                    additional_info = {"error": error_msg}
+                    self.set_operation_result("failed", False, self.msg, "ERROR", additional_info)
                     return self
 
         # Get filters
@@ -1860,15 +1856,17 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         discoveries_data = self.get_discoveries_data(global_filters, component_specific_filters)
 
         if not discoveries_data:
-            self.msg = {
+            self.msg = (
+                "No discovery tasks matched the specified filters. "
+                "filters (discovery_name_list / discovery_type_list). "
+                "No YAML configuration was generated. Verify that the filter "
+                "values match existing discovery task names or types."
+            )
+            additional_info = {
                 "status": "ok",
-                "message": (
-                    "No configurations found for module '{0}'. "
-                    "No discoveries matched the specified criteria. "
-                    "Verify filters or configuration.".format(self.module_name)
-                )
+                "message": self.msg
             }
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Generate reverse mapping
@@ -1921,16 +1919,19 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             "discovery_details": {
                 "total_processed": len(discoveries_data),
                 "total_successful": len(discovery_details),
-                "total_failed": 0
+                "total_failed": len(discoveries_data) - len(discovery_details)
             }
         }
 
         if success:
-            self.msg = {
-                "status": "success",
-                "message": "YAML configuration file generated successfully for module '{0}'".format(
+            self.msg = (
+                "YAML configuration file generated successfully for module '{0}'.".format(
                     self.module_name
-                ),
+                )
+            )
+            additional_info = {
+                "status": "success",
+                "message": self.msg,
                 "file_path": file_path,
                 "file_mode": file_mode,
                 "total_discoveries_processed": len(discoveries_data),
@@ -1938,7 +1939,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "discoveries_skipped": [],
                 "component_summary": component_summary
             }
-            self.set_operation_result("success", True, self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO", additional_info)
             self.log(
                 "Discovery playbook generated successfully: {0}".format(file_path),
                 "INFO"
@@ -1947,11 +1948,13 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
             # write_dict_to_yaml returns False when the existing file content is
             # identical to the newly generated content (idempotent - no write needed).
             # This is not a failure; the file is already up-to-date.
-            self.msg = {
+            self.msg = (
+                "YAML configuration file already up-to-date for module '{0}'. "
+                "No changes written.".format(self.module_name)
+            )
+            additional_info = {
                 "status": "ok",
-                "message": "YAML configuration file already up-to-date for module '{0}'. No changes written.".format(
-                    self.module_name
-                ),
+                "message": self.msg,
                 "file_path": file_path,
                 "file_mode": file_mode,
                 "total_discoveries_processed": len(discoveries_data),
@@ -1959,7 +1962,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "discoveries_skipped": [],
                 "component_summary": component_summary
             }
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             self.log(
                 "Discovery YAML file '{0}' content is identical to newly generated "
                 "content. Skipping write (idempotent).".format(file_path),
