@@ -1699,7 +1699,7 @@ class VirtualNetwork(DnacBase):
         Creates fabric VLAN(s) in Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            vlan_payloads (dict): The payload containing the details for the VLAN(s) to be created.
+            vlan_payloads (list): A list of dictionaries containing the payload details for the VLAN(s) to be created.
         Returns:
             self (object): Returns the instance of the class. If the creation process fails at any point, the instance's
                 status is set to "failed" and the failure response is added to the result dictionary.
@@ -1719,8 +1719,8 @@ class VirtualNetwork(DnacBase):
         )
 
         for i in range(0, len(vlan_payloads), req_limit):
-            fabric_vlan_payload = vlan_payloads[i: i + req_limit]
-            fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
+            fabric_vlan_payload = vlan_payloads[i:i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i:i + req_limit]
 
             try:
                 payload = {"payload": fabric_vlan_payload}
@@ -2050,7 +2050,7 @@ class VirtualNetwork(DnacBase):
         Updates the fabric VLAN(s) in Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            update_vlan_payload (dict): A dictionary containing the details required to update the fabric VLAN(s).
+            update_vlan_payload (list): A list of dictionaries containing the details required to update the fabric VLAN(s).
         Returns:
             self (object): Returns the instance of the class. If the update process fails at any point, the instance's
                 status is set to "failed" and the failure response is added to the result dictionary.
@@ -2072,8 +2072,8 @@ class VirtualNetwork(DnacBase):
         )
 
         for i in range(0, len(update_vlan_payload), req_limit):
-            vlan_payload = update_vlan_payload[i: i + req_limit]
-            fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
+            vlan_payload = update_vlan_payload[i:i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i:i + req_limit]
 
             try:
                 payload = {"payload": vlan_payload}
@@ -2607,8 +2607,8 @@ class VirtualNetwork(DnacBase):
         Creates Layer3 Virtual Networks in the Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            add_vn_payloads (dict): A dictionary containing the details required to create
-                                            the Layer3 Virtual Networks.
+            add_vn_payloads (list): A list of dictionaries containing the details
+                                            required to create the Layer3 Virtual Networks.
         Returns:
             self (object): The instance of the class with updated status and result attributes reflecting
                         the outcome of the virtual network creation operation.
@@ -2697,7 +2697,7 @@ class VirtualNetwork(DnacBase):
 
             for i in range(0, len(add_vn_payloads), req_limit):
                 batch_number = (i // req_limit) + 1
-                vn_payload = add_vn_payloads[i: i + req_limit]
+                vn_payload = add_vn_payloads[i:i + req_limit]
                 vn_names = [vn.get("virtualNetworkName") for vn in vn_payload]
                 payload = {"payload": vn_payload}
 
@@ -2939,7 +2939,7 @@ class VirtualNetwork(DnacBase):
         Updates Layer3 Virtual Networks in the Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            update_vn_payloads (dict): A dictionary containing the payload for updating
+            update_vn_payloads (list): A list of dictionaries containing the payload for updating
                                                 Layer3 Virtual Networks.
         Returns:
             self (object): The instance of the class, allowing for method chaining.
@@ -2949,6 +2949,13 @@ class VirtualNetwork(DnacBase):
             The function returns the instance of the class, allowing for further method calls on the
             same instance.
         """
+
+        self.log(
+            "Updating virtual networks with {0} payload(s).".format(
+                len(update_vn_payloads)
+            ),
+            "INFO",
+        )
 
         try:
             req_limit = self.params.get("sda_virtual_network_limit", 20)
@@ -2961,16 +2968,17 @@ class VirtualNetwork(DnacBase):
 
             for i in range(0, len(update_vn_payloads), req_limit):
                 batch_number = (i // req_limit) + 1
-                vn_payload = update_vn_payloads[i: i + req_limit]
+                vn_payload = update_vn_payloads[i:i + req_limit]
                 vn_names = [vn.get("virtualNetworkName") for vn in vn_payload]
                 payload = {"payload": vn_payload}
 
                 self.log(
-                    "Processing batch {0}: Constructed payload for VN updation: {1}".format(
+                    "Processing batch {0}: Constructed payload for VN update: {1}".format(
                         batch_number, payload
                     ),
                     "DEBUG",
                 )
+
                 task_name = "update_layer3_virtual_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
@@ -3775,7 +3783,7 @@ class VirtualNetwork(DnacBase):
         Adds Anycast Gateways to the Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            add_anycast_payloads (dict): A dictionary containing the necessary details for
+            add_anycast_payloads (list): A list of dictionaries containing the necessary details for
                 adding Anycast Gateways.
         Returns:
             self (object): The instance of the class, allowing for method chaining. The status of the operation
@@ -3797,8 +3805,8 @@ class VirtualNetwork(DnacBase):
         )
         for i in range(0, len(add_anycast_payloads), req_limit):
             batch_number = (i // req_limit) + 1
-            gateway_payload = add_anycast_payloads[i: i + req_limit]
-            batch_gateways_added = self.created_anycast_gateways[i: i + req_limit]
+            gateway_payload = add_anycast_payloads[i:i + req_limit]
+            batch_gateways_added = self.created_anycast_gateways[i:i + req_limit]
             payload = {"payload": gateway_payload}
             task_name = "add_anycast_gateways"
             self.log(
@@ -3851,7 +3859,7 @@ class VirtualNetwork(DnacBase):
         Updates Anycast Gateways in the Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            update_anycast_payloads (dict): A dictionary containing the necessary details for updating
+            update_anycast_payloads (list): A list of dictionaries containing the necessary details for updating
                 Anycast Gateways.
         Returns:
             self (object): The instance of the class, allowing for method chaining. The status of the operation
@@ -3873,8 +3881,8 @@ class VirtualNetwork(DnacBase):
         )
         for i in range(0, len(update_anycast_payloads), req_limit):
             batch_number = (i // req_limit) + 1
-            gateway_payload = update_anycast_payloads[i: i + req_limit]
-            batch_gateways_updated = self.updated_anycast_gateways[i: i + req_limit]
+            gateway_payload = update_anycast_payloads[i:i + req_limit]
+            batch_gateways_updated = self.updated_anycast_gateways[i:i + req_limit]
             payload = {"payload": gateway_payload}
             task_name = "update_anycast_gateways"
 
