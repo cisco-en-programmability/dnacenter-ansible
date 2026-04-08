@@ -500,7 +500,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "extranet_policies": {
-                    "filters": ["extranet_policy_name"],
+                    "filters": {"extranet_policy_name": {"type": "str"}},
                     "reverse_mapping_function": (self.extranet_policy_temp_spec),
                     "api_function": "get_extranet_policies",
                     "api_family": "sda",
@@ -960,14 +960,13 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             extranet_policy_temp_spec, final_extranet_policies
         )
 
-        result = {"extranet_policies": ep_details}
         self.log(
             "Completed extranet policies configuration retrieval. Returning {0} transformed policies.".format(
                 len(ep_details)
             ),
             "INFO",
         )
-        return result
+        return ep_details
 
     def get_diff_gathered(self):
         """
