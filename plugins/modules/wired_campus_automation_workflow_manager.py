@@ -8890,12 +8890,28 @@ class WiredCampusAutomation(DnacBase):
 
     def _deep_compare_nested_dict(self, desired_dict, current_dict):
         """
-        Recursive comparison for nested dictionaries.
+        Recursively compare two nested dictionaries to detect
+        configuration differences.
+
+        Iterates over keys in desired_dict and checks whether
+        the corresponding value in current_dict matches. For
+        nested dicts, recurses into _deep_compare_nested_dict.
+        For nested lists, delegates to _deep_compare_nested_list.
+
         Args:
             desired_dict (dict): Desired dictionary configuration
+                to compare against the current state.
             current_dict (dict): Current dictionary configuration
+                retrieved from Catalyst Center.
+
         Returns:
-            bool: True if dictionaries differ, False if they match
+            bool: True if any key/value differs between
+                desired_dict and current_dict, False if all
+                present keys match.
+
+        Note:
+            Only keys present in desired_dict are compared.
+            Extra keys in current_dict are ignored.
         """
         self.log(
             "Starting deep nested dict comparison - desired keys: {0}, current keys: {1}".format(
@@ -8903,6 +8919,18 @@ class WiredCampusAutomation(DnacBase):
             ),
             "DEBUG",
         )
+
+        if not isinstance(desired_dict, dict) or not isinstance(current_dict, dict):
+            self.log(
+                "Invalid input types for deep comparison - "
+                "desired_type={0}, current_type={1}. "
+                "Returning True (differs).".format(
+                    type(desired_dict).__name__,
+                    type(current_dict).__name__
+                ),
+                "DEBUG",
+            )
+            return desired_dict != current_dict
 
         for key, desired_value in desired_dict.items():
             current_value = current_dict.get(key)
