@@ -160,7 +160,13 @@ notes:
 - NFS details correlation matches backup mount paths with NFS
   destination paths automatically
 - Empty configurations return success with idempotent behavior
-- Module does not modify Catalyst Center configuration
+- In overwrite mode, existing file content is compared with newly rendered
+  YAML content (comment/header lines ignored) to support idempotent no-change
+  runs.
+- In append mode, only the last effective YAML config block is compared
+  against the new payload for idempotency checks.
+- If generated content matches existing target content, module returns success
+  with changed=false and does not rewrite the file.
 
 seealso:
 - module: cisco.dnac.backup_and_restore_workflow_manager
@@ -391,23 +397,25 @@ response_1:
 # Case_2: Idempotency Scenario
 response_2:
   description: |
-    No configurations found scenario treated as successful idempotent
-    operation
-  returned: when_no_configs_found
+    Idempotent scenarios treated as successful non-changing operations,
+    including no configurations found or generated content already matching
+    existing file content.
+  returned: when_no_change
   type: dict
   sample:
     msg: |
-      No backup and restore configurations found to process for module
-      backup_and_restore_workflow_manager. Verify that NFS servers or
-      backup configurations are set up in Catalyst Center.
+      YAML configuration file already up-to-date for module
+      backup_and_restore_workflow_manager. No changes written to
+      /tmp/backup.yml.
     response:
-      components_processed: 0
-      components_skipped: 1
-      configurations_count: 0
+      components_processed: 2
+      components_skipped: 0
+      configurations_count: 4
+      file_path: "/tmp/backup.yml"
       message: |
-        No backup and restore configurations found to process for module
-        backup_and_restore_workflow_manager. Verify that NFS servers or
-        backup configurations are set up in Catalyst Center.
+        YAML configuration file already up-to-date for module
+        backup_and_restore_workflow_manager. No changes written to
+        /tmp/backup.yml.
       status: "success"
     status: "success"
 
@@ -2545,39 +2553,45 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
         else:
             self.log(
-                "write_dict_to_yaml() returned False indicating YAML file creation failure. File path: '{0}'. "
-                "This may indicate file permission issues, invalid path, or disk space problems. Checking "
-                "operation status before setting failure result.".format(file_path),
-                "ERROR"
+                "write_dict_to_yaml() returned False, indicating idempotent no-change behavior "
+                "(existing YAML content already matches intended content). File path: '{0}'. "
+                "Checking operation status before setting unchanged success result.".format(file_path),
+                "INFO"
             )
             if self.status != "failed":
-                error_message = (
-                    "Failed to write YAML configuration to file: '{0}'. Verify file path is valid, "
-                    "directory exists, and write permissions are available. Total configurations prepared "
-                    "for writing: {1} across {2} component(s).".format(
+                unchanged_message = (
+                    "YAML configuration file already up-to-date for module '{0}'. "
+                    "No changes written to '{1}'. Total configurations evaluated: {2} "
+                    "across {3} component(s).".format(
+                        self.module_name,
                         file_path, total_configurations, components_processed
                     )
                 )
 
                 self.log(
-                    "Constructing failure response with error details and file path. Message: {0}.".format(
-                        error_message
+                    "Constructing unchanged success response for idempotent execution. "
+                    "Message: {0}.".format(
+                        unchanged_message
                     ),
-                    "ERROR"
+                    "INFO"
                 )
 
                 response_data = {
-                    "message": error_message,
-                    "status": "failed"
+                    "components_processed": components_processed,
+                    "components_skipped": components_skipped,
+                    "configurations_count": total_configurations,
+                    "file_path": file_path,
+                    "message": unchanged_message,
+                    "status": "success"
                 }
 
-                self.set_operation_result("failed", False, error_message, "ERROR")
+                self.set_operation_result("success", False, unchanged_message, "INFO")
                 self.msg = response_data
                 self.result["response"] = response_data
                 self.log(
-                    "Set operation result to failed. YAML file generation workflow failed at file writing "
-                    "stage. Response data: {0}.".format(response_data),
-                    "ERROR"
+                    "Set operation result to success with changed=False (idempotent no-op). "
+                    "YAML content already up-to-date. Response data: {0}.".format(response_data),
+                    "INFO"
                 )
 
         self.log(

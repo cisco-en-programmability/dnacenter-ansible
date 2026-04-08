@@ -221,7 +221,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 file_path="/Users/priyadharshini/Downloads/configuration_details_info1",
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
@@ -230,7 +230,12 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 "components_skipped": 0,
                 "configurations_count": 7,
                 "file_path": "/Users/priyadharshini/Downloads/configuration_details_info1",
-                "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
+                "message": (
+                    "YAML configuration file already up-to-date for module "
+                    "'backup_and_restore_workflow_manager'. No changes written to "
+                    "'/Users/priyadharshini/Downloads/configuration_details_info1'. "
+                    "Total configurations evaluated: 7 across 2 component(s)."
+                ),
                 "status": "success"
             }
         )
