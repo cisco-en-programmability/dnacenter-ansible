@@ -486,7 +486,7 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "Skipping entry due to non-primary role; index={0}, role={1}".format(
                         idx, cisco_ise_dto.get("role")
                     ),
-                    "WARNING",
+                    "INFO",
                 )
                 continue
 
@@ -494,7 +494,6 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
             fqdn = cisco_ise_dto.get("fqdn")
             ip_address = cisco_ise_dto.get("ipAddress")
             description = cisco_ise_dto.get("description")
-            ssh_key = cisco_ise_dto.get("sshKey")
 
             self.log(
                 "Mapping entry fields; index={0}, user_name={1}, ip_address={2}".format(
@@ -513,7 +512,6 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ("fqdn", fqdn),
                 ("ip_address", ip_address),
                 ("description", description),
-                ("ssh_key", ssh_key),
             ])
 
             cisco_ise_dtos_list.append(transformed_entry)
@@ -668,7 +666,6 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "fqdn": {"type": "str"},
                         "ip_address": {"type": "str"},
                         "description": {"type": "str"},
-                        "ssh_key": {"type": "str", "source_key": "sshKey"},
                     },
                 },
                 "trusted_server": {"type": "str", "source_key": "trustedServer"},
