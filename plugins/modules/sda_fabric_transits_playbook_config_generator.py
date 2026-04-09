@@ -897,7 +897,7 @@ def main():
         config_generator.msg = "State {0} is invalid".format(
             state
         )
-        config_generator.check_recturn_status()
+        config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     config_generator.validate_input().check_return_status()

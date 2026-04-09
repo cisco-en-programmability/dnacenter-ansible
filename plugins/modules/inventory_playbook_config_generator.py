@@ -4257,7 +4257,7 @@ def main():
         ccc_inventory_playbook_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_inventory_playbook_generator.check_recturn_status()
+        ccc_inventory_playbook_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     ccc_inventory_playbook_generator.validate_input().check_return_status()
