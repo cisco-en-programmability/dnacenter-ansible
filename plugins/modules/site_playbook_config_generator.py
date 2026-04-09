@@ -116,9 +116,8 @@ options:
                   - Site type filter.
                   - Valid values are "area", "building", and "floor".
                   - Can be a list to match multiple site types.
-                  - When specified in one site filter item, the same values are
-                    applied to sibling hierarchy-only site filter items in the
-                    same request to keep union output type-consistent.
+                  - When omitted, all three site types are targeted for that
+                    filter item (area, building, and floor).
                 type: list
                 elements: str
 requirements:
@@ -2558,7 +2557,9 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         - `site_name_hierarchy` and `parent_name_hierarchy` in the same filter
           expression are treated as invalid and skipped, because retrieval is
           supported only as separate filter expressions for unambiguous union.
-        - `site_type` expands query params to one API call per type value.
+        - `site_type` expands query params to one API call per type value. When
+          omitted, all supported types (``area``, ``building``, ``floor``) are
+          used so the filter targets every site type under the requested scope.
         - Union behavior across multiple `component_specific_filters.site` list
           items is handled by the caller (`get_sites_configuration`) by
           concatenating per-item query plans.
@@ -2596,7 +2597,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         parent_name_hierarchy_values = self.normalize_hierarchy_values(
             filter_expression.get("parent_name_hierarchy")
         )
-        site_type_list = filter_expression.get("site_type")
+        site_type_list = filter_expression.get("site_type") or list(self.get_supported_components())
         deduped_site_type_list = site_type_list
 
         if site_name_hierarchy_values and parent_name_hierarchy_values:
@@ -2659,11 +2660,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
 
         query_plan = []
-        type_values = (
-            deduped_site_type_list
-            if isinstance(deduped_site_type_list, list) and deduped_site_type_list
-            else [None]
-        )
+        type_values = deduped_site_type_list
         for hierarchy_index, effective_name_hierarchy in enumerate(
             effective_name_hierarchy_values
         ):
@@ -2740,9 +2737,6 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         component_specific_filters = self.resolve_component_filters(
-            component_specific_filters
-        )
-        component_specific_filters = self.apply_global_site_type_to_site_filters(
             component_specific_filters
         )
 
@@ -2943,154 +2937,6 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             "Site retrieval workflow completed and mapped payload assembled.", "INFO"
         )
         return mapped_configurations
-
-    def apply_global_site_type_to_site_filters(self, component_specific_filters):
-        """
-        Propagate declared site_type values across sibling site filter expressions.
-
-        Behavior:
-        - Collect all unique site_type values declared in the current `site` filter
-          list (preserving order).
-        - For filter items that define hierarchy selectors but omit `site_type`,
-          inject the collected site_type list so final retrieval semantics are
-          consistent across the union of site filters.
-
-        Args:
-            component_specific_filters (list | None): Site filter expressions after
-                wrapper resolution.
-
-        Returns:
-            list | None: Updated filter list with propagated site_type where needed.
-        """
-        start_time = time.time()
-        if not isinstance(component_specific_filters, list):
-            end_time = time.time()
-            self.log(
-                "Global site_type propagation skipped: filter container is not a list "
-                "(type={0}), start_time={1:.6f}, end_time={2:.6f}, duration_seconds={3:.6f}.".format(
-                    type(component_specific_filters).__name__,
-                    start_time,
-                    end_time,
-                    end_time - start_time,
-                ),
-                "DEBUG",
-            )
-            return component_specific_filters
-
-        global_site_types = []
-        seen_site_types = set()
-        filters_with_site_type = 0
-        for index, filter_expression in enumerate(component_specific_filters):
-            self.log(
-                "Collecting global site_type values from filter index {0}: {1}.".format(
-                    index, filter_expression
-                ),
-                "DEBUG",
-            )
-            if not isinstance(filter_expression, dict):
-                self.log(
-                    "Skipping global site_type collection for non-dict filter at index {0}.".format(
-                        index
-                    ),
-                    "DEBUG",
-                )
-                continue
-            site_type_values = filter_expression.get("site_type")
-            if not isinstance(site_type_values, list) or not site_type_values:
-                self.log(
-                    "Skipping global site_type collection for filter index {0}: "
-                    "'site_type' is missing or empty.".format(index),
-                    "DEBUG",
-                )
-                continue
-            filters_with_site_type += 1
-            for site_type_index, site_type_value in enumerate(site_type_values):
-                if site_type_value in seen_site_types:
-                    self.log(
-                        "Skipping duplicate global site_type value '{0}' from "
-                        "filter index {1} at site_type index {2}.".format(
-                            site_type_value, index, site_type_index
-                        ),
-                        "DEBUG",
-                    )
-                    continue
-                seen_site_types.add(site_type_value)
-                global_site_types.append(site_type_value)
-
-        if not global_site_types:
-            end_time = time.time()
-            self.log(
-                "Global site_type propagation completed with no-op: "
-                "filters_total={0}, filters_with_site_type={1}, "
-                "filters_updated=0, start_time={2:.6f}, end_time={3:.6f}, "
-                "duration_seconds={4:.6f}.".format(
-                    len(component_specific_filters),
-                    filters_with_site_type,
-                    start_time,
-                    end_time,
-                    end_time - start_time,
-                ),
-                "INFO",
-            )
-            return component_specific_filters
-
-        updated_filters = []
-        filters_updated = 0
-        for index, filter_expression in enumerate(component_specific_filters):
-            self.log(
-                "Applying global site_type propagation on filter index {0}: {1}.".format(
-                    index, filter_expression
-                ),
-                "DEBUG",
-            )
-            if not isinstance(filter_expression, dict):
-                updated_filters.append(filter_expression)
-                self.log(
-                    "Skipping global site_type injection for non-dict filter at "
-                    "index {0}; preserving original entry.".format(index),
-                    "DEBUG",
-                )
-                continue
-
-            has_hierarchy_selector = bool(
-                filter_expression.get("site_name_hierarchy")
-                or filter_expression.get("parent_name_hierarchy")
-            )
-            has_site_type = bool(
-                isinstance(filter_expression.get("site_type"), list)
-                and filter_expression.get("site_type")
-            )
-
-            if has_hierarchy_selector and not has_site_type:
-                updated_expression = dict(filter_expression)
-                updated_expression["site_type"] = list(global_site_types)
-                updated_filters.append(updated_expression)
-                filters_updated += 1
-                self.log(
-                    "Skipping default append path after injecting propagated "
-                    "site_type values for filter index {0}.".format(index),
-                    "DEBUG",
-                )
-                continue
-
-            updated_filters.append(filter_expression)
-
-        end_time = time.time()
-        self.log(
-            "Global site_type propagation completed: filters_total={0}, "
-            "filters_with_site_type={1}, filters_updated={2}, global_site_types={3}, "
-            "start_time={4:.6f}, end_time={5:.6f}, duration_seconds={6:.6f}.".format(
-                len(component_specific_filters),
-                filters_with_site_type,
-                filters_updated,
-                global_site_types,
-                start_time,
-                end_time,
-                end_time - start_time,
-            ),
-            "INFO",
-        )
-        return updated_filters
 
     def get_areas_configuration(self, network_element, component_specific_filters=None):
         """
