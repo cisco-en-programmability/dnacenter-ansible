@@ -5,7 +5,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Abhishek Maheshwari, Madhan Sankaranarayanan"
+__author__ = "Abhishek Maheshwari, Sunil Shatagopa, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_virtual_networks_workflow_manager
@@ -21,8 +21,10 @@ description:
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan
-  (@madhansansel)
+author:
+- Abhishek Maheshwari (@abmahesh)
+- Sunil Shatagopa (@shatagopasunil)
+- Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -93,8 +95,11 @@ options:
             required: true
           vlan_id:
             description: ID for the layer2 VLAN network.
-              Allowed VLAN range is 2-4093 except for
-              reserved VLANs 1002-1005, and 2046. If
+              Allowed VLAN range is 2-4093. Reserved VLANs
+              are 1002-1005 and 2046. We do not allow users
+              to create fabric VLANs with reserved VLANs,
+              but we accept reserved VLANs to support
+              idempotent behavior. If
               deploying on a fabric zone, this vlan_id
               must match the vlan_id of the corresponding
               layer2 virtual network on the fabric site.
@@ -348,11 +353,14 @@ options:
             type: str
           vlan_id:
             description: ID of the VLAN for the anycast
-              gateway. The allowed VLAN range is 2-4093,
-              except for reserved VLANs 1002-1005, 2046,
-              and 4094. If deploying an anycast gateway
-              on a fabric zone, this 'vlan_id' must
-              match the 'vlan_id' of the corresponding
+              gateway. Allowed VLAN range is 2-4093.
+              Reserved VLANs are 1002-1005 and 2046.
+              We do not allow users to create anycast
+              gateways with reserved VLANs, but we
+              accept reserved VLANs to support
+              idempotent behavior. If deploying an
+              anycast gateway on a fabric zone, this
+              vlan_id must match the vlan_id of the corresponding
               anycast gateway on the fabric site. This
               field is optional if the parameter 'auto_generate_vlan_name'
               is set to true. Updating this field is
@@ -981,6 +989,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 import copy
 import re
 
+RESERVED_VLAN_IDS = frozenset({1002, 1003, 1004, 1005, 2046})
+
 
 class VirtualNetwork(DnacBase):
     """Class containing member attributes for fabric sites and zones workflow manager module"""
@@ -1010,6 +1020,25 @@ class VirtualNetwork(DnacBase):
 
         self.deleted_anycast_gateways = []
         self.absent_anycast_gateways = []
+
+    def _is_reserved_vlan_id(self, vlan_id):
+        """
+        Checks whether the provided VLAN ID belongs to the reserved VLAN range.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            vlan_id (int): The VLAN ID to validate against the reserved VLAN IDs.
+        Returns:
+            bool: Returns True if `vlan_id` is one of the reserved VLAN IDs (1002-1005, 2046),
+                otherwise returns False.
+        """
+
+        is_reserved = vlan_id in RESERVED_VLAN_IDS
+        self.log(
+            "VLAN ID '{0}' reserved status: {1}.".format(vlan_id, is_reserved),
+            "DEBUG",
+        )
+
+        return is_reserved
 
     def validate_input(self):
         """
@@ -1487,12 +1516,32 @@ class VirtualNetwork(DnacBase):
                 ),
                 "DEBUG",
             )
+            params = {}
+
+            # For reserved VLAN IDs, querying get_layer2_virtual_networks with vlan_id causes API errors.
+            # Use vlan_name-based lookup for reserved VLAN handling to preserve idempotent behavior.
+            if self._is_reserved_vlan_id(vlan_id):
+                self.log(
+                    "Given VLAN ID '{0}' is a reserved VLAN ID. Using vlan_name param to fetch fabric vlan."
+                    .format(vlan_id),
+                    "DEBUG"
+                )
+                params["vlan_name"] = vlan_name
+            else:
+                self.log(
+                    "Given VLAN ID '{0}' is not a reserved VLAN ID. Using vlan_id param to fetch fabric vlan."
+                    .format(vlan_id),
+                    "DEBUG"
+                )
+                params["vlan_id"] = vlan_id
+
             response = self.dnac._exec(
                 family="sda",
                 function="get_layer2_virtual_networks",
                 op_modifies=False,
-                params={"vlan_id": vlan_id},
+                params=params,
             )
+
             response = response.get("response")
             self.log(
                 "Received API response from 'get_layer2_virtual_networks' for the VLAN '{0}': {1}".format(
@@ -1510,7 +1559,23 @@ class VirtualNetwork(DnacBase):
                 )
                 return vlan_ids
 
-            for vlan_vn in response:
+            filtered_response = [
+                vlan
+                for vlan in response
+                if vlan.get("vlanName") == vlan_name
+                and vlan.get("vlanId") == vlan_id
+            ]
+
+            if not filtered_response:
+                self.log(
+                    "No matching layer2 fabric VLAN found in Cisco Catalyst Center for vlan_name '{0}' and vlan_id '{1}'.".format(
+                        vlan_name, vlan_id
+                    ),
+                    "INFO",
+                )
+                return vlan_ids
+
+            for vlan_vn in filtered_response:
                 vlan_id_value = vlan_vn.get("id")
                 vlan_ids.append(vlan_id_value)
                 self.log(
@@ -1562,12 +1627,29 @@ class VirtualNetwork(DnacBase):
                 ),
                 "DEBUG",
             )
+            params = {"fabric_id": fabric_id}
+            if self._is_reserved_vlan_id(vlan_id):
+                self.log(
+                    "Given VLAN ID '{0}' is a reserved VLAN ID. Using vlan_name with fabric_id to fetch VLAN details."
+                    .format(vlan_id),
+                    "DEBUG",
+                )
+                params["vlan_name"] = vlan_name
+            else:
+                self.log(
+                    "Given VLAN ID '{0}' is not a reserved VLAN ID. Using vlan_id with fabric_id to fetch VLAN details."
+                    .format(vlan_id),
+                    "DEBUG",
+                )
+                params["vlan_id"] = vlan_id
+
             response = self.dnac._exec(
                 family="sda",
                 function="get_layer2_virtual_networks",
                 op_modifies=False,
-                params={"vlan_id": vlan_id, "fabric_id": fabric_id},
+                params=params,
             )
+
             response = response.get("response")
             self.log(
                 "Received API response from 'get_layer2_virtual_networks' for VLAN '{0}': {1}".format(
@@ -1585,8 +1667,26 @@ class VirtualNetwork(DnacBase):
                 )
                 return None
 
+            filtered_response = [
+                vlan
+                for vlan in response
+                if vlan.get("vlanName") == vlan_name
+                and vlan.get("vlanId") == vlan_id
+            ]
+
+            if not filtered_response:
+                self.log(
+                    "No matching layer2 VLAN found in Cisco Catalyst Center for vlan_name '{0}' and vlan_id '{1}'.".format(
+                        vlan_name, vlan_id
+                    ),
+                    "INFO",
+                )
+                return None
+
+            matched_vlan = filtered_response[0]
+
             self.log(
-                "Returning details for VLAN '{0}': {1}".format(vlan_name, response[0]),
+                "Returning details for VLAN '{0}': {1}".format(vlan_name, matched_vlan),
                 "DEBUG",
             )
 
@@ -1599,7 +1699,7 @@ class VirtualNetwork(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-        return response[0]
+        return matched_vlan
 
     def validate_traffic_type(self, traffic_type):
         """
@@ -3251,14 +3351,15 @@ class VirtualNetwork(DnacBase):
             self.validate_traffic_type(traffic_type.upper())
 
         vlan_id = anycast.get("vlan_id")
+
+        # Reserved VLANs are intentionally not validated here to keep operations idempotent.
+        # If reserved VLAN IDs already exist, this check should not fail the workflow.
         if (
             vlan_id
             and vlan_id not in range(2, 4094)
-            or vlan_id in [1002, 1003, 1004, 1005, 2046]
         ):
             self.msg = (
-                "Invalid vlan_id '{0}' given in the playbook. Allowed VLAN range is (2,4094) except for "
-                "reserved VLANs 1002-1005, and 2046."
+                "Invalid vlan_id '{0}' given in the playbook. Please provide vlan_id within the range 2-4093."
             ).format(vlan_id)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
@@ -4064,22 +4165,6 @@ class VirtualNetwork(DnacBase):
                     )
                     missing_required_param.append(param)
 
-            if vlan_id not in range(2, 4094) or vlan_id in [
-                1002,
-                1003,
-                1004,
-                1005,
-                2046,
-            ]:
-                self.msg = (
-                    "Invalid vlan_id '{0}' given in the playbook. Allowed VLAN range is (2,4094) except for "
-                    "reserved VLANs 1002-1005, and 2046."
-                ).format(vlan_id)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
-                return self
-
             if missing_required_param:
                 self.msg = (
                     "Required parameter(s) '{0}' are missing and they must be given in the playbook in order to  "
@@ -4088,6 +4173,17 @@ class VirtualNetwork(DnacBase):
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
+
+            # Reserved VLANs are intentionally not validated here to keep operations idempotent.
+            # If reserved VLAN IDs already exist, this check should not fail the workflow.
+            if vlan_id not in range(2, 4094):
+                self.msg = (
+                    "Invalid vlan_id '{0}' in the playbook. Please provide vlan_id within the range 2-4093."
+                ).format(vlan_id)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
 
             flooding_address_assignment = vlan.get("flooding_address_assignment")
             if flooding_address_assignment and flooding_address_assignment not in ["SHARED", "CUSTOM"]:
