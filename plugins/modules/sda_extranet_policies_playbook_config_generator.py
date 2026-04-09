@@ -76,14 +76,15 @@ options:
         description:
         - Filters to specify which components to include in the YAML configuration
           file.
-        - If "components_list" is specified, only those components are included,
+        - This parameter is mandatory when C(config) is provided. Omitting it or
+          providing an empty value will result in a validation error.
+        - If C(components_list) is specified, only those components are included,
           regardless of other filters.
-        - If filters for specific components (e.g., extranet_policies) are provided
-          without explicitly including them in components_list, those components will be
-          automatically added to components_list.
-        - At least one of components_list or component filters must be provided when config is specified.
+        - If filters for specific components (e.g., C(extranet_policies)) are provided
+          without explicitly including them in C(components_list), those components will
+          be automatically added to C(components_list).
         type: dict
-        required: false
+        required: true
         suboptions:
           components_list:
             description:
@@ -398,17 +399,36 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         Description:
             Validates config against expected schema and sets validation status.
-            If config is not provided or empty, treats it as generate_all_configurations mode.
+            If config is not provided (None), treats it as generate_all_configurations mode.
+            If config is provided as an empty dictionary, raises a validation error.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available or empty - if not provided or empty, treat as generate_all
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - this is an error
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.msg = "Configuration is not provided - treating as generate_all_configurations mode"
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO")
+            return self
+
+        if not isinstance(self.config, dict):
+            self.msg = (
+                "Configuration must be a dictionary, got: {0}. Please provide "
+                "configuration as a dictionary.".format(type(self.config).__name__)
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Expected schema for configuration parameters
@@ -425,8 +445,21 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         # Auto-populate components_list from component filters and validate
         component_specific_filters = valid_temp.get("component_specific_filters")
-        if component_specific_filters:
-            self.auto_populate_and_validate_components_list(component_specific_filters)
+        if not component_specific_filters:
+            self.msg = (
+                "Validation Error: 'component_specific_filters' is mandatory and must be non-empty "
+                "when 'config' is provided. Either omit 'config' entirely to generate all "
+                "configurations, or provide 'component_specific_filters' within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        self.auto_populate_and_validate_components_list(component_specific_filters)
+        # Deduplicate user-provided filters to avoid issuing redundant API calls
+        # for the same policy name. Note: API-level deduplication is done separately
+        # in get_extranet_policies_configuration() for paginated response overlap.
+        self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -467,7 +500,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "extranet_policies": {
-                    "filters": ["extranet_policy_name"],
+                    "filters": {"extranet_policy_name": {"type": "str"}},
                     "reverse_mapping_function": (self.extranet_policy_temp_spec),
                     "api_function": "get_extranet_policies",
                     "api_family": "sda",
@@ -505,10 +538,11 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 - Other policy details (not processed by this method)
 
         Returns:
-            list[str]: Fabric site name hierarchies in order:
+            list[str] | None: Fabric site name hierarchies in order:
                 - Format: "Global/Region/Site/Building"
                 - Only includes successfully resolved site names
-                - Returns empty list if no fabricIds or resolution failures
+                - Returns None if no fabricIds found, or if all fabric IDs
+                  fail to resolve (empty result list)
 
         Processing Flow:
             1. Extract fabricIds list from policy details
@@ -544,11 +578,10 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         fabric_ids = extranet_policy_details.get("fabricIds", [])
         if not fabric_ids:
             self.log(
-                "No fabric IDs found in extranet policy "
-                "details, returning empty list",
+                "No fabric IDs found in extranet policy details, returning None",
                 "DEBUG",
             )
-            return []
+            return None
 
         self.log(
             "Processing {0} fabric ID(s) for site name "
@@ -589,7 +622,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "DEBUG",
             )
-        return fabric_site_names
+        return fabric_site_names if fabric_site_names else None
 
     def extranet_policy_temp_spec(self):
         """
@@ -733,7 +766,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         ...
                     ]
                 }
-                Returns {"extranet_policies": []} if no policies found
+                Returns None if no policies found
 
         Processing Workflow:
             1. Extract API family and function from network_element
@@ -750,11 +783,16 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             5. For full retrieval:
                 - Execute paginated API call with empty params
                 - Collect all policies from Catalyst Center
-            6. Transform results:
+            6. Deduplicate output policies before transformation using the unique policy
+               name (extranetPolicyName) as key:
+                - Track seen policy names in a set
+                - Skip policies with duplicate names
+                - Log count of removed duplicates if any
+            7. Transform results:
                 - Generate extranet_policy_temp_spec()
                 - Apply modify_parameters(temp_spec, policies)
                 - Convert API format to YAML format
-            7. Return structured result dictionary
+            8. Return structured result dictionary
 
         API Integration:
             - Family: sda
@@ -794,8 +832,8 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         Error Handling:
             - API failures: Logged and propagated to calling function
-            - Empty results: Returns empty list, not error
-            - Invalid filter names: Logged as warning, skipped
+            - Empty results: Returns None, not an error
+            - Invalid filter names: Logged as a warning and skipped
             - Failed transformations: Logged and may cause failures
 
         Logging:
@@ -886,11 +924,31 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         if not final_extranet_policies:
             self.log(
                 "No extranet policies found matching the "
-                "specified filters. Returning empty "
+                "specified filters. Returning None "
                 "result.",
                 "WARNING",
             )
-            return {"extranet_policies": []}
+            return None
+
+        # Deduplicate output policies before transformation using the unique policy name as key
+        original_count = len(final_extranet_policies)
+        seen_policy_names = set()
+        deduped_policies = []
+        for policy in final_extranet_policies:
+            policy_name = policy.get("extranetPolicyName")
+            if policy_name not in seen_policy_names:
+                seen_policy_names.add(policy_name)
+                deduped_policies.append(policy)
+        final_extranet_policies = deduped_policies
+        dedup_count = original_count - len(final_extranet_policies)
+        if dedup_count > 0:
+            self.log(
+                "Removed {0} duplicate extranet policy(ies) from API results. "
+                "Original count: {1}, After dedup: {2}".format(
+                    dedup_count, original_count, len(final_extranet_policies)
+                ),
+                "INFO",
+            )
 
         self.log(
             "Transforming {0} extranet policy(ies) using "
@@ -902,14 +960,13 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             extranet_policy_temp_spec, final_extranet_policies
         )
 
-        result = {"extranet_policies": ep_details}
         self.log(
             "Completed extranet policies configuration retrieval. Returning {0} transformed policies.".format(
                 len(ep_details)
             ),
             "INFO",
         )
-        return result
+        return ep_details
 
     def get_diff_gathered(self):
         """
