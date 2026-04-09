@@ -1032,11 +1032,6 @@ class VirtualNetwork(DnacBase):
                 otherwise returns False.
         """
 
-        self.log(
-            "Checking whether VLAN ID '{0}' is a reserved VLAN ID.".format(vlan_id),
-            "DEBUG",
-        )
-
         is_reserved = vlan_id in RESERVED_VLAN_IDS
         self.log(
             "VLAN ID '{0}' reserved status: {1}.".format(vlan_id, is_reserved),
