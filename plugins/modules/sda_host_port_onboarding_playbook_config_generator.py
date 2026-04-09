@@ -683,11 +683,11 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components.",
         "response":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components."
     }
 """
 
@@ -2378,7 +2378,6 @@ def main():
 
         Playbook Configuration:
             - config (list[dict], required): Configuration parameters list containing:
-                * generate_all_configurations (bool): Enable auto-discovery mode
                 * file_path (str): Output YAML file path
                 * component_specific_filters (dict): Component-based filters with:
                     - components_list (list): Component types to extract
