@@ -2581,7 +2581,7 @@ def main():
         ccc_device_credential_playbook_config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_device_credential_playbook_config_generator.check_recturn_status()
+        ccc_device_credential_playbook_config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     ccc_device_credential_playbook_config_generator.validate_input().check_return_status()
