@@ -89,8 +89,8 @@ options:
               transit_type:
                 description:
                 - Transit type to filter fabric transits by type.
-                - Valid values are IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT
                 type: str
+                choices: [IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT]
 
 requirements:
 - dnacentersdk >= 2.3.7.9
@@ -425,7 +425,14 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "sda_fabric_transits": {
                     "filters": {
                         "name": {"type": "str"},
-                        "transit_type": {"type": "str"}
+                        "transit_type": {
+                            "type": "str",
+                            "choices": [
+                                "IP_BASED_TRANSIT",
+                                "SDA_LISP_PUB_SUB_TRANSIT",
+                                "SDA_LISP_BGP_TRANSIT"
+                            ]
+                        }
                     },
                     "reverse_mapping_function": self.fabric_transit_temp_spec,
                     "api_function": "get_transit_networks",
