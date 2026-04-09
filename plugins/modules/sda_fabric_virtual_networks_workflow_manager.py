@@ -95,8 +95,11 @@ options:
             required: true
           vlan_id:
             description: ID for the layer2 VLAN network.
-              Allowed VLAN range is 2-4093 except for
-              reserved VLANs 1002-1005, and 2046. If
+              Allowed VLAN range is 2-4093. Reserved VLANs
+              are 1002-1005 and 2046. We do not allow users
+              to create fabric VLANs with reserved VLANs,
+              but we accept reserved VLANs to support
+              idempotent behavior. If
               deploying on a fabric zone, this vlan_id
               must match the vlan_id of the corresponding
               layer2 virtual network on the fabric site.
@@ -350,11 +353,14 @@ options:
             type: str
           vlan_id:
             description: ID of the VLAN for the anycast
-              gateway. The allowed VLAN range is 2-4093,
-              except for reserved VLANs 1002-1005, 2046,
-              and 4094. If deploying an anycast gateway
-              on a fabric zone, this 'vlan_id' must
-              match the 'vlan_id' of the corresponding
+              gateway. Allowed VLAN range is 2-4093.
+              Reserved VLANs are 1002-1005 and 2046.
+              We do not allow users to create anycast
+              gateways with reserved VLANs, but we
+              accept reserved VLANs to support
+              idempotent behavior. If deploying an
+              anycast gateway on a fabric zone, this
+              vlan_id must match the vlan_id of the corresponding
               anycast gateway on the fabric site. This
               field is optional if the parameter 'auto_generate_vlan_name'
               is set to true. Updating this field is
@@ -983,6 +989,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 import copy
 import re
 
+RESERVED_VLAN_IDS = frozenset({1002, 1003, 1004, 1005, 2046})
+
 
 class VirtualNetwork(DnacBase):
     """Class containing member attributes for fabric sites and zones workflow manager module"""
@@ -1024,13 +1032,12 @@ class VirtualNetwork(DnacBase):
                 otherwise returns False.
         """
 
-        reserved_vlan_ids = {1002, 1003, 1004, 1005, 2046}
         self.log(
             "Checking whether VLAN ID '{0}' is a reserved VLAN ID.".format(vlan_id),
             "DEBUG",
         )
 
-        is_reserved = vlan_id in reserved_vlan_ids
+        is_reserved = vlan_id in RESERVED_VLAN_IDS
         self.log(
             "VLAN ID '{0}' reserved status: {1}.".format(vlan_id, is_reserved),
             "DEBUG",
