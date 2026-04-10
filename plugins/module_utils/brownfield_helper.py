@@ -290,8 +290,9 @@ class BrownFieldHelper:
                 comp for comp in components_list if comp not in network_elements
             ]
             if invalid_components:
+                valid_components = list(network_elements.keys()) + ["component_list"]
                 self.msg = "Invalid network components provided for module '{0}': {1}. Valid components are: {2}".format(
-                    self.module_name, invalid_components, list(network_elements.keys())
+                    self.module_name, invalid_components, valid_components
                 )
                 self.fail_and_exit(self.msg)
 
