@@ -361,6 +361,15 @@ class BrownFieldHelper:
                     )
                     continue
 
+                # Check for missing required filters in this entry
+                for req_filter_name, req_filter_spec in valid_filters_for_component.items():
+                    if req_filter_spec.get("required", False) and req_filter_name not in component_filter:
+                        invalid_filters.append(
+                            "Component '{0}' filter entry {1}/{2} is missing required filter '{3}'".format(
+                                component_name, index, len(component_filters), req_filter_name
+                            )
+                        )
+
                 for filter_name, filter_value in component_filter.items():
                     self.log(
                         "Processing filter '{0}' in entry {1}/{2} for component '{3}': value={4}".format(
