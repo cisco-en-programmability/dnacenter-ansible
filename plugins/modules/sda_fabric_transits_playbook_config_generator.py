@@ -89,8 +89,19 @@ options:
               transit_type:
                 description:
                 - Transit type to filter fabric transits by type.
+                - C(IP_BASED_TRANSIT) selects transits that
+                  use IP-based routing with BGP between
+                  fabric sites.
+                - C(SDA_LISP_PUB_SUB_TRANSIT) selects
+                  transits that use SDA with LISP
+                  Publish-Subscribe control plane.
+                - C(SDA_LISP_BGP_TRANSIT) selects transits
+                  that use SDA with LISP BGP control plane.
                 type: str
-                choices: [IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT]
+                choices:
+                - IP_BASED_TRANSIT
+                - SDA_LISP_PUB_SUB_TRANSIT
+                - SDA_LISP_BGP_TRANSIT
 
 requirements:
 - dnacentersdk >= 2.3.7.9
