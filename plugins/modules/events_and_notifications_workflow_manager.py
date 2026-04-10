@@ -2473,6 +2473,15 @@ class Events(DnacBase):
             If they are not identical, it sets the update_needed flag to True.
         """
 
+        # Normalize null/empty header payloads so comparisons handle API responses
+        # where headers may be returned as None instead of [].
+        playbook_header = playbook_header or []
+        ccc_header = ccc_header or []
+        self.log(
+            "Comparing playbook headers: {0} with CCC headers: {1} to determine if update is needed.".format(
+                playbook_header, ccc_header), "DEBUG"
+        )
+
         if len(playbook_header) == 0 and ccc_header:
             return True
 
@@ -2506,7 +2515,7 @@ class Events(DnacBase):
         for key, value in webhook_params.items():
             if isinstance(value, list):
                 update_needed = self.webhook_header_needs_update(
-                    value, webhook_dest_detail_in_ccc[key]
+                    value, webhook_dest_detail_in_ccc.get(key)
                 )
                 if update_needed:
                     break
