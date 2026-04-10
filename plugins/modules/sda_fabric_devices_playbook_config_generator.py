@@ -1122,15 +1122,25 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_fabric_devices_configuration(self, network_element, filters=None):
         """
-        Retrieve and transform fabric devices configuration.
+        Retrieve and transform fabric devices configuration into playbook-ready format.
 
         Parameters:
-            network_element (dict): Network element schema with API and transform details.
-            filters (dict, optional): Dictionary containing 'component_specific_filters'.
-                - component_specific_filters (list/dict): Filters for fabric_name, device_ip, device_roles.
+            network_element (dict): Network element schema containing:
+                - api_family (str): API family to use (e.g. 'sda').
+                - api_function (str): API function name (e.g. 'get_fabric_devices').
+                - reverse_mapping_function (callable): Returns the temp_spec OrderedDict for transformation.
+            filters (dict, optional): Dictionary containing:
+                - component_specific_filters (list of dict): Each entry may include:
+                    - fabric_name (str): Name of the fabric site to filter by.
+                    - device_ip (str): IP address of a specific device to filter by.
+                    - device_roles (list of str): Roles to filter by (e.g. 'BORDER_NODE').
+                  If omitted or None, all fabric sites and their devices are retrieved.
 
         Returns:
-            dict: Dictionary with 'fabric_devices' key containing transformed device configs.
+            dict: Dictionary with key 'fabric_devices' mapping to a list of transformed fabric
+                  site entries, each containing fabric_name and device_config list.
+            None: If no valid query parameters could be built from the provided filters, or if
+                  no fabric devices are found matching the filters.
 
         Description:
             Main function to fetch fabric devices and transform them to playbook format.
@@ -1241,6 +1251,12 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 fabric_devices_params_list_to_query.append({"fabric_id": fabric_id})
 
+        if not fabric_devices_params_list_to_query:
+            self.log(
+                "No fabric devices parameters to query, Returning None"
+            )
+            return None
+
         self.log(
             f"Total fabric device queries to execute: {len(fabric_devices_params_list_to_query)}",
             "INFO",
@@ -1265,10 +1281,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if not all_fabric_devices:
             self.log(
-                "No fabric devices found matching the provided filters",
+                "No fabric devices found matching the provided filters, Returning None",
                 "WARNING",
             )
-            return {"fabric_devices": []}
+            return None
 
         self.log(
             f"Successfully retrieved {len(all_fabric_devices)} fabric device(s) for the provided filters",
@@ -1357,6 +1373,11 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         transformed_fabric_devices_list = self.modify_parameters(
             temp_spec, fabric_entries_for_transformation
         )
+        if not transformed_fabric_devices_list:
+            self.log(
+                "No fabric devices were transformed successfully, returning None",
+            )
+            return None
 
         self.log(
             f"Transformation complete. Generated {len(transformed_fabric_devices_list)} fabric site(s) with devices",
