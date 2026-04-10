@@ -2868,7 +2868,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            webhook_configs = self.get_all_webhook_destinations(api_family, api_function)
+            webhook_configs = self.get_all_webhook_destinations(
+                api_family, api_function,
+                target_destination_names=destination_names if destination_names else None
+            )
             self.log(
                 "Retrieved {0} webhook destination(s) from Catalyst Center. Processing "
                 "filtering logic based on destination_names.".format(len(webhook_configs)),
@@ -3113,7 +3116,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            syslog_configs = self.get_all_syslog_destinations(api_family, api_function)
+            syslog_configs = self.get_all_syslog_destinations(
+                api_family, api_function,
+                target_destination_names=destination_names if destination_names else None
+            )
             self.log(
                 "Retrieved {0} syslog destination(s) from Catalyst Center. Processing "
                 "filtering logic based on destination_names.".format(len(syslog_configs)),
@@ -3236,7 +3242,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            snmp_configs = self.get_all_snmp_destinations(api_family, api_function)
+            snmp_configs = self.get_all_snmp_destinations(
+                api_family, api_function,
+                target_destination_names=destination_names if destination_names else None
+            )
             self.log(
                 "Retrieved {0} SNMP destination(s) from Catalyst Center. Processing "
                 "filtering logic based on destination_names.".format(len(snmp_configs)),
@@ -3312,7 +3321,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         return result
 
-    def get_all_webhook_destinations(self, api_family, api_function):
+    def get_all_webhook_destinations(self, api_family, api_function, target_destination_names=None):
         """
         Retrieves all webhook destinations using pagination from the API.
 
@@ -3338,7 +3347,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_webhooks = []
             page_count = 0
 
@@ -3385,6 +3394,19 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "DEBUG"
                 )
+
+                # Early-stop: if all target names found, skip remaining pages
+                if target_destination_names:
+                    found_names = {w.get("name", "") for w in all_webhooks}
+                    if all(n in found_names for n in target_destination_names):
+                        self.log(
+                            "All {0} target webhook destination(s) found after {1} page(s). "
+                            "Stopping pagination early.".format(
+                                len(target_destination_names), page_count
+                            ),
+                            "INFO"
+                        )
+                        break
 
                 if len(webhooks) < limit:
                     self.log(
@@ -3483,7 +3505,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             return []
 
-    def get_all_syslog_destinations(self, api_family, api_function):
+    def get_all_syslog_destinations(self, api_family, api_function, target_destination_names=None):
         """
         Retrieves all syslog destinations using pagination from the API.
 
@@ -3509,7 +3531,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_syslogs = []
             page_count = 0
 
@@ -3568,6 +3590,19 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
 
+                # Early-stop: if all target names found, skip remaining pages
+                if target_destination_names:
+                    found_names = {s.get("name", "") for s in all_syslogs}
+                    if all(n in found_names for n in target_destination_names):
+                        self.log(
+                            "All {0} target syslog destination(s) found after {1} page(s). "
+                            "Stopping pagination early.".format(
+                                len(target_destination_names), page_count
+                            ),
+                            "INFO"
+                        )
+                        break
+
                 if len(syslog_configs) < limit:
                     self.log(
                         "Received {0} syslog destination(s) in page {1}, which is less "
@@ -3599,7 +3634,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
             return []
 
-    def get_all_snmp_destinations(self, api_family, api_function):
+    def get_all_snmp_destinations(self, api_family, api_function, target_destination_names=None):
         """
         Retrieves all SNMP destinations using pagination from the API.
 
@@ -3625,7 +3660,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_snmp = []
             page_count = 0
 
@@ -3673,6 +3708,19 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         ),
                         "DEBUG"
                     )
+
+                    # Early-stop: if all target names found, skip remaining pages
+                    if target_destination_names:
+                        found_names = {s.get("name", "") for s in all_snmp}
+                        if all(n in found_names for n in target_destination_names):
+                            self.log(
+                                "All {0} target SNMP destination(s) found after {1} page(s). "
+                                "Stopping pagination early.".format(
+                                    len(target_destination_names), page_count
+                                ),
+                                "INFO"
+                            )
+                            break
 
                     if len(snmp_configs) < limit:
                         self.log(
@@ -3759,7 +3807,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            itsm_configs = self.get_all_itsm_settings(api_family, api_function)
+            itsm_configs = self.get_all_itsm_settings(
+                api_family, api_function,
+                target_instance_names=instance_names if instance_names else None
+            )
             self.log(
                 "Retrieved {0} ITSM setting(s) from Catalyst Center. Processing filtering "
                 "logic based on instance_names.".format(len(itsm_configs)),
@@ -3824,7 +3875,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return result
 
-    def get_all_itsm_settings(self, api_family, api_function):
+    def get_all_itsm_settings(self, api_family, api_function, target_instance_names=None):
         """
         Retrieves all ITSM integration settings from the API with full connection details.
 
@@ -3910,6 +3961,24 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
 
+                # Early-stop: if all target names already found in listing, skip remaining pages
+                if target_instance_names:
+                    found_names = {
+                        item.get("name", "").lower()
+                        for item in all_itsm_settings
+                        if isinstance(item, dict)
+                    }
+                    target_lower = {n.lower() for n in target_instance_names}
+                    if target_lower.issubset(found_names):
+                        self.log(
+                            "All {0} target ITSM instance(s) found after {1} page(s). "
+                            "Stopping pagination early.".format(
+                                len(target_instance_names), page_count
+                            ),
+                            "INFO"
+                        )
+                        break
+
                 if len(itsm_settings) < page_size:
                     self.log(
                         "Received {0} ITSM instance(s) in page {1}, less than page_size {2}. "
@@ -3929,6 +3998,32 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "INFO"
             )
+
+            # When target names provided, filter listing before expensive get-by-id calls
+            if target_instance_names:
+                target_names_lower = {n.lower() for n in target_instance_names}
+                filtered_itsm = [
+                    item for item in all_itsm_settings
+                    if isinstance(item, dict) and item.get("name", "").lower() in target_names_lower
+                ]
+                self.log(
+                    "Target instance filter active: {0} target(s). Matched {1} of {2} "
+                    "listing entries. Only matched entries will have details fetched.".format(
+                        len(target_instance_names), len(filtered_itsm), len(all_itsm_settings)
+                    ),
+                    "INFO"
+                )
+                if not filtered_itsm:
+                    available_names = [
+                        item.get("name", "unknown") for item in all_itsm_settings
+                        if isinstance(item, dict)
+                    ]
+                    self.log(
+                        "No ITSM instances matched target names {0}. Available ITSM "
+                        "instance names: {1}".format(target_instance_names, available_names),
+                        "WARNING"
+                    )
+                all_itsm_settings = filtered_itsm
 
             detailed_settings = []
             for idx, item in enumerate(all_itsm_settings, start=1):
@@ -4129,7 +4224,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            notification_configs = self.get_all_webhook_event_notifications(api_family, api_function)
+            notification_configs = self.get_all_webhook_event_notifications(
+                api_family, api_function,
+                target_subscription_names=subscription_names if subscription_names else None
+            )
             self.log(
                 "Retrieved {0} webhook event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
@@ -4216,7 +4314,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         return result
 
-    def get_all_webhook_event_notifications(self, api_family, api_function):
+    def get_all_webhook_event_notifications(self, api_family, api_function, target_subscription_names=None):
         """
         Retrieves all webhook event notifications using pagination from the API.
 
@@ -4242,7 +4340,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_notifications = []
             page_count = 0
 
@@ -4311,6 +4409,19 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         ),
                         "DEBUG"
                     )
+
+                    # Early-stop: if all target subscription names found, skip remaining pages
+                    if target_subscription_names:
+                        found_names = {n.get("name", "") for n in all_notifications}
+                        if all(sn in found_names for sn in target_subscription_names):
+                            self.log(
+                                "All {0} target webhook notification(s) found after {1} page(s). "
+                                "Stopping pagination early.".format(
+                                    len(target_subscription_names), page_count
+                                ),
+                                "INFO"
+                            )
+                            break
 
                     if len(notifications) < limit:
                         self.log(
@@ -4401,7 +4512,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            notification_configs = self.get_all_email_event_notifications(api_family, api_function)
+            notification_configs = self.get_all_email_event_notifications(
+                api_family, api_function,
+                target_subscription_names=subscription_names if subscription_names else None
+            )
             self.log(
                 "Retrieved {0} email event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
@@ -4487,7 +4601,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         return result
 
-    def get_all_email_event_notifications(self, api_family, api_function):
+    def get_all_email_event_notifications(self, api_family, api_function, target_subscription_names=None):
         """
         Retrieves all email event notifications using pagination from the API.
 
@@ -4514,7 +4628,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_notifications = []
             page_count = 0
 
@@ -4570,6 +4684,19 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "DEBUG"
                 )
+
+                # Early-stop: if all target subscription names found, skip remaining pages
+                if target_subscription_names:
+                    found_names = {n.get("name", "") for n in all_notifications}
+                    if all(sn in found_names for sn in target_subscription_names):
+                        self.log(
+                            "All {0} target email notification(s) found after {1} page(s). "
+                            "Stopping pagination early.".format(
+                                len(target_subscription_names), page_count
+                            ),
+                            "INFO"
+                        )
+                        break
 
                 if len(notifications) < limit:
                     self.log(
@@ -4648,7 +4775,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            notification_configs = self.get_all_syslog_event_notifications(api_family, api_function)
+            notification_configs = self.get_all_syslog_event_notifications(
+                api_family, api_function,
+                target_subscription_names=subscription_names if subscription_names else None
+            )
             self.log(
                 "Retrieved {0} syslog event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
@@ -4681,7 +4811,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO"
                     )
                 else:
-                    final_notification_configs = matching_configs
+                    final_notification_configs = notification_configs
                     self.log(
                         "No matching syslog event notifications found for filter: {0}. "
                         "Including all {1} notification(s) for comprehensive configuration "
@@ -4736,7 +4866,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return result
 
-    def get_all_syslog_event_notifications(self, api_family, api_function):
+    def get_all_syslog_event_notifications(self, api_family, api_function, target_subscription_names=None):
         """
         Retrieves all syslog event notifications using pagination from the API.
 
@@ -4762,7 +4892,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_notifications = []
             page_count = 0
 
@@ -4828,6 +4958,19 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         ),
                         "DEBUG"
                     )
+
+                    # Early-stop: if all target subscription names found, skip remaining pages
+                    if target_subscription_names:
+                        found_names = {n.get("name", "") for n in all_notifications}
+                        if all(sn in found_names for sn in target_subscription_names):
+                            self.log(
+                                "All {0} target syslog notification(s) found after {1} page(s). "
+                                "Stopping pagination early.".format(
+                                    len(target_subscription_names), page_count
+                                ),
+                                "INFO"
+                            )
+                            break
 
                     if len(notifications) < limit:
                         self.log(
@@ -5322,7 +5465,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "File mode: {0}".format(file_mode),
                 ]
 
-                if self.write_dict_to_yaml(playbook_data, file_path, file_mode, notes=header_notes):
+                write_result = self.write_dict_to_yaml(
+                    playbook_data, file_path, file_mode, notes=header_notes
+                )
+
+                if write_result:
                     success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
 
                     response_data = {
@@ -5344,21 +5491,23 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
 
                 else:
-                    error_message = "Failed to write YAML configuration to file: {0}".format(file_path)
-
+                    success_message = (
+                        "YAML configuration file already up-to-date for module '{0}'. "
+                        "No changes written.".format(self.module_name)
+                    )
                     response_data = {
-                        "message": error_message,
-                        "status": "failed"
+                        "components_processed": components_processed,
+                        "components_skipped": components_skipped,
+                        "configurations_count": total_configurations,
+                        "file_path": file_path,
+                        "message": success_message,
+                        "status": "success"
                     }
 
-                    self.set_operation_result("failed", False, error_message, "ERROR")
+                    self.set_operation_result("success", False, success_message, "INFO")
                     self.msg = response_data
                     self.result["response"] = response_data
-                    self.log(
-                        "YAML file write operation failed for file path: {0}. Check file "
-                        "permissions and disk space.".format(file_path),
-                        "ERROR"
-                    )
+                    self.log(success_message, "INFO")
 
             else:
                 no_config_message = "No configurations found to generate. Verify that the components exist and have data."
