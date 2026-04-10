@@ -1983,6 +1983,27 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Add mapped configuration to results if not empty
             if mapped_config:
+                # Check if nfs_details has null server_ip and source_path
+                # indicating backup storage is not yet configured
+                nfs_info = mapped_config.get("nfs_details")
+                if (
+                    isinstance(nfs_info, dict)
+                    and nfs_info.get("server_ip") is None
+                    and nfs_info.get("source_path") is None
+                ):
+                    self.log(
+                        "Backup storage configuration {0} has NFS details "
+                        "with server_ip and source_path both null. This "
+                        "indicates no backup storage has been configured "
+                        "yet on Catalyst Center. Skipping this "
+                        "configuration from YAML output.".format(
+                            config_index
+                        ),
+                        "WARNING"
+                    )
+                    self._backup_storage_not_configured = True
+                    continue
+
                 modified_backup_configs.append(mapped_config)
                 self.log(
                     "Configuration {0} transformation completed successfully. Mapped {1} field(s) to "
@@ -2484,14 +2505,21 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "WARNING"
             )
             if self.status != "failed":
-                no_config_message = (
-                    "No backup and restore configurations found to process for module '{0}'. "
-                    "Verify that NFS servers or backup configurations are set up in "
-                    "Catalyst Center. Components attempted: {1}. Components processed: {2}, "
-                    "Components skipped: {3}.".format(
-                        self.module_name, components_list, components_processed, components_skipped
+                if getattr(self, '_backup_storage_not_configured', False):
+                    no_config_message = (
+                        "No backup storage is configured yet on Catalyst Center. "
+                        "Please configure before generating "
+                        "playbook configurations for backup_storage_configuration."
                     )
-                )
+                else:
+                    no_config_message = (
+                        "No backup and restore configurations found to process for module '{0}'. "
+                        "Verify that NFS servers or backup configurations are set up in "
+                        "Catalyst Center. Components attempted: {1}. Components processed: {2}, "
+                        "Components skipped: {3}.".format(
+                            self.module_name, components_list, components_processed, components_skipped
+                        )
+                    )
                 response_data = {
                     "components_processed": components_processed,
                     "components_skipped": components_skipped,
