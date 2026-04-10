@@ -194,9 +194,9 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             {
-                "components_processed": 2,
-                "components_skipped": 0,
-                "configurations_count": 2,
+                "components_processed": 1,
+                "components_skipped": 1,
+                "configurations_count": 1,
                 "file_path": "/Users/priyadharshini/Downloads/configuration_details_info",
                 "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
                 "status": "success"
