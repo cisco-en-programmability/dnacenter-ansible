@@ -47,10 +47,10 @@
       "components_list": ["reserve_pool_details"],
       "reserve_pool_details": [
         {
-          "pool_name": "Reserve_Pool_1"
+          "site_name": "Global/India/Mumbai"
         },
         {
-          "pool_name": "Reserve_Pool_2"
+          "site_name": "Global/India/Delhi"
         }
       ]
     }
@@ -61,10 +61,10 @@
       "components_list": ["network_management_details"],
       "network_management_details": [
         {
-          "site_name": "Global/India/Mumbai"
+          "site_name_list": ["Global/India/Mumbai"]
         },
         {
-          "site_name": "Global/India/Delhi"
+          "site_name_list": ["Global/India/Delhi"]
         }
       ]
     }
@@ -72,15 +72,7 @@
 
   "playbook_config_device_controllability_by_site": {
     "component_specific_filters": {
-      "components_list": ["device_controllability_details"],
-      "device_controllability_details": [
-        {
-          "site_name": "Global/India/Mumbai"
-        },
-        {
-          "site_name": "Global/India/Delhi"
-        }
-      ]
+      "components_list": ["device_controllability_details"]
     }
   },
 
