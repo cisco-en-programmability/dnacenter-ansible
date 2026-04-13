@@ -106,9 +106,10 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
 
     def test_backup_and_restore_playbook_config_generator_playbook_nfs_configuration_details(self):
         """
-        Test case for creating a scheduled backup in Cisco Catalyst Center.
-        Verifies that the workflow manager correctly creates and schedules
-        a backup when the specified configuration is applied.
+        Test YAML playbook generation for NFS configuration details.
+        Verifies that the generator correctly retrieves NFS server
+        configurations from Catalyst Center and produces a valid
+        YAML file with the expected component count and file path.
         """
 
         set_module_args(
@@ -119,7 +120,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
-                file_path="/Users/priyadharshini/Downloads/configuration_details_info",
+                file_path="/tmp/configuration_details_info",
                 config=self.playbook_nfs_configuration_details
             )
         )
@@ -131,7 +132,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 6,
-                "file_path": "/Users/priyadharshini/Downloads/configuration_details_info",
+                "file_path": "/tmp/configuration_details_info",
                 "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
                 "status": "success"
             }
@@ -139,9 +140,10 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
 
     def test_backup_and_restore_playbook_config_generator_playbook_backup_configuration_details(self):
         """
-        Test case for creating a scheduled backup in Cisco Catalyst Center.
-        Verifies that the workflow manager correctly creates and schedules
-        a backup when the specified configuration is applied.
+        Test YAML playbook generation for backup storage configuration.
+        Verifies that the generator correctly retrieves backup storage
+        settings and NFS details from Catalyst Center and writes them
+        to the specified YAML file path.
         """
 
         set_module_args(
@@ -152,7 +154,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
-                file_path="/Users/priyadharshini/Downloads/configuration_details_info",
+                file_path="/tmp/configuration_details_info",
                 config=self.playbook_backup_configuration_details
             )
         )
@@ -164,7 +166,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 1,
-                "file_path": "/Users/priyadharshini/Downloads/configuration_details_info",
+                "file_path": "/tmp/configuration_details_info",
                 "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
                 "status": "success"
             }
@@ -172,9 +174,10 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
 
     def test_backup_and_restore_playbook_config_generator_playbook_specific_nfs_backup_configuration_details(self):
         """
-        Test case for creating a scheduled backup in Cisco Catalyst Center.
-        Verifies that the workflow manager correctly creates and schedules
-        a backup when the specified configuration is applied.
+        Test YAML playbook generation with specific NFS and backup
+        storage filters. Verifies that component-specific filtering
+        correctly includes matching configurations and skips
+        non-matching components.
         """
 
         set_module_args(
@@ -185,7 +188,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
-                file_path="/Users/priyadharshini/Downloads/configuration_details_info",
+                file_path="/tmp/configuration_details_info",
                 config=self.playbook_specific_nfs_backup_configuration_details
             )
         )
@@ -197,7 +200,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 "components_processed": 1,
                 "components_skipped": 1,
                 "configurations_count": 1,
-                "file_path": "/Users/priyadharshini/Downloads/configuration_details_info",
+                "file_path": "/tmp/configuration_details_info",
                 "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
                 "status": "success"
             }
@@ -205,9 +208,10 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
 
     def test_backup_and_restore_playbook_config_generator_playbook_generate_all_configuration(self):
         """
-        Test case for creating a scheduled backup in Cisco Catalyst Center.
-        Verifies that the workflow manager correctly creates and schedules
-        a backup when the specified configuration is applied.
+        Test idempotent behavior when generated YAML content already
+        matches existing file content. Module should return
+        changed=False with success status and an appropriate
+        'already up-to-date' message.
         """
 
         set_module_args(
@@ -218,7 +222,7 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_version="3.1.3.0",
-                file_path="/Users/priyadharshini/Downloads/configuration_details_info1",
+                file_path="/tmp/configuration_details_info1",
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -229,11 +233,11 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
                 "components_processed": 2,
                 "components_skipped": 0,
                 "configurations_count": 7,
-                "file_path": "/Users/priyadharshini/Downloads/configuration_details_info1",
+                "file_path": "/tmp/configuration_details_info1",
                 "message": (
                     "YAML configuration file already up-to-date for module "
                     "'backup_and_restore_workflow_manager'. No changes written to "
-                    "'/Users/priyadharshini/Downloads/configuration_details_info1'. "
+                    "'/tmp/configuration_details_info1'. "
                     "Total configurations evaluated: 7 across 2 component(s)."
                 ),
                 "status": "success"
@@ -242,9 +246,9 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
 
     def test_backup_and_restore_playbook_config_generator_playbook_negative_scenario_lower_version(self):
         """
-        Test case for creating a scheduled backup in Cisco Catalyst Center.
-        Verifies that the workflow manager correctly creates and schedules
-        a backup when the specified configuration is applied.
+        Test that the module fails gracefully when the Catalyst Center
+        version is below the minimum supported version (3.1.3.0).
+        Verifies the error message includes version guidance.
         """
 
         set_module_args(
@@ -270,9 +274,9 @@ class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
 
     def test_backup_and_restore_playbook_config_generator_playbook_negative_scenario2(self):
         """
-        Test case for creating a scheduled backup in Cisco Catalyst Center.
-        Verifies that the workflow manager correctly creates and schedules
-        a backup when the specified configuration is applied.
+        Test that the module fails with a clear error when an invalid
+        component name is provided in components_list. Verifies the
+        error message lists valid component names.
         """
 
         set_module_args(

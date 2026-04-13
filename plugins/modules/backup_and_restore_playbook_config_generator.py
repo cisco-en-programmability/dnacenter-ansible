@@ -394,13 +394,13 @@ response_1:
       type: str
       choices: ['success', 'failed']
 
-# Case_2: Idempotency Scenario
+# Case_2: Idempotency Scenario - File Already Up-to-Date
 response_2:
   description: |
-    Idempotent scenarios treated as successful non-changing operations,
-    including no configurations found or generated content already matching
-    existing file content.
-  returned: when_no_change
+    Idempotent scenario where generated YAML content already matches
+    existing file content. Module returns success with changed=false
+    and does not rewrite the file.
+  returned: success
   type: dict
   sample:
     msg: |
@@ -419,8 +419,38 @@ response_2:
       status: "success"
     status: "success"
 
-# Case_3: Failure Scenario
+# Case_3: Idempotency Scenario - No Configurations Found
 response_3:
+  description: |
+    Idempotent scenario where no backup and restore configurations
+    are found to process. This may occur when no NFS servers or
+    backup storage configurations are set up in Catalyst Center,
+    or when backup storage has not been configured yet. Module
+    returns success with changed=false and no YAML file is created.
+  returned: success
+  type: dict
+  sample:
+    msg: |
+      No backup and restore configurations found to process for
+      module backup_and_restore_workflow_manager. Verify that NFS
+      servers or backup configurations are set up in Catalyst
+      Center.
+    response:
+      components_processed: 0
+      components_skipped: 1
+      configurations_count: 0
+      message: |
+        No backup and restore configurations found to process for
+        module backup_and_restore_workflow_manager. Verify that NFS
+        servers or backup configurations are set up in Catalyst
+        Center. Components attempted: ['nfs_configuration',
+        'backup_storage_configuration']. Components processed: 0,
+        Components skipped: 1.
+      status: "success"
+    status: "success"
+
+# Case_4: Failure Scenario
+response_4:
   description: |
     Operation failed due to invalid parameters, API errors, or file
     write issues
@@ -542,6 +572,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.backup_restore_workflow_manager_mapping()
         self.module_name = "backup_and_restore_workflow_manager"
+        self._backup_storage_not_configured = False
 
     def validate_input(self):
         """
@@ -2505,7 +2536,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "WARNING"
             )
             if self.status != "failed":
-                if getattr(self, '_backup_storage_not_configured', False):
+                if self._backup_storage_not_configured:
                     no_config_message = (
                         "No backup storage is configured yet on Catalyst Center. "
                         "Please configure before generating "
