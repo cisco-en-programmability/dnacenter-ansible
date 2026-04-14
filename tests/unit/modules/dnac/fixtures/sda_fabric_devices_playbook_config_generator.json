@@ -455,6 +455,20 @@
         ],
         "version": "1.0"
     },
+    "filter_multi_fabric_sites_case_11": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore",
+                    "device_roles": ["EDGE_NODE"]
+                },
+                {
+                    "fabric_name": "Global/India/Telangana/Hyderabad/BLD_1",
+                    "device_roles": ["CONTROL_PLANE_NODE"]
+                }
+            ]
+        }
+    },
     "get_fabric_devices_filtered_cp_node_fabric_3_case_1": {
         "response": [
             {
