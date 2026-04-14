@@ -88,6 +88,10 @@ options:
             - Used to narrow down which fabric sites and devices should be included in the generated YAML file.
             - If no filters are provided, all fabric devices from all fabric sites in Cisco Catalyst Center will be retrieved.
             - Each list entry targets a specific fabric site and optionally narrows down by device IP or roles.
+            - Within a single entry, all specified filters are combined using AND
+              logic. Omitting a filter means no restriction on that attribute.
+            - Multiple entries are combined using OR logic, allowing retrieval from
+              different fabric sites in a single invocation.
             type: list
             elements: dict
             suboptions:
@@ -360,6 +364,37 @@ EXAMPLES = r"""
             fabric_devices:
               - fabric_name: "Global/India/Bangalore"
                 device_roles: ["BORDER_NODE"]
+
+# Example 8: Generate configuration for devices from multiple fabric sites
+- name: Generate configuration from multiple fabric sites
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export fabric devices from two fabric sites
+      cisco.dnac.sda_fabric_devices_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              - fabric_name: "Global/USA/SAN-JOSE"
+                device_roles: ["BORDER_NODE"]
+              - fabric_name: "Global/India/Bangalore"
+                device_roles: ["EDGE_NODE"]
 """
 
 RETURN = r"""
