@@ -2007,7 +2007,7 @@ releases:
           playbook config generator design.
 
   6.50.0:
-      release_date: "2026-03-30"
+    release_date: "2026-03-30"
     changes:
       release_summary: Redirect-only release for cisco.dnac to cisco.catalystcenter migration per Ansible community renaming guidelines
       major_changes:
@@ -2016,7 +2016,7 @@ releases:
       deprecated_features:
         - All modules and action plugins in cisco.dnac now redirect to their cisco.catalystcenter equivalents. Users should migrate playbooks to use cisco.catalystcenter directly. The cisco.dnac collection will be removed in a future major Ansible release.
   
-    6.51.0:
+  6.51.0:
     release_date: "2026-04-14"
     changes:
       release_summary: Minor changes in workflow manager modules
