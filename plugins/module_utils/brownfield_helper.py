@@ -290,8 +290,9 @@ class BrownFieldHelper:
                 comp for comp in components_list if comp not in network_elements
             ]
             if invalid_components:
+                valid_components = list(network_elements.keys()) + ["components_list"]
                 self.msg = "Invalid network components provided for module '{0}': {1}. Valid components are: {2}".format(
-                    self.module_name, invalid_components, list(network_elements.keys())
+                    self.module_name, invalid_components, valid_components
                 )
                 self.fail_and_exit(self.msg)
 
@@ -360,6 +361,15 @@ class BrownFieldHelper:
                         )
                     )
                     continue
+
+                # Check for missing required filters in this entry
+                for req_filter_name, req_filter_spec in valid_filters_for_component.items():
+                    if req_filter_spec.get("required", False) and req_filter_name not in component_filter:
+                        invalid_filters.append(
+                            "Component '{0}' filter entry {1}/{2} is missing required filter '{3}'".format(
+                                component_name, index, len(component_filters), req_filter_name
+                            )
+                        )
 
                 for filter_name, filter_value in component_filter.items():
                     self.log(
