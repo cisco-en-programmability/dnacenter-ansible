@@ -1415,8 +1415,9 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             return None
 
         self.log(
-            f"Transformation complete. Generated {len(transformed_fabric_devices_list)} fabric site(s) with devices",
-            "INFO",
+            "Fabric device configuration retrieval complete. "
+            f"Returning {len(transformed_fabric_devices_list)} fabric site entries.",
+            "DEBUG",
         )
         self.log("Exiting get_fabric_devices_configuration method", "DEBUG")
 
