@@ -18,6 +18,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+import copy
+import os
+import tempfile
 from unittest.mock import patch, mock_open
 import yaml
 
@@ -41,7 +44,7 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_dnac_init.return_value = None
         self.mock_dnac_exec = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK._exec"
         )
@@ -56,6 +59,18 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
         handle = mock_file()
         writes = [call.args[0] for call in handle.write.call_args_list]
         return "".join(writes)
+
+    def _get_base_module_args(self, **kwargs):
+        args = dict(
+            dnac_host="1.1.1.1",
+            dnac_username="dummy",
+            dnac_password="dummy",
+            dnac_log=True,
+            state="gathered",
+            dnac_version="2.3.7.9",
+        )
+        args.update(kwargs)
+        return args
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -90,18 +105,21 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
         from all PnP devices, ensuring proper validation and expected behavior.
         """
 
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="gathered",
-                dnac_version="2.3.7.9",
-                config=self.playbook_pnp_generate_all_configurations
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "pnp_generate_all.yml")
+            set_module_args(
+                dict(
+                    dnac_host="1.1.1.1",
+                    dnac_username="dummy",
+                    dnac_password="dummy",
+                    dnac_log=True,
+                    state="gathered",
+                    dnac_version="2.3.7.9",
+                    file_path=file_path,
+                    config=self.playbook_pnp_generate_all_configurations
+                )
             )
-        )
-        result = self.execute_module(changed=True, failed=False)
+            result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response").get("message"),
@@ -194,3 +212,127 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
         data = yaml.safe_load(written_yaml)
         self.assertIsInstance(data, list)
         self.assertIn("config", data[0])
+
+    def test_brownfield_pnp_playbook_generator_overwrite_mode_idempotent_on_matching_local_file(self):
+        """
+        Test overwrite mode reports no change when the existing local YAML file already matches.
+        """
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "pnp_overwrite.yml")
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("PnPdevices"),
+                self.test_data.get("PnPdevices"),
+            ]
+
+            set_module_args(
+                self._get_base_module_args(
+                    file_path=file_path,
+                    file_mode="overwrite",
+                    config=self.playbook_pnp_generate_all_configurations,
+                )
+            )
+            self.execute_module(changed=True, failed=False)
+
+            set_module_args(
+                self._get_base_module_args(
+                    file_path=file_path,
+                    file_mode="overwrite",
+                    config=self.playbook_pnp_generate_all_configurations,
+                )
+            )
+            result = self.execute_module(changed=False, failed=False)
+
+            self.assertEqual(
+                result.get("response").get("message"),
+                "YAML configuration file already up-to-date for module 'pnp_workflow_manager'. No changes written."
+            )
+            self.assertEqual(result.get("response").get("status"), "ok")
+
+    def test_brownfield_pnp_playbook_generator_append_mode_idempotent_on_matching_last_entry(self):
+        """
+        Test append mode reports no change when the last generated config entry already matches.
+        """
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "pnp_append.yml")
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("PnPdevices"),
+                self.test_data.get("PnPdevices"),
+            ]
+
+            set_module_args(
+                self._get_base_module_args(
+                    file_path=file_path,
+                    file_mode="append",
+                    config=self.playbook_pnp_generate_all_configurations,
+                )
+            )
+            self.execute_module(changed=True, failed=False)
+
+            set_module_args(
+                self._get_base_module_args(
+                    file_path=file_path,
+                    file_mode="append",
+                    config=self.playbook_pnp_generate_all_configurations,
+                )
+            )
+            result = self.execute_module(changed=False, failed=False)
+
+            with open(file_path, "r") as yaml_file:
+                file_content = yaml_file.read()
+
+            parsed_content = yaml.safe_load(file_content)
+
+            self.assertEqual(
+                result.get("response").get("message"),
+                "YAML configuration file already up-to-date for module 'pnp_workflow_manager'. No changes written."
+            )
+            self.assertEqual(result.get("response").get("status"), "ok")
+            self.assertEqual(file_content.count("---"), 1)
+            self.assertEqual(file_content.count("- config:"), 1)
+            self.assertIsInstance(parsed_content, list)
+            self.assertEqual(len(parsed_content), 1)
+
+    def test_brownfield_pnp_playbook_generator_append_mode_adds_new_entry_without_new_separator(self):
+        """
+        Test append mode writes a second config entry without adding another YAML document separator.
+        """
+        updated_devices = copy.deepcopy(self.test_data.get("PnPdevices"))
+        updated_devices[0]["deviceInfo"]["serialNumber"] = "UPDATED123456"
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "pnp_append_diff.yml")
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("PnPdevices"),
+                updated_devices,
+            ]
+
+            set_module_args(
+                self._get_base_module_args(
+                    file_path=file_path,
+                    file_mode="append",
+                    config=self.playbook_pnp_generate_all_configurations,
+                )
+            )
+            self.execute_module(changed=True, failed=False)
+
+            set_module_args(
+                self._get_base_module_args(
+                    file_path=file_path,
+                    file_mode="append",
+                    config=self.playbook_pnp_generate_all_configurations,
+                )
+            )
+            self.execute_module(changed=True, failed=False)
+
+            with open(file_path, "r") as yaml_file:
+                file_content = yaml_file.read()
+
+            parsed_content = yaml.safe_load(file_content)
+
+            self.assertEqual(file_content.count("---"), 1)
+            self.assertIsInstance(parsed_content, list)
+            self.assertEqual(len(parsed_content), 2)
+            self.assertEqual(
+                parsed_content[-1]["config"][0]["device_info"][0]["serial_number"],
+                "UPDATED123456"
+            )

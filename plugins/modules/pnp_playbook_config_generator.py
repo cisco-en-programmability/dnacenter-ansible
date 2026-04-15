@@ -301,6 +301,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
 )
+import os
 import time
 
 try:
@@ -1350,49 +1351,85 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        # Write to YAML file
-        success = self.write_dict_to_yaml([output_structure], file_path, file_mode=file_mode)
+        yaml_output = [output_structure]
 
-        if success:
-            # Component successfully processed
-            components_processed = components_requested
-            components_skipped = 0
+        if file_mode == "append" and os.path.isfile(file_path):
+            existing_yaml_document = self._get_last_yaml_document(file_path)
 
-            self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
-            self.result["msg"] = self.msg
-            self.result["response"] = {
-                "status": "success",
-                "message": self.msg,
-                "file_path": file_path,
-                "configurations_count": sum(len(g["device_info"]) for g in grouped_configs),
-                "components_processed": components_processed,
-                "components_skipped": components_skipped
-            }
-            self.log(
-                "{0} File path: {1}, Configurations count: {2}, "
-                "Components processed: {3}, Components skipped: {4}".format(
-                    self.msg,
+            if isinstance(existing_yaml_document, list):
+                existing_last_entry = next(
+                    (
+                        item for item in reversed(existing_yaml_document)
+                        if item is not None
+                    ),
+                    None,
+                )
+            else:
+                existing_last_entry = existing_yaml_document
+
+            if existing_last_entry == yaml_output[-1]:
+                self.log(
+                    "Append mode detected matching last config entry in '{0}'. "
+                    "Skipping call to brownfield write_dict_to_yaml().".format(file_path),
+                    "INFO",
+                )
+                file_changed = False
+            else:
+                file_changed = self.write_dict_to_yaml(
+                    yaml_output,
                     file_path,
-                    sum(len(g["device_info"]) for g in grouped_configs),
-                    components_processed,
-                    components_skipped
-                ),
-                "INFO"
-            )
-            self.result["changed"] = True
-            self.status = "success"
+                    file_mode=file_mode,
+                )
         else:
-            failure_message = "Failed to write YAML configuration file to path: {0}".format(
-                file_path
+            # Use the shared brownfield helper implementation for overwrite mode
+            # and append writes that are not already idempotent.
+            file_changed = self.write_dict_to_yaml(
+                yaml_output,
+                file_path,
+                file_mode=file_mode,
             )
-            self.log(
-                "YAML file write operation failed. Unable to write configuration to file: {0}. "
-                "Check file permissions, disk space, and parent directory existence.".format(
-                    file_path
-                ),
-                "ERROR"
+
+        components_processed = components_requested
+        components_skipped = 0
+
+        configurations_count = sum(len(g["device_info"]) for g in grouped_configs)
+
+        if file_changed:
+            self.msg = "YAML config generation succeeded for module '{0}'.".format(
+                self.module_name
             )
-            self.fail_and_exit(failure_message)
+            response_status = "success"
+        else:
+            self.msg = (
+                "YAML configuration file already up-to-date for module '{0}'. "
+                "No changes written.".format(self.module_name)
+            )
+            response_status = "ok"
+
+        self.result["msg"] = self.msg
+        self.result["response"] = {
+            "status": response_status,
+            "message": self.msg,
+            "file_path": file_path,
+            "file_mode": file_mode,
+            "configurations_count": configurations_count,
+            "components_processed": components_processed,
+            "components_skipped": components_skipped,
+        }
+        self.log(
+            "{0} File path: {1}, Configurations count: {2}, "
+            "Components processed: {3}, Components skipped: {4}, Local file changed: {5}".format(
+                self.msg,
+                file_path,
+                configurations_count,
+                components_processed,
+                components_skipped,
+                file_changed
+            ),
+            "INFO"
+        )
+        self.result["changed"] = bool(file_changed)
+        self.status = "success"
 
         return self
 
