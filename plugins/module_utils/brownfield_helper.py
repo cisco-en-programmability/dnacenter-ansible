@@ -2956,7 +2956,7 @@ class BrownFieldHelper:
         )
         return site_id_name_mapping
 
-    def get_fabric_site_name_to_id_mapping(self):
+    def get_fabric_site_name_to_id_mapping(self, site_id_name_mapping = None):
         """
         Retrieves the bidirectional mapping of fabric site names to fabric site IDs for all fabric sites.
         Returns:
@@ -2988,7 +2988,12 @@ class BrownFieldHelper:
         ]
 
         # Get mapping of siteId to nameHierarchy
-        site_id_name_mapping = self.get_site_id_name_mapping(site_ids_of_fabric_sites)
+        if site_id_name_mapping is None:
+            self.log(
+                "site_id_name_mapping not passed as parameter, creating mapping from API",
+                "INFO",
+            )
+            site_id_name_mapping = self.get_site_id_name_mapping(site_ids_of_fabric_sites)
 
         for fabric_site in fabric_sites:
             fabric_id = fabric_site.get("id")

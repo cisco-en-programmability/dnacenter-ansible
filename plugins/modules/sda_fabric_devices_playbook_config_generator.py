@@ -501,7 +501,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Retrieving fabric site name to ID mapping", "DEBUG")
         self.fabric_site_name_to_id_dict, self.fabric_site_id_to_name_dict = (
-            self.get_fabric_site_name_to_id_mapping()
+            self.get_fabric_site_name_to_id_mapping(self.site_id_name_dict)
         )
         self.log(
             f"Retrieved {len(self.fabric_site_name_to_id_dict)} fabric site(s) in mapping",
