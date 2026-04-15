@@ -1172,8 +1172,8 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                   If omitted or None, all fabric sites and their devices are retrieved.
 
         Returns:
-            dict: Dictionary with key 'fabric_devices' mapping to a list of transformed fabric
-                  site entries, each containing fabric_name and device_config list.
+            list: List of dicts, each with a single key 'fabric_devices' mapping to a dict
+                  containing fabric_name (str) and device_config (list). One entry per fabric site.
             None: If no valid query parameters could be built from the provided filters, or if
                   no fabric devices are found matching the filters.
 
@@ -1195,7 +1195,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if not self.fabric_site_name_to_id_dict:
             self.log("No fabric sites found in Cisco Catalyst Center", "WARNING")
-            return {"fabric_devices": []}
+            return []
 
         fabric_devices_params_list_to_query = []
 
@@ -1420,7 +1420,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         self.log("Exiting get_fabric_devices_configuration method", "DEBUG")
 
-        return {"fabric_devices": transformed_fabric_devices_list}
+        return [{"fabric_devices": entry} for entry in transformed_fabric_devices_list]
 
     def transform_fabric_name(self, details):
         """
