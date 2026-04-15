@@ -108,7 +108,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
 
         elif "reserve_pools_by_pool_name" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
             ]
 
@@ -121,8 +121,6 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
 
         elif "device_controllability_by_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_controllability_response"),
                 self.test_data.get("get_device_controllability_response"),
             ]
 
