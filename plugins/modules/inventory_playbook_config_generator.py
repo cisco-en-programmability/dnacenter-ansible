@@ -206,8 +206,8 @@ EXAMPLES = r"""
     config:
       global_filters:
         devices:
-        - "10.10.20.11"
-        - "FDO1234A1BC"
+          - "10.10.20.11"
+          - "FDO1234A1BC"
 """
 
 RETURN = r"""
