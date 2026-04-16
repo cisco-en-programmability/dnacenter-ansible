@@ -5534,17 +5534,20 @@ class Tags(DnacBase):
             "DEBUG",
         )
 
-        tags_config_data = config.get("tags", [])
-        for tag_config_data in tags_config_data:
-            new_tag_name = tag_config_data.get("new_name")
-            if new_tag_name:
-                current_name = tag_config_data.get("name", "Unknown")
-                self.log(
-                    f"Updating tag name: current name='{current_name}', new name='{new_tag_name}'.",
-                    "DEBUG",
-                )
-                # Update the tag name in the config entry
-                tag_config_data["name"] = new_tag_name
+        tags_config_data = config.get("tags")
+
+        if tags_config_data:
+            self.log("Updating the tag names in the config data if 'new_name' is provided for verification.", "DEBUG")
+            for tag_config_data in tags_config_data:
+                new_tag_name = tag_config_data.get("new_name")
+                if new_tag_name:
+                    current_name = tag_config_data.get("name", "Unknown")
+                    self.log(
+                        f"Updating tag name: current name='{current_name}', new name='{new_tag_name}'.",
+                        "DEBUG",
+                    )
+                    # Update the tag name in the config entry
+                    tag_config_data["name"] = new_tag_name
 
         self.get_have(config).check_return_status()
         tag = self.want.get("tags")
