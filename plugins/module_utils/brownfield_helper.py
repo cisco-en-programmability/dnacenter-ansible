@@ -184,6 +184,33 @@ class BrownFieldHelper:
                     )
                     continue
 
+            # Validate choices for strings
+            if expected_type == "str" and "choices" in filter_spec:
+                valid_choices = filter_spec["choices"]
+                if filter_value not in valid_choices:
+                    invalid_filters.append(
+                        "Filter '{0}' has invalid value: '{1}'. Valid choices: {2}".format(
+                            filter_name,
+                            filter_value,
+                            valid_choices,
+                        )
+                    )
+
+            # Validate choices for lists
+            if expected_type == "list" and "choices" in filter_spec:
+                valid_choices = filter_spec["choices"]
+                invalid_choices = [
+                    item for item in filter_value if item not in valid_choices
+                ]
+                if invalid_choices:
+                    invalid_filters.append(
+                        "Filter '{0}' contains invalid choices: {1}. Valid choices: {2}".format(
+                            filter_name,
+                            invalid_choices,
+                            valid_choices,
+                        )
+                    )
+
             # Validate list elements
             if expected_type == "list" and filter_value:
                 element_type = filter_spec.get("elements", "str")
