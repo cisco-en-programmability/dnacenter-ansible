@@ -3097,7 +3097,7 @@ class DNACSDK(object):
         except exceptions.ApiError as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation for the family '{family}' "
+                    "An error occurred when executing operation for the family '{family}' "
                     "having the function '{function}'."
                     " The error was: status_code: {error_status},  {error}"
                 ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
@@ -3107,7 +3107,7 @@ class DNACSDK(object):
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation for the family '{family}' "
+                    "An error occurred when executing operation for the family '{family}' "
                     "having the function '{function}'."
                     " The error was: {error}"
                 ).format(error=to_native(e), family=family_name, function=function_name)
@@ -3211,7 +3211,7 @@ class DNACSDK(object):
         except exceptions.ApiError as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing REST API call with method '{method}' "
+                    "An error occurred when executing REST API call with method '{method}' "
                     "and endpoint '{endpoint}'."
                     " The error was: status_code: {error_status},  {error}"
                 ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
@@ -3221,7 +3221,7 @@ class DNACSDK(object):
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing REST API call with method '{method}' "
+                    "An error occurred when executing REST API call with method '{method}' "
                     "and endpoint '{endpoint}'."
                     " The error was: {error}"
                 ).format(error=to_native(e), method=method, endpoint=endpoint)

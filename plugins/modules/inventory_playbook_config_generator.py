@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Sunil Shatagopa, Madhan Sankaranarayanan"
+__author__ = "Mridul Saurabh, Sunil Shatagopa, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
@@ -23,6 +23,7 @@ version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
+- Mridul Saurabh (@msaurabh12)
 - Sunil Shatagopa (@shatagopasunil)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
@@ -106,7 +107,7 @@ options:
             default: "ip_address"
 
 requirements:
-- dnacentersdk >= 2.3.7.9
+- dnacentersdk >= 2.7.2
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -213,7 +214,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: A dictionary with  with the response returned by the Cisco Catalyst Center Python SDK
+  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

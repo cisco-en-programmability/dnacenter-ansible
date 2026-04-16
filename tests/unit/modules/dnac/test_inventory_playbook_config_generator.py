@@ -13,8 +13,9 @@
 # limitations under the License.
 
 # Authors:
-#   Sunil Shatagopa <shatagopasunil@cisco.com>
-#   Madhan Sankaranarayanan <madhansansel@cisco.com>
+#   Mridul Saurabh (@msaurabh12)
+#   Sunil Shatagopa (@shatagopasunil)
+#   Madhan Sankaranarayanan (@madhansansel)
 #
 # Description:
 #   Unit tests for the Ansible module `inventory_playbook_config_generator`.
