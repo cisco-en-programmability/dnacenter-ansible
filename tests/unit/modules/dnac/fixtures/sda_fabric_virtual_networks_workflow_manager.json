@@ -537,6 +537,87 @@
 
   "get_invalid_testbed_release":{
     "message": "The specified version '2.3.5.3' does not support the SDA fabric devices feature. Supported versions start from '2.3.7.6' onwards."
+  },
+
+  "playbook_config_create_fabric_vlan_with_multiple_ip_to_mac": [
+    {
+      "fabric_vlan": [
+        {
+          "vlan_name": "vlan_multi_ip",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/India/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "vlan_id": 1944,
+          "traffic_type": "DATA",
+          "fabric_enabled_wireless": false,
+          "multiple_ip_to_mac_addresses": true
+        }
+      ]
+    }
+  ],
+
+  "playbook_config_update_fabric_vlan_multiple_ip_to_mac": [
+    {
+      "fabric_vlan": [
+        {
+          "vlan_name": "vlan_multi_ip",
+          "fabric_site_locations": [
+            {
+              "site_name_hierarchy": "Global/India/Fabric_Test",
+              "fabric_type": "fabric_site"
+            }
+          ],
+          "vlan_id": 1944,
+          "traffic_type": "DATA",
+          "fabric_enabled_wireless": false,
+          "multiple_ip_to_mac_addresses": true
+        }
+      ]
+    }
+  ],
+
+  "get_empty_fabric_vlan_multi_ip_response": {
+    "response": [],
+    "version": "1.0"
+  },
+
+  "get_fabric_vlan_multi_ip_response": {
+    "response": [
+      {
+        "id": "aa629091-0592-440a-9dd8-e2274327b99c",
+        "fabricId": "879173be-e21f-472d-bc78-06407f9c5091",
+        "vlanName": "vlan_multi_ip",
+        "vlanId": 1944,
+        "trafficType": "DATA",
+        "isFabricEnabledWireless": false,
+        "isWirelessFloodingEnabled": false,
+        "isResourceGuardEnabled": false,
+        "isMultipleIpToMacAddresses": false,
+        "layer2FloodingAddressAssignment": "SHARED"
+      }
+    ],
+    "version": "1.0"
+  },
+
+  "get_fabric_vlan_multi_ip_created_response": {
+    "response": [
+      {
+        "id": "aa629091-0592-440a-9dd8-e2274327b99c",
+        "fabricId": "879173be-e21f-472d-bc78-06407f9c5091",
+        "vlanName": "vlan_multi_ip",
+        "vlanId": 1944,
+        "trafficType": "DATA",
+        "isFabricEnabledWireless": false,
+        "isWirelessFloodingEnabled": false,
+        "isResourceGuardEnabled": false,
+        "isMultipleIpToMacAddresses": true,
+        "layer2FloodingAddressAssignment": "SHARED"
+      }
+    ],
+    "version": "1.0"
   }
 
 }
