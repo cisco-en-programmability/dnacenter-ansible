@@ -5,7 +5,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Abhishek Maheshwari, Madhan Sankaranarayanan"
+__author__ = "Abhishek Maheshwari, Priyadharshini B, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: events_and_notifications_workflow_manager
@@ -32,7 +32,7 @@ description:
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan
+author: Abhishek Maheshwari (@abmahesh) Priyadharshini B(@pbalaku2) Madhan Sankaranarayanan
   (@madhansansel)
 options:
   config_verify:
