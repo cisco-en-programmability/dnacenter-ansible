@@ -2850,7 +2850,14 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
+        destination_types = destination_filters.get("destination_types", [])
         destination_names = destination_filters.get("destination_names", [])
+
+        # Only apply destination_names filter if destination_types includes
+        # 'webhook' or destination_types is not specified
+        if destination_types and "webhook" not in destination_types:
+            destination_names = []
+
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(destination_names),
@@ -2896,7 +2903,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     final_webhook_configs = matching_configs
                 else:
-                    self.log("No matching webhook destinations found for filter - including all", "DEBUG")
+                    final_webhook_configs = []
+                    self.log(
+                        "No matching webhook destinations found for destination_names "
+                        "filter: {0}. Returning empty list.".format(destination_names),
+                        "WARNING"
+                    )
             else:
                 final_webhook_configs = webhook_configs
                 self.log(
@@ -2968,7 +2980,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
+        destination_types = destination_filters.get("destination_types", [])
         destination_names = destination_filters.get("destination_names", [])
+
+        # Only apply destination_names filter if destination_types includes
+        # 'email' or destination_types is not specified
+        if destination_types and "email" not in destination_types:
+            destination_names = []
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3017,12 +3035,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO"
                     )
                 else:
-                    final_email_configs = email_configs
+                    final_email_configs = []
                     self.log(
-                        "No matching email destinations found for filter: {0}. Including "
-                        "all {1} email(s) for comprehensive configuration coverage.".format(
-                            destination_names, len(email_configs)
-                        ),
+                        "No matching email destinations found for destination_names "
+                        "filter: {0}. Returning empty list.".format(destination_names),
                         "WARNING"
                     )
             else:
@@ -3097,7 +3113,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
+        destination_types = destination_filters.get("destination_types", [])
         destination_names = destination_filters.get("destination_names", [])
+
+        # Only apply destination_names filter if destination_types includes
+        # 'syslog' or destination_types is not specified
+        if destination_types and "syslog" not in destination_types:
+            destination_names = []
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3143,12 +3165,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO"
                     )
                 else:
-                    final_syslog_configs = syslog_configs
+                    final_syslog_configs = []
                     self.log(
-                        "No matching syslog destinations found for filter: {0}. Including "
-                        "all {1} syslog(s) for comprehensive configuration coverage.".format(
-                            destination_names, len(syslog_configs)
-                        ),
+                        "No matching syslog destinations found for destination_names "
+                        "filter: {0}. Returning empty list.".format(destination_names),
                         "WARNING"
                     )
             else:
@@ -3222,7 +3242,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
+        destination_types = destination_filters.get("destination_types", [])
         destination_names = destination_filters.get("destination_names", [])
+
+        # Only apply destination_names filter if destination_types includes
+        # 'snmp' or destination_types is not specified
+        if destination_types and "snmp" not in destination_types:
+            destination_names = []
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3269,11 +3295,10 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO"
                     )
                 else:
-                    final_snmp_configs = snmp_configs
+                    final_snmp_configs = []
                     self.log(
-                        "No matching SNMP destinations found for filter: {0}. Including "
-                        "all {1} SNMP destination(s) for comprehensive configuration "
-                        "coverage.".format(destination_names, len(snmp_configs)),
+                        "No matching SNMP destinations found for destination_names "
+                        "filter: {0}. Returning empty list.".format(destination_names),
                         "WARNING"
                     )
             else:
@@ -4206,7 +4231,14 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
+        notification_types = notification_filters.get("notification_types", [])
         subscription_names = notification_filters.get("subscription_names", [])
+
+        # Only apply subscription_names filter if notification_types includes
+        # 'webhook' or notification_types is not specified
+        if notification_types and "webhook" not in notification_types:
+            subscription_names = []
+
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(subscription_names),
@@ -4260,11 +4292,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO"
                     )
                 else:
-                    final_notification_configs = notification_configs
+                    final_notification_configs = []
                     self.log(
-                        "No matching webhook event notifications found for filter: {0}. "
-                        "Including all {1} notification(s) for comprehensive configuration "
-                        "coverage.".format(subscription_names, len(notification_configs)),
+                        "No matching webhook event notifications found for "
+                        "subscription_names filter: {0}. Returning empty list.".format(
+                            subscription_names
+                        ),
                         "WARNING"
                     )
             else:
@@ -4490,7 +4523,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
+        notification_types = notification_filters.get("notification_types", [])
         subscription_names = notification_filters.get("subscription_names", [])
+
+        # Only apply subscription_names filter if notification_types includes
+        # 'email' or notification_types is not specified
+        if notification_types and "email" not in notification_types:
+            subscription_names = []
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4504,10 +4543,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         api_function = network_element.get("api_function")
 
         self.log(
-            "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
-                len(subscription_names),
-                "name-based filtering" if subscription_names else "retrieve all"
-            ),
+            "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
+            "email event notifications.".format(api_family, api_function),
             "DEBUG"
         )
 
@@ -4548,11 +4585,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO"
                     )
                 else:
-                    final_notification_configs = notification_configs
+                    final_notification_configs = []
                     self.log(
-                        "No matching email event notifications found for filter: {0}. "
-                        "Including all {1} notification(s) for comprehensive configuration "
-                        "coverage.".format(subscription_names, len(notification_configs)),
+                        "No matching email event notifications found for "
+                        "subscription_names filter: {0}. Returning empty list.".format(
+                            subscription_names
+                        ),
                         "WARNING"
                     )
             else:
@@ -4755,7 +4793,13 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
+        notification_types = notification_filters.get("notification_types", [])
         subscription_names = notification_filters.get("subscription_names", [])
+
+        # Only apply subscription_names filter if notification_types includes
+        # 'syslog' or notification_types is not specified
+        if notification_types and "syslog" not in notification_types:
+            subscription_names = []
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4811,11 +4855,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "INFO"
                     )
                 else:
-                    final_notification_configs = notification_configs
+                    final_notification_configs = []
                     self.log(
-                        "No matching syslog event notifications found for filter: {0}. "
-                        "Including all {1} notification(s) for comprehensive configuration "
-                        "coverage.".format(subscription_names, len(notification_configs)),
+                        "No matching syslog event notifications found for "
+                        "subscription_names filter: {0}. Returning empty list.".format(
+                            subscription_names
+                        ),
                         "WARNING"
                     )
             else:
