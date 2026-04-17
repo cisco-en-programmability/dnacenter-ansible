@@ -29,11 +29,6 @@ author:
 - Vivek Raj (@vivekraj2000)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst
-      Center after applying the playbook config.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst Center after module execution.
     type: str
@@ -671,7 +666,6 @@ response_1:
                         ]
                     }
                 },
-                "config_verify": false,
                 "dnac_api_task_timeout": 1200,
                 "dnac_debug": false,
                 "dnac_host": "10.22.40.214",
@@ -4743,7 +4737,6 @@ def main():
         "dnac_log_append": {"type": "bool", "default": True},
         "dnac_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "dict", "required": False},
