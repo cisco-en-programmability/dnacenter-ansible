@@ -553,7 +553,8 @@
           "vlan_id": 1944,
           "traffic_type": "DATA",
           "fabric_enabled_wireless": false,
-          "multiple_ip_to_mac_addresses": true
+          "multiple_ip_to_mac_addresses": true,
+          "associated_layer3_virtual_network": "L3_VN_1"
         }
       ]
     }
@@ -573,7 +574,8 @@
           "vlan_id": 1944,
           "traffic_type": "DATA",
           "fabric_enabled_wireless": false,
-          "multiple_ip_to_mac_addresses": true
+          "multiple_ip_to_mac_addresses": true,
+          "associated_layer3_virtual_network": "L3_VN_1"
         }
       ]
     }

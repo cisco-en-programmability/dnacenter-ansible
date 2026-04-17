@@ -154,6 +154,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id_success"),
             ]
 
+        elif "omit_multiple_ip_field" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_empty_fabric_vlan_multi_ip_response"),
+                self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_site_details"),
+                self.test_data.get("get_empty_fabric_vlan_multi_ip_response"),
+                self.test_data.get("response_get_task_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success"),
+            ]
+
         elif "create_virtual_network_with_verify" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
@@ -846,5 +856,90 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "The specified version",
+            result.get('msg')
+        )
+
+    def test_sda_fabric_virtual_networks_workflow_manager_invalid_multiple_ip_to_mac_without_l3_vn(self):
+        """
+        Verify module fails when multiple_ip_to_mac_addresses is provided
+        without associated_layer3_virtual_network.
+        """
+        invalid_config = [
+            {
+                "fabric_vlan": [
+                    {
+                        "vlan_name": "vlan_multi_ip_invalid",
+                        "fabric_site_locations": [
+                            {
+                                "site_name_hierarchy": "Global/India/Fabric_Test",
+                                "fabric_type": "fabric_site",
+                            }
+                        ],
+                        "vlan_id": 1945,
+                        "traffic_type": "DATA",
+                        "fabric_enabled_wireless": False,
+                        "multiple_ip_to_mac_addresses": True,
+                    }
+                ]
+            }
+        ]
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="3.1.3.0",
+                dnac_log=True,
+                config_verify=False,
+                state="merged",
+                config=invalid_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "requires 'associated_layer3_virtual_network'",
+            result.get("msg"),
+        )
+
+    def test_sda_fabric_virtual_networks_workflow_manager_create_fabric_vlan_omit_multiple_ip_field(self):
+        """
+        Verify create flow does not force isMultipleIpToMacAddresses
+        when multiple_ip_to_mac_addresses is omitted.
+        """
+        config_without_multi_ip = [
+            {
+                "fabric_vlan": [
+                    {
+                        "vlan_name": "vlan_without_multi_ip",
+                        "fabric_site_locations": [
+                            {
+                                "site_name_hierarchy": "Global/India/Fabric_Test",
+                                "fabric_type": "fabric_site",
+                            }
+                        ],
+                        "vlan_id": 1946,
+                        "traffic_type": "DATA",
+                        "fabric_enabled_wireless": False,
+                    }
+                ]
+            }
+        ]
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="3.1.3.0",
+                dnac_log=True,
+                config_verify=False,
+                state="merged",
+                config=config_without_multi_ip,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "created successfully",
             result.get('msg')
         )
