@@ -9,7 +9,7 @@
 #
 # ===================================================================================================
 
-- name: Cisco DNA Center Brownfield Wired Campus Automation Playbook Generator Examples
+- name: Cisco Catalyst Center Brownfield Wired Campus Automation Playbook Generator Examples
   hosts: localhost
   gather_facts: false
   vars_files:

@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
+__author__ = "Rugvedi Kapse, Vivek Raj, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
@@ -26,6 +26,7 @@ extends_documentation_fragment:
 - cisco.dnac.workflow_manager_params
 author:
 - Rugvedi Kapse (@rukapse)
+- Vivek Raj (@vivekraj2000)
 - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
@@ -41,9 +42,9 @@ options:
   file_path:
     description:
     - Absolute or relative path for YAML configuration file output.
-    - If not provided, generates default filename in current working directory
-        with pattern
-        'wired_campus_automation_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml'
+    - If not provided, a default filename is generated in the
+      current working directory using the pattern
+      C(wired_campus_automation_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
     - Example default filename
         'wired_campus_automation_playbook_config_2026-02-27_14-31-46.yml'
     - Directory created automatically if path does not exist.
@@ -51,27 +52,40 @@ options:
     type: str
   file_mode:
     description:
-    - Controls how config is written to the YAML file.
-    - C(overwrite) replaces existing file content.
-    - C(append) appends generated YAML content to the existing file.
+      - Controls how the generated configuration is written to
+        the output YAML file.
+      - C(overwrite) replaces the existing file content entirely.
+      - C(append) appends the generated YAML content to the
+        existing file. If the file does not exist, it is created.
     type: str
     choices: ["overwrite", "append"]
     default: "overwrite"
   config:
     description:
-      - A dictionary of filters for generating YAML playbook compatible with the 'wired_campus_automation_workflow_manager'
-        module.
-      - Filters specify which components and devices to include in the YAML configuration file.
-      - Global filters identify target devices by IP address, hostname, or serial number.
-      - Component-specific filters allow selection of specific layer2 features and detailed filtering.
+      - A dictionary of filters for generating a YAML playbook
+        compatible with the
+        'wired_campus_automation_workflow_manager' module.
+      - If omitted, all managed devices and all supported
+        layer2 features are extracted automatically.
+      - Global filters identify target devices by IP address,
+        hostname, or serial number.
+      - Component-specific filters select which layer2 features
+        to extract and allow VLAN ID or interface name filtering.
+      - Global filters and component-specific filters are
+        combined with AND logic. Omitting a filter means no
+        restriction on that attribute.
     type: dict
     required: false
     suboptions:
       global_filters:
         description:
-          - Global filters to apply when generating the YAML configuration file.
-          - These filters identify which network devices to extract configurations from.
-          - At least one filter type must be specified to identify target devices.
+          - Filters that identify which network devices to extract
+            configurations from.
+          - If no global filters are specified, all managed devices
+            in Cisco Catalyst Center are targeted.
+          - When multiple filter types are provided, only the
+            highest-priority type is used (IP > serial > hostname).
+            Lower-priority filters are ignored.
         type: dict
         required: false
         suboptions:
@@ -122,6 +136,7 @@ options:
               - Future versions may support additional component types.
             type: list
             elements: str
+            choices: ["layer2_configurations"]
             required: false
           layer2_configurations:
             description:
@@ -138,7 +153,8 @@ options:
                 - Valid values are ["vlans", "cdp", "lldp", "stp", "vtp", "dhcp_snooping",
                     "igmp_snooping", "mld_snooping", "authentication", "logical_ports", "port_configuration"]
                 - If not specified, all supported layer2 features will be extracted.
-                - Example ["vlans", "stp", "cdp"] to extract only VLAN, STP, and CDP configurations.
+                - Example C(["vlans", "stp", "cdp"]) to extract
+                  only VLAN, STP, and CDP configurations.
                 type: list
                 elements: str
                 required: false
@@ -158,7 +174,8 @@ options:
                     - List of specific VLAN IDs to extract from devices.
                     - Each VLAN ID must be between 1 and 4094.
                     - Only VLANs in this list will be included in the generated configuration.
-                    - Example ["10", "20", "100", "200"] to extract only these specific VLANs.
+                    - Example C(["10", "20", "100", "200"]) to
+                      extract only these specific VLANs.
                     type: list
                     elements: str
                     required: false
@@ -174,7 +191,7 @@ options:
                     description:
                     - List of specific interface names to extract configurations from.
                     - Interface names must match the format used by the device.
-                    - Example ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "TenGigabitEthernet1/0/1"]
+                    - Example C(["GigabitEthernet1/0/1", "TenGigabitEthernet1/0/1"]).
                     - Only interfaces in this list will have their configurations extracted.
                     type: list
                     elements: str
@@ -189,6 +206,40 @@ notes:
 - Paths used are
   - GET /dna/intent/api/v1/network-device
   - GET /dna/intent/api/v1/networkDevices/${id}/configFeatures/deployed/layer2/${feature}
+- Auto-population of C(components_list) -
+  If component-specific filters (such as 'projects' or 'configuration_templates') are provided
+  without explicitly including them in 'components_list', those components will be
+  automatically added to 'components_list'. This simplifies configuration by eliminating
+  the need to redundantly specify components in both places.
+- Example of auto-population behavior -
+  If you provide filters for 'projects' without including 'projects' in 'components_list',
+  the module will automatically add 'projects' to 'components_list' before processing.
+  This allows you to write more concise playbooks.
+- Module result behavior (changed/ok/failed) -
+  The module result reflects local file state only, not Catalyst Center state.
+  In overwrite mode, the full generated YAML content is compared against the
+  existing file after excluding generated header comment lines. In append mode,
+  only the last YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous appends,
+  only the most recent entry is used for the idempotency check.
+  changed=true (status success) means the generated YAML configuration differs
+  from the existing output file (or the file does not exist). The file was
+  written and the configuration was updated.
+  changed=false (status ok) means the generated YAML configuration matches the
+  existing output file content. The write was skipped as the file is
+  already up-to-date.
+  failed=true (status failed) means the module encountered a validation error,
+  API failure, or file write error. No file was written or modified.
+  Re-running with identical inputs and unchanged Catalyst Center state
+  will produce changed=false, ensuring idempotent playbook behavior.
+  If append mode creates multiple config entries in the
+  generated file, replaying the file as config in the workflow
+  manager module applies only the last config entry because
+  yaml.safe_load uses last-key-wins semantics for duplicate
+  keys in a single YAML document.
+seealso:
+- module: cisco.dnac.wired_campus_automation_workflow_manager
+  description: Module for managing wired campus automation workflows in Cisco Catalyst Center.
 """
 
 EXAMPLES = r"""
@@ -371,7 +422,7 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["layer2_configurations"]
         layer2_configurations:
-        layer2_features: ["vlans", "stp", "cdp"]
+          - layer2_features: ["vlans", "stp", "cdp"]
 
 - name: Generate YAML Configuration for specific VLANs
   cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -393,9 +444,9 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["layer2_configurations"]
         layer2_configurations:
-        layer2_features: ["vlans"]
-        vlans:
-          vlan_ids_list: ["10", "20", "100", "200"]
+          - layer2_features: ["vlans"]
+            vlans:
+              vlan_ids_list: ["10", "20", "100", "200"]
 
 - name: Generate YAML Configuration for specific interfaces
   cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -417,12 +468,12 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["layer2_configurations"]
         layer2_configurations:
-        layer2_features: ["port_configuration"]
-        port_configuration:
-          interface_names_list:
-            - "GigabitEthernet1/0/1"
-            - "GigabitEthernet1/0/2"
-            - "TenGigabitEthernet1/0/1"
+          - layer2_features: ["port_configuration"]
+            port_configuration:
+              interface_names_list:
+                - "GigabitEthernet1/0/1"
+                - "GigabitEthernet1/0/2"
+                - "TenGigabitEthernet1/0/1"
 
 - name: Generate YAML Configuration with comprehensive filtering
   cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -444,13 +495,13 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["layer2_configurations"]
         layer2_configurations:
-        layer2_features: ["vlans", "stp", "port_configuration"]
-        vlans:
-          vlan_ids_list: ["10", "20", "100"]
-        port_configuration:
-          interface_names_list:
-            - "GigabitEthernet1/0/1"
-            - "GigabitEthernet1/0/24"
+          - layer2_features: ["vlans", "stp", "port_configuration"]
+            vlans:
+              vlan_ids_list: ["10", "20", "100"]
+            port_configuration:
+              interface_names_list:
+                - "GigabitEthernet1/0/1"
+                - "GigabitEthernet1/0/24"
 
 - name: Generate YAML Configuration for specific interfaces
   cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -470,12 +521,14 @@ EXAMPLES = r"""
       global_filters:
         ip_address_list: ["192.168.1.10"]
       component_specific_filters:
-        layer2_features: ["port_configuration"]
-        port_configuration:
-          interface_names_list:
-            - "GigabitEthernet1/0/1"
-            - "GigabitEthernet1/0/2"
-            - "TenGigabitEthernet1/0/1"
+        components_list: ["layer2_configurations"]
+        layer2_configurations:
+          - layer2_features: ["port_configuration"]
+            port_configuration:
+              interface_names_list:
+                - "GigabitEthernet1/0/1"
+                - "GigabitEthernet1/0/2"
+                - "TenGigabitEthernet1/0/1"
 
 - name: Generate YAML Configuration with comprehensive filtering
   cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -495,13 +548,15 @@ EXAMPLES = r"""
       global_filters:
         ip_address_list: ["192.168.1.10", "192.168.1.11"]
       component_specific_filters:
-        layer2_features: ["vlans", "stp", "port_configuration"]
-        vlans:
-        vlan_ids_list: ["10", "20", "100"]
-        port_configuration:
-          interface_names_list:
-            - "GigabitEthernet1/0/1"
-            - "GigabitEthernet1/0/24"
+        components_list: ["layer2_configurations"]
+        layer2_configurations:
+          - layer2_features: ["vlans", "stp", "port_configuration"]
+            vlans:
+              vlan_ids_list: ["10", "20", "100"]
+            port_configuration:
+              interface_names_list:
+                - "GigabitEthernet1/0/1"
+                - "GigabitEthernet1/0/24"
 
 - name: Generate YAML Configuration for all features (no component filters)
   cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -557,7 +612,9 @@ EXAMPLES = r"""
       global_filters:
         hostname_list: ["switch01.lab.com", "switch02.lab.com"]
       component_specific_filters:
-        layer2_features: ["cdp", "lldp", "stp", "vtp"]
+        components_list: ["layer2_configurations"]
+        layer2_configurations:
+          - layer2_features: ["cdp", "lldp", "stp", "vtp"]
 
 - name: Generate YAML Configuration for security features
   cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -577,7 +634,9 @@ EXAMPLES = r"""
       global_filters:
         serial_number_list: ["FCW2140L05Y", "FCW2140L06Z"]
       component_specific_filters:
-        layer2_features: ["dhcp_snooping", "igmp_snooping", "authentication"]
+        components_list: ["layer2_configurations"]
+        layer2_configurations:
+          - layer2_features: ["dhcp_snooping", "igmp_snooping", "authentication"]
 """
 
 RETURN = r"""
@@ -788,13 +847,31 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - this is an error
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.msg = "Configuration is not provided - treating as generate_all_configurations mode"
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO")
+            return self
+
+        if not isinstance(self.config, dict):
+            self.msg = (
+                f"Configuration must be a dictionary, got: {type(self.config).__name__}. Please provide "
+                "configuration as a dictionary."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Expected schema for configuration parameters
@@ -804,14 +881,8 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         }
 
         # Validate params
-        self.log("Validating configuration against schema.", "DEBUG")
-
+        self.log("Validating configuration against schema", "DEBUG")
         valid_temp = self.validate_config_dict(self.config, temp_spec)
-        self.log(
-            "Schema validation passed successfully. All parameters conform to expected "
-            "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
-            "DEBUG"
-        )
 
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
@@ -823,9 +894,7 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
-        )
+        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {valid_temp}"
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
@@ -2459,20 +2528,48 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.total_devices_processed = len(device_ip_to_id_mapping)
 
         self.log("Extracting component-specific filters for layer2 features", "DEBUG")
-        component_specific_filters = filters.get("component_specific_filters", [])
-        if component_specific_filters:
-            component_specific_filters = component_specific_filters[0]
+        component_specific_filters_list = filters.get("component_specific_filters", [])
+
+        # Merge all filter items into a unified set of features and sub-filters
+        layer2_features = []
+        merged_component_filters = {}
+
+        for filter_item in component_specific_filters_list:
+            if not isinstance(filter_item, dict):
+                continue
+
+            # Collect unique layer2_features from each item
+            for feature in filter_item.get("layer2_features", []):
+                if feature not in layer2_features:
+                    layer2_features.append(feature)
+
+            # Merge sub-filters (vlans, port_configuration, etc.)
+            for key, value in filter_item.items():
+                if key == "layer2_features":
+                    continue
+                if key not in merged_component_filters:
+                    merged_component_filters[key] = value
+                elif isinstance(value, dict) and isinstance(merged_component_filters[key], dict):
+                    for sub_key, sub_value in value.items():
+                        if sub_key in merged_component_filters[key]:
+                            existing = merged_component_filters[key][sub_key]
+                            if isinstance(existing, list) and isinstance(sub_value, list):
+                                for item in sub_value:
+                                    if item not in existing:
+                                        existing.append(item)
+                            else:
+                                merged_component_filters[key][sub_key] = sub_value
+                        else:
+                            merged_component_filters[key][sub_key] = sub_value
+
+        component_specific_filters = merged_component_filters
         self.log(
-            "Component specific filters: {0}".format(component_specific_filters),
+            "Merged component specific filters from {0} items: {1}".format(
+                len(component_specific_filters_list), component_specific_filters
+            ),
             "DEBUG",
         )
-
-        layer2_config_filters = component_specific_filters if isinstance(component_specific_filters, dict) else {}
-        self.log(
-            "Layer2 configuration filters: {0}".format(layer2_config_filters), "DEBUG"
-        )
-        layer2_features = layer2_config_filters.get("layer2_features", [])
-        self.log("Requested layer2 features: {0}".format(layer2_features), "DEBUG")
+        self.log("Merged layer2 features: {0}".format(layer2_features), "DEBUG")
 
         self.log("Checking if specific layer2 features were requested", "DEBUG")
         if not layer2_features:
@@ -4495,15 +4592,11 @@ class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        # Fix: Look for port_configuration filters in the correct nested structure
-        layer2_config_filters = component_specific_filters.get(
-            "layer2_configurations", {}
-        )
-        port_config_filters = layer2_config_filters.get("port_configuration", {})
+        port_config_filters = component_specific_filters.get("port_configuration", {})
 
         if not port_config_filters:
             self.log(
-                "No port configuration filters found in layer2_configurations - returning all configurations",
+                "No port configuration filters found - returning all configurations",
                 "DEBUG",
             )
             return merged_interface_configs
