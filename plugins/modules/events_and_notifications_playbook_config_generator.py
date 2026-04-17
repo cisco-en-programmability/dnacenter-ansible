@@ -2823,6 +2823,44 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return None
 
+    def _resolve_name_filter(self, type_filters, names_filter, expected_type):
+        """
+        Returns effective names filter list for a destination/notification type.
+
+        Centralises the repeated pattern of checking whether the current component
+        type is included in the user-supplied type filter list before applying the
+        name-based filter.  If ``type_filters`` is empty or ``None`` the names
+        filter is returned as-is (all types selected).  If ``type_filters`` is
+        non-empty but does not contain ``expected_type``, an empty list is returned
+        so that name filtering is skipped for this component.
+
+        Args:
+            type_filters (list): destination_types or notification_types from the
+                playbook filter block.  May be ``None`` or empty.
+            names_filter (list): destination_names or subscription_names from the
+                playbook filter block.  May be ``None`` or empty.
+            expected_type (str): The component type to check for, e.g. ``"webhook"``,
+                ``"email"``, ``"syslog"``, ``"snmp"``.
+
+        Returns:
+            list: The names filter to apply for this component type.  Returns an
+                empty list when the component type is excluded by ``type_filters``.
+        """
+        type_filters = type_filters or []
+        names_filter = names_filter or []
+
+        if type_filters and expected_type not in type_filters:
+            self.log(
+                "Component type '{0}' not in type_filters {1}. "
+                "Clearing name filter for this component.".format(
+                    expected_type, type_filters
+                ),
+                "DEBUG"
+            )
+            return []
+
+        return names_filter
+
     def get_webhook_destinations(self, network_element, filters):
         """
         Retrieves webhook destination configurations from Cisco Catalyst Center.
@@ -2850,13 +2888,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_types = destination_filters.get("destination_types", [])
-        destination_names = destination_filters.get("destination_names", [])
-
-        # Only apply destination_names filter if destination_types includes
-        # 'webhook' or destination_types is not specified
-        if destination_types and "webhook" not in destination_types:
-            destination_names = []
+        destination_names = self._resolve_name_filter(
+            destination_filters.get("destination_types"),
+            destination_filters.get("destination_names"),
+            "webhook"
+        )
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -2901,13 +2937,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         ),
                         "INFO"
                     )
-                    final_webhook_configs = matching_configs
                 else:
                     final_webhook_configs = []
                     self.log(
                         "No matching webhook destinations found for destination_names "
                         "filter: {0}. Returning empty list.".format(destination_names),
-                        "WARNING"
+                        "INFO"
                     )
             else:
                 final_webhook_configs = webhook_configs
@@ -2980,13 +3015,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_types = destination_filters.get("destination_types", [])
-        destination_names = destination_filters.get("destination_names", [])
-
-        # Only apply destination_names filter if destination_types includes
-        # 'email' or destination_types is not specified
-        if destination_types and "email" not in destination_types:
-            destination_names = []
+        destination_names = self._resolve_name_filter(
+            destination_filters.get("destination_types"),
+            destination_filters.get("destination_names"),
+            "email"
+        )
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3039,7 +3072,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.log(
                         "No matching email destinations found for destination_names "
                         "filter: {0}. Returning empty list.".format(destination_names),
-                        "WARNING"
+                        "INFO"
                     )
             else:
                 self.log(
@@ -3113,13 +3146,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_types = destination_filters.get("destination_types", [])
-        destination_names = destination_filters.get("destination_names", [])
-
-        # Only apply destination_names filter if destination_types includes
-        # 'syslog' or destination_types is not specified
-        if destination_types and "syslog" not in destination_types:
-            destination_names = []
+        destination_names = self._resolve_name_filter(
+            destination_filters.get("destination_types"),
+            destination_filters.get("destination_names"),
+            "syslog"
+        )
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3169,7 +3200,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.log(
                         "No matching syslog destinations found for destination_names "
                         "filter: {0}. Returning empty list.".format(destination_names),
-                        "WARNING"
+                        "INFO"
                     )
             else:
                 self.log(
@@ -3242,13 +3273,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_types = destination_filters.get("destination_types", [])
-        destination_names = destination_filters.get("destination_names", [])
-
-        # Only apply destination_names filter if destination_types includes
-        # 'snmp' or destination_types is not specified
-        if destination_types and "snmp" not in destination_types:
-            destination_names = []
+        destination_names = self._resolve_name_filter(
+            destination_filters.get("destination_types"),
+            destination_filters.get("destination_names"),
+            "snmp"
+        )
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3299,7 +3328,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.log(
                         "No matching SNMP destinations found for destination_names "
                         "filter: {0}. Returning empty list.".format(destination_names),
-                        "WARNING"
+                        "INFO"
                     )
             else:
                 self.log(
@@ -3358,6 +3387,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             api_family (str): The API family identifier for webhook destinations.
             api_function (str): The specific API function name for retrieving webhook destinations.
+            target_destination_names (list, optional): Destination names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of webhook destination dictionaries containing all available
@@ -3542,6 +3573,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             api_family (str): The API family identifier for syslog destinations.
             api_function (str): The specific API function name for retrieving syslog destinations.
+            target_destination_names (list, optional): Destination names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of syslog destination dictionaries containing all available
@@ -3671,6 +3704,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             api_family (str): The API family identifier for SNMP destinations.
             api_function (str): The specific API function name for retrieving SNMP destinations.
+            target_destination_names (list, optional): Destination names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of SNMP destination dictionaries containing IP addresses,
@@ -3916,6 +3951,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             api_family (str): The API family identifier for ITSM settings.
             api_function (str): The specific API function name for retrieving ITSM settings.
+            target_instance_names (list, optional): Instance names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of ITSM setting dictionaries containing instance names,
@@ -4231,13 +4268,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        notification_types = notification_filters.get("notification_types", [])
-        subscription_names = notification_filters.get("subscription_names", [])
-
-        # Only apply subscription_names filter if notification_types includes
-        # 'webhook' or notification_types is not specified
-        if notification_types and "webhook" not in notification_types:
-            subscription_names = []
+        subscription_names = self._resolve_name_filter(
+            notification_filters.get("notification_types"),
+            notification_filters.get("subscription_names"),
+            "webhook"
+        )
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4298,7 +4333,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "subscription_names filter: {0}. Returning empty list.".format(
                             subscription_names
                         ),
-                        "WARNING"
+                        "INFO"
                     )
             else:
                 final_notification_configs = notification_configs
@@ -4359,6 +4394,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             api_family (str): The API family identifier for webhook event notifications.
             api_function (str): The specific API function name for retrieving webhook notifications.
+            target_subscription_names (list, optional): Subscription names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of webhook event notification dictionaries containing subscription
@@ -4523,13 +4560,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        notification_types = notification_filters.get("notification_types", [])
-        subscription_names = notification_filters.get("subscription_names", [])
-
-        # Only apply subscription_names filter if notification_types includes
-        # 'email' or notification_types is not specified
-        if notification_types and "email" not in notification_types:
-            subscription_names = []
+        subscription_names = self._resolve_name_filter(
+            notification_filters.get("notification_types"),
+            notification_filters.get("subscription_names"),
+            "email"
+        )
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4591,7 +4626,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "subscription_names filter: {0}. Returning empty list.".format(
                             subscription_names
                         ),
-                        "WARNING"
+                        "INFO"
                     )
             else:
                 final_notification_configs = notification_configs
@@ -4652,6 +4687,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             api_family (str): The API family identifier for email event notifications.
             api_function (str): The specific API function name for retrieving email notifications.
+            target_subscription_names (list, optional): Subscription names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of email event notification dictionaries containing subscription
@@ -4793,13 +4830,11 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        notification_types = notification_filters.get("notification_types", [])
-        subscription_names = notification_filters.get("subscription_names", [])
-
-        # Only apply subscription_names filter if notification_types includes
-        # 'syslog' or notification_types is not specified
-        if notification_types and "syslog" not in notification_types:
-            subscription_names = []
+        subscription_names = self._resolve_name_filter(
+            notification_filters.get("notification_types"),
+            notification_filters.get("subscription_names"),
+            "syslog"
+        )
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4861,7 +4896,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "subscription_names filter: {0}. Returning empty list.".format(
                             subscription_names
                         ),
-                        "WARNING"
+                        "INFO"
                     )
             else:
                 final_notification_configs = notification_configs
@@ -4923,6 +4958,8 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             api_family (str): The API family identifier for syslog event notifications.
             api_function (str): The specific API function name for retrieving syslog notifications.
+            target_subscription_names (list, optional): Subscription names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of syslog event notification dictionaries containing subscription
