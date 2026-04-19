@@ -43,9 +43,14 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
     playbook_config_generate_all_configurations = test_data.get(
         "generate_all_configurations_case"
     )
+    playbook_config_empty_config = test_data.get("empty_config_case")
+    playbook_config_empty_component_specific_filters = test_data.get(
+        "empty_component_specific_filters_case"
+    )
     playbook_config_component_specific_filters = test_data.get(
         "component_specific_filters_case"
     )
+    playbook_config_filter_not_found = test_data.get("filter_not_found_case")
 
     def setUp(self):
         super(TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator, self).setUp()
@@ -80,6 +85,11 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_sites_response"),
                 self.test_data.get("get_extranet_policies_filtered_response"),
             ]
+        elif "test_filter_not_found_in_catalyst_center" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_sites_response"),
+                self.test_data.get("get_extranet_policies_not_found_response"),
+            ]
 
     def test_generate_all_configurations(self):
         """
@@ -100,7 +110,6 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/all_extranet_policies.yml",
                 config=self.playbook_config_generate_all_configurations,
             )
         )
@@ -130,7 +139,6 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/policy_specific.yml",
                 config=self.playbook_config_component_specific_filters,
             )
         )
@@ -138,5 +146,86 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "YAML configuration file generated successfully",
+            str(result.get("msg")),
+        )
+
+    def test_empty_config_raises_error(self):
+        """
+        Test Case 3: Passing an empty config dict should raise a validation error.
+        An empty dict is not the same as omitting config; the module should
+        reject it with a clear error message rather than silently generating
+        all configurations.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                dnac_log_level="DEBUG",
+                config=self.playbook_config_empty_config,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Configuration cannot be an empty dictionary",
+            str(result.get("msg")),
+        )
+
+    def test_empty_component_specific_filters_raises_error(self):
+        """
+        Test Case 4: Passing component_specific_filters as an empty dict should
+        raise a validation error requiring at least components_list or a component
+        filter block.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                dnac_log_level="DEBUG",
+                config=self.playbook_config_empty_component_specific_filters,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "component_specific_filters",
+            str(result.get("msg")),
+        )
+
+    def test_filter_not_found_in_catalyst_center(self):
+        """
+        Test Case 5: Filter specifies a policy name that does not exist in Catalyst Center.
+        The API returns an empty response, so no configurations are found.
+        The module should succeed (not fail) and report that no configurations
+        were found, including the list of components attempted.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                dnac_log_level="DEBUG",
+                config=self.playbook_config_filter_not_found,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "No configurations found for module 'sda_extranet_policies_workflow_manager'",
+            str(result.get("msg")),
+        )
+        self.assertIn(
+            "extranet_policies",
             str(result.get("msg")),
         )
