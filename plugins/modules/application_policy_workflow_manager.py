@@ -3364,7 +3364,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occured while updating the application policy: {0}".format(
+            self.msg = "An exception occurred while updating the application policy: {0}".format(
                 e
             )
             self.set_operation_result(
@@ -3690,7 +3690,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occured while creating the application policy: {0}".format(
+            self.msg = "An exception occurred while creating the application policy: {0}".format(
                 e
             )
             self.set_operation_result(
