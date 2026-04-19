@@ -32,44 +32,40 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+        a default file name  C(wireless_design_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(wireless_design_playbook_config_2026-02-20_13-34-58.yml).
+    type: str
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
   config:
     description:
     - A dictionary of filters for generating YAML playbook compatible with the `wireless_design_workflow_manager` module.
     - Filters specify which components to include in the YAML configuration file.
-    - If C(components_list) is specified, only those components are included, regardless of the filters.
+    - If config is not provided (omitted entirely), all configurations for wireless design and feature templates will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
+    - Important - An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+      all configurations, or provide specific filters within 'config'.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - When set to C(true), the module generates configurations for all wireless settings
-          in the Cisco Catalyst Center, ignoring any provided filters.
-        - When enabled, the config parameter becomes optional and will use default values if not provided.
-        - A default filename will be generated automatically if file_path is not specified.
-        - This is useful for complete playbook configuration infrastructure discovery and documentation.
-        - When set to false, the module uses provided filters to generate a targeted YAML configuration.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  C(wireless_design_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(wireless_design_playbook_config_2026-02-20_13-34-58.yml).
-        type: str
-      file_mode:
-        description:
-        - Controls how config is written to the YAML file.
-        - C(overwrite) replaces existing file content.
-        - C(append) appends generated YAML content to the existing file.
-        type: str
-        choices: ["overwrite", "append"]
-        default: "overwrite"
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration file.
-        - If C(components_list) is specified, only those components are included, regardless of other filters.
+        - If filters for specific components (e.g., ssids or feature_template_config) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
@@ -85,7 +81,9 @@ options:
               - Feature Template Config "feature_template_config"
               - 802.11be Profiles "802_11_be_profiles"
               - Flex Connect Configuration "flex_connect_configuration"
-            - If not specified, all components are included.
+            - If not specified but component specific filters (ssids or feature_template_config) are provided,
+              those components are automatically added to this list.
+            - If neither components_list nor any component filters are provided, an error will be raised.
             type: list
             elements: str
             choices: ["ssids", "interfaces", "power_profiles", "access_point_profiles", "radio_frequency_profiles",
@@ -205,29 +203,86 @@ requirements:
 - dnacentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
-- SDK Methods used are
-    - sites.Sites.get_site
-    - site_design.SiteDesigns.get_sites
-    - wirelesss.Wireless.get_ssid_by_site
-    - wirelesss.Wireless.get_interfaces
-    - wirelesss.Wireless.get_power_profiles
-    - wirelesss.Wireless.get_ap_profiles
-    - wirelesss.Wireless.get_rf_profiles
-    - wirelesss.Wireless.get_anchor_groups
-- Paths used are
-    - GET /dna/intent/api/v1/sites
-    - GET /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids
-    - GET /dna/intent/api/v1/wirelessSettings/interfaces
-    - GET /dna/intent/api/v1/wirelessSettings/powerProfiles
-    - GET /dna/intent/api/v1/wirelessSettings/apProfiles
-    - GET /dna/intent/api/v1/wirelessSettings/rfProfiles
-    - GET /dna/intent/api/v1/wirelessSettings/anchorGroups
+- Cisco Catalyst Center >= 2.3.7.9
+- |-
+  SDK Methods used are
+  sites.Sites.get_site
+  site_design.SiteDesigns.get_sites
+  wirelesss.Wireless.get_ssid_by_site
+  wirelesss.Wireless.get_interfaces
+  wirelesss.Wireless.get_power_profiles
+  wirelesss.Wireless.get_ap_profiles
+  wirelesss.Wireless.get_rf_profiles
+  wirelesss.Wireless.get_anchor_groups
+- |-
+  SDK Paths used are
+  GET /dna/intent/api/v1/sites
+  GET /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids
+  GET /dna/intent/api/v1/wirelessSettings/interfaces
+  GET /dna/intent/api/v1/wirelessSettings/powerProfiles
+  GET /dna/intent/api/v1/wirelessSettings/apProfiles
+  GET /dna/intent/api/v1/wirelessSettings/rfProfiles
+  GET /dna/intent/api/v1/wirelessSettings/anchorGroups
+- |
+  Auto-population of components_list:
+  If component-specific filters (such as 'ssids' or 'interfaces' or 'power_profiles') are provided
+  without explicitly including them in 'components_list', those components will be
+  automatically added to 'components_list'. This simplifies configuration by eliminating
+  the need to redundantly specify components in both places.
+- |
+  Example of auto-population behavior:
+  If you provide filters for 'ssids' without including 'ssids' in 'components_list',
+  the module will automatically add 'ssids' to 'components_list' before processing.
+  This allows you to write more concise playbooks.
+- |
+  Validation requirements:
+  If 'component_specific_filters' is provided, at least one of the following must be true:
+  (1) 'components_list' contains at least one component, OR
+  (2) Component-specific filters (e.g., 'ssids', 'interfaces') are provided.
+  If neither condition is met, the module will fail with a validation error.
+- |-
+  Module result behavior (changed/ok/failed):
+  The module result reflects local file state only, not Catalyst Center state.
+  In overwrite mode, the full generated YAML content is compared against the
+  existing file after excluding generated header comment lines. In append mode,
+  only the last YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous appends,
+  only the most recent entry is used for the idempotency check.
+  - changed=true (status: success): The generated YAML configuration differs
+    from the existing output file (or the file does not exist). The file was
+    written and the configuration was updated.
+  - changed=false (status: ok): The generated YAML configuration matches the
+    existing output file content. The write was skipped as the file is
+    already up-to-date.
+  - failed=true (status: failed): The module encountered a validation error,
+    API failure, or file write error. No file was written or modified.
+  Note: Re-running with identical inputs and unchanged Catalyst Center state
+  will produce changed=false, ensuring idempotent playbook behavior.
+  Note: If append mode creates multiple config entries in the
+  generated file, replaying the file as config in the workflow
+  manager module applies only the last config entry because
+  yaml.safe_load uses last-key-wins semantics for duplicate
+  keys in a single YAML document.
 seealso:
 - module: cisco.dnac.wireless_design_workflow_manager
   description: Module for managing wireless design and feature template config.
 """
 
 EXAMPLES = r"""
+- name: Auto-generate YAML Configuration for all components
+  cisco.dnac.template_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: gathered
+    # No config provided - generates all configurations
+
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.wireless_design_playbook_config_generator:
     dnac_host: "{{dnac_host}}"
@@ -240,10 +295,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_path: "tmp/catc_wireless_config.yml"
-      file_mode: "overwrite"
+    file_path: "tmp/catc_wireless_config.yml"
+    file_mode: "overwrite"
+    # No config provided - generates all configurations
 
 - name: Generate YAML Configuration with specific wireless network components only
   cisco.dnac.wireless_design_playbook_config_generator:
@@ -257,9 +311,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/catc_wireless_components_config.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/catc_wireless_components_config.yml"
-      file_mode: "overwrite"
       component_specific_filters:
         components_list: ["interfaces", "anchor_groups"]
 
@@ -275,9 +329,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "tmp/catc_wireless_components_config.yml"
+    file_mode: "overwrite"
     config:
-      file_path: "tmp/catc_wireless_components_config.yml"
-      file_mode: "overwrite"
       component_specific_filters:
         components_list: ["ssids"]
         ssids:
@@ -295,9 +349,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_wireless_components_config.yaml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/catc_wireless_components_config.yaml"
-      file_mode: "append"
       component_specific_filters:
         components_list: ["ssids", "feature_template_config"]
         ssids:
@@ -341,11 +395,11 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components.",
         "response":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components."
     }
 """
 
@@ -381,6 +435,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "wireless_design_workflow_manager"
         self.country_code_map = None
+        self._api_response_to_module_attribute_map = None
 
     def validate_input(self):
         """
@@ -393,30 +448,26 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
+        # Check if config is provided but empty - Error scenario
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
             self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided - treating as generate all config mode"
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"]
-            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
@@ -430,8 +481,11 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
+            self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -579,6 +633,162 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         return schema
+
+    def _get_api_response_to_module_attribute_map(self):
+        """
+        Lazily initializes and returns API response to module attribute override map.
+
+        Returns:
+            dict: Mapping of API response attribute names to module attribute names.
+        """
+
+        if self._api_response_to_module_attribute_map is None:
+            self._api_response_to_module_attribute_map = {
+                "calledStationId": "called_station_id",
+                "peer2peerblocking": "peer2peer_blocking",
+                "passiveClient": "passive_client",
+                "predictionOptimization": "prediction_optimization",
+                "dualBandNeighborList": "dual_band_neighbor_list",
+                "radiusNacState": "radius_nac_state",
+                "dhcpRequired": "dhcp_required",
+                "dhcpServer": "dhcp_server",
+                "flexLocalAuth": "flex_local_auth",
+                "targetWakeupTime": "target_wakeup_time",
+                "downlinkOfdma": "downlink_ofdma",
+                "uplinkOfdma": "uplink_ofdma",
+                "downlinkMuMimo": "downlink_mu_mimo",
+                "uplinkMuMimo": "uplink_mu_mimo",
+                "dot11ax": "dot11ax",
+                "aironetIESupport": "aironet_ie_support",
+                "loadBalancing": "load_balancing",
+                "dtimPeriod5GHz": "dtim_period_5ghz",
+                "dtimPeriod24GHz": "dtim_period_24ghz",
+                "scanDeferTime": "scan_defer_time",
+                "maxClients": "max_clients",
+                "maxClientsPerRadio": "max_clients_per_radio",
+                "maxClientsPerAp": "max_clients_per_ap",
+                "wmmPolicy": "wmm_policy",
+                "multicastBuffer": "multicast_buffer",
+                "multicastBufferValue": "multicast_buffer_value",
+                "mediaStreamMulticastDirect": "media_stream_multicast_direct",
+                "muMimo11ac": "mu_mimo_11ac",
+                "wifiToCellularSteering": "wifi_to_cellular_steering",
+                "wifiAllianceAgileMultiband": "wifi_alliance_agile_multiband",
+                "fastlaneASR": "fastlane_asr",
+                "dot11vBSSMaxIdleProtected": "dot11v_bss_max_idle_protected",
+                "universalAPAdmin": "universal_ap_admin",
+                "opportunisticKeyCaching": "opportunistic_key_caching",
+                "ipSourceGuard": "ip_source_guard",
+                "dhcpOpt82RemoteIDSubOption": "dhcp_opt82_remote_id_sub_option",
+                "vlanCentralSwitching": "vlan_central_switching",
+                "callSnooping": "call_snooping",
+                "sendDisassociate": "send_disassociate",
+                "sent486Busy": "sent_486_busy",
+                "ipMacBinding": "ip_mac_binding",
+                "deferPriority0": "defer_priority_0",
+                "deferPriority1": "defer_priority_1",
+                "deferPriority2": "defer_priority_2",
+                "deferPriority3": "defer_priority_3",
+                "deferPriority4": "defer_priority_4",
+                "deferPriority5": "defer_priority_5",
+                "deferPriority6": "defer_priority_6",
+                "deferPriority7": "defer_priority_7",
+                "shareDataWithClient": "share_data_with_client",
+                "advertiseSupport": "advertise_support",
+                "advertisePCAnalyticsSupport": "advertise_pc_analytics_support",
+                "sendBeaconOnAssociation": "send_beacon_on_association",
+                "sendBeaconOnRoam": "send_beacon_on_roam",
+                "idleThreshold": "idle_threshold",
+                "fastTransitionReassociationTimeout": "fast_transition_reassociation_timeout",
+                "mDNSMode": "mdns_mode",
+                "radioBand": "radio_band",
+                "cleanAir": "clean_air",
+                "cleanAirDeviceReporting": "clean_air_device_reporting",
+                "persistentDevicePropagation": "persistent_device_propagation",
+                "description": "description",
+                "interferersFeatures": "interferers_features",
+                "bssColor": "bss_color",
+                "targetWaketimeBroadcast": "target_waketime_broadcast",
+                "nonSRGObssPdMaxThreshold": "non_srg_obss_pd_max_threshold",
+                "targetWakeUpTime11ax": "target_wakeup_time_11ax",
+                "obssPd": "obss_pd",
+                "multipleBssid": "multiple_bssid",
+                "dot11beStatus": "dot11be_status",
+                "eventDrivenRrmEnable": "event_driven_rrm_enable",
+                "eventDrivenRrmThresholdLevel": "event_driven_rrm_threshold_level",
+                "eventDrivenRrmCustomThresholdVal": "event_driven_rrm_custom_threshold_val",
+                "overlapIpEnable": "overlap_ip_enable",
+                "globalMulticastEnabled": "global_multicast_enabled",
+                "multicastIpv4Mode": "multicast_ipv4_mode",
+                "multicastIpv4Address": "multicast_ipv4_address",
+                "multicastIpv6Mode": "multicast_ipv6_mode",
+                "multicastIpv6Address": "multicast_ipv6_address",
+                "fraFreeze": "fra_freeze",
+                "fraStatus": "fra_status",
+                "fraInterval": "fra_interval",
+                "fraSensitivity": "fra_sensitivity",
+                "monitoringChannels": "monitoring_channels",
+                "neighborDiscoverType": "neighbor_discover_type",
+                "throughputThreshold": "throughput_threshold",
+                "coverageHoleDetection": "coverage_hole_detection",
+            }
+
+        return self._api_response_to_module_attribute_map
+
+    def _transform_attribute_name_to_snake_case(self, attribute):
+        """
+        Converts a camelCase/PascalCase attribute name to snake_case.
+
+        Args:
+            attribute (str): Attribute name to convert.
+
+        Returns:
+            str: Converted snake_case attribute name.
+        """
+
+        transformed_attribute = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", attribute)
+        transformed_attribute = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", transformed_attribute)
+        return transformed_attribute.lower()
+
+    def transform_feature_attributes_from_camel_case_to_snake_case(self, attribute):
+        """
+        Transforms a feature attribute from camelCase to snake_case format.
+
+        Args:
+            attribute (str): A feature attribute name in camelCase format.
+        Returns:
+            str: Transformed feature attribute name in snake_case format.
+        """
+
+        self.log(
+            "Starting feature attribute transformation from camelCase to snake_case for attribute: {0}"
+            .format(attribute),
+            "DEBUG",
+        )
+
+        if not isinstance(attribute, str):
+            self.log(
+                "Invalid attribute provided for transformation. Expected str, got: {0}".format(
+                    type(attribute).__name__
+                ),
+                "DEBUG",
+            )
+            return attribute
+
+        api_response_to_module_attribute_map = self._get_api_response_to_module_attribute_map()
+        transformed_attribute = api_response_to_module_attribute_map.get(attribute)
+
+        if transformed_attribute is None:
+            transformed_attribute = self._transform_attribute_name_to_snake_case(attribute)
+
+        self.log(
+            "Completed feature attribute transformation. Output: {0}".format(
+                transformed_attribute
+            ),
+            "DEBUG",
+        )
+
+        return transformed_attribute
 
     def wireless_ssid_temp_spec(self):
         """
@@ -1266,7 +1476,8 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "unlocked_attributes": {
                     "type": "list",
                     "elements": "str",
-                    "source_key": "unlockedAttributes"
+                    "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 }
             }
         )
@@ -1353,7 +1564,8 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "unlocked_attributes": {
                     "type": "list",
                     "elements": "str",
-                    "source_key": "unlockedAttributes"
+                    "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 }
             }
         )
@@ -1420,6 +1632,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 },
             }
         )
@@ -1458,6 +1671,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 },
             }
         )
@@ -1491,6 +1705,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 },
             }
         )
@@ -1532,6 +1747,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 },
             }
         )
@@ -1564,6 +1780,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 },
             }
         )
@@ -1600,6 +1817,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 },
             }
         )
@@ -1640,12 +1858,13 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 },
             }
         )
         return rrm_fra_config_temp_spec
 
-    def wireless_rrm_rrm_general_config_temp_spec(self):
+    def wireless_rrm_general_config_temp_spec(self):
         """
         Constructs a temporary specification for wireless RRM general configuration,
         defining the structure and types of attributes used in the YAML file.
@@ -1676,6 +1895,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
                 },
             }
         )
@@ -2473,7 +2693,7 @@ class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "api_function": "get_r_r_m_f_r_a_configuration_feature_template",
             },
             "RRM_GENERAL_CONFIGURATION": {
-                "temp_spec": self.wireless_rrm_rrm_general_config_temp_spec(),
+                "temp_spec": self.wireless_rrm_general_config_temp_spec(),
                 "attribute_name": "rrm_general_configuration",
                 "api_function": "get_r_r_m_general_configuration_feature_template",
             },
@@ -4088,8 +4308,15 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
     }
 
     # Initialize the Ansible module with the provided argument specifications

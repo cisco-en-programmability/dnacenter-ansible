@@ -160,7 +160,13 @@ notes:
 - NFS details correlation matches backup mount paths with NFS
   destination paths automatically
 - Empty configurations return success with idempotent behavior
-- Module does not modify Catalyst Center configuration
+- In overwrite mode, existing file content is compared with newly rendered
+  YAML content (comment/header lines ignored) to support idempotent no-change
+  runs.
+- In append mode, only the last effective YAML config block is compared
+  against the new payload for idempotency checks.
+- If generated content matches existing target content, module returns success
+  with changed=false and does not rewrite the file.
 
 seealso:
 - module: cisco.dnac.backup_and_restore_workflow_manager
@@ -388,31 +394,63 @@ response_1:
       type: str
       choices: ['success', 'failed']
 
-# Case_2: Idempotency Scenario
+# Case_2: Idempotency Scenario - File Already Up-to-Date
 response_2:
   description: |
-    No configurations found scenario treated as successful idempotent
-    operation
-  returned: when_no_configs_found
+    Idempotent scenario where generated YAML content already matches
+    existing file content. Module returns success with changed=false
+    and does not rewrite the file.
+  returned: success
   type: dict
   sample:
     msg: |
-      No backup and restore configurations found to process for module
-      backup_and_restore_workflow_manager. Verify that NFS servers or
-      backup configurations are set up in Catalyst Center.
+      YAML configuration file already up-to-date for module
+      backup_and_restore_workflow_manager. No changes written to
+      /tmp/backup.yml.
+    response:
+      components_processed: 2
+      components_skipped: 0
+      configurations_count: 4
+      file_path: "/tmp/backup.yml"
+      message: |
+        YAML configuration file already up-to-date for module
+        backup_and_restore_workflow_manager. No changes written to
+        /tmp/backup.yml.
+      status: "success"
+    status: "success"
+
+# Case_3: Idempotency Scenario - No Configurations Found
+response_3:
+  description: |
+    Idempotent scenario where no backup and restore configurations
+    are found to process. This may occur when no NFS servers or
+    backup storage configurations are set up in Catalyst Center,
+    or when backup storage has not been configured yet. Module
+    returns success with changed=false and no YAML file is created.
+  returned: success
+  type: dict
+  sample:
+    msg: |
+      No backup and restore configurations found to process for
+      module backup_and_restore_workflow_manager. Verify that NFS
+      servers or backup configurations are set up in Catalyst
+      Center.
     response:
       components_processed: 0
       components_skipped: 1
       configurations_count: 0
       message: |
-        No backup and restore configurations found to process for module
-        backup_and_restore_workflow_manager. Verify that NFS servers or
-        backup configurations are set up in Catalyst Center.
+        No backup and restore configurations found to process for
+        module backup_and_restore_workflow_manager. Verify that NFS
+        servers or backup configurations are set up in Catalyst
+        Center. Components attempted: ['nfs_configuration',
+        'backup_storage_configuration']. Components processed: 0,
+        Components skipped: 1.
       status: "success"
     status: "success"
 
-# Case_3: Failure Scenario
-response_3:
+# Case_4: Failure Scenario
+response_4:
   description: |
     Operation failed due to invalid parameters, API errors, or file
     write issues
@@ -534,6 +572,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.backup_restore_workflow_manager_mapping()
         self.module_name = "backup_and_restore_workflow_manager"
+        self._backup_storage_not_configured = False
 
     def validate_input(self):
         """
@@ -542,8 +581,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         Description:
             Performs comprehensive validation of input configuration parameters to ensure
             they conform to the expected schema. Uses validate_config_dict for type validation,
-            validate_invalid_params for checking allowed keys, and validate_minimum_requirements
-            for logical requirement validation.
+            validate_invalid_params for checking allowed keys.
 
         Args:
             None: Uses self.config from the instance.
@@ -658,20 +696,10 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         self.log(
             "Type validation via validate_config_dict() completed successfully. "
-            "Validated config: {0}. Proceeding with validate_minimum_requirements().".format(
+            "Validated config: {0}.".format(
                 validated_config
             ),
             "INFO"
-        )
-
-        # Step 4: Validate minimum requirements using validate_minimum_requirements from BrownFieldHelper
-        self.validate_minimum_requirements(validated_config)
-
-        self.log(
-            "Minimum requirements validation completed. Configuration meets logical requirements "
-            "for backup and restore playbook generation. At least one selection criteria "
-            "(generate_all_configurations or component_specific_filters with component filters/list) is present.",
-            "DEBUG"
         )
 
         # Enforce conditional requirement for components_list and component filters:
@@ -1986,6 +2014,27 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
             # Add mapped configuration to results if not empty
             if mapped_config:
+                # Check if nfs_details has null server_ip and source_path
+                # indicating backup storage is not yet configured
+                nfs_info = mapped_config.get("nfs_details")
+                if (
+                    isinstance(nfs_info, dict)
+                    and nfs_info.get("server_ip") is None
+                    and nfs_info.get("source_path") is None
+                ):
+                    self.log(
+                        "Backup storage configuration {0} has NFS details "
+                        "with server_ip and source_path both null. This "
+                        "indicates no backup storage has been configured "
+                        "yet on Catalyst Center. Skipping this "
+                        "configuration from YAML output.".format(
+                            config_index
+                        ),
+                        "WARNING"
+                    )
+                    self._backup_storage_not_configured = True
+                    continue
+
                 modified_backup_configs.append(mapped_config)
                 self.log(
                     "Configuration {0} transformation completed successfully. Mapped {1} field(s) to "
@@ -2487,14 +2536,21 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "WARNING"
             )
             if self.status != "failed":
-                no_config_message = (
-                    "No backup and restore configurations found to process for module '{0}'. "
-                    "Verify that NFS servers or backup configurations are set up in "
-                    "Catalyst Center. Components attempted: {1}. Components processed: {2}, "
-                    "Components skipped: {3}.".format(
-                        self.module_name, components_list, components_processed, components_skipped
+                if self._backup_storage_not_configured:
+                    no_config_message = (
+                        "No backup storage is configured yet on Catalyst Center. "
+                        "Please configure before generating "
+                        "playbook configurations for backup_storage_configuration."
                     )
-                )
+                else:
+                    no_config_message = (
+                        "No backup and restore configurations found to process for module '{0}'. "
+                        "Verify that NFS servers or backup configurations are set up in "
+                        "Catalyst Center. Components attempted: {1}. Components processed: {2}, "
+                        "Components skipped: {3}.".format(
+                            self.module_name, components_list, components_processed, components_skipped
+                        )
+                    )
                 response_data = {
                     "components_processed": components_processed,
                     "components_skipped": components_skipped,
@@ -2556,39 +2612,45 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
         else:
             self.log(
-                "write_dict_to_yaml() returned False indicating YAML file creation failure. File path: '{0}'. "
-                "This may indicate file permission issues, invalid path, or disk space problems. Checking "
-                "operation status before setting failure result.".format(file_path),
-                "ERROR"
+                "write_dict_to_yaml() returned False, indicating idempotent no-change behavior "
+                "(existing YAML content already matches intended content). File path: '{0}'. "
+                "Checking operation status before setting unchanged success result.".format(file_path),
+                "INFO"
             )
             if self.status != "failed":
-                error_message = (
-                    "Failed to write YAML configuration to file: '{0}'. Verify file path is valid, "
-                    "directory exists, and write permissions are available. Total configurations prepared "
-                    "for writing: {1} across {2} component(s).".format(
+                unchanged_message = (
+                    "YAML configuration file already up-to-date for module '{0}'. "
+                    "No changes written to '{1}'. Total configurations evaluated: {2} "
+                    "across {3} component(s).".format(
+                        self.module_name,
                         file_path, total_configurations, components_processed
                     )
                 )
 
                 self.log(
-                    "Constructing failure response with error details and file path. Message: {0}.".format(
-                        error_message
+                    "Constructing unchanged success response for idempotent execution. "
+                    "Message: {0}.".format(
+                        unchanged_message
                     ),
-                    "ERROR"
+                    "INFO"
                 )
 
                 response_data = {
-                    "message": error_message,
-                    "status": "failed"
+                    "components_processed": components_processed,
+                    "components_skipped": components_skipped,
+                    "configurations_count": total_configurations,
+                    "file_path": file_path,
+                    "message": unchanged_message,
+                    "status": "success"
                 }
 
-                self.set_operation_result("failed", False, error_message, "ERROR")
+                self.set_operation_result("success", False, unchanged_message, "INFO")
                 self.msg = response_data
                 self.result["response"] = response_data
                 self.log(
-                    "Set operation result to failed. YAML file generation workflow failed at file writing "
-                    "stage. Response data: {0}.".format(response_data),
-                    "ERROR"
+                    "Set operation result to success with changed=False (idempotent no-op). "
+                    "YAML content already up-to-date. Response data: {0}.".format(response_data),
+                    "INFO"
                 )
 
         self.log(

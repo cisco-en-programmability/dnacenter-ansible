@@ -30,45 +30,40 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+        a default file name  C(sda_fabric_transits_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml).
+    type: str
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
   config:
     description:
-    - A dictionary of filters for generating YAML playbook compatible with the `sda_fabric_transits_workflow_manager`
-      module.
+    - A dictionary of filters for generating YAML playbook compatible with the `sda_fabric_transits_workflow_manager` module.
     - Filters specify which components to include in the YAML configuration file.
-    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - If config is not provided (omitted entirely), all configurations for sda fabric transits will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
+    - Important - An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+      all configurations, or provide specific filters within 'config'.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-          - When set to C(true), automatically generates YAML configurations for all the fabric transits
-            present in the Cisco Catalyst Center, ignoring any provided filters.
-          - When enabled, the config parameter becomes optional and will use default values if not provided.
-          - A default filename will be generated automatically if file_path is not specified.
-          - This is useful for complete playbook configuration infrastructure discovery and documentation.
-          - When set to false, the module uses provided filters to generate a targeted YAML configuration.
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name  C(sda_fabric_transits_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(sda_fabric_transits_playbook_config_2026-02-20_13-48-23.yml).
-        type: str
-      file_mode:
-        description:
-        - Controls how config is written to the YAML file.
-        - C(overwrite) replaces existing file content.
-        - C(append) appends generated YAML content to the existing file.
-        type: str
-        choices: ["overwrite", "append"]
-        default: "overwrite"
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration file.
-        - If C(components_list) is specified, only those components are included, regardless of other filters.
+        - If filters for specific components (e.g., sda_fabric_transits) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided.
         type: dict
         suboptions:
           components_list:
@@ -94,20 +89,74 @@ options:
               transit_type:
                 description:
                 - Transit type to filter fabric transits by type.
-                - Valid values are IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT
+                - C(IP_BASED_TRANSIT) selects transits that
+                  use IP-based routing with BGP between
+                  fabric sites.
+                - C(SDA_LISP_PUB_SUB_TRANSIT) selects
+                  transits that use SDA with LISP
+                  Publish-Subscribe control plane.
+                - C(SDA_LISP_BGP_TRANSIT) selects transits
+                  that use SDA with LISP BGP control plane.
                 type: str
+                choices:
+                - IP_BASED_TRANSIT
+                - SDA_LISP_PUB_SUB_TRANSIT
+                - SDA_LISP_BGP_TRANSIT
+
 requirements:
 - dnacentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
-- SDK Methods used are
-    - sites.Sites.get_site
-    - sda.Sda.get_transit_networks
-    - network_device.NetworkDevice.get_device_list
-- Paths used are
-    - GET /dna/intent/api/v1/sites
-    - GET /dna/intent/api/v1/sda/transit-networks
-    - GET /dna/intent/api/v1/network-device
+- Cisco Catalyst Center >= 2.3.7.9
+- |-
+  SDK Methods used are
+  sites.Sites.get_site
+  sda.Sda.get_transit_networks
+  network_device.NetworkDevice.get_device_list
+- |-
+  SDK Paths used are
+  GET /dna/intent/api/v1/sites
+  GET /dna/intent/api/v1/network-device
+- |
+  Auto-population of components_list:
+  If component-specific filters (such as 'sda_fabric_transits') are provided
+  without explicitly including them in 'components_list', those components will be
+  automatically added to 'components_list'. This simplifies configuration by eliminating
+  the need to redundantly specify components in both places.
+- |
+  Example of auto-population behavior:
+  If you provide filters for 'sda_fabric_transits' without including 'sda_fabric_transits' in 'components_list',
+  the module will automatically add 'sda_fabric_transits' to 'components_list' before processing.
+  This allows you to write more concise playbooks.
+- |
+  Validation requirements:
+  If 'component_specific_filters' is provided, at least one of the following must be true:
+  (1) 'components_list' contains at least one component, OR
+  (2) Component-specific filters (e.g., 'sda_fabric_transits') are provided.
+  If neither condition is met, the module will fail with a validation error.
+- |-
+  Module result behavior (changed/ok/failed):
+  The module result reflects local file state only, not Catalyst Center state.
+  In overwrite mode, the full generated YAML content is compared against the
+  existing file after excluding generated header comment lines. In append mode,
+  only the last YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous appends,
+  only the most recent entry is used for the idempotency check.
+  - changed=true (status: success): The generated YAML configuration differs
+    from the existing output file (or the file does not exist). The file was
+    written and the configuration was updated.
+  - changed=false (status: ok): The generated YAML configuration matches the
+    existing output file content. The write was skipped as the file is
+    already up-to-date.
+  - failed=true (status: failed): The module encountered a validation error,
+    API failure, or file write error. No file was written or modified.
+  Note: Re-running with identical inputs and unchanged Catalyst Center state
+  will produce changed=false, ensuring idempotent playbook behavior.
+  Note: If append mode creates multiple config entries in the
+  generated file, replaying the file as config in the workflow
+  manager module applies only the last config entry because
+  yaml.safe_load uses last-key-wins semantics for duplicate
+  keys in a single YAML document.
 seealso:
 - module: cisco.dnac.sda_fabric_transits_workflow_manager
   description: Module for managing fabric transits in Cisco Catalyst Center.
@@ -126,9 +175,7 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_mode: "overwrite"
+    # No config provided - generates all configurations
 
 - name: Generate YAML Configuration with File Path specified
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -142,10 +189,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_path: "/tmp/all_config.yml"
-      file_mode: "overwrite"
+    file_path: "/tmp/all_config.yml"
+    file_mode: "overwrite"
+    # No config provided - generates all configurations
 
 - name: Generate YAML Configuration with specific fabric transits components only
   cisco.dnac.sda_fabric_transits_playbook_config_generator:
@@ -159,9 +205,9 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_fabric_transits_config.yml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/catc_fabric_transits_config.yml"
-      file_mode: "append"
       component_specific_filters:
         components_list: ["sda_fabric_transits"]
 
@@ -177,10 +223,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_fabric_transits_config.yml"
     config:
-      file_path: "/tmp/catc_fabric_transits_config.yml"
       component_specific_filters:
-        components_list: ["sda_fabric_transits"]
+        components_list: ["sda_fabric_transits"] # Optional
         sda_fabric_transits:
           - transit_type: "IP_BASED_TRANSIT"
           - transit_type: "SDA_LISP_BGP_TRANSIT"
@@ -197,10 +243,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_fabric_transits_config.yml"
     config:
-      file_path: "/tmp/catc_fabric_transits_config.yaml"
       component_specific_filters:
-        components_list: ["sda_fabric_transits"]
+        components_list: ["sda_fabric_transits"] # Optional
         sda_fabric_transits:
           - name: "Transit1"
           - name: "Transit2"
@@ -217,10 +263,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: gathered
+    file_path: "/tmp/catc_fabric_transits_config.yml"
     config:
-      file_path: "/tmp/catc_fabric_transits_config.yaml"
       component_specific_filters:
-        components_list: ["sda_fabric_transits"]
+        components_list: ["sda_fabric_transits"] # Optional
         sda_fabric_transits:
           - name: "Transit1"
             transit_type: "IP_BASED_TRANSIT"
@@ -263,11 +309,11 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components.",
         "response":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components."
     }
 """
 
@@ -315,30 +361,26 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
-        if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
+        # Check if config is provided but empty - Error scenario
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
             self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided - treating as generate all config mode"
+            self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
-            "file_path": {
-                "type": "str",
-                "required": False
-            },
-            "file_mode": {
-                "type": "str",
-                "required": False,
-                "default": "overwrite",
-                "choices": ["overwrite", "append"]
-            },
             "component_specific_filters": {
                 "type": "dict",
                 "required": False
@@ -352,8 +394,11 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
+            self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -389,7 +434,17 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "sda_fabric_transits": {
-                    "filters": ["name", "transit_type"],
+                    "filters": {
+                        "name": {"type": "str"},
+                        "transit_type": {
+                            "type": "str",
+                            "choices": [
+                                "IP_BASED_TRANSIT",
+                                "SDA_LISP_PUB_SUB_TRANSIT",
+                                "SDA_LISP_BGP_TRANSIT"
+                            ]
+                        }
+                    },
                     "reverse_mapping_function": self.fabric_transit_temp_spec,
                     "api_function": "get_transit_networks",
                     "api_family": "sda",
@@ -708,7 +763,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         modified_fabric_transits_details = {}
 
         if transit_details:
-            modified_fabric_transits_details["fabric_transits"] = transit_details
+            modified_fabric_transits_details["sda_fabric_transits"] = transit_details
 
         self.log(
             "Completed retrieving fabric transit(s): {0}".format(
@@ -818,8 +873,15 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
     }
 
     # Initialize the Ansible module with the provided argument specifications
@@ -853,7 +915,7 @@ def main():
         config_generator.msg = "State {0} is invalid".format(
             state
         )
-        config_generator.check_recturn_status()
+        config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     config_generator.validate_input().check_return_status()

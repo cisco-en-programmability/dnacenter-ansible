@@ -166,15 +166,21 @@ notes:
     - network_settings.NetworkSettings.retrieve_n_t_p_settings_for_a_site
     - network_settings.NetworkSettings.retrieve_time_zone_settings_for_a_site
     - network_settings.NetworkSettings.retrieve_aaa_settings_for_a_site
-    - network_settings.NetworkSettings.get_device_controllability_settings,
+    - network_settings.NetworkSettings.retrieve_banner_settings_for_a_site
+    - network_settings.NetworkSettings.get_device_controllability_settings
 
 - Paths used are
     - GET /dna/intent/api/v1/sites
     - GET /dna/intent/api/v1/ipam/globalIpAddressPools
     - GET /dna/intent/api/v1/ipam/siteIpAddressPools
-    - GET /dna/intent/api/v1/network
-    - GET /dna/intent/api/v1/device-credential
-    - GET /dna/intent/api/v1/network-aaa
+    - GET /dna/intent/api/v1/sites/{id}/dhcpSettings
+    - GET /dna/intent/api/v1/sites/{id}/dnsSettings
+    - GET /dna/intent/api/v1/sites/{id}/telemetrySettings
+    - GET /dna/intent/api/v1/sites/{id}/ntpSettings
+    - GET /dna/intent/api/v1/sites/{id}/timeZoneSettings
+    - GET /dna/intent/api/v1/sites/{id}/aaaSettings
+    - GET /dna/intent/api/v1/sites/{id}/bannerSettings
+    - GET /dna/intent/api/v1/networkDevices/deviceControllability/settings
 """
 
 EXAMPLES = r"""
@@ -376,7 +382,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             f"[{self.module_schema}] Initializing module",
             level="INFO"
         )
-        self.module_name = "network_settings"
+        self.module_name = "network_settings_workflow_manager"
 
         # Initialize class-level variables to track successes and failures
         self.operation_successes = []
@@ -7530,7 +7536,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         try:
             api_family = "network_settings"
             api_function = "retrieve_aaa_settings_for_a_site"
-            params = {"id": site_id}
+            params = {"id": site_id, "inherited": True}
 
             # Execute the API call
             aaa_network_response = self.dnac._exec(
@@ -7725,7 +7731,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_d_h_c_p_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
             # Extract DHCP details
             dhcp_details = dhcp_response.get("response", {}).get("dhcp")
@@ -7999,7 +8005,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_d_n_s_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
             # Extract DNS details
             self.log(
@@ -8266,7 +8272,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_telemetry_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
 
             self.log(
@@ -8520,7 +8526,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_n_t_p_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
             # Extract NTP server details
             ntpserver_details = ntpserver_response.get("response", {}).get("ntp")
@@ -8629,7 +8635,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_time_zone_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
 
             # Extract time zone details
@@ -8920,7 +8926,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 family="network_settings",
                 function="retrieve_banner_settings_for_a_site",
                 op_modifies=False,
-                params={"id": site_id},
+                params={"id": site_id, "inherited": True},
             )
             # Validate response structure
             if not isinstance(banner_response, dict):
@@ -9535,13 +9541,11 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not module_supported_network_elements:
             error_msg = "No network elements defined in module schema, cannot process any components"
             self.log(error_msg, "CRITICAL")
-            self.msg = {
-                "message": "YAML config generation failed for module '{0}' - module schema is invalid.".format(
-                    self.module_name
-                ),
-                "error": error_msg
-            }
-            self.set_operation_result("failed", False, self.msg, "CRITICAL")
+            self.msg = "YAML config generation failed for module '{0}' - module schema is invalid.".format(
+                self.module_name
+            )
+            additional_info = {"error": error_msg}
+            self.set_operation_result("failed", False, self.msg, "CRITICAL", additional_info)
             return self
 
         self.log(
@@ -9628,9 +9632,13 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         if not components_list:
             error_msg = "No valid components to process after filtering"
             self.log(error_msg, "ERROR")
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. "
-                "Verify input filters or configuration.".format(self.module_name),
+            self.msg = (
+                "No configurations or components to process for module '{0}'. "
+                "Verify input filters or configuration.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
                 "operation_summary": {
                     "total_sites_processed": 0,
                     "total_components_processed": 0,
@@ -9638,7 +9646,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "total_failed_operations": 0
                 }
             }
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Reset operation tracking for clean state
@@ -9929,12 +9937,16 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "WARNING"
             )
 
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. "
-                "Verify input filters or configuration.".format(self.module_name),
+            self.msg = (
+                "No configurations or components to process for module '{0}'. "
+                "Verify input filters or configuration.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
                 "operation_summary": slim_operation_summary
             }
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Create final YAML structure
@@ -9949,11 +9961,16 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         final_dict["config"] = final_list
 
         if not final_list:
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(self.module_name),
+            self.msg = (
+                "No configurations or components to process for module '{0}'. "
+                "Verify input filters or configuration.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
                 "operation_summary": slim_operation_summary
             }
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Write to YAML file
@@ -9989,39 +10006,39 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "INFO"
             )
 
-            self.msg = {
-                "message": "YAML config generation succeeded for module '{0}'.".format(
-                    self.module_name
-                ),
+            self.msg = "YAML config generation succeeded for module '{0}'.".format(
+                self.module_name
+            )
+            additional_info = {
+                "status": "success",
+                "message": self.msg,
                 "file_path": file_path,
                 "configurations_generated": len(final_list),
                 "operation_summary": slim_operation_summary
             }
-            self.set_operation_result("success", True, self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO", additional_info)
         else:
-            error_msg = "Failed to write YAML configuration to file: {0}".format(file_path)
-            self.log(error_msg, "ERROR")
-
-            # Exit log with failure summary
+            # write_dict_to_yaml returns False when the existing file content is
+            # identical to the newly generated content (idempotent - no write needed).
+            # This is not a failure; the file is already up-to-date.
             self.log(
-                "YAML playbook configuration generation workflow failed for module '{0}'. "
-                "Processed {1} component(s) successfully but unable to write output file: {2}".format(
-                    self.module_name,
-                    consolidated_operation_summary["total_components_processed"],
-                    file_path
-                ),
-                "ERROR"
+                "YAML configuration file '{0}' content is identical to newly generated "
+                "content. Skipping write (idempotent).".format(file_path),
+                "INFO"
             )
 
-            self.msg = {
-                "message": "YAML config generation failed for module '{0}' - unable to write to file.".format(
-                    self.module_name
-                ),
+            self.msg = (
+                "YAML configuration file already up-to-date for module '{0}'. "
+                "No changes written.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
                 "file_path": file_path,
-                "error": error_msg,
+                "configurations_generated": len(final_list),
                 "operation_summary": slim_operation_summary
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
 
         return self
 

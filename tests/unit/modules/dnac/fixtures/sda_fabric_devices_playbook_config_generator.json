@@ -1,97 +1,94 @@
 {
-    "generate_all_configurations_case_1": [
-        {
-            "generate_all_configurations": true
-        }
-    ],
-    "filter_fabric_name_only_case_2": [
-        {
-            "file_path": "/tmp/ut_case2_fabric_name_only.yaml",
-            "component_specific_filters": {
-                "fabric_devices": {
+    "generate_all_configurations_case_1": null,
+    "filter_fabric_name_only_case_2": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
                     "fabric_name": "Global/Site_India/Karnataka/Bangalore"
                 }
-            }
+            ]
         }
-    ],
-    "filter_fabric_name_device_ip_case_3": [
-        {
-            "file_path": "/tmp/ut_case3_fabric_name_device_ip.yaml",
-            "component_specific_filters": {
-                "fabric_devices": {
+    },
+    "filter_fabric_name_device_ip_case_3": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
                     "fabric_name": "Global/Site_India/Karnataka/Bangalore",
                     "device_ip": "205.1.1.10"
                 }
-            }
+            ]
         }
-    ],
-    "filter_fabric_name_edge_role_case_4": [
-        {
-            "file_path": "/tmp/ut_case4_fabric_name_edge_role.yaml",
-            "component_specific_filters": {
-                "fabric_devices": {
+    },
+    "filter_fabric_name_edge_role_case_4": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
                     "fabric_name": "Global/Site_India/Karnataka/Bangalore",
                     "device_roles": ["EDGE_NODE"]
                 }
-            }
+            ]
         }
-    ],
-    "filter_fabric_name_multi_roles_case_5": [
-        {
-            "file_path": "/tmp/ut_case5_fabric_name_multi_roles.yaml",
-            "component_specific_filters": {
-                "fabric_devices": {
+    },
+    "filter_fabric_name_multi_roles_case_5": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
                     "fabric_name": "Global/Site_India/Karnataka/Bangalore",
                     "device_roles": ["BORDER_NODE", "CONTROL_PLANE_NODE"]
                 }
-            }
+            ]
         }
-    ],
-    "filter_all_filters_case_6": [
-        {
-            "file_path": "/tmp/ut_case6_all_filters.yaml",
-            "component_specific_filters": {
-                "fabric_devices": {
+    },
+    "filter_all_filters_case_6": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
                     "fabric_name": "Global/Site_India/Karnataka/Bangalore",
                     "device_ip": "205.1.1.10",
                     "device_roles": ["BORDER_NODE", "CONTROL_PLANE_NODE"]
                 }
-            }
+            ]
         }
-    ],
-    "filter_fabric_name_cp_role_case_7": [
-        {
-            "file_path": "/tmp/ut_case7_fabric_name_cp_role.yaml",
-            "component_specific_filters": {
-                "fabric_devices": {
+    },
+    "filter_fabric_name_cp_role_case_7": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
                     "fabric_name": "Global/India/Telangana/Hyderabad/BLD_1",
                     "device_roles": ["CONTROL_PLANE_NODE"]
                 }
-            }
+            ]
         }
-    ],
-    "filter_fabric_name_border_role_case_8": [
-        {
-            "file_path": "/tmp/ut_case8_fabric_name_border_role.yaml",
-            "component_specific_filters": {
-                "fabric_devices": {
+    },
+    "filter_fabric_name_border_role_case_8": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
                     "fabric_name": "Global/Site_India/Karnataka/Bangalore",
                     "device_roles": ["BORDER_NODE"]
                 }
-            }
+            ]
         }
-    ],
-    "filter_with_components_list_case_9": [
-        {
-            "file_path": "/tmp/ut_case9_with_components_list.yaml",
-            "component_specific_filters": {
-                "components_list": ["fabric_devices"],
-                "fabric_devices": {
+    },
+    "filter_with_components_list_case_9": {
+        "component_specific_filters": {
+            "components_list": ["fabric_devices"],
+            "fabric_devices": [
+                {
                     "fabric_name": "Global/India/Telangana/Hyderabad/BLD_1"
                 }
-            }
+            ]
         }
-    ],
+    },
+    "filter_with_file_mode_append_case_10": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore"
+                }
+            ]
+        }
+    },
     "get_sites_case_1": {
         "response": [
             {
@@ -457,6 +454,20 @@
             }
         ],
         "version": "1.0"
+    },
+    "filter_multi_fabric_sites_case_11": {
+        "component_specific_filters": {
+            "fabric_devices": [
+                {
+                    "fabric_name": "Global/Site_India/Karnataka/Bangalore",
+                    "device_roles": ["EDGE_NODE"]
+                },
+                {
+                    "fabric_name": "Global/India/Telangana/Hyderabad/BLD_1",
+                    "device_roles": ["CONTROL_PLANE_NODE"]
+                }
+            ]
+        }
     },
     "get_fabric_devices_filtered_cp_node_fabric_3_case_1": {
         "response": [

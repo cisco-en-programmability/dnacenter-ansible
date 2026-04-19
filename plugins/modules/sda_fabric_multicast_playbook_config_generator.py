@@ -44,54 +44,45 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+      a default file name C(sda_fabric_multicast_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(sda_fabric_multicast_playbook_config_2026-01-30_19-16-01.yml).
+    type: str
+    required: false
+  file_mode:
+    description:
+    - Controls how config is written to the YAML file.
+    - C(overwrite) replaces existing file content.
+    - C(append) appends generated YAML content to the existing file.
+    - This parameter is only relevant when C(file_path) is specified. Defaults to C(overwrite).
+    type: str
+    choices: ["overwrite", "append"]
+    default: "overwrite"
+    required: false
   config:
     description:
-    - A list of configuration filters for generating YAML playbooks compatible
-      with the C(sda_fabric_multicast_workflow_manager) module.
-    - Each configuration entry can include file path specification, component
-      filters, and auto-discovery settings.
-    - Multiple configuration entries can be provided to generate separate
-      playbooks with different filter criteria.
-    type: list
-    elements: dict
-    required: true
+    - A dictionary of filters for generating YAML playbook compatible with the C(sda_fabric_multicast_workflow_manager)
+      module.
+    - Filters specify which components to include in the YAML configuration file.
+    - If "components_list" is specified, only those components are included, regardless of the filters.
+    - If config is not provided or is empty, all configurations for all fabric sites will be generated.
+    - This is useful for complete brownfield infrastructure discovery and documentation.
+    type: dict
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - Enables automatic discovery and generation of YAML configurations for
-          all fabric multicast deployments.
-        - When C(true), retrieves all SDA fabric multicast configurations from
-          Cisco Catalyst Center without requiring specific filters.
-        - Overrides any provided C(component_specific_filters) to ensure
-          complete configuration retrieval.
-        - Ideal for complete infrastructure configuration export and
-          comprehensive documentation.
-        - If enabled, a default filename will be auto-generated when
-          C(file_path) is not provided.
-        - "Default filename format: C(sda_fabric_multicast_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml)"
-        type: bool
-        required: false
-        default: false
-      file_path:
-        description:
-        - Absolute or relative path where the generated YAML playbook file will be saved.
-        - If not specified, the file is saved in the current working directory with an auto-generated filename.
-        - Default filename format is C(sda_fabric_multicast_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(sda_fabric_multicast_playbook_config_2025-04-22_21-43-26.yml).
-        type: str
-        required: false
       component_specific_filters:
         description:
-        - Component-level filters to selectively include specific configurations
-          in the generated playbook.
-        - Allows fine-grained control over which fabric multicast configurations
-          are extracted from Cisco Catalyst Center.
-        - If C(components_list) is specified, only those components are
-          processed regardless of other filters.
-        - If C(generate_all_configurations) is C(true), these filters are
-          ignored and all configurations are retrieved.
-        - Supports filtering by fabric site hierarchy and Layer 3 virtual
-          network names.
+        - Filters to specify which components to include in the YAML configuration
+          file.
+        - If "components_list" is specified, only those components are included,
+          regardless of other filters.
+        - If filters for specific components (e.g., fabric_multicast) are provided
+          without explicitly including them in components_list, those components will be
+          automatically added to components_list.
+        - At least one of components_list or component filters must be provided when config is specified.
         type: dict
         required: false
         suboptions:
@@ -176,6 +167,7 @@ notes:
 """
 
 EXAMPLES = r"""
+# Example 1: Generate all configurations (default behavior when config is omitted)
 - name: Generate YAML playbook for all SDA fabric multicast configurations
   cisco.dnac.sda_fabric_multicast_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
@@ -188,10 +180,26 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: INFO
     state: gathered
-    config:
-      - generate_all_configurations: true
-        file_path: "/path/to/output/all_fabric_multicast_configs.yml"
+    # No config provided - generates all configurations
 
+# Example 2: Generate all configurations with custom file path
+- name: Generate complete SDA fabric multicast configuration with custom filename
+  cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: INFO
+    state: gathered
+    file_path: "/tmp/complete_sda_fabric_multicast_config.yaml"
+    file_mode: "overwrite"
+    # No config provided - generates all configurations
+
+# Example 3: Generate fabric multicast configurations for a specific fabric site
 - name: Generate YAML playbook for specific fabric site
   cisco.dnac.sda_fabric_multicast_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
@@ -203,14 +211,16 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     dnac_log: true
     state: gathered
+    file_path: "/tmp/site_specific_multicast.yaml"
+    file_mode: "overwrite"
     config:
-      - file_path: "/path/to/output/site_specific_multicast.yml"
-        component_specific_filters:
-          components_list:
-            - fabric_multicast
-          fabric_multicast:
-            - fabric_name: "Global/USA/San Jose/Building1"
+      component_specific_filters:
+        components_list:
+          - fabric_multicast
+        fabric_multicast:
+          - fabric_name: "Global/USA/San Jose/Building1"
 
+# Example 4: Generate configuration for specific fabric and virtual network
 - name: Generate YAML playbook for specific fabric and virtual network
   cisco.dnac.sda_fabric_multicast_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
@@ -221,13 +231,16 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
+    file_path: "/tmp/fabric_vn_specific_multicast.yaml"
+    file_mode: "overwrite"
     config:
-      - component_specific_filters:
-          fabric_multicast:
-            - fabric_name: "Global/USA/San Jose/Building1"
-              layer3_virtual_network: "GUEST_VN"
+      component_specific_filters:
+        fabric_multicast:
+          - fabric_name: "Global/USA/San Jose/Building1"
+            layer3_virtual_network: "GUEST_VN"
 
-- name: Generate playbook for multiple fabric sites with auto-generated filename
+# Example 5: Auto-populate components_list from component filters
+- name: Generate configuration with auto-populated components_list
   cisco.dnac.sda_fabric_multicast_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -237,12 +250,54 @@ EXAMPLES = r"""
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
     state: gathered
+    file_path: "/tmp/san_jose_fabric.yaml"
+    file_mode: "overwrite"
     config:
-      - component_specific_filters:
-          fabric_multicast:
-            - fabric_name: "Global/USA/San Jose/Building1"
-            - fabric_name: "Global/USA/San Jose/Building2"
-            - fabric_name: "Global/Europe/London/DataCenter1"
+      component_specific_filters:
+        # No components_list specified, but fabric_multicast filters are provided
+        # The 'fabric_multicast' component will be automatically added to components_list
+        fabric_multicast:
+          - fabric_name: "Global/USA/San Jose/Building1"
+
+# Example 6: Generate configuration with append mode
+- name: Generate and append SDA fabric multicast configuration
+  cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    file_path: "/tmp/all_fabric_multicast.yaml"
+    file_mode: "append"
+    config:
+      component_specific_filters:
+        components_list:
+          - fabric_multicast
+        fabric_multicast:
+          - fabric_name: "Global/Europe/London/DataCenter1"
+
+# Example 7: Generate playbook for multiple fabric sites
+- name: Generate playbook for multiple fabric sites
+  cisco.dnac.sda_fabric_multicast_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    state: gathered
+    file_path: "/tmp/multiple_sites_multicast.yaml"
+    file_mode: "overwrite"
+    config:
+      component_specific_filters:
+        fabric_multicast:
+          - fabric_name: "Global/USA/San Jose/Building1"
+          - fabric_name: "Global/USA/San Jose/Building2"
+          - fabric_name: "Global/Europe/London/DataCenter1"
 """
 
 
@@ -433,52 +488,42 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             self: Instance with updated msg, status, and validated_config attributes.
 
         Description:
-            Validates playbook configuration parameters against the expected schema. Sets
-            validated_config on success or returns error status with invalid parameters details.
+            Validates config against expected schema and sets validation status.
+            If config is not provided or empty, treats it as generate_all_configurations mode.
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available
+        # Check if configuration is available or empty - if not provided or empty, treat as generate_all
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False,
-            },
-            "file_path": {"type": "str", "required": False},
             "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
         }
 
-        # Import validate_list_of_dicts function here to avoid circular imports
-        from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-            validate_list_of_dicts,
-        )
-
         # Validate params
-        self.log(
-            f"Validating configuration against specification schema: {temp_spec}",
-            "DEBUG",
-        )
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        self.log("Validating configuration against schema", "DEBUG")
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
 
-        if invalid_params:
-            self.msg = f"Invalid parameters in playbook: {invalid_params}"
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
+
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {valid_temp}"
-        self.log(self.msg, "DEBUG")
+        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
+            str(valid_temp)
+        )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
@@ -639,7 +684,6 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         - api_function (str): API function name for retrieving fabric multicast
                         - api_family (str): API family identifier
                         - get_function_name (method): Method to get fabric multicast configuration
-                - global_filters (list): List of global filters (currently empty)
 
         Description:
             Constructs and returns a schema dictionary that defines how fabric multicast data
@@ -660,7 +704,6 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                     "get_function_name": self.get_fabric_multicast_configuration,
                 },
             },
-            "global_filters": [],
         }
 
         network_elements = list(schema["network_elements"].keys())
@@ -671,16 +714,15 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         return schema
 
-    def get_fabric_multicast_configuration(
-        self, network_element, component_specific_filters=None
-    ):
+    def get_fabric_multicast_configuration(self, network_element, filters=None):
         """
         Retrieve and process fabric multicast configuration from Cisco Catalyst Center.
 
         Parameters:
             network_element (dict): Network element configuration containing API details.
-            component_specific_filters (list, optional): List of filter dicts with fabric_name
-                                                         and/or layer3_virtual_network keys.
+            filters (dict, optional): Dictionary containing 'component_specific_filters'.
+                - component_specific_filters (list): List of filter dicts with fabric_name
+                                                     and/or layer3_virtual_network keys.
 
         Returns:
             dict: Dictionary with 'fabric_multicast' key containing list of processed multicast
@@ -691,6 +733,11 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             available configurations. Processes the multicast information and transforms it
             using reverse mapping functions to generate playbook-compatible parameters.
         """
+
+        # Extract component_specific_filters from the filters dict
+        component_specific_filters = None
+        if filters:
+            component_specific_filters = filters.get("component_specific_filters")
 
         self.log(
             f"Starting to retrieve fabric multicast configuration with network element: {network_element} and "
@@ -1407,158 +1454,6 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         return processed_rps if processed_rps else None
 
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generate YAML configuration file based on provided parameters.
-
-        Parameters:
-            yaml_config_generator (dict): Configuration containing file_path, global_filters,
-                                          component_specific_filters, and generate_all_configurations.
-
-        Returns:
-            self: Instance with updated operation result and message.
-
-        Description:
-            Retrieves network element details using filters, processes the data, and writes
-            the YAML content to the specified file. Supports auto-discovery mode to retrieve
-            all configurations when generate_all_configurations is enabled.
-        """
-
-        self.log(
-            f"Starting YAML config generation with parameters: {yaml_config_generator}",
-            "DEBUG",
-        )
-
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        self.log(f"Generate all configurations mode: {generate_all}", "DEBUG")
-
-        if generate_all:
-            self.log(
-                "Auto-discovery mode enabled - will process all devices and all features",
-                "INFO",
-            )
-
-        self.log("Determining output file path for YAML configuration", "DEBUG")
-        file_path = yaml_config_generator.get("file_path")
-        if not file_path:
-            self.log(
-                "No file_path provided by user, generating default filename", "DEBUG"
-            )
-            file_path = self.generate_filename()
-            self.log(f"Generated default filename: {file_path}", "DEBUG")
-        else:
-            self.log(f"Using user-provided file_path: {file_path}", "DEBUG")
-
-        self.log(f"YAML configuration file path determined: {file_path}", "INFO")
-
-        self.log("Initializing filter dictionaries", "DEBUG")
-        if generate_all:
-            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log(
-                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
-                "INFO",
-            )
-            if yaml_config_generator.get("global_filters"):
-                self.log(
-                    "Warning: global_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-            if yaml_config_generator.get("component_specific_filters"):
-                self.log(
-                    "Warning: component_specific_filters provided but will be ignored due to generate_all_configurations=True",
-                    "WARNING",
-                )
-
-            # Set empty filters to retrieve everything
-            global_filters = {}
-            component_specific_filters = {}
-        else:
-            # Use provided filters or default to empty
-            global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = (
-                yaml_config_generator.get("component_specific_filters") or {}
-            )
-
-        # Retrieve the supported network elements for the module
-        self.log(
-            "Retrieving supported network elements from module schema",
-            "DEBUG",
-        )
-        module_supported_network_elements = self.module_schema.get(
-            "network_elements", {}
-        )
-
-        self.log(
-            f"Module supports {len(module_supported_network_elements)} network element type(s): "
-            f"{list(module_supported_network_elements.keys())}",
-            "DEBUG",
-        )
-
-        components_list = component_specific_filters.get(
-            "components_list", module_supported_network_elements.keys()
-        )
-        self.log(f"Components to process: {list(components_list)}", "INFO")
-
-        final_list = []
-        for component in components_list:
-            self.log(f"Processing component: {component}", "DEBUG")
-            network_element = module_supported_network_elements.get(component)
-            if not network_element:
-                self.log(
-                    f"Skipping unsupported network element: {component}",
-                    "WARNING",
-                )
-                continue
-
-            filters = component_specific_filters.get(component, [])
-            self.log(f"Filters for component '{component}': {filters}", "DEBUG")
-            operation_func = network_element.get("get_function_name")
-            if callable(operation_func):
-                self.log(
-                    f"Calling operation function for component '{component}'", "DEBUG"
-                )
-                details = operation_func(network_element, filters)
-                self.log(f"Details retrieved for '{component}': {details}", "DEBUG")
-                final_list.append(details)
-            else:
-                self.log(
-                    f"No callable operation function found for component '{component}'",
-                    "WARNING",
-                )
-
-        if not final_list:
-            self.msg = f"No configurations or components to process for module '{self.module_name}'. Verify input filters or configuration."
-            self.log(self.msg, "WARNING")
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
-
-        final_dict = {"config": final_list}
-        self.log(
-            f"Final dictionary created with {len(final_list)} component(s): {final_dict}",
-            "DEBUG",
-        )
-
-        self.log(f"Writing YAML configuration to file: {file_path}", "INFO")
-        if self.write_dict_to_yaml(final_dict, file_path):
-            self.msg = {
-                f"YAML config generation Task succeeded for module '{self.module_name}'.": {
-                    "file_path": file_path
-                }
-            }
-            self.log(f"Successfully wrote YAML configuration to {file_path}", "INFO")
-            self.set_operation_result("success", True, self.msg, "INFO")
-        else:
-            self.msg = {
-                f"YAML config generation Task failed for module '{self.module_name}'.": {
-                    "file_path": file_path
-                }
-            }
-            self.log(f"Failed to write YAML configuration to {file_path}", "ERROR")
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        return self
-
     def get_want(self, config, state):
         """
         Create parameters for API calls based on the specified state.
@@ -1581,7 +1476,8 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         want = {}
 
         # Add yaml_config_generator to want
-        want["yaml_config_generator"] = config
+        # Note: file_path and file_mode are read directly from self.params by brownfield_helper
+        want["yaml_config_generator"] = config or {}
         self.log(
             f"yaml_config_generator added to want: {want['yaml_config_generator']}",
             "DEBUG",
@@ -1684,7 +1580,14 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
+        "file_path": {"required": False, "type": "str"},
+        "file_mode": {
+            "required": False,
+            "type": "str",
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
+        "config": {"required": False, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
@@ -1719,25 +1622,19 @@ def main():
         ccc_sda_multicast_playbook_generator.log(
             ccc_sda_multicast_playbook_generator.msg, "ERROR"
         )
-        ccc_sda_multicast_playbook_generator.check_recturn_status()
+        ccc_sda_multicast_playbook_generator.check_return_status()
 
     # Validate the input parameters and check the return status
     ccc_sda_multicast_playbook_generator.validate_input().check_return_status()
-    config = ccc_sda_multicast_playbook_generator.validated_config
 
-    # Iterate over the validated configuration parameters
-    for config in ccc_sda_multicast_playbook_generator.validated_config:
-        ccc_sda_multicast_playbook_generator.reset_values()
-        ccc_sda_multicast_playbook_generator.get_want(
-            config, state
-        ).check_return_status()
-        ccc_sda_multicast_playbook_generator.get_diff_state_apply[
-            state
-        ]().check_return_status()
+    config = ccc_sda_multicast_playbook_generator.validated_config
+    ccc_sda_multicast_playbook_generator.get_want(config, state).check_return_status()
+    ccc_sda_multicast_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     ccc_sda_multicast_playbook_generator.log(
-        f"All {len(ccc_sda_multicast_playbook_generator.validated_config)} configuration(s) processed successfully. Exiting module.",
-        "INFO",
+        "Module execution completed successfully", "INFO"
     )
 
     module.exit_json(**ccc_sda_multicast_playbook_generator.result)

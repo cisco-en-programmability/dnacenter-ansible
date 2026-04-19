@@ -1738,11 +1738,13 @@ class DnacBase():
             self.log("The provided file '{0}' is not in JSON format".format(file_path), "CRITICAL")
             return False
 
-    def check_task_tree_response(self, task_id):
+    def check_task_tree_response(self, task_id, all_failure_reason=None):
         """
         Returns the task tree response of the task ID.
         Args:
             task_id (string) - The unique identifier of the task for which you want to retrieve details.
+            all_failure_reason (bool) - If True, retrieves all failure reasons for the task.
+
         Returns:
             error_msg (str) - Returns the task tree error message of the task ID.
         """
@@ -1752,15 +1754,24 @@ class DnacBase():
             function='get_task_tree',
             params={"task_id": task_id}
         )
-        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {0}, Response: {1}"
-                 .format(task_id, response), "DEBUG")
+        self.log(f"Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, "
+                 f"and failure reason set to '{all_failure_reason}', "
+                 f"Response: {self.pprint(response)}", "DEBUG")
+
         error_msg = ""
         if response and isinstance(response, dict):
             result = response.get('response')
             error_messages = []
-            for item in result:
-                if item.get("isError") is True:
-                    error_messages.append(item.get("progress"))
+
+            if all_failure_reason is True:
+                for item in result:
+                    if item.get("isError") is True:
+                        error_messages.append(item.get("failureReason"))
+                        error_messages = error_messages[::-1]
+            else:
+                for item in result:
+                    if item.get("isError") is True:
+                        error_messages.append(item.get("progress"))
 
             if error_messages:
                 error_msg = ". ".join(error_messages) + "."
@@ -2207,7 +2218,7 @@ class DnacBase():
             )
             self.fail_and_exit(self.msg)
 
-    def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg):
+    def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg, all_reasons=None):
         """
         Retrieves and monitors the status of a task by its task ID.
         This function continuously checks the status of a specified task using its task ID.
@@ -2217,6 +2228,7 @@ class DnacBase():
             task_id (str): The unique identifier of the task to monitor.
             task_name (str): The name of the task being monitored.
             success_msg (str): The success message to set if the task completes successfully.
+            all_reasons (bool, optional): If True, retrieves all failure reasons for the task. Defaults to None.
         Returns:
             self: The instance of the class with updated status and message.
         """
@@ -2253,15 +2265,18 @@ class DnacBase():
                 if status == "FAILURE":
                     get_task_details_response = self.get_task_details_by_id(task_id)
                     failure_reason = get_task_details_response.get("failureReason")
-                    if failure_reason:
-                        self.msg = (
-                            "Failed to execute the task {0} with Task ID: {1}."
-                            "Failure reason: {2}".format(task_name, task_id, failure_reason)
-                        )
+                    if all_reasons is True:
+                        self.msg = self.check_task_tree_response(task_id, True)
                     else:
-                        self.msg = (
-                            "Failed to execute the task {0} with Task ID: {1}.".format(task_name, task_id)
-                        ).format(task_name, task_id)
+                        if failure_reason:
+                            self.msg = (
+                                "Failed to execute the task {0} with Task ID: {1}."
+                                "Failure reason: {2}".format(task_name, task_id, failure_reason)
+                            )
+                        else:
+                            self.msg = (
+                                "Failed to execute the task {0} with Task ID: {1}.".format(task_name, task_id)
+                            ).format(task_name, task_id)
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     break
                 elif status == "SUCCESS":
@@ -3082,7 +3097,7 @@ class DNACSDK(object):
         except exceptions.ApiError as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation for the family '{family}' "
+                    "An error occurred when executing operation for the family '{family}' "
                     "having the function '{function}'."
                     " The error was: status_code: {error_status},  {error}"
                 ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
@@ -3092,11 +3107,126 @@ class DNACSDK(object):
         except exceptions.dnacentersdkException as e:
             self.fail_json(
                 msg=(
-                    "An error occured when executing operation for the family '{family}' "
+                    "An error occurred when executing operation for the family '{family}' "
                     "having the function '{function}'."
                     " The error was: {error}"
                 ).format(error=to_native(e), family=family_name, function=function_name)
             )
+        return response
+
+    def execute_rest_api_call(self, method, endpoint, params=None, op_modifies=False):
+        """
+        Execute a REST API call using DNAC SDK custom_caller.call_api.
+
+        Args:
+            method (str): HTTP method to execute (for example, "GET", "POST", "PUT", "DELETE").
+            endpoint (str): API resource path/endpoint to invoke.
+            params (dict, optional): Request arguments to pass to the SDK call.
+                Supported keys include "params", "payload", "data", "headers",
+                "files", and "active_validation".
+            op_modifies (bool, optional): Indicates whether the operation modifies
+                Catalyst Center state. When True and response schema validation is
+                disabled, active_validation is forced to False.
+
+        Returns:
+            Any: SDK response object returned by custom_caller.call_api.
+
+        Raises:
+            Exception: Raised through fail_json when custom_caller.call_api is not
+                available or when the API invocation cannot be
+                executed or when the DNAC SDK raises ApiError/dnacentersdkException.
+        """
+        method_upper = str(method).upper()
+        custom_caller = getattr(self.api, "custom_caller", None)
+        call_api = getattr(custom_caller, "call_api", None)
+        logger = logging.getLogger("logger")
+
+        logger.debug(
+            "Preparing REST API call: method=%s endpoint=%s op_modifies=%s params=%s",
+            method_upper,
+            endpoint,
+            op_modifies,
+            params,
+        )
+
+        if call_api is None:
+            logger.error(
+                "REST API call failed before execution: method=%s endpoint=%s (custom_caller.call_api unavailable)",
+                method_upper,
+                endpoint,
+            )
+            self.fail_json(
+                msg=(
+                    "Unable to execute REST API call. custom_caller.call_api is not available "
+                    "for method '{0}' and endpoint '{1}'."
+                ).format(method, endpoint)
+            )
+
+        try:
+            request_params = params.copy() if isinstance(params, dict) else params
+
+            if isinstance(request_params, dict) and not self.validate_response_schema and op_modifies:
+                request_params["active_validation"] = False
+                logger.debug(
+                    "Disabled active_validation for mutating REST API call: method=%s endpoint=%s",
+                    method_upper,
+                    endpoint,
+                )
+
+            logger.debug(
+                "Executing REST API call via custom_caller.call_api for method=%s endpoint=%s",
+                method_upper,
+                endpoint,
+            )
+            call_api_kwargs = {
+                "method": method_upper,
+                "resource_path": endpoint,
+            }
+            if isinstance(request_params, dict) and request_params:
+                known_request_keys = {
+                    "params", "payload", "data", "headers", "active_validation", "files"
+                }
+                if known_request_keys.intersection(set(request_params.keys())):
+                    call_api_kwargs.update(request_params)
+                else:
+                    call_api_kwargs["params"] = request_params
+
+            response = call_api(**call_api_kwargs)
+
+            if isinstance(response, dict):
+                logger.debug(
+                    "REST API call completed: method=%s endpoint=%s response_keys=%s",
+                    method_upper,
+                    endpoint,
+                    sorted(list(response.keys())),
+                )
+            else:
+                logger.debug(
+                    "REST API call completed: method=%s endpoint=%s response_type=%s",
+                    method_upper,
+                    endpoint,
+                    type(response).__name__,
+                )
+
+        except exceptions.ApiError as e:
+            self.fail_json(
+                msg=(
+                    "An error occurred when executing REST API call with method '{method}' "
+                    "and endpoint '{endpoint}'."
+                    " The error was: status_code: {error_status},  {error}"
+                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
+                         method=method, endpoint=endpoint)
+            )
+
+        except exceptions.dnacentersdkException as e:
+            self.fail_json(
+                msg=(
+                    "An error occurred when executing REST API call with method '{method}' "
+                    "and endpoint '{endpoint}'."
+                    " The error was: {error}"
+                ).format(error=to_native(e), method=method, endpoint=endpoint)
+            )
+
         return response
 
     def fail_json(self, msg, **kwargs):

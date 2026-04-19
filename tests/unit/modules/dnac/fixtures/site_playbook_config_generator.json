@@ -1,10 +1,7 @@
 {
-  "playbook_config_generate_all_configurations": {
-    "generate_all_configurations": true,
-    "file_path": "/tmp/test_site_demo.yaml"
-  },
+  "playbook_config_generate_all_configurations": null,
+  "playbook_config_empty_config": {},
   "playbook_config_area_by_site_name_single": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -20,7 +17,6 @@
     }
   },
   "playbook_config_area_by_site_name_multiple": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -42,7 +38,6 @@
     }
   },
   "playbook_config_area_by_parent_site": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -58,7 +53,6 @@
     }
   },
   "playbook_config_building_by_site_name_single": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -74,7 +68,6 @@
     }
   },
   "playbook_config_building_by_site_name_multiple": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -96,7 +89,6 @@
     }
   },
   "playbook_config_building_by_parent_site": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -112,7 +104,6 @@
     }
   },
   "playbook_config_floor_by_site_name_single": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -128,7 +119,6 @@
     }
   },
   "playbook_config_floor_by_site_name_multiple": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -150,7 +140,6 @@
     }
   },
   "playbook_config_floor_by_parent_site": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -166,7 +155,6 @@
     }
   },
   "playbook_config_area_combined_filters": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -185,7 +173,6 @@
     }
   },
   "playbook_config_floor_combined_filters": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -201,7 +188,6 @@
     }
   },
   "playbook_config_areas_and_buildings": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -225,7 +211,6 @@
     }
   },
   "playbook_config_buildings_and_floors": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -249,7 +234,6 @@
     }
   },
   "playbook_config_all_components": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -275,7 +259,6 @@
     }
   },
   "playbook_config_empty_filters": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -284,6 +267,9 @@
         {}
       ]
     }
+  },
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
   },
   "playbook_config_no_file_path": {
     "component_specific_filters": {
@@ -301,7 +287,6 @@
     }
   },
   "playbook_config_direct_filter_components_list_name_hierarchy": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -314,7 +299,6 @@
     }
   },
   "playbook_config_name_hierarchy_pattern": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -332,7 +316,6 @@
     }
   },
   "playbook_config_parent_name_hierarchy_pattern": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -350,7 +333,6 @@
     }
   },
   "playbook_config_combined_hierarchy_patterns": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -376,7 +358,6 @@
     }
   },
   "playbook_config_site_name_hierarchy_list": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
@@ -395,7 +376,6 @@
     }
   },
   "playbook_config_parent_name_hierarchy_list": {
-    "file_path": "/tmp/test_site_demo.yaml",
     "component_specific_filters": {
       "components_list": [
         "site"
