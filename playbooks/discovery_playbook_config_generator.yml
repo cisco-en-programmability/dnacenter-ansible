@@ -32,17 +32,13 @@
       cisco.dnac.discovery_playbook_config_generator:
         <<: *dnac_login
         state: gathered
-        config:
-          generate_all_configurations: false
 
     - name: "Generate YAML Configuration with custom file path"
       cisco.dnac.discovery_playbook_config_generator:
         <<: *dnac_login
         state: gathered
-        config:
-          file_path: "tmp/complete_discovery_config.yml"
-          file_mode: overwrite
-          generate_all_configurations: true
+        file_path: "tmp/complete_discovery_config.yml"
+        file_mode: overwrite
 
     # =============================================================================
     # DISCOVERY FILTERING BY NAME
@@ -52,9 +48,9 @@
       cisco.dnac.discovery_playbook_config_generator:
         <<: *dnac_login
         state: gathered
+        file_path: "tmp/specific_discoveries.yml"
+        file_mode: append
         config:
-          file_path: "tmp/specific_discoveries.yml"
-          file_mode: append
           global_filters:
             discovery_name_list:
               - Multi Range Discovery
@@ -68,9 +64,9 @@
       cisco.dnac.discovery_playbook_config_generator:
         <<: *dnac_login
         state: gathered
+        file_path: "tmp/cdp_lldp_discoveries.yml"
+        file_mode: append
         config:
-          file_path: "/tmp/cdp_lldp_discoveries.yml"
-          file_mode: append
           global_filters:
             discovery_type_list:
               - Range

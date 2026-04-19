@@ -1,10 +1,6 @@
 {
-    "playbook_config_generate_all_configurations": {
-        "generate_all_configurations": true,
-        "file_path": "tmp/test_demo.yml"
-    },
+    "playbook_config_generate_all_configurations": null,
     "playbook_config_template_projects_by_name_single": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "projects"
@@ -17,7 +13,6 @@
         }
     },
     "playbook_config_template_projects_by_name_multiple": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "projects"
@@ -33,7 +28,6 @@
         }
     },
     "playbook_config_template_by_name_single": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "configuration_templates"
@@ -46,7 +40,6 @@
         }
     },
     "playbook_config_template_by_name_multiple": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "configuration_templates"
@@ -62,7 +55,6 @@
         }
     },
     "playbook_config_template_projects_empty_filter": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "projects"
@@ -70,7 +62,6 @@
         }
     },
     "playbook_config_templates_empty_filter": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "configuration_templates"
@@ -78,7 +69,6 @@
         }
     },
     "playbook_config_templates_includes_uncommitted_filter": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "configuration_templates"
@@ -91,7 +81,6 @@
         }
     },
     "playbook_config_template_by_project_name_multiple": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "configuration_templates"
@@ -107,7 +96,6 @@
         }
     },
     "playbook_config_template_by_template_name_and_project_name": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "configuration_templates"
@@ -125,7 +113,6 @@
         }
     },
     "playbook_config_template_all_filters": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "configuration_templates"
@@ -140,7 +127,6 @@
         }
     },
     "playbook_invalid_project_details": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "projects"
@@ -153,7 +139,6 @@
         }
     },
     "playbook_invalid_template_details": {
-        "file_path": "tmp/test_demo.yml",
         "component_specific_filters": {
             "components_list": [
                 "configuration_templates"
@@ -161,6 +146,28 @@
             "configuration_templates": [
                 {
                     "template_name": "Nonexistent Template"
+                }
+            ]
+        }
+    },
+    "playbook_config_empty_config": {},
+    "playbook_config_empty_component_specific_filters": {
+        "component_specific_filters": {}
+    },
+    "playbook_config_invalid_component": {
+        "component_specific_filters": {
+            "invalid_component": [
+                {
+                    "invalid_filter": "Invalid Value"
+                }
+            ]
+        }
+    },
+    "playbook_config_invalid_component_filters": {
+        "component_specific_filters": {
+            "projects": [
+                {
+                    "invalid_filter": "Invalid Value"
                 }
             ]
         }

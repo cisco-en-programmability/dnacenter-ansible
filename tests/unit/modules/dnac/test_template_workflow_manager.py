@@ -77,6 +77,15 @@ class TestDnacTemplateWorkflow(TestDnacModule):
     playbook_config_create_template_without_template_content = test_data.get(
         "create_template_playbook_without_template_content"
     )
+    playbook_config_deploy_composite_template_case_13 = test_data.get(
+        "deploy_composite_template_playbook_case_13"
+    )
+    playbook_config_deploy_composite_no_member_info_case_14 = test_data.get(
+        "deploy_composite_no_member_info_case_14"
+    )
+    playbook_config_deploy_composite_missing_member_name_case_15 = test_data.get(
+        "deploy_composite_missing_member_name_case_15"
+    )
 
     def setUp(self):
         super(TestDnacTemplateWorkflow, self).setUp()
@@ -210,6 +219,32 @@ class TestDnacTemplateWorkflow(TestDnacModule):
                 self.test_data.get("get_task_details_by_id_case_1_call_4"),
                 self.test_data.get("get_task_details_by_id_case_1_call_3"),
                 self.test_data.get("get_task_details_progress_case_11_call_3")
+            ]
+        elif "test_deploy_composite_template_case_13" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_projects_details_case_13"),
+                self.test_data.get("get_templates_details_case_13"),
+                self.test_data.get("get_device_by_ip_case_13"),
+                self.test_data.get("get_template_versions_parent_case_13"),
+                self.test_data.get("get_member_template_details_case_13"),
+                self.test_data.get("get_template_versions_member_case_13"),
+                self.test_data.get("deploy_template_task_case_13"),
+                self.test_data.get("get_task_details_case_13"),
+                self.test_data.get("get_deployment_status_case_13"),
+            ]
+        elif "test_deploy_composite_no_member_info_case_14" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_projects_details_case_13"),
+                self.test_data.get("get_templates_details_case_13"),
+                self.test_data.get("get_device_by_ip_case_13"),
+                self.test_data.get("get_template_versions_parent_case_13"),
+            ]
+        elif "test_deploy_composite_missing_member_name_case_15" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_projects_details_case_13"),
+                self.test_data.get("get_templates_details_case_13"),
+                self.test_data.get("get_device_by_ip_case_13"),
+                self.test_data.get("get_template_versions_parent_case_13"),
             ]
 
     def test_create_template_playbook_case_1(self):
@@ -430,7 +465,7 @@ class TestDnacTemplateWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "project(s) test-project-1 created succesfully"
+            "project(s) test-project-1 created successfully"
         )
 
     def test_import_project_playbook_case_9(self):
@@ -598,3 +633,51 @@ class TestDnacTemplateWorkflow(TestDnacModule):
             "does not exist",
             result.get('msg')
         )
+
+    def test_deploy_composite_template_case_13(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=False,
+                config=self.playbook_config_deploy_composite_template_case_13,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn("deployed successfully", result.get('msg'))
+
+    def test_deploy_composite_no_member_info_case_14(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=False,
+                config=self.playbook_config_deploy_composite_no_member_info_case_14,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("member_template_deployment_info", result.get('msg'))
+
+    def test_deploy_composite_missing_member_name_case_15(self):
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=False,
+                config=self.playbook_config_deploy_composite_missing_member_name_case_15,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("template_name", result.get('msg'))

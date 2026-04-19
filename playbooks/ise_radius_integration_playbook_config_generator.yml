@@ -2,11 +2,11 @@
 - name: Ise radius config generator playbook
   hosts: dnac_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
-    - name: Get Authentication and Policy Server.
+    - name: Generate YAML Configuration with File Path specified for all components
       cisco.dnac.ise_radius_integration_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -15,72 +15,128 @@
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
         dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
         state: gathered
+
+    - name: Generate YAML Configuration for all components with File Path specified
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "ise_radius_integration_config_without_config.yaml"
+        file_mode: "overwrite"
+
+    - name: Generate YAML Configuration for mentioned components without component filter
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "ise_radius_integration_config_without_component_filter.yaml"
+        file_mode: "append"
         config:
-          # ====================================================================================
-          # SCENARIO 1: Generate All ISE and AAA Configurations without File Path specified
-          # Purpose: Generate configurations for all authentication servers
-          # Use Case: Complete brownfield discovery and configuration generation
-          # ====================================================================================
-          # generate_all_configurations: true
-
-          # ====================================================================================
-          # SCENARIO 2: Generate All ISE and AAA Configurations with File Path specified
-          # Purpose: Generate configurations for all authentication servers
-          # Use Case: Complete brownfield discovery and configuration generation
-          # ====================================================================================
-          # generate_all_configurations: true
-          # file_path: "authentication_policy_server_all_configurations.yaml"
-          # file_mode: "append"
-
-          # ====================================================================================
-          # SCENARIO 3: Generate All ISE and AAA Configurations without File Path specified
-          # Purpose: Generate configurations for mentioned component only
-          # Use Case: Complete brownfield discovery and configuration generation
-          # ====================================================================================
-          # generate_all_configurations: false
-          # component_specific_filters:
-          #   components_list: ["authentication_policy_server"]
-
-          # ====================================================================================
-          # SCENARIO 4: Filter ISE Servers only with File Path specified
-          # Purpose: Generate configuration for mentioned components with filter server_type
-          # Use Case: When you need to configure only ISE-based authentication
-          # ====================================================================================
-          # file_path: "authentication_policy_server_all_configurations.yaml"
-          # file_mode: "overwrite"
-          # component_specific_filters:
-          #   components_list: ["authentication_policy_server"]
-          #   authentication_policy_server:
-          #     server_type: ISE
-
-          # ====================================================================================
-          # SCENARIO 5: Filter ISE Servers only with File Path specified
-          # Purpose: Generate configuration for mentioned components with filter server_ip_address
-          # Use Case: When you need to configure only ISE-based authentication
-          # ====================================================================================
-          # file_path: "authentication_policy_server_all_configurations.yaml"
-          # component_specific_filters:
-          #   components_list: ["authentication_policy_server"]
-          #   authentication_policy_server:
-          #     server_ip_address: 10.0.0.10
-
-          # ====================================================================================
-          # SCENARIO 6: Filter Specific Server by type and IP Address with File Path specified
-          # Purpose:  Generate configuration for mentioned components with filter server_ip_address and server_type
-          # Use Case: Targeted configuration for a single server
-          # ====================================================================================
-          file_path: "authentication_policy_server_all_configurations.yaml"
-          file_mode: "overwrite"
           component_specific_filters:
-            components_list: ["authentication_policy_server"]
+            components_list:
+              - authentication_policy_server
+
+    - name: Generate YAML Configuration for mentioned components with specific server_type filter
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "ise_radius_integration_config_with_server_type_filter.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list:
+              - authentication_policy_server
             authentication_policy_server:
-              server_type: ISE
-              server_ip_address: 10.197.156.78
+              - server_type: "ISE"
+              - server_type: "AAA"
 
-      register: result
+    - name: Generate YAML Configuration for mentioned components with specific server_ip_address filter
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "ise_radius_integration_config_with_server_ip_filter.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list:
+              - authentication_policy_server
+            authentication_policy_server:
+              - server_ip_address: 172.23.241.229
 
-      tags:
-        - brownfield_templates_generator
+    - name: Generate YAML Configuration for mentioned components with specific server_type and server_ip_address filter
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "ise_radius_integration_config_with_server_type_and_ip_filter.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list:
+              - authentication_policy_server
+            authentication_policy_server:
+              - server_type: "ISE"
+                server_ip_address: 172.23.241.229
+
+    - name: Generate YAML Configuration with multiple server filters (OR logic)
+      cisco.dnac.ise_radius_integration_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: gathered
+        file_path: "ise_radius_integration_config_with_multiple_server_filters.yaml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list:
+              - authentication_policy_server
+            authentication_policy_server:
+              - server_ip_address: 10.0.0.29
+              - server_ip_address: 204.192.1.123
+              - server_ip_address: 172.23.241.229

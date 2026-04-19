@@ -54,8 +54,11 @@ options:
       module.
     - Filters specify which components to include in the YAML configuration file.
     - If "components_list" is specified, only those components are included, regardless of the filters.
-    - If config is not provided or is empty, all configurations for all tags and tag memberships will be generated.
+    - If config is not provided (omitted entirely), all configurations for all tags and tag memberships will be generated.
     - This is useful for complete brownfield infrastructure discovery and documentation.
+    - |
+      Important: An empty dictionary {} is not valid. Either omit 'config' entirely to generate
+      all configurations, or provide specific filters within 'config'.
     type: dict
     required: false
     suboptions:
@@ -168,6 +171,12 @@ notes:
   (1) 'components_list' contains at least one component, OR
   (2) Component-specific filters (e.g., 'tag', 'tag_memberships') are provided.
   If neither condition is met, the module will fail with a validation error.
+- |
+  System tags filtering:
+  System tags (tags with systemTag=True) are automatically excluded from the generated YAML configuration.
+  These tags are managed by Cisco Catalyst Center and cannot be modified by users, so they are filtered out
+  to ensure the generated playbook only contains user-manageable tags. This filtering is applied regardless
+  of whether you're generating all tags or using specific filters.
 seealso:
 - module: cisco.dnac.tags_workflow_manager
   description: Module for managing tags and tag memberships.
@@ -758,13 +767,31 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available or empty - if not provided or empty, treat as generate_all
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - this is an error
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.msg = "Configuration is not provided - treating as generate_all_configurations mode"
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO")
+            return self
+
+        if not isinstance(self.config, dict):
+            self.msg = (
+                f"Configuration must be a dictionary, got: {type(self.config).__name__}. Please provide "
+                "configuration as a dictionary."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Expected schema for configuration parameters (no file_path, file_mode, or generate_all_configurations)
@@ -786,9 +813,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
-        )
+        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {valid_temp}"
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
@@ -1306,13 +1331,52 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return modified_tag_memberships_details
 
+    def check_if_tag_is_system_tag(self, tag_details):
+        """
+        Checks if a tag is a system tag.
+
+        System tags are special tags managed by Cisco Catalyst Center and should not be
+        included in playbook configurations as they cannot be modified by users.
+
+        Args:
+            tag_details (dict): The tag details dictionary containing tag information.
+                Expected keys:
+                    - "systemTag" (bool): Indicates if the tag is a system tag.
+                    - "name" (str): The name of the tag.
+
+        Returns:
+            bool: True if the tag is a system tag, False otherwise.
+        """
+        self.log(
+            f"Checking if tag is a system tag: {self.pprint(tag_details)}",
+            "DEBUG",
+        )
+
+        # Check if systemTag field exists and is True
+        is_system_tag = tag_details.get("systemTag", False)
+        tag_name = tag_details.get("name", "Unknown")
+
+        if is_system_tag:
+            self.log(
+                f"Tag '{tag_name}' identified as a system tag and will be excluded from playbook.",
+                "INFO",
+            )
+        else:
+            self.log(
+                f"Tag '{tag_name}' is not a system tag.",
+                "DEBUG",
+            )
+
+        return is_system_tag
+
     def get_tag_configuration(self, network_element, component_specific_filters=None):
         """
         Retrieve and process tag configuration from Cisco Catalyst Center.
 
         This method fetches tag details either by applying component-specific filters or by retrieving
         all available tags. It uses cached tag mappings to avoid unnecessary API calls and processes
-        the tag information according to the tag template specification.
+        the tag information according to the tag template specification. System tags are automatically
+        filtered out and excluded from the final playbook configuration.
 
         Args:
             network_element: The network element identifier for which tags are being retrieved.
@@ -1330,12 +1394,17 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                       "tag": [list of processed tag detail dictionaries]
                   }
                   Each tag detail is modified according to the tag_temp_spec template.
+                  System tags are excluded from the returned configuration.
 
         Note:
             This method relies on pre-populated instance variables:
             - self.tag_name_to_details_mapping: Maps tag names to their detail dictionaries
             - self.tag_id_to_tag_name_mapping: Maps tag IDs to tag names
             The method uses cached data to minimize API calls to Cisco Catalyst Center.
+
+            System tags (tags with systemTag=True) are automatically filtered out using
+            check_if_tag_is_system_tag() method, as they are managed by Cisco Catalyst Center
+            and cannot be modified by users.
         """
 
         self.log(
@@ -1433,7 +1502,22 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                             f"Using cached tag details for filter parameter: {key}, value: {value}, details: {self.pprint(tag_details)}",
                             "INFO",
                         )
-                        final_tags.extend(tag_details)
+                        # Check if tag is a system tag before adding
+                        for tag_index, tag in enumerate(tag_details, start=1):
+                            tag_name = tag.get("name", "Unknown")
+
+                            if self.check_if_tag_is_system_tag(tag):
+                                self.log(
+                                    f"[{tag_index}/{len(tag_details)}] Skipped system tag '{tag_name}' - not added to final_tags.",
+                                    "INFO",
+                                )
+                                continue
+
+                            final_tags.append(tag)
+                            self.log(
+                                f"[{tag_index}/{len(tag_details)}] Added tag '{tag_name}' to final_tags list.",
+                                "DEBUG",
+                            )
                         self.log(
                             f"Extended final_tags list. Current count: {len(final_tags)}",
                             "DEBUG",
@@ -1454,9 +1538,24 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 f"Retrieved {len(tag_details)} tag(s) from cached mapping: {self.pprint(tag_details)}",
                 "INFO",
             )
-            final_tags.extend(tag_details)
+            # Filter out system tags before adding to final_tags
+            for tag_index, tag in enumerate(tag_details, start=1):
+                tag_name = tag.get("name", "Unknown")
+
+                if self.check_if_tag_is_system_tag(tag):
+                    self.log(
+                        f"[{tag_index}/{len(tag_details)}] Skipped system tag '{tag_name}' - not added to final_tags.",
+                        "INFO",
+                    )
+                    continue
+
+                final_tags.append(tag)
+                self.log(
+                    f"[{tag_index}/{len(tag_details)}] Added tag '{tag_name}' to final_tags list.",
+                    "DEBUG",
+                )
             self.log(
-                f"Extended final_tags list with all cached tags. Total count: {len(final_tags)}",
+                f"Extended final_tags list with all cached tags (excluding system tags). Total count: {len(final_tags)}",
                 "DEBUG",
             )
 

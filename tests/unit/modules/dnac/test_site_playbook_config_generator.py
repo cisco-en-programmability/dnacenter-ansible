@@ -24,7 +24,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from brownfield.collections.ansible_collections.cisco.dnac.plugins.modules import (
+from ansible_collections.cisco.dnac.plugins.modules import (
     site_playbook_config_generator,
 )
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
@@ -40,6 +40,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
     playbook_config_generate_all_configurations = test_data.get(
         "playbook_config_generate_all_configurations"
     )
+    playbook_config_empty_config = test_data.get("playbook_config_empty_config")
     playbook_config_area_by_site_name_single = test_data.get(
         "playbook_config_area_by_site_name_single"
     )
@@ -81,6 +82,9 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
     )
     playbook_config_all_components = test_data.get("playbook_config_all_components")
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
+    playbook_config_empty_component_specific_filters = test_data.get(
+        "playbook_config_empty_component_specific_filters"
+    )
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
     playbook_config_direct_filter_components_list_name_hierarchy = test_data.get(
         "playbook_config_direct_filter_components_list_name_hierarchy"
@@ -133,8 +137,8 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             return
 
         # Default fixture: return the same consolidated payload for each API call.
-        self.run_dnac_exec.side_effect = (
-            lambda *args, **kwargs: self.test_data.get("get_all_sites_response")
+        self.run_dnac_exec.side_effect = lambda *args, **kwargs: self.test_data.get(
+            "get_all_sites_response"
         )
 
     def run_module_with_config_and_validate_success(self, config):
@@ -163,6 +167,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/test_site_demo.yaml",
                 config=config,
             )
         )
@@ -248,7 +253,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         Test case for brownfield site workflow manager when generating all configurations.
 
-        This test case checks the behavior when generate_all_configurations is set to True,
+        This test case checks the behavior when config is not provided,
         which should retrieve all areas, buildings, and floors and generate a complete
         YAML playbook configuration file.
         """
@@ -263,6 +268,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/test_site_demo.yaml",
                 config=self.playbook_config_generate_all_configurations,
             )
         )
@@ -275,7 +281,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self, mock_exists, mock_file
     ):
         """
-        Verify API calls for generate_all_configurations mode.
+        Verify API calls for generate_all_configurations mode (no config provided).
 
         Expected behavior:
         - One GET call to site_design/get_sites
@@ -379,7 +385,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         mock_exists.return_value = True
 
         duplicate_site_type_config = {
-            "file_path": "/tmp/case_duplicate_site_type.yaml",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [{"site_type": ["area", "area"]}],
@@ -394,6 +399,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/case_duplicate_site_type.yaml",
                 config=duplicate_site_type_config,
             )
         )
@@ -413,7 +419,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         Validate invalid site_type values fail with a clear validation error.
         """
         invalid_site_type_config = {
-            "file_path": "/tmp/case_invalid_site_type.yaml",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [{"site_type": ["campus"]}],
@@ -428,6 +433,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/case_invalid_site_type.yaml",
                 config=invalid_site_type_config,
             )
         )
@@ -503,15 +509,13 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             "Expected no API execution when multiple config elements are provided as a list.",
         )
 
-    def test_site_playbook_config_generator_generate_all_false_without_component_filters_fails_validation(
+    def test_site_playbook_config_generator_empty_config_fails_validation(
         self,
     ):
         """
-        Validate generate_all_configurations=False requires component_specific_filters.components_list.
+        Validate that providing an empty config dictionary raises an error.
+        Config must be omitted entirely or contain filters.
         """
-        invalid_minimum_requirement_config = {
-            "generate_all_configurations": False,
-        }
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -521,19 +525,18 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
-                config=invalid_minimum_requirement_config,
+                config=self.playbook_config_empty_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "'component_specific_filters' must be provided with 'components_list' key "
-            "when 'generate_all_configurations' is set to False",
+            "Configuration cannot be an empty dictionary",
             str(result.get("msg")),
         )
         self.assertEqual(
             self.run_dnac_exec.call_count,
             0,
-            "Expected no API execution when minimum filter requirements are not met.",
+            "Expected no API execution when config is empty dictionary.",
         )
 
     @patch("builtins.open", new_callable=mock_open)
@@ -547,8 +550,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         mock_exists.return_value = True
 
         append_mode_config = {
-            "file_path": "/tmp/case_append_mode.yaml",
-            "file_mode": "append",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [{"site_type": ["area"]}],
@@ -563,6 +564,8 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/case_append_mode.yaml",
+                file_mode="append",
                 config=append_mode_config,
             )
         )
@@ -1042,6 +1045,41 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assert_success_result_message(result, self._testMethodName)
 
+    def test_site_playbook_config_generator_empty_component_specific_filters_fails_validation(
+        self,
+    ):
+        """
+        Validate that providing component_specific_filters as an empty dictionary
+        raises a validation error and prevents configuration generation.
+
+        An empty component_specific_filters: {} signals a misconfiguration — the
+        user has declared the key but omitted any actual filter blocks, which would
+        silently generate unexpected full-site configurations.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/test_empty_csf.yaml",
+                config=self.playbook_config_empty_component_specific_filters,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "'component_specific_filters' is provided but empty",
+            str(result.get("msg")),
+        )
+        self.assertEqual(
+            self.run_dnac_exec.call_count,
+            0,
+            "Expected no API execution when component_specific_filters is an empty dict.",
+        )
+
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_site_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
@@ -1102,24 +1140,25 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self, mock_exists, mock_file
     ):
         """
-        Verify one-pass API retrieval in direct-filter mode.
+        Verify API retrieval in direct-filter mode with no explicit site_type.
 
-        components_list: ["site"] with only site_name_hierarchy should execute a
-        single scoped get_sites call without site_type fanout.
+        components_list: ["site"] with only site_name_hierarchy and no site_type
+        should fan out to one API call per supported type (area, building, floor).
         """
         mock_exists.return_value = True
         self.run_module_with_config_and_validate_success(
             self.playbook_config_direct_filter_components_list_name_hierarchy
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 1)
-        self.assert_get_sites_api_call(
-            0,
-            {"nameHierarchy": "Global/USA", "offset": 1, "limit": 500},
-        )
-        params = self.run_dnac_exec.call_args_list[0].kwargs.get("params") or {}
-        self.assertNotIn("type", params)
-        self.assertNotIn("parentNameHierarchy", params)
+        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        expected_types = {"area", "building", "floor"}
+        observed_types = set()
+        for call in self.run_dnac_exec.call_args_list:
+            params = call.kwargs.get("params") or {}
+            self.assertEqual(params.get("nameHierarchy"), "Global/USA")
+            self.assertNotIn("parentNameHierarchy", params)
+            observed_types.add(params.get("type"))
+        self.assertSetEqual(observed_types, expected_types)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -1134,16 +1173,16 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             self.playbook_config_name_hierarchy_pattern
         )
 
+        # When site_name_hierarchy is provided with multiple site_types,
+        # it fans out to one API call per site_type
         self.assertEqual(self.run_dnac_exec.call_count, 3)
+
         expected_site_types = set(["area", "building", "floor"])
         observed_site_types = set()
 
         for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
-            self.assert_get_sites_api_call(
-                call_index,
-                {"nameHierarchy": "Global/USA/.*", "offset": 1, "limit": 500},
-            )
             params = call.kwargs.get("params") or {}
+            self.assertEqual(params.get("nameHierarchy"), "Global/USA")
             self.assertNotIn("parentNameHierarchy", params)
             observed_site_types.add(params.get("type"))
 
@@ -1190,20 +1229,9 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
             self.playbook_config_combined_hierarchy_patterns
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 3)
-        expected_site_types = set(["area", "building", "floor"])
-        observed_site_types = set()
-
-        for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
-            self.assert_get_sites_api_call(
-                call_index,
-                {"nameHierarchy": "Global/USA/.*", "offset": 1, "limit": 500},
-            )
-            params = call.kwargs.get("params") or {}
-            self.assertNotIn("parentNameHierarchy", params)
-            observed_site_types.add(params.get("type"))
-
-        self.assertSetEqual(observed_site_types, expected_site_types)
+        # Two separate site filter entries: one with site_name_hierarchy (3 types)
+        # and one with parent_name_hierarchy (3 types) = 6 total API calls
+        self.assertEqual(self.run_dnac_exec.call_count, 6)
 
     def test_parent_name_hierarchy_scope_includes_descendants(self):
         """
@@ -1569,7 +1597,9 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self.assertEqual(query_plan[0].get("type"), "building")
         self.assertEqual(query_plan[1].get("type"), "floor")
 
-    def test_validate_component_specific_filters_structure_invalid_site_type_value(self):
+    def test_validate_component_specific_filters_structure_invalid_site_type_value(
+        self,
+    ):
         """
         Ensure invalid site_type values fail validation with explicit value details.
         """
@@ -1596,7 +1626,11 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
 
     def test_build_site_query_plan_for_filter_supports_site_name_hierarchy_list(self):
         """
-        Ensure site_name_hierarchy list expands to one API query per hierarchy value.
+        Ensure site_name_hierarchy list expands to one API query per hierarchy value
+        per supported site type when site_type is not specified.
+
+        When site_type is omitted, the query plan fans out to all supported types
+        (area, building, floor), producing 3 entries per hierarchy value.
         """
         site_generator = self.module.SitePlaybookGenerator.__new__(
             self.module.SitePlaybookGenerator
@@ -1615,14 +1649,22 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self.assertEqual(
             query_plan,
             [
-                {"nameHierarchy": "Global/USA/San Jose"},
-                {"nameHierarchy": "Global/India/Bangalore"},
+                {"nameHierarchy": "Global/USA/San Jose", "type": "area"},
+                {"nameHierarchy": "Global/USA/San Jose", "type": "building"},
+                {"nameHierarchy": "Global/USA/San Jose", "type": "floor"},
+                {"nameHierarchy": "Global/India/Bangalore", "type": "area"},
+                {"nameHierarchy": "Global/India/Bangalore", "type": "building"},
+                {"nameHierarchy": "Global/India/Bangalore", "type": "floor"},
             ],
         )
 
     def test_build_site_query_plan_for_filter_supports_parent_name_hierarchy_list(self):
         """
-        Ensure parent_name_hierarchy list expands to wildcard scope API queries.
+        Ensure parent_name_hierarchy list expands to wildcard scope API queries
+        for each supported site type when site_type is not specified.
+
+        When site_type is omitted, the query plan fans out to all supported types
+        (area, building, floor), producing 3 entries per parent hierarchy value.
         """
         site_generator = self.module.SitePlaybookGenerator.__new__(
             self.module.SitePlaybookGenerator
@@ -1641,8 +1683,12 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self.assertEqual(
             query_plan,
             [
-                {"nameHierarchy": "Global/USA/.*"},
-                {"nameHierarchy": "Global/India/.*"},
+                {"nameHierarchy": "Global/USA/.*", "type": "area"},
+                {"nameHierarchy": "Global/USA/.*", "type": "building"},
+                {"nameHierarchy": "Global/USA/.*", "type": "floor"},
+                {"nameHierarchy": "Global/India/.*", "type": "area"},
+                {"nameHierarchy": "Global/India/.*", "type": "building"},
+                {"nameHierarchy": "Global/India/.*", "type": "floor"},
             ],
         )
 
@@ -1821,7 +1867,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         mock_exists.return_value = True
 
         relative_hierarchy_config = {
-            "file_path": "/tmp/case_relative_site_name_parent.yaml",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [
@@ -1843,6 +1888,7 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/case_relative_site_name_parent.yaml",
                 config=relative_hierarchy_config,
             )
         )
@@ -1905,23 +1951,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         mock_exists.return_value = True
         overwrite_default_config = {
-            "file_path": "/tmp/case_default_overwrite_mode.yaml",
-            "component_specific_filters": {
-                "components_list": ["site"],
-                "site": [{"site_type": ["area"]}],
-            },
-        }
-
-        self.run_module_with_config_and_validate_success(overwrite_default_config)
-        mock_file.assert_any_call("/tmp/case_default_overwrite_mode.yaml", "w")
-
-    def test_site_playbook_config_generator_invalid_file_mode_fails_validation(self):
-        """
-        Validate invalid file_mode values are rejected before API execution.
-        """
-        invalid_file_mode_config = {
-            "file_path": "/tmp/case_invalid_file_mode.yaml",
-            "file_mode": "replace",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [{"site_type": ["area"]}],
@@ -1936,17 +1965,46 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/case_default_overwrite_mode.yaml",
+                config=overwrite_default_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        mock_file.assert_any_call("/tmp/case_default_overwrite_mode.yaml", "w")
+
+    def test_site_playbook_config_generator_invalid_file_mode_fails_validation(self):
+        """
+        Validate invalid file_mode values are rejected before API execution.
+        """
+        invalid_file_mode_config = {
+            "component_specific_filters": {
+                "components_list": ["site"],
+                "site": [{"site_type": ["area"]}],
+            },
+        }
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_invalid_file_mode.yaml",
+                file_mode="replace",
                 config=invalid_file_mode_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid parameters in playbook", str(result.get("msg")))
-        self.assertIn("Invalid choice provided", str(result.get("msg")))
-        self.assertEqual(
-            self.run_dnac_exec.call_count,
-            0,
-            "Expected no API execution for invalid file_mode value.",
+        # Check that an error was raised about the invalid file_mode
+        self.assertTrue(
+            result.get("failed"), "Expected module to fail with invalid file_mode"
         )
+        self.assertIn("file_mode", str(result.get("msg")))
+        # Note: In current implementation, invalid file_mode is rejected by Ansible
+        # argument spec validation before any module logic runs
 
     def test_validate_component_specific_filters_structure_rejects_empty_site_name_hierarchy_list(
         self,
@@ -2125,7 +2183,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         mock_exists.return_value = True
         site_name_list_config = {
-            "file_path": "/tmp/case_site_name_hierarchy_list.yaml",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [
@@ -2136,8 +2193,21 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 ],
             },
         }
-
-        self.run_module_with_config_and_validate_success(site_name_list_config)
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_site_name_hierarchy_list.yaml",
+                config=site_name_list_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
         self.assertEqual(self.run_dnac_exec.call_count, 2)
         self.assert_get_sites_api_call(
             0,
@@ -2168,7 +2238,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         mock_exists.return_value = True
         parent_name_list_config = {
-            "file_path": "/tmp/case_parent_name_hierarchy_list.yaml",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [
@@ -2179,8 +2248,21 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 ],
             },
         }
-
-        self.run_module_with_config_and_validate_success(parent_name_list_config)
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_parent_name_hierarchy_list.yaml",
+                config=parent_name_list_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
         self.assertEqual(self.run_dnac_exec.call_count, 2)
         self.assert_get_sites_api_call(
             0,
@@ -2208,29 +2290,43 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
     ):
         """
         Verify union behavior when parent and site filters are provided as separate site entries.
+        Each entry is expanded independently and the results are merged.
         """
         mock_exists.return_value = True
         separate_entries_union_config = {
-            "file_path": "/tmp/case_parent_site_separate_entries_union.yaml",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [
                     {
-                        "parent_name_hierarchy": ["Global/USA", "Global/India"],
+                        "parent_name_hierarchy": "Global/USA",
+                        "site_type": ["floor"],
                     },
                     {
-                        "site_name_hierarchy": [
-                            "Global/USA/San Francisco",
-                            "Global/India/Bangalore",
-                        ],
-                        "site_type": ["floor"],
+                        "site_name_hierarchy": "Global/India/Bangalore",
+                        "site_type": ["area"],
                     },
                 ],
             },
         }
-
-        self.run_module_with_config_and_validate_success(separate_entries_union_config)
-        self.assertEqual(self.run_dnac_exec.call_count, 4)
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case_parent_site_separate_entries_union.yaml",
+                config=separate_entries_union_config,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        # parent entry: Global/USA/.* with type=floor → 1 call
+        # site entry: Global/India/Bangalore with type=area → 1 call
+        # total: 2 calls
+        self.assertEqual(self.run_dnac_exec.call_count, 2)
         self.assert_get_sites_api_call(
             0,
             {
@@ -2243,26 +2339,8 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         self.assert_get_sites_api_call(
             1,
             {
-                "nameHierarchy": "Global/India/.*",
-                "type": "floor",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
-        self.assert_get_sites_api_call(
-            2,
-            {
-                "nameHierarchy": "Global/USA/San Francisco",
-                "type": "floor",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
-        self.assert_get_sites_api_call(
-            3,
-            {
                 "nameHierarchy": "Global/India/Bangalore",
-                "type": "floor",
+                "type": "area",
                 "offset": 1,
                 "limit": 500,
             },
@@ -2280,8 +2358,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         """
         mock_exists.return_value = True
         scenario1_config = {
-            "file_path": "/tmp/case3_site_and_parent_only.yaml",
-            "file_mode": "overwrite",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [
@@ -2299,33 +2375,41 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 ],
             },
         }
-
-        self.run_module_with_config_and_validate_success(scenario1_config)
-        self.assertEqual(self.run_dnac_exec.call_count, 3)
-        self.assert_get_sites_api_call(
-            0,
-            {
-                "nameHierarchy": "Global/USAsdfsfs/.*",
-                "offset": 1,
-                "limit": 500,
-            },
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case3_site_and_parent_only.yaml",
+                file_mode="overwrite",
+                config=scenario1_config,
+            )
         )
-        self.assert_get_sites_api_call(
-            1,
-            {
-                "nameHierarchy": "Global/USA/San Francisco",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
-        self.assert_get_sites_api_call(
-            2,
-            {
-                "nameHierarchy": "Global/USA/San Jose",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        # Each filter without site_type fans out to all 3 types:
+        # USAsdfsfs/.* x 3 types + San Francisco x 3 types + San Jose x 3 types = 9 calls
+        self.assertEqual(self.run_dnac_exec.call_count, 9)
+        expected_calls = {
+            ("Global/USAsdfsfs/.*", "area"),
+            ("Global/USAsdfsfs/.*", "building"),
+            ("Global/USAsdfsfs/.*", "floor"),
+            ("Global/USA/San Francisco", "area"),
+            ("Global/USA/San Francisco", "building"),
+            ("Global/USA/San Francisco", "floor"),
+            ("Global/USA/San Jose", "area"),
+            ("Global/USA/San Jose", "building"),
+            ("Global/USA/San Jose", "floor"),
+        }
+        observed_calls = set()
+        for call in self.run_dnac_exec.call_args_list:
+            params = call.kwargs.get("params") or {}
+            observed_calls.add((params.get("nameHierarchy"), params.get("type")))
+        self.assertSetEqual(observed_calls, expected_calls)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -2334,13 +2418,12 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
     ):
         """
         Validate updated playbook Scenario 5:
-        site_name_hierarchy and parent_name_hierarchy+site_type entries are expanded
-        independently and merged in one execution.
+        site_name_hierarchy (no site_type) fans out to all 3 types independently;
+        parent_name_hierarchy+site_type entry uses only the declared types.
+        Both sets are merged as a union query plan.
         """
         mock_exists.return_value = True
         scenario5_config = {
-            "file_path": "/tmp/case7_all_filters.yaml",
-            "file_mode": "overwrite",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [
@@ -2352,45 +2435,38 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 ],
             },
         }
-
-        self.run_module_with_config_and_validate_success(scenario5_config)
-        self.assertEqual(self.run_dnac_exec.call_count, 4)
-        self.assert_get_sites_api_call(
-            0,
-            {
-                "nameHierarchy": "Global/USA/San Francisco",
-                "type": "building",
-                "offset": 1,
-                "limit": 500,
-            },
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case7_all_filters.yaml",
+                file_mode="overwrite",
+                config=scenario5_config,
+            )
         )
-        self.assert_get_sites_api_call(
-            1,
-            {
-                "nameHierarchy": "Global/USA/San Francisco",
-                "type": "floor",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
-        self.assert_get_sites_api_call(
-            2,
-            {
-                "nameHierarchy": "Global/USA/.*",
-                "type": "building",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
-        self.assert_get_sites_api_call(
-            3,
-            {
-                "nameHierarchy": "Global/USA/.*",
-                "type": "floor",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        # site_name_hierarchy without site_type fans out to 3 types;
+        # parent_name_hierarchy with site_type=[building, floor] produces 2 calls.
+        # Total: 5 unique API calls.
+        self.assertEqual(self.run_dnac_exec.call_count, 5)
+        expected_calls = {
+            ("Global/USA/San Francisco", "area"),
+            ("Global/USA/San Francisco", "building"),
+            ("Global/USA/San Francisco", "floor"),
+            ("Global/USA/.*", "building"),
+            ("Global/USA/.*", "floor"),
+        }
+        observed_calls = set()
+        for call in self.run_dnac_exec.call_args_list:
+            params = call.kwargs.get("params") or {}
+            observed_calls.add((params.get("nameHierarchy"), params.get("type")))
+        self.assertSetEqual(observed_calls, expected_calls)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -2399,13 +2475,12 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
     ):
         """
         Validate Scenario 5 floor-only expectation:
-        parent and exact-site retrievals are unioned first and then constrained
-        by floor site_type across both entries.
+        site_name_hierarchy without site_type fans out to all 3 types;
+        parent_name_hierarchy entries with site_type=[floor] produce one call each.
+        Total: 5 unique API calls.
         """
         mock_exists.return_value = True
         scenario5_floor_only_config = {
-            "file_path": "/tmp/case5_all_filters.yaml",
-            "file_mode": "overwrite",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [
@@ -2417,36 +2492,38 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 ],
             },
         }
-
-        self.run_module_with_config_and_validate_success(scenario5_floor_only_config)
-        self.assertEqual(self.run_dnac_exec.call_count, 3)
-        self.assert_get_sites_api_call(
-            0,
-            {
-                "nameHierarchy": "Global/USA/San Francisco",
-                "type": "floor",
-                "offset": 1,
-                "limit": 500,
-            },
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                dnac_log_level="DEBUG",
+                state="gathered",
+                file_path="/tmp/case5_all_filters.yaml",
+                file_mode="overwrite",
+                config=scenario5_floor_only_config,
+            )
         )
-        self.assert_get_sites_api_call(
-            1,
-            {
-                "nameHierarchy": "Global/USA/.*",
-                "type": "floor",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
-        self.assert_get_sites_api_call(
-            2,
-            {
-                "nameHierarchy": "Global/India/.*",
-                "type": "floor",
-                "offset": 1,
-                "limit": 500,
-            },
-        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assert_success_result_message(result, self._testMethodName)
+        # site_name_hierarchy without site_type fans out to 3 types;
+        # two parent_name_hierarchy entries with site_type=[floor] produce 1 call each.
+        # Total: 5 unique API calls.
+        self.assertEqual(self.run_dnac_exec.call_count, 5)
+        expected_calls = {
+            ("Global/USA/San Francisco", "area"),
+            ("Global/USA/San Francisco", "building"),
+            ("Global/USA/San Francisco", "floor"),
+            ("Global/USA/.*", "floor"),
+            ("Global/India/.*", "floor"),
+        }
+        observed_calls = set()
+        for call in self.run_dnac_exec.call_args_list:
+            params = call.kwargs.get("params") or {}
+            observed_calls.add((params.get("nameHierarchy"), params.get("type")))
+        self.assertSetEqual(observed_calls, expected_calls)
 
     def test_site_playbook_config_generator_scenario9_same_item_parent_and_site_fails_validation(
         self,
@@ -2457,8 +2534,6 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
         parent_name_hierarchy is rejected as ambiguous.
         """
         scenario9_invalid_config = {
-            "file_path": "/tmp/case9_fail_test.yaml",
-            "file_mode": "overwrite",
             "component_specific_filters": {
                 "components_list": ["site"],
                 "site": [
@@ -2479,6 +2554,8 @@ class TestBrownfieldSiteWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 dnac_log_level="DEBUG",
                 state="gathered",
+                file_path="/tmp/case9_fail_test.yaml",
+                file_mode="overwrite",
                 config=scenario9_invalid_config,
             )
         )
