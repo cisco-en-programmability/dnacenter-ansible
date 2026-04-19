@@ -1058,31 +1058,33 @@ class BrownFieldHelper:
         self.log(
             "Starting validation of filter keys against temp_spec. "
             "config_keys={0}, temp_spec_keys={1}".format(
-                list(config_dict.keys()),
-                list(temp_spec.keys()),
+                sorted(config_dict.keys()),
+                sorted(temp_spec.keys()),
             ),
             "DEBUG",
         )
 
         configured_filter_keys = set(config_dict.keys())
         allowed_filter_keys = set(temp_spec.keys())
+        sorted_allowed = sorted(allowed_filter_keys)
 
         self.log(
             "Filter key validation context - configured_filter_keys={0}, "
             "allowed_filter_keys={1}".format(
-                list(configured_filter_keys), list(allowed_filter_keys)
+                sorted(configured_filter_keys), sorted_allowed
             ),
             "DEBUG",
         )
 
         invalid_filter_keys = configured_filter_keys - allowed_filter_keys
+        sorted_invalid = sorted(invalid_filter_keys)
         if invalid_filter_keys:
             self.msg = (
                 "Invalid filters found in playbook config: {0}. "
                 "Allowed filters are: {1}."
             ).format(
-                list(invalid_filter_keys),
-                list(allowed_filter_keys),
+                sorted_invalid,
+                sorted_allowed,
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
@@ -1164,9 +1166,8 @@ class BrownFieldHelper:
             )
         elif not global_filters:
             self.msg = (
-                "Invalid parameters in playbook config: 'global_filters' "
-                "is provided but empty. Please provide at least one global filter "
-                "or remove 'global_filters' from the configuration."
+                "Invalid playbook config: 'global_filters' is empty. "
+                "Provide at least one filter or omit 'global_filters'."
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)

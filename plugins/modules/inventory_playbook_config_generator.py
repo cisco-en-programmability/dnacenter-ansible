@@ -60,9 +60,10 @@ options:
     suboptions:
       global_filters:
         description:
-        - Global filters to filter inventory data.
-        - All provided filter groups are combined using logical AND.
-        - At least one global filter must be provided when using C(global_filters).
+        - Global filters used to filter inventory data.
+        - Multiple filters under C(global_filters) are combined using logical AND.
+        - At least one supported global filter must be provided when using C(global_filters).
+        - Unknown keys fail validation with an error.
         type: dict
         suboptions:
           devices:
