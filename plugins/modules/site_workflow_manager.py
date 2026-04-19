@@ -2049,8 +2049,6 @@ class Site(DnacBase):
             except Exception as e:
                 self.log("Yaml is not available for bulk: {}".format(str(e)), "ERROR")
 
-            return self
-
         else:
             site_params = self.want.get("site_params")
             site_type = site_params.get("type")
@@ -2158,13 +2156,18 @@ class Site(DnacBase):
                         site_name_hierarchy = self.want.get("site_name_hierarchy")
                         self.created_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
                         self.log("Site '{0}' created successfully".format(site_name_hierarchy), "INFO")
-                    return self
 
                 except Exception as e:
                     self.msg = "Unexpected error occurred while create: {0}".format(str(e))
                     self.log(self.msg, "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR",
                                               site_name_hierarchy).check_return_status()
+
+        if self.created_site_list and len(self.update_not_needed_sites) < 1:
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO", str(self.created_site_list))
+        elif len(self.update_not_needed_sites) > 0:
+            self.update_site_messages().check_return_status()
 
         return self
 

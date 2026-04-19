@@ -1,6 +1,5 @@
 {
-  "playbook_config_generate_all_configurations": {},
-  "playbook_config_fetch_specific_configurations": {},
+  "playbook_config_generate_all_configurations": null,
   "playbook_config_fabric_sites_only": {
     "component_specific_filters": {
       "components_list": [
@@ -175,13 +174,32 @@
       ],
       "fabric_sites": [
         {
-          "site_name_hierarchy": "Global/Invalid_Site",
-          "fabric_type": "fabric_site",
-          "authentication_profile": "No Authentication",
-          "is_pub_sub_enabled": false
+          "site_name_hierarchy": "Global/Invalid_Site"
         }
       ]
     }
+  },
+  "playbook_config_invalid_component": {
+    "component_specific_filters": {
+      "invalid_component": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
+  "playbook_config_invalid_component_filters": {
+    "component_specific_filters": {
+      "fabric_sites": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
+  "playbook_config_empty_config": {},
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
   },
   "get_site_details": {
     "response": [

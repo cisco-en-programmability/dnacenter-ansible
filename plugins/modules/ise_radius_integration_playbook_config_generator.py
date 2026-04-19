@@ -31,41 +31,31 @@ options:
     type: str
     choices: [gathered]
     default: gathered
+  file_path:
+    description:
+    - Path where the YAML configuration file will be saved.
+    - If not provided, the file will be saved in the current working directory with
+        a default file name C(ise_radius_integration_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
+    - For example, C(ise_radius_integration_playbook_config_2026-01-24_12-33-20.yml).
+    type: str
+  file_mode:
+    description:
+    - Determines how the output YAML configuration file is written.
+    - When set to C(overwrite), the file will be replaced with new content.
+    - When set to C(append), new content will be added to the existing file.
+    type: str
+    required: false
+    default: overwrite
+    choices: ["overwrite", "append"]
   config:
     description:
-    - A list of filters for generating YAML playbook compatible with the `ise_radius_integration_workflow_manager`
+    - A dictionary of filters for generating YAML playbook compatible with the `ise_radius_integration_workflow_manager`
       module.
     - Filters specify which components to include in the YAML configuration file.
-    - When C(components_list) is provided, only those components are included,
-      regardless of other filters or C(generate_all_configurations).
+    - When C(components_list) is provided, only those components are included.
     type: dict
-    required: true
+    required: false
     suboptions:
-      generate_all_configurations:
-        description:
-        - When true, include all authentication and policy server components in
-          the YAML configuration file.
-        - When false, include only the components listed in
-          C(component_specific_filters.components_list).
-        - Ignored if C(component_specific_filters.components_list) is
-          specified.
-        type: bool
-      file_path:
-        description:
-        - Path where the YAML configuration file will be saved.
-        - If not provided, the file will be saved in the current working directory with
-          a default file name C(ise_radius_integration_playbook_config_<YYYY-MM-DD_HH-MM-SS>.yml).
-        - For example, C(ise_radius_integration_playbook_config_2026-01-24_12-33-20.yml).
-        type: str
-      file_mode:
-        description:
-        - Determines how the output YAML configuration file is written.
-        - When set to C(overwrite), the file will be replaced with new content.
-        - When set to C(append), new content will be added to the existing file.
-        type: str
-        required: false
-        default: overwrite
-        choices: ["overwrite", "append"]
       component_specific_filters:
         description:
         - Filters to specify which components to include in the YAML configuration
@@ -84,8 +74,12 @@ options:
             choices: ["authentication_policy_server"]
           authentication_policy_server:
             description:
-            - Authentication and policy server filter with server_type and server_ip_address.
-            type: dict
+            - List of filter criteria for authentication and policy servers.
+            - Each entry is a dictionary that can filter by server_type and/or server_ip_address.
+            - Multiple entries are evaluated with OR logic (a server matches if it satisfies any entry).
+            - Within a single entry, all specified fields are applied with AND logic.
+            type: list
+            elements: dict
             suboptions:
               server_type:
                 description:
@@ -113,7 +107,7 @@ seealso:
 """
 
 EXAMPLES = r"""
-- name: Generate YAML Configuration with File Path specified for all components
+- name: Generate YAML Configuration with default file path for all components
   cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -125,8 +119,6 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
-    config:
-      generate_all_configurations: true
 
 - name: Generate YAML Configuration for all components with File Path specified
   cisco.dnac.ise_radius_integration_playbook_config_generator:
@@ -140,12 +132,10 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
-    config:
-      generate_all_configurations: true
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "overwrite"
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "overwrite"
 
-- name: Generate YAML Configuration for mentioned components without File Path specified
+- name: Generate YAML Configuration for mentioned components without component filter
   cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -157,14 +147,14 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
     config:
-      generate_all_configurations: false
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "append"
       component_specific_filters:
-        components_list: ["authentication_policy_server"]
+        components_list:
+          - authentication_policy_server
 
-- name: Generate YAML Configuration for mentioned components with component and specific server_type filter
+- name: Generate YAML Configuration for mentioned components with specific server_type filter
   cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -176,15 +166,16 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "append"
       component_specific_filters:
-        components_list: ["authentication_policy_server"]
+        components_list:
+          - authentication_policy_server
         authentication_policy_server:
-          server_type: "ISE"
+          - server_type: "ISE"
 
-- name: Generate YAML Configuration for mentioned components with component and specific server_ip_address filter
+- name: Generate YAML Configuration for mentioned components with specific server_ip_address filter
   cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -196,15 +187,16 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "append"
       component_specific_filters:
-        components_list: ["authentication_policy_server"]
+        components_list:
+          - authentication_policy_server
         authentication_policy_server:
-          server_ip_address: 10.197.156.10
+          - server_ip_address: 10.197.156.10
 
-- name: Generate YAML Configuration for mentioned components with component and specific server_type and server_ip_address filter
+- name: Generate YAML Configuration for mentioned components with specific server_type and server_ip_address filter
   cisco.dnac.ise_radius_integration_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -216,14 +208,37 @@ EXAMPLES = r"""
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
     config:
-      file_path: "/tmp/ise_radius_integration_config.yaml"
-      file_mode: "append"
       component_specific_filters:
-        components_list: ["authentication_policy_server"]
+        components_list:
+          - authentication_policy_server
         authentication_policy_server:
-          server_type: "ISE"
-          server_ip_address: 10.197.156.10
+          - server_type: "ISE"
+            server_ip_address: 10.197.156.10
+
+- name: Generate YAML Configuration with multiple server filters (OR logic)
+  cisco.dnac.ise_radius_integration_playbook_config_generator:
+    dnac_host: "{{ dnac_host }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: true
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: gathered
+    file_path: "/tmp/ise_radius_integration_config.yaml"
+    file_mode: "append"
+    config:
+      component_specific_filters:
+        components_list:
+          - authentication_policy_server
+        authentication_policy_server:
+          - server_ip_address: 10.197.156.10
+          - server_ip_address: 10.197.156.11
 """
 
 RETURN = r"""
@@ -259,10 +274,8 @@ response_2:
   type: list
   sample: >
     {
-        "msg": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-                when 'generate_all_configurations' is set to False.",
-        "response": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-                     when 'generate_all_configurations' is set to False."
+        "msg": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key.",
+        "response": "Validation Error: 'component_specific_filters' must be provided with 'components_list' key."
     }
 """
 from ansible.module_utils.basic import AnsibleModule
@@ -363,17 +376,15 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         # Check if configuration is available
         if not self.config:
             self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.validated_config = {}
+            self.msg = "Configuration is not provided or empty. Internal auto-discovery mode enabled."
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
-            "file_path": {"type": "str", "required": False},
-            "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
             "component_specific_filters": {"type": "dict", "required": False},
-            "global_filters": {"type": "dict", "required": False},
         }
 
         # Validate the config dict using brownfield helper
@@ -383,8 +394,10 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
 
-        self.log("Validating minimum requirements against provided config: {0}".format(self.config), "DEBUG")
-        self.validate_minimum_requirements(self.config)
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -393,6 +406,19 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+
+    def _build_entry_skip_none(self, fields):
+        """
+        Build a dict from key-value pairs, omitting entries whose value is None.
+        Values that are empty strings are kept (populated as empty string).
+
+        Args:
+            fields (list): List of (key, value) tuples.
+
+        Returns:
+            dict: Dictionary containing only the entries where value is not None.
+        """
+        return {key: value for key, value in fields if value is not None}
 
     def transform_cisco_ise_dtos(self, ise_radius_integration_details):
         """
@@ -455,12 +481,19 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 )
                 continue
 
+            if cisco_ise_dto.get("role") != "PRIMARY":
+                self.log(
+                    "Skipping entry due to non-primary role; index={0}, role={1}".format(
+                        idx, cisco_ise_dto.get("role")
+                    ),
+                    "INFO",
+                )
+                continue
+
             user_name = cisco_ise_dto.get("userName")
-            password = cisco_ise_dto.get("password")
             fqdn = cisco_ise_dto.get("fqdn")
             ip_address = cisco_ise_dto.get("ipAddress")
             description = cisco_ise_dto.get("description")
-            ssh_key = cisco_ise_dto.get("sshKey")
 
             self.log(
                 "Mapping entry fields; index={0}, user_name={1}, ip_address={2}".format(
@@ -469,17 +502,17 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
 
-            transformed_entry = {
-                "user_name": user_name,
-                "password": self.generate_custom_variable_name(
+            # Build entry: skip null values, include empty string values
+            transformed_entry = self._build_entry_skip_none([
+                ("user_name", user_name),
+                ("password", self.generate_custom_variable_name(
                     self.transform_server_type(ise_radius_integration_details),
                     "policy_server_password",
-                ),
-                "fqdn": fqdn,
-                "ip_address": ip_address,
-                "description": description,
-                "ssh_key": ssh_key,
-            }
+                )),
+                ("fqdn", fqdn),
+                ("ip_address", ip_address),
+                ("description", description),
+            ])
 
             cisco_ise_dtos_list.append(transformed_entry)
             self.log(
@@ -522,6 +555,7 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
             self.log("Returning server type: None due to invalid input.", "DEBUG")
             return None
 
+        server_type = "AAA"
         cisco_ise_dtos = ise_radius_integration_details.get("ciscoIseDtos")
         self.log(
             "Retrieved cisco_ise_dtos for server_type extraction: {0}".format(
@@ -532,11 +566,10 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if not cisco_ise_dtos:
             self.log(
-                "No cisco_ise_dtos found. Returning None for server_type.", "WARNING"
+                "No cisco_ise_dtos found. Returning default server_type: AAA", "WARNING"
             )
-            return None
+            return server_type
 
-        server_type = None
         self.log(
             "Extracting server_type from {0} cisco_ise_dto entries.".format(
                 len(cisco_ise_dtos)
@@ -633,7 +666,6 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                         "fqdn": {"type": "str"},
                         "ip_address": {"type": "str"},
                         "description": {"type": "str"},
-                        "ssh_key": {"type": "str", "source_key": "sshKey"},
                     },
                 },
                 "trusted_server": {"type": "str", "source_key": "trustedServer"},
@@ -805,22 +837,24 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
     def filter_ise_radius_by_criteria(self, auth_server_details, filters=None):
         """
         Filter ISE RADIUS integration details based on multiple filter criteria.
-        Supports OR logic for multiple filters and AND logic within each filter.
+        Supports OR logic across multiple filter entries and AND logic within each entry.
 
         Args:
-            api_response (list): List of ISE RADIUS server configurations from API response.
-            filters (dict): filter criteria dicts. Dict can contain:
-                server_type (str): Type to filter (e.g., "ISE") and server_ip_address (str): IP address to filter
+            auth_server_details (list): List of ISE RADIUS server configurations from API response.
+            filters (list): List of filter criteria dicts. Each dict can contain:
+                server_type (str): Type to filter (e.g., "ISE") and/or
+                server_ip_address (str): IP address to filter.
+                Multiple entries are combined with OR logic.
 
         Returns:
             list: Filtered list of ISE RADIUS configurations matching any of the criteria.
 
         Example:
-            filters = {
-                "server_type": "ISE",
-                "server_ip_address": "10.197.156.79"
-            }
-            result = filter_ise_radius_by_criteria(api_response, filters)
+            filters = [
+                {"server_type": "ISE"},
+                {"server_ip_address": "10.197.156.79"}
+            ]
+            result = filter_ise_radius_by_criteria(auth_server_details, filters)
         """
         self.log(
             "Starting filtering with filters: {0}".format(filters),
@@ -845,43 +879,50 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         all_filtered_results = []
         seen_server_ips = set()
         self.log(
-            "Processing filter criteria: {0}".format(filters),
+            "Processing {0} filter criteria entries.".format(len(filters)),
             "DEBUG",
         )
 
-        filtered = self.filter_ise_radius_integration_details(
-            auth_server_details, filters
-        )
-
-        for server_idx, server in enumerate(filtered):
-            # Use server_ip_address as unique identifier to avoid duplicates
-            server_ip = server.get("server_ip_address")
+        for filter_idx, filter_entry in enumerate(filters, start=1):
             self.log(
-                "Processing server {0}/{1}, IP={2}, Already seen={3}".format(
-                    server_idx,
-                    len(filtered),
-                    server_ip,
-                    server_ip in seen_server_ips,
+                "Applying filter entry {0}/{1}: {2}".format(
+                    filter_idx, len(filters), filter_entry
                 ),
                 "DEBUG",
             )
+            filtered = self.filter_ise_radius_integration_details(
+                auth_server_details, filter_entry
+            )
 
-            if server_ip not in seen_server_ips:
-                all_filtered_results.append(server)
-                seen_server_ips.add(server_ip)
+            for server_idx, server in enumerate(filtered):
+                # Use server_ip_address as unique identifier to avoid duplicates
+                server_ip = server.get("server_ip_address")
                 self.log(
-                    "Added server with IP {0} to final results. Total unique servers: {1}".format(
-                        server_ip, len(all_filtered_results)
+                    "Processing server {0}/{1}, IP={2}, Already seen={3}".format(
+                        server_idx,
+                        len(filtered),
+                        server_ip,
+                        server_ip in seen_server_ips,
                     ),
                     "DEBUG",
                 )
-            else:
-                self.log(
-                    "Skipping duplicate server with IP {0} (already in results).".format(
-                        server_ip
-                    ),
-                    "DEBUG",
-                )
+
+                if server_ip not in seen_server_ips:
+                    all_filtered_results.append(server)
+                    seen_server_ips.add(server_ip)
+                    self.log(
+                        "Added server with IP {0} to final results. Total unique servers: {1}".format(
+                            server_ip, len(all_filtered_results)
+                        ),
+                        "DEBUG",
+                    )
+                else:
+                    self.log(
+                        "Skipping duplicate server with IP {0} (already in results).".format(
+                            server_ip
+                        ),
+                        "DEBUG",
+                    )
 
         self.log(
             "Multi-criteria filtering complete. Matched {0} unique server(s) out of {1} total. Results: {2}".format(
@@ -928,6 +969,12 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
 
         component_specific_filters = filters.get("component_specific_filters", None)
+
+        # component_specific_filters is already the authentication_policy_server filter
+        # list provided by brownfield_helper (e.g. [{server_type: "ISE"}, ...]).
+        # Normalise: treat an empty list the same as no filter (return all servers).
+        if isinstance(component_specific_filters, list) and not component_specific_filters:
+            component_specific_filters = None
 
         auth_server_details = []
         api_family = network_element.get("api_family")
@@ -1024,17 +1071,9 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "reverse_mapping_function": self.ise_radius_integration_reverse_mapping_temp_spec_function,
                     "get_function_name": self.get_ise_radius_integration_configuration,
                 }
-            },
-            "global_filters": [],
+            }
         }
-        self.log(
-            "Returning workflow schema with network_elements_count={0}, "
-            "global_filters_count={1}.".format(
-                len(schema.get("network_elements", {})),
-                len(schema.get("global_filters", [])),
-            ),
-            "DEBUG",
-        )
+
         self.log(
             "Workflow schema payload prepared: {0}".format(schema),
             "DEBUG",
@@ -1091,7 +1130,7 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
 
-            if not params:
+            if params is None:
                 operations_skipped += 1
                 self.log(
                     "Skipping operation due to missing parameters; index={0}, "
@@ -1182,7 +1221,9 @@ def main():
         "validate_response_schema": {"type": "bool", "default": True},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"type": "dict", "required": True},
+        "config": {"type": "dict", "required": False},
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 

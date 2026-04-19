@@ -5,51 +5,34 @@
   gather_facts: false
   vars_files:
     - "credentials.yml"
+  module_defaults:
+    cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
+      dnac_host: "{{ dnac_host }}"
+      dnac_username: "{{ dnac_username }}"
+      dnac_password: "{{ dnac_password }}"
+      dnac_verify: "{{ dnac_verify }}"
+      dnac_port: "{{ dnac_port }}"
+      dnac_version: "{{ dnac_version }}"
+      dnac_debug: "{{ dnac_debug }}"
+      dnac_log: true
+      dnac_log_level: DEBUG
+      state: gathered
+
   tasks:
     # Example 1: Generate all configurations with default file path
-    - name: Generate the playbook config for all Fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center
+    - name: Generate playbook config for all components using default file path
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         # No config provided - generates all configurations
 
     # Example 2: Generate all configurations with custom file path
-    - name: Generate the playbook config for all Fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center
+    - name: Generate playbook config for all components with custom file path and overwrite mode
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/all_configurations.yml"
         file_mode: "overwrite"
 
     # Example 3: Generate all Fabric VLANs with custom file path
     - name: Generate the playbook config for all Fabric VLANs in Cisco Catalyst Center
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/all_fabric_vlans.yml"
         file_mode: "append"
         config:
@@ -59,16 +42,6 @@
     # Example 4: Generate all Virtual Networks with custom file path
     - name: Generate the playbook config for all Virtual Networks in Cisco Catalyst Center
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/all_virtual_networks.yml"
         file_mode: "append"
         config:
@@ -78,16 +51,6 @@
     # Example 5: Generate all Anycast Gateways with custom file path
     - name: Generate the playbook config for all Anycast Gateways in Cisco Catalyst Center
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/all_anycast_gateways.yml"
         file_mode: "append"
         config:
@@ -95,18 +58,8 @@
             components_list: ["anycast_gateways"]
 
     # Example 6: Generate all components with custom file path
-    - name: Generate the playbook config for Fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center
+    - name: Generate all components by explicitly listing all in components_list (equivalent to no config)
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/all_configurations.yml"
         file_mode: "overwrite"
         config:
@@ -116,16 +69,6 @@
     # Example 7: Generate Fabric VLANs using VLAN filters
     - name: Generate the playbook config for Fabric VLANs using vlan filters
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/fabric_vlans.yml"
         file_mode: "append"
         config:
@@ -141,16 +84,6 @@
     # Example 8: Generate Virtual Networks using VN name filters
     - name: Generate the playbook config for Virtual Networks using vn names
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/virtual_networks.yml"
         file_mode: "append"
         config:
@@ -164,20 +97,11 @@
     # Example 9: Generate Anycast Gateways using VN name filter
     - name: Generate the playbook config for Anycast Gateways with vn names
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/anycast_gateways_vn.yml"
         config:
           component_specific_filters:
-            components_list: ["anycast_gateways"] # This line is optional
+            # components_list is optional when component-specific filters are provided
+            components_list: ["anycast_gateways"]
             anycast_gateways:
               - vn_name: "Chennai_VN1"
               - vn_name: "Chennai_VN3"
@@ -185,21 +109,12 @@
     # Example 10: Generate Anycast Gateways using multiple filters
     - name: Generate the playbook config for Anycast Gateways with multiple filters
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/anycast_gateways.yml"
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["anycast_gateways"] # This line is optional
+            # components_list is optional when component-specific filters are provided
+            components_list: ["anycast_gateways"]
             anycast_gateways:
               - vlan_name: "Chennai-VN1-Pool2"
                 vlan_id: 1022
@@ -213,16 +128,6 @@
     # Example 11: Generate all components using multiple filters
     - name: Generate the playbook config for Fabric VLANs, Virtual Networks, and Anycast Gateways with filters
       cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: gathered
         file_path: "tmp/config.yml"
         config:
           component_specific_filters:
@@ -235,8 +140,3 @@
             anycast_gateways:
               - ip_pool_name: "Chennai-VN1-Pool2"
               - vn_name: "Chennai_VN1"
-
-      register: result
-
-      tags:
-        - sda_fabric_virtual_networks_playbook_config_generator_testing

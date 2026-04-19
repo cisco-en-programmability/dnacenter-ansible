@@ -71,6 +71,9 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
     playbook_config_filter_with_file_mode_append_case_10 = test_data.get(
         "filter_with_file_mode_append_case_10"
     )
+    playbook_config_filter_multi_fabric_sites_case_11 = test_data.get(
+        "filter_multi_fabric_sites_case_11"
+    )
 
     def setUp(self):
         super(TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator, self).setUp()
@@ -407,6 +410,50 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 self.test_data.get("get_layer3_sda_transit_handoffs_empty_response"),
             ]
 
+        elif "test_filter_multi_fabric_sites_case_11" in self._testMethodName:
+            # Test Case 11: Filter across multiple fabric sites with different role filters
+            # - Bangalore: EDGE_NODE (2 devices)
+            # - Hyderabad: CONTROL_PLANE_NODE (1 device)
+
+            self.run_dnac_exec.side_effect = [
+                # Initialization phase
+                self.test_data.get("get_sites_case_1"),
+                self.test_data.get("get_fabric_sites_case_1"),
+                self.test_data.get("get_transit_networks_case_1"),
+                # get_fabric_devices for Bangalore with EDGE_NODE filter - returns 2 edge nodes
+                self.test_data.get("get_fabric_devices_filtered_edge_nodes_case_1"),
+                # get_network_device_list for 2 edge node devices
+                self.test_data.get("get_device_list_device_1_case_1"),  # 205.1.2.67
+                self.test_data.get("get_device_list_device_3_case_1"),  # 205.1.2.68
+                # get_fabric_site_wired_settings for Bangalore
+                self.test_data.get(
+                    "get_embedded_wireless_controller_settings_empty_response"
+                ),
+                # Border handoff settings for 2 Bangalore edge node devices
+                # Device 1
+                self.test_data.get("get_layer2_handoffs_empty_response"),
+                self.test_data.get("get_layer3_ip_transit_handoffs_empty_response"),
+                self.test_data.get("get_layer3_sda_transit_handoffs_empty_response"),
+                # Device 3
+                self.test_data.get("get_layer2_handoffs_empty_response"),
+                self.test_data.get("get_layer3_ip_transit_handoffs_empty_response"),
+                self.test_data.get("get_layer3_sda_transit_handoffs_empty_response"),
+                # get_fabric_devices for Hyderabad with CONTROL_PLANE_NODE filter - returns 1 device
+                self.test_data.get(
+                    "get_fabric_devices_filtered_cp_node_fabric_3_case_1"
+                ),
+                # get_network_device_list for 1 CP device
+                self.test_data.get("get_device_list_device_5_case_1"),  # 172.27.248.222
+                # get_fabric_site_wired_settings for Hyderabad
+                self.test_data.get(
+                    "get_embedded_wireless_controller_settings_empty_response"
+                ),
+                # Border handoff settings for 1 Hyderabad CP node device
+                self.test_data.get("get_layer2_handoffs_empty_response"),
+                self.test_data.get("get_layer3_ip_transit_handoffs_empty_response"),
+                self.test_data.get("get_layer3_sda_transit_handoffs_empty_response"),
+            ]
+
         elif "test_filter_with_file_mode_append_case_10" in self._testMethodName:
             # Test Case 10: Test file_mode append functionality
             # This tests the append mode parameter (same as case 2 but with append mode)
@@ -495,7 +542,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case2_fabric_name_only.yaml",
                 config=self.playbook_config_filter_fabric_name_only_case_2,
             )
         )
@@ -528,7 +574,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case3_fabric_name_device_ip.yaml",
                 config=self.playbook_config_filter_fabric_name_device_ip_case_3,
             )
         )
@@ -561,7 +606,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case4_fabric_name_edge_role.yaml",
                 config=self.playbook_config_filter_fabric_name_edge_role_case_4,
             )
         )
@@ -594,7 +638,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case5_fabric_name_multi_roles.yaml",
                 config=self.playbook_config_filter_fabric_name_multi_roles_case_5,
             )
         )
@@ -627,7 +670,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case6_all_filters.yaml",
                 config=self.playbook_config_filter_all_filters_case_6,
             )
         )
@@ -660,7 +702,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case7_fabric_name_cp_role.yaml",
                 config=self.playbook_config_filter_fabric_name_cp_role_case_7,
             )
         )
@@ -693,7 +734,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case8_fabric_name_border_role.yaml",
                 config=self.playbook_config_filter_fabric_name_border_role_case_8,
             )
         )
@@ -726,8 +766,33 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case9_with_components_list.yaml",
                 config=self.playbook_config_filter_with_components_list_case_9,
+            )
+        )
+
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "YAML configuration file generated successfully for module 'sda_fabric_devices_workflow_manager'",
+            str(result.get("msg")),
+        )
+
+    def test_filter_multi_fabric_sites_case_11(self):
+        """
+        Test Case 11: Filter across multiple fabric sites with different role filters.
+        - Bangalore: EDGE_NODE (2 devices)
+        - Hyderabad/BLD_1: CONTROL_PLANE_NODE (1 device)
+        Expected: Returns 3 fabric devices total across 2 fabric sites.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                dnac_log_level="DEBUG",
+                config=self.playbook_config_filter_multi_fabric_sites_case_11,
             )
         )
 
@@ -755,7 +820,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case10_append_mode.yaml",
                 file_mode="append",
                 config=self.playbook_config_filter_with_file_mode_append_case_10,
             )
