@@ -2760,40 +2760,19 @@ class ApplicationPolicy(DnacBase):
                 "DEFAULT": want_default_set_name,
             }
 
-            # Build a mapping of application set ID to name for accurate resolution.
-            # The policy name in the API response can be unreliable (e.g., both
-            # 'consumer-file-sharing' and 'file-sharing' may appear as 'Sample_file-sharing').
-            # Using the scalableGroup idRef (which is the actual app set ID) ensures correct mapping.
-            app_set_id_to_name = {}
-            for app_set_name_item in total_want_app_set:
-                app_set_id_item = self.get_application_set_id(app_set_name_item)
-                if app_set_id_item:
-                    app_set_id_to_name[app_set_id_item] = app_set_name_item
-
-            self.log(
-                "Application set ID to name mapping: {0}".format(app_set_id_to_name),
-                "DEBUG",
-            )
-
             # Process current application sets
             for idx, application_sets in enumerate(current_application_policy):
                 clause = application_sets.get("exclusiveContract", {}).get("clause")
 
                 if clause and clause[0].get("relevanceLevel") is not None:
                     current_relevance_type = clause[0].get("relevanceLevel")
-                    full_name = application_sets.get("name")
-                    policy_name = application_sets.get("policyScope") + "_"
-
-                    # Resolve app set name from the scalable group ID for accuracy.
-                    producer = application_sets.get("producer", {})
-                    scalable_groups = producer.get("scalableGroup", [])
-                    if scalable_groups:
-                        app_set_id_ref = scalable_groups[0].get("idRef", "")
-                        app_set_name = app_set_id_to_name.get(
-                            app_set_id_ref, full_name.replace(policy_name, "")
-                        )
+                    full_name = application_sets.get("name", "")
+                    policy_scope = application_sets.get("policyScope", "")
+                    policy_prefix = "{0}_".format(policy_scope) if policy_scope else ""
+                    if policy_prefix and full_name.startswith(policy_prefix):
+                        app_set_name = full_name[len(policy_prefix):]
                     else:
-                        app_set_name = full_name.replace(policy_name, "")
+                        app_set_name = full_name
 
                     # Handle known relevance types
                     if current_relevance_type in relevant_set_names:
@@ -3002,21 +2981,13 @@ class ApplicationPolicy(DnacBase):
                     elif app_set in final_default_set_name:
                         relevance_level = "DEFAULT"
 
-                    # Resolve the current app set name from the scalable group ID
-                    current_producer = application_sets.get("producer", {})
-                    current_scalable_groups = current_producer.get("scalableGroup", [])
-                    if current_scalable_groups:
-                        current_app_set_id_ref = current_scalable_groups[0].get("idRef", "")
-                        current_app_set_name = app_set_id_to_name.get(
-                            current_app_set_id_ref,
-                            application_sets.get("name", "").replace(
-                                application_sets.get("policyScope", "") + "_", ""
-                            )
-                        )
+                    full_name = application_sets.get("name", "")
+                    policy_scope = application_sets.get("policyScope", "")
+                    policy_prefix = "{0}_".format(policy_scope) if policy_scope else ""
+                    if policy_prefix and full_name.startswith(policy_prefix):
+                        current_app_set_name = full_name[len(policy_prefix):]
                     else:
-                        current_app_set_name = application_sets.get("name", "").replace(
-                            application_sets.get("policyScope", "") + "_", ""
-                        )
+                        current_app_set_name = full_name
 
                     if relevance_level and app_set == current_app_set_name:
                         app_set_payload = {
@@ -3099,21 +3070,13 @@ class ApplicationPolicy(DnacBase):
                     elif app_set in final_want_default:
                         relevance_level = "DEFAULT"
 
-                    # Resolve the current app set name from the scalable group ID
-                    current_producer = application_sets.get("producer", {})
-                    current_scalable_groups = current_producer.get("scalableGroup", [])
-                    if current_scalable_groups:
-                        current_app_set_id_ref = current_scalable_groups[0].get("idRef", "")
-                        current_app_set_name = app_set_id_to_name.get(
-                            current_app_set_id_ref,
-                            application_sets.get("name", "").replace(
-                                application_sets.get("policyScope", "") + "_", ""
-                            )
-                        )
+                    full_name = application_sets.get("name", "")
+                    policy_scope = application_sets.get("policyScope", "")
+                    policy_prefix = "{0}_".format(policy_scope) if policy_scope else ""
+                    if policy_prefix and full_name.startswith(policy_prefix):
+                        current_app_set_name = full_name[len(policy_prefix):]
                     else:
-                        current_app_set_name = application_sets.get("name", "").replace(
-                            application_sets.get("policyScope", "") + "_", ""
-                        )
+                        current_app_set_name = full_name
 
                     if relevance_level and app_set == current_app_set_name:
                         app_set_payload = {
@@ -3253,7 +3216,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occurred while updating the application policy: {0}".format(
+            self.msg = "An exception occured while updating the application policy: {0}".format(
                 e
             )
             self.set_operation_result(
@@ -3579,7 +3542,7 @@ class ApplicationPolicy(DnacBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occurred while creating the application policy: {0}".format(
+            self.msg = "An exception occured while creating the application policy: {0}".format(
                 e
             )
             self.set_operation_result(
