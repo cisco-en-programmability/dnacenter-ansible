@@ -281,6 +281,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "inventory_workflow_manager"
+        self.DEVICE_CREDENTIAL_BATCH_SIZE = 250
 
     def validate_input(self):
         """
@@ -866,14 +867,14 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         ip_addresses = list(device_details_by_ip.keys())
         self.log(
-            "Fetching credentials for {0} device IP(s). IP list: {1}".format(
+            "Starting credential retrieval for {0} device IP(s) using batch size {1}.".format(
                 len(ip_addresses),
-                self.pprint(ip_addresses),
+                self.DEVICE_CREDENTIAL_BATCH_SIZE,
             ),
             "DEBUG",
         )
 
-        batch_size = 250
+        batch_size = self.DEVICE_CREDENTIAL_BATCH_SIZE
         device_credential_details = []
 
         for batch_start in range(0, len(ip_addresses), batch_size):
@@ -888,13 +889,23 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
 
-            raw_device_credential_response = self.dnac.execute_rest_api_call(
-                method="GET",
-                endpoint="/api/v1/device-credential/network-device",
-                params={
-                    "deviceIps": ip_address_batch
-                }
-            )
+            try:
+                raw_device_credential_response = self.dnac.execute_rest_api_call(
+                    method="GET",
+                    endpoint="/api/v1/device-credential/network-device",
+                    params={"deviceIps": ip_address_batch},
+                )
+            except Exception as exc:
+                self.log(
+                    "Failed credential fetch for batch {0}-{1} (size {2}). Error: {3}".format(
+                        batch_start + 1,
+                        batch_start + len(ip_address_batch),
+                        len(ip_address_batch),
+                        str(exc),
+                    ),
+                    "ERROR",
+                )
+                raise
 
             if isinstance(raw_device_credential_response, dict):
                 batch_response = raw_device_credential_response.get("response", [])
@@ -902,10 +913,12 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 batch_response = raw_device_credential_response or []
 
             self.log(
-                "Retrieved {0} credential record(s) for current batch from API.".format(
-                    len(batch_response)
+                "Retrieved {0} credential record(s) for batch {1}-{2}.".format(
+                    len(batch_response),
+                    batch_start + 1,
+                    batch_start + len(ip_address_batch),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             device_credential_details.extend(batch_response)
 
@@ -966,7 +979,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Build an index of device details by management IP for fast lookups
-        # Non Meraki Devices are separated as they don't support credentials retrieval.
+        # Non-Meraki devices are separated because they do not support credential retrieval.
         non_meraki_device_details_by_ip = {}
         meraki_device_details_by_ip = {}
         for device_item in device_identifier_details:
@@ -978,7 +991,15 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
                 continue
 
-            if "meraki" in device_item.get("family", "").lower():
+            device_family = device_item.get("family", "").lower()
+            self.log(
+                "Retrieved device family '{0}' for IP '{1}'.".format(
+                    device_family, ip_address
+                ),
+                "DEBUG"
+            )
+
+            if "meraki" in device_family:
                 meraki_device_details_by_ip[ip_address] = device_item
             else:
                 non_meraki_device_details_by_ip[ip_address] = device_item
@@ -1012,7 +1033,14 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 continue
 
             # Merge device identifier details with credentials based on IP address
-            device_info = non_meraki_device_details_by_ip.get(ip_address, {})
+            device_info = non_meraki_device_details_by_ip.get(ip_address)
+            if not device_info:
+                self.log(
+                    "Skipping credential merge for IP '{0}' because no matching identifier record was found.".format(ip_address),
+                    "WARNING",
+                )
+                continue
+
             merged_device_info = {**device_info, **device_credential}
             inventory_config_data.append(merged_device_info)
 
@@ -1028,11 +1056,15 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             inventory_config_data.append(merged_device_info)
 
         self.log(
-            "Completed inventory data aggregation with {0} merged record(s). Data: {1}".format(
+            "Completed inventory aggregation: identifiers={0}, non_meraki={1}, meraki={2}, "
+            "credentials_fetched={3}, merged_output={4}.".format(
+                len(device_identifier_details),
+                len(non_meraki_device_details_by_ip),
+                len(meraki_device_details_by_ip),
+                len(device_credential_details),
                 len(inventory_config_data),
-                self.pprint(inventory_config_data),
             ),
-            "INFO",
+            "DEBUG",
         )
 
         return inventory_config_data
