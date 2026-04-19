@@ -301,7 +301,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.brownfield_helper impor
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
 )
-import os
 import time
 
 try:
@@ -1351,43 +1350,11 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        yaml_output = [output_structure]
-
-        if file_mode == "append" and os.path.isfile(file_path):
-            existing_yaml_document = self._get_last_yaml_document(file_path)
-
-            if isinstance(existing_yaml_document, list):
-                existing_last_entry = next(
-                    (
-                        item for item in reversed(existing_yaml_document)
-                        if item is not None
-                    ),
-                    None,
-                )
-            else:
-                existing_last_entry = existing_yaml_document
-
-            if existing_last_entry == yaml_output[-1]:
-                self.log(
-                    "Append mode detected matching last config entry in '{0}'. "
-                    "Skipping call to brownfield write_dict_to_yaml().".format(file_path),
-                    "INFO",
-                )
-                file_changed = False
-            else:
-                file_changed = self.write_dict_to_yaml(
-                    yaml_output,
-                    file_path,
-                    file_mode=file_mode,
-                )
-        else:
-            # Use the shared brownfield helper implementation for overwrite mode
-            # and append writes that are not already idempotent.
-            file_changed = self.write_dict_to_yaml(
-                yaml_output,
-                file_path,
-                file_mode=file_mode,
-            )
+        file_changed = self.write_dict_to_yaml(
+            [output_structure],
+            file_path,
+            file_mode=file_mode,
+        )
 
         components_processed = components_requested
         components_skipped = 0
