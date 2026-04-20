@@ -1034,17 +1034,88 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
+    def validate_config_filters_against_temp_spec(self, config_dict, temp_spec):
+        """
+        Validates that only filter keys defined in temp_spec are present in config.
+
+        This function is focused on filter-level key validation for config generator
+        playbook inputs. Supported filter keys are defined by temp_spec and may
+        include one or both of:
+            - global_filters
+            - component_specific_filters
+
+        Args:
+            config_dict (dict): User-provided configuration dictionary.
+            temp_spec (dict): Schema dictionary that defines allowed filter keys.
+
+        Returns:
+            None
+
+        Raises:
+            SystemExit: If validation fails and fail_and_exit is called.
+        """
+
+        self.log(
+            "Starting validation of filter keys against temp_spec. "
+            "config_keys={0}, temp_spec_keys={1}".format(
+                sorted(config_dict.keys()),
+                sorted(temp_spec.keys()),
+            ),
+            "DEBUG",
+        )
+
+        configured_filter_keys = set(config_dict.keys())
+        allowed_filter_keys = set(temp_spec.keys())
+        sorted_allowed = sorted(allowed_filter_keys)
+
+        self.log(
+            "Filter key validation context - configured_filter_keys={0}, "
+            "allowed_filter_keys={1}".format(
+                sorted(configured_filter_keys), sorted_allowed
+            ),
+            "DEBUG",
+        )
+
+        invalid_filter_keys = configured_filter_keys - allowed_filter_keys
+        sorted_invalid = sorted(invalid_filter_keys)
+        if invalid_filter_keys:
+            self.msg = (
+                "Invalid filters found in playbook config: {0}. "
+                "Allowed filters are: {1}."
+            ).format(
+                sorted_invalid,
+                sorted_allowed,
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            "Filter key validation completed successfully. "
+            "Provided filter keys are valid against temp_spec.",
+            "DEBUG",
+        )
+
     def validate_config_dict(self, config_dict, temp_spec):
         """
         Validates config dictionary using the same behavior as
         validate_list_of_dicts by wrapping the dict into a one-item list.
+
+        This method performs multi-stage validation:
+        1. Type validation to ensure config_dict is a dictionary.
+        2. Schema validation against temp_spec using validate_list_of_dicts.
+        3. Filter-key validation to ensure only keys defined in temp_spec are used.
+        4. Guard checks for empty filter dictionaries when filter keys are provided
+           (for example, empty global_filters or component_specific_filters).
 
         Args:
             config_dict (dict): Single configuration dictionary from playbook input.
             temp_spec (dict): Validation schema for config keys.
 
         Returns:
-            dict: Single config dictionary entry.
+            dict: Single validated configuration dictionary entry.
+
+        Raises:
+            SystemExit: If validation fails and fail_and_exit is called.
         """
 
         self.log(
@@ -1070,6 +1141,8 @@ class BrownFieldHelper:
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
+        self.validate_config_filters_against_temp_spec(config_dict, temp_spec)
+
         component_specific_filters = config_dict.get("component_specific_filters")
         if component_specific_filters is None:
             self.log(
@@ -1081,6 +1154,20 @@ class BrownFieldHelper:
                 "Invalid parameters in playbook config: 'component_specific_filters' "
                 "is provided but empty. Please provide at least one component filter "
                 "or remove 'component_specific_filters' from the configuration."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        global_filters = config_dict.get("global_filters")
+        if global_filters is None:
+            self.log(
+                "No 'global_filters' provided in config; skipping validation.",
+                "DEBUG",
+            )
+        elif not global_filters:
+            self.msg = (
+                "Invalid playbook config: 'global_filters' is empty. "
+                "Provide at least one filter or omit 'global_filters'."
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)

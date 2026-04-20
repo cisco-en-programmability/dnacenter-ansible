@@ -60,6 +60,9 @@
     "playbook_config_empty_global_filters": {
         "global_filters": {}
     },
+    "playbook_config_included_component_specific_filters": {
+        "component_specific_filters": {}
+    },
     "playbook_config_unknown_filter_ignored": {
         "global_filters": {
             "unknown_filter": [
