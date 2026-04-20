@@ -1144,7 +1144,14 @@ class BrownFieldHelper:
         self.validate_config_filters_against_temp_spec(config_dict, temp_spec)
 
         component_specific_filters = config_dict.get("component_specific_filters")
-        if component_specific_filters is None:
+        if "component_specific_filters" in config_dict and component_specific_filters is None:
+            self.msg = (
+                "Invalid playbook config: 'component_specific_filters' cannot be null when provided. "
+                "Provide at least one filter or omit 'component_specific_filters'."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+        elif component_specific_filters is None:
             self.log(
                 "No 'component_specific_filters' provided in config; skipping validation.",
                 "DEBUG",
@@ -1159,7 +1166,14 @@ class BrownFieldHelper:
             self.fail_and_exit(self.msg)
 
         global_filters = config_dict.get("global_filters")
-        if global_filters is None:
+        if "global_filters" in config_dict and global_filters is None:
+            self.msg = (
+                "Invalid playbook config: 'global_filters' cannot be null when provided. "
+                "Provide at least one filter or omit 'global_filters'."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+        elif global_filters is None:
             self.log(
                 "No 'global_filters' provided in config; skipping validation.",
                 "DEBUG",

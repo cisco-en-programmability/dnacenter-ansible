@@ -49,6 +49,7 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
     playbook_config_unknown_filter_ignored = test_data.get("playbook_config_unknown_filter_ignored")
     playbook_config_no_matching_devices = test_data.get("playbook_config_no_matching_devices")
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
+    playbook_config_null_global_filters = test_data.get("playbook_config_null_global_filters")
 
     def setUp(self):
         super(TestInventoryPlaybookConfigGenerator, self).setUp()
@@ -248,8 +249,25 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
             config=self.playbook_config_empty_global_filters,
         ))
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid parameters in playbook config", str(result.get("msg", "")))
-        self.assertIn("Please provide at least one global filter", str(result.get("msg", "")))
+        self.assertIn("Invalid playbook config: 'global_filters' is empty.", str(result.get("msg", "")))
+        self.assertIn("Provide at least one filter or omit 'global_filters'.", str(result.get("msg", "")))
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_null_global_filters(self, mock_exists, mock_file):
+        mock_exists.return_value = True
+        set_module_args(dict(
+            dnac_host="1.1.1.1",
+            dnac_username="dummy",
+            dnac_password="dummy",
+            dnac_version="2.3.7.9",
+            dnac_log=True,
+            state="gathered",
+            config=self.playbook_config_null_global_filters,
+        ))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid playbook config: 'global_filters' cannot be null when provided.", str(result.get("msg", "")))
+        self.assertIn("Provide at least one filter or omit 'global_filters'.", str(result.get("msg", "")))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
