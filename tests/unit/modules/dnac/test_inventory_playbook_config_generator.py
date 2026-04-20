@@ -45,6 +45,7 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
     playbook_config_filter_by_type = test_data.get("playbook_config_filter_by_type")
     playbook_config_combined_filters = test_data.get("playbook_config_combined_filters")
     playbook_config_empty_global_filters = test_data.get("playbook_config_empty_global_filters")
+    playbook_config_included_component_specific_filters = test_data.get("playbook_config_included_component_specific_filters")
     playbook_config_unknown_filter_ignored = test_data.get("playbook_config_unknown_filter_ignored")
     playbook_config_no_matching_devices = test_data.get("playbook_config_no_matching_devices")
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
@@ -246,8 +247,26 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
             state="gathered",
             config=self.playbook_config_empty_global_filters,
         ))
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid parameters in playbook config", str(result.get("msg", "")))
+        self.assertIn("Please provide at least one global filter", str(result.get("msg", "")))
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_included_component_specific_filters_empty(self, mock_exists, mock_file):
+        mock_exists.return_value = True
+        set_module_args(dict(
+            dnac_host="1.1.1.1",
+            dnac_username="dummy",
+            dnac_password="dummy",
+            dnac_version="2.3.7.9",
+            dnac_log=True,
+            state="gathered",
+            config=self.playbook_config_included_component_specific_filters,
+        ))
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid filters found in playbook config", str(result.get("msg", "")))
+        self.assertIn("Allowed filters are: ['global_filters'].", str(result.get("msg", "")))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")

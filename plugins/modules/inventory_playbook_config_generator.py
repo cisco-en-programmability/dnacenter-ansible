@@ -60,8 +60,10 @@ options:
     suboptions:
       global_filters:
         description:
-        - Global filters to filter inventory data.
-        - All provided filter groups are combined using logical AND.
+        - Global filters used to filter inventory data.
+        - Multiple filters under C(global_filters) are combined using logical AND.
+        - At least one supported global filter must be provided when using C(global_filters).
+        - Unknown keys fail validation with an error.
         type: dict
         suboptions:
           devices:
@@ -125,7 +127,7 @@ notes:
 - |
   Filter behavior:
   When C(config.global_filters) is provided, C(devices), C(device_roles), and C(device_types) are
-  applied with AND semantics. Unknown global filter keys are ignored.
+  applied with AND semantics. Unknown global filter keys fail validation with an error.
 - |-
   Module result behavior (changed/ok/failed):
   The module result reflects local file state only, not Catalyst Center state.
