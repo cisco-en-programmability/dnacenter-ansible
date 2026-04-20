@@ -461,6 +461,32 @@ EXAMPLES = r"""
               dot1x_fallback_timeout: 28
               wake_on_lan: false
               number_of_hosts: "Single"
+
+- name: Update BPDU Guard in the Closed Authentication
+    profile template for a fabric zone.
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: false
+    state: merged
+    config:
+      - fabric_sites:
+        - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+          fabric_type: "fabric_zone"
+          authentication_profile: "Closed Authentication"
+          update_authentication_profile:
+            authentication_order: "dot1x"
+            dot1x_fallback_timeout: 28
+            wake_on_lan: false
+            number_of_hosts: "Single"
+            enable_bpu_guard: false
+
 - name: Deleting/removing fabric site from sda from
     Cisco Catalyst Center
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
