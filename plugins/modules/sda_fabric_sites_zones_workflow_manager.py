@@ -1656,7 +1656,7 @@ class FabricSitesZones(DnacBase):
             )
             if auth_profile_name == "Low Impact":
                 self.log(
-                    "Site '{0}' uses 'Low Impact' authentication profile (with with pre-authentication access control list configuration).".format(
+                    "Site '{0}' uses 'Low Impact' authentication profile (with pre-authentication access control list configuration).".format(
                         site_name
                     ),
                     "DEBUG",

@@ -282,7 +282,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 config=self.playbook_itsm
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
@@ -291,7 +291,11 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 "components_skipped": 0,
                 "configurations_count": 2,
                 "file_path": "/tmp/events_and_notifications_playbook1",
-                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "message": (
+                    "YAML configuration file already up-to-date for module"
+                    " 'events_and_notifications_workflow_manager'."
+                    " No changes written."
+                ),
                 "status": "success"
             }
         )
