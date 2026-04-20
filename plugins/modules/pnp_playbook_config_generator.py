@@ -303,24 +303,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 import time
 
-try:
-    import yaml
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-    yaml = None
-
 from collections import OrderedDict
-
-
-if HAS_YAML:
-    class OrderedDumper(yaml.Dumper):
-        def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
-
-    OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
-else:
-    OrderedDumper = None
 
 
 class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
@@ -1350,7 +1333,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        file_changed = self.write_dict_to_yaml(
+        file_written = self.write_dict_to_yaml(
             [output_structure],
             file_path,
             file_mode=file_mode,
@@ -1361,7 +1344,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         configurations_count = sum(len(g["device_info"]) for g in grouped_configs)
 
-        if file_changed:
+        if file_written:
             self.msg = "YAML config generation succeeded for module '{0}'.".format(
                 self.module_name
             )
@@ -1391,11 +1374,11 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                 configurations_count,
                 components_processed,
                 components_skipped,
-                file_changed
+                file_written
             ),
             "INFO"
         )
-        self.result["changed"] = bool(file_changed)
+        self.result["changed"] = bool(file_written)
         self.status = "success"
 
         return self
