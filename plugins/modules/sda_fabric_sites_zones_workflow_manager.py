@@ -477,15 +477,15 @@ EXAMPLES = r"""
     state: merged
     config:
       - fabric_sites:
-        - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-          fabric_type: "fabric_zone"
-          authentication_profile: "Closed Authentication"
-          update_authentication_profile:
-            authentication_order: "dot1x"
-            dot1x_fallback_timeout: 28
-            wake_on_lan: false
-            number_of_hosts: "Single"
-            enable_bpu_guard: false
+          - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Closed Authentication"
+            update_authentication_profile:
+              authentication_order: "dot1x"
+              dot1x_fallback_timeout: 28
+              wake_on_lan: false
+              number_of_hosts: "Single"
+              enable_bpu_guard: false
 
 - name: Deleting/removing fabric site from sda from
     Cisco Catalyst Center
