@@ -1878,6 +1878,57 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
+    def validate_ip_literal_or_fail(self, server_address, destination_name):
+        """
+        Validate whether the given server address is a valid IPv4 or IPv6
+        literal.  If the address looks like an IP literal (rather than an
+        FQDN) but is malformed, the method sets the module status to
+        *failed* and calls ``check_return_status`` so execution stops
+        immediately.
+
+        If ``server_address`` is ``None``/empty or is not an IP literal
+        (e.g. it is an FQDN), the method returns without taking any
+        action.
+
+        Args:
+            server_address (str): The server address string to validate.
+            destination_name (str): A human-readable destination label
+                (e.g. ``"SNMP"`` or ``"Syslog"``) used in error messages.
+
+        Returns:
+            None
+        """
+        if not server_address:
+            return
+
+        is_ipv4_literal = bool(re.match(r'^\d+\.\d+\.\d+\.\d+$', server_address))
+        is_ipv6_literal = (
+            ":" in server_address
+            and bool(re.match(r'^[0-9A-Fa-f:.]+$', server_address))
+        )
+
+        if not (is_ipv4_literal or is_ipv6_literal):
+            return
+
+        try:
+            ipaddress.ip_address(server_address)
+        except ValueError:
+            if is_ipv6_literal:
+                self.msg = (
+                    "Invalid IPv6 address '{0}' given in the playbook for configuring "
+                    "{1} destination. Please provide a valid IPv6 address "
+                    "(e.g., 2001:db8::1)."
+                ).format(server_address, destination_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if is_ipv4_literal:
+                self.msg = (
+                    "Invalid IPv4 address '{0}' given in the playbook for configuring "
+                    "{1} destination. Please provide a valid IPv4 address "
+                    "(e.g., 10.0.0.1). Each octet must be between 0 and 255."
+                ).format(server_address, destination_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
     def collect_snmp_playbook_params(self, snmp_details):
         """
         Collect the SNMP playbook parameters based on the provided SNMP details.
@@ -1911,35 +1962,18 @@ class Events(DnacBase):
             self.result["response"] = self.msg
             self.check_return_status()
 
-        if server_address and not self.is_valid_server_address(server_address):
-            self.msg = (
-                "Invalid server address '{0}' given in the playbook for configuring "
-                "SNMP destination. Please provide a valid FQDN, IPv4, or IPv6 address."
-            ).format(server_address)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        # Strict IP validation using ipaddress module since the base
-        # is_valid_server_address regex is too permissive for IP addresses
         if server_address:
+            if not self.is_valid_server_address(server_address):
+                self.msg = (
+                    "Invalid server address '{0}' given in the playbook for configuring "
+                    "SNMP destination. Please provide a valid FQDN, IPv4, or IPv6 address."
+                ).format(server_address)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             try:
-                ipaddress.ip_address(server_address)
-            except ValueError:
-                # Not a valid IP - check if it looks like an IP attempt
-                # (contains ':' for IPv6 or matches IPv4-like digit.digit pattern)
-                if ":" in server_address:
-                    self.msg = (
-                        "Invalid IPv6 address '{0}' given in the playbook for configuring "
-                        "SNMP destination. Please provide a valid IPv6 address "
-                        "(e.g., 2001:db8::1)."
-                    ).format(server_address)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                if re.match(r'^\d+\.\d+\.\d+\.\d+$', server_address):
-                    self.msg = (
-                        "Invalid IPv4 address '{0}' given in the playbook for configuring "
-                        "SNMP destination. Please provide a valid IPv4 address "
-                        "(e.g., 10.0.0.1). Each octet must be between 0 and 255."
-                    ).format(server_address)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.validate_ip_literal_or_fail(server_address, "SNMP")
+            except Exception:
+                return self
 
         if snmp_version == "V2C":
             playbook_params["community"] = snmp_details.get("community")
@@ -6092,29 +6126,10 @@ class Events(DnacBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                # Strict IP validation using ipaddress module since the base
-                # is_valid_server_address regex is too permissive for IP addresses
                 try:
-                    ipaddress.ip_address(server_address)
-                except ValueError:
-                    # Not a valid IP - check if it looks like an IP attempt
-                    # (contains ':' for IPv6 or matches IPv4-like digit.digit pattern)
-                    if ":" in server_address:
-                        self.msg = (
-                            "Invalid IPv6 address '{0}' given in the playbook for configuring "
-                            "Syslog destination. Please provide a valid IPv6 address "
-                            "(e.g., 2001:db8::1)."
-                        ).format(server_address)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
-                    if re.match(r'^\d+\.\d+\.\d+\.\d+$', server_address):
-                        self.msg = (
-                            "Invalid IPv4 address '{0}' given in the playbook for configuring "
-                            "Syslog destination. Please provide a valid IPv4 address "
-                            "(e.g., 10.0.0.1). Each octet must be between 0 and 255."
-                        ).format(server_address)
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
+                    self.validate_ip_literal_or_fail(server_address, "Syslog")
+                except Exception:
+                    return self
 
             syslog_details_in_ccc = self.have.get("syslog_destinations")
 
