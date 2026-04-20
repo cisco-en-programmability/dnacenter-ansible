@@ -1,0 +1,144 @@
+{
+    "playbook_config_generate_all_configurations": null,
+    "playbook_config_devices_by_ip": {
+        "global_filters": {
+            "devices": [
+                "10.10.20.11"
+            ]
+        }
+    },
+    "playbook_config_devices_by_hostname": {
+        "global_filters": {
+            "devices": [
+                "edge-sw-1"
+            ]
+        }
+    },
+    "playbook_config_devices_by_serial": {
+        "global_filters": {
+            "devices": [
+                "FDO1234A1BC"
+            ]
+        }
+    },
+    "playbook_config_devices_by_mac": {
+        "global_filters": {
+            "devices": [
+                "AA:BB:CC:DD:EE:01"
+            ]
+        }
+    },
+    "playbook_config_filter_by_role": {
+        "global_filters": {
+            "device_roles": [
+                "ACCESS"
+            ]
+        }
+    },
+    "playbook_config_filter_by_type": {
+        "global_filters": {
+            "device_types": [
+                "NETWORK_DEVICE"
+            ]
+        }
+    },
+    "playbook_config_combined_filters": {
+        "global_filters": {
+            "devices": [
+                "edge-sw-1",
+                "10.10.20.12"
+            ],
+            "device_roles": [
+                "ACCESS"
+            ],
+            "device_types": [
+                "NETWORK_DEVICE"
+            ],
+            "device_identifier": "hostname"
+        }
+    },
+    "playbook_config_empty_global_filters": {
+        "global_filters": {}
+    },
+    "playbook_config_null_global_filters": {
+        "global_filters": null
+    },
+    "playbook_config_included_component_specific_filters": {
+        "component_specific_filters": {}
+    },
+    "playbook_config_unknown_filter_ignored": {
+        "global_filters": {
+            "unknown_filter": [
+                "ignored"
+            ]
+        }
+    },
+    "playbook_config_no_matching_devices": {
+        "global_filters": {
+            "devices": [
+                "192.0.2.99"
+            ]
+        }
+    },
+    "playbook_config_empty_config": {},
+    "get_device_list_response": {
+        "response": [
+            {
+                "managementIpAddress": "10.10.20.11",
+                "hostname": "edge-sw-1",
+                "serialNumber": "FDO1234A1BC",
+                "macAddress": "AA:BB:CC:DD:EE:01",
+                "role": "ACCESS"
+            },
+            {
+                "managementIpAddress": "10.10.20.12",
+                "hostname": "core-sw-1",
+                "serialNumber": "FDO1234A1CD",
+                "macAddress": "AA:BB:CC:DD:EE:02",
+                "role": "CORE"
+            },
+            {
+                "managementIpAddress": "10.10.20.13",
+                "hostname": "dist-sw-1",
+                "serialNumber": "FDO1234A1EF",
+                "macAddress": "AA:BB:CC:DD:EE:03",
+                "role": "DISTRIBUTION"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_device_credentials_response": {
+        "response": [
+            {
+                "ipAddress": "10.10.20.11",
+                "type": "NETWORK_DEVICE",
+                "cliTransport": "ssh",
+                "userName": "admin",
+                "password": "secret"
+            },
+            {
+                "ipAddress": "10.10.20.12",
+                "type": "NETWORK_DEVICE",
+                "cliTransport": "ssh",
+                "userName": "admin",
+                "password": "secret"
+            },
+            {
+                "ipAddress": "10.10.20.13",
+                "type": "ACCESS_POINT",
+                "cliTransport": "ssh",
+                "userName": "admin",
+                "password": "secret"
+            }
+        ],
+        "version": "1.0"
+    },
+    "get_empty_device_list_response": {
+        "response": [],
+        "version": "1.0"
+    },
+    "get_empty_device_credentials_response": {
+        "response": [],
+        "version": "1.0"
+    }
+}

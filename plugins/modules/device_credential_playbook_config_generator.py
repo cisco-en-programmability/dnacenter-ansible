@@ -2564,7 +2564,7 @@ def main():
     ):
         ccc_device_credential_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for Device Credential Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_device_credential_playbook_config_generator.get_ccc_version()
             )
         )
@@ -2590,7 +2590,6 @@ def main():
         "Validated configuration parameters: {0}".format(str(config)), "DEBUG"
     )
 
-    config = ccc_device_credential_playbook_config_generator.validated_config
     ccc_device_credential_playbook_config_generator.get_want(
         config, state
     ).check_return_status()
