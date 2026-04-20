@@ -283,6 +283,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "inventory_workflow_manager"
+        self.DEVICE_CREDENTIAL_BATCH_SIZE = 250
 
     def validate_input(self):
         """
@@ -418,7 +419,8 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "hostname": {"type": "str", "source_key": "hostname"},
                 "serial_number": {"type": "str", "source_key": "serialNumber"},
                 "mac_address": {"type": "str", "source_key": "macAddress"},
-                "role": {"type": "str", "source_key": "role"}
+                "role": {"type": "str", "source_key": "role"},
+                "family": {"type": "str", "source_key": "family"}
             }
         )
 
@@ -749,6 +751,8 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "serial_number",
             "mac_address",
         ]
+        # We don't need family in the output config, so we can remove it from the output if present.
+        removable_output_keys = set(supported_device_identifiers + ["family"])
         if device_identifier not in supported_device_identifiers:
             self.log(
                 "Unsupported device_identifier '{0}'. Supported values are: {1}. Returning unmodified config.".format(
@@ -795,7 +799,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 **{
                     k: v
                     for k, v in device_info.items()
-                    if k not in supported_device_identifiers
+                    if k not in removable_output_keys
                 },
             }
             transformed_inventory_config.append(transformed_device_info)
@@ -865,25 +869,60 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         ip_addresses = list(device_details_by_ip.keys())
         self.log(
-            "Fetching credentials for {0} device IP(s). IP list: {1}".format(
+            "Starting credential retrieval for {0} device IP(s) using batch size {1}.".format(
                 len(ip_addresses),
-                self.pprint(ip_addresses),
+                self.DEVICE_CREDENTIAL_BATCH_SIZE,
             ),
             "DEBUG",
         )
 
-        raw_device_credential_response = self.dnac.execute_rest_api_call(
-            method="GET",
-            endpoint="/api/v1/device-credential/network-device",
-            params={
-                "deviceIps": ip_addresses
-            }
-        )
+        batch_size = self.DEVICE_CREDENTIAL_BATCH_SIZE
+        device_credential_details = []
 
-        if isinstance(raw_device_credential_response, dict):
-            device_credential_details = raw_device_credential_response.get("response", [])
-        else:
-            device_credential_details = raw_device_credential_response or []
+        for batch_start in range(0, len(ip_addresses), batch_size):
+            ip_address_batch = ip_addresses[batch_start:batch_start + batch_size]
+
+            self.log(
+                "Fetching credential batch {0}-{1} (size {2})".format(
+                    batch_start + 1,
+                    batch_start + len(ip_address_batch),
+                    len(ip_address_batch),
+                ),
+                "DEBUG",
+            )
+
+            try:
+                raw_device_credential_response = self.dnac.execute_rest_api_call(
+                    method="GET",
+                    endpoint="/api/v1/device-credential/network-device",
+                    params={"deviceIps": ip_address_batch},
+                )
+            except Exception as exc:
+                self.log(
+                    "Failed credential fetch for batch {0}-{1} (size {2}). Error: {3}".format(
+                        batch_start + 1,
+                        batch_start + len(ip_address_batch),
+                        len(ip_address_batch),
+                        str(exc),
+                    ),
+                    "ERROR",
+                )
+                raise
+
+            if isinstance(raw_device_credential_response, dict):
+                batch_response = raw_device_credential_response.get("response", [])
+            else:
+                batch_response = raw_device_credential_response or []
+
+            self.log(
+                "Retrieved {0} credential record(s) for batch {1}-{2}.".format(
+                    len(batch_response),
+                    batch_start + 1,
+                    batch_start + len(ip_address_batch),
+                ),
+                "DEBUG",
+            )
+            device_credential_details.extend(batch_response)
 
         if not device_credential_details:
             self.log(
@@ -942,7 +981,9 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         # Build an index of device details by management IP for fast lookups
-        device_details_by_ip = {}
+        # Non-Meraki devices are separated because they do not support credential retrieval.
+        non_meraki_device_details_by_ip = {}
+        meraki_device_details_by_ip = {}
         for device_item in device_identifier_details:
             ip_address = device_item.get("ip_address")
             if not ip_address:
@@ -952,24 +993,38 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
                 continue
 
-            device_details_by_ip[ip_address] = device_item
+            device_family = device_item.get("family", "").lower()
+            self.log(
+                "Retrieved device family '{0}' for IP '{1}'.".format(
+                    device_family, ip_address
+                ),
+                "DEBUG"
+            )
+
+            if "meraki" in device_family:
+                meraki_device_details_by_ip[ip_address] = device_item
+            else:
+                non_meraki_device_details_by_ip[ip_address] = device_item
 
         self.log(
-            "Created device_details_by_ip index with {0} entry/entries. Data: {1}".format(
-                len(device_details_by_ip),
-                self.pprint(device_details_by_ip),
+            "Created device detail indexes - non_meraki_device_details_by_ip ({0} entry/entries). "
+            "meraki_device_details_by_ip ({1} entry/entries). Data: non_meraki={2}, meraki={3}".format(
+                len(non_meraki_device_details_by_ip),
+                len(meraki_device_details_by_ip),
+                self.pprint(non_meraki_device_details_by_ip),
+                self.pprint(meraki_device_details_by_ip),
             ),
             "DEBUG",
         )
 
-        device_credential_details = self.fetch_device_credentials_by_ip(device_details_by_ip)
+        device_credential_details = self.fetch_device_credentials_by_ip(non_meraki_device_details_by_ip)
+
         self.log(
-            "Merging {0} credential record(s) with identifier data.".format(
+            "Merging {0} credential record(s) with identifier data for non-Meraki devices.".format(
                 len(device_credential_details)
             ),
             "DEBUG",
         )
-
         for device_credential in device_credential_details:
             ip_address = device_credential.get("ip_address")
             if not ip_address:
@@ -980,16 +1035,38 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 continue
 
             # Merge device identifier details with credentials based on IP address
-            device_info = device_details_by_ip.get(ip_address, {})
+            device_info = non_meraki_device_details_by_ip.get(ip_address)
+            if not device_info:
+                self.log(
+                    "Skipping credential merge for IP '{0}' because no matching identifier record was found.".format(ip_address),
+                    "WARNING",
+                )
+                continue
+
             merged_device_info = {**device_info, **device_credential}
             inventory_config_data.append(merged_device_info)
 
         self.log(
-            "Completed inventory data aggregation with {0} merged record(s). Data: {1}".format(
-                len(inventory_config_data),
-                self.pprint(inventory_config_data),
+            "Merging {0} Meraki device record(s) with identifier data.".format(
+                len(meraki_device_details_by_ip)
             ),
-            "INFO",
+            "DEBUG",
+        )
+        for device_info in meraki_device_details_by_ip.values():
+            # Mark Meraki devices explicitly since they are not merged with credential API data.
+            merged_device_info = {**device_info, "type": "MERAKI_DASHBOARD"}
+            inventory_config_data.append(merged_device_info)
+
+        self.log(
+            "Completed inventory aggregation: identifiers={0}, non_meraki={1}, meraki={2}, "
+            "credentials_fetched={3}, merged_output={4}.".format(
+                len(device_identifier_details),
+                len(non_meraki_device_details_by_ip),
+                len(meraki_device_details_by_ip),
+                len(device_credential_details),
+                len(inventory_config_data),
+            ),
+            "DEBUG",
         )
 
         return inventory_config_data
