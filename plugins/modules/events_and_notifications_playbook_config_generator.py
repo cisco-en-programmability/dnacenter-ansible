@@ -2843,8 +2843,12 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ``"email"``, ``"syslog"``, ``"snmp"``.
 
         Returns:
-            list: The names filter to apply for this component type.  Returns an
-                empty list when the component type is excluded by ``type_filters``.
+            tuple: A two-element tuple ``(effective_names_filter, type_selected)``.
+                - effective_names_filter (list): The names filter to apply for this
+                  component type.  Returns an empty list when the component type is
+                  excluded by ``type_filters``.
+                - type_selected (bool): ``True`` when the component type is included
+                  (or no type filter is set); ``False`` when it is excluded.
         """
         type_filters = type_filters or []
         names_filter = names_filter or []
@@ -2857,9 +2861,9 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 ),
                 "DEBUG"
             )
-            return []
+            return [], False
 
-        return names_filter
+        return names_filter, True
 
     def get_webhook_destinations(self, network_element, filters):
         """
@@ -2888,11 +2892,18 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = self._resolve_name_filter(
+        destination_names, type_selected = self._resolve_name_filter(
             destination_filters.get("destination_types"),
             destination_filters.get("destination_names"),
             "webhook"
         )
+        if not type_selected:
+            self.log(
+                "Webhook destination type not selected in destination_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"webhook_destinations": []}
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3015,11 +3026,18 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = self._resolve_name_filter(
+        destination_names, type_selected = self._resolve_name_filter(
             destination_filters.get("destination_types"),
             destination_filters.get("destination_names"),
             "email"
         )
+        if not type_selected:
+            self.log(
+                "Email destination type not selected in destination_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"email_destinations": []}
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3146,11 +3164,18 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = self._resolve_name_filter(
+        destination_names, type_selected = self._resolve_name_filter(
             destination_filters.get("destination_types"),
             destination_filters.get("destination_names"),
             "syslog"
         )
+        if not type_selected:
+            self.log(
+                "Syslog destination type not selected in destination_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"syslog_destinations": []}
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3273,11 +3298,18 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = self._resolve_name_filter(
+        destination_names, type_selected = self._resolve_name_filter(
             destination_filters.get("destination_types"),
             destination_filters.get("destination_names"),
             "snmp"
         )
+        if not type_selected:
+            self.log(
+                "SNMP destination type not selected in destination_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"snmp_destinations": []}
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4268,11 +4300,18 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names = self._resolve_name_filter(
+        subscription_names, type_selected = self._resolve_name_filter(
             notification_filters.get("notification_types"),
             notification_filters.get("subscription_names"),
             "webhook"
         )
+        if not type_selected:
+            self.log(
+                "Webhook notification type not selected in notification_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"webhook_event_notifications": []}
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4560,11 +4599,18 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names = self._resolve_name_filter(
+        subscription_names, type_selected = self._resolve_name_filter(
             notification_filters.get("notification_types"),
             notification_filters.get("subscription_names"),
             "email"
         )
+        if not type_selected:
+            self.log(
+                "Email notification type not selected in notification_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"email_event_notifications": []}
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4830,11 +4876,18 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names = self._resolve_name_filter(
+        subscription_names, type_selected = self._resolve_name_filter(
             notification_filters.get("notification_types"),
             notification_filters.get("subscription_names"),
             "syslog"
         )
+        if not type_selected:
+            self.log(
+                "Syslog notification type not selected in notification_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"syslog_event_notifications": []}
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
