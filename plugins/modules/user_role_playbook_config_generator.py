@@ -1032,14 +1032,12 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            cache_exists = hasattr(self, '_role_cache')
-            if not cache_exists:
+            if not hasattr(self, '_role_cache'):
                 self.log(
                     "Role cache not initialized - triggering cache population via API "
                     "call to retrieve all roles from Catalyst Center",
                     "INFO"
                 )
-            if not hasattr(self, '_role_cache'):
                 self._role_cache = {}
                 roles_response = self.dnac._exec(
                     family="user_and_roles",
@@ -2778,7 +2776,6 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("success", False, no_config_message, "INFO")
             return self
 
-        final_dict = {"config": config_dict}
         # Create final dictionary structure for YAML
         self.log(
             "Creating final dictionary structure for YAML generation with 'config' "
@@ -2916,7 +2913,6 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        self.validate_params(config)
         self.log(
             "Calling validate_params to validate configuration structure and values",
             "DEBUG"
