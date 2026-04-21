@@ -1,0 +1,104 @@
+---
+cleanup_fabric_devices:
+  - fabric_devices:
+      fabric_name: Global/USA/SAN_FRANCISCO
+      device_config:
+        - device_ip: 204.1.4.1
+
+create_fabric_devices:
+  - fabric_devices:
+      fabric_name: Global/USA/SAN_FRANCISCO
+      device_config:
+        - device_ip: 204.1.4.1
+          device_roles:
+            - BORDER_NODE
+            - CONTROL_PLANE_NODE
+          borders_settings:
+            layer3_settings:
+              local_autonomous_system_number: "1235"
+              import_external_routes: true
+              border_priority: 1
+              prepend_autonomous_system_count: 1
+              is_default_exit: true
+
+update_fabric_devices:
+  - fabric_devices:
+      fabric_name: Global/USA/SAN_FRANCISCO
+      device_config:
+        - device_ip: 204.1.4.1
+          device_roles:
+            - BORDER_NODE
+            - CONTROL_PLANE_NODE
+          borders_settings:
+            layer3_settings:
+              local_autonomous_system_number: "1235"
+              import_external_routes: true
+              border_priority: 2
+              prepend_autonomous_system_count: 2
+              is_default_exit: true
+
+delete_fabric_devices:
+  - fabric_devices:
+      fabric_name: Global/USA/SAN_FRANCISCO
+      device_config:
+        - device_ip: 204.1.4.1
+
+create_wireless_controller_settings:
+  - fabric_devices:
+      fabric_name: Global/USA/SAN_FRANCISCO
+      device_config:
+        - device_ip: 204.1.4.1
+          device_roles:
+            - BORDER_NODE
+            - CONTROL_PLANE_NODE
+            - WIRELESS_CONTROLLER_NODE
+          borders_settings:
+            layer3_settings:
+              local_autonomous_system_number: "1235"
+              import_external_routes: true
+              border_priority: 1
+              prepend_autonomous_system_count: 1
+              is_default_exit: true
+          wireless_controller_settings:
+            enable: true
+            primary_managed_ap_locations:
+              - Global/USA/SAN_FRANCISCO/BLD_SF
+              - Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR1
+              - Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR2
+            secondary_managed_ap_locations:
+              - Global/USA/SAN_FRANCISCO/BLD_SF1
+              - Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR1
+              - Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR2
+            rolling_ap_upgrade:
+              enable: true
+              ap_reboot_percentage: 25
+
+update_wireless_controller_settings:
+  - fabric_devices:
+      fabric_name: Global/USA/SAN_FRANCISCO
+      device_config:
+        - device_ip: 204.1.4.1
+          device_roles:
+            - BORDER_NODE
+            - CONTROL_PLANE_NODE
+            - WIRELESS_CONTROLLER_NODE
+          wireless_controller_settings:
+            enable: true
+            primary_managed_ap_locations:
+              - Global/USA/SAN_FRANCISCO/BLD_SF
+              - Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR1
+            secondary_managed_ap_locations:
+              - Global/USA/SAN_FRANCISCO/BLD_SF1
+              - Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR1
+            rolling_ap_upgrade:
+              enable: true
+              ap_reboot_percentage: 15
+
+delete_wireless_controller_settings:
+  - fabric_devices:
+      fabric_name: Global/USA/SAN_FRANCISCO
+      device_config:
+        - device_ip: 204.1.4.1
+          wireless_controller_settings:
+            enable: false
+            reload: true
