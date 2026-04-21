@@ -1,0 +1,536 @@
+{
+  "create_fabric_device_case_1": [
+    {
+      "fabric_devices": {
+        "fabric_name": "Global/USA/SAN_FRANCISCO",
+        "device_config": [
+          {
+            "device_ip": "204.1.4.1",
+            "device_roles": [
+              "BORDER_NODE",
+              "CONTROL_PLANE_NODE"
+            ],
+            "borders_settings": {
+              "layer3_settings": {
+                "local_autonomous_system_number": "1235",
+                "import_external_routes": true,
+                "border_priority": 1,
+                "prepend_autonomous_system_count": 1,
+                "is_default_exit": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "update_fabric_device_case_2": [
+    {
+      "fabric_devices": {
+        "fabric_name": "Global/USA/SAN_FRANCISCO",
+        "device_config": [
+          {
+            "device_ip": "204.1.4.1",
+            "device_roles": [
+              "BORDER_NODE",
+              "CONTROL_PLANE_NODE"
+            ],
+            "borders_settings": {
+              "layer3_settings": {
+                "local_autonomous_system_number": "1235",
+                "import_external_routes": true,
+                "border_priority": 2,
+                "prepend_autonomous_system_count": 2,
+                "is_default_exit": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "delete_fabric_device_case_3": [
+    {
+      "fabric_devices": {
+        "fabric_name": "Global/USA/SAN_FRANCISCO",
+        "device_config": [
+          {
+            "device_ip": "204.1.4.1"
+          }
+        ]
+      }
+    }
+  ],
+  "create_wireless_controller_case_4": [
+    {
+      "fabric_devices": {
+        "fabric_name": "Global/USA/SAN_FRANCISCO",
+        "device_config": [
+          {
+            "device_ip": "204.1.4.1",
+            "device_roles": [
+              "BORDER_NODE",
+              "CONTROL_PLANE_NODE",
+              "WIRELESS_CONTROLLER_NODE"
+            ],
+            "borders_settings": {
+              "layer3_settings": {
+                "local_autonomous_system_number": "1235",
+                "import_external_routes": true,
+                "border_priority": 1,
+                "prepend_autonomous_system_count": 1,
+                "is_default_exit": true
+              }
+            },
+            "wireless_controller_settings": {
+              "enable": true,
+              "primary_managed_ap_locations": [
+                "Global/USA/SAN_FRANCISCO/BLD_SF",
+                "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR1",
+                "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR2"
+              ],
+              "secondary_managed_ap_locations": [
+                "Global/USA/SAN_FRANCISCO/BLD_SF1",
+                "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR1",
+                "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR2"
+              ],
+              "rolling_ap_upgrade": {
+                "enable": true,
+                "ap_reboot_percentage": 25
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "update_wireless_controller_case_5": [
+    {
+      "fabric_devices": {
+        "fabric_name": "Global/USA/SAN_FRANCISCO",
+        "device_config": [
+          {
+            "device_ip": "204.1.4.1",
+            "device_roles": [
+              "BORDER_NODE",
+              "CONTROL_PLANE_NODE",
+              "WIRELESS_CONTROLLER_NODE"
+            ],
+            "wireless_controller_settings": {
+              "enable": true,
+              "primary_managed_ap_locations": [
+                "Global/USA/SAN_FRANCISCO/BLD_SF",
+                "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR1"
+              ],
+              "secondary_managed_ap_locations": [
+                "Global/USA/SAN_FRANCISCO/BLD_SF1",
+                "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR1"
+              ],
+              "rolling_ap_upgrade": {
+                "enable": true,
+                "ap_reboot_percentage": 15
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "delete_wireless_controller_case_6": [
+    {
+      "fabric_devices": {
+        "fabric_name": "Global/USA/SAN_FRANCISCO",
+        "device_config": [
+          {
+            "device_ip": "204.1.4.1",
+            "device_roles": [
+              "BORDER_NODE",
+              "CONTROL_PLANE_NODE",
+              "WIRELESS_CONTROLLER_NODE"
+            ],
+            "wireless_controller_settings": {
+              "enable": false,
+              "reload": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "case_4_call_6": {
+    "response": [
+      {
+        "id": "8a66e4d7-4923-4e8a-b4fe-53b5a3313e7d",
+        "siteHierarchyId": "72bb4dbb-1051-4561-8de8-7503bfa4cc59/3ff8b712-5734-47b7-9ae6-92ac7e3028ea/de6ea582-bd9a-441b-a999-f02ab3e8e8f8/8a66e4d7-4923-4e8a-b4fe-53b5a3313e7d",
+        "parentId": "de6ea582-bd9a-441b-a999-f02ab3e8e8f8",
+        "name": "BLD_SF",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF",
+        "type": "building",
+        "latitude": 37.398188,
+        "longitude": -121.912974
+      }
+    ],
+    "version": "1.0"
+  },
+  "case_4_call_7": {
+    "response": [
+      {
+        "id": "54ee0ebd-5775-4711-8e5a-ca8008e93181",
+        "name": "FLOOR2",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR2",
+        "type": "floor"
+      },
+      {
+        "id": "7cef4c11-8183-472e-ae9e-e4accd0ed27e",
+        "name": "FLOOR1",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR1",
+        "type": "floor"
+      }
+    ],
+    "version": "1.0"
+  },
+  "case_4_call_8": {
+    "response": [
+      {
+        "id": "7cef4c11-8183-472e-ae9e-e4accd0ed27e",
+        "name": "FLOOR1",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR1",
+        "type": "floor"
+      }
+    ],
+    "version": "1.0"
+  },
+  "case_4_call_9": {
+    "response": [],
+    "version": "1.0"
+  },
+  "case_4_call_10": {
+    "response": [
+      {
+        "id": "54ee0ebd-5775-4711-8e5a-ca8008e93181",
+        "name": "FLOOR2",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR2",
+        "type": "floor"
+      }
+    ],
+    "version": "1.0"
+  },
+  "case_4_call_11": {
+    "response": [],
+    "version": "1.0"
+  },
+  "case_4_call_12": {
+    "response": [
+      {
+        "id": "c9942624-5298-4f44-95c1-a1b1a8e84848",
+        "name": "BLD_SF1",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF1",
+        "type": "building",
+        "latitude": 37.398188,
+        "longitude": -121.912974
+      }
+    ],
+    "version": "1.0"
+  },
+  "case_4_call_13": {
+    "response": [
+      {
+        "id": "4a8ba938-077f-4b44-bf6c-52c1a224b174",
+        "name": "FLOOR2",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR2",
+        "type": "floor"
+      },
+      {
+        "id": "feb46915-2d1c-4c28-8e29-ef8f6680050f",
+        "name": "FLOOR1",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR1",
+        "type": "floor"
+      }
+    ],
+    "version": "1.0"
+  },
+  "case_4_call_14": {
+    "response": [
+      {
+        "id": "feb46915-2d1c-4c28-8e29-ef8f6680050f",
+        "name": "FLOOR1",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR1",
+        "type": "floor"
+      }
+    ],
+    "version": "1.0"
+  },
+  "case_4_call_15": {
+    "response": [],
+    "version": "1.0"
+  },
+  "case_4_call_16": {
+    "response": [
+      {
+        "id": "4a8ba938-077f-4b44-bf6c-52c1a224b174",
+        "name": "FLOOR2",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR2",
+        "type": "floor"
+      }
+    ],
+    "version": "1.0"
+  },
+  "case_4_call_17": {
+    "response": [],
+    "version": "1.0"
+  },
+  "get_sites_sf": {
+    "response": [
+      {
+        "id": "de6ea582-bd9a-441b-a999-f02ab3e8e8f8",
+        "siteHierarchyId": "72bb4dbb-1051-4561-8de8-7503bfa4cc59/3ff8b712-5734-47b7-9ae6-92ac7e3028ea/de6ea582-bd9a-441b-a999-f02ab3e8e8f8",
+        "parentId": "3ff8b712-5734-47b7-9ae6-92ac7e3028ea",
+        "name": "SAN_FRANCISCO",
+        "nameHierarchy": "Global/USA/SAN_FRANCISCO",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_fabric_sites_sf": {
+    "response": [
+      {
+        "id": "6149fe9c-41fd-4b84-beb0-ebfe98ca1067",
+        "siteId": "de6ea582-bd9a-441b-a999-f02ab3e8e8f8",
+        "authenticationProfileName": "No Authentication",
+        "isPubSubEnabled": true,
+        "underlayTransport": "IPV4"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_device_list": {
+    "response": [
+      {
+        "id": "dbf7eb5f-87de-459c-9b31-0ba9833bb303",
+        "instanceUuid": "dbf7eb5f-87de-459c-9b31-0ba9833bb303",
+        "managementIpAddress": "204.1.4.1",
+        "hostname": "SF-FIAB-01.autoagni.com",
+        "family": "Switches and Hubs",
+        "type": "Cisco Catalyst 9300 Switch",
+        "platformId": "C9300-24P",
+        "softwareVersion": "17.16.1",
+        "softwareType": "IOS-XE",
+        "reachabilityStatus": "Reachable",
+        "collectionStatus": "Managed",
+        "role": "DISTRIBUTION",
+        "series": "Cisco Catalyst 9300 Series Switches"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_provisioned_devices": {
+    "response": [
+      {
+        "id": "da9c924e-30c4-44df-90a2-0be57ee69bf9",
+        "siteId": "8a66e4d7-4923-4e8a-b4fe-53b5a3313e7d",
+        "networkDeviceId": "dbf7eb5f-87de-459c-9b31-0ba9833bb303"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_fabric_devices_empty": {
+    "response": [],
+    "version": "1.0"
+  },
+  "get_fabric_devices_border_cp_priority1": {
+    "response": [
+      {
+        "id": "da9c924e-30c4-44df-90a2-0be57ee69bf9",
+        "fabricId": "6149fe9c-41fd-4b84-beb0-ebfe98ca1067",
+        "networkDeviceId": "dbf7eb5f-87de-459c-9b31-0ba9833bb303",
+        "deviceRoles": [
+          "BORDER_NODE",
+          "CONTROL_PLANE_NODE"
+        ],
+        "borderDeviceSettings": {
+          "borderTypes": [
+            "LAYER_3"
+          ],
+          "layer3Settings": {
+            "localAutonomousSystemNumber": "1235",
+            "importExternalRoutes": true,
+            "borderPriority": 1,
+            "prependAutonomousSystemCount": 1,
+            "isDefaultExit": true
+          }
+        }
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_fabric_devices_border_cp_priority2": {
+    "response": [
+      {
+        "id": "da9c924e-30c4-44df-90a2-0be57ee69bf9",
+        "fabricId": "6149fe9c-41fd-4b84-beb0-ebfe98ca1067",
+        "networkDeviceId": "dbf7eb5f-87de-459c-9b31-0ba9833bb303",
+        "deviceRoles": [
+          "BORDER_NODE",
+          "CONTROL_PLANE_NODE"
+        ],
+        "borderDeviceSettings": {
+          "borderTypes": [
+            "LAYER_3"
+          ],
+          "layer3Settings": {
+            "localAutonomousSystemNumber": "1235",
+            "importExternalRoutes": true,
+            "borderPriority": 2,
+            "prependAutonomousSystemCount": 2,
+            "isDefaultExit": true
+          }
+        }
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_fabric_devices_wlc_have": {
+    "response": [
+      {
+        "id": "da9c924e-30c4-44df-90a2-0be57ee69bf9",
+        "fabricId": "6149fe9c-41fd-4b84-beb0-ebfe98ca1067",
+        "networkDeviceId": "dbf7eb5f-87de-459c-9b31-0ba9833bb303",
+        "deviceRoles": [
+          "BORDER_NODE",
+          "CONTROL_PLANE_NODE",
+          "WIRELESS_CONTROLLER_NODE"
+        ],
+        "borderDeviceSettings": {
+          "borderTypes": [
+            "LAYER_3"
+          ],
+          "layer3Settings": {
+            "localAutonomousSystemNumber": "1235",
+            "importExternalRoutes": true,
+            "borderPriority": 1,
+            "prependAutonomousSystemCount": 1,
+            "isDefaultExit": true
+          }
+        }
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_sda_wireless_empty": {
+    "response": [],
+    "version": "1.0"
+  },
+  "get_sda_wireless_enabled_25": {
+    "response": [
+      {
+        "id": "dbf7eb5f-87de-459c-9b31-0ba9833bb303",
+        "fabricId": "6149fe9c-41fd-4b84-beb0-ebfe98ca1067",
+        "enableWireless": true,
+        "rollingApUpgrade": {
+          "enableRollingApUpgrade": true,
+          "apRebootPercentage": 25
+        }
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_primary_ap_locations_empty": {
+    "response": [],
+    "version": "1.0"
+  },
+  "get_secondary_ap_locations_empty": {
+    "response": [],
+    "version": "1.0"
+  },
+  "get_primary_ap_locations_three": {
+    "response": {
+      "managedApLocations": [
+        {
+          "siteId": "54ee0ebd-5775-4711-8e5a-ca8008e93181",
+          "siteNameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR2"
+        },
+        {
+          "siteId": "7cef4c11-8183-472e-ae9e-e4accd0ed27e",
+          "siteNameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF/FLOOR1"
+        },
+        {
+          "siteId": "8a66e4d7-4923-4e8a-b4fe-53b5a3313e7d",
+          "siteNameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF"
+        }
+      ]
+    },
+    "version": "1.0"
+  },
+  "get_secondary_ap_locations_three": {
+    "response": {
+      "managedApLocations": [
+        {
+          "siteId": "4a8ba938-077f-4b44-bf6c-52c1a224b174",
+          "siteNameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR2"
+        },
+        {
+          "siteId": "feb46915-2d1c-4c28-8e29-ef8f6680050f",
+          "siteNameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF1/FLOOR1"
+        },
+        {
+          "siteId": "c9942624-5298-4f44-95c1-a1b1a8e84848",
+          "siteNameHierarchy": "Global/USA/SAN_FRANCISCO/BLD_SF1"
+        }
+      ]
+    },
+    "version": "1.0"
+  },
+  "add_fabric_devices": {
+    "response": {
+      "taskId": "019dabe5-b8e0-7bbe-bf6a-136b35049f6d",
+      "url": "/dna/intent/api/v1/task/019dabe5-b8e0-7bbe-bf6a-136b35049f6d"
+    },
+    "version": "1.0"
+  },
+  "update_fabric_devices": {
+    "response": {
+      "taskId": "0195232e-717f-71b6-9d00-ce8a130c282e",
+      "url": "/dna/intent/api/v1/task/0195232e-717f-71b6-9d00-ce8a130c282e"
+    },
+    "version": "1.0"
+  },
+  "delete_fabric_device": {
+    "response": {
+      "taskId": "0195232e-717f-71b6-9d00-ce8a130c282f",
+      "url": "/dna/intent/api/v1/task/0195232e-717f-71b6-9d00-ce8a130c282f"
+    },
+    "version": "1.0"
+  },
+  "assign_managed_ap_locations": {
+    "response": {
+      "taskId": "0195232e-717f-71b6-9d00-ce8a130c283a",
+      "url": "/dna/intent/api/v1/task/0195232e-717f-71b6-9d00-ce8a130c283a"
+    },
+    "version": "1.0"
+  },
+  "switch_wireless_setting": {
+    "response": {
+      "taskId": "0195232e-717f-71b6-9d00-ce8a130c283b",
+      "url": "/dna/intent/api/v1/task/0195232e-717f-71b6-9d00-ce8a130c283b"
+    },
+    "version": "1.0"
+  },
+  "reload_switch": {
+    "response": {
+      "taskId": "0195232e-717f-71b6-9d00-ce8a130c283c",
+      "url": "/dna/intent/api/v1/task/0195232e-717f-71b6-9d00-ce8a130c283c"
+    },
+    "version": "1.0"
+  },
+  "task_success": {
+    "response": {
+      "id": "task-success-id",
+      "status": "SUCCESS",
+      "endTime": 1745200000000,
+      "startTime": 1745199999000
+    },
+    "version": "1.0"
+  }
+}
+
