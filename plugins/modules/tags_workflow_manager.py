@@ -497,6 +497,31 @@ EXAMPLES = r"""
                     search_pattern: contains
                     value: TenGigabitEthernet1/0/1
                     operation: ILIKE
+# For creating multiple tags in a single config entry.
+- name: Create multiple tags in one config entry.
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Create two tags at once
+      cisco.dnac.tags_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        state: merged
+        config_verify: false
+        config:
+          - tags:
+            - name: DC_Core_Devices
+              description: "Core devices in data center"
+            - name: DC_Access_Devices
 # For updating the scope description of a tag with port rules:
 - name: Update scope description for tagged server-connected
     interfaces.
