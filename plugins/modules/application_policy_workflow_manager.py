@@ -1314,6 +1314,27 @@ class ApplicationPolicy(DnacBase):
         ) = ([], [], [])
         self.deleted_queuing_profile, self.no_deleted_queuing_profile = [], []
 
+    def _extract_app_set_name(self, application_set_entry):
+        """
+        Extract the application set name from a policy entry by stripping the
+        '{policyScope}_' prefix from the entry's 'name' field.
+
+        Args:
+            application_set_entry (dict): A single entry from the current
+                application policy response.
+
+        Returns:
+            str: The bare application set name without the policy-scope prefix.
+        """
+        full_name = application_set_entry.get("name", "")
+        policy_scope = application_set_entry.get("policyScope", "")
+        policy_prefix = "{0}_".format(policy_scope) if policy_scope else ""
+
+        if policy_prefix and full_name.startswith(policy_prefix):
+            return full_name[len(policy_prefix):]
+
+        return full_name
+
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -2428,9 +2449,7 @@ class ApplicationPolicy(DnacBase):
 
             if clause and clause[0].get("relevanceLevel"):
                 current_relevance_type = clause[0].get("relevanceLevel")
-                app_set_name = application_sets.get("name").replace(
-                    application_sets.get("policyScope") + "_", ""
-                )
+                app_set_name = self._extract_app_set_name(application_sets)
 
                 if current_relevance_type == "BUSINESS_RELEVANT":
                     have_business_relevant_set_name.append(app_set_name)
@@ -2910,17 +2929,26 @@ class ApplicationPolicy(DnacBase):
 
             # Process current application sets
             for idx, application_sets in enumerate(current_application_policy):
+                self.log(
+                    "Processing application set entry {0}/{1} with name '{2}'.".format(
+                        idx + 1,
+                        len(current_application_policy),
+                        application_sets.get("name", "unknown"),
+                    ),
+                    "DEBUG",
+                )
                 clause = application_sets.get("exclusiveContract", {}).get("clause")
 
                 if clause and clause[0].get("relevanceLevel") is not None:
                     current_relevance_type = clause[0].get("relevanceLevel")
-                    full_name = application_sets.get("name", "")
-                    policy_scope = application_sets.get("policyScope", "")
-                    policy_prefix = "{0}_".format(policy_scope) if policy_scope else ""
-                    if policy_prefix and full_name.startswith(policy_prefix):
-                        app_set_name = full_name[len(policy_prefix):]
-                    else:
-                        app_set_name = full_name
+                    app_set_name = self._extract_app_set_name(application_sets)
+
+                    self.log(
+                        "Extracted app set name '{0}' from policy entry '{1}'.".format(
+                            app_set_name, application_sets.get("name", "")
+                        ),
+                        "DEBUG",
+                    )
 
                     # Handle known relevance types
                     if current_relevance_type in relevant_set_names:
@@ -3129,13 +3157,9 @@ class ApplicationPolicy(DnacBase):
                     elif app_set in final_default_set_name:
                         relevance_level = "DEFAULT"
 
-                    full_name = application_sets.get("name", "")
-                    policy_scope = application_sets.get("policyScope", "")
-                    policy_prefix = "{0}_".format(policy_scope) if policy_scope else ""
-                    if policy_prefix and full_name.startswith(policy_prefix):
-                        current_app_set_name = full_name[len(policy_prefix):]
-                    else:
-                        current_app_set_name = full_name
+                    current_app_set_name = self._extract_app_set_name(
+                        application_sets
+                    )
 
                     if relevance_level and app_set == current_app_set_name:
                         app_set_payload = {
@@ -3218,13 +3242,9 @@ class ApplicationPolicy(DnacBase):
                     elif app_set in final_want_default:
                         relevance_level = "DEFAULT"
 
-                    full_name = application_sets.get("name", "")
-                    policy_scope = application_sets.get("policyScope", "")
-                    policy_prefix = "{0}_".format(policy_scope) if policy_scope else ""
-                    if policy_prefix and full_name.startswith(policy_prefix):
-                        current_app_set_name = full_name[len(policy_prefix):]
-                    else:
-                        current_app_set_name = full_name
+                    current_app_set_name = self._extract_app_set_name(
+                        application_sets
+                    )
 
                     if relevance_level and app_set == current_app_set_name:
                         app_set_payload = {
