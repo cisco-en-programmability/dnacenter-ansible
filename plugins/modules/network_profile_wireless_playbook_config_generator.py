@@ -2464,24 +2464,18 @@ class NetworkProfileWirelessPlaybookGenerator(NetworkProfileFunctions, BrownFiel
             )
         else:
             self.log(
-                f"YAML file write operation failed for file path: {file_path}. Check file "
-                f"permissions, disk space, and path validity. Configurations ready but "
-                f"not written: {len(final_list)}",
-                "ERROR"
+                f"YAML configuration file is already up-to-date at: {file_path}. "
+                f"No write operation performed.",
+                "INFO"
             )
 
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                f"YAML configuration file already up-to-date for module '{self.module_name}'.  "
+                f"No changes required.": {
+                    "file_path": file_path
+                }
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-            self.log(
-                "YAML configuration generation failed due to file write error. "
-                "Operation result set to 'failed'. Returning instance with error state.",
-                "ERROR"
-            )
+            self.set_operation_result("ok", False, self.msg, "ERROR")
 
         return self
 
