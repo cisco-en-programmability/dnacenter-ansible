@@ -409,9 +409,9 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Server_Connected_Devices_and_Ports
-              description: "Tag for devices and interfaces
-                connected to servers"
+              - name: Server_Connected_Devices_and_Ports
+                description: "Tag for devices and interfaces
+                  connected to servers"
 # For creating/updating a tag with device rules.
 - name: Create a tag for border devices in the 9300
     series.
@@ -439,19 +439,19 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Border_9300_Tag
-              description: Tag for border devices belonging
-                to the Cisco Catalyst 9300 family.
-              device_rules:
-                rule_descriptions:
-                  - rule_name: device_name
-                    search_pattern: contains
-                    value: Border
-                    operation: ILIKE
-                  - rule_name: device_series
-                    search_pattern: ends_with
-                    value: 9300
-                    operation: ILIKE
+              - name: Border_9300_Tag
+                description: Tag for border devices belonging
+                  to the Cisco Catalyst 9300 family.
+                device_rules:
+                  rule_descriptions:
+                    - rule_name: device_name
+                      search_pattern: contains
+                      value: Border
+                      operation: ILIKE
+                    - rule_name: device_series
+                      search_pattern: ends_with
+                      value: 9300
+                      operation: ILIKE
 # For creating/updating a tag with port rules.
 - name: Create a tag for high-speed server-connected
     interfaces.
@@ -479,24 +479,24 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: HighSpeed_Server_Interfaces
-              description: Tag for 10G interfaces connected
-                to servers.
-              port_rules:
-                scope_description:
-                  scope_category: TAG
-                  scope_members:
-                    - NY_SERVER_TAG
-                    - SJC_SERVER_TAG
-                rule_descriptions:
-                  - rule_name: speed
-                    search_pattern: equals
-                    value: "10000"
-                    operation: ILIKE
-                  - rule_name: port_name
-                    search_pattern: contains
-                    value: TenGigabitEthernet1/0/1
-                    operation: ILIKE
+              - name: HighSpeed_Server_Interfaces
+                description: Tag for 10G interfaces connected
+                  to servers.
+                port_rules:
+                  scope_description:
+                    scope_category: TAG
+                    scope_members:
+                      - NY_SERVER_TAG
+                      - SJC_SERVER_TAG
+                  rule_descriptions:
+                    - rule_name: speed
+                      search_pattern: equals
+                      value: "10000"
+                      operation: ILIKE
+                    - rule_name: port_name
+                      search_pattern: contains
+                      value: TenGigabitEthernet1/0/1
+                      operation: ILIKE
 # For creating multiple tags in a single config entry.
 - name: Create multiple tags in one config entry.
   hosts: dnac_servers
@@ -519,9 +519,9 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: DC_Core_Devices
-              description: "Core devices in data center"
-            - name: DC_Access_Devices
+              - name: DC_Core_Devices
+                description: "Core devices in data center"
+              - name: DC_Access_Devices
 # For updating the scope description of a tag with port rules:
 - name: Update scope description for tagged server-connected
     interfaces.
@@ -549,16 +549,16 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Server_Connected_Interfaces
-              description: Tag for interfaces on devices
-                connected to servers, scoped to specific
-                sites.
-              port_rules:
-                scope_description:
-                  scope_category: SITE
-                  scope_members:
-                    - Global/USA
-                    - Global/INDIA
+              - name: Server_Connected_Interfaces
+                description: Tag for interfaces on devices
+                  connected to servers, scoped to specific
+                  sites.
+                port_rules:
+                  scope_description:
+                    scope_category: SITE
+                    scope_members:
+                      - Global/USA
+                      - Global/INDIA
 # For updating rule descriptions of a tag with port rules:
 - name: Update port rule descriptions for server-connected
     interfaces.
@@ -586,19 +586,19 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Server_Connected_Interfaces
-              description: Tag for interfaces on devices
-                connected to servers.
-              port_rules:
-                rule_descriptions:
-                  - rule_name: speed
-                    search_pattern: contains
-                    value: "100000"
-                    operation: ILIKE
-                  - rule_name: port_name
-                    search_pattern: equals
-                    value: TenGigabitEthernet1/0/1
-                    operation: ILIKE
+              - name: Server_Connected_Interfaces
+                description: Tag for interfaces on devices
+                  connected to servers.
+                port_rules:
+                  rule_descriptions:
+                    - rule_name: speed
+                      search_pattern: contains
+                      value: "100000"
+                      operation: ILIKE
+                    - rule_name: port_name
+                      search_pattern: equals
+                      value: TenGigabitEthernet1/0/1
+                      operation: ILIKE
 # To assign tags to devices/ports (Remove port_names list to assign tags to devices.)
 - name: Assign tags to devices or interfaces.
   hosts: dnac_servers
@@ -624,47 +624,47 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tag_memberships:
-            - tags:
-                - High_Speed_Interfaces
-              device_details:
-                - ip_addresses:
-                    - 10.197.156.97
-                    - 10.197.156.98
-                    - 10.197.156.99
-                  hostnames:
-                    - SJC_Border1
-                    - SJC_Border2
-                    - NY_Border1
-                  mac_addresses:
-                    - e4:38:7e:42:bc:00
-                    - 6c:d6:e3:75:5a:e0
-                    - 34:5d:a8:3b:d8:e0
-                  serial_numbers:
-                    - SAD055006NE
-                    - SAD04350EEU
-                    - SAD055108C2
-                  port_names:
-                    - FortyGigabitEthernet1/1/1
-                    - FortyGigabitEthernet1/1/2
-            - tags:
-                - Server_Connected_Devices
-              device_details:
-                - ip_addresses:
-                    - 10.197.156.97
-                    - 10.197.156.98
-                    - 10.197.156.99
-                  hostnames:
-                    - SJC_Border1
-                    - SJC_Border2
-                    - NY_Border1
-                  mac_addresses:
-                    - e4:38:7e:42:bc:00
-                    - 6c:d6:e3:75:5a:e0
-                    - 34:5d:a8:3b:d8:e0
-                  serial_numbers:
-                    - SAD055006NE
-                    - SAD04350EEU
-                    - SAD055108C2
+              - tags:
+                  - High_Speed_Interfaces
+                device_details:
+                  - ip_addresses:
+                      - 10.197.156.97
+                      - 10.197.156.98
+                      - 10.197.156.99
+                    hostnames:
+                      - SJC_Border1
+                      - SJC_Border2
+                      - NY_Border1
+                    mac_addresses:
+                      - e4:38:7e:42:bc:00
+                      - 6c:d6:e3:75:5a:e0
+                      - 34:5d:a8:3b:d8:e0
+                    serial_numbers:
+                      - SAD055006NE
+                      - SAD04350EEU
+                      - SAD055108C2
+                    port_names:
+                      - FortyGigabitEthernet1/1/1
+                      - FortyGigabitEthernet1/1/2
+              - tags:
+                  - Server_Connected_Devices
+                device_details:
+                  - ip_addresses:
+                      - 10.197.156.97
+                      - 10.197.156.98
+                      - 10.197.156.99
+                    hostnames:
+                      - SJC_Border1
+                      - SJC_Border2
+                      - NY_Border1
+                    mac_addresses:
+                      - e4:38:7e:42:bc:00
+                      - 6c:d6:e3:75:5a:e0
+                      - 34:5d:a8:3b:d8:e0
+                    serial_numbers:
+                      - SAD055006NE
+                      - SAD04350EEU
+                      - SAD055108C2
 # To assign tags to devices or ports under specific sites (Remove port_namesto assign tags to devices only.)
 - name: Assign tags to devices or interfaces within
     a specific site.
@@ -692,19 +692,19 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tag_memberships:
-            - tags:
-                - High_Speed_Interfaces
-              site_details:
-                - site_names:
-                    - Global/INDIA
-                  port_names:
-                    - FortyGigabitEthernet1/1/1
-                    - FortyGigabitEthernet1/1/2
-            - tags:
-                - Server_Connected_Devices
-              site_details:
-                - site_names:
-                    - Global/INDIA
+              - tags:
+                  - High_Speed_Interfaces
+                site_details:
+                  - site_names:
+                      - Global/INDIA
+                    port_names:
+                      - FortyGigabitEthernet1/1/1
+                      - FortyGigabitEthernet1/1/2
+              - tags:
+                  - Server_Connected_Devices
+                site_details:
+                  - site_names:
+                      - Global/INDIA
 # Deleting a tag.
 - name: Delete a Tag.
   hosts: dnac_servers
@@ -730,7 +730,7 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Server_Connected_Devices
+              - name: Server_Connected_Devices
 # Force Deleting a tag.
 # It will remove all the dynamic and static members from the tag and delete the tag.
 - name: Force delete a Tag.
@@ -757,8 +757,8 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Server_Connected_Devices
-              force_delete: true
+              - name: Server_Connected_Devices
+                force_delete: true
 # For deleting rule descriptions of a tag with device rules.
 - name: Delete rule description of a tag with device
     rules
@@ -786,13 +786,13 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Catalyst_Access_Tag
-              device_rules:
-                rule_descriptions:
-                  - rule_name: device_family
-                    search_pattern: ends_with
-                    value: 9300
-                    operation: ILIKE
+              - name: Catalyst_Access_Tag
+                device_rules:
+                  rule_descriptions:
+                    - rule_name: device_family
+                      search_pattern: ends_with
+                      value: 9300
+                      operation: ILIKE
 # For deleting scope members of a tag with port rules.
 - name: Delete scope members of a tag with port rules
   hosts: dnac_servers
@@ -819,14 +819,14 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Catalyst_Site_Tag
-              description: Tag for managing site-based
-                configurations
-              port_rules:
-                scope_description:
-                  scope_category: SITE
-                  scope_members:
-                    - Global/INDIA
+              - name: Catalyst_Site_Tag
+                description: Tag for managing site-based
+                  configurations
+                port_rules:
+                  scope_description:
+                    scope_category: SITE
+                    scope_members:
+                      - Global/INDIA
 # For deleting rule descriptions of a tag with port rules.
 - name: Delete rule descriptions of a tag with port
     rules
@@ -854,19 +854,19 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tags:
-            - name: Catalyst_Port_Tag
-              description: Tag for high-speed ports
-                and interface rules
-              port_rules:
-                rule_descriptions:
-                  - rule_name: speed
-                    search_pattern: equals
-                    value: "10000"
-                    operation: ILIKE
-                  - rule_name: port_name
-                    search_pattern: contains
-                    value: tengig/1/0/1
-                    operation: ILIKE
+              - name: Catalyst_Port_Tag
+                description: Tag for high-speed ports
+                  and interface rules
+                port_rules:
+                  rule_descriptions:
+                    - rule_name: speed
+                      search_pattern: equals
+                      value: "10000"
+                      operation: ILIKE
+                    - rule_name: port_name
+                      search_pattern: contains
+                      value: tengig/1/0/1
+                      operation: ILIKE
 # For Deleting tags from devices/ports (Remove port_names to delete tags from devices)
 - name: Delete tags from members.
   hosts: dnac_servers
@@ -892,39 +892,39 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tag_memberships:
-            - tags:
-                - Catalyst_Port_Tag
-              device_details:
-                - ip_addresses:
-                    - 10.197.156.97
-                    - 10.197.156.98
-                  hostnames:
-                    - SJC_Border1
-                    - NY_Border1
-                  mac_addresses:
-                    - e4:38:7e:42:bc:00
-                    - 6c:d6:e3:75:5a:e0
-                  serial_numbers:
-                    - SAD055006NE
-                    - SAD04350EEU
-                  port_names:
-                    - TenGigabitEthernet1/0/1
-                    - TenGigabitEthernet1/0/2
-            - tags:
-                - Catalyst_Device_Tag
-              device_details:
-                - ip_addresses:
-                    - 10.197.156.97
-                    - 10.197.156.98
-                  hostnames:
-                    - SJC_Border1
-                    - NY_Border1
-                  mac_addresses:
-                    - e4:38:7e:42:bc:00
-                    - 6c:d6:e3:75:5a:e0
-                  serial_numbers:
-                    - SAD055006NE
-                    - SAD04350EEU
+              - tags:
+                  - Catalyst_Port_Tag
+                device_details:
+                  - ip_addresses:
+                      - 10.197.156.97
+                      - 10.197.156.98
+                    hostnames:
+                      - SJC_Border1
+                      - NY_Border1
+                    mac_addresses:
+                      - e4:38:7e:42:bc:00
+                      - 6c:d6:e3:75:5a:e0
+                    serial_numbers:
+                      - SAD055006NE
+                      - SAD04350EEU
+                    port_names:
+                      - TenGigabitEthernet1/0/1
+                      - TenGigabitEthernet1/0/2
+              - tags:
+                  - Catalyst_Device_Tag
+                device_details:
+                  - ip_addresses:
+                      - 10.197.156.97
+                      - 10.197.156.98
+                    hostnames:
+                      - SJC_Border1
+                      - NY_Border1
+                    mac_addresses:
+                      - e4:38:7e:42:bc:00
+                      - 6c:d6:e3:75:5a:e0
+                    serial_numbers:
+                      - SAD055006NE
+                      - SAD04350EEU
 #  For deleting tags from devices/ports under specific sites (Remove port_names to delete tags from devices)
 - name: Delete tags from members within a specific sites.
   hosts: dnac_servers
@@ -951,19 +951,19 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - tag_memberships:
-            - tags:
-                - Catalyst_Device_Tag
-              site_details:
-                - site_names:
-                    - Global/INDIA
-            - tags:
-                - Catalyst_Port_Tag
-              site_details:
-                - site_names:
-                    - Global/INDIA
-                  port_names:
-                    - TenGigabitEthernet1/0/1
-                    - TenGigabitEthernet1/0/2
+              - tags:
+                  - Catalyst_Device_Tag
+                site_details:
+                  - site_names:
+                      - Global/INDIA
+              - tags:
+                  - Catalyst_Port_Tag
+                site_details:
+                  - site_names:
+                      - Global/INDIA
+                    port_names:
+                      - TenGigabitEthernet1/0/1
+                      - TenGigabitEthernet1/0/2
 """
 
 RETURN = r"""
