@@ -300,7 +300,8 @@ class TestDnacSdaFabricDevicesWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get("msg"),
-            "Wireless Controller Settings for the device with IP address: '204.1.4.1' under fabric: 'Global/USA/SAN_FRANCISCO' updated successfully in the Cisco Catalyst Center.",
+            "Wireless Controller Settings for the device with IP address: '204.1.4.1' under fabric: 'Global/USA/SAN_FRANCISCO' "
+            "updated successfully in the Cisco Catalyst Center.",
         )
 
     def test_update_wireless_controller_case_5(self):
@@ -320,7 +321,8 @@ class TestDnacSdaFabricDevicesWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get("msg"),
-            "Wireless Controller Settings for the device with IP address: '204.1.4.1' under fabric: 'Global/USA/SAN_FRANCISCO' updated successfully in the Cisco Catalyst Center.",
+            "Wireless Controller Settings for the device with IP address: '204.1.4.1' under fabric: 'Global/USA/SAN_FRANCISCO' "
+            "updated successfully in the Cisco Catalyst Center.",
         )
 
     def test_delete_wireless_controller_case_6(self):
