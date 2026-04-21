@@ -1860,25 +1860,17 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.log(
-                "YAML configuration file write FAILED for path: {0}. write_dict_to_yaml() returned "
-                "False indicating file creation or serialization error. Verify file path permissions, "
-                "directory existence, and disk space availability.".format(file_path),
-                "ERROR"
+                f"YAML configuration file is already up-to-date at: {file_path}. "
+                f"No write operation performed.",
+                "INFO"
             )
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                f"YAML configuration file already up-to-date for module '{self.module_name}'.  "
+                f"No changes required.": {
+                    "file_path": file_path
+                }
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        self.log(
-            "Completed yaml_config_generator operation. Operation status: {0}, Changed: {1}, "
-            "File path: {2}. Returning control to calling function.".format(
-                self.status, self.result.get("changed"), file_path
-            ),
-            "INFO"
-        )
+            self.set_operation_result("ok", False, self.msg, "INFO")
 
         return self
 
