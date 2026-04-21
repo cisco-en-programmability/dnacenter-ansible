@@ -93,7 +93,7 @@ options:
                 or set it to `false`.
               - Ensure this parameter is correctly set
                 to avoid unnecessary updates or errors.
-            type: str
+            type: bool
           role_list:
             description:
               - A list of role names to be assigned
@@ -1178,6 +1178,23 @@ class UserandRole(DnacBase):
 
                     user["password"] = encrypt_password_response.get("encrypt_password")
 
+            # Validate password_update type before validate_list_of_dicts
+            # coerces string values to bool silently
+            for user in user_role_details:
+                pw_update = user.get("password_update")
+                if pw_update is not None and not isinstance(pw_update, bool):
+                    self.msg = (
+                        "Invalid type for 'password_update': expected bool "
+                        "(true/false), got '{0}' of type '{1}'. "
+                        "Please use an unquoted boolean in the playbook "
+                        "(e.g., password_update: true).".format(
+                            pw_update, type(pw_update).__name__
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
+
             if (
                 user_role_details[0].get("username") is not None
                 or user_role_details[0].get("email") is not None
@@ -1554,12 +1571,15 @@ class UserandRole(DnacBase):
         self.status = "success"
         return self
 
-    def valid_user_config_parameters(self, user_config):
+    def valid_user_config_parameters(self, user_config, is_create=False):
         """
         Additional validation for the create user configuration payload.
         Parameters:
           - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
           - user_config (dict): A dictionary containing the input configuration details.
+          - is_create (bool): When True, enforces that the password field is
+            present and meets minimum-length requirements (API mandates
+            password for new user creation).
         Returns:
           The method returns an instance of the class with updated attributes:
                 - self.msg: A message describing the validation result.
@@ -1593,6 +1613,16 @@ class UserandRole(DnacBase):
         )
 
         password = user_config.get("password")
+
+        if is_create and not password:
+            error_messages.append(
+                "password: A password is required when creating a new user "
+                "account. Please provide a password that is 9 to 20 "
+                "characters long and includes at least three of the following "
+                "character types: lowercase letters, uppercase letters, digits, "
+                "and special characters. Additionally, the password must not "
+                "contain repetitive or sequential characters."
+            )
 
         if password:
             decrypt_password_response = self.decrypt_password(
@@ -1631,15 +1661,35 @@ class UserandRole(DnacBase):
                 "Password decrypted, validated, and re-encrypted successfully.", "DEBUG"
             )
 
-        username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
-        username_regex_msg = "The username must not contain any special characters and must be 3 to 50 characters long."
         username = user_config.get("username")
-        self.validate_string_field(
-            username,
-            username_regex,
-            "username: '{0}' {1}".format(username, username_regex_msg),
-            error_messages,
-        )
+        if not username:
+            error_messages.append(
+                "username: The 'username' field is required for user "
+                "create, update, and delete operations. Please provide "
+                "a valid username in the playbook."
+            )
+        else:
+            username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
+            username_regex_msg = (
+                "The username must not contain any special characters "
+                "and must be 3 to 50 characters long."
+            )
+            self.validate_string_field(
+                username,
+                username_regex,
+                "username: '{0}' {1}".format(username, username_regex_msg),
+                error_messages,
+            )
+
+        password_update = user_config.get("password_update")
+        if password_update is not None and not isinstance(password_update, bool):
+            error_messages.append(
+                "password_update: Expected a boolean value (true/false), "
+                "but got '{0}' of type '{1}'. Please use a boolean value "
+                "without quotes in the playbook (e.g., password_update: true).".format(
+                    password_update, type(password_update).__name__
+                )
+            )
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
@@ -1877,7 +1927,7 @@ class UserandRole(DnacBase):
                         }
             else:
                 # Create the user
-                self.valid_user_config_parameters(config).check_return_status()
+                self.valid_user_config_parameters(config, is_create=True).check_return_status()
                 self.log("Creating user with config {0}".format(str(config)), "DEBUG")
                 user_params = self.want
 

@@ -358,10 +358,19 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
-        self.assertEqual(
-            result.get("msg"),
-            "Mandatory parameter(s) 'username, password' not present in the user details."
+        expected_msg = (
+            "Invalid parameters in playbook config: "
+            "password: A password is required when creating a new user "
+            "account. Please provide a password that is 9 to 20 "
+            "characters long and includes at least three of the following "
+            "character types: lowercase letters, uppercase letters, digits, "
+            "and special characters. Additionally, the password must not "
+            "contain repetitive or sequential characters., "
+            "username: The 'username' field is required for user "
+            "create, update, and delete operations. Please provide "
+            "a valid username in the playbook."
         )
+        self.assertEqual(result.get("msg"), expected_msg)
 
     def test_user_role_workflow_manager_user_invalid_username_email_not_present_param(self):
         """
