@@ -68,7 +68,7 @@ options:
           file.
         - If "components_list" is specified, only those components are included,
           regardless of other filters.
-        - If filters for specific components (e.g., tag or tag_memberships) are provided
+        - If filters for specific components (e.g., tags or tag_memberships) are provided
           without explicitly including them in components_list, those components will be
           automatically added to components_list.
         - At least one of components_list or component filters must be provided.
@@ -77,15 +77,15 @@ options:
           components_list:
             description:
             - List of components to include in the YAML configuration file.
-            - Valid values are tag and tag_memberships.
+            - Valid values are tags and tag_memberships.
             - If specified, only the listed components will be included in the generated YAML file.
-            - If not specified but component filters (tag or tag_memberships) are provided,
+            - If not specified but component filters (tags or tag_memberships) are provided,
               those components are automatically added to this list.
             - If neither components_list nor any component filters are provided, an error will be raised.
             type: list
             elements: str
-            choices: ["tag" , "tag_memberships"]
-          tag:
+            choices: ["tags", "tag_memberships"]
+          tags:
             description:
             - Filters specific to tag configuration retrieval.
             - Used to narrow down which tags should be included in the generated YAML file.
@@ -156,20 +156,20 @@ notes:
   /dna/intent/api/v1/tag/${id}/member
 - |
   Auto-population of components_list:
-  If component-specific filters (such as 'tag' or 'tag_memberships') are provided
+    If component-specific filters (such as 'tags' or 'tag_memberships') are provided
   without explicitly including them in 'components_list', those components will be
   automatically added to 'components_list'. This simplifies configuration by eliminating
   the need to redundantly specify components in both places.
 - |
   Example of auto-population behavior:
-  If you provide filters for 'tag' without including 'tag' in 'components_list',
-  the module will automatically add 'tag' to 'components_list' before processing.
+    If you provide filters for 'tags' without including 'tags' in 'components_list',
+    the module will automatically add 'tags' to 'components_list' before processing.
   This allows you to write more concise playbooks.
 - |
   Validation requirements:
   If 'component_specific_filters' is provided, at least one of the following must be true:
   (1) 'components_list' contains at least one component, OR
-  (2) Component-specific filters (e.g., 'tag', 'tag_memberships') are provided.
+  (2) Component-specific filters (e.g., 'tags', 'tag_memberships') are provided.
   If neither condition is met, the module will fail with a validation error.
 - |
   System tags filtering:
@@ -259,7 +259,7 @@ EXAMPLES = r"""
         file_mode: "overwrite"
         config:
           component_specific_filters:
-            components_list: ["tag"]
+            components_list: ["tags"]
 
 # Example 4: Generate only tag membership configurations
 - name: Generate tag memberships only
@@ -315,7 +315,7 @@ EXAMPLES = r"""
         file_mode: "overwrite"
         config:
           component_specific_filters:
-            components_list: ["tag", "tag_memberships"]
+            components_list: ["tags", "tag_memberships"]
 
 # Example 6: Auto-populate components_list from component filters
 - name: Generate configuration with auto-populated components_list
@@ -343,12 +343,12 @@ EXAMPLES = r"""
         file_mode: "overwrite"
         config:
           component_specific_filters:
-            # No components_list specified, but tag filters are provided
-            # The 'tag' component will be automatically added to components_list
-            tag:
+            # No components_list specified, but tags filters are provided
+            # The 'tags' component will be automatically added to components_list
+            tags:
               - tag_name: Production
               - tag_name: Data-Center
-      # This will automatically include 'tag' in components_list and retrieve only those tags
+      # This will automatically include 'tags' in components_list and retrieve only those tags
 
 # Example 7: Filter specific tags by name
 - name: Generate configuration for specific tags by name
@@ -376,8 +376,8 @@ EXAMPLES = r"""
         file_mode: "overwrite"
         config:
           component_specific_filters:
-            components_list: ["tag", "tag_memberships"]
-            tag:
+            components_list: ["tags", "tag_memberships"]
+            tags:
               - tag_name: Production
               - tag_name: Data-Center
 
@@ -407,7 +407,7 @@ EXAMPLES = r"""
         file_mode: "overwrite"
         config:
           component_specific_filters:
-            components_list: ["tag", "tag_memberships"]
+            components_list: ["tags", "tag_memberships"]
             tag_memberships:
               - tag_name: Campus-Switches
               - tag_name: Core-Routers
@@ -438,8 +438,8 @@ EXAMPLES = r"""
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["tag", "tag_memberships"]
-            tag:
+            components_list: ["tags", "tag_memberships"]
+            tags:
               - tag_name: Branch-Office
               - tag_name: Access-Points
 
@@ -832,7 +832,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Returns:
             dict: A dictionary containing the workflow filters schema with the following structure:
                 - network_elements (dict): Contains configuration for different network element types
-                    - tag (dict): Configuration for tag-related operations
+                    - tags (dict): Configuration for tag-related operations
                         - filters (list): List of filter parameters (tag_name, tag_id)
                         - reverse_mapping_function (method): Function to map tag specifications
                         - api_function (str): API function name for retrieving tags
@@ -854,12 +854,12 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         schema = {
             "network_elements": {
-                "tag": {
+                "tags": {
                     "filters": ["tag_name", "tag_id"],
                     "reverse_mapping_function": self.tag_temp_spec,
                     "api_function": "get_tag",
                     "api_family": "tag",
-                    "get_function_name": self.get_tag_configuration,
+                    "get_function_name": self.get_tags_configuration,
                 },
                 "tag_memberships": {
                     "filters": ["tag_name", "tag_id", "device_identifier"],
@@ -1111,9 +1111,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
         return tag_membership_details
 
-    def get_tag_membership_configuration(
-        self, network_element, component_specific_filters=None
-    ):
+    def get_tag_membership_configuration(self, network_element, combined_filters=None):
         """
         Retrieves tag membership configuration from Cisco Catalyst Center.
 
@@ -1126,11 +1124,19 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 Expected keys:
                     - "api_family" (str): The API family name (e.g., "tag").
                     - "api_function" (str): The API function name (e.g., "get_tag_members_by_id").
-            component_specific_filters (list, optional): List of filter dictionaries to specify
-                which tags to query. Each dictionary can contain:
-                    - "tag_name" (str): The name of the tag to filter by.
-                    - "tag_id" (str): The ID of the tag to filter by.
-                If None, all tags from the cached mapping will be processed.
+
+            combined_filters (dict, optional): A dictionary containing component-specific filters and global filters.
+                We do not support global filters for tag memberships, so this should primarily contain:
+                    {
+                        "component_specific_filters": [
+                            {
+                                "tag_name": <tag_name>,  # Optional, can be used instead of tag_id
+                                "tag_id": <tag_id>,      # Optional, can be used instead of tag_name
+                                "device_identifier": <device_identifier>  # Optional, defaults to "serial_number"
+                            },
+                            ...
+                        ]
+                    }
 
         Returns:
             dict: A dictionary containing modified tag membership details with the following structure:
@@ -1166,11 +1172,21 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
                 tag_id_to_tag_name_mapping) to avoid redundant API calls.
         """
 
+        if isinstance(combined_filters, dict):
+            component_specific_filters = combined_filters.get(
+                "component_specific_filters", []
+            )
+            if not isinstance(component_specific_filters, list):
+                component_specific_filters = []
+        else:
+            component_specific_filters = []
+
         self.log(
             f"Starting to retrieve tag membership configuration with network element: {network_element} and "
             f"component-specific filters: {component_specific_filters}",
             "DEBUG",
         )
+
         # Extract API family and function from network_element
         tag_memberships_config = []
         api_family = network_element.get("api_family")
@@ -1329,7 +1345,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
 
-        return modified_tag_memberships_details
+        return [modified_tag_memberships_details]
 
     def check_if_tag_is_system_tag(self, tag_details):
         """
@@ -1369,9 +1385,9 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         return is_system_tag
 
-    def get_tag_configuration(self, network_element, component_specific_filters=None):
+    def get_tags_configuration(self, network_element, combined_filters=None):
         """
-        Retrieve and process tag configuration from Cisco Catalyst Center.
+        Retrieve and process tags configuration from Cisco Catalyst Center.
 
         This method fetches tag details either by applying component-specific filters or by retrieving
         all available tags. It uses cached tag mappings to avoid unnecessary API calls and processes
@@ -1381,17 +1397,22 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             network_element: The network element identifier for which tags are being retrieved.
                             Used primarily for logging purposes.
-            component_specific_filters (list of dict, optional): A list of filter dictionaries to
-                                                                 narrow down tag selection. Each dictionary
-                                                                 can contain:
-                                                                 - 'tag_name': Filter by tag name
-                                                                 - 'tag_id': Filter by tag ID
-                                                                 If None, all cached tags are retrieved.
+            combined_filters (dict, optional): A dictionary containing component-specific filters and global filters.
+                We do not support global filters for tags, so this should primarily contain:
+                    {
+                        "component_specific_filters": [
+                            {
+                                "tag_name": <tag_name>,  # Optional, can be used instead of tag_id
+                                "tag_id": <tag_id>,      # Optional, can be used instead of tag_name
+                            },
+                            ...
+                        ]
+                    }
 
         Returns:
             dict: A dictionary containing modified tag details with the following structure:
                   {
-                      "tag": [list of processed tag detail dictionaries]
+                      "tags": [list of processed tag detail dictionaries]
                   }
                   Each tag detail is modified according to the tag_temp_spec template.
                   System tags are excluded from the returned configuration.
@@ -1406,6 +1427,15 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             check_if_tag_is_system_tag() method, as they are managed by Cisco Catalyst Center
             and cannot be modified by users.
         """
+
+        if isinstance(combined_filters, dict):
+            component_specific_filters = combined_filters.get(
+                "component_specific_filters", []
+            )
+            if not isinstance(component_specific_filters, list):
+                component_specific_filters = []
+        else:
+            component_specific_filters = []
 
         self.log(
             "Starting to retrieve tag configuration with network element: {0} and component-specific filters: {1}".format(
@@ -1582,7 +1612,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO",
         )
 
-        modified_tags_details = {"tag": tags_details}
+        modified_tags_details = {"tags": tags_details}
 
         self.log(
             f"Modified Tag details (count: {len(tags_details)}): {self.pprint(modified_tags_details)}",
@@ -1594,7 +1624,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        return modified_tags_details
+        return [modified_tags_details]
 
     def tag_temp_spec(self):
         """
@@ -2842,187 +2872,6 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         return result
-
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generates a YAML configuration file based on the provided parameters.
-        This function retrieves network element details using component-specific filters, processes the data,
-        and writes the YAML content to a specified file. It dynamically handles multiple network elements and their respective filters.
-
-        Args:
-            yaml_config_generator (dict): Contains component_specific_filters and optionally generate_all_configurations flag.
-                file_path and file_mode are now taken from self.params.
-
-        Returns:
-            self: The current instance with the operation result and message updated.
-        """
-
-        self.log(
-            "Starting YAML config generation with parameters: {0}".format(
-                yaml_config_generator
-            ),
-            "DEBUG",
-        )
-
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-
-        self.log("Determining output file path for YAML configuration", "DEBUG")
-
-        # Get file_path and file_mode from self.params (top-level parameters)
-        file_path = self.params.get("file_path")
-        if not file_path:
-            self.log(
-                "No file_path provided by user, generating default filename", "DEBUG"
-            )
-            file_path = self.generate_filename()
-        else:
-            self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
-
-        file_mode = self.params.get("file_mode", "overwrite")
-
-        self.log(
-            "YAML configuration file path determined: {0}, file_mode: {1}".format(
-                file_path, file_mode
-            ),
-            "DEBUG",
-        )
-
-        self.log("Initializing filter dictionaries", "DEBUG")
-        if generate_all:
-            # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log(
-                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
-                "INFO",
-            )
-            # Set empty filters to retrieve everything
-            component_specific_filters = {}
-        else:
-            # Use provided filters or default to empty
-            self.log(
-                "Normal mode: Using provided component_specific_filters from input",
-                "DEBUG",
-            )
-            component_specific_filters = (
-                yaml_config_generator.get("component_specific_filters") or {}
-            )
-            self.log(
-                f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
-                "DEBUG",
-            )
-
-        # Retrieve the supported network elements for the module
-        self.log("Retrieving supported network elements schema for the module", "DEBUG")
-        module_supported_network_elements = self.module_schema.get(
-            "network_elements", {}
-        )
-        components_list = component_specific_filters.get(
-            "components_list", module_supported_network_elements.keys()
-        )
-        self.log("Components to process: {0}".format(components_list), "DEBUG")
-
-        self.log(
-            "Initializing final configuration list and operation summary tracking",
-            "DEBUG",
-        )
-        final_config_list = []
-        processed_count = 0
-        skipped_count = 0
-        for component in components_list:
-            self.log("Processing component: {0}".format(component), "DEBUG")
-            network_element = module_supported_network_elements.get(component)
-            if not network_element:
-                self.log(
-                    f"Component {component} not supported by module, skipping processing",
-                    "WARNING",
-                )
-                skipped_count += 1
-                continue
-
-            filters = component_specific_filters.get(component, [])
-            operation_func = network_element.get("get_function_name")
-
-            if not callable(operation_func):
-                self.log(
-                    f"No retrieval function defined for component: {component}", "ERROR"
-                )
-                skipped_count += 1
-                continue
-
-            component_data = operation_func(network_element, filters)
-            # Validate retrieval success
-            if not component_data:
-                self.log(
-                    "No data retrieved for component: {0}".format(component), "DEBUG"
-                )
-                continue
-
-            modified_details = [
-                {f"{component}": detail} for detail in component_data.get(component, [])
-            ]
-            self.log(
-                "Details retrieved for {0}: {1}".format(component, component_data),
-                "DEBUG",
-            )
-            processed_count += 1
-            final_config_list.extend(modified_details)
-
-        if not final_config_list:
-            self.log(
-                "No configurations retrieved. Processed: {0}, Skipped: {1}, Components: {2}".format(
-                    processed_count, skipped_count, components_list
-                ),
-                "WARNING",
-            )
-            self.msg = {
-                "status": "ok",
-                "message": (
-                    "No configurations found for module '{0}'. Verify filters and component availability. "
-                    "Components attempted: {1}".format(
-                        self.module_name, components_list
-                    )
-                ),
-                "components_attempted": len(components_list),
-                "components_processed": processed_count,
-                "components_skipped": skipped_count,
-            }
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
-
-        yaml_config_dict = {"config": final_config_list}
-        self.log(
-            "Final config dictionary created: {0}".format(
-                self.pprint(yaml_config_dict)
-            ),
-            "DEBUG",
-        )
-
-        if self.write_dict_to_yaml(
-            yaml_config_dict, file_path, file_mode, OrderedDumper
-        ):
-            self.msg = (
-                f"YAML configuration file generated successfully for module '{self.module_name}'. "
-                f"File: {file_path}, "
-                f"Components processed: {processed_count}, "
-                f"Components skipped: {skipped_count}, "
-                f"Configurations count: {len(final_config_list)}"
-            )
-            self.set_operation_result("success", True, self.msg, "INFO")
-            self.log(
-                f"YAML configuration generation completed. File: {file_path}, "
-                f"Components: {processed_count}/{len(components_list)}, "
-                f"Configs: {len(final_config_list)}",
-                "INFO",
-            )
-        else:
-            self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
-            }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        return self
 
     def get_want(self, config, state):
         """
