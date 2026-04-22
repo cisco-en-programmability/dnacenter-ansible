@@ -613,64 +613,64 @@ EXAMPLES = r"""
   gather_facts: false
   connection: local
   tasks:
-      - name: Start LAN Automation session 1 asynchronously
-        cisco.dnac.lan_automation_workflow_manager:
-          dnac_host: "{{dnac_host}}"
-          dnac_username: "{{dnac_username}}"
-          dnac_password: "{{dnac_password}}"
-          dnac_verify: "{{dnac_verify}}"
-          dnac_port: "{{dnac_port}}"
-          dnac_version: "{{dnac_version}}"
-          dnac_debug: "{{dnac_debug}}"
-          state: merged
-          config:
-            - lan_automation:
-                primary_device_management_ip_address: "204.1.1.1"
-                discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
-                primary_device_interface_names:
-                  - "HundredGigE1/0/2"
-                ip_pools:
-                  - ip_pool_name: "underlay_sub_sj"
-                    ip_pool_role: "MAIN_POOL"
-                launch_and_wait: false
-          async: 3600
-          poll: 0
-          register: lan_job_1
-
-      - name: Start LAN Automation session 2 asynchronously
-        cisco.dnac.lan_automation_workflow_manager:
-          dnac_host: "{{dnac_host}}"
-          dnac_username: "{{dnac_username}}"
-          dnac_password: "{{dnac_password}}"
-          dnac_verify: "{{dnac_verify}}"
-          dnac_port: "{{dnac_port}}"
-          dnac_version: "{{dnac_version}}"
-          dnac_debug: "{{dnac_debug}}"
-          state: merged
-          config:
-            - lan_automation:
-                primary_device_management_ip_address: "204.1.1.2"
-                discovered_device_site_name_hierarchy: "Global/USA/SAN FRANCISCO"
-                primary_device_interface_names:
-                  - "HundredGigE1/0/29"
-                ip_pools:
-                  - ip_pool_name: "underlay_sub_sf"
-                    ip_pool_role: "MAIN_POOL"
-                launch_and_wait: false
+    - name: Start LAN Automation session 1 asynchronously
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: merged
+        config:
+          - lan_automation:
+              primary_device_management_ip_address: "204.1.1.1"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
+              primary_device_interface_names:
+                - "HundredGigE1/0/2"
+              ip_pools:
+                - ip_pool_name: "underlay_sub_sj"
+                  ip_pool_role: "MAIN_POOL"
+              launch_and_wait: false
         async: 3600
         poll: 0
-        register: lan_job_2
+        register: lan_job_1
 
-      - name: Wait for all asynchronous LAN Automation jobs
-        ansible.builtin.async_status:
-          jid: "{{ item.ansible_job_id }}"
-        register: lan_job_status
-        until: lan_job_status.finished
-        retries: 300
-        delay: 10
-        loop:
-            - "{{ lan_job_1 }}"
-            - "{{ lan_job_2 }}"
+    - name: Start LAN Automation session 2 asynchronously
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: merged
+        config:
+          - lan_automation:
+              primary_device_management_ip_address: "204.1.1.2"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN FRANCISCO"
+              primary_device_interface_names:
+                - "HundredGigE1/0/29"
+              ip_pools:
+                - ip_pool_name: "underlay_sub_sf"
+                  ip_pool_role: "MAIN_POOL"
+              launch_and_wait: false
+      async: 3600
+      poll: 0
+      register: lan_job_2
+
+    - name: Wait for all asynchronous LAN Automation jobs
+      ansible.builtin.async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: lan_job_status
+      until: lan_job_status.finished
+      retries: 300
+      delay: 10
+      loop:
+        - "{{ lan_job_1 }}"
+        - "{{ lan_job_2 }}"
 
 - name: Stop a LAN Automation session
   cisco.dnac.lan_automation_workflow_manager:
