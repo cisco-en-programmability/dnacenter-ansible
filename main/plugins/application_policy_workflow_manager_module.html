@@ -1237,7 +1237,7 @@
 <hr class="docutils" />
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-application-policy-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1305,21 +1305,41 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause"><strong>clause</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines specific rules or conditions under which an application set is added to the application policy.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines specific rules or conditions under which application sets are added to or removed from the application policy.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">state=merged</span></code>, the clause defines application sets to add to the policy.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">state=deleted</span></code> and clause is provided, it specifies which application sets to remove from the policy.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">relevance_details</span></code> contains only <code class="docutils literal notranslate"><span class="pre">relevance</span></code> without <code class="docutils literal notranslate"><span class="pre">application_set_name</span></code>, all application sets under that relevance level are removed.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">relevance_details</span></code> contains both <code class="docutils literal notranslate"><span class="pre">relevance</span></code> and <code class="docutils literal notranslate"><span class="pre">application_set_name</span></code>, only those specific application sets are removed.</p>
+<p>If clause is omitted during a delete operation, the entire application policy is deleted.</p>
+<p>Only <code class="docutils literal notranslate"><span class="pre">clause_type</span></code> <code class="docutils literal notranslate"><span class="pre">BUSINESS_RELEVANCE</span></code> supports partial deletion of application sets. The <code class="docutils literal notranslate"><span class="pre">APPLICATION_POLICY_KNOBS</span></code> clause type is not affected by delete operations.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/clause_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause-clause-type"><strong>clause_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/clause_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul class="simple">
-<li><dl class="simple">
-<dt>Specifies the type of clause for the application policy.</dt><dd><ul>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul>
+<li><dl>
+<dt>Specifies the type of clause for</dt><dd><blockquote>
+<div><p>the application policy.</p>
+</div></blockquote>
+<ul>
 <li><p>Permissible values:
-- &quot;BUSINESS_RELEVANCE&quot;: Defines the importance of the application to business operations, affecting its priority and
-handling in the network policy.
-- &quot;APPLICATION_POLICY_KNOBS&quot;: Configurable settings that manage the application's network behavior,
-such as traffic prioritization and resource allocation.</p></li>
+- &quot;BUSINESS_RELEVANCE&quot;: Defines</p>
+<blockquote>
+<div><p>the importance of the application
+to business operations, affecting
+its priority and handling in the
+network policy.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>&quot;APPLICATION_POLICY_KNOBS&quot;:
+Configurable settings that manage
+the application's network behavior,
+such as traffic prioritization
+and resource allocation.</p></li>
+</ul>
+</li>
 </ul>
 </dd>
 </dl>
@@ -1338,20 +1358,47 @@ such as traffic prioritization and resource allocation.</p></li>
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/relevance_details/application_set_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause-relevance-details-application-set-name"><strong>application_set_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/relevance_details/application_set_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Include all the application sets for which the application policy has to be created</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of application set names to associate with or remove from the specified relevance level.</p>
+<p>Matched against the application set names currently associated with the policy in Cisco Catalyst Center.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">state=merged</span></code>, includes the application sets to add to the policy under this relevance level.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">state=deleted</span></code>, specifies which application sets to remove from the given relevance level.</p>
+<p>If omitted with <code class="docutils literal notranslate"><span class="pre">state=deleted</span></code>, all application sets under the specified relevance level are removed.</p>
+<p>Scoped per <code class="docutils literal notranslate"><span class="pre">relevance_details</span></code> entry, not globally across the entire clause.</p>
+<p>For example: ['file-sharing', 'collaboration-apps'].</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/application_policy/clause/relevance_details/relevance"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-workflow-manager-module-parameter-config-application-policy-clause-relevance-details-relevance"><strong>relevance</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/application_policy/clause/relevance_details/relevance" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul class="simple">
-<li><dl class="simple">
-<dt>Specifies whether the application set is relevant to the application policy.</dt><dd><ul>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul>
+<li><dl>
+<dt>Specifies the relevance level</dt><dd><blockquote>
+<div><p>of the application set within
+the application policy.</p>
+</div></blockquote>
+<ul>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">state=merged</span></code>, determines
+which relevance group the
+application sets are added to.</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">state=deleted</span></code>, specifies
+which relevance level to target
+for application set removal.</p></li>
 <li><p>Permissible values:
-- &quot;BUSINESS_RELEVANT&quot;: The application is critical for business functions.
-- &quot;BUSINESS_IRRELEVANT&quot;: The application is not essential for business operations.
-- &quot;DEFAULT&quot;: A default setting when no specific relevance is assigned.</p></li>
+- &quot;BUSINESS_RELEVANT&quot;: The</p>
+<blockquote>
+<div><p>application is critical for
+business functions.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>&quot;BUSINESS_IRRELEVANT&quot;: The
+application is not essential
+for business operations.</p></li>
+<li><p>&quot;DEFAULT&quot;: A default setting
+when no specific relevance
+is assigned.</p></li>
+</ul>
+</li>
 </ul>
 </dd>
 </dl>
@@ -1942,6 +1989,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">                  </span><span class="nt">bulk_data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
 <span class="w">                  </span><span class="nt">scavenger</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
 <span class="w">                  </span><span class="nt">real_time_interactive</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;34&quot;</span>
+
 <span class="c1"># Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy Enterprise QoS Profile in Cisco Catalyst</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center</span>
@@ -1989,6 +2037,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">                    </span><span class="nt">broadcast_video</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
 <span class="w">                    </span><span class="nt">network_control</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
 <span class="w">                    </span><span class="nt">bulk_data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5&quot;</span>
+
 <span class="c1"># Playbook - QoS Profile Based on Interface Speeds</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy Interface-Specific QoS Profile in Cisco</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Catalyst Center</span>
@@ -2107,6 +2156,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">                        </span><span class="nt">broadcast_video</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
 <span class="w">                        </span><span class="nt">network_control</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
 <span class="w">                        </span><span class="nt">bulk_data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5&quot;</span>
+
 <span class="c1"># Playbook - for some interface speeds having common bandwidth percentage</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure an Application Queueing Profile for</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Traffic Prioritization</span>
@@ -2197,6 +2247,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">                        </span><span class="nt">broadcast_video</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
 <span class="w">                        </span><span class="nt">network_control</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
 <span class="w">                        </span><span class="nt">bulk_data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5&quot;</span>
+
 <span class="c1"># Playbook - application queuing profile - type dscp</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure Application Queuing Profile (DSCP)</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">in Cisco Catalyst Center</span>
@@ -2240,6 +2291,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">                  </span><span class="nt">bulk_data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
 <span class="w">                  </span><span class="nt">scavenger</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
 <span class="w">                  </span><span class="nt">real_time_interactive</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;34&quot;</span>
+
 <span class="c1"># Playbook - update application queuing profile</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application Queuing Profile update in Cisco</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Catalyst Center</span>
@@ -2302,6 +2354,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">                  </span><span class="nt">bulk_data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
 <span class="w">                  </span><span class="nt">scavenger</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span>
 <span class="w">                  </span><span class="nt">real_time_interactive</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;34&quot;</span>
+
 <span class="c1"># Playbook - delete application queuing profile</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete application queuing profile from Cisco</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Catalyst Center</span>
@@ -2330,6 +2383,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">queuing_profile</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Enterprise_Traffic_Profile&quot;</span><span class="w">  </span><span class="c1"># Profile to be deleted</span>
+
 <span class="c1"># Playbook - create application policy – wired</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Wired Application Policy in Cisco Catalyst</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center</span>
@@ -2370,6 +2424,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">                        </span><span class="nt">application_set_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;email&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tunneling&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">relevance</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DEFAULT&quot;</span>
 <span class="w">                        </span><span class="nt">application_set_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;backup-and-storage&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;general-media&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;file-sharing&quot;</span><span class="p p-Indicator">]</span>
+
 <span class="c1"># Playbook - create application policy – wireless</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Wireless Application Policy in Cisco</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Catalyst Center</span>
@@ -2411,6 +2466,7 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">                        </span><span class="nt">application_set_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;email&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;backup-and-storage&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">relevance</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DEFAULT&quot;</span>
 <span class="w">                        </span><span class="nt">application_set_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;collaboration-apps&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tunneling&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;general-media&quot;</span><span class="p p-Indicator">]</span>
+
 <span class="c1"># Playbook - delete application policy</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete Application Policy from Cisco Catalyst</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Center</span>
@@ -2438,6 +2494,77 @@ such as traffic prioritization and resource allocation.</p></li>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">application_policy</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ObsoleteTrafficPolicy&quot;</span>
+
+<span class="c1"># Playbook - delete all application sets under a specific</span>
+<span class="c1">#   relevance level from an application policy</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Remove all application sets under a relevance</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">level from an application policy</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">vars_files</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;credentials.yml&quot;</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete all BUSINESS_RELEVANT application</span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">sets from policy</span>
+<span class="w">      </span><span class="nt">cisco.dnac.application_policy_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_api_task_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">        </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">application_policy</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wired_traffic_policy&quot;</span>
+<span class="w">                </span><span class="nt">clause</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">clause_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BUSINESS_RELEVANCE&quot;</span>
+<span class="w">                    </span><span class="nt">relevance_details</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">relevance</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BUSINESS_RELEVANT&quot;</span>
+
+<span class="c1"># Playbook - delete specific application set(s) from</span>
+<span class="c1">#   an application policy</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Remove specific application set(s) from an</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">application policy in Cisco Catalyst Center</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">vars_files</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;credentials.yml&quot;</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific application set(s) from</span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">a policy</span>
+<span class="w">      </span><span class="nt">cisco.dnac.application_policy_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_api_task_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">        </span><span class="nt">dnac_task_poll_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">application_policy</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wired_traffic_policy&quot;</span>
+<span class="w">                </span><span class="nt">clause</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">clause_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BUSINESS_RELEVANCE&quot;</span>
+<span class="w">                    </span><span class="nt">relevance_details</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">relevance</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BUSINESS_RELEVANT&quot;</span>
+<span class="w">                        </span><span class="nt">application_set_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;collaboration-apps&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">relevance</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BUSINESS_IRRELEVANT&quot;</span>
+<span class="w">                        </span><span class="nt">application_set_name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;email&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tunneling&quot;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>

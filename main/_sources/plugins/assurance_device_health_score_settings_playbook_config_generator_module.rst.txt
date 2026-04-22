@@ -42,7 +42,7 @@ cisco.dnac.assurance_device_health_score_settings_playbook_config_generator modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -252,7 +252,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -262,13 +262,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Nested dictionary for device health score settings specific filters.
+      List of filter entries for device health score settings.
 
-      Provides fine-grained control over device families and KPI settings to extract from Catalyst Center.
+      Each entry specifies a set of device families to extract KPI threshold settings for.
+
+      Multiple entries are supported; device families are flattened and deduplicated across all entries before API calls are made.
 
       Allows targeting specific device families without extracting all configured settings.
-
-      Modern recommended approach for filter specification in new playbooks.
 
 
       .. raw:: html
@@ -302,19 +302,19 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of specific device family names to extract KPI threshold settings for using modern nested filter format.
+      List of specific device family names to extract KPI threshold settings.
+
+      Multiple device family sets are specified by adding entries to the parent \ :literal:`device\_health\_score\_settings`\  list, each with its own \ :literal:`device\_families`\  list.
 
       Valid device family names include \ :literal:`ROUTER`\  for routing devices, \ :literal:`SWITCH\_AND\_HUB`\  for switching infrastructure, \ :literal:`WIRELESS\_CONTROLLER`\  for wireless LAN controllers, \ :literal:`UNIFIED\_AP`\  for wireless access points, \ :literal:`WIRELESS\_CLIENT`\  for wireless client devices, and \ :literal:`WIRED\_CLIENT`\  for wired client devices.
 
-      If not specified, all device families with configured KPI threshold settings will be extracted for comprehensive brownfield documentation.
+      If not specified across any entry, all device families with configured KPI threshold settings will be extracted.
 
-      Duplicate device family values are automatically removed while preserving the original order of unique entries.
+      Duplicate device family values across entries are automatically removed while preserving the original order of first occurrence.
 
-      Each device family may have different KPI metrics and thresholds based on device capabilities and health monitoring requirements.
+      When omitted from a single entry but present in others, only the families specified in the remaining entries are used; an entry without \ :literal:`device\_families`\  does not broaden the filter to all families.
 
-      Example filter \ :literal:`["UNIFIED\_AP", "ROUTER", "SWITCH\_AND\_HUB", "WIRELESS\_CONTROLLER"]`\  extracts settings for wireless and wired infrastructure.
-
-      Device family names are case-sensitive and must match exact names used in Catalyst Center.
+      Device family names are case-sensitive and must match exact names used in Catalyst Center. For example, \ :literal:`UNIFIED\_AP`\  not \ :literal:`unified\_ap`\ .
 
 
       .. rst-class:: ansible-option-line
@@ -1061,6 +1061,23 @@ Notes
    - The module handles connection timeouts, API errors, and invalid responses with comprehensive error messages and operation summaries.
    - Large-scale deployments with many device families and KPIs may require increased \ :literal:`dnac\_api\_task\_timeout`\  values for complete data extraction.
    - Generated YAML structure follows ordered dictionary format to maintain consistent key ordering across multiple generations.
+   - Module result behavior (changed/ok/failed):
+     The module result reflects local file state only, not Catalyst Center state.
+     In overwrite mode, the full file content is compared (excluding volatile
+     fields like timestamps and playbook path). In append mode, only the last
+     YAML document in the file is compared against the newly generated
+     configuration. If a file contains multiple config entries from previous
+     appends, only the most recent entry is used for the idempotency check.
+     - changed=true (status: success): The generated YAML configuration differs
+       from the existing output file (or the file does not exist). The file was
+       written and the configuration was updated.
+     - changed=false (status: ok): The generated YAML configuration matches the
+       existing output file content. The write was skipped as the file is
+       already up-to-date.
+     - failed=true (status: failed): The module encountered a validation error,
+       API failure, or file write error. No file was written or modified.
+     Note: Re-running with identical inputs and unchanged Catalyst Center state
+     will produce changed=false, ensuring idempotent playbook behavior.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1151,7 +1168,7 @@ Examples
           component_specific_filters:
             components_list: ["device_health_score_settings"]
             device_health_score_settings:
-              device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
+              - device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
 
     - name: Generate YAML Configuration with implicit component auto-add
       cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
@@ -1170,7 +1187,55 @@ Examples
         config:
           component_specific_filters:
             device_health_score_settings:
-              device_families: ["UNIFIED_AP", "ROUTER"]
+              - device_families: ["UNIFIED_AP", "ROUTER"]
+
+    - name: Generate YAML Configuration with deduplication across entries
+      cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: gathered
+        file_path: "/tmp/deduped_device_health_score_settings.yml"
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list: ["device_health_score_settings"]
+            device_health_score_settings:
+              - device_families: ["ROUTER", "UNIFIED_AP"]
+              - device_families: ["UNIFIED_AP"]  # UNIFIED_AP is a duplicate and will be removed
+
+    - name: >
+        Generate YAML Configuration showing that an entry without device_families
+        does NOT expand the filter to all families.
+        Only ROUTER and SWITCH_AND_HUB (from the first entry) are fetched.
+        The second entry omits device_families entirely but does not cause all
+        device families to be included - it is simply ignored for filtering
+        purposes. Result is identical to specifying only the first entry.
+      cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: "{{dnac_log_level}}"
+        state: gathered
+        file_path: "/tmp/partial_omission_device_health_score_settings.yml"
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list: ["device_health_score_settings"]
+            device_health_score_settings:
+              - device_families: ["ROUTER", "SWITCH_AND_HUB"]  # only these two families are fetched
+              - {}  # entry with no device_families key - does NOT add "all families" to the filter
 
 
 

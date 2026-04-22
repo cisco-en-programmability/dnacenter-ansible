@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -975,7 +975,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the VLAN for the anycast gateway. The allowed VLAN range is 2-4093, except for reserved VLANs 1002-1005, 2046, and 4094. If deploying an anycast gateway on a fabric zone, this 'vlan\_id' must match the 'vlan\_id' of the corresponding anycast gateway on the fabric site. This field is optional if the parameter 'auto\_generate\_vlan\_name' is set to true. Updating this field is not allowed.
+      ID of the VLAN for the anycast gateway. Allowed VLAN range is 2-4093. Reserved VLANs are 1002-1005 and 2046. We do not allow users to create anycast gateways with reserved VLANs, but we accept reserved VLANs to support idempotent behavior. If deploying an anycast gateway on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding anycast gateway on the fabric site. This field is optional if the parameter 'auto\_generate\_vlan\_name' is set to true. Updating this field is not allowed.
 
 
       .. raw:: html
@@ -1485,7 +1485,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding layer2 virtual network on the fabric site. And update of this field is not allowed.
+      ID for the layer2 VLAN network. Allowed VLAN range is 2-4093. Reserved VLANs are 1002-1005 and 2046. We do not allow users to create fabric VLANs with reserved VLANs, but we accept reserved VLANs to support idempotent behavior. If deploying on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding layer2 virtual network on the fabric site. And update of this field is not allowed.
 
 
       .. raw:: html
@@ -2381,7 +2381,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sets the maximum number of anycast gateways that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 anycast gateways at a time.
+      Sets the maximum number of anycast gateways that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 anycast gateways at a time. Valid range is from 1 to 20.
 
 
       .. rst-class:: ansible-option-line
@@ -2419,7 +2419,45 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 fabric VLANs at a time.
+      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 fabric VLANs at a time. Valid range is from 1 to 20.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`20`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sda_virtual_network_limit"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-sda_virtual_network_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **sda_virtual_network_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sda_virtual_network_limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the maximum number of layer3 virtual networks that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 virtual networks at a time. Valid range is from 1 to 20.
 
 
       .. rst-class:: ansible-option-line
@@ -2991,7 +3029,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
+- Abhishek Maheshwari (@abmahesh)
+- Sunil Shatagopa (@shatagopasunil)
+- Madhan Sankaranarayanan (@madhansansel)
 
 
 

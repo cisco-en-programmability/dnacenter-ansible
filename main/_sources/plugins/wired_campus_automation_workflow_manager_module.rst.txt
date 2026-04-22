@@ -42,7 +42,7 @@ cisco.dnac.wired_campus_automation_workflow_manager module -- Manage wired campu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -6341,17 +6341,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/layer2_configuration/stp/stp_instances/stp_instace_forward_delay_timer"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/layer2_configuration/stp/stp_instances/stp_instance_forward_delay_timer"></div>
 
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_workflow_manager_module__parameter-config/layer2_configuration/stp/stp_instances/stp_instace_forward_delay_timer:
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_workflow_manager_module__parameter-config/layer2_configuration/stp/stp_instances/stp_instance_forward_delay_timer:
 
       .. rst-class:: ansible-option-title
 
-      **stp_instace_forward_delay_timer**
+      **stp_instance_forward_delay_timer**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/layer2_configuration/stp/stp_instances/stp_instace_forward_delay_timer" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/layer2_configuration/stp/stp_instances/stp_instance_forward_delay_timer" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -6387,17 +6387,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/layer2_configuration/stp/stp_instances/stp_instace_hello_interval_timer"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/layer2_configuration/stp/stp_instances/stp_instance_hello_interval_timer"></div>
 
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_workflow_manager_module__parameter-config/layer2_configuration/stp/stp_instances/stp_instace_hello_interval_timer:
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_workflow_manager_module__parameter-config/layer2_configuration/stp/stp_instances/stp_instance_hello_interval_timer:
 
       .. rst-class:: ansible-option-title
 
-      **stp_instace_hello_interval_timer**
+      **stp_instance_hello_interval_timer**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/layer2_configuration/stp/stp_instances/stp_instace_hello_interval_timer" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/layer2_configuration/stp/stp_instances/stp_instance_hello_interval_timer" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -8388,8 +8388,8 @@ Examples
           - ip_address: 204.1.2.3
             layer2_configuration:
               authentication:
-              enable_dot1x_authentication: true
-              authentication_config_mode: NEW_STYLE
+                enable_dot1x_authentication: true
+                authentication_config_mode: NEW_STYLE
 
     - name: Configure LACP and PAGP Port Channels
       cisco.dnac.wired_campus_automation_workflow_manager:

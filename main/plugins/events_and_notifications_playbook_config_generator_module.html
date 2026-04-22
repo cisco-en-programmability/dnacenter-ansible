@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.events_and_notifications_playbook_config_generator module -- Generate YAML playbook for 'events_and_notifications_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-events-and-notifications-playbook-config-generator-module-generate-yaml-playbook-for-events-and-notifications-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-and-notifications-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1340,6 +1340,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/destination_filters/destination_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of exact destination names to filter from retrieved configurations.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">destination_names</span></code> is provided, you must target at least one destination component using either <code class="docutils literal notranslate"><span class="pre">destination_types</span></code> or <code class="docutils literal notranslate"><span class="pre">components_list</span></code> with one or more of <code class="docutils literal notranslate"><span class="pre">webhook_destinations</span></code>, <code class="docutils literal notranslate"><span class="pre">email_destinations</span></code>, <code class="docutils literal notranslate"><span class="pre">syslog_destinations</span></code>, <code class="docutils literal notranslate"><span class="pre">snmp_destinations</span></code>.</p>
 <p>Names must match exactly as configured in Catalyst Center (case-sensitive).</p>
 <p>Only components listed in components_list are retrieved. The destination_names filter is applied only within those selected component types. Names belonging to a component type that is not in components_list are completely ignored.</p>
 <p>If a destination name matches a destination within a selected component type, only matching destinations of that type are included in the output.</p>
@@ -1416,6 +1417,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/notification_filters/subscription_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of exact event subscription names to filter from retrieved configurations.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">subscription_names</span></code> is provided, you must target at least one notification component using either <code class="docutils literal notranslate"><span class="pre">notification_types</span></code> or <code class="docutils literal notranslate"><span class="pre">components_list</span></code> with one or more of <code class="docutils literal notranslate"><span class="pre">webhook_event_notifications</span></code>, <code class="docutils literal notranslate"><span class="pre">email_event_notifications</span></code>, <code class="docutils literal notranslate"><span class="pre">syslog_event_notifications</span></code>.</p>
 <p>Names must match exactly as configured in Catalyst Center event subscriptions.</p>
 <p>Filters webhook, email, and syslog event notifications based on subscription name.</p>
 <p>Empty list or not specified retrieves all event subscriptions for selected types.</p>
@@ -1614,13 +1616,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <p class="admonition-title">Note</p>
 <ul class="simple">
 <li><p>SDK Methods used are - event_management.Events.get_webhook_destination - event_management.Events.get_email_destination - event_management.Events.get_syslog_destination - event_management.Events.get_snmp_destination - event_management.Events.get_all_itsm_integration_settings - event_management.Events.get_rest_webhook_event_subscriptions - event_management.Events.get_email_event_subscriptions - event_management.Events.get_syslog_event_subscriptions - event_management.Events.get_event_artifacts - sites.Sites.get_site</p></li>
-<li><p>Paths used are - GET /dna/system/api/v1/event/webhook - GET /dna/system/api/v1/event/email-config - GET /dna/system/api/v1/event/syslog-config - GET /dna/system/api/v1/event/snmp-config - GET /dna/system/api/v1/event/itsm-integration-setting - GET /dna/system/api/v1/event/subscription/rest - GET /dna/system/api/v1/event/subscription/email - GET /dna/system/api/v1/event/subscription/syslog - GET /dna/intent/api/v1/event-artifact - GET /dna/intent/api/v1/site</p></li>
+<li><p>Paths used are - GET /dna/intent/api/v1/event/webhook - GET /dna/intent/api/v1/event/email-config - GET /dna/intent/api/v1/event/syslog-config - GET /dna/intent/api/v1/dna-event/snmp-config - GET /dna/intent/api/v1/integration-settings/itsm/instances - GET /dna/intent/api/v1/event/subscription/rest - GET /dna/intent/api/v1/event/subscription/email - GET /dna/intent/api/v1/event/subscription/syslog - GET /dna/system/api/v1/event/artifact - GET /dna/intent/api/v1/sites</p></li>
 <li><p>Minimum Catalyst Center version required is 2.3.5.3 for events and notifications APIs.</p></li>
 <li><p>Module performs read-only operations and does not modify Catalyst Center configurations.</p></li>
 <li><p>Generated YAML files contain password placeholders marked as &quot;***REDACTED***&quot; for security.</p></li>
 <li><p>Site IDs are automatically resolved to hierarchical site names for readability.</p></li>
 <li><p>Event IDs are automatically resolved to event names using Event Artifacts API.</p></li>
-<li><p>Pagination is automatically handled for large datasets in webhook, SNMP, and event subscriptions.</p></li>
+<li><p>Pagination is automatically handled for large datasets in webhook, syslog, SNMP destinations, ITSM settings and webhook, email, syslog notifications.</p></li>
 <li><p>Generated playbooks are compatible with events_and_notifications_workflow_manager module.</p></li>
 <li><p>When filter blocks (<code class="docutils literal notranslate"><span class="pre">destination_filters</span></code>, <code class="docutils literal notranslate"><span class="pre">notification_filters</span></code>, <code class="docutils literal notranslate"><span class="pre">itsm_filters</span></code>) are provided, the corresponding components are automatically added to <code class="docutils literal notranslate"><span class="pre">components_list</span></code> if not already present. This means <code class="docutils literal notranslate"><span class="pre">components_list</span></code> is optional when filter blocks are provided.</p></li>
 <li><p>If no filter blocks are provided, <code class="docutils literal notranslate"><span class="pre">components_list</span></code> is mandatory and must be non-empty.</p></li>
@@ -1735,6 +1737,60 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-events-a
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">itsm_filters</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">instance_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;ServiceNow</span><span class="nv"> </span><span class="s">Instance</span><span class="nv"> </span><span class="s">1&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;BMC</span><span class="nv"> </span><span class="s">Remedy</span><span class="nv"> </span><span class="s">Prod&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="c1"># destination_names with destination_types (new filter in isolation)</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate config filtering specific destinations by name and type</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_playbook_config_generator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">component_specific_filters</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">destination_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">destination_names</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Scale</span><span class="nv"> </span><span class="s">Syslog</span><span class="nv"> </span><span class="s">7&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Prod</span><span class="nv"> </span><span class="s">Webhook</span><span class="nv"> </span><span class="s">Endpoint&quot;</span>
+<span class="w">        </span><span class="nt">destination_types</span><span class="p">:</span><span class="w">        </span><span class="c1"># Required when destination_names is specified</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;syslog&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;webhook&quot;</span>
+
+<span class="c1"># subscription_names with notification_types (new filter in isolation)</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate config filtering specific subscriptions by name and type</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_playbook_config_generator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">component_specific_filters</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">notification_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">subscription_names</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Critical</span><span class="nv"> </span><span class="s">Email</span><span class="nv"> </span><span class="s">Alerts&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Syslog</span><span class="nv"> </span><span class="s">Infra</span><span class="nv"> </span><span class="s">Events&quot;</span>
+<span class="w">        </span><span class="nt">notification_types</span><span class="p">:</span><span class="w">       </span><span class="c1"># Required when subscription_names is specified</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;email&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;syslog&quot;</span>
+
+<span class="c1"># Combined filters with components_list as the targeting mechanism (multi-entry, mixed)</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate config with name filters targeted via components_list</span>
+<span class="w">  </span><span class="nt">cisco.dnac.events_and_notifications_playbook_config_generator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">component_specific_filters</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">components_list</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;syslog_destinations&quot;</span><span class="w">          </span><span class="c1"># Targets destination_names filter</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;email_event_notifications&quot;</span><span class="w">    </span><span class="c1"># Targets subscription_names filter</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;itsm_settings&quot;</span><span class="w">                </span><span class="c1"># No name filter, retrieves all</span>
+<span class="w">      </span><span class="nt">destination_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">destination_names</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Scale</span><span class="nv"> </span><span class="s">Syslog</span><span class="nv"> </span><span class="s">7&quot;</span><span class="w">             </span><span class="c1"># Filtered — only syslog destinations matched</span>
+<span class="w">      </span><span class="nt">notification_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">subscription_names</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Critical</span><span class="nv"> </span><span class="s">Email</span><span class="nv"> </span><span class="s">Alerts&quot;</span><span class="w">      </span><span class="c1"># Filtered — only email notifications matched</span>
+<span class="w">      </span><span class="nt">itsm_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">instance_names</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;ServiceNow</span><span class="nv"> </span><span class="s">Prod&quot;</span>
 </pre></div>
 </div>
 </section>

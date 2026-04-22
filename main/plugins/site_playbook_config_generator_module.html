@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.site_playbook_config_generator module -- Generate YAML playbook for 'site_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-site-playbook-config-generator-module-generate-yaml-playbook-for-site-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1347,7 +1347,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-pla
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Site type filter.</p>
 <p>Valid values are &quot;area&quot;, &quot;building&quot;, and &quot;floor&quot;.</p>
 <p>Can be a list to match multiple site types.</p>
-<p>When specified in one site filter item, the same values are applied to sibling hierarchy-only site filter items in the same request to keep union output type-consistent.</p>
+<p>When omitted, all three site types are targeted for that filter item (area, building, and floor).</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">

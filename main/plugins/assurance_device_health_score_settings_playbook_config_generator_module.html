@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.assurance_device_health_score_settings_playbook_config_generator module -- Generate YAML configurations playbook for 'assurance_device_health_score_settings_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-assurance-device-health-score-settings-playbook-config-generator-module-generate-yaml-configurations-playbook-for-assurance-device-health-score-settings-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-assurance-device-health-score-settings-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1321,25 +1321,25 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/device_health_score_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-device-health-score-settings-playbook-config-generator-module-parameter-config-component-specific-filters-device-health-score-settings"><strong>device_health_score_settings</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/device_health_score_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/device_health_score_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Nested dictionary for device health score settings specific filters.</p>
-<p>Provides fine-grained control over device families and KPI settings to extract from Catalyst Center.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of filter entries for device health score settings.</p>
+<p>Each entry specifies a set of device families to extract KPI threshold settings for.</p>
+<p>Multiple entries are supported; device families are flattened and deduplicated across all entries before API calls are made.</p>
 <p>Allows targeting specific device families without extracting all configured settings.</p>
-<p>Modern recommended approach for filter specification in new playbooks.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/device_health_score_settings/device_families"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-assurance-device-health-score-settings-playbook-config-generator-module-parameter-config-component-specific-filters-device-health-score-settings-device-families"><strong>device_families</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/device_health_score_settings/device_families" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of specific device family names to extract KPI threshold settings for using modern nested filter format.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of specific device family names to extract KPI threshold settings.</p>
+<p>Multiple device family sets are specified by adding entries to the parent <code class="docutils literal notranslate"><span class="pre">device_health_score_settings</span></code> list, each with its own <code class="docutils literal notranslate"><span class="pre">device_families</span></code> list.</p>
 <p>Valid device family names include <code class="docutils literal notranslate"><span class="pre">ROUTER</span></code> for routing devices, <code class="docutils literal notranslate"><span class="pre">SWITCH_AND_HUB</span></code> for switching infrastructure, <code class="docutils literal notranslate"><span class="pre">WIRELESS_CONTROLLER</span></code> for wireless LAN controllers, <code class="docutils literal notranslate"><span class="pre">UNIFIED_AP</span></code> for wireless access points, <code class="docutils literal notranslate"><span class="pre">WIRELESS_CLIENT</span></code> for wireless client devices, and <code class="docutils literal notranslate"><span class="pre">WIRED_CLIENT</span></code> for wired client devices.</p>
-<p>If not specified, all device families with configured KPI threshold settings will be extracted for comprehensive brownfield documentation.</p>
-<p>Duplicate device family values are automatically removed while preserving the original order of unique entries.</p>
-<p>Each device family may have different KPI metrics and thresholds based on device capabilities and health monitoring requirements.</p>
-<p>Example filter <code class="docutils literal notranslate"><span class="pre">[&quot;UNIFIED_AP&quot;,</span> <span class="pre">&quot;ROUTER&quot;,</span> <span class="pre">&quot;SWITCH_AND_HUB&quot;,</span> <span class="pre">&quot;WIRELESS_CONTROLLER&quot;]</span></code> extracts settings for wireless and wired infrastructure.</p>
-<p>Device family names are case-sensitive and must match exact names used in Catalyst Center.</p>
+<p>If not specified across any entry, all device families with configured KPI threshold settings will be extracted.</p>
+<p>Duplicate device family values across entries are automatically removed while preserving the original order of first occurrence.</p>
+<p>When omitted from a single entry but present in others, only the families specified in the remaining entries are used; an entry without <code class="docutils literal notranslate"><span class="pre">device_families</span></code> does not broaden the filter to all families.</p>
+<p>Device family names are case-sensitive and must match exact names used in Catalyst Center. For example, <code class="docutils literal notranslate"><span class="pre">UNIFIED_AP</span></code> not <code class="docutils literal notranslate"><span class="pre">unified_ap</span></code>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`&quot;ROUTER&quot;`</span></a></p></li>
@@ -1536,7 +1536,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <h2><a class="toc-backref" href="#id70" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<ul class="simple">
+<ul>
 <li><p>SDK Method used is devices.Devices.get_all_health_score_definitions_for_given_filters</p></li>
 <li><p>Path used is GET /dna/intent/api/v1/device-health/health-score/definitions</p></li>
 <li><p>Module requires Catalyst Center version 2.3.7.9 or higher for device health score settings support.</p></li>
@@ -1553,6 +1553,28 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <li><p>The module handles connection timeouts, API errors, and invalid responses with comprehensive error messages and operation summaries.</p></li>
 <li><p>Large-scale deployments with many device families and KPIs may require increased <code class="docutils literal notranslate"><span class="pre">dnac_api_task_timeout</span></code> values for complete data extraction.</p></li>
 <li><p>Generated YAML structure follows ordered dictionary format to maintain consistent key ordering across multiple generations.</p></li>
+<li><p>Module result behavior (changed/ok/failed):
+The module result reflects local file state only, not Catalyst Center state.
+In overwrite mode, the full file content is compared (excluding volatile
+fields like timestamps and playbook path). In append mode, only the last
+YAML document in the file is compared against the newly generated
+configuration. If a file contains multiple config entries from previous
+appends, only the most recent entry is used for the idempotency check.
+- changed=true (status: success): The generated YAML configuration differs</p>
+<blockquote>
+<div><p>from the existing output file (or the file does not exist). The file was
+written and the configuration was updated.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>changed=false (status: ok): The generated YAML configuration matches the
+existing output file content. The write was skipped as the file is
+already up-to-date.</p></li>
+<li><p>failed=true (status: failed): The module encountered a validation error,
+API failure, or file write error. No file was written or modified.</p></li>
+</ul>
+<p>Note: Re-running with identical inputs and unchanged Catalyst Center state
+will produce changed=false, ensuring idempotent playbook behavior.</p>
+</li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
@@ -1638,7 +1660,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;device_health_score_settings&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">device_health_score_settings</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">device_families</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;UNIFIED_AP&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;ROUTER&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;SWITCH_AND_HUB&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;WIRELESS_CONTROLLER&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_families</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;UNIFIED_AP&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;ROUTER&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;SWITCH_AND_HUB&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;WIRELESS_CONTROLLER&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration with implicit component auto-add</span>
 <span class="w">  </span><span class="nt">cisco.dnac.assurance_device_health_score_settings_playbook_config_generator</span><span class="p">:</span>
@@ -1657,7 +1679,55 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-assuranc
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">device_health_score_settings</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">device_families</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;UNIFIED_AP&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;ROUTER&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_families</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;UNIFIED_AP&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;ROUTER&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration with deduplication across entries</span>
+<span class="w">  </span><span class="nt">cisco.dnac.assurance_device_health_score_settings_playbook_config_generator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
+<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/tmp/deduped_device_health_score_settings.yml&quot;</span>
+<span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">overwrite</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;device_health_score_settings&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">device_health_score_settings</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_families</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;ROUTER&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;UNIFIED_AP&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_families</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;UNIFIED_AP&quot;</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># UNIFIED_AP is a duplicate and will be removed</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<span class="w">    </span><span class="no">Generate YAML Configuration showing that an entry without device_families</span>
+<span class="w">    </span><span class="no">does NOT expand the filter to all families.</span>
+<span class="w">    </span><span class="no">Only ROUTER and SWITCH_AND_HUB (from the first entry) are fetched.</span>
+<span class="w">    </span><span class="no">The second entry omits device_families entirely but does not cause all</span>
+<span class="w">    </span><span class="no">device families to be included - it is simply ignored for filtering</span>
+<span class="w">    </span><span class="no">purposes. Result is identical to specifying only the first entry.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.assurance_device_health_score_settings_playbook_config_generator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
+<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/tmp/partial_omission_device_health_score_settings.yml&quot;</span>
+<span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">overwrite</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;device_health_score_settings&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">device_health_score_settings</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_families</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;ROUTER&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;SWITCH_AND_HUB&quot;</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># only these two families are fetched</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w">  </span><span class="c1"># entry with no device_families key - does NOT add &quot;all families&quot; to the filter</span>
 </pre></div>
 </div>
 </section>

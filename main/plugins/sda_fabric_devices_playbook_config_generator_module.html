@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.sda_fabric_devices_playbook_config_generator module -- Generate YAML configurations playbook for 'sda_fabric_devices_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-sda-fabric-devices-playbook-config-generator-module-generate-yaml-configurations-playbook-for-sda-fabric-devices-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-devices-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1316,11 +1316,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/fabric_devices"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-devices-playbook-config-generator-module-parameter-config-component-specific-filters-fabric-devices"><strong>fabric_devices</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/fabric_devices" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/fabric_devices" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Filters specific to fabric device configuration retrieval.</p>
 <p>Used to narrow down which fabric sites and devices should be included in the generated YAML file.</p>
 <p>If no filters are provided, all fabric devices from all fabric sites in Cisco Catalyst Center will be retrieved.</p>
+<p>Each list entry targets a specific fabric site and optionally narrows down by device IP or roles.</p>
+<p>Within a single entry, all specified filters are combined using AND logic. Omitting a filter means no restriction on that attribute.</p>
+<p>Multiple entries are combined using OR logic, allowing retrieval from different fabric sites in a single invocation.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1669,7 +1672,7 @@ GET /dna/intent/api/v1/network-device</p></li>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;fabric_devices&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
 
 <span class="c1"># Example 4: Generate configuration for devices with specific roles in a fabric site</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate configuration for border and control plane devices</span>
@@ -1699,8 +1702,8 @@ GET /dna/intent/api/v1/network-device</p></li>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;fabric_devices&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
-<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;BORDER_NODE&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;CONTROL_PLANE_NODE&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
+<span class="w">                </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;BORDER_NODE&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;CONTROL_PLANE_NODE&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="c1"># Example 5: Generate configuration for a specific device in a fabric site</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate configuration for a specific fabric device</span>
@@ -1730,8 +1733,8 @@ GET /dna/intent/api/v1/network-device</p></li>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;fabric_devices&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
-<span class="w">              </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.0.1&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
+<span class="w">                </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.0.0.1&quot;</span>
 
 <span class="c1"># Example 6: Auto-populate components_list from component filters</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate configuration with auto-populated components_list</span>
@@ -1762,7 +1765,7 @@ GET /dna/intent/api/v1/network-device</p></li>
 <span class="w">            </span><span class="c1"># No components_list specified, but fabric_devices filters are provided</span>
 <span class="w">            </span><span class="c1"># The &#39;fabric_devices&#39; component will be automatically added to components_list</span>
 <span class="w">            </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
 
 <span class="c1"># Example 7: Generate configuration with append mode</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate and append SDA fabric device configuration</span>
@@ -1792,8 +1795,39 @@ GET /dna/intent/api/v1/network-device</p></li>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;fabric_devices&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Bangalore&quot;</span>
-<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;BORDER_NODE&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Bangalore&quot;</span>
+<span class="w">                </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;BORDER_NODE&quot;</span><span class="p p-Indicator">]</span>
+
+<span class="c1"># Example 8: Generate configuration for devices from multiple fabric sites</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate configuration from multiple fabric sites</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
+<span class="w">  </span><span class="nt">vars_files</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">credentials.yml</span>
+<span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Export fabric devices from two fabric sites</span>
+<span class="w">      </span><span class="nt">cisco.dnac.sda_fabric_devices_playbook_config_generator</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">dnac_log_file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_file_path</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;fabric_devices&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">            </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN-JOSE&quot;</span>
+<span class="w">                </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;BORDER_NODE&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Bangalore&quot;</span>
+<span class="w">                </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;EDGE_NODE&quot;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>

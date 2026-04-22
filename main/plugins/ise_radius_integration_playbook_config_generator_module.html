@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.ise_radius_integration_playbook_config_generator module -- Generate YAML configurations playbook for 'ise_radius_integration_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-ise-radius-integration-playbook-config-generator-module-generate-yaml-configurations-playbook-for-ise-radius-integration-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radius-integration-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1285,7 +1285,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary of filters for generating YAML playbook compatible with the `ise_radius_integration_workflow_manager` module.</p>
 <p>Filters specify which components to include in the YAML configuration file.</p>
-<p>When <code class="docutils literal notranslate"><span class="pre">components_list</span></code> is provided, only those components are included, regardless of other filters or <code class="docutils literal notranslate"><span class="pre">generate_all_configurations</span></code>.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">components_list</span></code> is provided, only those components are included.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1298,9 +1298,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/authentication_policy_server"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-ise-radius-integration-playbook-config-generator-module-parameter-config-component-specific-filters-authentication-policy-server"><strong>authentication_policy_server</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/authentication_policy_server" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/authentication_policy_server" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Authentication and policy server filter with server_type and server_ip_address.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of filter criteria for authentication and policy servers.</p>
+<p>Each entry is a dictionary that can filter by server_type and/or server_ip_address.</p>
+<p>Multiple entries are evaluated with OR logic (a server matches if it satisfies any entry).</p>
+<p>Within a single entry, all specified fields are applied with AND logic.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1544,7 +1547,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id56" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration with File Path specified for all components</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration with default file path for all components</span>
 <span class="w">  </span><span class="nt">cisco.dnac.ise_radius_integration_playbook_config_generator</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1556,8 +1559,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">generate_all_configurations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for all components with File Path specified</span>
 <span class="w">  </span><span class="nt">cisco.dnac.ise_radius_integration_playbook_config_generator</span><span class="p">:</span>
@@ -1573,10 +1574,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
 <span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/tmp/ise_radius_integration_config.yaml&quot;</span>
 <span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
-<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">generate_all_configurations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for mentioned components without File Path specified</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for mentioned components without component filter</span>
 <span class="w">  </span><span class="nt">cisco.dnac.ise_radius_integration_playbook_config_generator</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1592,9 +1591,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;append&quot;</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;authentication_policy_server&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authentication_policy_server</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for mentioned components with component and specific server_type filter</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for mentioned components with specific server_type filter</span>
 <span class="w">  </span><span class="nt">cisco.dnac.ise_radius_integration_playbook_config_generator</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1610,11 +1610,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;append&quot;</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;authentication_policy_server&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authentication_policy_server</span>
 <span class="w">        </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ISE&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ISE&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for mentioned components with component and specific server_ip_address filter</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for mentioned components with specific server_ip_address filter</span>
 <span class="w">  </span><span class="nt">cisco.dnac.ise_radius_integration_playbook_config_generator</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1630,11 +1631,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;append&quot;</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;authentication_policy_server&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authentication_policy_server</span>
 <span class="w">        </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.10</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.10</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for mentioned components with component and specific server_type and server_ip_address filter</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for mentioned components with specific server_type and server_ip_address filter</span>
 <span class="w">  </span><span class="nt">cisco.dnac.ise_radius_integration_playbook_config_generator</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
@@ -1650,10 +1652,33 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 <span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;append&quot;</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;authentication_policy_server&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authentication_policy_server</span>
 <span class="w">        </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ISE&quot;</span>
-<span class="w">          </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.10</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ISE&quot;</span>
+<span class="w">            </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.10</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration with multiple server filters (OR logic)</span>
+<span class="w">  </span><span class="nt">cisco.dnac.ise_radius_integration_playbook_config_generator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
+<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/tmp/ise_radius_integration_config.yaml&quot;</span>
+<span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;append&quot;</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authentication_policy_server</span>
+<span class="w">        </span><span class="nt">authentication_policy_server</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.10</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">server_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.11</span>
 </pre></div>
 </div>
 </section>
@@ -1682,7 +1707,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-ise-radi
 </div></td>
 <td><div class="ansible-option-cell"><p>A string with the message returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`[&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key\\n            when 'generate\_all\_configurations' is set to False.\\&quot;&quot;, &quot;\\n    \\&quot;response\\&quot;: \\&quot;Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key\\n                 when 'generate\_all\_configurations' is set to False.\\&quot;\\n}\\n&quot;]`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`[&quot;{\\n    \\&quot;msg\\&quot;: \\&quot;Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key.\\&quot;&quot;, &quot;\\n    \\&quot;response\\&quot;: \\&quot;Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key.\\&quot;\\n}\\n&quot;]`</span></a></p>
 </div></td>
 </tr>
 </tbody>

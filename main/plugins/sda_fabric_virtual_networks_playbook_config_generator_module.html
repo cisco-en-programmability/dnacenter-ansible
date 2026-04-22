@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.sda_fabric_virtual_networks_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">sda_fabric_virtual_networks_workflow_manager</span></code> module.<a class="headerlink" href="#cisco-dnac-sda-fabric-virtual-networks-playbook-config-generator-module-generate-yaml-playbook-for-sda-fabric-virtual-networks-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-virtual-networks-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1605,11 +1605,11 @@ If 'component_specific_filters' is provided, at least one of the following must 
 If neither condition is met, the module will fail with a validation error.</p></li>
 <li><p>Module result behavior (changed/ok/failed):
 The module result reflects local file state only, not Catalyst Center state.
-In overwrite mode, the full file content is compared (excluding volatile
-fields like timestamps and playbook path). In append mode, only the last
-YAML document in the file is compared against the newly generated
-configuration. If a file contains multiple config entries from previous
-appends, only the most recent entry is used for the idempotency check.
+In overwrite mode, the full generated YAML content is compared against the
+existing file after excluding generated header comment lines. In append mode,
+only the last YAML document in the file is compared against the newly generated
+configuration. If a file contains multiple config entries from previous appends,
+only the most recent entry is used for the idempotency check.
 - changed=true (status: success): The generated YAML configuration differs</p>
 <blockquote>
 <div><p>from the existing output file (or the file does not exist). The file was
@@ -1623,7 +1623,12 @@ already up-to-date.</p></li>
 API failure, or file write error. No file was written or modified.</p></li>
 </ul>
 <p>Note: Re-running with identical inputs and unchanged Catalyst Center state
-will produce changed=false, ensuring idempotent playbook behavior.</p>
+will produce changed=false, ensuring idempotent playbook behavior.
+Note: If append mode creates multiple config entries in the
+generated file, replaying the file as config in the workflow
+manager module applies only the last config entry because
+yaml.safe_load uses last-key-wins semantics for duplicate
+keys in a single YAML document.</p>
 </li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>

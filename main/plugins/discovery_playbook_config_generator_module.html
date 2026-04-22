@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.discovery_playbook_config_generator module -- Generate YAML configurations playbook for 'discovery_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-discovery-playbook-config-generator-module-generate-yaml-configurations-playbook-for-discovery-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-discovery-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1518,7 +1518,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-discover
 <h2><a class="toc-backref" href="#id60" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<ul class="simple">
+<ul>
 <li><p>Requires minimum Cisco Catalyst Center version 2.3.7.9 for discovery API support.</p></li>
 <li><p>Module will fail with an error if connected to an unsupported version.</p></li>
 <li><p>Generated playbooks are compatible with the <code class="docutils literal notranslate"><span class="pre">discovery_workflow_manager</span></code> module for discovery task operations.</p></li>
@@ -1528,6 +1528,28 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-discover
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">dnac_log</span></code> and <code class="docutils literal notranslate"><span class="pre">dnac_log_level</span></code> parameters for detailed operation logging and troubleshooting.</p></li>
 <li><p>SDK Methods used are - discovery.Discovery.get_discoveries_by_range - discovery.Discovery.get_discovery_by_id - discovery.Discovery.get_all_global_credentials - discovery.Discovery.get_all_global_credentials_v2 - discovery.Discovery.get_discovered_network_devices_by_discovery_id</p></li>
 <li><p>Paths used are - GET /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn} - GET /dna/intent/api/v1/discovery/{id} - GET /dna/intent/api/v1/global-credential - GET /dna/intent/api/v2/global-credential - GET /dna/intent/api/v1/discovery/{id}/network-device</p></li>
+<li><p>Module result behavior (changed/ok/failed):
+The module result reflects local file state only, not Catalyst Center state.
+In overwrite mode, the full generated YAML content is compared against the
+existing file after excluding generated header comment lines. In append mode,
+only the last YAML document in the file is compared against the newly generated
+configuration. If a file contains multiple config entries from previous appends,
+only the most recent entry is used for the idempotency check.
+- changed=true (status: success): The generated YAML configuration differs</p>
+<blockquote>
+<div><p>from the existing output file (or the file does not exist). The file was
+written and the configuration was updated.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>changed=false (status: ok): The generated YAML configuration matches the
+existing output file content. The write was skipped as the file is
+already up-to-date. Also returned when no discoveries are found.</p></li>
+<li><p>failed=true (status: failed): The module encountered a validation error,
+API failure, or file write error. No file was written or modified.</p></li>
+</ul>
+<p>Note: Re-running with identical inputs and unchanged Catalyst Center state
+will produce changed=false, ensuring idempotent playbook behavior.</p>
+</li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
