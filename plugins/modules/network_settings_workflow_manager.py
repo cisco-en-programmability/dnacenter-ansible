@@ -6938,6 +6938,12 @@ class NetworkSettings(DnacBase):
 
         self.have.clear()
         self.want.clear()
+        self.result["response"] = [
+            {"globalPool": {"response": {}, "msg": {}}},
+            {"reservePool": {"response": {}, "msg": {}}},
+            {"network": {"response": {}, "msg": {}}},
+            {"device_controllability": {"response": {}, "msg": {}}}
+        ]
         return
 
 

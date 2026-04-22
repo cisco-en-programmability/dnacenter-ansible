@@ -106,5 +106,21 @@
             }
         ],
         "version": "1.0"
+    },
+    "filter_not_found_case": {
+        "component_specific_filters": {
+            "components_list": [
+                "extranet_policies"
+            ],
+            "extranet_policies": [
+                {
+                    "extranet_policy_name": "NonExistent_Policy"
+                }
+            ]
+        }
+    },
+    "get_extranet_policies_not_found_response": {
+        "response": [],
+        "version": "1.0"
     }
 }

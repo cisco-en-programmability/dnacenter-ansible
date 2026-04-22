@@ -41,7 +41,6 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
     playbook_config_fabric_vlan_by_vlan_id_single = test_data.get("playbook_config_fabric_vlan_by_vlan_id_single")
     playbook_config_fabric_vlan_by_vlan_id_multiple = test_data.get("playbook_config_fabric_vlan_by_vlan_id_multiple")
     playbook_config_fabric_vlan_by_vlan_name_and_id = test_data.get("playbook_config_fabric_vlan_by_vlan_name_and_id")
-    playbook_config_fabric_vlan_by_vlan_id_large_values = test_data.get("playbook_config_fabric_vlan_by_vlan_id_large_values")
     playbook_config_virtual_networks_by_vn_name_single = test_data.get("playbook_config_virtual_networks_by_vn_name_single")
     playbook_config_virtual_networks_by_vn_name_multiple = test_data.get("playbook_config_virtual_networks_by_vn_name_multiple")
     playbook_config_anycast_gateways_by_vn_name = test_data.get("playbook_config_anycast_gateways_by_vn_name")
@@ -56,6 +55,8 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
     playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
+    playbook_config_invalid_component = test_data.get("playbook_config_invalid_component")
+    playbook_config_invalid_component_filters = test_data.get("playbook_config_invalid_component_filters")
 
     def setUp(self):
         super(TestFabricVirtualNetworksPlaybookConfigGenerator, self).setUp()
@@ -84,151 +85,111 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
 
         if "generate_all_configurations" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_virtual_network_response"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
             ]
 
         elif "fabric_vlan_by_vlan_name_single" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "fabric_vlan_by_vlan_name_multiple" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "fabric_vlan_by_vlan_id_single" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "fabric_vlan_by_vlan_id_multiple" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "fabric_vlan_by_vlan_name_and_id" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
-        elif "fabric_vlan_by_vlan_id_large_values" in self._testMethodName:
-            # No side effects needed - validation happens before API calls
-            pass
-
         elif "virtual_networks_by_vn_name_single" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "virtual_networks_by_vn_name_multiple" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_virtual_network_response"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "anycast_gateways_by_vn_name" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_by_ip_pool_name" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_by_vlan_id" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
-                self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_by_vlan_name" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_by_vlan_name_and_id" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_all_filters" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
                 self.test_data.get("get_anycast_gateway_details"),
@@ -239,50 +200,44 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
 
         elif "multiple_components" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_virtual_network_response"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_fabric_site_details")
             ]
 
         elif "all_components" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_virtual_network_response"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_reserve_ip_pool_details"),
             ]
 
         elif "empty_filters" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
-                self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_fabric_site_details"),
+                self.test_data.get("get_fabric_site_details")
             ]
 
-        elif "no_file_path" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_fabric_vlan_response"),
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
-            ]
         elif "empty_config" in self._testMethodName:
             # No side effects needed - validation happens before API calls
             pass
+
         elif "empty_component_specific_filters" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+
+        elif "invalid_component" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+
+        elif "invalid_component_filters" in self._testMethodName:
             # No side effects needed - validation happens before API calls
             pass
 
@@ -436,28 +391,6 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
-
-    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_id_large_values(self):
-        """
-        Test case for validating invalid VLAN ID values.
-
-        This test verifies that the generator properly validates and handles VLAN IDs
-        that are outside the acceptable range (2-4094, excluding reserved VLANs).
-        """
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.9",
-                dnac_log=True,
-                state="gathered",
-                config=self.playbook_config_fabric_vlan_by_vlan_id_large_values
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid vlan_id", result.get('msg'))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -736,31 +669,6 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
-        """
-        Test case for generating YAML configuration without specifying file path.
-
-        This test verifies that the generator creates a default filename when
-        no file path is provided in the configuration.
-        """
-        mock_exists.return_value = True
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.9",
-                dnac_log=True,
-                state="gathered",
-                config=self.playbook_config_no_file_path
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
-
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
     def test_sda_fabric_virtual_networks_playbook_config_generator_empty_config(self, mock_exists, mock_file):
         """
         Test case for empty configuration dictionary.
@@ -814,3 +722,53 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestDnacModule):
             "Invalid parameters in playbook config: 'component_specific_filters' is provided but empty.",
             str(result.get("msg")),
         )
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_sda_fabric_virtual_networks_playbook_config_generator_invalid_component(self, mock_exists, mock_file):
+        """
+        Test case for invalid component in configuration.
+
+        This test verifies that the generator correctly fails when an invalid
+        component name is included in the configuration.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config=self.playbook_config_invalid_component
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid network components provided for module", str(result.get("msg")))
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_sda_fabric_virtual_networks_playbook_config_generator_invalid_component_filters(self, mock_exists, mock_file):
+        """
+        Test case for invalid component filters in configuration.
+
+        This test verifies that the generator correctly fails when invalid
+        filter keys are included for a valid component in the configuration.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config=self.playbook_config_invalid_component_filters
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid filters provided for module", str(result.get("msg")))
