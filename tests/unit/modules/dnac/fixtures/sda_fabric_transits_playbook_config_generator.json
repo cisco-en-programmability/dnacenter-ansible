@@ -158,6 +158,33 @@
   "playbook_config_empty_component_specific_filters": {
     "component_specific_filters": {}
   },
+  "playbook_config_invalid_component": {
+    "component_specific_filters": {
+      "invalid_component": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
+  "playbook_config_invalid_component_filters": {
+    "component_specific_filters": {
+      "sda_fabric_transits": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
+  "playbook_config_invalid_transit_type": {
+    "component_specific_filters": {
+      "sda_fabric_transits": [
+        {
+          "transit_type": "invalid_transit_type"
+        }
+      ]
+    }
+  },
   "get_device_details": {
     "response": [
       {

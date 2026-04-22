@@ -268,6 +268,9 @@
       ]
     }
   },
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
+  },
   "playbook_config_no_file_path": {
     "component_specific_filters": {
       "components_list": [

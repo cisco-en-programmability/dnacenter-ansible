@@ -5,7 +5,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Abhishek Maheshwari, Madhan Sankaranarayanan"
+__author__ = "Abhishek Maheshwari, Sunil Shatagopa, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_virtual_networks_workflow_manager
@@ -21,8 +21,10 @@ description:
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan
-  (@madhansansel)
+author:
+- Abhishek Maheshwari (@abmahesh)
+- Sunil Shatagopa (@shatagopasunil)
+- Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -40,7 +42,7 @@ options:
       that can be created or updated at a time via the
       SDA API, aligning with GUI constraints. The default
       is 20, as the GUI allows creating up to 20 fabric
-      VLANs at a time.
+      VLANs at a time. Valid range is from 1 to 20.
     type: int
     default: 20
   sda_fabric_gateway_limit:
@@ -49,6 +51,16 @@ options:
       via the SDA API, aligning with GUI constraints.
       The default is 20, as the GUI allows creating
       up to 20 anycast gateways at a time.
+      Valid range is from 1 to 20.
+    type: int
+    default: 20
+  sda_virtual_network_limit:
+    description: Sets the maximum number of layer3
+      virtual networks that can be created or updated
+      at a time via the SDA API, aligning with GUI
+      constraints. The default is 20, as the GUI allows
+      creating up to 20 virtual networks at a time.
+      Valid range is from 1 to 20.
     type: int
     default: 20
   config:
@@ -83,8 +95,11 @@ options:
             required: true
           vlan_id:
             description: ID for the layer2 VLAN network.
-              Allowed VLAN range is 2-4093 except for
-              reserved VLANs 1002-1005, and 2046. If
+              Allowed VLAN range is 2-4093. Reserved VLANs
+              are 1002-1005 and 2046. We do not allow users
+              to create fabric VLANs with reserved VLANs,
+              but we accept reserved VLANs to support
+              idempotent behavior. If
               deploying on a fabric zone, this vlan_id
               must match the vlan_id of the corresponding
               layer2 virtual network on the fabric site.
@@ -338,11 +353,14 @@ options:
             type: str
           vlan_id:
             description: ID of the VLAN for the anycast
-              gateway. The allowed VLAN range is 2-4093,
-              except for reserved VLANs 1002-1005, 2046,
-              and 4094. If deploying an anycast gateway
-              on a fabric zone, this 'vlan_id' must
-              match the 'vlan_id' of the corresponding
+              gateway. Allowed VLAN range is 2-4093.
+              Reserved VLANs are 1002-1005 and 2046.
+              We do not allow users to create anycast
+              gateways with reserved VLANs, but we
+              accept reserved VLANs to support
+              idempotent behavior. If deploying an
+              anycast gateway on a fabric zone, this
+              vlan_id must match the vlan_id of the corresponding
               anycast gateway on the fabric site. This
               field is optional if the parameter 'auto_generate_vlan_name'
               is set to true. Updating this field is
@@ -971,6 +989,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 import copy
 import re
 
+RESERVED_VLAN_IDS = frozenset({1002, 1003, 1004, 1005, 2046})
+
 
 class VirtualNetwork(DnacBase):
     """Class containing member attributes for fabric sites and zones workflow manager module"""
@@ -1001,6 +1021,25 @@ class VirtualNetwork(DnacBase):
         self.deleted_anycast_gateways = []
         self.absent_anycast_gateways = []
 
+    def _is_reserved_vlan_id(self, vlan_id):
+        """
+        Checks whether the provided VLAN ID belongs to the reserved VLAN range.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            vlan_id (int): The VLAN ID to validate against the reserved VLAN IDs.
+        Returns:
+            bool: Returns True if `vlan_id` is one of the reserved VLAN IDs (1002-1005, 2046),
+                otherwise returns False.
+        """
+
+        is_reserved = vlan_id in RESERVED_VLAN_IDS
+        self.log(
+            "VLAN ID '{0}' reserved status: {1}.".format(vlan_id, is_reserved),
+            "DEBUG",
+        )
+
+        return is_reserved
+
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -1019,6 +1058,34 @@ class VirtualNetwork(DnacBase):
             will contain the validated configuration. If it fails, 'self.status' will be 'failed', and
             'self.msg' will describe the validation issues.
         """
+
+        limit_params = [
+            "sda_fabric_vlan_limit",
+            "sda_fabric_gateway_limit",
+            "sda_virtual_network_limit",
+        ]
+
+        self.log(
+            "Validating bulk request limit parameters: {0}".format(limit_params),
+            "DEBUG",
+        )
+
+        for limit_param in limit_params:
+            limit_value = self.params.get(limit_param)
+
+            self.log(
+                "Validating parameter '{0}' with value '{1}'.".format(
+                    limit_param, limit_value
+                ),
+                "DEBUG",
+            )
+            if limit_value is not None and not 1 <= limit_value <= 20:
+                self.msg = (
+                    "Invalid value '{0}' given for '{1}'. Supported range is 1 to 20 as per SDA API batch limits."
+                ).format(limit_value, limit_param)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
         temp_spec = {
             "fabric_vlan": {
@@ -1449,12 +1516,32 @@ class VirtualNetwork(DnacBase):
                 ),
                 "DEBUG",
             )
+            params = {}
+
+            # For reserved VLAN IDs, querying get_layer2_virtual_networks with vlan_id causes API errors.
+            # Use vlan_name-based lookup for reserved VLAN handling to preserve idempotent behavior.
+            if self._is_reserved_vlan_id(vlan_id):
+                self.log(
+                    "Given VLAN ID '{0}' is a reserved VLAN ID. Using vlan_name param to fetch fabric vlan."
+                    .format(vlan_id),
+                    "DEBUG"
+                )
+                params["vlan_name"] = vlan_name
+            else:
+                self.log(
+                    "Given VLAN ID '{0}' is not a reserved VLAN ID. Using vlan_id param to fetch fabric vlan."
+                    .format(vlan_id),
+                    "DEBUG"
+                )
+                params["vlan_id"] = vlan_id
+
             response = self.dnac._exec(
                 family="sda",
                 function="get_layer2_virtual_networks",
                 op_modifies=False,
-                params={"vlan_id": vlan_id},
+                params=params,
             )
+
             response = response.get("response")
             self.log(
                 "Received API response from 'get_layer2_virtual_networks' for the VLAN '{0}': {1}".format(
@@ -1472,7 +1559,23 @@ class VirtualNetwork(DnacBase):
                 )
                 return vlan_ids
 
-            for vlan_vn in response:
+            filtered_response = [
+                vlan
+                for vlan in response
+                if vlan.get("vlanName") == vlan_name
+                and vlan.get("vlanId") == vlan_id
+            ]
+
+            if not filtered_response:
+                self.log(
+                    "No matching layer2 fabric VLAN found in Cisco Catalyst Center for vlan_name '{0}' and vlan_id '{1}'.".format(
+                        vlan_name, vlan_id
+                    ),
+                    "INFO",
+                )
+                return vlan_ids
+
+            for vlan_vn in filtered_response:
                 vlan_id_value = vlan_vn.get("id")
                 vlan_ids.append(vlan_id_value)
                 self.log(
@@ -1524,12 +1627,29 @@ class VirtualNetwork(DnacBase):
                 ),
                 "DEBUG",
             )
+            params = {"fabric_id": fabric_id}
+            if self._is_reserved_vlan_id(vlan_id):
+                self.log(
+                    "Given VLAN ID '{0}' is a reserved VLAN ID. Using vlan_name with fabric_id to fetch VLAN details."
+                    .format(vlan_id),
+                    "DEBUG",
+                )
+                params["vlan_name"] = vlan_name
+            else:
+                self.log(
+                    "Given VLAN ID '{0}' is not a reserved VLAN ID. Using vlan_id with fabric_id to fetch VLAN details."
+                    .format(vlan_id),
+                    "DEBUG",
+                )
+                params["vlan_id"] = vlan_id
+
             response = self.dnac._exec(
                 family="sda",
                 function="get_layer2_virtual_networks",
                 op_modifies=False,
-                params={"vlan_id": vlan_id, "fabric_id": fabric_id},
+                params=params,
             )
+
             response = response.get("response")
             self.log(
                 "Received API response from 'get_layer2_virtual_networks' for VLAN '{0}': {1}".format(
@@ -1547,8 +1667,26 @@ class VirtualNetwork(DnacBase):
                 )
                 return None
 
+            filtered_response = [
+                vlan
+                for vlan in response
+                if vlan.get("vlanName") == vlan_name
+                and vlan.get("vlanId") == vlan_id
+            ]
+
+            if not filtered_response:
+                self.log(
+                    "No matching layer2 VLAN found in Cisco Catalyst Center for vlan_name '{0}' and vlan_id '{1}'.".format(
+                        vlan_name, vlan_id
+                    ),
+                    "INFO",
+                )
+                return None
+
+            matched_vlan = filtered_response[0]
+
             self.log(
-                "Returning details for VLAN '{0}': {1}".format(vlan_name, response[0]),
+                "Returning details for VLAN '{0}': {1}".format(vlan_name, matched_vlan),
                 "DEBUG",
             )
 
@@ -1561,7 +1699,7 @@ class VirtualNetwork(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-        return response[0]
+        return matched_vlan
 
     def validate_traffic_type(self, traffic_type):
         """
@@ -1691,7 +1829,7 @@ class VirtualNetwork(DnacBase):
         Creates fabric VLAN(s) in Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            vlan_payloads (dict): The payload containing the details for the VLAN(s) to be created.
+            vlan_payloads (list): A list of dictionaries containing the payload details for the VLAN(s) to be created.
         Returns:
             self (object): Returns the instance of the class. If the creation process fails at any point, the instance's
                 status is set to "failed" and the failure response is added to the result dictionary.
@@ -1711,8 +1849,8 @@ class VirtualNetwork(DnacBase):
         )
 
         for i in range(0, len(vlan_payloads), req_limit):
-            fabric_vlan_payload = vlan_payloads[i : i + req_limit]
-            fabric_vlan_details = self.created_fabric_vlans[i : i + req_limit]
+            fabric_vlan_payload = vlan_payloads[i:i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i:i + req_limit]
 
             try:
                 payload = {"payload": fabric_vlan_payload}
@@ -2042,7 +2180,7 @@ class VirtualNetwork(DnacBase):
         Updates the fabric VLAN(s) in Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            update_vlan_payload (dict): A dictionary containing the details required to update the fabric VLAN(s).
+            update_vlan_payload (list): A list of dictionaries containing the details required to update the fabric VLAN(s).
         Returns:
             self (object): Returns the instance of the class. If the update process fails at any point, the instance's
                 status is set to "failed" and the failure response is added to the result dictionary.
@@ -2064,8 +2202,8 @@ class VirtualNetwork(DnacBase):
         )
 
         for i in range(0, len(update_vlan_payload), req_limit):
-            vlan_payload = update_vlan_payload[i : i + req_limit]
-            fabric_vlan_details = self.created_fabric_vlans[i : i + req_limit]
+            vlan_payload = update_vlan_payload[i:i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i:i + req_limit]
 
             try:
                 payload = {"payload": vlan_payload}
@@ -2599,8 +2737,8 @@ class VirtualNetwork(DnacBase):
         Creates Layer3 Virtual Networks in the Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            add_vn_payloads (dict): A dictionary containing the details required to create
-                                            the Layer3 Virtual Networks.
+            add_vn_payloads (list): A list of dictionaries containing the details
+                                            required to create the Layer3 Virtual Networks.
         Returns:
             self (object): The instance of the class with updated status and result attributes reflecting
                         the outcome of the virtual network creation operation.
@@ -2678,33 +2816,49 @@ class VirtualNetwork(DnacBase):
                 "Proceeding with creation of remaining Virtual Networks in Cisco Catalyst Center.",
                 "INFO",
             )
-            payload = {"payload": add_vn_payloads}
-            self.log(
-                "Constructed payload for VN creation: {0}".format(payload), "DEBUG"
-            )
-            task_name = "add_layer3_virtual_networks"
-            self.log(
-                "Triggering '{0}' API call with payload.".format(task_name), "DEBUG"
-            )
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            if not task_id:
-                self.msg = (
-                    "Failed to retrieve task ID for '{0}'. VN creation aborted.".format(
-                        task_name
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
+            req_limit = self.params.get("sda_virtual_network_limit", 20)
             self.log(
-                "Received task ID: {0}. Monitoring task status.".format(task_id),
+                "API request batch size set to '{0}' for virtual network(s) creation.".format(
+                    req_limit
+                ),
                 "DEBUG",
             )
-            success_msg = "Layer3 Virtual Network(s) '{0}' created successfully in the Cisco Catalyst Center.".format(
-                self.created_virtual_networks
-            )
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            for i in range(0, len(add_vn_payloads), req_limit):
+                batch_number = (i // req_limit) + 1
+                vn_payload = add_vn_payloads[i:i + req_limit]
+                vn_names = [vn.get("virtualNetworkName") for vn in vn_payload]
+                payload = {"payload": vn_payload}
+
+                self.log(
+                    "Processing batch {0}: Constructed payload for VN creation: {1}".format(
+                        batch_number, payload
+                    ),
+                    "DEBUG",
+                )
+                task_name = "add_layer3_virtual_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+                if not task_id:
+                    self.msg = (
+                        "Batch {0}: Failed to retrieve task ID for '{1}'. VN creation aborted.".format(
+                            batch_number, task_name
+                        )
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                self.log(
+                    "Batch {0}: Received task ID: {1}. Monitoring task status.".format(
+                        batch_number, task_id
+                    ),
+                    "DEBUG",
+                )
+                success_msg = "Batch {0}: Layer3 Virtual Network(s) '{1}' created successfully in the Cisco Catalyst Center.".format(
+                    batch_number, vn_names
+                )
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
             self.msg = (
@@ -2915,7 +3069,7 @@ class VirtualNetwork(DnacBase):
         Updates Layer3 Virtual Networks in the Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            update_vn_payloads (dict): A dictionary containing the payload for updating
+            update_vn_payloads (list): A list of dictionaries containing the payload for updating
                                                 Layer3 Virtual Networks.
         Returns:
             self (object): The instance of the class, allowing for method chaining.
@@ -2926,23 +3080,49 @@ class VirtualNetwork(DnacBase):
             same instance.
         """
 
-        payload = {"payload": update_vn_payloads}
-        task_name = "update_layer3_virtual_networks"
+        self.log(
+            "Updating virtual networks with {0} payload(s).".format(
+                len(update_vn_payloads)
+            ),
+            "INFO",
+        )
 
         try:
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
-
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
-                    task_name
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            success_msg = "Layer3 Virtual Network(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(
-                self.updated_virtual_networks
+            req_limit = self.params.get("sda_virtual_network_limit", 20)
+            self.log(
+                "API request batch size set to '{0}' for virtual network(s) update.".format(
+                    req_limit
+                ),
+                "DEBUG",
             )
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+            for i in range(0, len(update_vn_payloads), req_limit):
+                batch_number = (i // req_limit) + 1
+                vn_payload = update_vn_payloads[i:i + req_limit]
+                vn_names = [vn.get("virtualNetworkName") for vn in vn_payload]
+                payload = {"payload": vn_payload}
+
+                self.log(
+                    "Processing batch {0}: Constructed payload for VN update: {1}".format(
+                        batch_number, payload
+                    ),
+                    "DEBUG",
+                )
+
+                task_name = "update_layer3_virtual_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+                if not task_id:
+                    self.msg = "Batch {0}: Unable to retrieve the task_id for the task '{1}'.".format(
+                        batch_number, task_name
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = "Batch {0}: Layer3 Virtual Network(s) '{1}' updated successfully in the Cisco Catalyst Center.".format(
+                    batch_number, vn_names
+                )
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
             self.msg = (
@@ -3171,14 +3351,15 @@ class VirtualNetwork(DnacBase):
             self.validate_traffic_type(traffic_type.upper())
 
         vlan_id = anycast.get("vlan_id")
+
+        # Reserved VLANs are intentionally not validated here to keep operations idempotent.
+        # If reserved VLAN IDs already exist, this check should not fail the workflow.
         if (
             vlan_id
             and vlan_id not in range(2, 4094)
-            or vlan_id in [1002, 1003, 1004, 1005, 2046]
         ):
             self.msg = (
-                "Invalid vlan_id '{0}' given in the playbook. Allowed VLAN range is (2,4094) except for "
-                "reserved VLANs 1002-1005, and 2046."
+                "Invalid vlan_id '{0}' given in the playbook. Please provide vlan_id within the range 2-4093."
             ).format(vlan_id)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
@@ -3733,7 +3914,7 @@ class VirtualNetwork(DnacBase):
         Adds Anycast Gateways to the Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            add_anycast_payloads (dict): A dictionary containing the necessary details for
+            add_anycast_payloads (list): A list of dictionaries containing the necessary details for
                 adding Anycast Gateways.
         Returns:
             self (object): The instance of the class, allowing for method chaining. The status of the operation
@@ -3755,8 +3936,8 @@ class VirtualNetwork(DnacBase):
         )
         for i in range(0, len(add_anycast_payloads), req_limit):
             batch_number = (i // req_limit) + 1
-            gateway_payload = add_anycast_payloads[i : i + req_limit]
-            batch_gateways_added = self.created_anycast_gateways[i : i + req_limit]
+            gateway_payload = add_anycast_payloads[i:i + req_limit]
+            batch_gateways_added = self.created_anycast_gateways[i:i + req_limit]
             payload = {"payload": gateway_payload}
             task_name = "add_anycast_gateways"
             self.log(
@@ -3809,7 +3990,7 @@ class VirtualNetwork(DnacBase):
         Updates Anycast Gateways in the Cisco Catalyst Center using the provided payload.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            update_anycast_payloads (dict): A dictionary containing the necessary details for updating
+            update_anycast_payloads (list): A list of dictionaries containing the necessary details for updating
                 Anycast Gateways.
         Returns:
             self (object): The instance of the class, allowing for method chaining. The status of the operation
@@ -3831,8 +4012,8 @@ class VirtualNetwork(DnacBase):
         )
         for i in range(0, len(update_anycast_payloads), req_limit):
             batch_number = (i // req_limit) + 1
-            gateway_payload = update_anycast_payloads[i : i + req_limit]
-            batch_gateways_updated = self.updated_anycast_gateways[i : i + req_limit]
+            gateway_payload = update_anycast_payloads[i:i + req_limit]
+            batch_gateways_updated = self.updated_anycast_gateways[i:i + req_limit]
             payload = {"payload": gateway_payload}
             task_name = "update_anycast_gateways"
 
@@ -3984,22 +4165,6 @@ class VirtualNetwork(DnacBase):
                     )
                     missing_required_param.append(param)
 
-            if vlan_id not in range(2, 4094) or vlan_id in [
-                1002,
-                1003,
-                1004,
-                1005,
-                2046,
-            ]:
-                self.msg = (
-                    "Invalid vlan_id '{0}' given in the playbook. Allowed VLAN range is (2,4094) except for "
-                    "reserved VLANs 1002-1005, and 2046."
-                ).format(vlan_id)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
-                return self
-
             if missing_required_param:
                 self.msg = (
                     "Required parameter(s) '{0}' are missing and they must be given in the playbook in order to  "
@@ -4008,6 +4173,17 @@ class VirtualNetwork(DnacBase):
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
+
+            # Reserved VLANs are intentionally not validated here to keep operations idempotent.
+            # If reserved VLAN IDs already exist, this check should not fail the workflow.
+            if vlan_id not in range(2, 4094):
+                self.msg = (
+                    "Invalid vlan_id '{0}' in the playbook. Please provide vlan_id within the range 2-4093."
+                ).format(vlan_id)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
 
             flooding_address_assignment = vlan.get("flooding_address_assignment")
             if flooding_address_assignment and flooding_address_assignment not in ["SHARED", "CUSTOM"]:
@@ -5971,6 +6147,7 @@ def main():
         "config_verify": {"type": "bool", "default": False},
         "sda_fabric_vlan_limit": {"type": "int", "default": 20},
         "sda_fabric_gateway_limit": {"type": "int", "default": 20},
+        "sda_virtual_network_limit": {"type": "int", "default": 20},
         "dnac_api_task_timeout": {"type": "int", "default": 1200},
         "dnac_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
