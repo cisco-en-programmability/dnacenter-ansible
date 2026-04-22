@@ -175,7 +175,7 @@ options:
                   the network access and maintaining
                   security.
                 type: str
-              enable_bpu_guard:
+              enable_bpdu_guard:
                 description: A boolean setting that
                   enables or disables BPDU Guard. BPDU
                   Guard provides a security mechanism
@@ -485,7 +485,7 @@ EXAMPLES = r"""
               dot1x_fallback_timeout: 28
               wake_on_lan: false
               number_of_hosts: "Single"
-              enable_bpu_guard: false
+              enable_bpdu_guard: false
 
 - name: Deleting/removing fabric site from sda from
     Cisco Catalyst Center
@@ -599,7 +599,7 @@ class FabricSitesZones(DnacBase):
                     "dot1x_fallback_timeout": {"type": "int"},
                     "wake_on_lan": {"type": "bool"},
                     "number_of_hosts": {"type": "str"},
-                    "enable_bpu_guard": {"type": "bool"},
+                    "enable_bpdu_guard": {"type": "bool"},
                     "pre_auth_acl": {
                         "type": "dict",
                         "enabled": {"type": "bool"},
@@ -1414,7 +1414,7 @@ class FabricSitesZones(DnacBase):
                 is needed. Returns `False` if the settings match and no update is required.
         Description:
             This method compares the provided authentication profile settings (`auth_profile_dict`) with the current settings retrieved from
-            the Cisco Catalyst Center (`auth_profile_in_ccc`). It considers the possibility of an additional setting "enable_bpu_guard" if
+            the Cisco Catalyst Center (`auth_profile_in_ccc`). It considers the possibility of an additional setting "enable_bpdu_guard" if
             the current profile is "Closed Authentication".
             It iterates through a mapping of profile settings and checks if any of the settings require an update. If any discrepancies are
             found, the method returns `True`. If all settings match, it returns `False`.
@@ -1428,7 +1428,7 @@ class FabricSitesZones(DnacBase):
         }
         profile_name = auth_profile_in_ccc.get("authenticationProfileName")
         if profile_name == "Closed Authentication":
-            profile_key_mapping["enable_bpu_guard"] = "isBpduGuardEnabled"
+            profile_key_mapping["enable_bpdu_guard"] = "isBpduGuardEnabled"
 
         for key, ccc_key in profile_key_mapping.items():
             desired_value = auth_profile_dict.get(key)
@@ -1549,13 +1549,13 @@ class FabricSitesZones(DnacBase):
             )
 
         if profile_name == "Closed Authentication":
-            if auth_profile_dict.get("enable_bpu_guard") is None:
+            if auth_profile_dict.get("enable_bpdu_guard") is None:
                 authentications_params_dict["isBpduGuardEnabled"] = (
                     auth_profile_in_ccc.get("isBpduGuardEnabled", True)
                 )
             else:
                 authentications_params_dict["isBpduGuardEnabled"] = (
-                    auth_profile_dict.get("enable_bpu_guard")
+                    auth_profile_dict.get("enable_bpdu_guard")
                 )
 
         if (
