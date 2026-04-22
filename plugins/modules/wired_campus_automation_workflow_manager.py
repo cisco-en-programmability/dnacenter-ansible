@@ -179,8 +179,12 @@ options:
                   - When true, the VLAN is active and can carry traffic.
                   - When false, the VLAN is administratively shut down.
                   - Disabled VLANs do not forward traffic but retain their configuration.
-                  - NOTE - "vlan_admin_status" Can only be modified for VLAN IDs 2-1001.
-                  - Extended range VLANs (1002-4094) do not support admin status updates.
+                  - NOTE - For standard-range VLANs (2-1001), "vlan_admin_status" can be
+                    set to true or false for both create and update operations.
+                  - For extended-range VLANs (1006-4094), "vlan_admin_status" cannot be
+                    set to false. These VLANs must always remain enabled. Setting
+                    "vlan_admin_status" to false for an extended-range VLAN will result
+                    in a validation error.
                 type: bool
                 required: false
                 default: true
@@ -3715,6 +3719,29 @@ class WiredCampusAutomation(DnacBase):
 
             self.log("Validating VLAN configuration: {0}".format(vlan), "DEBUG")
 
+            # Check for reserved VLAN IDs (1002-1005 are reserved for legacy protocols)
+            vlan_id = vlan.get("vlan_id")
+            if vlan_id is not None and vlan_id in (1002, 1003, 1004, 1005):
+                self.msg = (
+                    "VLAN ID {0} is reserved for legacy protocols (FDDI, Token Ring). "
+                    "Reserved VLAN IDs 1002-1005 cannot be created, modified, or deleted. "
+                    "Please use a VLAN ID outside the reserved range (2-1001 or 1006-4094).".format(vlan_id)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            # Extended-range VLANs (1006-4094) cannot have admin status set to false
+            vlan_admin_status = vlan.get("vlan_admin_status")
+            if vlan_id is not None and vlan_id >= 1006 and vlan_admin_status is False:
+                self.msg = (
+                    "Cannot set 'vlan_admin_status' to false for VLAN ID {0}. "
+                    "Extended-range VLANs (1006-4094) must always have admin status enabled. "
+                    "Please either set 'vlan_admin_status' to true or remove it from the "
+                    "VLAN {0} configuration.".format(vlan_id)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
             # Validate the individual VLAN configuration against the provided rules
             self.validate_config_against_rules("vlans", vlan, rules)
 
@@ -3881,6 +3908,19 @@ class WiredCampusAutomation(DnacBase):
         """
         self.log("Starting validation for VTP global configuration", "INFO")
         self.log("Validating VTP configuration: {0}".format(vtp_config), "DEBUG")
+
+        # Validate that vtp_pruning is only enabled when vtp_mode is SERVER
+        vtp_pruning = vtp_config.get("vtp_pruning")
+        vtp_mode = vtp_config.get("vtp_mode")
+        if vtp_pruning is True and vtp_mode is not None and vtp_mode != "SERVER":
+            self.msg = (
+                "Invalid configuration: 'vtp_pruning' can only be set to true when "
+                "'vtp_mode' is 'SERVER'. Current 'vtp_mode' is '{0}'. "
+                "Either set 'vtp_mode' to 'SERVER' or remove 'vtp_pruning' "
+                "from the configuration.".format(vtp_mode)
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
 
         # Validate the VTP configuration against the provided validation rules
         self.validate_config_against_rules("vtp", vtp_config, rules)
@@ -8152,6 +8192,17 @@ class WiredCampusAutomation(DnacBase):
             else:
                 # VLAN exists - check if update is needed
                 if self._config_needs_update(desired_vlan, deployed_vlan):
+                    # Validate: admin status cannot be set to false for extended-range VLANs (1006-4094)
+                    if vlan_id >= 1006 and desired_vlan.get("isVlanEnabled") is False:
+                        self.msg = (
+                            "Cannot set 'vlan_admin_status' to false for VLAN ID {0}. "
+                            "Extended-range VLANs (1006-4094) must always have admin status enabled. "
+                            "Please either set 'vlan_admin_status' to true or remove it from the "
+                            "VLAN {0} configuration.".format(vlan_id)
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
+
                     # Update existing VLAN with new parameters
                     updated_vlan = deployed_vlan.copy()
                     updated_vlan.update(
@@ -11492,7 +11543,7 @@ class WiredCampusAutomation(DnacBase):
 
                 # Monitor task completion using the same pattern as wireless design module
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 # Check the final status
@@ -11597,7 +11648,7 @@ class WiredCampusAutomation(DnacBase):
 
                 # Monitor deployment task completion using existing DnacBase function
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 # Check the final status
@@ -13745,7 +13796,7 @@ class WiredCampusAutomation(DnacBase):
 
                 # Monitor task completion
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13806,7 +13857,7 @@ class WiredCampusAutomation(DnacBase):
 
                 # Monitor task completion
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13867,7 +13918,7 @@ class WiredCampusAutomation(DnacBase):
 
                 # Monitor task completion using existing infrastructure
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13918,7 +13969,7 @@ class WiredCampusAutomation(DnacBase):
 
                 # Monitor task completion using existing infrastructure
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
