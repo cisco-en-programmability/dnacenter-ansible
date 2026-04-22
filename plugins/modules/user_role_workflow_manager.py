@@ -77,7 +77,7 @@ options:
                 requirements.
               - Must be at least 9 characters long and include
                 at least three of the following character
-                types: lowercase letters, uppercase letters,
+                types - lowercase letters, uppercase letters,
                 digits, and special characters.
               - Required for creating a new user account.
             type: str
