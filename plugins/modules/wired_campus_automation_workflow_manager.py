@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Vivek Raj"
 
 
 DOCUMENTATION = r"""
@@ -78,6 +78,7 @@ extends_documentation_fragment:
 author:
   - Rugvedi Kapse (@rukapse)
   - Madhan Sankaranarayanan (@madhansansel)
+  - Vivek Raj (@vivekraj2000)
 options:
   config_verify:
     description: Set to true to verify the Cisco Catalyst
@@ -573,7 +574,9 @@ options:
                   - When true, restricts flooded traffic to only necessary trunk links.
                   - Reduces unnecessary broadcast traffic in the VTP domain.
                   - Only affects VLANs 2-1001; VLAN 1 and extended VLANs are not pruned.
-                  - Can only be configured when "vtp_mode" is "SERVER".
+                  - VTP pruning can only be enabled when 'vtp_mode' is set to 'SERVER'.
+                  - Setting 'vtp_pruning' to true with any other 'vtp_mode' value will result in a
+                    validation error.
                 type: bool
                 required: false
                 default: false
@@ -3912,12 +3915,12 @@ class WiredCampusAutomation(DnacBase):
         # Validate that vtp_pruning is only enabled when vtp_mode is SERVER
         vtp_pruning = vtp_config.get("vtp_pruning")
         vtp_mode = vtp_config.get("vtp_mode")
-        if vtp_pruning is True and vtp_mode is not None and vtp_mode != "SERVER":
+        if vtp_pruning is True and vtp_mode != "SERVER":
             self.msg = (
                 "Invalid configuration: 'vtp_pruning' can only be set to true when "
                 "'vtp_mode' is 'SERVER'. Current 'vtp_mode' is '{0}'. "
                 "Either set 'vtp_mode' to 'SERVER' or remove 'vtp_pruning' "
-                "from the configuration.".format(vtp_mode)
+                "from the configuration.".format(vtp_mode if vtp_mode is not None else "not specified")
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
