@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.application_policy_playbook_config_generator module -- Generate YAML configurations playbook for 'application_policy_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-application-policy-playbook-config-generator-module-generate-yaml-configurations-playbook-for-application-policy-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-application-policy-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1300,10 +1300,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/application_policy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-playbook-config-generator-module-parameter-config-component-specific-filters-application-policy"><strong>application_policy</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/application_policy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/application_policy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specific application policy filtering options.</p>
 <p>Allows extraction of only specific policies by name.</p>
+<p>Provide one or more dictionaries in the list.</p>
+<p>When multiple entries include <code class="docutils literal notranslate"><span class="pre">policy_names_list</span></code>, values are merged uniquely while preserving input order.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1332,10 +1334,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/queuing_profile"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-application-policy-playbook-config-generator-module-parameter-config-component-specific-filters-queuing-profile"><strong>queuing_profile</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/queuing_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/queuing_profile" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specific queuing profile filtering options.</p>
 <p>Allows extraction of only specific queuing profiles by name.</p>
+<p>Provide one or more dictionaries in the list.</p>
+<p>When multiple entries include <code class="docutils literal notranslate"><span class="pre">profile_names_list</span></code>, values are merged uniquely while preserving input order.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1583,7 +1587,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;queuing_profile&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">queuing_profile</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">profile_names_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Enterprise-QoS-Profile&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Wireless-QoS&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_names_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Enterprise-QoS-Profile&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Wireless-QoS&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate specific application policies</span>
 <span class="w">  </span><span class="nt">cisco.dnac.application_policy_playbook_config_generator</span><span class="p">:</span>
@@ -1602,7 +1606,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;application_policy&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">application_policy</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">policy_names_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;wired_traffic_policy&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">policy_names_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;wired_traffic_policy&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate both queuing profiles and policies with filters</span>
 <span class="w">  </span><span class="nt">cisco.dnac.application_policy_playbook_config_generator</span><span class="p">:</span>
@@ -1621,9 +1625,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-applicat
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;queuing_profile&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;application_policy&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">queuing_profile</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">profile_names_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Enterprise-QoS-Profile&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">profile_names_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Enterprise-QoS-Profile&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">application_policy</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">policy_names_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;wired_traffic_policy&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;wireless_traffic_policy&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">policy_names_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;wired_traffic_policy&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;wireless_traffic_policy&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate configurations in append mode</span>
 <span class="w">  </span><span class="nt">cisco.dnac.application_policy_playbook_config_generator</span><span class="p">:</span>

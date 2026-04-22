@@ -42,7 +42,7 @@ cisco.dnac.application_policy_playbook_config_generator module -- Generate YAML 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -202,7 +202,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -215,6 +215,10 @@ Parameters
       Specific application policy filtering options.
 
       Allows extraction of only specific policies by name.
+
+      Provide one or more dictionaries in the list.
+
+      When multiple entries include \ :literal:`policy\_names\_list`\ , values are merged uniquely while preserving input order.
 
 
       .. raw:: html
@@ -325,7 +329,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -338,6 +342,10 @@ Parameters
       Specific queuing profile filtering options.
 
       Allows extraction of only specific queuing profiles by name.
+
+      Provide one or more dictionaries in the list.
+
+      When multiple entries include \ :literal:`profile\_names\_list`\ , values are merged uniquely while preserving input order.
 
 
       .. raw:: html
@@ -1151,7 +1159,7 @@ Examples
           component_specific_filters:
             components_list: ["queuing_profile"]
             queuing_profile:
-              profile_names_list: ["Enterprise-QoS-Profile", "Wireless-QoS"]
+              - profile_names_list: ["Enterprise-QoS-Profile", "Wireless-QoS"]
 
     - name: Generate specific application policies
       cisco.dnac.application_policy_playbook_config_generator:
@@ -1170,7 +1178,7 @@ Examples
           component_specific_filters:
             components_list: ["application_policy"]
             application_policy:
-              policy_names_list: ["wired_traffic_policy"]
+              - policy_names_list: ["wired_traffic_policy"]
 
     - name: Generate both queuing profiles and policies with filters
       cisco.dnac.application_policy_playbook_config_generator:
@@ -1189,9 +1197,9 @@ Examples
           component_specific_filters:
             components_list: ["queuing_profile", "application_policy"]
             queuing_profile:
-              profile_names_list: ["Enterprise-QoS-Profile"]
+              - profile_names_list: ["Enterprise-QoS-Profile"]
             application_policy:
-              policy_names_list: ["wired_traffic_policy", "wireless_traffic_policy"]
+              - policy_names_list: ["wired_traffic_policy", "wireless_traffic_policy"]
 
     - name: Generate configurations in append mode
       cisco.dnac.application_policy_playbook_config_generator:

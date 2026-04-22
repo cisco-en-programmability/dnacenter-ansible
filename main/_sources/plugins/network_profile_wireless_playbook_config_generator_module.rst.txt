@@ -42,7 +42,7 @@ cisco.dnac.network_profile_wireless_playbook_config_generator module -- Generate
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -141,7 +141,7 @@ Parameters
 
       If \ :literal:`config`\  is provided, \ :literal:`global\_filters`\  is mandatory.
 
-      If \ :literal:`config`\  is omitted, internal auto-discovery mode is used and generate\_all\_configurations defaults to \ :literal:`True`\ .
+      If \ :literal:`config`\  is omitted, internal auto-discovery mode is used and generate all configurations.
 
 
       .. raw:: html
@@ -177,13 +177,9 @@ Parameters
 
       Global filters to apply when generating the YAML configuration file.
 
-      These filters apply to all components unless overridden by component-specific filters.
+      These filters apply to all global filters unless overridden by generate all configuration.
 
       At least one filter type must be specified to identify target devices.
-
-      Filter priority (highest to lowest) is profile\_name\_list, day\_n\_template\_list, site\_list, ssid\_list, ap\_zone\_list, feature\_template\_list, additional\_interface\_list.
-
-      Only the highest priority filter with valid data will be processed.
 
 
       .. raw:: html
@@ -218,8 +214,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       List of additional interfaces to filter wireless profiles.
-
-      LOWEST PRIORITY - Only used if all other filters are not provided.
 
       Retrieves all wireless profiles containing any of the specified additional interfaces.
 
@@ -261,8 +255,6 @@ Parameters
 
       List of AP zones to filter wireless profiles.
 
-      LOW PRIORITY - Only used if higher priority filters are not provided.
-
       Retrieves all wireless profiles containing any of the specified AP zones.
 
       Case-sensitive and must be exact matches.
@@ -302,8 +294,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       List of Day-N templates to filter wireless profiles.
-
-      MEDIUM-HIGH PRIORITY - Only used if profile\_name\_list is not provided.
 
       Retrieves all wireless profiles containing any of the specified templates.
 
@@ -347,8 +337,6 @@ Parameters
 
       List of feature templates to filter wireless profiles.
 
-      LOWER PRIORITY - Only used if higher priority filters are not provided.
-
       Retrieves all wireless profiles containing any of the specified feature templates.
 
       Case-sensitive and must be exact matches.
@@ -387,9 +375,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of wireless profile names to extract configurations from.
-
-      HIGHEST PRIORITY - Used first if provided with valid data.
+      List of wireless profile names to extract configurations from and include in the generated YAML file.
 
       Wireless Profile names must match those registered in Catalyst Center.
 
@@ -433,8 +419,6 @@ Parameters
 
       List of site hierarchies to filter wireless profiles.
 
-      MEDIUM PRIORITY - Only used if neither profile\_name\_list nor day\_n\_template\_list are provided.
-
       Retrieves all wireless profiles assigned to any of the specified sites.
 
       Case-sensitive and must be exact matches.
@@ -476,8 +460,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       List of SSIDs to filter wireless profiles.
-
-      MEDIUM-LOW PRIORITY - Only used if profile\_name\_list, day\_n\_template\_list, and site\_list are not provided.
 
       Retrieves all wireless profiles containing any of the specified SSIDs.
 

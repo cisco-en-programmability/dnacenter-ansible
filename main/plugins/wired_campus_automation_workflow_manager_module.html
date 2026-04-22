@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.wired_campus_automation_workflow_manager module -- Manage wired campus automation operations in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-wired-campus-automation-workflow-manager-module-manage-wired-campus-automation-operations-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-wired-campus-automation-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -3120,8 +3120,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-wired-ca
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/layer2_configuration/stp/stp_instances/stp_instace_forward_delay_timer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-wired-campus-automation-workflow-manager-module-parameter-config-layer2-configuration-stp-stp-instances-stp-instace-forward-delay-timer"><strong>stp_instace_forward_delay_timer</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/layer2_configuration/stp/stp_instances/stp_instace_forward_delay_timer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/layer2_configuration/stp/stp_instances/stp_instance_forward_delay_timer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-wired-campus-automation-workflow-manager-module-parameter-config-layer2-configuration-stp-stp-instances-stp-instance-forward-delay-timer"><strong>stp_instance_forward_delay_timer</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/layer2_configuration/stp/stp_instances/stp_instance_forward_delay_timer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Forward delay timer for this STP instance in seconds.</p>
 <p>Must be between 4 and 30 seconds.</p>
@@ -3132,8 +3132,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-wired-ca
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/layer2_configuration/stp/stp_instances/stp_instace_hello_interval_timer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-wired-campus-automation-workflow-manager-module-parameter-config-layer2-configuration-stp-stp-instances-stp-instace-hello-interval-timer"><strong>stp_instace_hello_interval_timer</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/layer2_configuration/stp/stp_instances/stp_instace_hello_interval_timer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/layer2_configuration/stp/stp_instances/stp_instance_hello_interval_timer"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-wired-campus-automation-workflow-manager-module-parameter-config-layer2-configuration-stp-stp-instances-stp-instance-hello-interval-timer"><strong>stp_instance_hello_interval_timer</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/layer2_configuration/stp/stp_instances/stp_instance_hello_interval_timer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Hello interval timer for this STP instance in seconds.</p>
 <p>Must be between 1 and 10 seconds.</p>
@@ -3893,8 +3893,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-wired-ca
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">204.1.2.3</span>
 <span class="w">        </span><span class="nt">layer2_configuration</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">authentication</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">enable_dot1x_authentication</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">          </span><span class="nt">authentication_config_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NEW_STYLE</span>
+<span class="w">            </span><span class="nt">enable_dot1x_authentication</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">authentication_config_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NEW_STYLE</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure LACP and PAGP Port Channels</span>
 <span class="w">  </span><span class="nt">cisco.dnac.wired_campus_automation_workflow_manager</span><span class="p">:</span>

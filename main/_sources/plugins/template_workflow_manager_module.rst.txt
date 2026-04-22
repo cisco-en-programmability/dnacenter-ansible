@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -4042,6 +4042,308 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/member_template_deployment_info"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/member_template_deployment_info:
+
+      .. rst-class:: ansible-option-title
+
+      **member_template_deployment_info**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/member_template_deployment_info" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of member template deployment details used when deploying a composite template.
+
+      Each entry describes a child template and its deployment parameters.
+
+      Required when is\_composite is set to true.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/member_template_deployment_info/copy_config"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/member_template_deployment_info/copy_config:
+
+      .. rst-class:: ansible-option-title
+
+      **copy_config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/member_template_deployment_info/copy_config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether to copy the running configuration to startup after applying the member template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/member_template_deployment_info/force_push_template"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/member_template_deployment_info/force_push_template:
+
+      .. rst-class:: ansible-option-title
+
+      **force_push_template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/member_template_deployment_info/force_push_template" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether to force push the member template to the device even if the template has already been applied.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/member_template_deployment_info/project_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/member_template_deployment_info/project_name:
+
+      .. rst-class:: ansible-option-title
+
+      **project_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/member_template_deployment_info/project_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the project under which the member template resides in Catalyst Center.
+
+      Matched against the 'name' field of projects returned by the Catalyst Center API.
+
+      If omitted, defaults to the parent template's project\_name, allowing member templates in the same project to be referenced without repetition.
+
+      Applies per member entry in the member\_template\_deployment\_info list.
+
+      For example, 'Composite\_Project'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/member_template_deployment_info/template_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/member_template_deployment_info/template_name:
+
+      .. rst-class:: ansible-option-title
+
+      **template_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/member_template_deployment_info/template_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the member template to deploy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/member_template_deployment_info/template_parameters"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/member_template_deployment_info/template_parameters:
+
+      .. rst-class:: ansible-option-title
+
+      **template_parameters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/member_template_deployment_info/template_parameters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of parameter name-value pairs for customizing the member template.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/member_template_deployment_info/template_parameters/param_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/member_template_deployment_info/template_parameters/param_name:
+
+      .. rst-class:: ansible-option-title
+
+      **param_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/member_template_deployment_info/template_parameters/param_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/member_template_deployment_info/template_parameters/param_value"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/deploy_template/member_template_deployment_info/template_parameters/param_value:
+
+      .. rst-class:: ansible-option-title
+
+      **param_value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/member_template_deployment_info/template_parameters/param_value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Value for the parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -9866,6 +10168,76 @@ Examples
               software_type: "IOS-XE"
               device_types:
                 - product_family: Switches and Hubs
+
+    - name: Deploy a composite template with member templates to devices based on device specific details
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: true
+        validate_response_schema: false
+        state: "merged"
+        config_verify: true
+        config:
+          - deploy_template:
+              project_name: "composite_project"
+              template_name: "composite_template"
+              is_composite: true
+              force_push: true
+              member_template_deployment_info:
+                - project_name: "composite_project"
+                  template_name: "containing_template1"
+                  copy_config: false
+                - project_name: "composite_project"
+                  template_name: "containing_template2"
+                  copy_config: false
+              device_details:
+                device_ips:
+                  - 10.1.1.1
+
+    - name: Deploy a composite template with member templates using template_parameters to devices based on device specific details
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: true
+        validate_response_schema: false
+        state: "merged"
+        config_verify: true
+        config:
+          - deploy_template:
+              project_name: "composite_project"
+              template_name: "composite_template"
+              is_composite: true
+              force_push: true
+              member_template_deployment_info:
+                - project_name: "composite_project"
+                  template_name: "containing_template1"
+                  copy_config: false
+                  template_parameters:
+                    - param_name: "name"
+                      param_value: "abc"
+                - project_name: "composite_project"
+                  template_name: "containing_template2"
+                  copy_config: false
+                  template_parameters:
+                    - param_name: "name"
+                      param_value: "xyz"
+              device_details:
+                device_ips:
+                  - 10.1.1.1
 
 
 

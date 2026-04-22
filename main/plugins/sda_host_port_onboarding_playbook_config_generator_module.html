@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.sda_host_port_onboarding_playbook_config_generator module -- Generate YAML configurations playbook for 'sda_host_port_onboarding_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-sda-host-port-onboarding-playbook-config-generator-module-generate-yaml-configurations-playbook-for-sda-host-port-onboarding-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host-port-onboarding-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1963,7 +1963,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </div></td>
 <td><div class="ansible-option-cell"><p>A string with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;:\\n        \\&quot;Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key\\n         when 'generate\_all\_configurations' is set to False.\\&quot;,\\n    \\&quot;response\\&quot;:\\n        \\&quot;Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key\\n         when 'generate\_all\_configurations' is set to False.\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;:\\n        \\&quot;Validation Error: component\_specific\_filters is provided but no components are specified.\\n         Either provide 'components\_list' with at least one component, or provide filters for specific components.\\&quot;,\\n    \\&quot;response\\&quot;:\\n        \\&quot;Validation Error: component\_specific\_filters is provided but no components are specified.\\n         Either provide 'components\_list' with at least one component, or provide filters for specific components.\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>

@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.network_profile_wireless_playbook_config_generator module -- Generate YAML configurations playbook for 'network_profile_wireless_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-network-profile-wireless-playbook-config-generator-module-generate-yaml-configurations-playbook-for-network-profile-wireless-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.49.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-profile-wireless-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1287,7 +1287,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <td><div class="ansible-option-cell"><p>A dictionary of filters for generating YAML playbook compatible with the 'network_profile_wireless_playbook_config_generator' module.</p>
 <p>Filters specify which components to include in the YAML configuration file.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">config</span></code> is provided, <code class="docutils literal notranslate"><span class="pre">global_filters</span></code> is mandatory.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">config</span></code> is omitted, internal auto-discovery mode is used and generate_all_configurations defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">config</span></code> is omitted, internal auto-discovery mode is used and generate all configurations.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1295,10 +1295,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <a class="ansibleOptionLink" href="#parameter-config/global_filters" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Global filters to apply when generating the YAML configuration file.</p>
-<p>These filters apply to all components unless overridden by component-specific filters.</p>
+<p>These filters apply to all global filters unless overridden by generate all configuration.</p>
 <p>At least one filter type must be specified to identify target devices.</p>
-<p>Filter priority (highest to lowest) is profile_name_list, day_n_template_list, site_list, ssid_list, ap_zone_list, feature_template_list, additional_interface_list.</p>
-<p>Only the highest priority filter with valid data will be processed.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1306,7 +1304,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <a class="ansibleOptionLink" href="#parameter-config/global_filters/additional_interface_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of additional interfaces to filter wireless profiles.</p>
-<p>LOWEST PRIORITY - Only used if all other filters are not provided.</p>
 <p>Retrieves all wireless profiles containing any of the specified additional interfaces.</p>
 <p>Case-sensitive and must be exact matches.</p>
 <p>Example [&quot;VLAN_22&quot;, &quot;GigabitEthernet0/2&quot;]</p>
@@ -1317,7 +1314,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <a class="ansibleOptionLink" href="#parameter-config/global_filters/ap_zone_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of AP zones to filter wireless profiles.</p>
-<p>LOW PRIORITY - Only used if higher priority filters are not provided.</p>
 <p>Retrieves all wireless profiles containing any of the specified AP zones.</p>
 <p>Case-sensitive and must be exact matches.</p>
 <p>Example [&quot;Branch_AP_Zone&quot;, &quot;HQ_AP_Zone&quot;]</p>
@@ -1328,7 +1324,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <a class="ansibleOptionLink" href="#parameter-config/global_filters/day_n_template_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of Day-N templates to filter wireless profiles.</p>
-<p>MEDIUM-HIGH PRIORITY - Only used if profile_name_list is not provided.</p>
 <p>Retrieves all wireless profiles containing any of the specified templates.</p>
 <p>Case-sensitive and must be exact matches.</p>
 <p>Example [&quot;evpn_l2vn_anycast_template&quot;, &quot;Wireless_Controller_Config&quot;]</p>
@@ -1340,7 +1335,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <a class="ansibleOptionLink" href="#parameter-config/global_filters/feature_template_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of feature templates to filter wireless profiles.</p>
-<p>LOWER PRIORITY - Only used if higher priority filters are not provided.</p>
 <p>Retrieves all wireless profiles containing any of the specified feature templates.</p>
 <p>Case-sensitive and must be exact matches.</p>
 <p>Example [&quot;Default AAA_Radius_Attributes_Configuration&quot;, &quot;Default CleanAir 6GHz Design&quot;]</p>
@@ -1350,8 +1344,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <div class="ansibleOptionAnchor" id="parameter-config/global_filters/profile_name_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-network-profile-wireless-playbook-config-generator-module-parameter-config-global-filters-profile-name-list"><strong>profile_name_list</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/global_filters/profile_name_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of wireless profile names to extract configurations from.</p>
-<p>HIGHEST PRIORITY - Used first if provided with valid data.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of wireless profile names to extract configurations from and include in the generated YAML file.</p>
 <p>Wireless Profile names must match those registered in Catalyst Center.</p>
 <p>Case-sensitive and must be exact matches.</p>
 <p>Example [&quot;Campus_Wireless_Profile&quot;, &quot;Enterprise_Wireless_Profile&quot;]</p>
@@ -1363,7 +1356,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <a class="ansibleOptionLink" href="#parameter-config/global_filters/site_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of site hierarchies to filter wireless profiles.</p>
-<p>MEDIUM PRIORITY - Only used if neither profile_name_list nor day_n_template_list are provided.</p>
 <p>Retrieves all wireless profiles assigned to any of the specified sites.</p>
 <p>Case-sensitive and must be exact matches.</p>
 <p>Example [&quot;Global/India/Chennai/Main_Office&quot;, &quot;Global/USA/San_Francisco/Regional_HQ&quot;]</p>
@@ -1375,7 +1367,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <a class="ansibleOptionLink" href="#parameter-config/global_filters/ssid_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of SSIDs to filter wireless profiles.</p>
-<p>MEDIUM-LOW PRIORITY - Only used if profile_name_list, day_n_template_list, and site_list are not provided.</p>
 <p>Retrieves all wireless profiles containing any of the specified SSIDs.</p>
 <p>Case-sensitive and must be exact matches.</p>
 <p>Example [&quot;Guest_WiFi&quot;, &quot;Corporate_WiFi&quot;]</p>

@@ -42,7 +42,7 @@ cisco.dnac.backup_and_restore_playbook_config_generator module -- Generate YAML 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1172,7 +1172,9 @@ Notes
    - Default filename includes timestamp for uniqueness
    - NFS details correlation matches backup mount paths with NFS destination paths automatically
    - Empty configurations return success with idempotent behavior
-   - Module does not modify Catalyst Center configuration
+   - In overwrite mode, existing file content is compared with newly rendered YAML content (comment/header lines ignored) to support idempotent no-change runs.
+   - In append mode, only the last effective YAML config block is compared against the new payload for idempotency checks.
+   - If generated content matches existing target content, module returns success with changed=false and does not rewrite the file.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1854,19 +1856,20 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      No configurations found scenario treated as successful idempotent
-      operation
+      Idempotent scenario where generated YAML content already matches
+      existing file content. Module returns success with changed=false
+      and does not rewrite the file.
 
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` when\_no\_configs\_found
+      :ansible-option-returned-bold:`Returned:` success
 
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "No backup and restore configurations found to process for module\\nbackup\_and\_restore\_workflow\_manager. Verify that NFS servers or\\nbackup configurations are set up in Catalyst Center.\\n", "response": {"components\_processed": 0, "components\_skipped": 1, "configurations\_count": 0, "message": "No backup and restore configurations found to process for module\\nbackup\_and\_restore\_workflow\_manager. Verify that NFS servers or\\nbackup configurations are set up in Catalyst Center.\\n", "status": "success"}, "status": "success"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "YAML configuration file already up-to-date for module\\nbackup\_and\_restore\_workflow\_manager. No changes written to\\n/tmp/backup.yml.\\n", "response": {"components\_processed": 2, "components\_skipped": 0, "configurations\_count": 4, "file\_path": "/tmp/backup.yml", "message": "YAML configuration file already up-to-date for module\\nbackup\_and\_restore\_workflow\_manager. No changes written to\\n/tmp/backup.yml.\\n", "status": "success"}, "status": "success"}`
 
 
       .. raw:: html
@@ -1888,6 +1891,56 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#return-response_3" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Idempotent scenario where no backup and restore configurations
+      are found to process. This may occur when no NFS servers or
+      backup storage configurations are set up in Catalyst Center,
+      or when backup storage has not been configured yet. Module
+      returns success with changed=false and no YAML file is created.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "No backup and restore configurations found to process for\\nmodule backup\_and\_restore\_workflow\_manager. Verify that NFS\\nservers or backup configurations are set up in Catalyst\\nCenter.\\n", "response": {"components\_processed": 0, "components\_skipped": 1, "configurations\_count": 0, "message": "No backup and restore configurations found to process for\\nmodule backup\_and\_restore\_workflow\_manager. Verify that NFS\\nservers or backup configurations are set up in Catalyst\\nCenter. Components attempted: ['nfs\_configuration',\\n'backup\_storage\_configuration']. Components processed: 0,\\nComponents skipped: 1.\\n", "status": "success"}, "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_4"></div>
+
+      .. _ansible_collections.cisco.dnac.backup_and_restore_playbook_config_generator_module__return-response_4:
+
+      .. rst-class:: ansible-option-title
+
+      **response_4**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_4" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 

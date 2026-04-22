@@ -43,7 +43,7 @@ cisco.dnac.application_policy_workflow_manager module -- Resource module for man
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.49.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -238,7 +238,19 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Defines specific rules or conditions under which an application set is added to the application policy.
+      Defines specific rules or conditions under which application sets are added to or removed from the application policy.
+
+      When \ :literal:`state=merged`\ , the clause defines application sets to add to the policy.
+
+      When \ :literal:`state=deleted`\  and clause is provided, it specifies which application sets to remove from the policy.
+
+      If \ :literal:`relevance\_details`\  contains only \ :literal:`relevance`\  without \ :literal:`application\_set\_name`\ , all application sets under that relevance level are removed.
+
+      If \ :literal:`relevance\_details`\  contains both \ :literal:`relevance`\  and \ :literal:`application\_set\_name`\ , only those specific application sets are removed.
+
+      If clause is omitted during a delete operation, the entire application policy is deleted.
+
+      Only \ :literal:`clause\_type`\  \ :literal:`BUSINESS\_RELEVANCE`\  supports partial deletion of application sets. The \ :literal:`APPLICATION\_POLICY\_KNOBS`\  clause type is not affected by delete operations.
 
 
       .. raw:: html
@@ -272,12 +284,19 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      - Specifies the type of clause for the application policy.
+      - Specifies the type of clause for
+            the application policy.
           - Permissible values:
-            - "BUSINESS\_RELEVANCE": Defines the importance of the application to business operations, affecting its priority and
-            handling in the network policy.
-            - "APPLICATION\_POLICY\_KNOBS": Configurable settings that manage the application's network behavior,
-            such as traffic prioritization and resource allocation.
+            - "BUSINESS\_RELEVANCE": Defines
+              the importance of the application
+              to business operations, affecting
+              its priority and handling in the
+              network policy.
+            - "APPLICATION\_POLICY\_KNOBS":
+              Configurable settings that manage
+              the application's network behavior,
+              such as traffic prioritization
+              and resource allocation.
           
 
 
@@ -346,7 +365,19 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Include all the application sets for which the application policy has to be created
+      List of application set names to associate with or remove from the specified relevance level.
+
+      Matched against the application set names currently associated with the policy in Cisco Catalyst Center.
+
+      When \ :literal:`state=merged`\ , includes the application sets to add to the policy under this relevance level.
+
+      When \ :literal:`state=deleted`\ , specifies which application sets to remove from the given relevance level.
+
+      If omitted with \ :literal:`state=deleted`\ , all application sets under the specified relevance level are removed.
+
+      Scoped per \ :literal:`relevance\_details`\  entry, not globally across the entire clause.
+
+      For example: ['file-sharing', 'collaboration-apps'].
 
 
       .. raw:: html
@@ -380,11 +411,25 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      - Specifies whether the application set is relevant to the application policy.
+      - Specifies the relevance level
+            of the application set within
+            the application policy.
+          - When \ :literal:`state=merged`\ , determines
+            which relevance group the
+            application sets are added to.
+          - When \ :literal:`state=deleted`\ , specifies
+            which relevance level to target
+            for application set removal.
           - Permissible values:
-            - "BUSINESS\_RELEVANT": The application is critical for business functions.
-            - "BUSINESS\_IRRELEVANT": The application is not essential for business operations.
-            - "DEFAULT": A default setting when no specific relevance is assigned.
+            - "BUSINESS\_RELEVANT": The
+              application is critical for
+              business functions.
+            - "BUSINESS\_IRRELEVANT": The
+              application is not essential
+              for business operations.
+            - "DEFAULT": A default setting
+              when no specific relevance
+              is assigned.
           
 
 
@@ -2541,6 +2586,7 @@ Examples
                       bulk_data: "10"
                       scavenger: "2"
                       real_time_interactive: "34"
+
     # Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
     - name: Deploy Enterprise QoS Profile in Cisco Catalyst
         Center
@@ -2588,6 +2634,7 @@ Examples
                         broadcast_video: "2"
                         network_control: "3"
                         bulk_data: "5"
+
     # Playbook - QoS Profile Based on Interface Speeds
     - name: Deploy Interface-Specific QoS Profile in Cisco
         Catalyst Center
@@ -2706,6 +2753,7 @@ Examples
                             broadcast_video: "2"
                             network_control: "3"
                             bulk_data: "5"
+
     # Playbook - for some interface speeds having common bandwidth percentage
     - name: Configure an Application Queueing Profile for
         Traffic Prioritization
@@ -2796,6 +2844,7 @@ Examples
                             broadcast_video: "2"
                             network_control: "3"
                             bulk_data: "5"
+
     # Playbook - application queuing profile - type dscp
     - name: Configure Application Queuing Profile (DSCP)
         in Cisco Catalyst Center
@@ -2839,6 +2888,7 @@ Examples
                       bulk_data: "10"
                       scavenger: "2"
                       real_time_interactive: "34"
+
     # Playbook - update application queuing profile
     - name: Application Queuing Profile update in Cisco
         Catalyst Center
@@ -2901,6 +2951,7 @@ Examples
                       bulk_data: "10"
                       scavenger: "2"
                       real_time_interactive: "34"
+
     # Playbook - delete application queuing profile
     - name: Delete application queuing profile from Cisco
         Catalyst Center
@@ -2929,6 +2980,7 @@ Examples
             config:
               - queuing_profile:
                   - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
+
     # Playbook - create application policy – wired
     - name: Create Wired Application Policy in Cisco Catalyst
         Center
@@ -2969,6 +3021,7 @@ Examples
                             application_set_name: ["email", "tunneling"]
                           - relevance: "DEFAULT"
                             application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
+
     # Playbook - create application policy – wireless
     - name: Create Wireless Application Policy in Cisco
         Catalyst Center
@@ -3010,6 +3063,7 @@ Examples
                             application_set_name: ["email", "backup-and-storage"]
                           - relevance: "DEFAULT"
                             application_set_name: ["collaboration-apps", "tunneling", "general-media"]
+
     # Playbook - delete application policy
     - name: Delete Application Policy from Cisco Catalyst
         Center
@@ -3037,6 +3091,77 @@ Examples
             config:
               - application_policy:
                   - name: "ObsoleteTrafficPolicy"
+
+    # Playbook - delete all application sets under a specific
+    #   relevance level from an application policy
+    - name: Remove all application sets under a relevance
+        level from an application policy
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Delete all BUSINESS_RELEVANT application
+            sets from policy
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - application_policy:
+                  - name: "wired_traffic_policy"
+                    clause:
+                      - clause_type: "BUSINESS_RELEVANCE"
+                        relevance_details:
+                          - relevance: "BUSINESS_RELEVANT"
+
+    # Playbook - delete specific application set(s) from
+    #   an application policy
+    - name: Remove specific application set(s) from an
+        application policy in Cisco Catalyst Center
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      vars_files:
+        - "credentials.yml"
+      tasks:
+        - name: Delete specific application set(s) from
+            a policy
+          cisco.dnac.application_policy_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            config_verify: true
+            dnac_api_task_timeout: 1000
+            dnac_task_poll_interval: 1
+            state: deleted
+            config:
+              - application_policy:
+                  - name: "wired_traffic_policy"
+                    clause:
+                      - clause_type: "BUSINESS_RELEVANCE"
+                        relevance_details:
+                          - relevance: "BUSINESS_RELEVANT"
+                            application_set_name: ["collaboration-apps"]
+                          - relevance: "BUSINESS_IRRELEVANT"
+                            application_set_name: ["email", "tunneling"]
 
 
 
