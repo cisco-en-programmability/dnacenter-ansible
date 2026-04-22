@@ -361,7 +361,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         expected_msg = (
             "Invalid parameters in playbook config: "
             "password: A password is required when creating a new user "
-            "account. Please provide a password that is 9 to 20 "
+            "account. Please provide a password that is at least 9 "
             "characters long and includes at least three of the following "
             "character types: lowercase letters, uppercase letters, digits, "
             "and special characters. Additionally, the password must not "
@@ -421,7 +421,7 @@ key is invalid for role creation, updation, or deletion' or 'The 'role_details' 
             "Invalid parameters in playbook config: first_name: First name 'ajith ' can have alphanumeric "
             "characters only and must be 2 to 50 characters long., "
             "last_name: Last name 'andrew ' can have alphanumeric characters only and must be 2 to 50 characters long., "
-            "The password must be 9 to 20 characters long and include at least three of the following character types: "
+            "The password must be at least 9 characters long and include at least three of the following character types: "
             "lowercase letters, uppercase letters, digits, and special characters. "
             "Additionally, the password must not contain repetitive or sequential characters., "
             "username: 'ajithandrewj ' The username must not contain any special characters and must be 3 to 50 characters long."
@@ -883,4 +883,38 @@ numbers, periods, underscores, and hyphens."
         self.assertEqual(
             result.get('response'),
             "User(s) 'Priyadharshini' created successfully in Cisco Catalyst Center."
+        )
+
+    def test_user_role_workflow_manager_password_update_string_type_rejected(self):
+        """
+        Test that password_update provided as a string (not bool) is
+        rejected with a clear error message at the module level.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="admin",
+                dnac_password="admin",
+                dnac_version="2.3.7.6",
+                dnac_log=True,
+                state="merged",
+                config=dict(
+                    user_details=[
+                        dict(
+                            username="testuser",
+                            first_name="Test",
+                            last_name="User",
+                            email="test@example.com",
+                            password="ValidPass@1",
+                            password_update="true",  # string, not bool
+                            role_list=["OBSERVER-ROLE"],
+                        )
+                    ]
+                ),
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("password_update", result.get("msg", ""))
+        self.assertIn(
+            "expected bool", result.get("msg", "")
         )
