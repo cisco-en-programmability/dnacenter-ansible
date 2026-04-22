@@ -75,9 +75,10 @@ options:
               - The password for the user account, which
                 must adhere to specified complexity
                 requirements.
-              - Must contain at least one special character,
-                one capital letter, one lowercase letter,
-                and a minimum length of 8 characters.
+              - Must be at least 9 characters long and include
+                at least three of the following character
+                types: lowercase letters, uppercase letters,
+                digits, and special characters.
               - Required for creating a new user account.
             type: str
           password_update:
@@ -1271,24 +1272,24 @@ class UserandRole(DnacBase):
         Returns:
             None: This function does not return a value, but it may append an error message to `error_messages` if the password is invalid.
         Criteria:
-            - The password must be 9 to 20 characters long.
+            - The password must be at least 9 characters long.
             - The password must include characters from at least three of the following classes:
               lowercase letters, uppercase letters, digits, and special characters.
         """
         meets_character_requirements = False
         password_criteria_message = (
-            "The password must be 9 to 20 characters long and include at least three of the following "
+            "The password must be at least 9 characters long and include at least three of the following "
             "character types: lowercase letters, uppercase letters, digits, and special characters. "
             "Additionally, the password must not contain repetitive or sequential characters."
         )
 
         self.log(password_criteria_message, "DEBUG")
         password_regexs = [
-            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{9,20}$"),
-            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{9,20}$"),
-            re.compile(r"^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{9,20}$"),
-            re.compile(r"^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,20}$"),
-            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,20}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{9,}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{9,}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{9,}$"),
+            re.compile(r"^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,}$"),
         ]
 
         self.log("Password meets character type and length requirements.", "INFO")
@@ -1614,10 +1615,14 @@ class UserandRole(DnacBase):
 
         password = user_config.get("password")
 
+        self.log(
+            "Checking whether password is required for user creation.", "DEBUG"
+        )
+
         if is_create and not password:
             error_messages.append(
                 "password: A password is required when creating a new user "
-                "account. Please provide a password that is 9 to 20 "
+                "account. Please provide a password that is at least 9 "
                 "characters long and includes at least three of the following "
                 "character types: lowercase letters, uppercase letters, digits, "
                 "and special characters. Additionally, the password must not "
@@ -1662,6 +1667,7 @@ class UserandRole(DnacBase):
             )
 
         username = user_config.get("username")
+        self.log("Validating username field presence and format.", "DEBUG")
         if not username:
             error_messages.append(
                 "username: The 'username' field is required for user "
@@ -1682,6 +1688,8 @@ class UserandRole(DnacBase):
             )
 
         password_update = user_config.get("password_update")
+        self.log("Validating password_update field type.", "DEBUG")
+
         if password_update is not None and not isinstance(password_update, bool):
             error_messages.append(
                 "password_update: Expected a boolean value (true/false), "
@@ -1966,7 +1974,7 @@ class UserandRole(DnacBase):
                     }
 
         if task_response and "error_message" not in task_response:
-            self.log("Task respoonse {0}".format(str(task_response)), "INFO")
+            self.log("Task response {0}".format(str(task_response)), "INFO")
             responses["operation"] = {"response": task_response}
             self.msg = responses
             self.result["response"] = self.msg
