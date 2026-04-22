@@ -87,7 +87,13 @@ options:
             - Filters specific to fabric device configuration retrieval.
             - Used to narrow down which fabric sites and devices should be included in the generated YAML file.
             - If no filters are provided, all fabric devices from all fabric sites in Cisco Catalyst Center will be retrieved.
-            type: dict
+            - Each list entry targets a specific fabric site and optionally narrows down by device IP or roles.
+            - Within a single entry, all specified filters are combined using AND
+              logic. Omitting a filter means no restriction on that attribute.
+            - Multiple entries are combined using OR logic, allowing retrieval from
+              different fabric sites in a single invocation.
+            type: list
+            elements: dict
             suboptions:
               fabric_name:
                 description:
@@ -233,7 +239,7 @@ EXAMPLES = r"""
           component_specific_filters:
             components_list: ["fabric_devices"]
             fabric_devices:
-              fabric_name: "Global/USA/SAN-JOSE"
+              - fabric_name: "Global/USA/SAN-JOSE"
 
 # Example 4: Generate configuration for devices with specific roles in a fabric site
 - name: Generate configuration for border and control plane devices
@@ -263,8 +269,8 @@ EXAMPLES = r"""
           component_specific_filters:
             components_list: ["fabric_devices"]
             fabric_devices:
-              fabric_name: "Global/USA/SAN-JOSE"
-              device_roles: ["BORDER_NODE", "CONTROL_PLANE_NODE"]
+              - fabric_name: "Global/USA/SAN-JOSE"
+                device_roles: ["BORDER_NODE", "CONTROL_PLANE_NODE"]
 
 # Example 5: Generate configuration for a specific device in a fabric site
 - name: Generate configuration for a specific fabric device
@@ -294,8 +300,8 @@ EXAMPLES = r"""
           component_specific_filters:
             components_list: ["fabric_devices"]
             fabric_devices:
-              fabric_name: "Global/USA/SAN-JOSE"
-              device_ip: "10.0.0.1"
+              - fabric_name: "Global/USA/SAN-JOSE"
+                device_ip: "10.0.0.1"
 
 # Example 6: Auto-populate components_list from component filters
 - name: Generate configuration with auto-populated components_list
@@ -326,7 +332,7 @@ EXAMPLES = r"""
             # No components_list specified, but fabric_devices filters are provided
             # The 'fabric_devices' component will be automatically added to components_list
             fabric_devices:
-              fabric_name: "Global/USA/SAN-JOSE"
+              - fabric_name: "Global/USA/SAN-JOSE"
 
 # Example 7: Generate configuration with append mode
 - name: Generate and append SDA fabric device configuration
@@ -356,8 +362,39 @@ EXAMPLES = r"""
           component_specific_filters:
             components_list: ["fabric_devices"]
             fabric_devices:
-              fabric_name: "Global/India/Bangalore"
-              device_roles: ["BORDER_NODE"]
+              - fabric_name: "Global/India/Bangalore"
+                device_roles: ["BORDER_NODE"]
+
+# Example 8: Generate configuration for devices from multiple fabric sites
+- name: Generate configuration from multiple fabric sites
+  hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Export fabric devices from two fabric sites
+      cisco.dnac.sda_fabric_devices_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: false
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: gathered
+        config:
+          component_specific_filters:
+            components_list: ["fabric_devices"]
+            fabric_devices:
+              - fabric_name: "Global/USA/SAN-JOSE"
+                device_roles: ["BORDER_NODE"]
+              - fabric_name: "Global/India/Bangalore"
+                device_roles: ["EDGE_NODE"]
 """
 
 RETURN = r"""
@@ -499,13 +536,31 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         """
         self.log("Starting validation of input configuration parameters.", "DEBUG")
 
-        # Check if configuration is available or empty - if not provided or empty, treat as generate_all
-        if not self.config:
-            self.status = "success"
+        # Check if config is provided but empty - this is an error
+        if isinstance(self.config, dict) and len(self.config) == 0:
+            self.msg = (
+                "Configuration cannot be an empty dictionary. "
+                "Either omit 'config' entirely to generate all configurations, "
+                "or provide specific filters within 'config'."
+            )
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        # Check if configuration is not provided (None) - treat as generate_all
+        if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.msg = "Configuration is not provided - treating as generate_all_configurations mode"
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO")
+            return self
+
+        if not isinstance(self.config, dict):
+            self.msg = (
+                f"Configuration must be a dictionary, got: {type(self.config).__name__}. Please provide "
+                "configuration as a dictionary."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Expected schema for configuration parameters (no file_path, file_mode, or generate_all_configurations)
@@ -527,9 +582,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(
-            str(valid_temp)
-        )
+        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {valid_temp}"
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
@@ -1104,15 +1157,25 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
     def get_fabric_devices_configuration(self, network_element, filters=None):
         """
-        Retrieve and transform fabric devices configuration.
+        Retrieve and transform fabric devices configuration into playbook-ready format.
 
         Parameters:
-            network_element (dict): Network element schema with API and transform details.
-            filters (dict, optional): Dictionary containing 'component_specific_filters'.
-                - component_specific_filters (list/dict): Filters for fabric_name, device_ip, device_roles.
+            network_element (dict): Network element schema containing:
+                - api_family (str): API family to use (e.g. 'sda').
+                - api_function (str): API function name (e.g. 'get_fabric_devices').
+                - reverse_mapping_function (callable): Returns the temp_spec OrderedDict for transformation.
+            filters (dict, optional): Dictionary containing:
+                - component_specific_filters (list of dict): Each entry may include:
+                    - fabric_name (str): Name of the fabric site to filter by.
+                    - device_ip (str): IP address of a specific device to filter by.
+                    - device_roles (list of str): Roles to filter by (e.g. 'BORDER_NODE').
+                  If omitted or None, all fabric sites and their devices are retrieved.
 
         Returns:
-            dict: Dictionary with 'fabric_devices' key containing transformed device configs.
+            dict: Dictionary with key 'fabric_devices' mapping to a list of transformed fabric
+                  site entries, each containing fabric_name and device_config list.
+            None: If no valid query parameters could be built from the provided filters, or if
+                  no fabric devices are found matching the filters.
 
         Description:
             Main function to fetch fabric devices and transform them to playbook format.
@@ -1138,74 +1201,79 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if component_specific_filters:
             self.log(
-                "Processing component-specific filters",
+                f"Processing {len(component_specific_filters)} component-specific filter(s)",
                 "DEBUG",
             )
-            params_for_query = {}
+            for filter_idx, filter_entry in enumerate(component_specific_filters, 1):
+                self.log(
+                    f"Processing filter entry {filter_idx}/{len(component_specific_filters)}: {self.pprint(filter_entry)}",
+                    "DEBUG",
+                )
+                params_for_query = {}
 
-            fabric_name = component_specific_filters.get("fabric_name")
-            if fabric_name:
-                self.log(f"Applying fabric_name filter: '{fabric_name}'", "DEBUG")
-                fabric_site_id = self.fabric_site_name_to_id_dict.get(fabric_name)
+                fabric_name = filter_entry.get("fabric_name")
+                if fabric_name:
+                    self.log(f"Applying fabric_name filter: '{fabric_name}'", "DEBUG")
+                    fabric_site_id = self.fabric_site_name_to_id_dict.get(fabric_name)
 
-                if not fabric_site_id:
+                    if not fabric_site_id:
+                        self.log(
+                            f"Fabric site '{fabric_name}' not found in Cisco Catalyst Center. Skipping filter entry {filter_idx}.",
+                            "WARNING",
+                        )
+                        continue
+
                     self.log(
-                        f"Fabric site '{fabric_name}' not found in Cisco Catalyst Center.",
+                        f"Fabric site '{fabric_name}' found with fabric_id '{fabric_site_id}'",
+                        "DEBUG",
+                    )
+                    params_for_query["fabric_id"] = fabric_site_id
+
+                device_ip = filter_entry.get("device_ip")
+                if device_ip:
+                    self.log(
+                        f"Applying device_ip filter: '{device_ip}'",
+                        "DEBUG",
+                    )
+                    device_list_params = self.get_device_list_params(
+                        ip_address_list=device_ip
+                    )
+                    device_info_map = self.get_device_list(device_list_params)
+                    if not device_info_map or device_ip not in device_info_map:
+                        self.log(
+                            f"Device with IP '{device_ip}' not found in Cisco Catalyst Center. Skipping filter entry {filter_idx}.",
+                            "WARNING",
+                        )
+                        continue
+
+                    network_device_id = device_info_map[device_ip].get("device_id")
+                    self.log(
+                        f"Device with IP '{device_ip}' found with network_device_id '{network_device_id}'",
+                        "DEBUG",
+                    )
+                    self.log(f"Adding device_id filter: {network_device_id}", "DEBUG")
+                    params_for_query["networkDeviceId"] = network_device_id
+
+                device_roles = filter_entry.get("device_roles")
+                if device_roles:
+                    self.log(
+                        f"Applying device_roles filter: {device_roles}",
+                        "DEBUG",
+                    )
+                    params_for_query["deviceRoles"] = device_roles
+
+                if not params_for_query:
+                    self.log(
+                        f"No valid filters provided for filter entry {filter_idx}, skipping.",
                         "WARNING",
                     )
-                    return {"fabric_devices": []}
+                    continue
 
                 self.log(
-                    f"Fabric site '{fabric_name}' found with fabric_id '{fabric_site_id}'",
+                    f"Adding query parameters to list: {params_for_query}",
                     "DEBUG",
                 )
-                params_for_query["fabric_id"] = fabric_site_id
-
-            device_ip = component_specific_filters.get("device_ip")
-            if device_ip:
-                self.log(
-                    f"Applying device_ip filter: '{device_ip}'",
-                    "DEBUG",
-                )
-                device_list_params = self.get_device_list_params(
-                    ip_address_list=device_ip
-                )
-                device_info_map = self.get_device_list(device_list_params)
-                if not device_info_map or device_ip not in device_info_map:
-                    self.log(
-                        f"Device with IP '{device_ip}' not found in Cisco Catalyst Center.",
-                        "WARNING",
-                    )
-                    return {"fabric_devices": []}
-
-                network_device_id = device_info_map[device_ip].get("device_id")
-                self.log(
-                    f"Device with IP '{device_ip}' found with network_device_id '{network_device_id}'",
-                    "DEBUG",
-                )
-                self.log(f"Adding device_id filter: {network_device_id}", "DEBUG")
-                params_for_query["networkDeviceId"] = network_device_id
-
-            device_roles = component_specific_filters.get("device_roles")
-            if device_roles:
-                self.log(
-                    f"Applying device_roles filter: {device_roles}",
-                    "DEBUG",
-                )
-                params_for_query["deviceRoles"] = device_roles
-
-            if not params_for_query:
-                self.log(
-                    "No valid filters provided after processing component-specific filters.",
-                    "WARNING",
-                )
-                return {"fabric_devices": []}
-
-            self.log(
-                f"Adding query parameters to list: {params_for_query}",
-                "DEBUG",
-            )
-            fabric_devices_params_list_to_query.append(params_for_query)
+                fabric_devices_params_list_to_query.append(params_for_query)
         else:
             self.log(
                 "No component-specific filters provided. Retrieving all fabric devices from all fabric sites.",
@@ -1217,6 +1285,12 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG",
                 )
                 fabric_devices_params_list_to_query.append({"fabric_id": fabric_id})
+
+        if not fabric_devices_params_list_to_query:
+            self.log(
+                "No fabric devices parameters to query, Returning None"
+            )
+            return None
 
         self.log(
             f"Total fabric device queries to execute: {len(fabric_devices_params_list_to_query)}",
@@ -1242,10 +1316,10 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if not all_fabric_devices:
             self.log(
-                "No fabric devices found matching the provided filters",
+                "No fabric devices found matching the provided filters, Returning None",
                 "WARNING",
             )
-            return {"fabric_devices": []}
+            return None
 
         self.log(
             f"Successfully retrieved {len(all_fabric_devices)} fabric device(s) for the provided filters",
@@ -1334,6 +1408,11 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         transformed_fabric_devices_list = self.modify_parameters(
             temp_spec, fabric_entries_for_transformation
         )
+        if not transformed_fabric_devices_list:
+            self.log(
+                "No fabric devices were transformed successfully, returning None",
+            )
+            return None
 
         self.log(
             f"Transformation complete. Generated {len(transformed_fabric_devices_list)} fabric site(s) with devices",

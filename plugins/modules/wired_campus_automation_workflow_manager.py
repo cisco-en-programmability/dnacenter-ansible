@@ -472,7 +472,7 @@ options:
                     type: int
                     required: false
                     default: 20
-                  stp_instace_hello_interval_timer:
+                  stp_instance_hello_interval_timer:
                     description:
                       - Hello interval timer for this STP instance in seconds.
                       - Must be between 1 and 10 seconds.
@@ -482,7 +482,7 @@ options:
                     type: int
                     required: false
                     default: 2
-                  stp_instace_forward_delay_timer:
+                  stp_instance_forward_delay_timer:
                     description:
                       - Forward delay timer for this STP instance in seconds.
                       - Must be between 4 and 30 seconds.
@@ -1942,8 +1942,8 @@ EXAMPLES = r"""
       - ip_address: 204.1.2.3
         layer2_configuration:
           authentication:
-          enable_dot1x_authentication: true
-          authentication_config_mode: NEW_STYLE
+            enable_dot1x_authentication: true
+            authentication_config_mode: NEW_STYLE
 
 - name: Configure LACP and PAGP Port Channels
   cisco.dnac.wired_campus_automation_workflow_manager:
@@ -8886,6 +8886,89 @@ class WiredCampusAutomation(DnacBase):
                 )
                 return True
 
+        return False
+
+    def _deep_compare_nested_dict(self, desired_dict, current_dict):
+        """
+        Recursively compare two nested dictionaries to detect
+        configuration differences.
+
+        Iterates over keys in desired_dict and checks whether
+        the corresponding value in current_dict matches. For
+        nested dicts, recurses into _deep_compare_nested_dict.
+        For nested lists, delegates to _deep_compare_nested_list.
+
+        Args:
+            desired_dict (dict): Desired dictionary configuration
+                to compare against the current state.
+            current_dict (dict): Current dictionary configuration
+                retrieved from Catalyst Center.
+
+        Returns:
+            bool: True if any key/value differs between
+                desired_dict and current_dict, False if all
+                present keys match.
+
+        Note:
+            Only keys present in desired_dict are compared.
+            Extra keys in current_dict are ignored.
+        """
+        self.log(
+            "Starting deep nested dict comparison - desired keys: {0}, current keys: {1}".format(
+                list(desired_dict.keys()), list(current_dict.keys())
+            ),
+            "DEBUG",
+        )
+
+        if not isinstance(desired_dict, dict) or not isinstance(current_dict, dict):
+            self.log(
+                "Invalid input types for deep comparison - "
+                "desired_type={0}, current_type={1}. "
+                "Returning True (differs).".format(
+                    type(desired_dict).__name__,
+                    type(current_dict).__name__
+                ),
+                "DEBUG",
+            )
+            return desired_dict != current_dict
+
+        for key, desired_value in desired_dict.items():
+            current_value = current_dict.get(key)
+
+            if isinstance(desired_value, dict) and isinstance(current_value, dict):
+                self.log(
+                    "Key '{0}' is a nested dict - recursing for deep comparison".format(key),
+                    "DEBUG",
+                )
+                if self._deep_compare_nested_dict(desired_value, current_value):
+                    self.log("Nested dict key '{0}' differs".format(key), "DEBUG")
+                    return True
+            elif isinstance(desired_value, list) and isinstance(current_value, list):
+                self.log(
+                    "Key '{0}' is a nested list - desired_len={1}, current_len={2}".format(
+                        key, len(desired_value), len(current_value)
+                    ),
+                    "DEBUG",
+                )
+                if self._deep_compare_nested_list(desired_value, current_value):
+                    self.log("Nested list key '{0}' differs".format(key), "DEBUG")
+                    return True
+            else:
+                if desired_value != current_value:
+                    self.log(
+                        "Dict key '{0}' differs: desired='{1}', current='{2}'".format(
+                            key, desired_value, current_value
+                        ),
+                        "DEBUG",
+                    )
+                    return True
+                else:
+                    self.log(
+                        "Key '{0}' matches: value='{1}'".format(key, desired_value),
+                        "DEBUG",
+                    )
+
+        self.log("Deep nested dict comparison completed - no differences found", "DEBUG")
         return False
 
     def _deep_compare_nested_list(self, desired_list, current_list):

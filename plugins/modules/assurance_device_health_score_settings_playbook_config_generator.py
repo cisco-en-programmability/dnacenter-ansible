@@ -109,39 +109,41 @@ options:
             - device_health_score_settings
           device_health_score_settings:
             description:
-            - Nested dictionary for device health score settings specific filters.
-            - Provides fine-grained control over device families and KPI settings
-              to extract from Catalyst Center.
+            - List of filter entries for device health score settings.
+            - Each entry specifies a set of device families to extract KPI
+              threshold settings for.
+            - Multiple entries are supported; device families are flattened
+              and deduplicated across all entries before API calls are made.
             - Allows targeting specific device families without extracting all
               configured settings.
-            - Modern recommended approach for filter specification in new
-              playbooks.
-            type: dict
+            type: list
+            elements: dict
             required: false
             suboptions:
               device_families:
                 description:
                 - List of specific device family names to extract KPI threshold
-                  settings for using modern nested filter format.
+                  settings.
+                - Multiple device family sets are specified by adding entries to
+                  the parent C(device_health_score_settings) list, each with its
+                  own C(device_families) list.
                 - Valid device family names include C(ROUTER) for routing devices,
                   C(SWITCH_AND_HUB) for switching infrastructure,
                   C(WIRELESS_CONTROLLER) for wireless LAN controllers,
                   C(UNIFIED_AP) for wireless access points, C(WIRELESS_CLIENT)
                   for wireless client devices, and C(WIRED_CLIENT) for wired
                   client devices.
-                - If not specified, all device families with configured KPI
-                  threshold settings will be extracted for comprehensive
-                  brownfield documentation.
-                - Duplicate device family values are automatically removed while
-                  preserving the original order of unique entries.
-                - Each device family may have different KPI metrics and
-                  thresholds based on device capabilities and health monitoring
-                  requirements.
-                - Example filter C(["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB",
-                  "WIRELESS_CONTROLLER"]) extracts settings for wireless and
-                  wired infrastructure.
+                - If not specified across any entry, all device families with
+                  configured KPI threshold settings will be extracted.
+                - Duplicate device family values across entries are automatically
+                  removed while preserving the original order of first occurrence.
+                - When omitted from a single entry but present in others, only
+                  the families specified in the remaining entries are used; an
+                  entry without C(device_families) does not broaden the filter to
+                  all families.
                 - Device family names are case-sensitive and must match exact
                   names used in Catalyst Center.
+                  For example, C(UNIFIED_AP) not C(unified_ap).
                 type: list
                 elements: str
                 choices:
@@ -190,6 +192,24 @@ notes:
   increased C(dnac_api_task_timeout) values for complete data extraction.
 - Generated YAML structure follows ordered dictionary format to maintain
   consistent key ordering across multiple generations.
+- |-
+  Module result behavior (changed/ok/failed):
+  The module result reflects local file state only, not Catalyst Center state.
+  In overwrite mode, the full file content is compared (excluding volatile
+  fields like timestamps and playbook path). In append mode, only the last
+  YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous
+  appends, only the most recent entry is used for the idempotency check.
+  - changed=true (status: success): The generated YAML configuration differs
+    from the existing output file (or the file does not exist). The file was
+    written and the configuration was updated.
+  - changed=false (status: ok): The generated YAML configuration matches the
+    existing output file content. The write was skipped as the file is
+    already up-to-date.
+  - failed=true (status: failed): The module encountered a validation error,
+    API failure, or file write error. No file was written or modified.
+  Note: Re-running with identical inputs and unchanged Catalyst Center state
+  will produce changed=false, ensuring idempotent playbook behavior.
 
 seealso:
 - module: cisco.dnac.assurance_device_health_score_settings_workflow_manager
@@ -266,7 +286,7 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["device_health_score_settings"]
         device_health_score_settings:
-          device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
+          - device_families: ["UNIFIED_AP", "ROUTER", "SWITCH_AND_HUB", "WIRELESS_CONTROLLER"]
 
 - name: Generate YAML Configuration with implicit component auto-add
   cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
@@ -285,7 +305,55 @@ EXAMPLES = r"""
     config:
       component_specific_filters:
         device_health_score_settings:
-          device_families: ["UNIFIED_AP", "ROUTER"]
+          - device_families: ["UNIFIED_AP", "ROUTER"]
+
+- name: Generate YAML Configuration with deduplication across entries
+  cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/deduped_device_health_score_settings.yml"
+    file_mode: overwrite
+    config:
+      component_specific_filters:
+        components_list: ["device_health_score_settings"]
+        device_health_score_settings:
+          - device_families: ["ROUTER", "UNIFIED_AP"]
+          - device_families: ["UNIFIED_AP"]  # UNIFIED_AP is a duplicate and will be removed
+
+- name: >
+    Generate YAML Configuration showing that an entry without device_families
+    does NOT expand the filter to all families.
+    Only ROUTER and SWITCH_AND_HUB (from the first entry) are fetched.
+    The second entry omits device_families entirely but does not cause all
+    device families to be included - it is simply ignored for filtering
+    purposes. Result is identical to specifying only the first entry.
+  cisco.dnac.assurance_device_health_score_settings_playbook_config_generator:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: gathered
+    file_path: "/tmp/partial_omission_device_health_score_settings.yml"
+    file_mode: overwrite
+    config:
+      component_specific_filters:
+        components_list: ["device_health_score_settings"]
+        device_health_score_settings:
+          - device_families: ["ROUTER", "SWITCH_AND_HUB"]  # only these two families are fetched
+          - {}  # entry with no device_families key - does NOT add "all families" to the filter
 """
 
 RETURN = r"""
@@ -764,7 +832,8 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
         Args:
             component_specific_filters (dict): Component filters configuration containing:
                 - components_list (list, optional): List of component names to process
-                - device_health_score_settings (dict, optional): Nested filters with:
+                - device_health_score_settings (list[dict], optional): List of filter
+                    entries, each a dict with:
                     - device_families (list, optional): Device families within settings
 
         Returns:
@@ -924,88 +993,132 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
-        # Validate device_health_score_settings if provided (nested structure)
+        # Validate device_health_score_settings if provided (list of dicts structure)
         if 'device_health_score_settings' in component_specific_filters:
             self.log(
                 "device_health_score_settings parameter found in component_specific_filters. "
-                "Starting validation of nested device_health_score_settings structure. This "
-                "represents nested filtering configuration for device health score settings "
-                "component with component-specific filter parameters.",
+                "Starting validation as list of dicts structure. Each entry must be a dict "
+                "with an optional device_families key.",
                 "DEBUG"
             )
             device_health_score_settings = component_specific_filters['device_health_score_settings']
+
+            # Normalize None to empty list
             if device_health_score_settings is None:
-                device_health_score_settings = {}
+                device_health_score_settings = []
                 component_specific_filters["device_health_score_settings"] = device_health_score_settings
-            if not isinstance(device_health_score_settings, dict):
+
+            if not isinstance(device_health_score_settings, list):
                 self.msg = (
-                    "component_specific_filters.device_health_score_settings must be a "
-                    "dictionary. Received type: {0}. Please provide device_health_score_settings "
-                    "as dictionary structure with valid nested parameter keys and values."
+                    "component_specific_filters.device_health_score_settings must be a list "
+                    "of dictionaries. Received type: {0}. Example: device_health_score_settings: "
+                    "[{{device_families: [ROUTER, UNIFIED_AP]}}]."
                 ).format(type(device_health_score_settings).__name__)
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
             self.log(
-                "device_health_score_settings dictionary type validation passed. Proceeding with "
-                "nested parameter validation including device_families and other component-specific "
-                "filter options.",
-                "DEBUG"
-            )
-            # Validate device_families within device_health_score_settings
-            if 'device_families' in device_health_score_settings:
-                self.log(
-                    "device_families parameter found within nested device_health_score_settings "
-                    "structure. Starting validation using validate_device_families_parameter() "
-                    "method to ensure proper list structure and string element types.",
-                    "DEBUG"
-                )
-                if not self.validate_device_families_parameter(
-                    device_health_score_settings['device_families']
-                ):
-                    self.log(
-                        "Nested device_families parameter validation failed. "
-                        "validate_device_families_parameter() returned False. Operation result "
-                        "already set to failed. Returning False to indicate validation failure.",
-                        "ERROR"
-                    )
-                    return False
-
-            self.log(
-                "Nested device_families parameter validation passed successfully. Parameter "
-                "structure and values within device_health_score_settings conform to schema.",
-                "DEBUG"
-            )
-
-            # Check for invalid nested parameters
-            allowed_nested_params = {'device_families'}
-            self.log(
-                "Allowed nested parameters within device_health_score_settings defined: {0}. "
-                "Total allowed nested parameters: {1}. Checking for invalid or unrecognized "
-                "parameter names in nested structure.".format(
-                    ", ".join(sorted(allowed_nested_params)),
-                    len(allowed_nested_params)
+                "device_health_score_settings list type validation passed. Processing {0} "
+                "entries. Step 1: deduplicate whole entries via brownfield_helper, "
+                "Step 2: flatten and deduplicate device_families across remaining entries.".format(
+                    len(device_health_score_settings)
                 ),
                 "DEBUG"
             )
-            invalid_nested_params = set(device_health_score_settings.keys()) - allowed_nested_params
-            if invalid_nested_params:
-                self.msg = (
-                    "Invalid device_health_score_settings parameter(s) found: {0}. These "
-                    "nested parameter names are not recognized within device_health_score_settings "
-                    "structure. Allowed parameters are: {1}. Please check for typos and ensure "
-                    "only supported nested parameters are used."
-                ).format(
-                    ", ".join(sorted(invalid_nested_params)),
-                    ", ".join(sorted(allowed_nested_params))
-                )
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return False
+
+            # Step 1 — use brownfield_helper.deduplicate_component_filters() to remove
+            # exact duplicate dict entries (e.g. two identical {device_families: [ROUTER]} blocks).
+            # This modifies component_specific_filters["device_health_score_settings"] in-place.
+            self.deduplicate_component_filters(component_specific_filters)
+            device_health_score_settings = component_specific_filters['device_health_score_settings']
             self.log(
-                "device_health_score_settings nested parameter validation passed. All nested "
-                "parameters are recognized and allowed by module schema.",
+                "After brownfield_helper deduplication: {0} entries remain.".format(
+                    len(device_health_score_settings)
+                ),
+                "DEBUG"
+            )
+
+            # Step 2 — validate each entry and flatten device_families across all entries,
+            # deduplicating individual family strings (preserving first-occurrence order).
+            allowed_nested_params = {'device_families'}
+            all_device_families = []
+            seen_families = set()
+
+            for entry_index, entry in enumerate(device_health_score_settings, start=1):
+                if not isinstance(entry, dict):
+                    self.msg = (
+                        "Each entry in device_health_score_settings must be a dictionary. "
+                        "Entry at index {0} has invalid type: {1}. Expected dict with optional "
+                        "device_families key."
+                    ).format(entry_index - 1, type(entry).__name__)
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Check for unrecognized keys in this entry
+                invalid_nested_params = set(entry.keys()) - allowed_nested_params
+                if invalid_nested_params:
+                    self.msg = (
+                        "Invalid key(s) found in device_health_score_settings entry at index {0}: "
+                        "{1}. Allowed keys per entry are: {2}."
+                    ).format(
+                        entry_index - 1,
+                        ", ".join(sorted(invalid_nested_params)),
+                        ", ".join(sorted(allowed_nested_params))
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Validate and collect device_families from this entry
+                if 'device_families' in entry:
+                    self.log(
+                        "Validating device_families in entry {0}/{1}: {2}.".format(
+                            entry_index, len(device_health_score_settings),
+                            entry['device_families']
+                        ),
+                        "DEBUG"
+                    )
+                    if not self.validate_device_families_parameter(entry['device_families']):
+                        self.log(
+                            "device_families validation failed at entry index {0}. "
+                            "Returning False.".format(entry_index - 1),
+                            "ERROR"
+                        )
+                        return False
+
+                    # Flatten and deduplicate individual family names across all entries
+                    for family in entry['device_families']:
+                        if family not in seen_families:
+                            seen_families.add(family)
+                            all_device_families.append(family)
+                        else:
+                            self.log(
+                                "Duplicate device family '{0}' found in entry {1}. "
+                                "Skipping to preserve unique list.".format(
+                                    family, entry_index - 1
+                                ),
+                                "WARNING"
+                            )
+
+            if len(all_device_families) < sum(
+                len(e.get('device_families', [])) for e in device_health_score_settings if isinstance(e, dict)
+            ):
+                self.log(
+                    "Duplicates removed across device_health_score_settings entries. "
+                    "Final deduplicated device_families: {0}.".format(all_device_families),
+                    "INFO"
+                )
+
+            # Normalize back to a single canonical dict for downstream use by
+            # get_device_health_score_settings() and apply_health_score_filters()
+            component_specific_filters["device_health_score_settings"] = {
+                "device_families": all_device_families
+            }
+            self.log(
+                "device_health_score_settings validation completed. Normalized to "
+                "device_families: {0}.".format(all_device_families),
                 "DEBUG"
             )
 
@@ -1765,39 +1878,27 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         # Prepare API parameters
         api_params = {}
-        component_specific_filters = filters.get("component_specific_filters", {})
 
-        device_families = []
+        # brownfield_helper.yaml_config_generator passes csf.get("device_health_score_settings", {})
+        # directly as filters["component_specific_filters"], which after validation normalization
+        # is {"device_families": [...]} or {}.  No need for the two-level lookup anymore.
+        health_score_filters = filters.get("component_specific_filters") or {}
+        device_families = health_score_filters.get("device_families", [])
 
-        # Check for nested device_health_score_settings structure
-        health_score_filters = component_specific_filters.get("device_health_score_settings", {}) or {}
-        if health_score_filters.get("device_families"):
-            device_families = health_score_filters["device_families"]
+        if device_families:
             self.log(
-                "Found {0} device families in device_health_score_settings filters: {1}. "
+                "Found {0} device families in filters: {1}. "
                 "Will execute separate API calls for each device family.".format(
                     len(device_families), device_families
                 ),
                 "DEBUG"
             )
-        # Check for components_list - if only components_list is present without device_families
-        components_list = component_specific_filters.get("components_list", [])
-        if "device_health_score_settings" in components_list:
-            if not device_families:
-                self.log(
-                    "components_list contains device_health_score_settings without "
-                    "device families filter. Will retrieve all device families from "
-                    "Catalyst Center.",
-                    "DEBUG"
-                )
-            else:
-                self.log(
-                    "components_list contains device_health_score_settings with {0} "
-                    "device families: {1}.".format(
-                        len(device_families), device_families
-                    ),
-                    "DEBUG"
-                )
+        else:
+            self.log(
+                "No device families filter specified. Will retrieve all device "
+                "families from Catalyst Center.",
+                "DEBUG"
+            )
 
         try:
             # Collect all response data from multiple API calls
@@ -2038,11 +2139,6 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO"
                 )
-                final_result = {
-                    "device_health_score_settings": device_health_score_list,
-                    "operation_summary": self.get_operation_summary()
-                }
-
                 self.log(
                     "Device health score settings retrieval completed successfully. "
                     "Total configurations: {0}, Device families: {1}.".format(
@@ -2051,7 +2147,10 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "INFO"
                 )
-                return final_result
+                # Return as list so brownfield_helper.yaml_config_generator can call
+                # final_config_list.extend(component_data), producing:
+                # {"config": [{"device_health_score": [...]}]}
+                return [{"device_health_score": device_health_score_list}]
 
             else:
                 self.log(
@@ -2074,10 +2173,9 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
                 "error_code": "API_EXCEPTION_ERROR"
             })
 
-        return {
-            "device_health_score_settings": [],
-            "operation_summary": self.get_operation_summary()
-        }
+        # Return empty list so brownfield_helper.yaml_config_generator sees no data
+        # and sets ok/False (no change) rather than attempting to write an empty file.
+        return []
 
     def apply_health_score_filters(self, response_data, component_specific_filters):
         """
@@ -2220,470 +2318,6 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
             "INFO"
         )
         return filtered_data
-
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generates YAML configuration file for device health score settings.
-
-        This function orchestrates the complete YAML generation workflow including file path
-        determination, filter processing, configuration retrieval from Catalyst Center,
-        data transformation using reverse mapping specifications, operation summary
-        consolidation, and YAML file generation with comprehensive header comments.
-        Supports auto-discovery mode and targeted filtering with detailed error handling.
-
-        Args:
-            yaml_config_generator (dict): Configuration parameters containing:
-                                         - file_path (str, optional): Output file path
-                                         - file_mode (str, optional): Output file mode
-                                         - generate_all_configurations (bool): Internal auto-discovery mode
-                                         - component_specific_filters (dict, optional): Targeted extraction
-
-        Returns:
-            object: Self instance with updated attributes:
-                   - self.msg: Operation result message with file path and statistics
-                   - self.status: Operation status ("success", "failed", or "ok")
-                   - Operation result set via set_operation_result()
-        """
-        self.log(
-            "Starting YAML configuration generation workflow with parameters: {0}. "
-            "Workflow orchestrates file path determination, filter processing, "
-            "configuration retrieval, operation summary consolidation, and YAML file "
-            "generation with header comments.".format(yaml_config_generator),
-            "DEBUG"
-        )
-
-        # Check if generate_all_configurations mode is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        self.log(
-            "Auto-discovery mode evaluation: generate_all_configurations={0}. When "
-            "enabled, overrides all filters to retrieve complete device health score "
-            "settings inventory from Catalyst Center for brownfield documentation.".format(
-                generate_all
-            ),
-            "DEBUG"
-        )
-        if generate_all:
-            self.log(
-                "Auto-discovery mode enabled. Will process all device health score "
-                "settings without filtering restrictions for complete infrastructure "
-                "discovery and documentation.",
-                "INFO"
-            )
-
-        self.log(
-            "Determining output file path for YAML configuration. Checking if user "
-            "provided file_path parameter in top-level module input.",
-            "DEBUG"
-        )
-        file_path = yaml_config_generator.get("file_path")
-        if not file_path:
-            self.log(
-                "No file_path provided in top-level module input. Generating default "
-                "filename with module name and timestamp for unique identification.",
-                "DEBUG"
-            )
-            file_path = self.generate_filename()
-            self.log(
-                "Generated default filename: {0}. File will be created in current "
-                "working directory.".format(file_path),
-                "DEBUG"
-            )
-        else:
-            self.log(
-                "Using user-provided file_path: {0}. Path may be absolute or relative "
-                "to current working directory.".format(file_path),
-                "DEBUG"
-            )
-
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
-
-        self.log(
-            "YAML configuration output file path determined: {0}, file_mode: {1}. Path will be used "
-            "for writing final configuration with header comments.".format(file_path, file_mode),
-            "INFO"
-        )
-
-        if generate_all:
-            self.log(
-                "Auto-discovery mode active. Overriding any user-provided filters to "
-                "retrieve all device health score settings from Catalyst Center. "
-                "component_specific_filters will be set to empty dictionary.",
-                "INFO"
-            )
-            component_specific_filters = {}
-        else:
-            self.log(
-                "Standard mode active. Processing user-provided filters for targeted "
-                "device health score settings retrieval using component_specific_filters.",
-                "DEBUG"
-            )
-
-            component_specific_filters = (
-                yaml_config_generator.get("component_specific_filters") or {}
-            )
-
-            self.log(
-                "Component specific filters determined: {0}. Filters will be applied "
-                "during device health score settings retrieval for targeted configuration "
-                "extraction.".format(component_specific_filters),
-                "DEBUG"
-            )
-
-        self.log(
-            "Retrieving supported network elements schema configuration from module "
-            "schema definition. Schema contains API configuration, filter specifications, "
-            "and reverse mapping functions for each component.",
-            "DEBUG"
-        )
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
-
-        self.log(
-            "Initializing final configuration list and consolidated operation summary "
-            "tracking structures. These structures will accumulate configurations and "
-            "statistics from all processed components.",
-            "DEBUG"
-        )
-        final_list = []
-        consolidated_operation_summary = {
-            "total_device_families_processed": 0,
-            "total_kpis_processed": 0,
-            "total_successful_operations": 0,
-            "total_failed_operations": 0,
-            "device_families_with_complete_success": [],
-            "device_families_with_partial_success": [],
-            "device_families_with_complete_failure": [],
-            "success_details": [],
-            "failure_details": []
-        }
-
-        self.log(
-            "Tracking structures initialized successfully. final_list=[], "
-            "consolidated_operation_summary with zero counters ready for accumulation.",
-            "DEBUG"
-        )
-
-        # Process device health score settings
-        component = "device_health_score_settings"
-        self.log(
-            "Starting processing for component: {0}. Retrieving network element "
-            "configuration from module schema for API execution and data transformation.".format(
-                component
-            ),
-            "INFO"
-        )
-        network_element = module_supported_network_elements.get(component)
-
-        if network_element:
-            self.log(
-                "Network element configuration found for component {0}. Configuration "
-                "includes api_family={1}, api_function={2}, and reverse mapping function. "
-                "Preparing component-specific filter structure.".format(
-                    component,
-                    network_element.get("api_family"),
-                    network_element.get("api_function")
-                ),
-                "DEBUG"
-            )
-
-            # Prepare component filters structure
-            self.log(
-                "Constructing component filter structure with component_specific_filters "
-                "for API execution. Structure format: {{'component_specific_filters': "
-                "{0}}}.".format(component_specific_filters),
-                "DEBUG"
-            )
-            # Pass the component_specific_filters directly to match the expected structure
-            component_filters = {
-                "component_specific_filters": component_specific_filters
-            }
-
-            self.log("Executing component operation function to retrieve details", "DEBUG")
-            operation_func = network_element.get("get_function_name")
-            details = operation_func(network_element, component_filters)
-            self.log(
-                "Component operation function execution completed for {0}. Retrieved "
-                "configurations count: {1}, operation_summary available: {2}.".format(
-                    component,
-                    len(details.get("device_health_score_settings", [])),
-                    bool(details.get("operation_summary"))
-                ),
-                "INFO"
-            )
-
-            # Process retrieved configurations
-            if details and details.get("device_health_score_settings"):
-                config_count = len(details["device_health_score_settings"])
-
-                self.log(
-                    "Adding {0} device health score configurations from component {1} "
-                    "to final list. Configurations include device_family, kpi_name, "
-                    "threshold_value, and other settings.".format(
-                        config_count, component
-                    ),
-                    "DEBUG"
-                )
-
-                final_list.extend(details["device_health_score_settings"])
-
-                self.log(
-                    "Successfully added configurations to final list. Total configurations "
-                    "in final_list: {0}.".format(len(final_list)),
-                    "DEBUG"
-                )
-            else:
-                self.log(
-                    "No device_health_score_settings configurations found in component "
-                    "operation response for {0}. final_list remains unchanged.".format(
-                        component
-                    ),
-                    "WARNING"
-                )
-
-            # Consolidate operation summary
-            if details and details.get("operation_summary"):
-                self.log(
-                    "Consolidating operation summary from component {0} response. "
-                    "Summary includes success/failure statistics and device family "
-                    "categorization for comprehensive reporting.".format(component),
-                    "DEBUG"
-                )
-                summary = details["operation_summary"]
-                consolidated_operation_summary.update(summary)
-                self.log(
-                    "Operation summary consolidated successfully. Statistics: "
-                    "total_device_families_processed={0}, total_kpis_processed={1}, "
-                    "total_successful_operations={2}, total_failed_operations={3}.".format(
-                        consolidated_operation_summary["total_device_families_processed"],
-                        consolidated_operation_summary["total_kpis_processed"],
-                        consolidated_operation_summary["total_successful_operations"],
-                        consolidated_operation_summary["total_failed_operations"]
-                    ),
-                    "DEBUG"
-                )
-            else:
-                self.log(
-                    "No operation_summary available in component response for {0}. "
-                    "Consolidated summary retains initial zero values.".format(component),
-                    "DEBUG"
-                )
-        else:
-            self.log(
-                "Network element configuration not found for component {0} in module "
-                "schema. Component will be skipped in processing workflow.".format(
-                    component
-                ),
-                "ERROR"
-            )
-
-        self.log(
-            "Creating final dictionary structure for YAML output. Structure follows "
-            "assurance_device_health_score_settings_workflow_manager expected format "
-            "with config list containing device_health_score configurations.",
-            "DEBUG"
-        )
-        final_dict = OrderedDict()
-
-        # Format the configuration properly according to the required structure
-        # Changed to match expected format: config: - device_health_score: [list]
-        if final_list:
-            self.log(
-                "Formatting {0} configurations into expected YAML structure: config -> "
-                "list with device_health_score key. Structure matches module input "
-                "requirements.".format(len(final_list)),
-                "DEBUG"
-            )
-            final_dict["config"] = [{"device_health_score": final_list}]
-        else:
-            self.log(
-                "No configurations available in final_list. Creating empty YAML "
-                "structure: config -> list with empty device_health_score array.",
-                "WARNING"
-            )
-            final_dict["config"] = [{"device_health_score": []}]
-
-        if not final_list:
-            self.log(
-                "No configurations found to process after component retrieval. Setting "
-                "appropriate result message indicating no data available for specified "
-                "filters or auto-discovery mode.",
-                "WARNING"
-            )
-
-            self.msg = {
-                "message": (
-                    "No configurations or components to process for module '{0}'. "
-                    "Verify input filters or configuration.".format(self.module_name)
-                ),
-                "file_path": file_path,
-                "operation_summary": consolidated_operation_summary
-            }
-
-            self.log(
-                "Setting operation result to 'ok' status for empty configuration "
-                "scenario. Result message: {0}".format(self.msg["message"]),
-                "INFO"
-            )
-
-            self.set_operation_result("ok", False, self.msg, "INFO")
-            return self
-        else:
-            self.log(
-                "YAML file write operation failed. Unable to write configuration to "
-                "file path: {0}. Check file permissions, directory existence, and disk "
-                "space availability.".format(file_path),
-                "ERROR"
-            )
-
-            self.msg = {
-                "message": (
-                    "YAML config generation failed for module '{0}' - unable to write "
-                    "to file.".format(self.module_name)
-                ),
-                "file_path": file_path,
-                "operation_summary": consolidated_operation_summary
-            }
-
-            self.log(
-                "Setting operation result to 'failed' with changed=True due to file "
-                "write failure. Message: {0}".format(self.msg["message"]),
-                "ERROR"
-            )
-
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        self.log(
-            "Final dictionary structure created successfully with {0} total "
-            "configurations. Dictionary ready for YAML serialization with header "
-            "comments.".format(len(final_list)),
-            "INFO"
-        )
-
-        # Determine if operation should be considered failed based on partial or complete failures
-        has_partial_failures = len(consolidated_operation_summary["device_families_with_partial_success"]) > 0
-        has_complete_failures = len(consolidated_operation_summary["device_families_with_complete_failure"]) > 0
-        has_any_failures = consolidated_operation_summary["total_failed_operations"] > 0
-
-        self.log(
-            "Evaluating operation status for failure detection. Partial failures: {0}, "
-            "Complete failures: {1}, Total failed operations: {2}. Status determination "
-            "will affect final result reporting.".format(
-                has_partial_failures, has_complete_failures,
-                consolidated_operation_summary["total_failed_operations"]
-            ),
-            "DEBUG"
-        )
-
-        # Write YAML file with header
-        self.log(
-            "Initiating YAML file write operation to path: {0}. Operation includes "
-            "header comment generation with metadata and configuration summary, followed "
-            "by YAML serialization of final_dict structure.".format(file_path),
-            "INFO"
-        )
-
-        self.log("Attempting to write final dictionary to YAML file", "DEBUG")
-        if self.write_dict_to_yaml(final_dict, file_path, file_mode):
-            self.log(
-                "YAML file write operation completed successfully. File created at: {0} "
-                "with {1} configurations and header comments.".format(
-                    file_path, len(final_list)
-                ),
-                "INFO"
-            )
-            self.log(
-                "YAML file write operation completed successfully. File created at: {0} "
-                "with {1} configurations and header comments.".format(
-                    file_path, len(final_list)
-                ),
-                "INFO"
-            )
-
-            # Determine final operation status
-            if has_partial_failures or has_complete_failures or has_any_failures:
-                self.log(
-                    "Operation contains failures detected. Setting final status to "
-                    "'failed' for comprehensive error reporting. Partial failures: {0}, "
-                    "Complete failures: {1}, Total failures: {2}.".format(
-                        has_partial_failures, has_complete_failures, has_any_failures
-                    ),
-                    "WARNING"
-                )
-
-                self.msg = {
-                    "message": (
-                        "YAML config generation completed with failures for module "
-                        "'{0}'. Check operation_summary for details.".format(
-                            self.module_name
-                        )
-                    ),
-                    "file_path": file_path,
-                    "configurations_generated": len(final_list),
-                    "operation_summary": consolidated_operation_summary
-                }
-
-                self.log(
-                    "Setting operation result to 'failed' with changed=True. Message: "
-                    "{0}. Users should review operation_summary for failure details.".format(
-                        self.msg["message"]
-                    ),
-                    "ERROR"
-                )
-                self.set_operation_result("failed", True, self.msg, "ERROR")
-            else:
-                self.log(
-                    "Setting operation result to 'success' with changed=True. Generated "
-                    "YAML file contains {0} configurations at {1}.".format(
-                        len(final_list), file_path
-                    ),
-                    "INFO"
-                )
-                self.msg = {
-                    "message": "YAML config generation succeeded for module '{0}'.".format(self.module_name),
-                    "file_path": file_path,
-                    "configurations_generated": len(final_list),
-                    "operation_summary": consolidated_operation_summary
-                }
-                self.set_operation_result("success", True, self.msg, "INFO")
-        else:
-            self.log(
-                "Operation completed successfully without failures. All {0} device "
-                "families processed successfully with {1} total KPI configurations.".format(
-                    consolidated_operation_summary["total_device_families_processed"],
-                    consolidated_operation_summary["total_kpis_processed"]
-                ),
-                "INFO"
-            )
-
-            self.msg = {
-                "message": (
-                    "YAML config generation succeeded for module '{0}'.".format(
-                        self.module_name
-                    )
-                ),
-                "file_path": file_path,
-                "configurations_generated": len(final_list),
-                "operation_summary": consolidated_operation_summary
-            }
-
-            self.log(
-                "Setting operation result to 'success' with changed=True. Generated "
-                "YAML file contains {0} configurations at {1}.".format(
-                    len(final_list), file_path
-                ),
-                "INFO"
-            )
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        self.log(
-            "YAML configuration generation workflow completed. Final status: {0}, "
-            "Configurations generated: {1}, File path: {2}.".format(
-                "success" if not (has_partial_failures or has_complete_failures or
-                                  has_any_failures) and len(final_list) > 0 else "failed",
-                len(final_list), file_path
-            ),
-            "INFO"
-        )
-        return self
 
     def get_want(self, config, state):
         """

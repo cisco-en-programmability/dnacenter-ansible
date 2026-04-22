@@ -50,6 +50,9 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestDnacModule):
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
     playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
+    playbook_config_invalid_component = test_data.get("playbook_config_invalid_component")
+    playbook_config_invalid_component_filters = test_data.get("playbook_config_invalid_component_filters")
+    playbook_config_invalid_transit_type = test_data.get("playbook_config_invalid_transit_type")
 
     def setUp(self):
         super(TestSdaFabricTransitsPlaybookConfigGenerator, self).setUp()
@@ -191,6 +194,15 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestDnacModule):
             # No side effects needed - validation happens before API calls
             pass
         elif "empty_component_specific_filters" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+        elif "invalid_component" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+        elif "invalid_component_filters" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+        elif "invalid_transit_type" in self._testMethodName:
             # No side effects needed - validation happens before API calls
             pass
 
@@ -574,4 +586,83 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestDnacModule):
         self.assertIn(
             "Invalid parameters in playbook config: 'component_specific_filters' is provided but empty.",
             str(result.get("msg")),
+        )
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_sda_fabric_transits_playbook_config_generator_invalid_component(self, mock_exists, mock_file):
+        """
+        Test case for invalid component in component_specific_filters.
+
+        This test verifies that the generator correctly fails when
+        an invalid component name is provided in component_specific_filters.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config=self.playbook_config_invalid_component
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid network components provided for module", str(result.get("msg")))
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_sda_fabric_transits_playbook_config_generator_invalid_component_filters(self, mock_exists, mock_file):
+        """
+        Test case for invalid filter keys in component_specific_filters.
+
+        This test verifies that the generator correctly fails when
+        invalid filter keys are provided in component_specific_filters.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config=self.playbook_config_invalid_component_filters
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid filters provided for module", str(result.get("msg")))
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_sda_fabric_transits_playbook_config_generator_invalid_transit_type(self, mock_exists, mock_file):
+        """
+        Test case for invalid transit type in component_specific_filters.
+
+        This test verifies that the generator correctly fails when
+        an invalid transit type is provided in the filters for sda_fabric_transits.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="gathered",
+                config=self.playbook_config_invalid_transit_type
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid filters provided for module", str(result.get("msg")))
+        self.assertIn(
+            "Valid choices: ['IP_BASED_TRANSIT', 'SDA_LISP_PUB_SUB_TRANSIT', 'SDA_LISP_BGP_TRANSIT']",
+            str(result.get("msg"))
         )
