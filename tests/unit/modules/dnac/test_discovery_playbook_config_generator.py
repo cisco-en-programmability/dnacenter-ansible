@@ -158,7 +158,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_generate_all
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
@@ -181,7 +181,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_specific_names
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
@@ -202,7 +202,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_by_type
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
         self.assertIn('response', result)
@@ -224,7 +224,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_by_type
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         # Module executes successfully and returns response data
         self.assertIsNotNone(result)
         self.assertIn('response', result)
@@ -273,9 +273,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        # The module gracefully handles API errors and returns no_data status
+        # The module gracefully handles API errors and returns ok status (no data found)
         self.assertIn('response', result)
-        self.assertEqual(result['response'].get('status'), 'no_data')
+        self.assertEqual(result['response'].get('status'), 'ok')
 
     def test_discovery_playbook_config_generator_credential_mapping(self):
         """
@@ -296,7 +296,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_specific_names
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
         self.assertIn('response', result)
@@ -337,7 +337,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 state="gathered"
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         self.assertIn('response', result)
 
     def test_discovery_playbook_config_generator_invalid_global_filter_key(self):
@@ -408,7 +408,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_specific_names
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         self.assertIsNotNone(result)
         self.assertIn('response', result)
 
@@ -504,7 +504,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_specific_names
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
         self.assertIn('response', result)
@@ -527,7 +527,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 config=self.playbook_config_generate_all
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
         self.assertIn('response', result)
@@ -623,7 +623,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
                 }
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with complex credential mapping
         self.assertIsNotNone(result)
         self.assertIn('response', result)

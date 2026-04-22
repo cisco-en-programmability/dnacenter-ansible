@@ -65,9 +65,9 @@
       "components_list": [
         "authentication_policy_server"
       ],
-      "authentication_policy_server": {
-        "server_type": "ISE"
-      }
+      "authentication_policy_server": [
+        {"server_type": "ISE"}
+      ]
     }
   },
   "playbook_config_filter_by_server_ip": {
@@ -75,9 +75,9 @@
       "components_list": [
         "authentication_policy_server"
       ],
-      "authentication_policy_server": {
-        "server_ip_address": "10.197.156.10"
-      }
+      "authentication_policy_server": [
+        {"server_ip_address": "10.197.156.10"}
+      ]
     }
   },
   "playbook_config_filter_by_both": {
@@ -85,10 +85,9 @@
       "components_list": [
         "authentication_policy_server"
       ],
-      "authentication_policy_server": {
-        "server_type": "ISE",
-        "server_ip_address": "10.197.156.10"
-      }
+      "authentication_policy_server": [
+        {"server_type": "ISE", "server_ip_address": "10.197.156.10"}
+      ]
     }
   },
   "playbook_config_no_filters": {
@@ -103,9 +102,9 @@
       "components_list": [
         "authentication_policy_server"
       ],
-      "authentication_policy_server": {
-        "server_type": "INVALID_TYPE"
-      }
+      "authentication_policy_server": [
+        {"server_type": "INVALID_TYPE"}
+      ]
     }
   },
   "playbook_config_no_file_path": {
