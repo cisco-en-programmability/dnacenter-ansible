@@ -1525,6 +1525,10 @@ notes:
   - While deploying the template to devices, the value for the following resource types can be filled in the resource parameters at
     RUNTIME- MANAGED_DEVICE_UUID, MANAGED_DEVICE_IP, MANAGED_DEVICE_HOSTNAME, and SITE_UUID. For all other resource types, the value
     must be provided at DESIGN time in the playbook.
+  - Sensitive data such as template parameter values, credentials, or other confidential information can be protected
+    using Ansible Vault. Store sensitive values in a vault-encrypted file and reference them as variables in the playbook.
+    Use C(ansible-vault encrypt <file>) to encrypt the file and pass C(--ask-vault-pass) or C(--vault-password-file)
+    when running the playbook.
 """
 
 EXAMPLES = r"""
@@ -2203,6 +2207,42 @@ EXAMPLES = r"""
           device_details:
             device_ips:
               - 10.1.1.1
+
+- name: Deploy template with sensitive parameter values protected using Ansible Vault
+  # Step 1 - Create a vault file (e.g., vault_vars.yml) with sensitive values:
+  #   password: "my_password"
+  # Step 2 - Encrypt it: ansible-vault encrypt vault_vars.yml --ask-vault-pass
+  # Step 3 - Run the playbook: ansible-playbook playbook.yml --ask-vault-pass
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+    - vault_vars.yml
+  gather_facts: false
+  tasks:
+    - name: Deploy template with vaulted parameter values
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: "{{ dnac_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - deploy_template:
+              project_name: "Sample_Project"
+              template_name: "Sample Template"
+              force_push: true
+              template_parameters:
+                - param_name: "password"
+                  param_value: "{{ password }}"
+              device_details:
+                device_ips:
+                  - 10.1.2.1
 """
 
 RETURN = r"""

@@ -4790,6 +4790,13 @@ class FabricDevices(DnacBase):
             current_site = self.get_site(site_name).get("response", [])
 
             child_sites_response = self.get_site(site_name + "/.*")
+            if not child_sites_response:
+                self.log(
+                    f"No child sites found for site '{site_name}'.",
+                    "DEBUG",
+                )
+                continue
+
             child_sites = child_sites_response.get("response", [])
             self.log(
                 f"Found {len(child_sites)} child site(s) for site '{site_name}'.",
