@@ -11,6 +11,7 @@
     },
     "playbook_config_delete_existing_user": {
         "user_details": [{
+            "username": "ajithandrewj",
             "first_name": "ajith",
             "last_name": "andrew",
             "email": "ajith.andrew@example.com",

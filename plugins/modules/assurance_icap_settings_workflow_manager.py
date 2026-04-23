@@ -81,8 +81,9 @@ options:
               - RFSTATS # Captures RF statistics to analyze signal and interference levels.
               - ANOMALY # Captures specific anomalies detected in the network.
           duration_in_mins:
-            description: The duration of the Intelligent
-              Capture session in minutes.
+            description:
+              - The duration of the Intelligent Capture session in minutes.
+              - Accepted range is 30 to 480 minutes (inclusive).
             type: int
           preview_description:
             description: A short summary or metadata

@@ -18,6 +18,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+import os
 from unittest.mock import patch
 
 from ansible_collections.cisco.dnac.plugins.modules import user_role_playbook_config_generator
@@ -52,6 +53,14 @@ class TestDnacUserRolePlaybookGenerator(TestDnacModule):
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK._exec"
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
+
+        # Ensure changed=True tests are deterministic by removing prior outputs.
+        for file_path in [
+            "/tmp/specific_userrole_details_info",
+            "/tmp/specific_user_details1",
+        ]:
+            if os.path.exists(file_path):
+                os.remove(file_path)
 
     def tearDown(self):
         super(TestDnacUserRolePlaybookGenerator, self).tearDown()

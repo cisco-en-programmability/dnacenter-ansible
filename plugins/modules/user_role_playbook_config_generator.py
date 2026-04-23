@@ -404,17 +404,19 @@ response_1:
 response_2:
   description: A dictionary with the response returned by the Cisco Catalyst Center
   returned: always
-  type: list
+  type: dict
   sample: >
-    "msg": {
-        "YAML config generation Task failed for module 'user_role_workflow_manager'.": {
-            "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
-        }
-    },
-    "response": {
-        "YAML config generation Task failed for module 'user_role_workflow_manager'.": {
-            "file_path": "/Users/priyadharshini/Downloads/specific_userrole_details_info"
-        }
+    {
+      "msg": "YAML configuration file already up-to-date for module 'user_role_workflow_manager'. No changes written.",
+      "response": {
+        "components_processed": 2,
+        "components_skipped": 0,
+        "configurations_count": 13,
+        "file_path": "/tmp/specific_userrole_details_info",
+        "message": "YAML configuration file already up-to-date for module 'user_role_workflow_manager'. No changes written.",
+        "status": "success"
+      },
+      "status": "success"
     }
 """
 
@@ -930,12 +932,11 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             # Check if lookup returned role_id as fallback (not found in cache)
             if role_name == role_id:
                 self.log(
-                    "Role name lookup returned role_id as fallback for role_id '{0}' "
-                    "(role {1}/{2} for user '{3}') - role not found in cache. "
-                    "This may indicate a deleted or invalid role.".format(
-                        role_id, role_index, len(role_ids), username
+                    "Role value '{0}' for user '{1}' (role {2}/{3}) is already a role "
+                    "name (API returned name directly instead of ID).".format(
+                        role_id, username, role_index, len(role_ids)
                     ),
-                    "WARNING"
+                    "DEBUG"
                 )
                 # Still count as successful since we have a value
                 successful_lookups += 1
@@ -1031,14 +1032,12 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            cache_exists = hasattr(self, '_role_cache')
-            if not cache_exists:
+            if not hasattr(self, '_role_cache'):
                 self.log(
                     "Role cache not initialized - triggering cache population via API "
                     "call to retrieve all roles from Catalyst Center",
                     "INFO"
                 )
-            if not hasattr(self, '_role_cache'):
                 self._role_cache = {}
                 roles_response = self.dnac._exec(
                     family="user_and_roles",
@@ -1099,11 +1098,38 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                         "DEBUG"
                     )
             self.log(
-                "Role name lookup completed with cache miss for role_id '{0}' - "
-                "returning original role_id as fallback".format(role_id),
+                "Role name lookup using cache for role_id '{0}'".format(role_id),
                 "DEBUG"
             )
-            return self._role_cache.get(role_id)
+
+            # First, check if role_id is an actual role ID in the cache
+            cached_name = self._role_cache.get(role_id)
+            if cached_name:
+                self.log(
+                    "Found role name '{0}' for role_id '{1}' in cache".format(
+                        cached_name, role_id
+                    ),
+                    "DEBUG"
+                )
+                return cached_name
+
+            # The API roleList field may return role names directly (e.g.
+            # "SUPER-ADMIN-ROLE") instead of role IDs.  Check whether the
+            # supplied value already matches a known role name.
+            if role_id in self._role_cache.values():
+                self.log(
+                    "Value '{0}' is already a valid role name (found in cache "
+                    "values) - returning as-is".format(role_id),
+                    "DEBUG"
+                )
+                return role_id
+
+            self.log(
+                "Role name lookup completed with cache miss for role_id '{0}' - "
+                "returning original value as fallback".format(role_id),
+                "DEBUG"
+            )
+            return role_id
 
         except Exception as e:
             self.log("Error getting role name for ID {0}: {1}".format(role_id, str(e)), "ERROR")
@@ -2750,7 +2776,6 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             self.set_operation_result("success", False, no_config_message, "INFO")
             return self
 
-        final_dict = {"config": config_dict}
         # Create final dictionary structure for YAML
         self.log(
             "Creating final dictionary structure for YAML generation with 'config' "
@@ -2776,39 +2801,42 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         write_success = self.write_dict_to_yaml(final_dict, file_path, file_mode)
-        if not write_success:
+        if write_success is False:
             self.log(
-                "YAML file write operation failed - write_dict_to_yaml returned False "
-                "for file path: {0}".format(file_path),
-                "ERROR"
-            )
-
-            error_message = (
-                "Failed to write YAML configuration to file: {0}. Check file "
-                "permissions, disk space, and path validity.".format(file_path)
+                "YAML file is already up-to-date - write_dict_to_yaml returned False "
+                "for file path: {0}. Treating as idempotent success.".format(file_path),
+                "INFO"
             )
 
             response_data = {
-                "message": error_message,
-                "status": "failed"
+                "components_processed": components_processed,
+                "components_skipped": components_skipped,
+                "configurations_count": total_configurations,
+                "file_path": file_path,
+                "message": (
+                    "YAML configuration file already up-to-date for module '{0}'. "
+                    "No changes written.".format(self.module_name)
+                ),
+                "status": "success",
             }
 
             self.log(
-                "Error response data prepared: {0}".format(response_data),
+                "Idempotent response data prepared: {0}".format(response_data),
                 "DEBUG"
             )
 
             self.log(
-                "Setting operation result to failed with changed=False - no file created",
+                "Setting operation result to success with changed=False for idempotent run",
                 "DEBUG"
             )
-            self.set_operation_result("failed", False, error_message, "ERROR")
+            self.set_operation_result("success", False, response_data["message"], "INFO")
             self.msg = response_data
             self.result["response"] = response_data
 
             self.log(
-                "YAML configuration generation workflow failed during file write operation",
-                "ERROR"
+                "YAML configuration generation workflow completed with no changes "
+                "(idempotent success).",
+                "INFO"
             )
 
             return self
@@ -2885,7 +2913,6 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        self.validate_params(config)
         self.log(
             "Calling validate_params to validate configuration structure and values",
             "DEBUG"
