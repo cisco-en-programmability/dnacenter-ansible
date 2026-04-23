@@ -1,7 +1,7 @@
 {
     "create_a_tag_with_device_port_rules_case_1": [
         {
-            "tag": {
+            "tags": [{
                 "name": "ServersTag",
                 "description": "Tag for devices and interfaces connected to servers",
                 "system_tag": false,
@@ -86,7 +86,7 @@
                         }
                     ]
                 }
-            }
+            }]
         }
     ],
     "get_tag_case_1_call_1": {
@@ -259,9 +259,9 @@
     },
     "delete_a_tag_with_device_port_rules_case_2": [
         {
-            "tag": {
+            "tags": [{
                 "name": "ServersTag"
-            }
+            }]
         }
     ],
     "get_tag_case_2_call_1": {
@@ -417,10 +417,10 @@
     },
     "force_delete_a_tag_with_device_port_rules_case_3": [
         {
-            "tag": {
+            "tags": [{
                 "name": "ServersTag",
                 "force_delete": true
-            }
+            }]
         }
     ],
     "get_tag_case_3_call_1": {
@@ -894,7 +894,7 @@
     },
     "update_scope_of_a_tag_with_only_port_rule_case_4": [
         {
-            "tag": {
+            "tags": [{
                 "name": "ServersTag",
                 "description": "Tag for devices and interfaces connected to servers",
                 "system_tag": false,
@@ -946,7 +946,7 @@
                         ]
                     }
                 }
-            }
+            }]
         }
     ],
     "get_tag_case_4_call_1": {
@@ -1168,7 +1168,7 @@
     },
     "update_scope_members_of_tag_with_device_ports_rules_case_5": [
         {
-            "tag": {
+            "tags": [{
                 "name": "ServersTag",
                 "description": "Tag for devices and interfaces connected to servers",
                 "system_tag": false,
@@ -1180,7 +1180,7 @@
                         ]
                     }
                 }
-            }
+            }]
         }
     ],
     "get_tag_case_5_call_1": {
@@ -1477,14 +1477,14 @@
     },
     "name_not_provided_case_6": [
         {
-            "tag": {
+            "tags": [{
                 "description": "Tag for devices and interfaces connected to servers"
-            }
+            }]
         }
     ],
     "rule_description_not_provided_properly_in_device_rules_case_7": [
         {
-            "tag": {
+            "tags": [{
                 "name": "Servers_Connected_Devices_and_Interfaces",
                 "description": "Tag for devices and interfaces connected to servers",
                 "device_rules": {
@@ -1494,12 +1494,12 @@
                         }
                     ]
                 }
-            }
+            }]
         }
     ],
     "rule_description_not_provided_properly_in_port_rules_case_8": [
         {
-            "tag": {
+            "tags": [{
                 "name": "Servers_Connected_Devices_and_Interfaces",
                 "description": "Tag for devices and interfaces connected to servers",
                 "port_rules": {
@@ -1509,12 +1509,12 @@
                         }
                     ]
                 }
-            }
+            }]
         }
     ],
     "scope_category_not_provided_case_9": [
         {
-            "tag": {
+            "tags": [{
                 "name": "Servers_Connected_Devices_and_Interfaces",
                 "description": "Tag for devices and interfaces connected to servers",
                 "port_rules": {
@@ -1524,12 +1524,12 @@
                         ]
                     }
                 }
-            }
+            }]
         }
     ],
     "not_enough_details_provided_in_device_details_in_tag_memberships_case_10": [
         {
-            "tag_memberships": {
+            "tag_memberships": [{
                 "tags": [
                     "Servers_Connected_Devices_and_Interfaces"
                 ],
@@ -1541,7 +1541,7 @@
                         ]
                     }
                 ]
-            }
+            }]
         }
     ],
     "get_tag_case_10_call_1": {
@@ -1557,7 +1557,7 @@
     },
     "tags_not_provided_in_tag_memberships_case_11": [
         {
-            "tag_memberships": {
+            "tag_memberships": [{
                 "device_details": [
                     {
                         "port_names": [
@@ -1581,12 +1581,12 @@
                 "interface_tag_retrieval_batch_size": 1,
                 "network_device_tag_update_batch_size": 1,
                 "interface_tag_update_batch_size": 1
-            }
+            }]
         }
     ],
     "site_names_not_provided_in_tag_memberships_case_12": [
         {
-            "tag_memberships": {
+            "tag_memberships": [{
                 "tags": ["Servers_Connected_Devices_and_Interfaces"],
                 "site_details": [
                     {
@@ -1596,12 +1596,12 @@
                         ]
                     }
                 ]
-            }
+            }]
         }
     ],
     "updating_only_port_rules_description_when_no_port_rules_are_present_case_13": [
         {
-            "tag": {
+            "tags": [{
                 "name": "Test1011",
                 "description": "Test tag created for unit testing.",
                 "port_rules": {
@@ -1614,15 +1614,15 @@
                         }
                     ]
                 }
-            }
+            }]
         }
     ],
     "updating_tag_name_case_14": [
         {
-            "tag": {
+            "tags": [{
                 "name": "Test_tag_update",
                 "new_name": "Test_tag_update_renamed"
-            }
+            }]
         }
     ],
     "get_tag_case_14_call_1": {

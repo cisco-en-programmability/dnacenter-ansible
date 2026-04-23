@@ -2045,3 +2045,32 @@ releases:
         - Changes in wireless_design_playbook_config_generator module
         - Changes in wireless_design_workflow_manager module
         - Added 'member_template_deployment_info'  attribute in template_workflow_manager module
+
+  6.51.0:
+    release_date: "2026-04-23"
+    changes:
+      release_summary: Minor changes in workflow manager modules
+      minor_changes:
+        - Changes in application_policy_workflow_manager module
+        - Changes in assurance_icap_settings_workflow_manager module
+        - Changes in assurance_issue_playbook_config_generator module
+        - Changes in device_credential_playbook_config_generator module
+        - Changes in events_and_notifications_playbook_config_generator module
+        - Changes in events_and_notifications_workflow_manager module
+        - Changes in inventory_playbook_config_generator module
+        - Changes in lan_automation_workflow_manager module
+        - Changes in network_profile_switching_playbook_config_generator module
+        - Changes in network_profile_wireless_playbook_config_generator module
+        - Changes in pnp_playbook_config_generator module
+        - Changes in sda_fabric_devices_playbook_config_generator module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Changes in sda_fabric_sites_zones_playbook_config_generator module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in tags_playbook_config_generator module
+        - Changes in tags_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in user_role_playbook_config_generator module
+        - Changes in user_role_workflow_manager module
+        - Changes in wired_campus_automation_playbook_config_generator module
+        - Changes in wired_campus_automation_workflow_manager module
+        - Changes in wireless_design_playbook_config_generator module

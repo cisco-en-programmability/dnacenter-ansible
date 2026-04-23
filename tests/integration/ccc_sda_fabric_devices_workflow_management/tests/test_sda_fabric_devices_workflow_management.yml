@@ -1,0 +1,157 @@
+---
+- debug:
+    msg="Initializing SDA Fabric Devices Workflow Management Test"
+- debug:
+    msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load variables and set Catalyst Center credentials
+    include_vars:
+      file: "{{ role_path }}/vars/vars_sda_fabric_devices_workflow_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: false
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Remove existing SDA fabric devices before test execution
+    cisco.dnac.sda_fabric_devices_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.cleanup_fabric_devices }}"
+
+#############################################
+#         FABRIC DEVICE CREATE/UPDATE/DELETE
+#############################################
+
+  - name: Create SDA fabric devices
+    cisco.dnac.sda_fabric_devices_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.create_fabric_devices }}"
+    register: result_create_fabric_devices
+
+  - name: Verify SDA fabric device creation
+    assert:
+      that:
+        - item.changed == true
+        - "'Successfully' in item.msg"
+    loop: "{{ result_create_fabric_devices.results }}"
+    when: result_create_fabric_devices is defined
+
+  - name: Update SDA fabric devices
+    cisco.dnac.sda_fabric_devices_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_fabric_devices }}"
+    register: result_update_fabric_devices
+
+  - name: Verify SDA fabric device update
+    assert:
+      that:
+        - item.changed == true
+        - "'Successfully' in item.msg"
+    loop: "{{ result_update_fabric_devices.results }}"
+    when: result_update_fabric_devices is defined
+
+  - name: Delete SDA fabric devices
+    cisco.dnac.sda_fabric_devices_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_fabric_devices }}"
+    register: result_delete_fabric_devices
+
+  - name: Verify SDA fabric device deletion
+    assert:
+      that:
+        - item.changed == true
+        - "'Successfully' in item.msg"
+    loop: "{{ result_delete_fabric_devices.results }}"
+    when: result_delete_fabric_devices is defined
+
+#############################################
+#       WIRELESS CONTROLLER CREATE/UPDATE/DELETE
+#############################################
+
+  - name: Create wireless controller settings on SDA fabric devices
+    cisco.dnac.sda_fabric_devices_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.create_wireless_controller_settings }}"
+    register: result_create_wireless_controller_settings
+
+  - name: Verify wireless controller settings creation
+    assert:
+      that:
+        - item.changed == true
+        - "'successful' in item.msg"
+    loop: "{{ result_create_wireless_controller_settings.results }}"
+    when: result_create_wireless_controller_settings is defined
+
+  - name: Update wireless controller settings on SDA fabric devices
+    cisco.dnac.sda_fabric_devices_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.update_wireless_controller_settings }}"
+    register: result_update_wireless_controller_settings
+
+  - name: Verify wireless controller settings update
+    assert:
+      that:
+        - item.changed == true
+        - "'successful' in item.msg"
+    loop: "{{ result_update_wireless_controller_settings.results }}"
+    when: result_update_wireless_controller_settings is defined
+
+  - name: Delete wireless controller settings on SDA fabric devices
+    cisco.dnac.sda_fabric_devices_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_wireless_controller_settings }}"
+    register: result_delete_wireless_controller_settings
+
+  - name: Verify wireless controller settings deletion
+    assert:
+      that:
+        - item.changed == true
+        - "'successful' in item.msg"
+    loop: "{{ result_delete_wireless_controller_settings.results }}"
+    when: result_delete_wireless_controller_settings is defined
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Remove existing SDA fabric devices after test execution
+    cisco.dnac.sda_fabric_devices_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.cleanup_fabric_devices }}"
