@@ -364,6 +364,12 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         if config_provided:
             component_filters = valid_temp.get("component_specific_filters") or {}
+
+            # Validate that only known keys are present in component_specific_filters.
+            # Valid keys are the component block names from the schema plus 'components_list'.
+            valid_csf_keys = set(self.module_schema.get("issue_elements", {}).keys()) | {"components_list"}
+            self.validate_invalid_params(component_filters, valid_csf_keys)
+
             components_list = component_filters.get("components_list")
             has_components_list = isinstance(components_list, list) and len(components_list) > 0
             has_component_blocks = any(
@@ -426,6 +432,14 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "DEBUG"
                 )
+                # Derive valid keys for each filter entry from the schema
+                valid_filter_keys = set(
+                    self.module_schema
+                    .get("issue_elements", {})
+                    .get("assurance_user_defined_issue_settings", {})
+                    .get("filters", {})
+                    .keys()
+                )
                 deduplicated_issue_filters = []
                 seen_filter_keys = set()
                 for filter_index, item in enumerate(issue_filters, start=1):
@@ -436,6 +450,9 @@ class AssuranceIssuePlaybookGenerator(DnacBase, BrownFieldHelper):
                         )
                         deduplicated_issue_filters.append(item)
                         continue
+
+                    # Reject any unrecognized keys in the filter entry
+                    self.validate_invalid_params(item, valid_filter_keys)
 
                     filter_key = (
                         item.get("name"),
