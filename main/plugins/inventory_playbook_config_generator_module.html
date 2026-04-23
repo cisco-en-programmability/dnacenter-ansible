@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for &#39;inventory_workflow_manager&#39; module. &mdash; DNACenterAnsibleActions  documentation</title>
+  <title>cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for inventory_workflow_manager module. &mdash; DNACenterAnsibleActions  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
@@ -520,7 +520,7 @@
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_module.html">cisco.dnac.interfaces_query module -- Resource module for Interfaces Query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_count_module.html">cisco.dnac.interfaces_query_count module -- Resource module for Interfaces Query Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_intent_module.html">cisco.dnac.inventory_intent module -- Resource module for Network Device</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory_workflow_manager' module.</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_module.html">cisco.dnac.iot_fabric_rep_rings module -- Resource module for Iot Fabric Rep Rings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_delete_module.html">cisco.dnac.iot_fabric_rep_rings_delete module -- Resource module for Iot Fabric Rep Rings Delete</a></li>
@@ -1223,7 +1223,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Cisco.Dnac</a></li>
-      <li class="breadcrumb-item active">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory_workflow_manager' module.</li>
+      <li class="breadcrumb-item active">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/plugins/inventory_playbook_config_generator_module.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -1233,11 +1233,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module"></span><section id="cisco-dnac-inventory-playbook-config-generator-module-generate-yaml-playbook-input-for-inventory-workflow-manager-module">
-<h1>cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-inventory-playbook-config-generator-module-generate-yaml-playbook-input-for-inventory-workflow-manager-module" title="Permalink to this heading"></a></h1>
+  <span class="target" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module"></span><section id="cisco-dnac-inventory-playbook-config-generator-module-generate-yaml-playbook-for-inventory-workflow-manager-module">
+<h1>cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.<a class="headerlink" href="#cisco-dnac-inventory-playbook-config-generator-module-generate-yaml-playbook-for-inventory-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.51.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1246,34 +1246,32 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 <p class="ansible-version-added">New in cisco.dnac 6.44.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id53">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id54">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id55">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id56">Notes</a></p></li>
-<li><p><a class="reference internal" href="#see-also" id="id57">See Also</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id58">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id59">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id63">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id64">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id65">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id66">Notes</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id67">See Also</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id68">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id69">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id53" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id63" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Generates YAML input files for <code class="docutils literal notranslate"><span class="pre">cisco.dnac.inventory_workflow_manager</span></code>.</p></li>
-<li><p>Supports independent component generation for device details, device provisioning, interface details, and user-defined fields.</p></li>
-<li><p>Supports global device filters by IP address, hostname, serial number, and MAC address.</p></li>
-<li><p>If <code class="docutils literal notranslate"><span class="pre">config</span></code> is omitted or empty, the module generates all supported components.</p></li>
+<li><p>Generates YAML configurations compatible with the <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module, reducing the effort required to manually create Ansible playbooks and enabling programmatic modifications.</p></li>
+<li><p>The YAML configurations generated represent the inventory configurations configured on the Cisco Catalyst Center.</p></li>
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-requirements"></span><h2><a class="toc-backref" href="#id54" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-requirements"></span><h2><a class="toc-backref" href="#id64" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk &gt;= 2.10.10</p></li>
+<li><p>dnacentersdk &gt;= 2.7.2</p></li>
 <li><p>python &gt;= 3.9</p></li>
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id55" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id65" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -1285,172 +1283,89 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 <div class="ansibleOptionAnchor" id="parameter-config"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config"><strong>config</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Dictionary of filters controlling which inventory components are generated for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code>.</p>
-<p>If omitted or empty, the module generates all supported components.</p>
-<p>If provided, it may contain only <code class="docutils literal notranslate"><span class="pre">global_filters</span></code> and/or <code class="docutils literal notranslate"><span class="pre">component_specific_filters</span></code>.</p>
-<p>At least one of <code class="docutils literal notranslate"><span class="pre">global_filters</span></code> or <code class="docutils literal notranslate"><span class="pre">component_specific_filters</span></code> must be present when <code class="docutils literal notranslate"><span class="pre">config</span></code> is provided.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters"><strong>component_specific_filters</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Component-level filters controlling which sections are included in the generated YAML configuration.</p>
-<p>If no component filter blocks are provided, <code class="docutils literal notranslate"><span class="pre">components_list</span></code> is required and must be non-empty.</p>
-<p>If a component filter block is provided, the corresponding component is auto-added to <code class="docutils literal notranslate"><span class="pre">components_list</span></code> if missing.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/components_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-components-list"><strong>components_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/components_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of components to include in the generated YAML configuration file.</p>
-<p>Optional when one or more component filter blocks are provided.</p>
-<p>Required when no component filter blocks are provided.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`&quot;device\_details&quot;`</span></a></p></li>
-<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`&quot;provision\_device&quot;`</span></a></p></li>
-<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`&quot;interface\_details&quot;`</span></a></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`&quot;user\_defined\_fields&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/device_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-device-details"><strong>device_details</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/device_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">any</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Filters for device detail generation.</p>
-<p>Accepts either a single dictionary or a list of dictionaries.</p>
-<p>Multiple dictionaries use OR logic and keys inside each dictionary use AND logic.</p>
-<p>Supported filter keys: <code class="docutils literal notranslate"><span class="pre">type</span></code>, <code class="docutils literal notranslate"><span class="pre">role</span></code>, <code class="docutils literal notranslate"><span class="pre">snmp_version</span></code>, <code class="docutils literal notranslate"><span class="pre">cli_transport</span></code>.</p>
-<p>Allowed <code class="docutils literal notranslate"><span class="pre">type</span></code> values: <code class="docutils literal notranslate"><span class="pre">NETWORK_DEVICE</span></code>, <code class="docutils literal notranslate"><span class="pre">COMPUTE_DEVICE</span></code>, <code class="docutils literal notranslate"><span class="pre">MERAKI_DASHBOARD</span></code>, <code class="docutils literal notranslate"><span class="pre">THIRD_PARTY_DEVICE</span></code>, <code class="docutils literal notranslate"><span class="pre">FIREPOWER_MANAGEMENT_SYSTEM</span></code>.</p>
-<p>Allowed <code class="docutils literal notranslate"><span class="pre">role</span></code> values: <code class="docutils literal notranslate"><span class="pre">ACCESS</span></code>, <code class="docutils literal notranslate"><span class="pre">CORE</span></code>, <code class="docutils literal notranslate"><span class="pre">DISTRIBUTION</span></code>, <code class="docutils literal notranslate"><span class="pre">BORDER</span> <span class="pre">ROUTER</span></code>, <code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code>. Accepts a string or list of strings.</p>
-<p>Allowed <code class="docutils literal notranslate"><span class="pre">snmp_version</span></code> values: <code class="docutils literal notranslate"><span class="pre">v2</span></code>, <code class="docutils literal notranslate"><span class="pre">v2c</span></code>, <code class="docutils literal notranslate"><span class="pre">v3</span></code>.</p>
-<p>Allowed <code class="docutils literal notranslate"><span class="pre">cli_transport</span></code> values: <code class="docutils literal notranslate"><span class="pre">ssh</span></code>, <code class="docutils literal notranslate"><span class="pre">telnet</span></code>.</p>
-<p>When omitted, no device-attribute filtering is applied.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/interface_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-interface-details"><strong>interface_details</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/interface_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Filters interface details by interface name.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/interface_details/interface_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-interface-details-interface-name"><strong>interface_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/interface_details/interface_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">any</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Single interface name or list of interface names to include.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/provision_device"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-provision-device"><strong>provision_device</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/provision_device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Filters the provision device output by site name.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/provision_device/site_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-provision-device-site-name"><strong>site_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/provision_device/site_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Hierarchical site name used to filter provisioned devices.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/user_defined_fields"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-user-defined-fields"><strong>user_defined_fields</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/user_defined_fields" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Filters user-defined field output by field name and/or value.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/user_defined_fields/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-user-defined-fields-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/user_defined_fields/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">any</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Single field name or list of field names to include.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/user_defined_fields/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-component-specific-filters-user-defined-fields-value"><strong>value</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/user_defined_fields/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">any</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Single field value or list of field values to include.</p>
+<td><div class="ansible-option-cell"><p>A dictionary of filters for generating YAML playbook compatible with the <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.</p>
+<p>If config is not provided (omitted entirely), all configurations for all inventory devices will be generated.</p>
+<p>This is useful for complete brownfield infrastructure discovery and documentation.</p>
+<p>Important - An empty dictionary {} is not valid. Either omit 'config' entirely to generate all configurations, or provide specific filters within 'config'.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/global_filters"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-global-filters"><strong>global_filters</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/global_filters" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Global device filters applied across all components during playbook generation.</p>
-<p>Supports filtering by IP address, hostname, serial number, or MAC address.</p>
-<p>When multiple filter types are specified, they are combined using OR logic and a device matching any specified filter is included.</p>
-<p>Omitting a filter type means no restriction is applied on that attribute.</p>
-<p>Evaluation order is <code class="docutils literal notranslate"><span class="pre">ip_address_list</span></code>, <code class="docutils literal notranslate"><span class="pre">hostname_list</span></code>, <code class="docutils literal notranslate"><span class="pre">serial_number_list</span></code>, then <code class="docutils literal notranslate"><span class="pre">mac_address_list</span></code>.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Global filters used to filter inventory data.</p>
+<p>Multiple filters under <code class="docutils literal notranslate"><span class="pre">global_filters</span></code> are combined using logical AND.</p>
+<p>At least one supported global filter must be provided when using <code class="docutils literal notranslate"><span class="pre">global_filters</span></code>.</p>
+<p>Unknown keys fail validation with an error.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/global_filters/hostname_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-global-filters-hostname-list"><strong>hostname_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/global_filters/hostname_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/global_filters/device_identifier"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-global-filters-device-identifier"><strong>device_identifier</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/global_filters/device_identifier" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of device hostnames to include in the generated YAML configuration.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Identifier used to build the generated list key in output config.</p>
+<p>The output key is written as <code class="docutils literal notranslate"><span class="pre">&lt;device_identifier&gt;_list</span></code>.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry-default:`&quot;ip\_address&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`&quot;hostname&quot;`</span></a></p></li>
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`&quot;serial\_number&quot;`</span></a></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`&quot;mac\_address&quot;`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/global_filters/ip_address_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-global-filters-ip-address-list"><strong>ip_address_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/global_filters/ip_address_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/global_filters/device_roles"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-global-filters-device-roles"><strong>device_roles</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/global_filters/device_roles" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of device management IP addresses to include in the generated YAML configuration.</p>
-<p>Each value is matched against the <code class="docutils literal notranslate"><span class="pre">managementIpAddress</span></code> field returned by Cisco Catalyst Center.</p>
-<p>When multiple global filter types are specified, they are combined using OR logic and a device matching any filter is included.</p>
-<p>When omitted, no IP-based filtering is applied.</p>
-<p>For example, <code class="docutils literal notranslate"><span class="pre">['10.1.1.1',</span> <span class="pre">'10.1.1.2']</span></code>.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of inventory device roles to include.</p>
+<p>Supported values are <code class="docutils literal notranslate"><span class="pre">ACCESS</span></code>, <code class="docutils literal notranslate"><span class="pre">DISTRIBUTION</span></code>, <code class="docutils literal notranslate"><span class="pre">CORE</span></code>, <code class="docutils literal notranslate"><span class="pre">BORDER</span> <span class="pre">ROUTER</span></code>, and <code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code>.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`&quot;ACCESS&quot;`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;DISTRIBUTION&quot;`</span></a></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;CORE&quot;`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;BORDER ROUTER&quot;`</span></a></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`&quot;UNKNOWN&quot;`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/global_filters/mac_address_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-global-filters-mac-address-list"><strong>mac_address_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/global_filters/mac_address_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/global_filters/devices"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-global-filters-devices"><strong>devices</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/global_filters/devices" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of device MAC addresses to include in the generated YAML configuration.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/global_filters/serial_number_list"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-config-global-filters-serial-number-list"><strong>serial_number_list</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/global_filters/serial_number_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of device serial numbers to include in the generated YAML configuration.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of device identifier values to filter inventory records.</p>
+<p>You can provide one or more values from <code class="docutils literal notranslate"><span class="pre">ip_address</span></code>, <code class="docutils literal notranslate"><span class="pre">hostname</span></code>, <code class="docutils literal notranslate"><span class="pre">serial_number</span></code>, or <code class="docutils literal notranslate"><span class="pre">mac_address</span></code>, and the module matches each value against these identifier fields.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`1200`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-host"><strong>dnac_host</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-log"><strong>dnac_log</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1462,34 +1377,34 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 <p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
 <p>If path is not specified, - When 'dnac_log_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'dnac.log' is generated; logs are overwritten.</p>
 <p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`&quot;dnac.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1499,107 +1414,106 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id35"><span class="problematic" id="id36">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-password"><strong>dnac_password</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-port"><strong>dnac_port</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id37"><span class="problematic" id="id38">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`2`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id39"><span class="problematic" id="id40">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
 <div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-user"><span id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
 <p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id41"><span class="problematic" id="id42">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-dnac-version"><strong>dnac_version</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id37"><span class="problematic" id="id38">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-file_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-file-mode"><strong>file_mode</strong></p>
-<a class="ansibleOptionLink" href="#parameter-file_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>File write mode for the generated YAML configuration file.</p>
-<p>Relevant only when <code class="docutils literal notranslate"><span class="pre">file_path</span></code> is provided.</p>
-<p><code class="docutils literal notranslate"><span class="pre">overwrite</span></code> replaces the existing file content.</p>
-<p><code class="docutils literal notranslate"><span class="pre">append</span></code> appends new YAML documents to the existing file.</p>
-<p>When omitted, defaults to <code class="docutils literal notranslate"><span class="pre">overwrite</span></code>.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry-default:`&quot;overwrite&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;append&quot;`</span></a></p></li>
-</ul>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-file-path"><strong>file_path</strong></p>
-<a class="ansibleOptionLink" href="#parameter-file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-file_mode"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-file-mode"><strong>file_mode</strong></p>
+<a class="ansibleOptionLink" href="#parameter-file_mode" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Path where the generated YAML configuration file will be saved.</p>
-<p>If not provided, the module generates a default file name using the brownfield helper.</p>
-<p>The generated file name format is <code class="docutils literal notranslate"><span class="pre">inventory_playbook_config_&lt;YYYY-MM-DD_HH-MM-SS&gt;.yml</span></code>.</p>
+<td><div class="ansible-option-cell"><p>Controls how config is written to the YAML file.</p>
+<p><code class="docutils literal notranslate"><span class="pre">overwrite</span></code> replaces existing file content.</p>
+<p><code class="docutils literal notranslate"><span class="pre">append</span></code> appends generated YAML content to the existing file.</p>
+<p>This parameter is only relevant when <code class="docutils literal notranslate"><span class="pre">file_path</span></code> is specified. Defaults to <code class="docutils literal notranslate"><span class="pre">overwrite</span></code>.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry-default:`&quot;overwrite&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;append&quot;`</span></a></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-file-path"><strong>file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Path where the YAML configuration file will be saved.</p>
+<p>If not provided, the file will be saved in the current working directory with a default file name  <code class="docutils literal notranslate"><span class="pre">inventory_playbook_config_&lt;YYYY-MM-DD_HH-MM-SS&gt;.yml</span></code>.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">inventory_playbook_config_2026-02-20_13-34-58.yml</span></code>.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The desired state of Cisco Catalyst Center after module execution.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry-default:`&quot;gathered&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry-default:`&quot;gathered&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1607,15 +1521,29 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id56" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id66" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>SDK Methods used are - devices.Devices.get_device_list - devices.Devices.get_network_device_by_ip - devices.Devices.get_device_by_ip - licenses.Licenses.device_license_summary</p></li>
-<li><p>API Endpoints used are GET /dna/intent/api/v2/devices (list all devices), GET /dna/intent/api/v2/network-device (get network device info), GET /dna/intent/api/v1/interface/ip-address/{ipAddress} (get interfaces for device IP), and GET /dna/intent/api/v1/licenses/device/summary (get device license and site info).</p></li>
-<li><p>Device Consolidation: Devices are grouped and consolidated by their configuration hash. All interfaces from devices with identical configurations are grouped under a single device entry. This reduces redundancy when multiple physical devices share the same configuration.</p></li>
-<li><p>Component Independence: Each component (device_details, provision_device, interface_details) is filtered independently. Global filters apply to all components unless overridden by component-specific filters. Interface details are automatically fetched based on matched device IPs.</p></li>
-<li><p>Interface Discovery: Interfaces are discovered using the IP-to-interface API endpoint. Interface names can be optionally filtered using the interface_name parameter. When no interfaces match the filter criteria, no interface_details output is generated.</p></li>
+<li><p>Cisco Catalyst Center &gt;= 2.3.7.9</p></li>
+<li><p>SDK Methods used are
+devices.Devices.get_device_list</p></li>
+<li><p>SDK/REST Paths used are
+GET /dna/intent/api/v1/network-device</p></li>
+<li><p>Auto-discovery mode:
+When <code class="docutils literal notranslate"><span class="pre">config</span></code> is omitted entirely, the module runs in auto-discovery mode and
+generates inventory configuration for all discovered devices without applying filters.</p></li>
+<li><p>Filter behavior:
+When <code class="docutils literal notranslate"><span class="pre">config.global_filters</span></code> is provided, <code class="docutils literal notranslate"><span class="pre">devices</span></code> and <code class="docutils literal notranslate"><span class="pre">device_roles</span></code> are
+applied with AND semantics. Unknown global filter keys fail validation with an error.</p></li>
+<li><p>Module result behavior (changed/ok/failed):
+The module result reflects local file state only, not Catalyst Center state.
+In overwrite mode, generated YAML is compared against existing file content after
+excluding generated comment lines. In append mode, only the last YAML
+document is considered for idempotency check.
+- changed=true (status: success): Generated configuration differs (or file does not exist), and file is written.
+- changed=false (status: ok): Generated configuration matches existing content, so write is skipped.
+- failed=true (status: failed): Validation/API/file-write failure occurred.</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 <li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
@@ -1623,195 +1551,89 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 </div>
 </section>
 <section id="see-also">
-<h2><a class="toc-backref" href="#id57" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id67" role="doc-backlink">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h2>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference internal" href="inventory_workflow_manager_module.html#ansible-collections-cisco-dnac-inventory-workflow-manager-module"><span class="std std-ref">cisco.dnac.inventory_workflow_manager</span></a></dt><dd><p>Module for managing inventory configurations in Cisco Catalyst Center.</p>
+<dt><a class="reference internal" href="inventory_workflow_manager_module.html#ansible-collections-cisco-dnac-inventory-workflow-manager-module"><span class="std std-ref">cisco.dnac.inventory_workflow_manager</span></a></dt><dd><p>Module for managing inventory settings and workflows.</p>
 </dd>
 </dl>
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id58" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory playbook with no config (generate all)</span>
+<h2><a class="toc-backref" href="#id68" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Auto-generate YAML Configuration for all inventory devices</span>
 <span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="c1"># file_path omitted - module auto-generates a timestamped filename</span>
-<span class="w">    </span><span class="c1"># config omitted - generates all supported components</span>
+<span class="w">    </span><span class="c1"># No config provided - generates all inventory configurations</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory playbook for specific devices by IP address</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration with file path and overwrite mode</span>
 <span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./inventory_devices_by_ip.yml&quot;</span>
+<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tmp/catc_inventory_config.yml&quot;</span>
+<span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration filtered by device roles</span>
+<span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
+<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tmp/catc_filtered_inventory_config.yml&quot;</span>
 <span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">global_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">ip_address_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;10.195.225.40&quot;</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;10.195.225.42&quot;</span>
-<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_details</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">provision_device</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">interface_details</span>
+<span class="w">        </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;ACCESS&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;CORE&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">device_identifier</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;hostname&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory playbook filtered by hostname</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for selected devices using serial number and IP</span>
 <span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./inventory_hostname_filter.yml&quot;</span>
+<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tmp/catc_inventory_config.yml&quot;</span>
+<span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;append&quot;</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">global_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">hostname_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;switch-floor1.example.com&quot;</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;switch-floor2.example.com&quot;</span>
-<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_details</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory playbook filtered by serial number</span>
-<span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./inventory_serial_filter.yml&quot;</span>
-<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">global_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">serial_number_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;FJC2327U0S2&quot;</span>
-<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_details</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">provision_device</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory with combined global filters (OR logic)</span>
-<span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./inventory_combined_filters.yml&quot;</span>
-<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">global_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="c1"># OR logic - device matching ANY filter is included</span>
-<span class="w">        </span><span class="nt">ip_address_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;10.195.225.40&quot;</span>
-<span class="w">        </span><span class="nt">hostname_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;switch-floor2.example.com&quot;</span>
-<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_details</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">interface_details</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory with AND device_details filters</span>
-<span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./inventory_and_filter.yml&quot;</span>
-<span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
-<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">device_details</span><span class="p">:</span>
-<span class="w">          </span><span class="c1"># AND filter - device must match BOTH role AND type</span>
-<span class="w">          </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ACCESS&quot;</span>
-<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NETWORK_DEVICE&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory playbook for ACCESS role devices</span>
-<span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./inventory_access_role_devices.yml&quot;</span>
-<span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
-<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">device_details</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ACCESS&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory playbook with interface filtering</span>
-<span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./inventory_interface_filtered.yml&quot;</span>
-<span class="w">    </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
-<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">global_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">ip_address_list</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;10.195.225.40&quot;</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;10.195.225.42&quot;</span>
-<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">interface_details</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">interface_name</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Vlan100&quot;</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;GigabitEthernet1/0/1&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate inventory playbook with filtered user-defined fields</span>
-<span class="w">  </span><span class="nt">cisco.dnac.inventory_playbook_config_generator</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
-<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">user_defined_fields</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Cisco</span><span class="nv"> </span><span class="s">Switches&quot;</span>
-<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;2234&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;value12345&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">devices</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;10.10.20.11&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;FDO1234A1BC&quot;</span>
 </pre></div>
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id59" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id69" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v13)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -1825,17 +1647,17 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 <a class="ansibleOptionLink" href="#return-response_1" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with the response returned by the Cisco Catalyst Center Python SDK</p>
-<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> success</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-rv-sample-value:`{&quot;msg&quot;: {&quot;YAML config generation Task succeeded for module 'inventory\_workflow\_manager'.&quot;: {&quot;file\_path&quot;: &quot;inventory\_specific\_ips.yml&quot;}}, &quot;response&quot;: {&quot;YAML config generation Task succeeded for module 'inventory\_workflow\_manager'.&quot;: {&quot;file\_path&quot;: &quot;inventory\_specific\_ips.yml&quot;}}, &quot;status&quot;: &quot;success&quot;}`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id59"><span class="problematic" id="id60">:ansible-rv-sample-value:`{&quot;msg&quot;: {&quot;configurations\_count&quot;: 31, &quot;file\_mode&quot;: &quot;overwrite&quot;, &quot;file\_path&quot;: &quot;tmp/inventory\_testing.yml&quot;, &quot;message&quot;: &quot;YAML configuration file generated successfully for module 'inventory\_workflow\_manager'&quot;, &quot;status&quot;: &quot;success&quot;}, &quot;response&quot;: {&quot;configurations\_count&quot;: 31, &quot;file\_mode&quot;: &quot;overwrite&quot;, &quot;file\_path&quot;: &quot;tmp/inventory\_testing.yml&quot;, &quot;message&quot;: &quot;YAML configuration file generated successfully for module 'inventory\_workflow\_manager'&quot;, &quot;status&quot;: &quot;success&quot;}, &quot;status&quot;: &quot;success&quot;}`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-response_2"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-inventory-playbook-config-generator-module-return-response-2"><strong>response_2</strong></p>
 <a class="ansibleOptionLink" href="#return-response_2" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A string with the error message returned by the Cisco Catalyst Center Python SDK</p>
-<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> on failure</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-rv-sample-value:`{&quot;msg&quot;: &quot;Invalid 'global\_filters' found for module 'inventory\_workflow\_manager': [\\&quot;Filter 'ip\_address\_list' must be a list, got NoneType\\&quot;]&quot;, &quot;response&quot;: &quot;Invalid 'global\_filters' found for module 'inventory\_workflow\_manager': [\\&quot;Filter 'ip\_address\_list' must be a list, got NoneType\\&quot;]&quot;}`</span></a></p>
+<td><div class="ansible-option-cell"><p>A string with the response returned by the Cisco Catalyst Center Python SDK</p>
+<p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id61"><span class="problematic" id="id62">:ansible-rv-sample-value:`&quot;{\\n    \\&quot;msg\\&quot;:\\n        \\&quot;Configuration cannot be an empty dictionary. Either omit 'config' entirely to generate all configurations,\\n         or provide specific filters within 'config'.\\&quot;,\\n    \\&quot;response\\&quot;:\\n        \\&quot;Configuration cannot be an empty dictionary. Either omit 'config' entirely to generate all configurations,\\n         or provide specific filters within 'config'.\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
@@ -1843,8 +1665,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-inventor
 <section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>Mridul Saurabh (&#64;msaurabh)</p></li>
-<li><p>Madhan Sankaranarayanan (&#64;madsanka)</p></li>
+<li><p>Mridul Saurabh (&#64;msaurabh12)</p></li>
+<li><p>Sunil Shatagopa (&#64;shatagopasunil)</p></li>
+<li><p>Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
 </ul>
 </section>
 <section id="collection-links">

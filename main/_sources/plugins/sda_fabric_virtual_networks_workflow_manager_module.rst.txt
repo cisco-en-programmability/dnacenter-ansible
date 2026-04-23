@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1376,6 +1376,48 @@ Parameters
 
       - :ansible-option-choices-entry-default:`"SHARED"` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`"CUSTOM"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/multiple_ip_to_mac_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/multiple_ip_to_mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **multiple_ip_to_mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/multiple_ip_to_mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether multiple IPs can be associated with a single MAC address for the layer2 fabric VLAN. By default, it is set to false when associated with a layer 3 virtual network and cannot be used when not associated with a layer 3 virtual network.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -2952,6 +2994,33 @@ Examples
                   site_name_hierarchy: "Global/India"
                   fabric_type: "fabric_site"
                 ip_pool_name: "IP_Pool_1"
+
+    - name: Create fabric VLAN with multiple IP to MAC enabled
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        state: merged
+        config:
+          - fabric_vlan:
+              - vlan_name: "vlan_multi_ip"
+                vlan_id: 1944
+                traffic_type: "DATA"
+                associated_layer3_virtual_network: "L3_VN_1"
+                multiple_ip_to_mac_addresses: true
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India/Fabric_Test"
+                    fabric_type: "fabric_site"
+
+    - name: Create fabric VLAN without multiple_ip_to_mac_addresses (omitted)
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        state: merged
+        config:
+          - fabric_vlan:
+              - vlan_name: "vlan_default_multi_ip"
+                vlan_id: 1945
+                traffic_type: "DATA"
+                associated_layer3_virtual_network: "L3_VN_1"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India/Fabric_Test"
+                    fabric_type: "fabric_site"
 
 
 

@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -9548,6 +9548,7 @@ Notes
    - SDK Method used are configuration\_templates.ConfigurationTemplates.create\_template, configuration\_templates.ConfigurationTemplates.deletes\_the\_template, configuration\_templates.ConfigurationTemplates.update\_template, configuration\_templates.ConfigurationTemplates.export\_projects, configuration\_templates.ConfigurationTemplates.export\_templates, configuration\_templates.ConfigurationTemplates.imports\_the\_projects\_provided, configuration\_templates.ConfigurationTemplates.imports\_the\_templates\_provided,
    - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template, delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template, post /dna/intent/api/v1/template-programmer/project/name/exportprojects, post /dna/intent/api/v1/template-programmer/template/exporttemplates, post /dna/intent/api/v1/template-programmer/project/importprojects, post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
    - While deploying the template to devices, the value for the following resource types can be filled in the resource parameters at RUNTIME- MANAGED\_DEVICE\_UUID, MANAGED\_DEVICE\_IP, MANAGED\_DEVICE\_HOSTNAME, and SITE\_UUID. For all other resource types, the value must be provided at DESIGN time in the playbook.
+   - Sensitive data such as template parameter values, credentials, or other confidential information can be protected using Ansible Vault. Store sensitive values in a vault-encrypted file and reference them as variables in the playbook. Use \ :literal:`ansible-vault encrypt \<file\>`\  to encrypt the file and pass \ :literal:`--ask-vault-pass`\  or \ :literal:`--vault-password-file`\  when running the playbook.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -10238,6 +10239,42 @@ Examples
               device_details:
                 device_ips:
                   - 10.1.1.1
+
+    - name: Deploy template with sensitive parameter values protected using Ansible Vault
+      # Step 1 - Create a vault file (e.g., vault_vars.yml) with sensitive values:
+      #   password: "my_password"
+      # Step 2 - Encrypt it: ansible-vault encrypt vault_vars.yml --ask-vault-pass
+      # Step 3 - Run the playbook: ansible-playbook playbook.yml --ask-vault-pass
+      hosts: localhost
+      vars_files:
+        - credentials.yml
+        - vault_vars.yml
+      gather_facts: false
+      tasks:
+        - name: Deploy template with vaulted parameter values
+          cisco.dnac.template_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: "{{ dnac_log_level }}"
+            state: merged
+            config_verify: true
+            config:
+              - deploy_template:
+                  project_name: "Sample_Project"
+                  template_name: "Sample Template"
+                  force_push: true
+                  template_parameters:
+                    - param_name: "password"
+                      param_value: "{{ password }}"
+                  device_details:
+                    device_ips:
+                      - 10.1.2.1
 
 
 

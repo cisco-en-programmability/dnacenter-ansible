@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory\_workflow\_manager' module.
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for \ :literal:`inventory\_workflow\_manager`\  module.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,8 @@ Synopsis
 
 .. Description
 
-- Generates YAML input files for \ :literal:`cisco.dnac.inventory\_workflow\_manager`\ .
-- Supports independent component generation for device details, device provisioning, interface details, and user-defined fields.
-- Supports global device filters by IP address, hostname, serial number, and MAC address.
-- If \ :literal:`config`\  is omitted or empty, the module generates all supported components.
+- Generates YAML configurations compatible with the \ :literal:`inventory\_workflow\_manager`\  module, reducing the effort required to manually create Ansible playbooks and enabling programmatic modifications.
+- The YAML configurations generated represent the inventory configurations configured on the Cisco Catalyst Center.
 
 
 .. Aliases
@@ -85,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.10
+- dnacentersdk \>= 2.7.2
 - python \>= 3.9
 
 
@@ -135,397 +133,19 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Dictionary of filters controlling which inventory components are generated for \ :literal:`inventory\_workflow\_manager`\ .
+      A dictionary of filters for generating YAML playbook compatible with the \ :literal:`inventory\_workflow\_manager`\  module.
 
-      If omitted or empty, the module generates all supported components.
+      If config is not provided (omitted entirely), all configurations for all inventory devices will be generated.
 
-      If provided, it may contain only \ :literal:`global\_filters`\  and/or \ :literal:`component\_specific\_filters`\ .
+      This is useful for complete brownfield infrastructure discovery and documentation.
 
-      At least one of \ :literal:`global\_filters`\  or \ :literal:`component\_specific\_filters`\  must be present when \ :literal:`config`\  is provided.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters:
-
-      .. rst-class:: ansible-option-title
-
-      **component_specific_filters**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Component-level filters controlling which sections are included in the generated YAML configuration.
-
-      If no component filter blocks are provided, \ :literal:`components\_list`\  is required and must be non-empty.
-
-      If a component filter block is provided, the corresponding component is auto-added to \ :literal:`components\_list`\  if missing.
+      Important - An empty dictionary {} is not valid. Either omit 'config' entirely to generate all configurations, or provide specific filters within 'config'.
 
 
       .. raw:: html
 
         </div>
     
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/components_list"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/components_list:
-
-      .. rst-class:: ansible-option-title
-
-      **components_list**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/components_list" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of components to include in the generated YAML configuration file.
-
-      Optional when one or more component filter blocks are provided.
-
-      Required when no component filter blocks are provided.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"device\_details"`
-      - :ansible-option-choices-entry:`"provision\_device"`
-      - :ansible-option-choices-entry:`"interface\_details"`
-      - :ansible-option-choices-entry:`"user\_defined\_fields"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/device_details"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/device_details:
-
-      .. rst-class:: ansible-option-title
-
-      **device_details**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/device_details" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Filters for device detail generation.
-
-      Accepts either a single dictionary or a list of dictionaries.
-
-      Multiple dictionaries use OR logic and keys inside each dictionary use AND logic.
-
-      Supported filter keys: \ :literal:`type`\ , \ :literal:`role`\ , \ :literal:`snmp\_version`\ , \ :literal:`cli\_transport`\ .
-
-      Allowed \ :literal:`type`\  values: \ :literal:`NETWORK\_DEVICE`\ , \ :literal:`COMPUTE\_DEVICE`\ , \ :literal:`MERAKI\_DASHBOARD`\ , \ :literal:`THIRD\_PARTY\_DEVICE`\ , \ :literal:`FIREPOWER\_MANAGEMENT\_SYSTEM`\ .
-
-      Allowed \ :literal:`role`\  values: \ :literal:`ACCESS`\ , \ :literal:`CORE`\ , \ :literal:`DISTRIBUTION`\ , \ :literal:`BORDER ROUTER`\ , \ :literal:`UNKNOWN`\ . Accepts a string or list of strings.
-
-      Allowed \ :literal:`snmp\_version`\  values: \ :literal:`v2`\ , \ :literal:`v2c`\ , \ :literal:`v3`\ .
-
-      Allowed \ :literal:`cli\_transport`\  values: \ :literal:`ssh`\ , \ :literal:`telnet`\ .
-
-      When omitted, no device-attribute filtering is applied.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/interface_details"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/interface_details:
-
-      .. rst-class:: ansible-option-title
-
-      **interface_details**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/interface_details" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Filters interface details by interface name.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/interface_details/interface_name"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/interface_details/interface_name:
-
-      .. rst-class:: ansible-option-title
-
-      **interface_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/interface_details/interface_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Single interface name or list of interface names to include.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/provision_device"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/provision_device:
-
-      .. rst-class:: ansible-option-title
-
-      **provision_device**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/provision_device" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Filters the provision device output by site name.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/provision_device/site_name"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/provision_device/site_name:
-
-      .. rst-class:: ansible-option-title
-
-      **site_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/provision_device/site_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Hierarchical site name used to filter provisioned devices.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/user_defined_fields"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/user_defined_fields:
-
-      .. rst-class:: ansible-option-title
-
-      **user_defined_fields**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/user_defined_fields" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Filters user-defined field output by field name and/or value.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/user_defined_fields/name"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/user_defined_fields/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/user_defined_fields/name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Single field name or list of field names to include.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/user_defined_fields/value"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/component_specific_filters/user_defined_fields/value:
-
-      .. rst-class:: ansible-option-title
-
-      **value**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/user_defined_fields/value" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Single field value or list of field values to include.
-
-
-      .. raw:: html
-
-        </div>
-
-
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -553,15 +173,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Global device filters applied across all components during playbook generation.
+      Global filters used to filter inventory data.
 
-      Supports filtering by IP address, hostname, serial number, or MAC address.
+      Multiple filters under \ :literal:`global\_filters`\  are combined using logical AND.
 
-      When multiple filter types are specified, they are combined using OR logic and a device matching any specified filter is included.
+      At least one supported global filter must be provided when using \ :literal:`global\_filters`\ .
 
-      Omitting a filter type means no restriction is applied on that attribute.
-
-      Evaluation order is \ :literal:`ip\_address\_list`\ , \ :literal:`hostname\_list`\ , \ :literal:`serial\_number\_list`\ , then \ :literal:`mac\_address\_list`\ .
+      Unknown keys fail validation with an error.
 
 
       .. raw:: html
@@ -571,21 +189,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/global_filters/hostname_list"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/global_filters/device_identifier"></div>
 
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/global_filters/hostname_list:
+      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/global_filters/device_identifier:
 
       .. rst-class:: ansible-option-title
 
-      **hostname_list**
+      **device_identifier**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/global_filters/hostname_list" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/global_filters/device_identifier" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -595,7 +213,19 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of device hostnames to include in the generated YAML configuration.
+      Identifier used to build the generated list key in output config.
+
+      The output key is written as \ :literal:`\<device\_identifier\>\_list`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"ip\_address"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"hostname"`
+      - :ansible-option-choices-entry:`"serial\_number"`
+      - :ansible-option-choices-entry:`"mac\_address"`
 
 
       .. raw:: html
@@ -605,17 +235,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/global_filters/ip_address_list"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/global_filters/device_roles"></div>
 
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/global_filters/ip_address_list:
+      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/global_filters/device_roles:
 
       .. rst-class:: ansible-option-title
 
-      **ip_address_list**
+      **device_roles**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/global_filters/ip_address_list" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/global_filters/device_roles" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -629,15 +259,20 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of device management IP addresses to include in the generated YAML configuration.
+      List of inventory device roles to include.
 
-      Each value is matched against the \ :literal:`managementIpAddress`\  field returned by Cisco Catalyst Center.
+      Supported values are \ :literal:`ACCESS`\ , \ :literal:`DISTRIBUTION`\ , \ :literal:`CORE`\ , \ :literal:`BORDER ROUTER`\ , and \ :literal:`UNKNOWN`\ .
 
-      When multiple global filter types are specified, they are combined using OR logic and a device matching any filter is included.
 
-      When omitted, no IP-based filtering is applied.
+      .. rst-class:: ansible-option-line
 
-      For example, \ :literal:`['10.1.1.1', '10.1.1.2']`\ .
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"ACCESS"`
+      - :ansible-option-choices-entry:`"DISTRIBUTION"`
+      - :ansible-option-choices-entry:`"CORE"`
+      - :ansible-option-choices-entry:`"BORDER ROUTER"`
+      - :ansible-option-choices-entry:`"UNKNOWN"`
 
 
       .. raw:: html
@@ -647,17 +282,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/global_filters/mac_address_list"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/global_filters/devices"></div>
 
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/global_filters/mac_address_list:
+      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/global_filters/devices:
 
       .. rst-class:: ansible-option-title
 
-      **mac_address_list**
+      **devices**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/global_filters/mac_address_list" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/global_filters/devices" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -671,41 +306,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of device MAC addresses to include in the generated YAML configuration.
+      List of device identifier values to filter inventory records.
 
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/global_filters/serial_number_list"></div>
-
-      .. _ansible_collections.cisco.dnac.inventory_playbook_config_generator_module__parameter-config/global_filters/serial_number_list:
-
-      .. rst-class:: ansible-option-title
-
-      **serial_number_list**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/global_filters/serial_number_list" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of device serial numbers to include in the generated YAML configuration.
+      You can provide one or more values from \ :literal:`ip\_address`\ , \ :literal:`hostname`\ , \ :literal:`serial\_number`\ , or \ :literal:`mac\_address`\ , and the module matches each value against these identifier fields.
 
 
       .. raw:: html
@@ -1273,15 +876,13 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      File write mode for the generated YAML configuration file.
+      Controls how config is written to the YAML file.
 
-      Relevant only when \ :literal:`file\_path`\  is provided.
+      \ :literal:`overwrite`\  replaces existing file content.
 
-      \ :literal:`overwrite`\  replaces the existing file content.
+      \ :literal:`append`\  appends generated YAML content to the existing file.
 
-      \ :literal:`append`\  appends new YAML documents to the existing file.
-
-      When omitted, defaults to \ :literal:`overwrite`\ .
+      This parameter is only relevant when \ :literal:`file\_path`\  is specified. Defaults to \ :literal:`overwrite`\ .
 
 
       .. rst-class:: ansible-option-line
@@ -1323,11 +924,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Path where the generated YAML configuration file will be saved.
+      Path where the YAML configuration file will be saved.
 
-      If not provided, the module generates a default file name using the brownfield helper.
+      If not provided, the file will be saved in the current working directory with a default file name  \ :literal:`inventory\_playbook\_config\_\<YYYY-MM-DD\_HH-MM-SS\>.yml`\ .
 
-      The generated file name format is \ :literal:`inventory\_playbook\_config\_\<YYYY-MM-DD\_HH-MM-SS\>.yml`\ .
+      For example, \ :literal:`inventory\_playbook\_config\_2026-02-20\_13-34-58.yml`\ .
 
 
       .. raw:: html
@@ -1427,11 +1028,27 @@ Notes
 -----
 
 .. note::
-   - SDK Methods used are - devices.Devices.get\_device\_list - devices.Devices.get\_network\_device\_by\_ip - devices.Devices.get\_device\_by\_ip - licenses.Licenses.device\_license\_summary
-   - API Endpoints used are GET /dna/intent/api/v2/devices (list all devices), GET /dna/intent/api/v2/network-device (get network device info), GET /dna/intent/api/v1/interface/ip-address/{ipAddress} (get interfaces for device IP), and GET /dna/intent/api/v1/licenses/device/summary (get device license and site info).
-   - Device Consolidation: Devices are grouped and consolidated by their configuration hash. All interfaces from devices with identical configurations are grouped under a single device entry. This reduces redundancy when multiple physical devices share the same configuration.
-   - Component Independence: Each component (device\_details, provision\_device, interface\_details) is filtered independently. Global filters apply to all components unless overridden by component-specific filters. Interface details are automatically fetched based on matched device IPs.
-   - Interface Discovery: Interfaces are discovered using the IP-to-interface API endpoint. Interface names can be optionally filtered using the interface\_name parameter. When no interfaces match the filter criteria, no interface\_details output is generated.
+   - Cisco Catalyst Center \>= 2.3.7.9
+   - SDK Methods used are
+     devices.Devices.get\_device\_list
+   - SDK/REST Paths used are
+     GET /dna/intent/api/v1/network-device
+   - Auto-discovery mode:
+     When \ :literal:`config`\  is omitted entirely, the module runs in auto-discovery mode and
+     generates inventory configuration for all discovered devices without applying filters.
+
+   - Filter behavior:
+     When \ :literal:`config.global\_filters`\  is provided, \ :literal:`devices`\  and \ :literal:`device\_roles`\  are
+     applied with AND semantics. Unknown global filter keys fail validation with an error.
+
+   - Module result behavior (changed/ok/failed):
+     The module result reflects local file state only, not Catalyst Center state.
+     In overwrite mode, generated YAML is compared against existing file content after
+     excluding generated comment lines. In append mode, only the last YAML
+     document is considered for idempotency check.
+     - changed=true (status: success): Generated configuration differs (or file does not exist), and file is written.
+     - changed=false (status: ok): Generated configuration matches existing content, so write is skipped.
+     - failed=true (status: failed): Validation/API/file-write failure occurred.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1444,7 +1061,7 @@ See Also
 .. seealso::
 
    \ :ref:`cisco.dnac.inventory\_workflow\_manager <ansible_collections.cisco.dnac.inventory_workflow_manager_module>`\ 
-       Module for managing inventory configurations in Cisco Catalyst Center.
+       Module for managing inventory settings and workflows.
 
 .. Examples
 
@@ -1454,179 +1071,73 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Generate inventory playbook with no config (generate all)
+    - name: Auto-generate YAML Configuration for all inventory devices
       cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
         state: gathered
-        # file_path omitted - module auto-generates a timestamped filename
-        # config omitted - generates all supported components
+        # No config provided - generates all inventory configurations
 
-    - name: Generate inventory playbook for specific devices by IP address
+    - name: Generate YAML Configuration with file path and overwrite mode
       cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
         state: gathered
-        file_path: "./inventory_devices_by_ip.yml"
+        file_path: "tmp/catc_inventory_config.yml"
+        file_mode: "overwrite"
+
+    - name: Generate YAML Configuration filtered by device roles
+      cisco.dnac.inventory_playbook_config_generator:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
+        state: gathered
+        file_path: "tmp/catc_filtered_inventory_config.yml"
         file_mode: "overwrite"
         config:
           global_filters:
-            ip_address_list:
-              - "10.195.225.40"
-              - "10.195.225.42"
-          component_specific_filters:
-            components_list:
-              - device_details
-              - provision_device
-              - interface_details
+            device_roles: ["ACCESS", "CORE"]
+            device_identifier: "hostname"
 
-    - name: Generate inventory playbook filtered by hostname
+    - name: Generate YAML Configuration for selected devices using serial number and IP
       cisco.dnac.inventory_playbook_config_generator:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: true
         state: gathered
-        file_path: "./inventory_hostname_filter.yml"
+        file_path: "tmp/catc_inventory_config.yml"
+        file_mode: "append"
         config:
           global_filters:
-            hostname_list:
-              - "switch-floor1.example.com"
-              - "switch-floor2.example.com"
-          component_specific_filters:
-            components_list:
-              - device_details
-
-    - name: Generate inventory playbook filtered by serial number
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        file_path: "./inventory_serial_filter.yml"
-        config:
-          global_filters:
-            serial_number_list:
-              - "FJC2327U0S2"
-          component_specific_filters:
-            components_list:
-              - device_details
-              - provision_device
-
-    - name: Generate inventory with combined global filters (OR logic)
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        file_path: "./inventory_combined_filters.yml"
-        config:
-          global_filters:
-            # OR logic - device matching ANY filter is included
-            ip_address_list:
-              - "10.195.225.40"
-            hostname_list:
-              - "switch-floor2.example.com"
-          component_specific_filters:
-            components_list:
-              - device_details
-              - interface_details
-
-    - name: Generate inventory with AND device_details filters
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        file_path: "./inventory_and_filter.yml"
-        file_mode: "overwrite"
-        config:
-          component_specific_filters:
-            device_details:
-              # AND filter - device must match BOTH role AND type
-              role: "ACCESS"
-              type: "NETWORK_DEVICE"
-
-    - name: Generate inventory playbook for ACCESS role devices
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        file_path: "./inventory_access_role_devices.yml"
-        file_mode: "overwrite"
-        config:
-          component_specific_filters:
-            device_details:
-              role: "ACCESS"
-
-    - name: Generate inventory playbook with interface filtering
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        file_path: "./inventory_interface_filtered.yml"
-        file_mode: "overwrite"
-        config:
-          global_filters:
-            ip_address_list:
-              - "10.195.225.40"
-              - "10.195.225.42"
-          component_specific_filters:
-            interface_details:
-              interface_name:
-                - "Vlan100"
-                - "GigabitEthernet1/0/1"
-
-    - name: Generate inventory playbook with filtered user-defined fields
-      cisco.dnac.inventory_playbook_config_generator:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        state: gathered
-        config:
-          component_specific_filters:
-            user_defined_fields:
-              name: "Cisco Switches"
-              value: ["2234", "value12345"]
+            devices:
+              - "10.10.20.11"
+              - "FDO1234A1BC"
 
 
 
@@ -1682,12 +1193,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` success
+      :ansible-option-returned-bold:`Returned:` always
 
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": {"YAML config generation Task succeeded for module 'inventory\_workflow\_manager'.": {"file\_path": "inventory\_specific\_ips.yml"}}, "response": {"YAML config generation Task succeeded for module 'inventory\_workflow\_manager'.": {"file\_path": "inventory\_specific\_ips.yml"}}, "status": "success"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": {"configurations\_count": 31, "file\_mode": "overwrite", "file\_path": "tmp/inventory\_testing.yml", "message": "YAML configuration file generated successfully for module 'inventory\_workflow\_manager'", "status": "success"}, "response": {"configurations\_count": 31, "file\_mode": "overwrite", "file\_path": "tmp/inventory\_testing.yml", "message": "YAML configuration file generated successfully for module 'inventory\_workflow\_manager'", "status": "success"}, "status": "success"}`
 
 
       .. raw:: html
@@ -1722,17 +1233,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A string with the error message returned by the Cisco Catalyst Center Python SDK
+      A string with the response returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` on failure
+      :ansible-option-returned-bold:`Returned:` always
 
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Invalid 'global\_filters' found for module 'inventory\_workflow\_manager': [\\"Filter 'ip\_address\_list' must be a list, got NoneType\\"]", "response": "Invalid 'global\_filters' found for module 'inventory\_workflow\_manager': [\\"Filter 'ip\_address\_list' must be a list, got NoneType\\"]"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\":\\n        \\"Configuration cannot be an empty dictionary. Either omit 'config' entirely to generate all configurations,\\n         or provide specific filters within 'config'.\\",\\n    \\"response\\":\\n        \\"Configuration cannot be an empty dictionary. Either omit 'config' entirely to generate all configurations,\\n         or provide specific filters within 'config'.\\"\\n}\\n"`
 
 
       .. raw:: html
@@ -1749,8 +1260,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Mridul Saurabh (@msaurabh)
-- Madhan Sankaranarayanan (@madsanka)
+- Mridul Saurabh (@msaurabh12)
+- Sunil Shatagopa (@shatagopasunil)
+- Madhan Sankaranarayanan (@madhansansel)
 
 
 

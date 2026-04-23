@@ -42,7 +42,7 @@ cisco.dnac.tags_workflow_manager module -- Create/ Update/ Delete Tag(s) and Tag
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -146,826 +146,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag:
-
-      .. rst-class:: ansible-option-title
-
-      **tag**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      A dictionary containing detailed configurations for creating, updating, or deleting tags.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/description"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      A brief description of the tag. This field is optional but provides additional context.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/device_rules:
-
-      .. rst-class:: ansible-option-title
-
-      **device_rules**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/device_rules" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Defines rules for dynamically tagging devices based on attributes such as device name, device family, device series, IP address, location, and version. Devices that match the specified criteria are automatically tagged. If multiple rules are provided - Rules with the same 'rule\_name' are evaluated using OR logic (i.e., a device matching any of them is tagged). - Rules with different 'rule\_name' values are evaluated using AND logic (i.e., a device must match all such rules to be tagged).
-          
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/device_rules/rule_descriptions:
-
-      .. rst-class:: ansible-option-title
-
-      **rule_descriptions**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of rules that define how devices will be tagged.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions/operation"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/device_rules/rule_descriptions/operation:
-
-      .. rst-class:: ansible-option-title
-
-      **operation**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions/operation" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Defines how the 'value' is matched against device attributes. - 'ILIKE' -  Performs a case-insensitive match. - 'LIKE' -  Performs a case-sensitive match.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`"ILIKE"` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`"LIKE"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions/rule_name"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/device_rules/rule_descriptions/rule_name:
-
-      .. rst-class:: ansible-option-title
-
-      **rule_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions/rule_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The name of the rule that determines which device attribute is used for tagging. Available options correspond to different device attributes.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"device\_name"`
-      - :ansible-option-choices-entry:`"device\_family"`
-      - :ansible-option-choices-entry:`"device\_series"`
-      - :ansible-option-choices-entry:`"ip\_address"`
-      - :ansible-option-choices-entry:`"location"`
-      - :ansible-option-choices-entry:`"version"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions/search_pattern"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/device_rules/rule_descriptions/search_pattern:
-
-      .. rst-class:: ansible-option-title
-
-      **search_pattern**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The pattern used to search for the specified device attribute. Determines how the 'value' should be matched.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"contains"`
-      - :ansible-option-choices-entry:`"equals"`
-      - :ansible-option-choices-entry:`"starts\_with"`
-      - :ansible-option-choices-entry:`"ends\_with"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions/value"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/device_rules/rule_descriptions/value:
-
-      .. rst-class:: ansible-option-title
-
-      **value**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions/value" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The specific value that the rule will match against. For example, a device name, an IP address, or a MAC address.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/force_delete"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/force_delete:
-
-      .. rst-class:: ansible-option-title
-
-      **force_delete**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/force_delete" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      When set to 'true', forces tag deletion even if it is associated with devices and ports. Typically used when the 'state' is 'deleted', this option removes all associated dynamic rules, detaches the tag from all devices and ports, and then deletes the tag.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/name"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The unique name identifying the tag for operations such as creation, update, or deletion. This parameter is mandatory for any tag management operation.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/new_name"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/new_name:
-
-      .. rst-class:: ansible-option-title
-
-      **new_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/new_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The new name for the tag when updating an existing tag.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules:
-
-      .. rst-class:: ansible-option-title
-
-      **port_rules**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Rules for dynamically tagging ports based on attributes such as Port Name, Port Speed, Admin Status, Operational Status, Description. A port that meets the specified criteria will be automatically tagged. If multiple rules are provided - Rules with the same 'rule\_name' are evaluated using OR logic (i.e., a port matching any of them is tagged). - Rules with different 'rule\_name' values are evaluated using AND logic (i.e., a port must match all such rules to be tagged).
-          
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/rule_descriptions:
-
-      .. rst-class:: ansible-option-title
-
-      **rule_descriptions**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of rules that define how ports will be tagged.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/operation"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/rule_descriptions/operation:
-
-      .. rst-class:: ansible-option-title
-
-      **operation**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/operation" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Defines how the 'value' is matched against port attributes. - 'ILIKE' -  Performs a case-insensitive match. - 'LIKE' -  Performs a case-sensitive match.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`"ILIKE"` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`"LIKE"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/rule_name"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/rule_descriptions/rule_name:
-
-      .. rst-class:: ansible-option-title
-
-      **rule_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/rule_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The name of the rule that determines which port attribute is used for tagging. Available options correspond to different port attributes.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"speed"`
-      - :ansible-option-choices-entry:`"admin\_status"`
-      - :ansible-option-choices-entry:`"port\_name"`
-      - :ansible-option-choices-entry:`"operational\_status"`
-      - :ansible-option-choices-entry:`"description"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/search_pattern"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/rule_descriptions/search_pattern:
-
-      .. rst-class:: ansible-option-title
-
-      **search_pattern**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The pattern used to search for the specified port attribute. Determines how the 'value' should be matched.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"contains"`
-      - :ansible-option-choices-entry:`"equals"`
-      - :ansible-option-choices-entry:`"starts\_with"`
-      - :ansible-option-choices-entry:`"ends\_with"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/value"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/rule_descriptions/value:
-
-      .. rst-class:: ansible-option-title
-
-      **value**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/value" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The value that the rule will match against, such as port name or port speed.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/scope_description:
-
-      .. rst-class:: ansible-option-title
-
-      **scope_description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Defines the device scope for the rule, including scope category and scope members. The port rules apply only to ports of devices within the specified scope.
-          
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/inherit"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/scope_description/inherit:
-
-      .. rst-class:: ansible-option-title
-
-      **inherit**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/inherit" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Determines whether the selected site inherits devices from its child sites within the specified scope. This flag is relevant only when 'scope\_category' is 'SITE'. - When \`scope\_category\` is \`SITE\`, the default value is \`true\`. - When \`scope\_category\` is \`TAG\`, the default value is \`false\`.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/scope_category"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/scope_description/scope_category:
-
-      .. rst-class:: ansible-option-title
-
-      **scope_category**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/scope_category" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies whether the scope is based on tags or site hierarchies. - If \`TAG\`, the \`scope\_members\` must contain tag names from Cisco Catalyst Center. - If \`SITE\`, the \`scope\_members\` must contain site hierarchy names from Cisco Catalyst Center.
-          
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"TAG"`
-      - :ansible-option-choices-entry:`"SITE"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/scope_members"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag/port_rules/scope_description/scope_members:
-
-      .. rst-class:: ansible-option-title
-
-      **scope_members**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/scope_members" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      A list of scope members to include. - When \`scope\_category\` is \`TAG\`, this list contains tag names. - When \`scope\_category\` is \`SITE\`, this list contains site hierarchy names.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/tag_memberships"></div>
 
       .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tag_memberships:
@@ -980,7 +160,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -990,7 +170,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A dictionary containing detailed configuration for managing tag memberships for devices and interfaces.
+      A list of dictionaries, each containing detailed configuration for managing tag memberships for devices and interfaces.
 
 
       .. raw:: html
@@ -1341,6 +521,826 @@ Parameters
       .. raw:: html
 
         </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of dictionaries, each containing detailed configurations for creating, updating, or deleting one or more tags.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/description"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief description of the tag. This field is optional but provides additional context.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/device_rules:
+
+      .. rst-class:: ansible-option-title
+
+      **device_rules**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/device_rules" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines rules for dynamically tagging devices based on attributes such as device name, device family, device series, IP address, location, and version. Devices that match the specified criteria are automatically tagged. If multiple rules are provided - Rules with the same 'rule\_name' are evaluated using OR logic (i.e., a device matching any of them is tagged). - Rules with different 'rule\_name' values are evaluated using AND logic (i.e., a device must match all such rules to be tagged).
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/device_rules/rule_descriptions:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_descriptions**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of rules that define how devices will be tagged.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions/operation"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/device_rules/rule_descriptions/operation:
+
+      .. rst-class:: ansible-option-title
+
+      **operation**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions/operation" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines how the 'value' is matched against device attributes. - 'ILIKE' -  Performs a case-insensitive match. - 'LIKE' -  Performs a case-sensitive match.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"ILIKE"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"LIKE"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions/rule_name"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/device_rules/rule_descriptions/rule_name:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions/rule_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the rule that determines which device attribute is used for tagging. Available options correspond to different device attributes.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"device\_name"`
+      - :ansible-option-choices-entry:`"device\_family"`
+      - :ansible-option-choices-entry:`"device\_series"`
+      - :ansible-option-choices-entry:`"ip\_address"`
+      - :ansible-option-choices-entry:`"location"`
+      - :ansible-option-choices-entry:`"version"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions/search_pattern"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/device_rules/rule_descriptions/search_pattern:
+
+      .. rst-class:: ansible-option-title
+
+      **search_pattern**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The pattern used to search for the specified device attribute. Determines how the 'value' should be matched.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"contains"`
+      - :ansible-option-choices-entry:`"equals"`
+      - :ansible-option-choices-entry:`"starts\_with"`
+      - :ansible-option-choices-entry:`"ends\_with"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions/value"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/device_rules/rule_descriptions/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The specific value that the rule will match against. For example, a device name, an IP address, or a MAC address.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/force_delete"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/force_delete:
+
+      .. rst-class:: ansible-option-title
+
+      **force_delete**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/force_delete" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      When set to 'true', forces tag deletion even if it is associated with devices and ports. Typically used when the 'state' is 'deleted', this option removes all associated dynamic rules, detaches the tag from all devices and ports, and then deletes the tag.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/name"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The unique name identifying the tag for operations such as creation, update, or deletion. This parameter is mandatory for any tag management operation.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/new_name"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/new_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/new_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The new name for the tag when updating an existing tag.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules:
+
+      .. rst-class:: ansible-option-title
+
+      **port_rules**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Rules for dynamically tagging ports based on attributes such as Port Name, Port Speed, Admin Status, Operational Status, Description. A port that meets the specified criteria will be automatically tagged. If multiple rules are provided - Rules with the same 'rule\_name' are evaluated using OR logic (i.e., a port matching any of them is tagged). - Rules with different 'rule\_name' values are evaluated using AND logic (i.e., a port must match all such rules to be tagged).
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/rule_descriptions:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_descriptions**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of rules that define how ports will be tagged.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions/operation"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/rule_descriptions/operation:
+
+      .. rst-class:: ansible-option-title
+
+      **operation**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions/operation" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines how the 'value' is matched against port attributes. - 'ILIKE' -  Performs a case-insensitive match. - 'LIKE' -  Performs a case-sensitive match.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"ILIKE"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"LIKE"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions/rule_name"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/rule_descriptions/rule_name:
+
+      .. rst-class:: ansible-option-title
+
+      **rule_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions/rule_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the rule that determines which port attribute is used for tagging. Available options correspond to different port attributes.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"speed"`
+      - :ansible-option-choices-entry:`"admin\_status"`
+      - :ansible-option-choices-entry:`"port\_name"`
+      - :ansible-option-choices-entry:`"operational\_status"`
+      - :ansible-option-choices-entry:`"description"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions/search_pattern"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/rule_descriptions/search_pattern:
+
+      .. rst-class:: ansible-option-title
+
+      **search_pattern**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The pattern used to search for the specified port attribute. Determines how the 'value' should be matched.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"contains"`
+      - :ansible-option-choices-entry:`"equals"`
+      - :ansible-option-choices-entry:`"starts\_with"`
+      - :ansible-option-choices-entry:`"ends\_with"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions/value"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/rule_descriptions/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The value that the rule will match against, such as port name or port speed.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/scope_description"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/scope_description:
+
+      .. rst-class:: ansible-option-title
+
+      **scope_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/scope_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the device scope for the rule, including scope category and scope members. The port rules apply only to ports of devices within the specified scope.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/scope_description/inherit"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/scope_description/inherit:
+
+      .. rst-class:: ansible-option-title
+
+      **inherit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/scope_description/inherit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Determines whether the selected site inherits devices from its child sites within the specified scope. This flag is relevant only when 'scope\_category' is 'SITE'. - When \`scope\_category\` is \`SITE\`, the default value is \`true\`. - When \`scope\_category\` is \`TAG\`, the default value is \`false\`.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/scope_description/scope_category"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/scope_description/scope_category:
+
+      .. rst-class:: ansible-option-title
+
+      **scope_category**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/scope_description/scope_category" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies whether the scope is based on tags or site hierarchies. - If \`TAG\`, the \`scope\_members\` must contain tag names from Cisco Catalyst Center. - If \`SITE\`, the \`scope\_members\` must contain site hierarchy names from Cisco Catalyst Center.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"TAG"`
+      - :ansible-option-choices-entry:`"SITE"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/scope_description/scope_members"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_workflow_manager_module__parameter-config/tags/port_rules/scope_description/scope_members:
+
+      .. rst-class:: ansible-option-title
+
+      **scope_members**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/scope_description/scope_members" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of scope members to include. - When \`scope\_category\` is \`TAG\`, this list contains tag names. - When \`scope\_category\` is \`SITE\`, this list contains site hierarchy names.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
 
 
 
@@ -2069,10 +2069,10 @@ Examples
             state: merged
             config_verify: false
             config:
-              - tag:
-                  name: Server_Connected_Devices_and_Ports
-                  description: "Tag for devices and interfaces
-                    connected to servers"
+              - tags:
+                  - name: Server_Connected_Devices_and_Ports
+                    description: "Tag for devices and interfaces
+                      connected to servers"
     # For creating/updating a tag with device rules.
     - name: Create a tag for border devices in the 9300
         series.
@@ -2099,20 +2099,20 @@ Examples
             state: merged
             config_verify: false
             config:
-              - tag:
-                  name: Border_9300_Tag
-                  description: Tag for border devices belonging
-                    to the Cisco Catalyst 9300 family.
-                  device_rules:
-                    rule_descriptions:
-                      - rule_name: device_name
-                        search_pattern: contains
-                        value: Border
-                        operation: ILIKE
-                      - rule_name: device_series
-                        search_pattern: ends_with
-                        value: 9300
-                        operation: ILIKE
+              - tags:
+                  - name: Border_9300_Tag
+                    description: Tag for border devices belonging
+                      to the Cisco Catalyst 9300 family.
+                    device_rules:
+                      rule_descriptions:
+                        - rule_name: device_name
+                          search_pattern: contains
+                          value: Border
+                          operation: ILIKE
+                        - rule_name: device_series
+                          search_pattern: ends_with
+                          value: 9300
+                          operation: ILIKE
     # For creating/updating a tag with port rules.
     - name: Create a tag for high-speed server-connected
         interfaces.
@@ -2139,25 +2139,50 @@ Examples
             state: merged
             config_verify: false
             config:
-              - tag:
-                  name: HighSpeed_Server_Interfaces
-                  description: Tag for 10G interfaces connected
-                    to servers.
-                  port_rules:
-                    scope_description:
-                      scope_category: TAG
-                      scope_members:
-                        - NY_SERVER_TAG
-                        - SJC_SERVER_TAG
-                    rule_descriptions:
-                      - rule_name: speed
-                        search_pattern: equals
-                        value: "10000"
-                        operation: ILIKE
-                      - rule_name: port_name
-                        search_pattern: contains
-                        value: TenGigabitEthernet1/0/1
-                        operation: ILIKE
+              - tags:
+                  - name: HighSpeed_Server_Interfaces
+                    description: Tag for 10G interfaces connected
+                      to servers.
+                    port_rules:
+                      scope_description:
+                        scope_category: TAG
+                        scope_members:
+                          - NY_SERVER_TAG
+                          - SJC_SERVER_TAG
+                      rule_descriptions:
+                        - rule_name: speed
+                          search_pattern: equals
+                          value: "10000"
+                          operation: ILIKE
+                        - rule_name: port_name
+                          search_pattern: contains
+                          value: TenGigabitEthernet1/0/1
+                          operation: ILIKE
+    # For creating multiple tags in a single config entry.
+    - name: Create multiple tags in one config entry.
+      hosts: dnac_servers
+      vars_files:
+        - credentials.yml
+      gather_facts: false
+      tasks:
+        - name: Create two tags at once
+          cisco.dnac.tags_workflow_manager:
+            dnac_host: "{{ dnac_host }}"
+            dnac_port: "{{ dnac_port }}"
+            dnac_username: "{{ dnac_username }}"
+            dnac_password: "{{ dnac_password }}"
+            dnac_verify: "{{ dnac_verify }}"
+            dnac_version: "{{ dnac_version }}"
+            dnac_debug: "{{ dnac_debug }}"
+            dnac_log: true
+            dnac_log_level: DEBUG
+            state: merged
+            config_verify: false
+            config:
+              - tags:
+                  - name: DC_Core_Devices
+                    description: "Core devices in data center"
+                  - name: DC_Access_Devices
     # For updating the scope description of a tag with port rules:
     - name: Update scope description for tagged server-connected
         interfaces.
@@ -2184,17 +2209,17 @@ Examples
             state: merged
             config_verify: false
             config:
-              - tag:
-                  name: Server_Connected_Interfaces
-                  description: Tag for interfaces on devices
-                    connected to servers, scoped to specific
-                    sites.
-                  port_rules:
-                    scope_description:
-                      scope_category: SITE
-                      scope_members:
-                        - Global/USA
-                        - Global/INDIA
+              - tags:
+                  - name: Server_Connected_Interfaces
+                    description: Tag for interfaces on devices
+                      connected to servers, scoped to specific
+                      sites.
+                    port_rules:
+                      scope_description:
+                        scope_category: SITE
+                        scope_members:
+                          - Global/USA
+                          - Global/INDIA
     # For updating rule descriptions of a tag with port rules:
     - name: Update port rule descriptions for server-connected
         interfaces.
@@ -2221,20 +2246,20 @@ Examples
             state: merged
             config_verify: false
             config:
-              - tag:
-                  name: Server_Connected_Interfaces
-                  description: Tag for interfaces on devices
-                    connected to servers.
-                  port_rules:
-                    rule_descriptions:
-                      - rule_name: speed
-                        search_pattern: contains
-                        value: "100000"
-                        operation: ILIKE
-                      - rule_name: port_name
-                        search_pattern: equals
-                        value: TenGigabitEthernet1/0/1
-                        operation: ILIKE
+              - tags:
+                  - name: Server_Connected_Interfaces
+                    description: Tag for interfaces on devices
+                      connected to servers.
+                    port_rules:
+                      rule_descriptions:
+                        - rule_name: speed
+                          search_pattern: contains
+                          value: "100000"
+                          operation: ILIKE
+                        - rule_name: port_name
+                          search_pattern: equals
+                          value: TenGigabitEthernet1/0/1
+                          operation: ILIKE
     # To assign tags to devices/ports (Remove port_names list to assign tags to devices.)
     - name: Assign tags to devices or interfaces.
       hosts: dnac_servers
@@ -2260,48 +2285,47 @@ Examples
             config_verify: false
             config:
               - tag_memberships:
-                  tags:
-                    - High_Speed_Interfaces
-                  device_details:
-                    - ip_addresses:
-                        - 10.197.156.97
-                        - 10.197.156.98
-                        - 10.197.156.99
-                      hostnames:
-                        - SJC_Border1
-                        - SJC_Border2
-                        - NY_Border1
-                      mac_addresses:
-                        - e4:38:7e:42:bc:00
-                        - 6c:d6:e3:75:5a:e0
-                        - 34:5d:a8:3b:d8:e0
-                      serial_numbers:
-                        - SAD055006NE
-                        - SAD04350EEU
-                        - SAD055108C2
-                      port_names:
-                        - FortyGigabitEthernet1/1/1
-                        - FortyGigabitEthernet1/1/2
-              - tag_memberships:
-                  tags:
-                    - Server_Connected_Devices
-                  device_details:
-                    - ip_addresses:
-                        - 10.197.156.97
-                        - 10.197.156.98
-                        - 10.197.156.99
-                      hostnames:
-                        - SJC_Border1
-                        - SJC_Border2
-                        - NY_Border1
-                      mac_addresses:
-                        - e4:38:7e:42:bc:00
-                        - 6c:d6:e3:75:5a:e0
-                        - 34:5d:a8:3b:d8:e0
-                      serial_numbers:
-                        - SAD055006NE
-                        - SAD04350EEU
-                        - SAD055108C2
+                  - tags:
+                      - High_Speed_Interfaces
+                    device_details:
+                      - ip_addresses:
+                          - 10.197.156.97
+                          - 10.197.156.98
+                          - 10.197.156.99
+                        hostnames:
+                          - SJC_Border1
+                          - SJC_Border2
+                          - NY_Border1
+                        mac_addresses:
+                          - e4:38:7e:42:bc:00
+                          - 6c:d6:e3:75:5a:e0
+                          - 34:5d:a8:3b:d8:e0
+                        serial_numbers:
+                          - SAD055006NE
+                          - SAD04350EEU
+                          - SAD055108C2
+                        port_names:
+                          - FortyGigabitEthernet1/1/1
+                          - FortyGigabitEthernet1/1/2
+                  - tags:
+                      - Server_Connected_Devices
+                    device_details:
+                      - ip_addresses:
+                          - 10.197.156.97
+                          - 10.197.156.98
+                          - 10.197.156.99
+                        hostnames:
+                          - SJC_Border1
+                          - SJC_Border2
+                          - NY_Border1
+                        mac_addresses:
+                          - e4:38:7e:42:bc:00
+                          - 6c:d6:e3:75:5a:e0
+                          - 34:5d:a8:3b:d8:e0
+                        serial_numbers:
+                          - SAD055006NE
+                          - SAD04350EEU
+                          - SAD055108C2
     # To assign tags to devices or ports under specific sites (Remove port_namesto assign tags to devices only.)
     - name: Assign tags to devices or interfaces within
         a specific site.
@@ -2329,20 +2353,19 @@ Examples
             config_verify: false
             config:
               - tag_memberships:
-                  tags:
-                    - High_Speed_Interfaces
-                  site_details:
-                    - site_names:
-                        - Global/INDIA
-                      port_names:
-                        - FortyGigabitEthernet1/1/1
-                        - FortyGigabitEthernet1/1/2
-              - tag_memberships:
-                  tags:
-                    - Server_Connected_Devices
-                  site_details:
-                    - site_names:
-                        - Global/INDIA
+                  - tags:
+                      - High_Speed_Interfaces
+                    site_details:
+                      - site_names:
+                          - Global/INDIA
+                        port_names:
+                          - FortyGigabitEthernet1/1/1
+                          - FortyGigabitEthernet1/1/2
+                  - tags:
+                      - Server_Connected_Devices
+                    site_details:
+                      - site_names:
+                          - Global/INDIA
     # Deleting a tag.
     - name: Delete a Tag.
       hosts: dnac_servers
@@ -2367,8 +2390,8 @@ Examples
             state: deleted
             config_verify: false
             config:
-              - tag:
-                  name: Server_Connected_Devices
+              - tags:
+                  - name: Server_Connected_Devices
     # Force Deleting a tag.
     # It will remove all the dynamic and static members from the tag and delete the tag.
     - name: Force delete a Tag.
@@ -2394,9 +2417,9 @@ Examples
             state: deleted
             config_verify: false
             config:
-              - tag:
-                  name: Server_Connected_Devices
-                  force_delete: true
+              - tags:
+                  - name: Server_Connected_Devices
+                    force_delete: true
     # For deleting rule descriptions of a tag with device rules.
     - name: Delete rule description of a tag with device
         rules
@@ -2423,14 +2446,14 @@ Examples
             state: deleted
             config_verify: false
             config:
-              - tag:
-                  name: Catalyst_Access_Tag
-                  device_rules:
-                    rule_descriptions:
-                      - rule_name: device_family
-                        search_pattern: ends_with
-                        value: 9300
-                        operation: ILIKE
+              - tags:
+                  - name: Catalyst_Access_Tag
+                    device_rules:
+                      rule_descriptions:
+                        - rule_name: device_family
+                          search_pattern: ends_with
+                          value: 9300
+                          operation: ILIKE
     # For deleting scope members of a tag with port rules.
     - name: Delete scope members of a tag with port rules
       hosts: dnac_servers
@@ -2456,15 +2479,15 @@ Examples
             state: deleted
             config_verify: false
             config:
-              - tag:
-                  name: Catalyst_Site_Tag
-                  description: Tag for managing site-based
-                    configurations
-                  port_rules:
-                    scope_description:
-                      scope_category: SITE
-                      scope_members:
-                        - Global/INDIA
+              - tags:
+                  - name: Catalyst_Site_Tag
+                    description: Tag for managing site-based
+                      configurations
+                    port_rules:
+                      scope_description:
+                        scope_category: SITE
+                        scope_members:
+                          - Global/INDIA
     # For deleting rule descriptions of a tag with port rules.
     - name: Delete rule descriptions of a tag with port
         rules
@@ -2491,20 +2514,20 @@ Examples
             state: deleted
             config_verify: false
             config:
-              - tag:
-                  name: Catalyst_Port_Tag
-                  description: Tag for high-speed ports
-                    and interface rules
-                  port_rules:
-                    rule_descriptions:
-                      - rule_name: speed
-                        search_pattern: equals
-                        value: "10000"
-                        operation: ILIKE
-                      - rule_name: port_name
-                        search_pattern: contains
-                        value: tengig/1/0/1
-                        operation: ILIKE
+              - tags:
+                  - name: Catalyst_Port_Tag
+                    description: Tag for high-speed ports
+                      and interface rules
+                    port_rules:
+                      rule_descriptions:
+                        - rule_name: speed
+                          search_pattern: equals
+                          value: "10000"
+                          operation: ILIKE
+                        - rule_name: port_name
+                          search_pattern: contains
+                          value: tengig/1/0/1
+                          operation: ILIKE
     # For Deleting tags from devices/ports (Remove port_names to delete tags from devices)
     - name: Delete tags from members.
       hosts: dnac_servers
@@ -2530,40 +2553,39 @@ Examples
             config_verify: false
             config:
               - tag_memberships:
-                  tags:
-                    - Catalyst_Port_Tag
-                  device_details:
-                    - ip_addresses:
-                        - 10.197.156.97
-                        - 10.197.156.98
-                      hostnames:
-                        - SJC_Border1
-                        - NY_Border1
-                      mac_addresses:
-                        - e4:38:7e:42:bc:00
-                        - 6c:d6:e3:75:5a:e0
-                      serial_numbers:
-                        - SAD055006NE
-                        - SAD04350EEU
-                      port_names:
-                        - TenGigabitEthernet1/0/1
-                        - TenGigabitEthernet1/0/2
-              - tag_memberships:
-                  tags:
-                    - Catalyst_Device_Tag
-                  device_details:
-                    - ip_addresses:
-                        - 10.197.156.97
-                        - 10.197.156.98
-                      hostnames:
-                        - SJC_Border1
-                        - NY_Border1
-                      mac_addresses:
-                        - e4:38:7e:42:bc:00
-                        - 6c:d6:e3:75:5a:e0
-                      serial_numbers:
-                        - SAD055006NE
-                        - SAD04350EEU
+                  - tags:
+                      - Catalyst_Port_Tag
+                    device_details:
+                      - ip_addresses:
+                          - 10.197.156.97
+                          - 10.197.156.98
+                        hostnames:
+                          - SJC_Border1
+                          - NY_Border1
+                        mac_addresses:
+                          - e4:38:7e:42:bc:00
+                          - 6c:d6:e3:75:5a:e0
+                        serial_numbers:
+                          - SAD055006NE
+                          - SAD04350EEU
+                        port_names:
+                          - TenGigabitEthernet1/0/1
+                          - TenGigabitEthernet1/0/2
+                  - tags:
+                      - Catalyst_Device_Tag
+                    device_details:
+                      - ip_addresses:
+                          - 10.197.156.97
+                          - 10.197.156.98
+                        hostnames:
+                          - SJC_Border1
+                          - NY_Border1
+                        mac_addresses:
+                          - e4:38:7e:42:bc:00
+                          - 6c:d6:e3:75:5a:e0
+                        serial_numbers:
+                          - SAD055006NE
+                          - SAD04350EEU
     #  For deleting tags from devices/ports under specific sites (Remove port_names to delete tags from devices)
     - name: Delete tags from members within a specific sites.
       hosts: dnac_servers
@@ -2590,20 +2612,19 @@ Examples
             config_verify: true
             config:
               - tag_memberships:
-                  tags:
-                    - Catalyst_Device_Tag
-                  site_details:
-                    - site_names:
-                        - Global/INDIA
-              - tag_memberships:
-                  tags:
-                    - Catalyst_Port_Tag
-                  site_details:
-                    - site_names:
-                        - Global/INDIA
-                      port_names:
-                        - TenGigabitEthernet1/0/1
-                        - TenGigabitEthernet1/0/2
+                  - tags:
+                      - Catalyst_Device_Tag
+                    site_details:
+                      - site_names:
+                          - Global/INDIA
+                  - tags:
+                      - Catalyst_Port_Tag
+                    site_details:
+                      - site_names:
+                          - Global/INDIA
+                        port_names:
+                          - TenGigabitEthernet1/0/1
+                          - TenGigabitEthernet1/0/2
 
 
 

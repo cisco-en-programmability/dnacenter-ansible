@@ -42,7 +42,7 @@ cisco.dnac.user_role_workflow_manager module -- Resource module for managing use
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3047,7 +3047,7 @@ Parameters
 
       The password for the user account, which must adhere to specified complexity requirements.
 
-      Must contain at least one special character, one capital letter, one lowercase letter, and a minimum length of 8 characters.
+      Must be at least 9 characters long and include at least three of the following character types - lowercase letters, uppercase letters, digits, and special characters.
 
       Required for creating a new user account.
 
@@ -3073,7 +3073,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -3092,6 +3092,14 @@ Parameters
       If no update is needed, omit this parameter or set it to \`false\`.
 
       Ensure this parameter is correctly set to avoid unnecessary updates or errors.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html

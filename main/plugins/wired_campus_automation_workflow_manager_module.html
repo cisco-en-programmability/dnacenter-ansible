@@ -520,7 +520,7 @@
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_module.html">cisco.dnac.interfaces_query module -- Resource module for Interfaces Query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_count_module.html">cisco.dnac.interfaces_query_count module -- Resource module for Interfaces Query Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_intent_module.html">cisco.dnac.inventory_intent module -- Resource module for Network Device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory_workflow_manager' module.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_module.html">cisco.dnac.iot_fabric_rep_rings module -- Resource module for Iot Fabric Rep Rings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_delete_module.html">cisco.dnac.iot_fabric_rep_rings_delete module -- Resource module for Iot Fabric Rep Rings Delete</a></li>
@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.wired_campus_automation_workflow_manager module -- Manage wired campus automation operations in Cisco Catalyst Center<a class="headerlink" href="#cisco-dnac-wired-campus-automation-workflow-manager-module-manage-wired-campus-automation-operations-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.51.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-wired-campus-automation-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -3306,8 +3306,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-wired-ca
 <p>When true, the VLAN is active and can carry traffic.</p>
 <p>When false, the VLAN is administratively shut down.</p>
 <p>Disabled VLANs do not forward traffic but retain their configuration.</p>
-<p>NOTE - &quot;vlan_admin_status&quot; Can only be modified for VLAN IDs 2-1001.</p>
-<p>Extended range VLANs (1002-4094) do not support admin status updates.</p>
+<p>NOTE - For standard-range VLANs (2-1001), &quot;vlan_admin_status&quot; can be set to true or false for both create and update operations.</p>
+<p>For extended-range VLANs (1006-4094), &quot;vlan_admin_status&quot; cannot be set to false. These VLANs must always remain enabled. Setting &quot;vlan_admin_status&quot; to false for an extended-range VLAN will result in a validation error.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id387"><span class="problematic" id="id388">:ansible-option-choices-entry:`false`</span></a></p></li>
@@ -3405,7 +3405,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-wired-ca
 <p>When true, restricts flooded traffic to only necessary trunk links.</p>
 <p>Reduces unnecessary broadcast traffic in the VTP domain.</p>
 <p>Only affects VLANs 2-1001; VLAN 1 and extended VLANs are not pruned.</p>
-<p>Can only be configured when &quot;vtp_mode&quot; is &quot;SERVER&quot;.</p>
+<p>VTP pruning can only be enabled when 'vtp_mode' is set to 'SERVER'.</p>
+<p>Setting 'vtp_pruning' to true with any other 'vtp_mode' value will result in a validation error.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id399"><span class="problematic" id="id400">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
@@ -4270,6 +4271,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-wired-ca
 <ul class="simple">
 <li><p>Rugvedi Kapse (&#64;rukapse)</p></li>
 <li><p>Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
+<li><p>Vivek Raj (&#64;vivekraj2000)</p></li>
 </ul>
 </section>
 <section id="collection-links">

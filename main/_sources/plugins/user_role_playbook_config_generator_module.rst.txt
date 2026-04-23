@@ -42,7 +42,7 @@ cisco.dnac.user_role_playbook_config_generator module -- Generate YAML playbook 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1491,7 +1491,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -1511,7 +1511,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["\\"msg\\": {\\n    \\"YAML config generation Task failed for module 'user\_role\_workflow\_manager'.\\": {\\n        \\"file\_path\\": \\"/Users/priyadharshini/Downloads/specific\_userrole\_details\_info\\"\\n    }\\n}", " \\"response\\": {\\n    \\"YAML config generation Task failed for module 'user\_role\_workflow\_manager'.\\": {\\n        \\"file\_path\\": \\"/Users/priyadharshini/Downloads/specific\_userrole\_details\_info\\"\\n    }\\n}\\n"]`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "YAML configuration file already up-to-date for module 'user\_role\_workflow\_manager'. No changes written.", "response": {"components\_processed": 2, "components\_skipped": 0, "configurations\_count": 13, "file\_path": "/tmp/specific\_userrole\_details\_info", "message": "YAML configuration file already up-to-date for module 'user\_role\_workflow\_manager'. No changes written.", "status": "success"}, "status": "success"}`
 
 
       .. raw:: html

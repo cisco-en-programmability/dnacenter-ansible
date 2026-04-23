@@ -520,7 +520,7 @@
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_module.html">cisco.dnac.interfaces_query module -- Resource module for Interfaces Query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_count_module.html">cisco.dnac.interfaces_query_count module -- Resource module for Interfaces Query Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_intent_module.html">cisco.dnac.inventory_intent module -- Resource module for Network Device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory_workflow_manager' module.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_module.html">cisco.dnac.iot_fabric_rep_rings module -- Resource module for Iot Fabric Rep Rings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_delete_module.html">cisco.dnac.iot_fabric_rep_rings_delete module -- Resource module for Iot Fabric Rep Rings Delete</a></li>
@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.lan_automation_workflow_manager module -- Automate network discovery, deployment, and device configuration with LAN Automation in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-lan-automation-workflow-manager-module-automate-network-discovery-deployment-and-device-configuration-with-lan-automation-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.51.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-automation-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1923,6 +1923,8 @@ specify existing interface links for Port Channel identification.</p></li>
 <li><p>Port Channel operations integrate with existing LAN Automation device lifecycle management and appear in standard Catalyst Center interface topology views.</p></li>
 <li><p>When updating Port Channels, at least one existing link must be provided to identify the Port Channel between the same endpoints unless port_channel_number is specified for direct identification.</p></li>
 <li><p>Links from different Port Channels cannot be mixed during update operations. Each physical link can belong to only one Port Channel at any given time.</p></li>
+<li><p>To run multiple LAN Automation sessions in parallel, use Ansible asynchronous tasks within a single playbook. This allows multiple LAN session start tasks to execute concurrently. Cisco Catalyst Center supports up to 5 concurrent LAN Automation sessions.</p></li>
+<li><p>For parallel execution, add async, poll, and register on each LAN Automation task, then add a final async_status task that loops over the registered jobs and waits for completion. Check the examples section for a complete parallel execution playbook.</p></li>
 <li><p>SDK Method used are lan_automation.LanAutomation.lan_automation_start_v2 lan_automation.LanAutomation.lan_automation_stop lan_automation.LanAutomation.lan_automation_device_update lan_automation.LanAutomation.lan_automation_active_sessions lan_automation.LanAutomation.lan_automation_status lan_automation.LanAutomation.lan_automation_log lan_automation.LanAutomation.get_port_channels lan_automation.LanAutomation.create_a_new_port_channel_between_devices lan_automation.LanAutomation.add_a_lan_automated_link_to_a_port_channel lan_automation.LanAutomation.delete_port_channel lan_automation.LanAutomation.remove_a_link_from_port_channel devices.Devices.get_interface_details devices.Devices.get_device_list device_onboarding_pnp.DeviceOnboardingPnp.authorize_device device_onboarding_pnp.DeviceOnboardingPnp.get_device_list</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
@@ -2029,6 +2031,70 @@ specify existing interface links for Port Channel identification.</p></li>
 <span class="w">          </span><span class="nt">device_serial_number_authorization</span><span class="p">:</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;FJC27172JDW&quot;</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;FJC2721261A&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Start multiple LAN Automation sessions in parallel</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
+<span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Start LAN Automation session 1 asynchronously</span>
+<span class="w">      </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lan_automation</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">primary_device_management_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.1.1&quot;</span>
+<span class="w">              </span><span class="nt">discovered_device_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN</span><span class="nv"> </span><span class="s">JOSE&quot;</span>
+<span class="w">              </span><span class="nt">primary_device_interface_names</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;HundredGigE1/0/2&quot;</span>
+<span class="w">              </span><span class="nt">ip_pools</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;underlay_sub_sj&quot;</span>
+<span class="w">                  </span><span class="nt">ip_pool_role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MAIN_POOL&quot;</span>
+<span class="w">              </span><span class="nt">launch_and_wait</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">async</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600</span>
+<span class="w">        </span><span class="nt">poll</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">        </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lan_job_1</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Start LAN Automation session 2 asynchronously</span>
+<span class="w">      </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lan_automation</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">primary_device_management_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.1.2&quot;</span>
+<span class="w">              </span><span class="nt">discovered_device_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN</span><span class="nv"> </span><span class="s">FRANCISCO&quot;</span>
+<span class="w">              </span><span class="nt">primary_device_interface_names</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;HundredGigE1/0/29&quot;</span>
+<span class="w">              </span><span class="nt">ip_pools</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;underlay_sub_sf&quot;</span>
+<span class="w">                  </span><span class="nt">ip_pool_role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MAIN_POOL&quot;</span>
+<span class="w">              </span><span class="nt">launch_and_wait</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">async</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600</span>
+<span class="w">      </span><span class="nt">poll</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lan_job_2</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Wait for all asynchronous LAN Automation jobs</span>
+<span class="w">      </span><span class="nt">ansible.builtin.async_status</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">jid</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">item.ansible_job_id</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lan_job_status</span>
+<span class="w">      </span><span class="nt">until</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lan_job_status.finished</span>
+<span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+<span class="w">      </span><span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">      </span><span class="nt">loop</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">lan_job_1</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">lan_job_2</span> <span class="cp">}}</span><span class="s">&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Stop a LAN Automation session</span>
 <span class="w">  </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
