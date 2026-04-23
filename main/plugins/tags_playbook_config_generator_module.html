@@ -520,7 +520,7 @@
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_module.html">cisco.dnac.interfaces_query module -- Resource module for Interfaces Query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_count_module.html">cisco.dnac.interfaces_query_count module -- Resource module for Interfaces Query Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_intent_module.html">cisco.dnac.inventory_intent module -- Resource module for Network Device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory_workflow_manager' module.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_module.html">cisco.dnac.iot_fabric_rep_rings module -- Resource module for Iot Fabric Rep Rings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_delete_module.html">cisco.dnac.iot_fabric_rep_rings_delete module -- Resource module for Iot Fabric Rep Rings Delete</a></li>
@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.tags_playbook_config_generator module -- Generate YAML configurations playbook for 'tags_workflow_manager' module.<a class="headerlink" href="#cisco-dnac-tags-playbook-config-generator-module-generate-yaml-configurations-playbook-for-tags-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.51.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1301,7 +1301,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-pla
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Filters to specify which components to include in the YAML configuration file.</p>
 <p>If &quot;components_list&quot; is specified, only those components are included, regardless of other filters.</p>
-<p>If filters for specific components (e.g., tag or tag_memberships) are provided without explicitly including them in components_list, those components will be automatically added to components_list.</p>
+<p>If filters for specific components (e.g., tags or tag_memberships) are provided without explicitly including them in components_list, those components will be automatically added to components_list.</p>
 <p>At least one of components_list or component filters must be provided.</p>
 </div></td>
 </tr>
@@ -1310,33 +1310,15 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-pla
 <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/components_list" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of components to include in the YAML configuration file.</p>
-<p>Valid values are tag and tag_memberships.</p>
+<p>Valid values are tags and tag_memberships.</p>
 <p>If specified, only the listed components will be included in the generated YAML file.</p>
-<p>If not specified but component filters (tag or tag_memberships) are provided, those components are automatically added to this list.</p>
+<p>If not specified but component filters (tags or tag_memberships) are provided, those components are automatically added to this list.</p>
 <p>If neither components_list nor any component filters are provided, an error will be raised.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`&quot;tag&quot;`</span></a></p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`&quot;tags&quot;`</span></a></p></li>
 <li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`&quot;tag\_memberships&quot;`</span></a></p></li>
 </ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-playbook-config-generator-module-parameter-config-component-specific-filters-tag"><strong>tag</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Filters specific to tag configuration retrieval.</p>
-<p>Used to narrow down which tags should be included in the generated YAML file.</p>
-<p>If no filters are provided, all tags from Cisco Catalyst Center will be retrieved.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag/tag_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-playbook-config-generator-module-parameter-config-component-specific-filters-tag-tag-name"><strong>tag_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag/tag_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the tag to filter by.</p>
-<p>Retrieves the tag with the exact matching name from Cisco Catalyst Center.</p>
-<p>Example Production, Network-Core, Campus-Switches.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1376,6 +1358,24 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-pla
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the tag whose memberships should be retrieved.</p>
 <p>Retrieves all network devices and interfaces (ports) associated with this tag.</p>
+<p>Example Production, Network-Core, Campus-Switches.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-playbook-config-generator-module-parameter-config-component-specific-filters-tags"><strong>tags</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Filters specific to tag configuration retrieval.</p>
+<p>Used to narrow down which tags should be included in the generated YAML file.</p>
+<p>If no filters are provided, all tags from Cisco Catalyst Center will be retrieved.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tags/tag_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-playbook-config-generator-module-parameter-config-component-specific-filters-tags-tag-name"><strong>tag_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tags/tag_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the tag to filter by.</p>
+<p>Retrieves the tag with the exact matching name from Cisco Catalyst Center.</p>
 <p>Example Production, Network-Core, Campus-Switches.</p>
 </div></td>
 </tr>
@@ -1565,7 +1565,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-pla
 <h2><a class="toc-backref" href="#id60" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<ul class="simple">
+<ul>
 <li><p>Cisco Catalyst Center &gt;= 2.3.7.9</p></li>
 <li><p>SDK Methods used are
 tags.Tag.get_tag
@@ -1573,19 +1573,25 @@ tags.Tag.get_tag_members_by_id</p></li>
 <li><p>SDK Paths used are
 /dna/intent/api/v1/tag
 /dna/intent/api/v1/tag/${id}/member</p></li>
-<li><p>Auto-population of components_list:
-If component-specific filters (such as 'tag' or 'tag_memberships') are provided
-without explicitly including them in 'components_list', those components will be
+<li><dl class="simple">
+<dt>Auto-population of components_list:</dt><dd><p>If component-specific filters (such as 'tags' or 'tag_memberships') are provided</p>
+</dd>
+</dl>
+<p>without explicitly including them in 'components_list', those components will be
 automatically added to 'components_list'. This simplifies configuration by eliminating
-the need to redundantly specify components in both places.</p></li>
-<li><p>Example of auto-population behavior:
-If you provide filters for 'tag' without including 'tag' in 'components_list',
-the module will automatically add 'tag' to 'components_list' before processing.
-This allows you to write more concise playbooks.</p></li>
+the need to redundantly specify components in both places.</p>
+</li>
+<li><dl class="simple">
+<dt>Example of auto-population behavior:</dt><dd><p>If you provide filters for 'tags' without including 'tags' in 'components_list',
+the module will automatically add 'tags' to 'components_list' before processing.</p>
+</dd>
+</dl>
+<p>This allows you to write more concise playbooks.</p>
+</li>
 <li><p>Validation requirements:
 If 'component_specific_filters' is provided, at least one of the following must be true:
 (1) 'components_list' contains at least one component, OR
-(2) Component-specific filters (e.g., 'tag', 'tag_memberships') are provided.
+(2) Component-specific filters (e.g., 'tags', 'tag_memberships') are provided.
 If neither condition is met, the module will fail with a validation error.</p></li>
 <li><p>System tags filtering:
 System tags (tags with systemTag=True) are automatically excluded from the generated YAML configuration.
@@ -1686,7 +1692,7 @@ of whether you're generating all tags or using specific filters.</p></li>
 <span class="w">        </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tag&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tags&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="c1"># Example 4: Generate only tag membership configurations</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate tag memberships only</span>
@@ -1742,7 +1748,7 @@ of whether you're generating all tags or using specific filters.</p></li>
 <span class="w">        </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tag&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tag_memberships&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tags&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tag_memberships&quot;</span><span class="p p-Indicator">]</span>
 
 <span class="c1"># Example 6: Auto-populate components_list from component filters</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate configuration with auto-populated components_list</span>
@@ -1770,12 +1776,12 @@ of whether you're generating all tags or using specific filters.</p></li>
 <span class="w">        </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">            </span><span class="c1"># No components_list specified, but tag filters are provided</span>
-<span class="w">            </span><span class="c1"># The &#39;tag&#39; component will be automatically added to components_list</span>
-<span class="w">            </span><span class="nt">tag</span><span class="p">:</span>
+<span class="w">            </span><span class="c1"># No components_list specified, but tags filters are provided</span>
+<span class="w">            </span><span class="c1"># The &#39;tags&#39; component will be automatically added to components_list</span>
+<span class="w">            </span><span class="nt">tags</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Production</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Data-Center</span>
-<span class="w">      </span><span class="c1"># This will automatically include &#39;tag&#39; in components_list and retrieve only those tags</span>
+<span class="w">      </span><span class="c1"># This will automatically include &#39;tags&#39; in components_list and retrieve only those tags</span>
 
 <span class="c1"># Example 7: Filter specific tags by name</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate configuration for specific tags by name</span>
@@ -1803,8 +1809,8 @@ of whether you're generating all tags or using specific filters.</p></li>
 <span class="w">        </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tag&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tag_memberships&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">            </span><span class="nt">tag</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tags&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tag_memberships&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">            </span><span class="nt">tags</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Production</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Data-Center</span>
 
@@ -1834,7 +1840,7 @@ of whether you're generating all tags or using specific filters.</p></li>
 <span class="w">        </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite&quot;</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tag&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tag_memberships&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tags&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tag_memberships&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">tag_memberships</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Campus-Switches</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Core-Routers</span>
@@ -1865,8 +1871,8 @@ of whether you're generating all tags or using specific filters.</p></li>
 <span class="w">        </span><span class="nt">file_mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;append&quot;</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tag&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tag_memberships&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">            </span><span class="nt">tag</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tags&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;tag_memberships&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">            </span><span class="nt">tags</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Branch-Office</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Access-Points</span>
 

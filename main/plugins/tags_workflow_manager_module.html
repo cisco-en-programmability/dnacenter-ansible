@@ -520,7 +520,7 @@
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_module.html">cisco.dnac.interfaces_query module -- Resource module for Interfaces Query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_count_module.html">cisco.dnac.interfaces_query_count module -- Resource module for Interfaces Query Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_intent_module.html">cisco.dnac.inventory_intent module -- Resource module for Network Device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory_workflow_manager' module.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.dnac.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.dnac.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_module.html">cisco.dnac.iot_fabric_rep_rings module -- Resource module for Iot Fabric Rep Rings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_delete_module.html">cisco.dnac.iot_fabric_rep_rings_delete module -- Resource module for Iot Fabric Rep Rings Delete</a></li>
@@ -1237,7 +1237,7 @@
 <h1>cisco.dnac.tags_workflow_manager module -- Create/ Update/ Delete Tag(s) and Tag Memberships in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-tags-workflow-manager-module-create-update-delete-tag-s-and-tag-memberships-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.50.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.51.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1288,36 +1288,113 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag"><strong>tag</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships"><strong>tag_memberships</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A dictionary containing detailed configurations for creating, updating, or deleting tags.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of dictionaries, each containing detailed configuration for managing tag memberships for devices and interfaces.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-description"><strong>description</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details"><strong>device_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details about the devices and interfaces to which tags are to be assigned.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/hostnames"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-hostnames"><strong>hostnames</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/hostnames" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of hostnames for the devices.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/ip_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-ip-addresses"><strong>ip_addresses</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/ip_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of IP addresses for the devices.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/mac_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-mac-addresses"><strong>mac_addresses</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/mac_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of MAC addresses for the devices.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/port_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-port-names"><strong>port_names</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/port_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of port names to which the tags are to be assigned under the devices. It is an optional parameter, used as per requirement. If port_names is not given, the tags will be assigned to devices. If port_names is given, the tags will be assigned to the ports under the respective devices.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/serial_numbers"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-serial-numbers"><strong>serial_numbers</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/serial_numbers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of serial numbers for the devices.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details"><strong>site_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details about the sites under which devices or interfaces will be tagged.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details/port_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details-port-names"><strong>port_names</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details/port_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of port names to which the tags are to be assigned under the devices belonging to the given sites. It is an optional parameter, used as per requirement. If port_names is not given, the tags will be assigned to devices under the given sites. If port_names is given, the tags will be assigned to these ports under devices belonging to the given sites.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details/site_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details-site-names"><strong>site_names</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details/site_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of the site name hierarchies under which devices or interfaces will be tagged.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-tags"><strong>tags</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of tag names to assign to devices or interfaces. These tags should be present in Cisco Catalyst Center.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags"><strong>tags</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of dictionaries, each containing detailed configurations for creating, updating, or deleting one or more tags.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-description"><strong>description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A brief description of the tag. This field is optional but provides additional context.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-device-rules"><strong>device_rules</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/device_rules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-device-rules"><strong>device_rules</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/device_rules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines rules for dynamically tagging devices based on attributes such as device name, device family, device series, IP address, location, and version. Devices that match the specified criteria are automatically tagged. If multiple rules are provided - Rules with the same 'rule_name' are evaluated using OR logic (i.e., a device matching any of them is tagged). - Rules with different 'rule_name' values are evaluated using AND logic (i.e., a device must match all such rules to be tagged).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-device-rules-rule-descriptions"><strong>rule_descriptions</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-device-rules-rule-descriptions"><strong>rule_descriptions</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of rules that define how devices will be tagged.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions/operation"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-device-rules-rule-descriptions-operation"><strong>operation</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions/operation" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions/operation"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-device-rules-rule-descriptions-operation"><strong>operation</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions/operation" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines how the 'value' is matched against device attributes. - 'ILIKE' -  Performs a case-insensitive match. - 'LIKE' -  Performs a case-sensitive match.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1327,9 +1404,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions/rule_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-device-rules-rule-descriptions-rule-name"><strong>rule_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions/rule_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions/rule_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-device-rules-rule-descriptions-rule-name"><strong>rule_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions/rule_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the rule that determines which device attribute is used for tagging. Available options correspond to different device attributes.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1343,9 +1420,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions/search_pattern"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-device-rules-rule-descriptions-search-pattern"><strong>search_pattern</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions/search_pattern"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-device-rules-rule-descriptions-search-pattern"><strong>search_pattern</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The pattern used to search for the specified device attribute. Determines how the 'value' should be matched.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1357,16 +1434,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/device_rules/rule_descriptions/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-device-rules-rule-descriptions-value"><strong>value</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/device_rules/rule_descriptions/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/device_rules/rule_descriptions/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-device-rules-rule-descriptions-value"><strong>value</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/device_rules/rule_descriptions/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The specific value that the rule will match against. For example, a device name, an IP address, or a MAC address.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/force_delete"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-force-delete"><strong>force_delete</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/force_delete" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/force_delete"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-force-delete"><strong>force_delete</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/force_delete" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>When set to 'true', forces tag deletion even if it is associated with devices and ports. Typically used when the 'state' is 'deleted', this option removes all associated dynamic rules, detaches the tag from all devices and ports, and then deletes the tag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1376,37 +1453,37 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-name"><strong>name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-name"><strong>name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The unique name identifying the tag for operations such as creation, update, or deletion. This parameter is mandatory for any tag management operation.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/new_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-new-name"><strong>new_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/new_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/new_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-new-name"><strong>new_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/new_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The new name for the tag when updating an existing tag.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules"><strong>port_rules</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules"><strong>port_rules</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Rules for dynamically tagging ports based on attributes such as Port Name, Port Speed, Admin Status, Operational Status, Description. A port that meets the specified criteria will be automatically tagged. If multiple rules are provided - Rules with the same 'rule_name' are evaluated using OR logic (i.e., a port matching any of them is tagged). - Rules with different 'rule_name' values are evaluated using AND logic (i.e., a port must match all such rules to be tagged).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions"><strong>rule_descriptions</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-rule-descriptions"><strong>rule_descriptions</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of rules that define how ports will be tagged.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/operation"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions-operation"><strong>operation</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/operation" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions/operation"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-rule-descriptions-operation"><strong>operation</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions/operation" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines how the 'value' is matched against port attributes. - 'ILIKE' -  Performs a case-insensitive match. - 'LIKE' -  Performs a case-sensitive match.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1416,9 +1493,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/rule_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions-rule-name"><strong>rule_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/rule_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions/rule_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-rule-descriptions-rule-name"><strong>rule_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions/rule_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the rule that determines which port attribute is used for tagging. Available options correspond to different port attributes.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1431,9 +1508,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/search_pattern"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions-search-pattern"><strong>search_pattern</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions/search_pattern"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-rule-descriptions-search-pattern"><strong>search_pattern</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions/search_pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The pattern used to search for the specified port attribute. Determines how the 'value' should be matched.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1445,23 +1522,23 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/rule_descriptions/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-rule-descriptions-value"><strong>value</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/rule_descriptions/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/rule_descriptions/value"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-rule-descriptions-value"><strong>value</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/rule_descriptions/value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The value that the rule will match against, such as port name or port speed.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-scope-description"><strong>scope_description</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/scope_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-scope-description"><strong>scope_description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/scope_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines the device scope for the rule, including scope category and scope members. The port rules apply only to ports of devices within the specified scope.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/inherit"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-scope-description-inherit"><strong>inherit</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/inherit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/scope_description/inherit"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-scope-description-inherit"><strong>inherit</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/scope_description/inherit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Determines whether the selected site inherits devices from its child sites within the specified scope. This flag is relevant only when 'scope_category' is 'SITE'. - When `scope_category` is `SITE`, the default value is `true`. - When `scope_category` is `TAG`, the default value is `false`.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1471,9 +1548,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/scope_category"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-scope-description-scope-category"><strong>scope_category</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/scope_category" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/scope_description/scope_category"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-scope-description-scope-category"><strong>scope_category</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/scope_description/scope_category" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies whether the scope is based on tags or site hierarchies. - If `TAG`, the `scope_members` must contain tag names from Cisco Catalyst Center. - If `SITE`, the `scope_members` must contain site hierarchy names from Cisco Catalyst Center.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1483,88 +1560,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-tags-wor
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag/port_rules/scope_description/scope_members"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-port-rules-scope-description-scope-members"><strong>scope_members</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag/port_rules/scope_description/scope_members" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/tags/port_rules/scope_description/scope_members"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tags-port-rules-scope-description-scope-members"><strong>scope_members</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/tags/port_rules/scope_description/scope_members" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of scope members to include. - When `scope_category` is `TAG`, this list contains tag names. - When `scope_category` is `SITE`, this list contains site hierarchy names.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships"><strong>tag_memberships</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A dictionary containing detailed configuration for managing tag memberships for devices and interfaces.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details"><strong>device_details</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details about the devices and interfaces to which tags are to be assigned.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/hostnames"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-hostnames"><strong>hostnames</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/hostnames" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of hostnames for the devices.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/ip_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-ip-addresses"><strong>ip_addresses</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/ip_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of IP addresses for the devices.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/mac_addresses"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-mac-addresses"><strong>mac_addresses</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/mac_addresses" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of MAC addresses for the devices.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/port_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-port-names"><strong>port_names</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/port_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of port names to which the tags are to be assigned under the devices. It is an optional parameter, used as per requirement. If port_names is not given, the tags will be assigned to devices. If port_names is given, the tags will be assigned to the ports under the respective devices.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/device_details/serial_numbers"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-device-details-serial-numbers"><strong>serial_numbers</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/device_details/serial_numbers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of serial numbers for the devices.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details"><strong>site_details</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Details about the sites under which devices or interfaces will be tagged.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details/port_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details-port-names"><strong>port_names</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details/port_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of port names to which the tags are to be assigned under the devices belonging to the given sites. It is an optional parameter, used as per requirement. If port_names is not given, the tags will be assigned to devices under the given sites. If port_names is given, the tags will be assigned to these ports under devices belonging to the given sites.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/site_details/site_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-site-details-site-names"><strong>site_names</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/site_details/site_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of the site name hierarchies under which devices or interfaces will be tagged.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/tag_memberships/tags"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-tags-workflow-manager-module-parameter-config-tag-memberships-tags"><strong>tags</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/tag_memberships/tags" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of tag names to assign to devices or interfaces. These tags should be present in Cisco Catalyst Center.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1793,10 +1793,10 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices_and_Ports</span>
-<span class="w">              </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Tag</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">devices</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">interfaces</span>
-<span class="w">                </span><span class="s">connected</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">servers&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices_and_Ports</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Tag</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">devices</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">interfaces</span>
+<span class="w">                  </span><span class="s">connected</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">servers&quot;</span>
 <span class="c1"># For creating/updating a tag with device rules.</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a tag for border devices in the 9300</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">series.</span>
@@ -1823,20 +1823,20 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Border_9300_Tag</span>
-<span class="w">              </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for border devices belonging</span>
-<span class="w">                </span><span class="l l-Scalar l-Scalar-Plain">to the Cisco Catalyst 9300 family.</span>
-<span class="w">              </span><span class="nt">device_rules</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">rule_descriptions</span><span class="p">:</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_name</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contains</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Border</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_series</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ends_with</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9300</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Border_9300_Tag</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for border devices belonging</span>
+<span class="w">                  </span><span class="l l-Scalar l-Scalar-Plain">to the Cisco Catalyst 9300 family.</span>
+<span class="w">                </span><span class="nt">device_rules</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">rule_descriptions</span><span class="p">:</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_name</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contains</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Border</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_series</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ends_with</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9300</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
 <span class="c1"># For creating/updating a tag with port rules.</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a tag for high-speed server-connected</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">interfaces.</span>
@@ -1863,25 +1863,50 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HighSpeed_Server_Interfaces</span>
-<span class="w">              </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for 10G interfaces connected</span>
-<span class="w">                </span><span class="l l-Scalar l-Scalar-Plain">to servers.</span>
-<span class="w">              </span><span class="nt">port_rules</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">scope_description</span><span class="p">:</span>
-<span class="w">                  </span><span class="nt">scope_category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TAG</span>
-<span class="w">                  </span><span class="nt">scope_members</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_SERVER_TAG</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_SERVER_TAG</span>
-<span class="w">                </span><span class="nt">rule_descriptions</span><span class="p">:</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">speed</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">equals</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10000&quot;</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port_name</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contains</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/1</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HighSpeed_Server_Interfaces</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for 10G interfaces connected</span>
+<span class="w">                  </span><span class="l l-Scalar l-Scalar-Plain">to servers.</span>
+<span class="w">                </span><span class="nt">port_rules</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">scope_description</span><span class="p">:</span>
+<span class="w">                    </span><span class="nt">scope_category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TAG</span>
+<span class="w">                    </span><span class="nt">scope_members</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_SERVER_TAG</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_SERVER_TAG</span>
+<span class="w">                  </span><span class="nt">rule_descriptions</span><span class="p">:</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">speed</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">equals</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10000&quot;</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port_name</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contains</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/1</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="c1"># For creating multiple tags in a single config entry.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create multiple tags in one config entry.</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
+<span class="w">  </span><span class="nt">vars_files</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">credentials.yml</span>
+<span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create two tags at once</span>
+<span class="w">      </span><span class="nt">cisco.dnac.tags_workflow_manager</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DC_Core_Devices</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Core</span><span class="nv"> </span><span class="s">devices</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">data</span><span class="nv"> </span><span class="s">center&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DC_Access_Devices</span>
 <span class="c1"># For updating the scope description of a tag with port rules:</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update scope description for tagged server-connected</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">interfaces.</span>
@@ -1908,17 +1933,17 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Interfaces</span>
-<span class="w">              </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for interfaces on devices</span>
-<span class="w">                </span><span class="l l-Scalar l-Scalar-Plain">connected to servers, scoped to specific</span>
-<span class="w">                </span><span class="l l-Scalar l-Scalar-Plain">sites.</span>
-<span class="w">              </span><span class="nt">port_rules</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">scope_description</span><span class="p">:</span>
-<span class="w">                  </span><span class="nt">scope_category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SITE</span>
-<span class="w">                  </span><span class="nt">scope_members</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Interfaces</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for interfaces on devices</span>
+<span class="w">                  </span><span class="l l-Scalar l-Scalar-Plain">connected to servers, scoped to specific</span>
+<span class="w">                  </span><span class="l l-Scalar l-Scalar-Plain">sites.</span>
+<span class="w">                </span><span class="nt">port_rules</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">scope_description</span><span class="p">:</span>
+<span class="w">                    </span><span class="nt">scope_category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SITE</span>
+<span class="w">                    </span><span class="nt">scope_members</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
 <span class="c1"># For updating rule descriptions of a tag with port rules:</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update port rule descriptions for server-connected</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">interfaces.</span>
@@ -1945,20 +1970,20 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Interfaces</span>
-<span class="w">              </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for interfaces on devices</span>
-<span class="w">                </span><span class="l l-Scalar l-Scalar-Plain">connected to servers.</span>
-<span class="w">              </span><span class="nt">port_rules</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">rule_descriptions</span><span class="p">:</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">speed</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contains</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;100000&quot;</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port_name</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">equals</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/1</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Interfaces</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for interfaces on devices</span>
+<span class="w">                  </span><span class="l l-Scalar l-Scalar-Plain">connected to servers.</span>
+<span class="w">                </span><span class="nt">port_rules</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">rule_descriptions</span><span class="p">:</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">speed</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contains</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;100000&quot;</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port_name</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">equals</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/1</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
 <span class="c1"># To assign tags to devices/ports (Remove port_names list to assign tags to devices.)</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Assign tags to devices or interfaces.</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
@@ -1984,48 +2009,47 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_memberships</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">tags</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">High_Speed_Interfaces</span>
-<span class="w">              </span><span class="nt">device_details</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_addresses</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.97</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.98</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.99</span>
-<span class="w">                  </span><span class="nt">hostnames</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border1</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border2</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_Border1</span>
-<span class="w">                  </span><span class="nt">mac_addresses</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">34:5d:a8:3b:d8:e0</span>
-<span class="w">                  </span><span class="nt">serial_numbers</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055006NE</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD04350EEU</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055108C2</span>
-<span class="w">                  </span><span class="nt">port_names</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/2</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_memberships</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">tags</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices</span>
-<span class="w">              </span><span class="nt">device_details</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_addresses</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.97</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.98</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.99</span>
-<span class="w">                  </span><span class="nt">hostnames</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border1</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border2</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_Border1</span>
-<span class="w">                  </span><span class="nt">mac_addresses</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">34:5d:a8:3b:d8:e0</span>
-<span class="w">                  </span><span class="nt">serial_numbers</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055006NE</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD04350EEU</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055108C2</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">High_Speed_Interfaces</span>
+<span class="w">                </span><span class="nt">device_details</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_addresses</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.97</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.98</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.99</span>
+<span class="w">                    </span><span class="nt">hostnames</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border1</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border2</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_Border1</span>
+<span class="w">                    </span><span class="nt">mac_addresses</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">34:5d:a8:3b:d8:e0</span>
+<span class="w">                    </span><span class="nt">serial_numbers</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055006NE</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD04350EEU</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055108C2</span>
+<span class="w">                    </span><span class="nt">port_names</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/2</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices</span>
+<span class="w">                </span><span class="nt">device_details</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_addresses</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.97</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.98</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.99</span>
+<span class="w">                    </span><span class="nt">hostnames</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border1</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border2</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_Border1</span>
+<span class="w">                    </span><span class="nt">mac_addresses</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">34:5d:a8:3b:d8:e0</span>
+<span class="w">                    </span><span class="nt">serial_numbers</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055006NE</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD04350EEU</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055108C2</span>
 <span class="c1"># To assign tags to devices or ports under specific sites (Remove port_namesto assign tags to devices only.)</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Assign tags to devices or interfaces within</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">a specific site.</span>
@@ -2053,20 +2077,19 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_memberships</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">tags</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">High_Speed_Interfaces</span>
-<span class="w">              </span><span class="nt">site_details</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_names</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
-<span class="w">                  </span><span class="nt">port_names</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/2</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_memberships</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">tags</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices</span>
-<span class="w">              </span><span class="nt">site_details</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_names</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">High_Speed_Interfaces</span>
+<span class="w">                </span><span class="nt">site_details</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_names</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
+<span class="w">                    </span><span class="nt">port_names</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/2</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices</span>
+<span class="w">                </span><span class="nt">site_details</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_names</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
 <span class="c1"># Deleting a tag.</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete a Tag.</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
@@ -2091,8 +2114,8 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices</span>
 <span class="c1"># Force Deleting a tag.</span>
 <span class="c1"># It will remove all the dynamic and static members from the tag and delete the tag.</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Force delete a Tag.</span>
@@ -2118,9 +2141,9 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices</span>
-<span class="w">              </span><span class="nt">force_delete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Server_Connected_Devices</span>
+<span class="w">                </span><span class="nt">force_delete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="c1"># For deleting rule descriptions of a tag with device rules.</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete rule description of a tag with device</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">rules</span>
@@ -2147,14 +2170,14 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Access_Tag</span>
-<span class="w">              </span><span class="nt">device_rules</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">rule_descriptions</span><span class="p">:</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_family</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ends_with</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9300</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Access_Tag</span>
+<span class="w">                </span><span class="nt">device_rules</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">rule_descriptions</span><span class="p">:</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_family</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ends_with</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9300</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
 <span class="c1"># For deleting scope members of a tag with port rules.</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete scope members of a tag with port rules</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
@@ -2180,15 +2203,15 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Site_Tag</span>
-<span class="w">              </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for managing site-based</span>
-<span class="w">                </span><span class="l l-Scalar l-Scalar-Plain">configurations</span>
-<span class="w">              </span><span class="nt">port_rules</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">scope_description</span><span class="p">:</span>
-<span class="w">                  </span><span class="nt">scope_category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SITE</span>
-<span class="w">                  </span><span class="nt">scope_members</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Site_Tag</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for managing site-based</span>
+<span class="w">                  </span><span class="l l-Scalar l-Scalar-Plain">configurations</span>
+<span class="w">                </span><span class="nt">port_rules</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">scope_description</span><span class="p">:</span>
+<span class="w">                    </span><span class="nt">scope_category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SITE</span>
+<span class="w">                    </span><span class="nt">scope_members</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
 <span class="c1"># For deleting rule descriptions of a tag with port rules.</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete rule descriptions of a tag with port</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">rules</span>
@@ -2215,20 +2238,20 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Port_Tag</span>
-<span class="w">              </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for high-speed ports</span>
-<span class="w">                </span><span class="l l-Scalar l-Scalar-Plain">and interface rules</span>
-<span class="w">              </span><span class="nt">port_rules</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">rule_descriptions</span><span class="p">:</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">speed</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">equals</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10000&quot;</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port_name</span>
-<span class="w">                    </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contains</span>
-<span class="w">                    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tengig/1/0/1</span>
-<span class="w">                    </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Port_Tag</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tag for high-speed ports</span>
+<span class="w">                  </span><span class="l l-Scalar l-Scalar-Plain">and interface rules</span>
+<span class="w">                </span><span class="nt">port_rules</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">rule_descriptions</span><span class="p">:</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">speed</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">equals</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10000&quot;</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">rule_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">port_name</span>
+<span class="w">                      </span><span class="nt">search_pattern</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">contains</span>
+<span class="w">                      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tengig/1/0/1</span>
+<span class="w">                      </span><span class="nt">operation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ILIKE</span>
 <span class="c1"># For Deleting tags from devices/ports (Remove port_names to delete tags from devices)</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete tags from members.</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
@@ -2254,40 +2277,39 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_memberships</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">tags</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Port_Tag</span>
-<span class="w">              </span><span class="nt">device_details</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_addresses</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.97</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.98</span>
-<span class="w">                  </span><span class="nt">hostnames</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border1</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_Border1</span>
-<span class="w">                  </span><span class="nt">mac_addresses</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
-<span class="w">                  </span><span class="nt">serial_numbers</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055006NE</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD04350EEU</span>
-<span class="w">                  </span><span class="nt">port_names</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/1</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/2</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_memberships</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">tags</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Device_Tag</span>
-<span class="w">              </span><span class="nt">device_details</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_addresses</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.97</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.98</span>
-<span class="w">                  </span><span class="nt">hostnames</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border1</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_Border1</span>
-<span class="w">                  </span><span class="nt">mac_addresses</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
-<span class="w">                  </span><span class="nt">serial_numbers</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055006NE</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD04350EEU</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Port_Tag</span>
+<span class="w">                </span><span class="nt">device_details</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_addresses</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.97</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.98</span>
+<span class="w">                    </span><span class="nt">hostnames</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border1</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_Border1</span>
+<span class="w">                    </span><span class="nt">mac_addresses</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
+<span class="w">                    </span><span class="nt">serial_numbers</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055006NE</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD04350EEU</span>
+<span class="w">                    </span><span class="nt">port_names</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/1</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/2</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Device_Tag</span>
+<span class="w">                </span><span class="nt">device_details</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_addresses</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.97</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.197.156.98</span>
+<span class="w">                    </span><span class="nt">hostnames</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC_Border1</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NY_Border1</span>
+<span class="w">                    </span><span class="nt">mac_addresses</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e4:38:7e:42:bc:00</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6c:d6:e3:75:5a:e0</span>
+<span class="w">                    </span><span class="nt">serial_numbers</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD055006NE</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SAD04350EEU</span>
 <span class="c1">#  For deleting tags from devices/ports under specific sites (Remove port_names to delete tags from devices)</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete tags from members within a specific sites.</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dnac_servers</span>
@@ -2314,20 +2336,19 @@ tags.Tag.update_tags_associated_with_the_network_devices
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_memberships</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">tags</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Device_Tag</span>
-<span class="w">              </span><span class="nt">site_details</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_names</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tag_memberships</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">tags</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Port_Tag</span>
-<span class="w">              </span><span class="nt">site_details</span><span class="p">:</span>
-<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_names</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
-<span class="w">                  </span><span class="nt">port_names</span><span class="p">:</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/1</span>
-<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/2</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Device_Tag</span>
+<span class="w">                </span><span class="nt">site_details</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_names</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Catalyst_Port_Tag</span>
+<span class="w">                </span><span class="nt">site_details</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_names</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/INDIA</span>
+<span class="w">                    </span><span class="nt">port_names</span><span class="p">:</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/1</span>
+<span class="w">                      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TenGigabitEthernet1/0/2</span>
 </pre></div>
 </div>
 </section>

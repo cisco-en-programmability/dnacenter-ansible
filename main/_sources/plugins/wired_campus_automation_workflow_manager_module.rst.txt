@@ -42,7 +42,7 @@ cisco.dnac.wired_campus_automation_workflow_manager module -- Manage wired campu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -6991,9 +6991,9 @@ Parameters
 
       Disabled VLANs do not forward traffic but retain their configuration.
 
-      NOTE - "vlan\_admin\_status" Can only be modified for VLAN IDs 2-1001.
+      NOTE - For standard-range VLANs (2-1001), "vlan\_admin\_status" can be set to true or false for both create and update operations.
 
-      Extended range VLANs (1002-4094) do not support admin status updates.
+      For extended-range VLANs (1006-4094), "vlan\_admin\_status" cannot be set to false. These VLANs must always remain enabled. Setting "vlan\_admin\_status" to false for an extended-range VLAN will result in a validation error.
 
 
       .. rst-class:: ansible-option-line
@@ -7324,7 +7324,9 @@ Parameters
 
       Only affects VLANs 2-1001; VLAN 1 and extended VLANs are not pruned.
 
-      Can only be configured when "vtp\_mode" is "SERVER".
+      VTP pruning can only be enabled when 'vtp\_mode' is set to 'SERVER'.
+
+      Setting 'vtp\_pruning' to true with any other 'vtp\_mode' value will result in a validation error.
 
 
       .. rst-class:: ansible-option-line
@@ -8851,6 +8853,7 @@ Authors
 
 - Rugvedi Kapse (@rukapse)
 - Madhan Sankaranarayanan (@madhansansel)
+- Vivek Raj (@vivekraj2000)
 
 
 

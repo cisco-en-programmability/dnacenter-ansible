@@ -42,7 +42,7 @@ cisco.dnac.assurance_icap_settings_workflow_manager module -- Configure and mana
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -572,6 +572,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The duration of the Intelligent Capture session in minutes.
+
+      Accepted range is 30 to 480 minutes (inclusive).
 
 
       .. raw:: html

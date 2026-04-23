@@ -42,7 +42,7 @@ cisco.dnac.tags_playbook_config_generator module -- Generate YAML configurations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -184,7 +184,7 @@ Parameters
 
       If "components\_list" is specified, only those components are included, regardless of other filters.
 
-      If filters for specific components (e.g., tag or tag\_memberships) are provided without explicitly including them in components\_list, those components will be automatically added to components\_list.
+      If filters for specific components (e.g., tags or tag\_memberships) are provided without explicitly including them in components\_list, those components will be automatically added to components\_list.
 
       At least one of components\_list or component filters must be provided.
 
@@ -222,11 +222,11 @@ Parameters
 
       List of components to include in the YAML configuration file.
 
-      Valid values are tag and tag\_memberships.
+      Valid values are tags and tag\_memberships.
 
       If specified, only the listed components will be included in the generated YAML file.
 
-      If not specified but component filters (tag or tag\_memberships) are provided, those components are automatically added to this list.
+      If not specified but component filters (tags or tag\_memberships) are provided, those components are automatically added to this list.
 
       If neither components\_list nor any component filters are provided, an error will be raised.
 
@@ -235,90 +235,13 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"tag"`
+      - :ansible-option-choices-entry:`"tags"`
       - :ansible-option-choices-entry:`"tag\_memberships"`
 
 
       .. raw:: html
 
         </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tag:
-
-      .. rst-class:: ansible-option-title
-
-      **tag**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Filters specific to tag configuration retrieval.
-
-      Used to narrow down which tags should be included in the generated YAML file.
-
-      If no filters are provided, all tags from Cisco Catalyst Center will be retrieved.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tag/tag_name"></div>
-
-      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tag/tag_name:
-
-      .. rst-class:: ansible-option-title
-
-      **tag_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tag/tag_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Name of the tag to filter by.
-
-      Retrieves the tag with the exact matching name from Cisco Catalyst Center.
-
-      Example Production, Network-Core, Campus-Switches.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -448,6 +371,83 @@ Parameters
       Name of the tag whose memberships should be retrieved.
 
       Retrieves all network devices and interfaces (ports) associated with this tag.
+
+      Example Production, Network-Core, Campus-Switches.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tags"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Filters specific to tag configuration retrieval.
+
+      Used to narrow down which tags should be included in the generated YAML file.
+
+      If no filters are provided, all tags from Cisco Catalyst Center will be retrieved.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/tags/tag_name"></div>
+
+      .. _ansible_collections.cisco.dnac.tags_playbook_config_generator_module__parameter-config/component_specific_filters/tags/tag_name:
+
+      .. rst-class:: ansible-option-title
+
+      **tag_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/tags/tag_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the tag to filter by.
+
+      Retrieves the tag with the exact matching name from Cisco Catalyst Center.
 
       Example Production, Network-Core, Campus-Switches.
 
@@ -1178,20 +1178,20 @@ Notes
      /dna/intent/api/v1/tag
      /dna/intent/api/v1/tag/${id}/member
    - Auto-population of components\_list:
-     If component-specific filters (such as 'tag' or 'tag\_memberships') are provided
+       If component-specific filters (such as 'tags' or 'tag\_memberships') are provided
      without explicitly including them in 'components\_list', those components will be
      automatically added to 'components\_list'. This simplifies configuration by eliminating
      the need to redundantly specify components in both places.
 
    - Example of auto-population behavior:
-     If you provide filters for 'tag' without including 'tag' in 'components\_list',
-     the module will automatically add 'tag' to 'components\_list' before processing.
+       If you provide filters for 'tags' without including 'tags' in 'components\_list',
+       the module will automatically add 'tags' to 'components\_list' before processing.
      This allows you to write more concise playbooks.
 
    - Validation requirements:
      If 'component\_specific\_filters' is provided, at least one of the following must be true:
      (1) 'components\_list' contains at least one component, OR
-     (2) Component-specific filters (e.g., 'tag', 'tag\_memberships') are provided.
+     (2) Component-specific filters (e.g., 'tags', 'tag\_memberships') are provided.
      If neither condition is met, the module will fail with a validation error.
 
    - System tags filtering:
@@ -1298,7 +1298,7 @@ Examples
             file_mode: "overwrite"
             config:
               component_specific_filters:
-                components_list: ["tag"]
+                components_list: ["tags"]
 
     # Example 4: Generate only tag membership configurations
     - name: Generate tag memberships only
@@ -1354,7 +1354,7 @@ Examples
             file_mode: "overwrite"
             config:
               component_specific_filters:
-                components_list: ["tag", "tag_memberships"]
+                components_list: ["tags", "tag_memberships"]
 
     # Example 6: Auto-populate components_list from component filters
     - name: Generate configuration with auto-populated components_list
@@ -1382,12 +1382,12 @@ Examples
             file_mode: "overwrite"
             config:
               component_specific_filters:
-                # No components_list specified, but tag filters are provided
-                # The 'tag' component will be automatically added to components_list
-                tag:
+                # No components_list specified, but tags filters are provided
+                # The 'tags' component will be automatically added to components_list
+                tags:
                   - tag_name: Production
                   - tag_name: Data-Center
-          # This will automatically include 'tag' in components_list and retrieve only those tags
+          # This will automatically include 'tags' in components_list and retrieve only those tags
 
     # Example 7: Filter specific tags by name
     - name: Generate configuration for specific tags by name
@@ -1415,8 +1415,8 @@ Examples
             file_mode: "overwrite"
             config:
               component_specific_filters:
-                components_list: ["tag", "tag_memberships"]
-                tag:
+                components_list: ["tags", "tag_memberships"]
+                tags:
                   - tag_name: Production
                   - tag_name: Data-Center
 
@@ -1446,7 +1446,7 @@ Examples
             file_mode: "overwrite"
             config:
               component_specific_filters:
-                components_list: ["tag", "tag_memberships"]
+                components_list: ["tags", "tag_memberships"]
                 tag_memberships:
                   - tag_name: Campus-Switches
                   - tag_name: Core-Routers
@@ -1477,8 +1477,8 @@ Examples
             file_mode: "append"
             config:
               component_specific_filters:
-                components_list: ["tag", "tag_memberships"]
-                tag:
+                components_list: ["tags", "tag_memberships"]
+                tags:
                   - tag_name: Branch-Office
                   - tag_name: Access-Points
 

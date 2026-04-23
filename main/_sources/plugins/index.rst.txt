@@ -6,7 +6,7 @@
 Cisco.Dnac
 ==========
 
-Collection version 6.50.0
+Collection version 6.51.0
 
 .. contents::
    :local:
@@ -535,7 +535,7 @@ Modules
 * :ref:`interfaces_query module <ansible_collections.cisco.dnac.interfaces_query_module>` -- Resource module for Interfaces Query
 * :ref:`interfaces_query_count module <ansible_collections.cisco.dnac.interfaces_query_count_module>` -- Resource module for Interfaces Query Count
 * :ref:`inventory_intent module <ansible_collections.cisco.dnac.inventory_intent_module>` -- Resource module for Network Device
-* :ref:`inventory_playbook_config_generator module <ansible_collections.cisco.dnac.inventory_playbook_config_generator_module>` -- Generate YAML playbook input for 'inventory\_workflow\_manager' module.
+* :ref:`inventory_playbook_config_generator module <ansible_collections.cisco.dnac.inventory_playbook_config_generator_module>` -- Generate YAML playbook for \ :literal:`inventory\_workflow\_manager`\  module.
 * :ref:`inventory_workflow_manager module <ansible_collections.cisco.dnac.inventory_workflow_manager_module>` -- Comprehensive network device inventory management for Cisco Catalyst Center
 * :ref:`iot_fabric_rep_rings module <ansible_collections.cisco.dnac.iot_fabric_rep_rings_module>` -- Resource module for Iot Fabric Rep Rings
 * :ref:`iot_fabric_rep_rings_delete module <ansible_collections.cisco.dnac.iot_fabric_rep_rings_delete_module>` -- Resource module for Iot Fabric Rep Rings Delete

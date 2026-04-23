@@ -42,7 +42,7 @@ cisco.dnac.wired_campus_automation_playbook_config_generator module -- Generate 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.50.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.51.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -124,7 +124,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -134,13 +134,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      A list of filters for generating YAML playbook compatible with the 'wired\_campus\_automation\_workflow\_manager' module.
+      A dictionary of filters for generating a YAML playbook compatible with the 'wired\_campus\_automation\_workflow\_manager' module.
 
-      Filters specify which components and devices to include in the YAML configuration file.
+      If omitted, all managed devices and all supported layer2 features are extracted automatically.
 
       Global filters identify target devices by IP address, hostname, or serial number.
 
-      Component-specific filters allow selection of specific layer2 features and detailed filtering.
+      Component-specific filters select which layer2 features to extract and allow VLAN ID or interface name filtering.
+
+      Global filters and component-specific filters are combined with AND logic. Omitting a filter means no restriction on that attribute.
 
 
       .. raw:: html
@@ -221,6 +223,13 @@ Parameters
       Future versions may support additional component types.
 
 
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"layer2\_configurations"`
+
+
       .. raw:: html
 
         </div>
@@ -228,9 +237,47 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/layer2_features"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/layer2_configurations"></div>
 
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/layer2_features:
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/layer2_configurations:
+
+      .. rst-class:: ansible-option-title
+
+      **layer2_configurations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/layer2_configurations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Filters specific to layer2 configurations.
+
+      Allows selection of specific layer2 features and detailed filtering options.
+
+      If not specified, all supported layer2 features and their configurations will be extracted.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/layer2_configurations/layer2_features"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/layer2_configurations/layer2_features:
 
       .. rst-class:: ansible-option-title
 
@@ -238,7 +285,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/layer2_features" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/layer2_configurations/layer2_features" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -250,7 +297,7 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       List of specific layer2 features to extract from devices.
 
@@ -258,7 +305,7 @@ Parameters
 
       If not specified, all supported layer2 features will be extracted.
 
-      Example ["vlans", "stp", "cdp"] to extract only VLAN, STP, and CDP configurations.
+      Example \ :literal:`["vlans", "stp", "cdp"]`\  to extract only VLAN, STP, and CDP configurations.
 
 
       .. rst-class:: ansible-option-line
@@ -284,10 +331,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/port_configuration"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/layer2_configurations/port_configuration"></div>
 
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/port_configuration:
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/layer2_configurations/port_configuration:
 
       .. rst-class:: ansible-option-title
 
@@ -295,7 +342,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/port_configuration" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/layer2_configurations/port_configuration" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -307,7 +354,7 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Specific port configuration filtering options.
 
@@ -322,10 +369,10 @@ Parameters
     
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/port_configuration/interface_names_list"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/layer2_configurations/port_configuration/interface_names_list"></div>
 
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/port_configuration/interface_names_list:
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/layer2_configurations/port_configuration/interface_names_list:
 
       .. rst-class:: ansible-option-title
 
@@ -333,7 +380,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/port_configuration/interface_names_list" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/layer2_configurations/port_configuration/interface_names_list" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -345,13 +392,13 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       List of specific interface names to extract configurations from.
 
       Interface names must match the format used by the device.
 
-      Example ["GigabitEthernet1/0/1", "GigabitEthernet1/0/2", "TenGigabitEthernet1/0/1"]
+      Example \ :literal:`["GigabitEthernet1/0/1", "TenGigabitEthernet1/0/1"]`\ .
 
       Only interfaces in this list will have their configurations extracted.
 
@@ -363,10 +410,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/vlans"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/layer2_configurations/vlans"></div>
 
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/vlans:
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/layer2_configurations/vlans:
 
       .. rst-class:: ansible-option-title
 
@@ -374,7 +421,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/vlans" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/layer2_configurations/vlans" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -386,7 +433,7 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Specific VLAN filtering options.
 
@@ -401,10 +448,10 @@ Parameters
     
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/vlans/vlan_ids_list"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/layer2_configurations/vlans/vlan_ids_list"></div>
 
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/vlans/vlan_ids_list:
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/component_specific_filters/layer2_configurations/vlans/vlan_ids_list:
 
       .. rst-class:: ansible-option-title
 
@@ -412,7 +459,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/vlans/vlan_ids_list" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/layer2_configurations/vlans/vlan_ids_list" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -424,7 +471,7 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       List of specific VLAN IDs to extract from devices.
 
@@ -432,7 +479,7 @@ Parameters
 
       Only VLANs in this list will be included in the generated configuration.
 
-      Example ["10", "20", "100", "200"] to extract only these specific VLANs.
+      Example \ :literal:`["10", "20", "100", "200"]`\  to extract only these specific VLANs.
 
 
       .. raw:: html
@@ -441,97 +488,6 @@ Parameters
 
 
 
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/file_path"></div>
-
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/file_path:
-
-      .. rst-class:: ansible-option-title
-
-      **file_path**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/file_path" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Path where the YAML configuration file will be saved.
-
-      If not provided, the file will be saved in the current working directory with a default file name \ :literal:`wired\_campus\_automation\_playbook\_config\_\<YYYY-MM-DD\_HH-MM-SS\>.yml`\ .
-
-      For example, \ :literal:`wired\_campus\_automation\_playbook\_config\_2025-04-22\_21-43-26.yml`\ .
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/generate_all_configurations"></div>
-
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config/generate_all_configurations:
-
-      .. rst-class:: ansible-option-title
-
-      **generate_all_configurations**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/generate_all_configurations" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      When set to True, automatically generates YAML configurations for all devices and all supported layer2 features.
-
-      This mode discovers all managed devices in Cisco Catalyst Center and extracts all supported configurations.
-
-      When enabled, the config parameter becomes optional and will use default values if not provided.
-
-      A default filename will be generated automatically if file\_path is not specified.
-
-      This is useful for complete brownfield infrastructure discovery and documentation.
-
-      IMPORTANT NOTE - Currently, this module only supports layer2 configurations. When generate\_all\_configurations is enabled, it will attempt to retrieve layer2 configurations from ALL managed devices without filtering for layer2 capability. This may result in API errors for devices that do not support layer2 configuration features (such as older switch models, routers, wireless controllers, etc.). It is recommended to use specific device filters (ip\_address\_list, hostname\_list, or serial\_number\_list) to target only layer2-capable devices when not using generate\_all\_configurations mode.
-
-      Supported layer2 devices include Catalyst 9000 series switches (9200/9300/9350/9400/9500/9600) and IE series switches (IE3400/IE3400H/IE3500/IE9300) running IOS-XE 17.3 or higher.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -560,11 +516,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Global filters to apply when generating the YAML configuration file.
+      Filters that identify which network devices to extract configurations from.
 
-      These filters identify which network devices to extract configurations from.
+      If no global filters are specified, all managed devices in Cisco Catalyst Center are targeted.
 
-      At least one filter type must be specified to identify target devices.
+      When multiple filter types are provided, only the highest-priority type is used (IP \> serial \> hostname). Lower-priority filters are ignored.
 
 
       .. raw:: html
@@ -700,48 +656,6 @@ Parameters
         </div>
 
 
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
-
-      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-config_verify:
-
-      .. rst-class:: ansible-option-title
-
-      **config_verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Set to True to verify the Cisco Catalyst Center after applying the playbook config.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -1278,6 +1192,94 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-file_mode"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-file_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **file_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-file_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Controls how the generated configuration is written to the output YAML file.
+
+      \ :literal:`overwrite`\  replaces the existing file content entirely.
+
+      \ :literal:`append`\  appends the generated YAML content to the existing file. If the file does not exist, it is created.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"overwrite"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"append"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Absolute or relative path for YAML configuration file output.
+
+      If not provided, a default filename is generated in the current working directory using the pattern \ :literal:`wired\_campus\_automation\_playbook\_config\_\<YYYY-MM-DD\_HH-MM-SS\>.yml`\ .
+
+      Example default filename 'wired\_campus\_automation\_playbook\_config\_2026-02-27\_14-31-46.yml'
+
+      Directory created automatically if path does not exist.
+
+      Supports YAML file extension (.yml or .yaml).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
       .. _ansible_collections.cisco.dnac.wired_campus_automation_playbook_config_generator_module__parameter-state:
@@ -1370,12 +1372,22 @@ Notes
 .. note::
    - SDK Methods used are - devices.Devices.get\_device\_list - wired.Wired.get\_configurations\_for\_a\_deployed\_layer2\_feature\_on\_a\_wired\_device
    - Paths used are - GET /dna/intent/api/v1/network-device - GET /dna/intent/api/v1/networkDevices/${id}/configFeatures/deployed/layer2/${feature}
+   - Auto-population of \ :literal:`components\_list`\  - If component-specific filters (such as 'projects' or 'configuration\_templates') are provided without explicitly including them in 'components\_list', those components will be automatically added to 'components\_list'. This simplifies configuration by eliminating the need to redundantly specify components in both places.
+   - Example of auto-population behavior - If you provide filters for 'projects' without including 'projects' in 'components\_list', the module will automatically add 'projects' to 'components\_list' before processing. This allows you to write more concise playbooks.
+   - Module result behavior (changed/ok/failed) - The module result reflects local file state only, not Catalyst Center state. In overwrite mode, the full generated YAML content is compared against the existing file after excluding generated header comment lines. In append mode, only the last YAML document in the file is compared against the newly generated configuration. If a file contains multiple config entries from previous appends, only the most recent entry is used for the idempotency check. changed=true (status success) means the generated YAML configuration differs from the existing output file (or the file does not exist). The file was written and the configuration was updated. changed=false (status ok) means the generated YAML configuration matches the existing output file content. The write was skipped as the file is already up-to-date. failed=true (status failed) means the module encountered a validation error, API failure, or file write error. No file was written or modified. Re-running with identical inputs and unchanged Catalyst Center state will produce changed=false, ensuring idempotent playbook behavior. If append mode creates multiple config entries in the generated file, replaying the file as config in the workflow manager module applies only the last config entry because yaml.safe\_load uses last-key-wins semantics for duplicate keys in a single YAML document.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   \ :ref:`cisco.dnac.wired\_campus\_automation\_workflow\_manager <ansible_collections.cisco.dnac.wired_campus_automation_workflow_manager_module>`\ 
+       Module for managing wired campus automation workflows in Cisco Catalyst Center.
 
 .. Examples
 
@@ -1399,8 +1411,7 @@ Examples
     #     dnac_log: true
     #     dnac_log_level: "{{dnac_log_level}}"
     #     state: gathered
-    #     config:
-    #       - generate_all_configurations: true
+    #     file_mode: "append"
 
     # NOT Recommended for actual use cases due to potential API errors on non-layer2 devices.
     # - name: Auto-generate YAML Configuration with custom file path
@@ -1415,8 +1426,8 @@ Examples
     #     dnac_log: true
     #     dnac_log_level: "{{dnac_log_level}}"
     #     state: gathered
-    #     config:
-    #       - file_path: "/tmp/complete_infrastructure_config.yml"
+    #     file_path: "/tmp/complete_infrastructure_config.yml"
+    #     file_mode: "append"
 
     - name: Generate YAML Configuration with default file path
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1430,9 +1441,10 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_mode: "append"
         config:
-          - global_filters:
-              ip_address_list: ["192.168.1.10"]
+          global_filters:
+            ip_address_list: ["192.168.1.10"]
 
     - name: Generate YAML Configuration with specific devices by IP address
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1446,10 +1458,11 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10", "192.168.1.11", "192.168.1.12"]
+          global_filters:
+            ip_address_list: ["192.168.1.10", "192.168.1.11", "192.168.1.12"]
 
     - name: Generate YAML Configuration with specific devices by hostname
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1463,10 +1476,11 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              hostname_list: ["switch01.lab.com", "switch02.lab.com", "core-switch-01"]
+          global_filters:
+            hostname_list: ["switch01.lab.com", "switch02.lab.com", "core-switch-01"]
 
     - name: Generate YAML Configuration with specific devices by serial number
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1480,10 +1494,11 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              serial_number_list: ["FCW2140L05Y", "FCW2140L06Z", "9080V0I41J3"]
+          global_filters:
+            serial_number_list: ["FCW2140L05Y", "FCW2140L06Z", "9080V0I41J3"]
 
     - name: Generate YAML Configuration with specific devices by hostname
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1497,10 +1512,11 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              hostname_list: ["switch01.lab.com", "switch02.lab.com", "core-switch-01"]
+          global_filters:
+            hostname_list: ["switch01.lab.com", "switch02.lab.com", "core-switch-01"]
 
     - name: Generate YAML Configuration with specific devices by serial number
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1514,10 +1530,11 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              serial_number_list: ["FCW2140L05Y", "FCW2140L06Z", "9080V0I41J3"]
+          global_filters:
+            serial_number_list: ["FCW2140L05Y", "FCW2140L06Z", "9080V0I41J3"]
 
     - name: Generate YAML Configuration using explicit components list
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1531,12 +1548,13 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10", "192.168.1.11"]
-            component_specific_filters:
-              components_list: ["layer2_configurations"]
+          global_filters:
+            ip_address_list: ["192.168.1.10", "192.168.1.11"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
 
     - name: Generate YAML Configuration with components list and specific features
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1550,14 +1568,15 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10"]
-            component_specific_filters:
-              components_list: ["layer2_configurations"]
-              layer2_configurations:
-                layer2_features: ["vlans", "stp", "cdp"]
+          global_filters:
+            ip_address_list: ["192.168.1.10"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
+            layer2_configurations:
+              - layer2_features: ["vlans", "stp", "cdp"]
 
     - name: Generate YAML Configuration for specific VLANs
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1571,14 +1590,15 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10"]
-            component_specific_filters:
-              components_list: ["layer2_configurations"]
-              layer2_configurations:
-                layer2_features: ["vlans"]
+          global_filters:
+            ip_address_list: ["192.168.1.10"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
+            layer2_configurations:
+              - layer2_features: ["vlans"]
                 vlans:
                   vlan_ids_list: ["10", "20", "100", "200"]
 
@@ -1594,14 +1614,15 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10"]
-            component_specific_filters:
-              components_list: ["layer2_configurations"]
-              layer2_configurations:
-                layer2_features: ["port_configuration"]
+          global_filters:
+            ip_address_list: ["192.168.1.10"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
+            layer2_configurations:
+              - layer2_features: ["port_configuration"]
                 port_configuration:
                   interface_names_list:
                     - "GigabitEthernet1/0/1"
@@ -1620,14 +1641,15 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10", "192.168.1.11"]
-            component_specific_filters:
-              components_list: ["layer2_configurations"]
-              layer2_configurations:
-                layer2_features: ["vlans", "stp", "port_configuration"]
+          global_filters:
+            ip_address_list: ["192.168.1.10", "192.168.1.11"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
+            layer2_configurations:
+              - layer2_features: ["vlans", "stp", "port_configuration"]
                 vlans:
                   vlan_ids_list: ["10", "20", "100"]
                 port_configuration:
@@ -1647,17 +1669,20 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10"]
-            component_specific_filters:
-              layer2_features: ["port_configuration"]
-              port_configuration:
-                interface_names_list:
-                  - "GigabitEthernet1/0/1"
-                  - "GigabitEthernet1/0/2"
-                  - "TenGigabitEthernet1/0/1"
+          global_filters:
+            ip_address_list: ["192.168.1.10"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
+            layer2_configurations:
+              - layer2_features: ["port_configuration"]
+                port_configuration:
+                  interface_names_list:
+                    - "GigabitEthernet1/0/1"
+                    - "GigabitEthernet1/0/2"
+                    - "TenGigabitEthernet1/0/1"
 
     - name: Generate YAML Configuration with comprehensive filtering
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1671,18 +1696,21 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10", "192.168.1.11"]
-            component_specific_filters:
-              layer2_features: ["vlans", "stp", "port_configuration"]
-              vlans:
-                vlan_ids_list: ["10", "20", "100"]
-              port_configuration:
-                interface_names_list:
-                  - "GigabitEthernet1/0/1"
-                  - "GigabitEthernet1/0/24"
+          global_filters:
+            ip_address_list: ["192.168.1.10", "192.168.1.11"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
+            layer2_configurations:
+              - layer2_features: ["vlans", "stp", "port_configuration"]
+                vlans:
+                  vlan_ids_list: ["10", "20", "100"]
+                port_configuration:
+                  interface_names_list:
+                    - "GigabitEthernet1/0/1"
+                    - "GigabitEthernet1/0/24"
 
     - name: Generate YAML Configuration for all features (no component filters)
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1696,10 +1724,11 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/wired_campus_automation_config.yml"
-            global_filters:
-              ip_address_list: ["192.168.1.10"]
+          global_filters:
+            ip_address_list: ["192.168.1.10"]
 
     - name: Generate YAML Configuration with default file path
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1713,9 +1742,11 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - global_filters:
-              ip_address_list: ["192.168.1.10"]
+          global_filters:
+            ip_address_list: ["192.168.1.10"]
 
     - name: Generate YAML Configuration for protocol features
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1729,12 +1760,15 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/protocol_features_config.yml"
-            global_filters:
-              hostname_list: ["switch01.lab.com", "switch02.lab.com"]
-            component_specific_filters:
-              layer2_features: ["cdp", "lldp", "stp", "vtp"]
+          global_filters:
+            hostname_list: ["switch01.lab.com", "switch02.lab.com"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
+            layer2_configurations:
+              - layer2_features: ["cdp", "lldp", "stp", "vtp"]
 
     - name: Generate YAML Configuration for security features
       cisco.dnac.wired_campus_automation_playbook_config_generator:
@@ -1748,12 +1782,15 @@ Examples
         dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: gathered
+        file_path: "/tmp/wired_campus_automation_config.yml"
+        file_mode: "append"
         config:
-          - file_path: "/tmp/security_features_config.yml"
-            global_filters:
-              serial_number_list: ["FCW2140L05Y", "FCW2140L06Z"]
-            component_specific_filters:
-              layer2_features: ["dhcp_snooping", "igmp_snooping", "authentication"]
+          global_filters:
+            serial_number_list: ["FCW2140L05Y", "FCW2140L06Z"]
+          component_specific_filters:
+            components_list: ["layer2_configurations"]
+            layer2_configurations:
+              - layer2_features: ["dhcp_snooping", "igmp_snooping", "authentication"]
 
 
 
@@ -1814,7 +1851,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "YAML config generation succeeded for module 'wired\_campus\_automation\_workflow\_manager'.", "response": {"configurations\_generated": 25, "file\_path": "/tmp/wired\_campus\_automation\_config.yml", "message": "YAML config generation succeeded for module 'wired\_campus\_automation\_workflow\_manager'.", "operation\_summary": {"devices\_with\_complete\_failure": [], "devices\_with\_complete\_success": ["192.168.1.10", "192.168.1.11"], "devices\_with\_partial\_success": ["192.168.1.12"], "failure\_details": [{"device\_id": "12345678-1234-1234-1234-123456789def", "device\_ip": "192.168.1.12", "error\_info": {"error\_code": "FEATURE\_NOT\_SUPPORTED", "error\_message": "Feature not supported on this device", "error\_type": "api\_error"}, "feature": "stp", "status": "failed"}], "success\_details": [{"api\_features\_processed": ["vlanConfig"], "device\_id": "12345678-1234-1234-1234-123456789abc", "device\_ip": "192.168.1.10", "feature": "vlans", "status": "success"}], "total\_devices\_processed": 3, "total\_failed\_operations": 3, "total\_features\_processed": 33, "total\_successful\_operations": 30}}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"changed": true, "diff": [], "invocation": {"module\_args": {"config": {"component\_specific\_filters": {"components\_list": ["layer2\_configurations"], "layer2\_configurations": [{"layer2\_features": ["vlans", "cdp"]}]}, "global\_filters": {"ip\_address\_list": ["1.1.1.1"]}}, "dnac\_api\_task\_timeout": 1200, "dnac\_debug": false, "dnac\_host": "10.22.40.214", "dnac\_log": true, "dnac\_log\_append": true, "dnac\_log\_file\_path": "dnac.log", "dnac\_log\_level": "DEBUG", "dnac\_password": "VALUE\_SPECIFIED\_IN\_NO\_LOG\_PARAMETER", "dnac\_port": "443", "dnac\_task\_poll\_interval": 2, "dnac\_username": "admin", "dnac\_verify": false, "dnac\_version": "3.1.3.0", "file\_mode": "overwrite", "file\_path": "wired\_campus\_automation\_config.yml", "state": "gathered", "validate\_response\_schema": true}}, "msg": {"components\_processed": 1, "components\_skipped": 0, "configurations\_count": 1, "file\_mode": "overwrite", "file\_path": "wired\_campus\_automation\_config.yml", "message": "YAML configuration file generated successfully for module 'wired\_campus\_automation\_workflow\_manager'", "status": "success"}, "response": {"components\_processed": 1, "components\_skipped": 0, "configurations\_count": 1, "file\_mode": "overwrite", "file\_path": "wired\_campus\_automation\_config.yml", "message": "YAML configuration file generated successfully for module 'wired\_campus\_automation\_workflow\_manager'", "status": "success"}, "status": "success"}`
 
 
       .. raw:: html
@@ -1922,6 +1959,7 @@ Authors
 ~~~~~~~
 
 - Rugvedi Kapse (@rukapse)
+- Vivek Raj (@vivekraj2000)
 - Madhan Sankaranarayanan (@madhansansel)
 
 
