@@ -2007,7 +2007,7 @@ releases:
           playbook config generator design.
 
   6.50.0:
-    release_date: "2026-04-14"
+    release_date: "2026-04-22"
     changes:
       release_summary: Minor changes in workflow manager modules
       minor_changes:
