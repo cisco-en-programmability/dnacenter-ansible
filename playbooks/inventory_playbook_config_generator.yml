@@ -30,15 +30,14 @@
         file_path: "tmp/catc_inventory_config.yml"
         file_mode: "overwrite"
 
-    # Example 3: Filter by device roles and device types
-    - name: Generate inventory playbook config filtered by role and type
+    # Example 3: Filter by device roles
+    - name: Generate inventory playbook config filtered by role
       cisco.dnac.inventory_playbook_config_generator:
         file_path: "tmp/catc_filtered_inventory_config.yml"
         file_mode: "overwrite"
         config:
           global_filters:
             device_roles: ["ACCESS", "CORE"]
-            device_types: ["NETWORK_DEVICE", "ACCESS_POINT"]
             device_identifier: "hostname"
 
     # Example 4: Filter using explicit device identifiers
@@ -61,12 +60,12 @@
           global_filters:
             device_roles: ["DISTRIBUTION", "BORDER ROUTER"]
 
-    # Example 6: Filter by device type only and use serial number as identifier list
-    - name: Generate inventory playbook config for compute and third-party devices
+    # Example 6: Filter by role with serial number as identifier list
+    - name: Generate inventory playbook config for unknown role devices
       cisco.dnac.inventory_playbook_config_generator:
-        file_path: "tmp/catc_inventory_types_only.yml"
+        file_path: "tmp/catc_inventory_roles_serial.yml"
         file_mode: "overwrite"
         config:
           global_filters:
-            device_types: ["COMPUTE_DEVICE", "THIRD_PARTY_DEVICE"]
+            device_roles: ["UNKNOWN"]
             device_identifier: "serial_number"

@@ -19,7 +19,7 @@
 #
 # Description:
 #   Unit tests for the Ansible module `inventory_playbook_config_generator`.
-#   These tests cover auto-discovery, device filters, role/type filters,
+#   These tests cover auto-discovery, device filters, role filters,
 #   combined filters, no-data behavior, idempotency behavior, and validation errors.
 
 from __future__ import absolute_import, division, print_function
@@ -42,7 +42,6 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
     playbook_config_devices_by_serial = test_data.get("playbook_config_devices_by_serial")
     playbook_config_devices_by_mac = test_data.get("playbook_config_devices_by_mac")
     playbook_config_filter_by_role = test_data.get("playbook_config_filter_by_role")
-    playbook_config_filter_by_type = test_data.get("playbook_config_filter_by_type")
     playbook_config_combined_filters = test_data.get("playbook_config_combined_filters")
     playbook_config_empty_global_filters = test_data.get("playbook_config_empty_global_filters")
     playbook_config_included_component_specific_filters = test_data.get("playbook_config_included_component_specific_filters")
@@ -66,11 +65,6 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
         )
         self.run_get_with_pagination = self.mock_get_with_pagination.start()
 
-        self.mock_rest_call = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.execute_rest_api_call"
-        )
-        self.run_rest_call = self.mock_rest_call.start()
-
         self.mock_write_yaml = patch(
             "ansible_collections.cisco.dnac.plugins.modules."
             "inventory_playbook_config_generator.InventoryPlaybookConfigGenerator.write_dict_to_yaml"
@@ -82,7 +76,6 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
     def tearDown(self):
         super(TestInventoryPlaybookConfigGenerator, self).tearDown()
         self.mock_write_yaml.stop()
-        self.mock_rest_call.stop()
         self.mock_get_with_pagination.stop()
         self.mock_dnac_init.stop()
 
@@ -93,18 +86,15 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
 
         if "no_devices_in_inventory" in self._testMethodName:
             self.run_get_with_pagination.return_value = self.test_data.get("get_empty_device_list_response", {}).get("response", [])
-            self.run_rest_call.return_value = self.test_data.get("get_empty_device_credentials_response", {})
             self.run_write_yaml.return_value = True
             return
 
         if "file_already_up_to_date" in self._testMethodName:
             self.run_get_with_pagination.return_value = self.test_data.get("get_device_list_response", {}).get("response", [])
-            self.run_rest_call.return_value = self.test_data.get("get_device_credentials_response", {})
             self.run_write_yaml.return_value = False
             return
 
         self.run_get_with_pagination.return_value = self.test_data.get("get_device_list_response", {}).get("response", [])
-        self.run_rest_call.return_value = self.test_data.get("get_device_credentials_response", {})
         self.run_write_yaml.return_value = True
 
     @patch("builtins.open", new_callable=mock_open)
@@ -199,22 +189,6 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
             dnac_log=True,
             state="gathered",
             config=self.playbook_config_filter_by_role,
-        ))
-        result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
-
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.exists")
-    def test_filter_by_device_type(self, mock_exists, mock_file):
-        mock_exists.return_value = True
-        set_module_args(dict(
-            dnac_host="1.1.1.1",
-            dnac_username="dummy",
-            dnac_password="dummy",
-            dnac_version="2.3.7.9",
-            dnac_log=True,
-            state="gathered",
-            config=self.playbook_config_filter_by_type,
         ))
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
@@ -323,7 +297,6 @@ class TestInventoryPlaybookConfigGenerator(TestDnacModule):
     def test_no_devices_in_inventory(self, mock_exists, mock_file):
         mock_exists.return_value = True
         self.run_get_with_pagination.return_value = self.test_data.get("get_empty_device_list_response", {}).get("response", [])
-        self.run_rest_call.return_value = self.test_data.get("get_empty_device_credentials_response", {})
         set_module_args(dict(
             dnac_host="1.1.1.1",
             dnac_username="dummy",

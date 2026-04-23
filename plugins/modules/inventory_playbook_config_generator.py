@@ -85,17 +85,6 @@ options:
             - "CORE"
             - "BORDER ROUTER"
             - "UNKNOWN"
-          device_types:
-            description:
-            - List of inventory device types to include.
-            type: list
-            elements: str
-            choices:
-            - "COMPUTE_DEVICE"
-            - "MERAKI_DASHBOARD"
-            - "THIRD_PARTY_DEVICE"
-            - "NETWORK_DEVICE"
-            - "ACCESS_POINT"
           device_identifier:
             description:
             - Identifier used to build the generated list key in output config.
@@ -119,14 +108,13 @@ notes:
 - |-
   SDK/REST Paths used are
   GET /dna/intent/api/v1/network-device
-  GET /dna/intent/api/v1/device-credential/network-device
 - |
   Auto-discovery mode:
   When C(config) is omitted entirely, the module runs in auto-discovery mode and
   generates inventory configuration for all discovered devices without applying filters.
 - |
   Filter behavior:
-  When C(config.global_filters) is provided, C(devices), C(device_roles), and C(device_types) are
+  When C(config.global_filters) is provided, C(devices) and C(device_roles) are
   applied with AND semantics. Unknown global filter keys fail validation with an error.
 - |-
   Module result behavior (changed/ok/failed):
@@ -172,7 +160,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_inventory_config.yml"
     file_mode: "overwrite"
 
-- name: Generate YAML Configuration filtered by device roles and types
+- name: Generate YAML Configuration filtered by device roles
   cisco.dnac.inventory_playbook_config_generator:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -189,7 +177,6 @@ EXAMPLES = r"""
     config:
       global_filters:
         device_roles: ["ACCESS", "CORE"]
-        device_types: ["NETWORK_DEVICE", "ACCESS_POINT"]
         device_identifier: "hostname"
 
 - name: Generate YAML Configuration for selected devices using serial number and IP
@@ -283,7 +270,6 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "inventory_workflow_manager"
-        self.DEVICE_CREDENTIAL_BATCH_SIZE = 250
 
     def validate_input(self):
         """
@@ -372,18 +358,6 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                         "UNKNOWN"
                     ]
                 },
-                "device_types": {
-                    "type": "list",
-                    "elements": "str",
-                    "required": False,
-                    "choices": [
-                        "COMPUTE_DEVICE",
-                        "MERAKI_DASHBOARD",
-                        "THIRD_PARTY_DEVICE",
-                        "NETWORK_DEVICE",
-                        "ACCESS_POINT"
-                    ]
-                },
                 "device_identifier": {
                     "type": "str",
                     "choices": ["ip_address", "hostname", "serial_number", "mac_address"],
@@ -426,98 +400,6 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         return device_identifier_details
 
-    def device_credentials_temp_spec(self):
-        """
-        Constructs a temporary specification for device credentials for inventory devices.
-        This specification includes details such as username, password, and enable password.
-        This is used to transform the device credentials in the inventory configuration.
-
-        Returns:
-            OrderedDict: An ordered dictionary defining the structure of device credential attributes.
-        """
-
-        self.log("Generating temporary specification for device credentials.", "DEBUG")
-
-        device_credential_details = OrderedDict(
-            {
-                "ip_address": {"type": "str", "source_key": "ipAddress"},
-                "type": {"type": "str", "source_key": "type"},
-                "cli_transport": {
-                    "type": "str",
-                    "source_key": "cliTransport",
-                    "transform": lambda cli_transport: "telnet" if str(cli_transport).lower() == "telnet" else "ssh"
-                },
-                "netconf_port": {"type": "str", "source_key": "netconfPort"},
-                "username": {"type": "str", "source_key": "userName"},
-                "password": {
-                    "type": "str",
-                    "special_handling": True,
-                    "transform": lambda device_details: self.generate_sensitive_placeholder(
-                        device_details, "password", "password"
-                    ),
-                },
-                "enable_password": {
-                    "type": "str",
-                    "special_handling": True,
-                    "transform": lambda device_details: self.generate_sensitive_placeholder(
-                        device_details, "enable_password", "enablePassword"
-                    ),
-                },
-                "http_username": {"type": "str", "source_key": "httpUserName"},
-                "http_password": {
-                    "type": "str",
-                    "special_handling": True,
-                    "transform": lambda device_details: self.generate_sensitive_placeholder(
-                        device_details, "http_password", "httpPassword"
-                    ),
-                },
-                "http_port": {"type": "str", "source_key": "httpPort"},
-                "http_secure": {"type": "bool", "source_key": "httpSecure"},
-                "snmp_version": {
-                    "type": "str",
-                    "source_key": "snmpVersion",
-                    "transform": lambda snmp_version: snmp_version.lower() if snmp_version.lower() in ["v2", "v3"] else "v2"
-                },
-                "snmp_mode": {"type": "str", "source_key": "snmpMode"},
-                "snmp_username": {"type": "str", "source_key": "snmpUserName"},
-                "snmp_auth_passphrase": {
-                    "type": "str",
-                    "special_handling": True,
-                    "transform": lambda device_details: self.generate_sensitive_placeholder(
-                        device_details, "snmp_auth_passphrase", "snmpAuthPassphrase"
-                    ),
-                },
-                "snmp_auth_protocol": {"type": "str", "source_key": "snmpAuthProtocol"},
-                "snmp_priv_passphrase": {
-                    "type": "str",
-                    "special_handling": True,
-                    "transform": lambda device_details: self.generate_sensitive_placeholder(
-                        device_details, "snmp_priv_passphrase", "snmpPrivPassphrase"
-                    ),
-                },
-                "snmp_priv_protocol": {"type": "str", "source_key": "snmpPrivProtocol"},
-                "snmp_ro_community": {
-                    "type": "str",
-                    "special_handling": True,
-                    "transform": lambda device_details: self.generate_sensitive_placeholder(
-                        device_details, "snmp_ro_community", "snmpROCommunity"
-                    ),
-                },
-                "snmp_rw_community": {
-                    "type": "str",
-                    "special_handling": True,
-                    "transform": lambda device_details: self.generate_sensitive_placeholder(
-                        device_details, "snmp_rw_community", "snmpRWCommunity"
-                    ),
-                },
-                "snmp_retry": {"type": "int", "source_key": "snmpRetry"},
-                "snmp_timeout": {"type": "int", "source_key": "snmpTimeout"},
-                "compute_device": {"type": "bool", "source_key": "computeDevice"}
-            }
-        )
-
-        return device_credential_details
-
     def apply_global_filters(self, inventory_config_data, global_filters):
         """
         Apply supported global filters to inventory configuration data.
@@ -526,7 +408,6 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             - devices (list): Match when any one of these record fields equals
               any provided value: ip_address, hostname, serial_number, mac_address.
             - device_roles (list): Match against record key 'role'.
-            - device_types (list): Match against record key 'type'.
 
         Filter groups are combined using AND semantics.
 
@@ -549,7 +430,7 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        supported_filter_keys = {"devices", "device_roles", "device_types", "device_identifier"}
+        supported_filter_keys = {"devices", "device_roles", "device_identifier"}
         unknown_filter_keys = sorted(set(global_filters.keys()) - supported_filter_keys)
         if unknown_filter_keys:
             self.log(
@@ -561,9 +442,8 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         devices_filter = global_filters.get("devices") or []
         roles_filter = global_filters.get("device_roles") or []
-        types_filter = global_filters.get("device_types") or []
 
-        if not devices_filter and not roles_filter and not types_filter:
+        if not devices_filter and not roles_filter:
             self.log(
                 "No valid global filters provided within 'global_filters' for filtering. Skipping filtering step.",
                 "DEBUG",
@@ -576,15 +456,11 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         roles_values = {
             value for value in roles_filter if value is not None and value.strip()
         }
-        types_values = {
-            value for value in types_filter if value is not None and value.strip()
-        }
 
         self.log(
-            "Resolved global filters - devices({0}): {1}, roles({2}): {3}, types({4}): {5}".format(
+            "Resolved global filters - devices({0}): {1}, roles({2}): {3}".format(
                 len(devices_values), devices_values,
-                len(roles_values), roles_values,
-                len(types_values), types_values
+                len(roles_values), roles_values
             ),
             "DEBUG",
         )
@@ -633,18 +509,6 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
 
-        if types_values:
-            before_count = len(filtered_data)
-            filtered_data = [
-                record for record in filtered_data if record.get("type") in types_values
-            ]
-            self.log(
-                "Applied 'types' global filter. Records before: {0}, after: {1}.".format(
-                    before_count, len(filtered_data)
-                ),
-                "DEBUG",
-            )
-
         self.log(
             "Completed filtering using global filters. Matched {0} of {1} input record(s). Filtered data: {2}"
             .format(
@@ -656,71 +520,6 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         return filtered_data
-
-    def generate_sensitive_placeholder(self, device_details, attribute_name, attribute_source_key):
-        """
-        Generate an Ansible variable placeholder for sensitive attributes.
-
-        Args:
-            device_details (dict): Source device credential dictionary from API.
-            attribute_name (str): Target attribute name used in generated variable
-                naming (for example, password, snmp_ro_community).
-            attribute_source_key (str): Source key to verify whether the sensitive
-                value exists in the current record.
-
-        Returns:
-            str or None: Jinja placeholder string in the format
-                '{{ ip_<normalized_ip>_<attribute_name> }}' when applicable,
-                otherwise None.
-        """
-
-        self.log(
-            "Generating sensitive placeholder for attribute '{0}' using source key '{1}'.".format(
-                attribute_name, attribute_source_key
-            ),
-            "DEBUG",
-        )
-
-        if device_details.get(attribute_source_key) is None:
-            self.log(
-                "Skipping placeholder generation as source key '{0}' is not present in device details.".format(
-                    attribute_source_key
-                ),
-                "DEBUG",
-            )
-            return None
-
-        ip_address = device_details.get("ipAddress", "").strip()
-        attr = (attribute_name or "").strip()
-
-        if not ip_address or not attr:
-            self.log(
-                "Skipping placeholder generation due to missing ipAddress or attribute_name. ipAddress: '{0}', attribute_name: '{1}'".format(
-                    ip_address, attr
-                ),
-                "DEBUG",
-            )
-            return None
-
-        # Normalize IP and attribute to safe variable name format
-        normalized_ip = ip_address.replace(".", "_")
-        normalized_attr = attr.lower().replace(" ", "_")
-
-        self.log(
-            "Normalized values for placeholder generation - ip: '{0}', attribute: '{1}'".format(
-                normalized_ip, normalized_attr
-            ),
-            "DEBUG",
-        )
-
-        place_holder = f"{{{{ ip_{normalized_ip}_{normalized_attr} }}}}"
-
-        self.log(
-            "Generated custom variable placeholder: {0}".format(place_holder),
-            "DEBUG",
-        )
-
-        return place_holder
 
     def transform_config_using_device_identifier(self, inventory_config_data, device_identifier):
         """
@@ -855,105 +654,9 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         return final_device_identifier_details
 
-    def fetch_device_credentials_by_ip(self, device_details_by_ip):
-        """
-        Fetch and transform device credential details for given device IP addresses.
-
-        Args:
-            device_details_by_ip (dict): Mapping of device IP address to identifier
-                details.
-
-        Returns:
-            list: Transformed list of device credential records.
-        """
-
-        ip_addresses = list(device_details_by_ip.keys())
-        self.log(
-            "Starting credential retrieval for {0} device IP(s) using batch size {1}.".format(
-                len(ip_addresses),
-                self.DEVICE_CREDENTIAL_BATCH_SIZE,
-            ),
-            "DEBUG",
-        )
-
-        batch_size = self.DEVICE_CREDENTIAL_BATCH_SIZE
-        device_credential_details = []
-
-        for batch_start in range(0, len(ip_addresses), batch_size):
-            ip_address_batch = ip_addresses[batch_start:batch_start + batch_size]
-
-            self.log(
-                "Fetching credential batch {0}-{1} (size {2})".format(
-                    batch_start + 1,
-                    batch_start + len(ip_address_batch),
-                    len(ip_address_batch),
-                ),
-                "DEBUG",
-            )
-
-            try:
-                raw_device_credential_response = self.dnac.execute_rest_api_call(
-                    method="GET",
-                    endpoint="/api/v1/device-credential/network-device",
-                    params={"deviceIps": ip_address_batch},
-                )
-            except Exception as exc:
-                self.log(
-                    "Failed credential fetch for batch {0}-{1} (size {2}). Error: {3}".format(
-                        batch_start + 1,
-                        batch_start + len(ip_address_batch),
-                        len(ip_address_batch),
-                        str(exc),
-                    ),
-                    "ERROR",
-                )
-                raise
-
-            if isinstance(raw_device_credential_response, dict):
-                batch_response = raw_device_credential_response.get("response", [])
-            else:
-                batch_response = raw_device_credential_response or []
-
-            self.log(
-                "Retrieved {0} credential record(s) for batch {1}-{2}.".format(
-                    len(batch_response),
-                    batch_start + 1,
-                    batch_start + len(ip_address_batch),
-                ),
-                "DEBUG",
-            )
-            device_credential_details.extend(batch_response)
-
-        if not device_credential_details:
-            self.log(
-                "No device credential records returned for requested device IPs.",
-                "DEBUG",
-            )
-            return []
-
-        self.log(
-            "Retrieved {0} raw credential record(s) from API.".format(
-                len(device_credential_details)
-            ),
-            "DEBUG",
-        )
-
-        final_device_credential_details = self.modify_parameters(
-            self.device_credentials_temp_spec(), device_credential_details
-        )
-
-        self.log(
-            "Transformed credential data into {0} record(s). Data: {1}".format(
-                len(final_device_credential_details),
-                self.pprint(final_device_credential_details),
-            ),
-            "INFO",
-        )
-        return final_device_credential_details
-
     def fetch_all_inventory_config(self):
         """
-        Build merged inventory configuration by combining identifier and credential data.
+        Build inventory configuration from device identifier data.
 
         Returns:
             list: Inventory configuration records ready for downstream transformation
@@ -962,114 +665,23 @@ class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         self.log("Starting inventory configuration data aggregation.", "DEBUG")
 
-        inventory_config_data = []
-
         device_identifier_details = self.fetch_device_identifier_details()
         if not device_identifier_details:
             self.log(
                 "No device identifier details available to generate inventory configuration.",
                 "DEBUG",
             )
-            return inventory_config_data
+            return []
 
         self.log(
-            "Processing {0} device identifier record(s) for IP-index creation. Data: {1}".format(
+            "Retrieved {0} device identifier record(s). Data: {1}".format(
                 len(device_identifier_details),
                 self.pprint(device_identifier_details),
             ),
             "DEBUG",
         )
 
-        # Build an index of device details by management IP for fast lookups
-        # Non-Meraki devices are separated because they do not support credential retrieval.
-        non_meraki_device_details_by_ip = {}
-        meraki_device_details_by_ip = {}
-        for device_item in device_identifier_details:
-            ip_address = device_item.get("ip_address")
-            if not ip_address:
-                self.log(
-                    "Device item missing IP address, skipping: {0}".format(device_item),
-                    "WARNING"
-                )
-                continue
-
-            device_family = device_item.get("family", "").lower()
-            self.log(
-                "Retrieved device family '{0}' for IP '{1}'.".format(
-                    device_family, ip_address
-                ),
-                "DEBUG"
-            )
-
-            if "meraki" in device_family:
-                meraki_device_details_by_ip[ip_address] = device_item
-            else:
-                non_meraki_device_details_by_ip[ip_address] = device_item
-
-        self.log(
-            "Created device detail indexes - non_meraki_device_details_by_ip ({0} entry/entries). "
-            "meraki_device_details_by_ip ({1} entry/entries). Data: non_meraki={2}, meraki={3}".format(
-                len(non_meraki_device_details_by_ip),
-                len(meraki_device_details_by_ip),
-                self.pprint(non_meraki_device_details_by_ip),
-                self.pprint(meraki_device_details_by_ip),
-            ),
-            "DEBUG",
-        )
-
-        device_credential_details = self.fetch_device_credentials_by_ip(non_meraki_device_details_by_ip)
-
-        self.log(
-            "Merging {0} credential record(s) with identifier data for non-Meraki devices.".format(
-                len(device_credential_details)
-            ),
-            "DEBUG",
-        )
-        for device_credential in device_credential_details:
-            ip_address = device_credential.get("ip_address")
-            if not ip_address:
-                self.log(
-                    "Device credential item missing IP address, skipping: {0}".format(device_credential),
-                    "WARNING"
-                )
-                continue
-
-            # Merge device identifier details with credentials based on IP address
-            device_info = non_meraki_device_details_by_ip.get(ip_address)
-            if not device_info:
-                self.log(
-                    "Skipping credential merge for IP '{0}' because no matching identifier record was found.".format(ip_address),
-                    "WARNING",
-                )
-                continue
-
-            merged_device_info = {**device_info, **device_credential}
-            inventory_config_data.append(merged_device_info)
-
-        self.log(
-            "Merging {0} Meraki device record(s) with identifier data.".format(
-                len(meraki_device_details_by_ip)
-            ),
-            "DEBUG",
-        )
-        for device_info in meraki_device_details_by_ip.values():
-            # Mark Meraki devices explicitly since they are not merged with credential API data.
-            merged_device_info = {**device_info, "type": "MERAKI_DASHBOARD"}
-            inventory_config_data.append(merged_device_info)
-
-        self.log(
-            "Completed inventory aggregation: identifiers={0}, non_meraki={1}, meraki={2}, "
-            "credentials_fetched={3}, merged_output={4}.".format(
-                len(device_identifier_details),
-                len(non_meraki_device_details_by_ip),
-                len(meraki_device_details_by_ip),
-                len(device_credential_details),
-                len(inventory_config_data),
-            ),
-            "DEBUG",
-        )
-
-        return inventory_config_data
+        return device_identifier_details
 
     def get_final_inventory_config(self, yaml_config_generator):
         """

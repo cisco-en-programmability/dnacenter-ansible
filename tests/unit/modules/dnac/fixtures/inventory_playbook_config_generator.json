@@ -35,13 +35,6 @@
             ]
         }
     },
-    "playbook_config_filter_by_type": {
-        "global_filters": {
-            "device_types": [
-                "NETWORK_DEVICE"
-            ]
-        }
-    },
     "playbook_config_combined_filters": {
         "global_filters": {
             "devices": [
@@ -50,9 +43,6 @@
             ],
             "device_roles": [
                 "ACCESS"
-            ],
-            "device_types": [
-                "NETWORK_DEVICE"
             ],
             "device_identifier": "hostname"
         }
@@ -88,56 +78,29 @@
                 "hostname": "edge-sw-1",
                 "serialNumber": "FDO1234A1BC",
                 "macAddress": "AA:BB:CC:DD:EE:01",
-                "role": "ACCESS"
+                "role": "ACCESS",
+                "family": "Switches and Hubs"
             },
             {
                 "managementIpAddress": "10.10.20.12",
                 "hostname": "core-sw-1",
                 "serialNumber": "FDO1234A1CD",
                 "macAddress": "AA:BB:CC:DD:EE:02",
-                "role": "CORE"
+                "role": "CORE",
+                "family": "Switches and Hubs"
             },
             {
                 "managementIpAddress": "10.10.20.13",
                 "hostname": "dist-sw-1",
                 "serialNumber": "FDO1234A1EF",
                 "macAddress": "AA:BB:CC:DD:EE:03",
-                "role": "DISTRIBUTION"
-            }
-        ],
-        "version": "1.0"
-    },
-    "get_device_credentials_response": {
-        "response": [
-            {
-                "ipAddress": "10.10.20.11",
-                "type": "NETWORK_DEVICE",
-                "cliTransport": "ssh",
-                "userName": "admin",
-                "password": "secret"
-            },
-            {
-                "ipAddress": "10.10.20.12",
-                "type": "NETWORK_DEVICE",
-                "cliTransport": "ssh",
-                "userName": "admin",
-                "password": "secret"
-            },
-            {
-                "ipAddress": "10.10.20.13",
-                "type": "ACCESS_POINT",
-                "cliTransport": "ssh",
-                "userName": "admin",
-                "password": "secret"
+                "role": "DISTRIBUTION",
+                "family": "Switches and Hubs"
             }
         ],
         "version": "1.0"
     },
     "get_empty_device_list_response": {
-        "response": [],
-        "version": "1.0"
-    },
-    "get_empty_device_credentials_response": {
         "response": [],
         "version": "1.0"
     }
