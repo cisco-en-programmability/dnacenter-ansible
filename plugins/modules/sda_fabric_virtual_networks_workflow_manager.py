@@ -221,6 +221,16 @@ options:
               payload elements or none. And update
               of this field is not allowed.
             type: str
+          multiple_ip_to_mac_addresses:
+            description: Indicates whether multiple IPs
+              can be associated with a single MAC address
+              for the layer2 fabric VLAN. By default,
+              it is set to false when associated with a
+              layer 3 virtual network and cannot be used
+              when not associated with a layer 3 virtual
+              network.
+            type: bool
+            default: false
       virtual_networks:
         description: A list of virtual networks (VNs)
           configured within the SDA fabric. Each virtual
@@ -965,6 +975,33 @@ EXAMPLES = r"""
               site_name_hierarchy: "Global/India"
               fabric_type: "fabric_site"
             ip_pool_name: "IP_Pool_1"
+
+- name: Create fabric VLAN with multiple IP to MAC enabled
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+    state: merged
+    config:
+      - fabric_vlan:
+          - vlan_name: "vlan_multi_ip"
+            vlan_id: 1944
+            traffic_type: "DATA"
+            associated_layer3_virtual_network: "L3_VN_1"
+            multiple_ip_to_mac_addresses: true
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India/Fabric_Test"
+                fabric_type: "fabric_site"
+
+- name: Create fabric VLAN without multiple_ip_to_mac_addresses (omitted)
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+    state: merged
+    config:
+      - fabric_vlan:
+          - vlan_name: "vlan_default_multi_ip"
+            vlan_id: 1945
+            traffic_type: "DATA"
+            associated_layer3_virtual_network: "L3_VN_1"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India/Fabric_Test"
+                fabric_type: "fabric_site"
 """
 RETURN = r"""
 dnac_response:
@@ -1106,6 +1143,7 @@ class VirtualNetwork(DnacBase):
                 "resource_guard_enable": {"type": "bool"},
                 "flooding_address_assignment": {"type": "str"},
                 "flooding_address": {"type": "str"},
+                "multiple_ip_to_mac_addresses": {"type": "bool"},
             },
             "virtual_networks": {
                 "type": "list",
@@ -1752,6 +1790,8 @@ class VirtualNetwork(DnacBase):
                 - flooding_address_assignment (str, optional): How the flooding address is assigned
                   ("SHARED" or "CUSTOM").
                 - flooding_address (str, optional): The custom flooding address, if assignment is "CUSTOM".
+                - multiple_ip_to_mac_addresses (bool, optional): Whether multiple IPs can be associated
+                  with a single MAC address. Defaults to False.
             fabric_id_list (list): A list of fabric IDs where the VLAN configuration will be applied.
         Returns:
             list: A list of dictionaries, each containing the payload required to create or configure the VLAN
@@ -1794,6 +1834,12 @@ class VirtualNetwork(DnacBase):
             vlan_payload["isResourceGuardEnabled"] = vlan.get(
                 "resource_guard_enable", False
             )
+
+            if "multiple_ip_to_mac_addresses" in vlan:
+                vlan_payload["isMultipleIpToMacAddresses"] = vlan.get(
+                    "multiple_ip_to_mac_addresses"
+                )
+
             vlan_payload["layer2FloodingAddressAssignment"] = vlan.get(
                 "flooding_address_assignment", "SHARED"
             )
@@ -1901,6 +1947,8 @@ class VirtualNetwork(DnacBase):
                 - flooding_address_assignment (str): The assignment method for the flooding address
                   ('SHARED' or 'CUSTOM').
                 - flooding_address (str): The custom flooding IP address.
+                - multiple_ip_to_mac_addresses (bool): Indicates if multiple IPs can be associated
+                  with a single MAC address.
             current_vlan_config (dict): A dictionary representing the current VLAN configuration from Catalyst Center.
         Returns:
             bool: Returns `True` if the VLAN needs to be updated and `False` otherwise.
@@ -2024,6 +2072,21 @@ class VirtualNetwork(DnacBase):
                 )
                 return True
 
+            multiple_ip_to_mac = desired_vlan_config.get("multiple_ip_to_mac_addresses")
+            if multiple_ip_to_mac is not None:
+                current_multiple_ip_to_mac = current_vlan_config.get(
+                    "isMultipleIpToMacAddresses", False
+                )
+                if multiple_ip_to_mac != current_multiple_ip_to_mac:
+                    self.log(
+                        "Multiple IP to MAC addresses setting needs update: desired='{0}', current='{1}'".format(
+                            multiple_ip_to_mac,
+                            current_multiple_ip_to_mac,
+                        ),
+                        "DEBUG",
+                    )
+                    return True
+
         self.log("No updates required for the fabric VLAN configuration.", "DEBUG")
 
         return False
@@ -2043,8 +2106,9 @@ class VirtualNetwork(DnacBase):
                 relevant identifiers and configuration details.
         Description:
             This function constructs a payload for updating a fabric VLAN in Cisco Catalyst Center. The resulting payload
-            is structured to include the VLAN ID, fabric ID, traffic type, wireless enablement status, and associated
-            Layer3 virtual network name and used to submit an update request to the Cisco Catalyst Center API.
+            is structured to include the VLAN ID, fabric ID, traffic type, wireless enablement status, multiple IP
+            to MAC addresses setting, and associated Layer3 virtual network name and used to submit an update request
+            to the Cisco Catalyst Center API.
         """
         self.log(
             "Constructing update payload for VLAN '{vlan_name}' on fabric '{fabric_id}'.".format(
@@ -2124,7 +2188,16 @@ class VirtualNetwork(DnacBase):
                     "layer2FloodingAddressAssignment"
                 )
 
+            multiple_ip_to_mac_addresses = new_vlan_config.get("multiple_ip_to_mac_addresses")
+            if multiple_ip_to_mac_addresses is None:
+                self.log(
+                    "Parameter 'multiple_ip_to_mac_addresses' not provided; using current value from Catalyst Center.",
+                    "DEBUG",
+                )
+                multiple_ip_to_mac_addresses = current_vlan_config.get("isMultipleIpToMacAddresses")
+
             vlan_update_payload["isResourceGuardEnabled"] = resource_guard_enable
+            vlan_update_payload["isMultipleIpToMacAddresses"] = multiple_ip_to_mac_addresses
             vlan_update_payload["layer2FloodingAddressAssignment"] = flooding_address_assignment
 
             if flooding_address_assignment == "CUSTOM":
@@ -4230,6 +4303,17 @@ class VirtualNetwork(DnacBase):
                 # Validate the correct fabric_type given in the playbook
                 self.validate_fabric_type(fabric_type).check_return_status()
                 self.log("Fabric type '{0}' is valid.".format(fabric_type), "INFO")
+
+            # Validate that multiple_ip_to_mac_addresses requires associated_layer3_virtual_network
+            if vlan.get("multiple_ip_to_mac_addresses") and not vlan.get("associated_layer3_virtual_network"):
+                self.msg = (
+                    "The parameter 'multiple_ip_to_mac_addresses' for VLAN '{0}' requires "
+                    "'associated_layer3_virtual_network' to be specified."
+                ).format(vlan_name)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
             fabric_vlan_info.append(vlan)
 
         return fabric_vlan_info
@@ -4927,6 +5011,11 @@ class VirtualNetwork(DnacBase):
                 collected_add_vlan_payload.extend(
                     self.create_payload_for_fabric_vlan(vlan, fabric_id_list)
                 )
+
+        self.log(
+            "Collected fabric VLAN payload(s) for creation: {0}".format(collected_add_vlan_payload),
+            "DEBUG",
+        )
 
         if collected_add_vlan_payload:
             self.create_fabric_vlan(collected_add_vlan_payload).check_return_status()

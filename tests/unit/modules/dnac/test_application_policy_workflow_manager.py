@@ -65,6 +65,61 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
     playbook_error_7 = test_data.get("playbook_error_7")
     playbook_error_8 = test_data.get("playbook_error_8")
 
+    def _build_current_policy_entry(
+        self, name, policy_scope="MyPolicy", relevance_level="BUSINESS_RELEVANT"
+    ):
+        return {
+            "name": name,
+            "policyScope": policy_scope,
+            "advancedPolicyScope": {
+                "advancedPolicyScopeElement": [{"groupId": ["site-id-1"]}]
+            },
+            "exclusiveContract": {"clause": [{"relevanceLevel": relevance_level}]},
+        }
+
+    def _build_application_policy_for_update_check(
+        self, current_application_policy, wanted_set_names, policy_name="MyPolicy"
+    ):
+        manager = self.module.ApplicationPolicy.__new__(
+            self.module.ApplicationPolicy
+        )
+        manager.have = {
+            "current_application_policy": current_application_policy
+        }
+        manager.want = {"application_policy": {"name": policy_name}}
+        manager.config = {
+            "application_policy": {
+                "name": policy_name,
+                "application_queuing_profile_name": "queue1",
+                "site_names": ["SiteA"],
+                "clause": [
+                    {
+                        "clause_type": "BUSINESS_RELEVANCE",
+                        "relevance_details": [
+                            {
+                                "relevance": "BUSINESS_RELEVANT",
+                                "application_set_name": wanted_set_names,
+                            }
+                        ],
+                    }
+                ],
+            }
+        }
+        manager.msg = None
+        manager.status = "success"
+        manager.no_update_application_policy = []
+        manager.log = lambda *args, **kwargs: None
+        manager.get_site_id = lambda site_name: (True, "site-id-1")
+        manager.check_return_status = lambda: manager
+
+        def set_operation_result(status, changed, msg, level):
+            manager.status = status
+            manager.msg = msg
+            return manager
+
+        manager.set_operation_result = set_operation_result
+        return manager
+
     def setUp(self):
         super(TestDnacApplicationPolicyWorkflowManager, self).setUp()
 
@@ -410,6 +465,65 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("Global/AB_Test/AB_Bgl3_error"),
                 self.test_data.get("response14"),
             ]
+
+    def test_extract_app_set_name_strips_prefix(self):
+        """
+        Verify that the policyScope prefix is correctly stripped.
+        """
+
+        manager = self._build_application_policy_for_update_check([], [])
+        entry = {"name": "MyPolicy_collaboration-apps", "policyScope": "MyPolicy"}
+
+        result = manager._extract_app_set_name(entry)
+
+        self.assertEqual(result, "collaboration-apps")
+
+    def test_exact_match_rejects_substring(self):
+        """
+        Verify that substring application set names do not count as exact matches.
+        """
+
+        manager = self._build_application_policy_for_update_check(
+            [
+                self._build_current_policy_entry(
+                    "MyPolicy_email-security", policy_scope="MyPolicy"
+                )
+            ],
+            ["email"],
+        )
+
+        self.assertTrue(manager.is_update_required_for_application_policy())
+
+    def test_extract_app_set_name_missing_scope(self):
+        """
+        When policyScope is empty, the full application set name is returned.
+        """
+
+        manager = self._build_application_policy_for_update_check([], [])
+        entry = {"name": "collaboration-apps", "policyScope": ""}
+
+        result = manager._extract_app_set_name(entry)
+
+        self.assertEqual(result, "collaboration-apps")
+
+    def test_no_update_when_sets_match(self):
+        """
+        Verify no update is required when current and wanted application sets match.
+        """
+
+        manager = self._build_application_policy_for_update_check(
+            [
+                self._build_current_policy_entry(
+                    "MyPolicy_email", policy_scope="MyPolicy"
+                ),
+                self._build_current_policy_entry(
+                    "MyPolicy_tunneling", policy_scope="MyPolicy"
+                ),
+            ],
+            ["email", "tunneling"],
+        )
+
+        self.assertFalse(manager.is_update_required_for_application_policy())
 
     def test_application_policy_workflow_manager_playbook_create_profile(self):
         """

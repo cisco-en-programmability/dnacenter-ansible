@@ -542,7 +542,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case2_fabric_name_only.yaml",
                 config=self.playbook_config_filter_fabric_name_only_case_2,
             )
         )
@@ -575,7 +574,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case3_fabric_name_device_ip.yaml",
                 config=self.playbook_config_filter_fabric_name_device_ip_case_3,
             )
         )
@@ -608,7 +606,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case4_fabric_name_edge_role.yaml",
                 config=self.playbook_config_filter_fabric_name_edge_role_case_4,
             )
         )
@@ -641,7 +638,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case5_fabric_name_multi_roles.yaml",
                 config=self.playbook_config_filter_fabric_name_multi_roles_case_5,
             )
         )
@@ -674,7 +670,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case6_all_filters.yaml",
                 config=self.playbook_config_filter_all_filters_case_6,
             )
         )
@@ -707,7 +702,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case7_fabric_name_cp_role.yaml",
                 config=self.playbook_config_filter_fabric_name_cp_role_case_7,
             )
         )
@@ -740,7 +734,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case8_fabric_name_border_role.yaml",
                 config=self.playbook_config_filter_fabric_name_border_role_case_8,
             )
         )
@@ -773,7 +766,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case9_with_components_list.yaml",
                 config=self.playbook_config_filter_with_components_list_case_9,
             )
         )
@@ -800,7 +792,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case11_multi_fabric_sites.yaml",
                 config=self.playbook_config_filter_multi_fabric_sites_case_11,
             )
         )
@@ -829,7 +820,6 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestDnacModule):
                 dnac_log=True,
                 state="gathered",
                 dnac_log_level="DEBUG",
-                file_path="/tmp/ut_case10_append_mode.yaml",
                 file_mode="append",
                 config=self.playbook_config_filter_with_file_mode_append_case_10,
             )

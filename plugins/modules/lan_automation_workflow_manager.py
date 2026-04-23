@@ -483,7 +483,14 @@ notes:
   - Links from different Port Channels cannot be mixed during update
     operations. Each physical link can belong to only one Port Channel
     at any given time.
-
+  - To run multiple LAN Automation sessions in parallel, use Ansible asynchronous
+    tasks within a single playbook. This allows multiple LAN session start tasks
+    to execute concurrently. Cisco Catalyst Center supports up to 5 concurrent
+    LAN Automation sessions.
+  - For parallel execution, add async, poll, and register on each LAN
+    Automation task, then add a final async_status task that loops over the
+    registered jobs and waits for completion. Check the examples section for a
+    complete parallel execution playbook.
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_start_v2
     lan_automation.LanAutomation.lan_automation_stop
@@ -600,6 +607,70 @@ EXAMPLES = r"""
           device_serial_number_authorization:
             - "FJC27172JDW"
             - "FJC2721261A"
+
+- name: Start multiple LAN Automation sessions in parallel
+  hosts: dnac_servers
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Start LAN Automation session 1 asynchronously
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: merged
+        config:
+          - lan_automation:
+              primary_device_management_ip_address: "204.1.1.1"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
+              primary_device_interface_names:
+                - "HundredGigE1/0/2"
+              ip_pools:
+                - ip_pool_name: "underlay_sub_sj"
+                  ip_pool_role: "MAIN_POOL"
+              launch_and_wait: false
+        async: 3600
+        poll: 0
+        register: lan_job_1
+
+    - name: Start LAN Automation session 2 asynchronously
+      cisco.dnac.lan_automation_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: merged
+        config:
+          - lan_automation:
+              primary_device_management_ip_address: "204.1.1.2"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN FRANCISCO"
+              primary_device_interface_names:
+                - "HundredGigE1/0/29"
+              ip_pools:
+                - ip_pool_name: "underlay_sub_sf"
+                  ip_pool_role: "MAIN_POOL"
+              launch_and_wait: false
+      async: 3600
+      poll: 0
+      register: lan_job_2
+
+    - name: Wait for all asynchronous LAN Automation jobs
+      ansible.builtin.async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: lan_job_status
+      until: lan_job_status.finished
+      retries: 300
+      delay: 10
+      loop:
+        - "{{ lan_job_1 }}"
+        - "{{ lan_job_2 }}"
 
 - name: Stop a LAN Automation session
   cisco.dnac.lan_automation_workflow_manager:
