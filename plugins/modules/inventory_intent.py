@@ -763,6 +763,8 @@ except ImportError:
     pyzipper = None
 
 import csv
+import secrets
+import string
 import time
 from datetime import datetime
 from io import BytesIO, StringIO
@@ -886,7 +888,7 @@ class DnacDevice(DnacBase):
 
         self.validated_config = valid_temp
         self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
-            str(valid_temp)
+            str(self.mask_credentials(valid_temp))
         )
         self.log(self.msg, "INFO")
         self.status = "success"
@@ -1139,6 +1141,56 @@ class DnacDevice(DnacBase):
 
         return self
 
+    @staticmethod
+    def generate_export_password():
+        """
+        Generates a random password for encrypting a device credential export file.
+        Returns:
+            str: A 16-character password with uppercase and lowercase letters, digits, and one special character.
+        Description:
+            Cisco Catalyst Center requires the export file password to have at least 8 characters, with mixed
+            case, numbers, and symbols. A new password is generated for each export.
+        """
+        password_chars = [
+            secrets.choice(string.ascii_uppercase),
+            secrets.choice(string.ascii_lowercase),
+            secrets.choice(string.digits),
+            secrets.choice("!@#$%^&*"),
+        ]
+        password_chars += [
+            secrets.choice(string.ascii_letters + string.digits) for dummy in range(12)
+        ]
+        secrets.SystemRandom().shuffle(password_chars)
+        return "".join(password_chars)
+
+    def mask_credentials(self, data):
+        """
+        Masks credential values in data before it is logged.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            data (dict | list): Data that can hold device credentials, such as the playbook config.
+        Returns:
+            dict | list: A copy of the data in which the values of password, passphrase, community,
+            and secret fields are replaced with "********".
+        """
+        if isinstance(data, list):
+            return [self.mask_credentials(item) for item in data]
+
+        if not isinstance(data, dict):
+            return data
+
+        masked = {}
+        for key, value in data.items():
+            if value and any(
+                word in str(key).lower()
+                for word in ("password", "passphrase", "community", "secret")
+            ):
+                masked[key] = "********"
+            else:
+                masked[key] = self.mask_credentials(value)
+
+        return masked
+
     def trigger_export_api(self, payload_params):
         """
         Triggers the export API to generate a CSV file containing device details based on the given payload parameters.
@@ -1268,9 +1320,10 @@ class DnacDevice(DnacBase):
         file_content_text = file_content_binary.decode("utf-8")
 
         # Now 'file_content_text' contains the text content of the decrypted file
+        row_count = len(list(csv.DictReader(StringIO(file_content_text))))
         self.log(
-            "Text content of decrypted file: {0}".format(
-                file_content_text), "DEBUG"
+            "Decrypted file '{0}' with {1} row(s).".format(file_name, row_count),
+            "DEBUG",
         )
 
         # Parse the CSV-like string into a list of dictionaries
@@ -2914,7 +2967,7 @@ class DnacDevice(DnacBase):
 
         device_ips = self.get_device_ips_from_config_priority()
         device_uuids = self.get_device_ids(device_ips)
-        password = "Testing@123"
+        password = self.generate_export_password()
         # Split the payload into 500 devices(by default) only to match the device credentials
         device_batch_size = self.config[0].get(
             "export_device_details_limit", 500)
@@ -3436,7 +3489,10 @@ class DnacDevice(DnacBase):
         self.want = want
         self.msg = "Successfully collected all parameters from the playbook "
         self.status = "success"
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log(
+            "Desired State (want): {0}".format(str(self.mask_credentials(self.want))),
+            "INFO",
+        )
 
         return self
 
@@ -3778,7 +3834,7 @@ class DnacDevice(DnacBase):
             device_to_update = self.get_device_ips_from_config_priority()
             # Update Device details and credentails
             device_uuids = self.get_device_ids(device_to_update)
-            password = "Testing@123"
+            password = self.generate_export_password()
             export_payload = {
                 "deviceUuids": device_uuids,
                 "password": password,
@@ -3980,7 +4036,7 @@ class DnacDevice(DnacBase):
                         else:
                             self.log(
                                 "Playbook parameter for updating device new management ip address: {0}".format(
-                                    str(playbook_params)
+                                    str(self.mask_credentials(playbook_params))
                                 ),
                                 "DEBUG",
                             )
@@ -4006,7 +4062,7 @@ class DnacDevice(DnacBase):
                     else:
                         self.log(
                             "Playbook parameter for updating devices: {0}".format(
-                                str(playbook_params)
+                                str(self.mask_credentials(playbook_params))
                             ),
                             "DEBUG",
                         )
@@ -4323,7 +4379,10 @@ class DnacDevice(DnacBase):
 
         self.get_have(config)
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log(
+            "Desired State (want): {0}".format(str(self.mask_credentials(self.want))),
+            "INFO",
+        )
 
         devices_to_add = self.have["device_not_in_dnac"]
         credential_update = self.config[0].get("credential_update", False)
@@ -4471,7 +4530,10 @@ class DnacDevice(DnacBase):
 
         self.get_have(config)
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
-        self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+        self.log(
+            "Desired State (want): {0}".format(str(self.mask_credentials(self.want))),
+            "INFO",
+        )
         input_devices = self.have["want_device"]
 
         if self.config[0].get("add_user_defined_field"):
