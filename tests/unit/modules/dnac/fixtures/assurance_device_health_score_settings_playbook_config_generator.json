@@ -2,7 +2,7 @@
   "playbook_config_generate_all": {
     "dnac_host": "198.18.129.100",
     "dnac_username": "admin", 
-    "dnac_password": "C1sco12345",
+    "dnac_password": "dummy",
     "dnac_verify": false,
     "dnac_version": "2.3.7.6",
     "state": "merged",
@@ -15,7 +15,7 @@
   "playbook_config_specific_families": {
     "dnac_host": "198.18.129.100",
     "dnac_username": "admin",
-    "dnac_password": "C1sco12345", 
+    "dnac_password": "dummy",
     "dnac_verify": false,
     "dnac_version": "2.3.7.6",
     "state": "merged",
@@ -30,7 +30,7 @@
   "playbook_config_specific_kpis": {
     "dnac_host": "198.18.129.100",
     "dnac_username": "admin",
-    "dnac_password": "C1sco12345",
+    "dnac_password": "dummy",
     "dnac_verify": false, 
     "dnac_version": "2.3.7.6",
     "state": "merged",
@@ -45,7 +45,7 @@
   "playbook_config_combined_filters": {
     "dnac_host": "198.18.129.100",
     "dnac_username": "admin",
-    "dnac_password": "C1sco12345",
+    "dnac_password": "dummy",
     "dnac_verify": false,
     "dnac_version": "2.3.7.6",
     "state": "merged",
@@ -61,7 +61,7 @@
   "playbook_config_invalid_filters": {
     "dnac_host": "198.18.129.100",
     "dnac_username": "admin",
-    "dnac_password": "C1sco12345",
+    "dnac_password": "dummy",
     "dnac_verify": false,
     "dnac_version": "2.3.7.6",
     "state": "merged",

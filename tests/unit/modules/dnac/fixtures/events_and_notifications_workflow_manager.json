@@ -106,9 +106,9 @@
         "username": "cisco",
         "mode": "AUTH_PRIVACY",
         "auth_type": "SHA",
-        "auth_password": "authpass123",
+        "auth_password": "<auth_password>",
         "privacy_type": "AES128",
-        "privacy_password": "privacy123"
+        "privacy_password": "<privacy_password>"
       }
     }
   ],
@@ -124,9 +124,9 @@
         "username": "cisco",
         "mode": "AUTH_PRIVACY",
         "auth_type": "SHA",
-        "auth_password": "authpass123",
+        "auth_password": "<auth_password>",
         "privacy_type": "AES128",
-        "privacy_password": "privacy123"
+        "privacy_password": "<privacy_password>"
       }
     }
   ],
@@ -148,7 +148,7 @@
         "connection_settings": {
           "url": "https://catalystcenter.com",
           "username": "catalyst",
-          "password": "catalyst@123"
+          "password": "<password>"
         }
       }
     }
@@ -162,7 +162,7 @@
         "connection_settings": {
           "url": "http/catalystcenter.com",
           "username": "catalyst",
-          "password": "catalyst@123"
+          "password": "<password>"
         }
       }
     }
@@ -183,7 +183,7 @@
         "instance_name": "ITSM test",
         "description": "ITSM description for updating",
         "connection_settings": {
-          "password": "catalyst@123"
+          "password": "<password>"
         }
       }
     }
@@ -910,7 +910,7 @@
       "ipAddress": "22.10.30.34",
       "port": 165,
       "snmpVersion": "V2C",
-      "community": "testcisco_secure",
+      "community": "<community>",
       "userName": null,
       "snmpMode": null,
       "snmpAuthType": null,
@@ -931,9 +931,9 @@
       "userName": "cisco",
       "snmpMode": "AUTH_PRIVACY",
       "snmpAuthType": "SHA",
-      "authPassword": "authpass123",
+      "authPassword": "<auth_password>",
       "snmpPrivacyType": "AES128",
-      "privacyPassword": "privacy123"
+      "privacyPassword": "<privacy_password>"
     }
   ],
 
@@ -957,7 +957,7 @@
       "ipAddress": "22.10.30.34",
       "port": 165,
       "snmpVersion": "V2C",
-      "community": "testcisco_secure",
+      "community": "<community>",
       "userName": null,
       "snmpMode": null,
       "snmpAuthType": null,
@@ -978,9 +978,9 @@
       "userName": "cisco",
       "snmpMode": "AUTH_PRIVACY",
       "snmpAuthType": "SHA",
-      "authPassword": "authpass123",
+      "authPassword": "<auth_password>",
       "snmpPrivacyType": "AES128",
-      "privacyPassword": "privacy123"
+      "privacyPassword": "<privacy_password>"
     },
     {
       "version": null,
@@ -995,9 +995,9 @@
       "userName": "cisco",
       "snmpMode": "AUTH_PRIVACY",
       "snmpAuthType": "SHA",
-      "authPassword": "authpass123",
+      "authPassword": "<auth_password>",
       "snmpPrivacyType": "AES128",
-      "privacyPassword": "privacy123"
+      "privacyPassword": "<privacy_password>"
     }
   ],
 

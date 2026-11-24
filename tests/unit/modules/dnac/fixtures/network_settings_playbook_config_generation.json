@@ -299,13 +299,13 @@
             "primaryServerIp": "10.1.1.100",
             "protocol": "RADIUS",
             "serverType": "ISE",
-            "sharedSecret": "secret123"
+            "sharedSecret": "<shared_secret>"
           },
           "aaaClient": {
             "primaryServerIp": "10.1.1.101",
             "protocol": "TACACS",
             "serverType": "AAA",
-            "sharedSecret": "clientsecret"
+            "sharedSecret": "<shared_secret_2>"
           },
           "telemetry": {
             "applicationVisibility": {
@@ -350,14 +350,14 @@
         "protocol": "RADIUS",
         "servers": "10.1.1.100",
         "serverType": "ISE",
-        "sharedSecret": "secret123"
+        "sharedSecret": "<shared_secret>"
       },
       {
         "network": "client_aaa",
         "protocol": "TACACS",
         "servers": "10.1.1.101",
         "serverType": "AAA",
-        "sharedSecret": "clientsecret"
+        "sharedSecret": "<shared_secret_2>"
       }
     ],
     "version": "1.0"

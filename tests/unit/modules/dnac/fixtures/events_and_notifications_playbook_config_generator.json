@@ -105,7 +105,7 @@
       "ipAddress": "23.2.34.34",
       "port": 161,
       "snmpVersion": "V2C",
-      "community": "klasjdnfusadifnuhu",
+      "community": "<community>",
       "userName": null,
       "snmpMode": null,
       "snmpAuthType": null,
@@ -127,9 +127,9 @@
       "userName": "cisco123",
       "snmpMode": "AUTH_PRIVACY",
       "snmpAuthType": "SHA",
-      "authPassword": "authpass123",
+      "authPassword": "<auth_password>",
       "snmpPrivacyType": "AES128",
-      "privacyPassword": "privpass123"
+      "privacyPassword": "<privacy_password>"
     }
   ],
   "webhook_event_notifications": [

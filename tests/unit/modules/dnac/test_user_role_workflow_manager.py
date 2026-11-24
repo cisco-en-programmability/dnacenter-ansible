@@ -899,7 +899,7 @@ numbers, periods, underscores, and hyphens."
             dict(
                 dnac_host="1.1.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
@@ -910,7 +910,7 @@ numbers, periods, underscores, and hyphens."
                             first_name="Test",
                             last_name="User",
                             email="test@example.com",
-                            password="ValidPass@1",
+                            password="<User_Password_1>",
                             password_update="true",  # string, not bool
                             role_list=["OBSERVER-ROLE"],
                         )

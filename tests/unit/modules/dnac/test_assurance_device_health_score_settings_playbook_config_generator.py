@@ -33,7 +33,7 @@ def get_mock_module():
     mock_module.params = {
         'dnac_host': '198.18.129.100',
         'dnac_username': 'admin',
-        'dnac_password': 'admin123',
+        'dnac_password': 'dummy',
         'dnac_verify': False,
         'dnac_port': 443,
         'dnac_version': '2.3.7.6',
@@ -159,7 +159,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         valid_params = {
             "dnac_host": "198.18.129.100",
             "dnac_username": "admin",
-            "dnac_password": "C1sco12345",
+            "dnac_password": "dummy",
             "dnac_verify": False,
             "dnac_version": "2.3.7.6",
             "state": "gathered",
@@ -197,7 +197,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         set_module_args(
             dnac_host="198.18.129.100",
             dnac_username="admin",
-            dnac_password="C1sco12345",
+            dnac_password="dummy",
             dnac_verify=False,
             dnac_version="2.3.7.6",
             state="gathered",
