@@ -233,7 +233,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - file_password: qsaA12!asdasd
+      - file_password: "{{ device_configs_backup_file_password }}"
 - name: Take backup of device(s) using hostname(s)
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -266,7 +266,7 @@ EXAMPLES = r"""
     config:
       - hostname_list: ["DC-T-9300.cisco.local"]
         file_path: backup
-        file_password: qsaA12!asdasd
+        file_password: "{{ device_configs_backup_file_password }}"
         unzip_backup: true
 - name: Take backup of all devices in a site(s)
   cisco.dnac.device_configs_backup_workflow_manager:

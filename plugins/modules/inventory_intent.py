@@ -431,19 +431,19 @@ EXAMPLES = r"""
     config:
       - cli_transport: ssh
         compute_device: false
-        password: Test@123
-        enable_password: Test@1234
+        password: "{{ inventory_cli_password }}"
+        enable_password: "{{ inventory_cli_enable_password }}"
         extended_discovery_info: test
         http_username: "testuser"
-        http_password: "test"
+        http_password: "{{ inventory_http_password }}"
         http_port: "443"
         http_secure: false
         ip_address_list: ["1.1.1.1", "2.2.2.2"]
         netconf_port: 830
-        snmp_auth_passphrase: "Lablab@12"
+        snmp_auth_passphrase: "{{ inventory_snmp_auth_passphrase }}"
         snmp_auth_protocol: SHA
         snmp_mode: AUTHPRIV
-        snmp_priv_passphrase: "Lablab@123"
+        snmp_priv_passphrase: "{{ inventory_snmp_priv_passphrase }}"
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
@@ -467,12 +467,12 @@ EXAMPLES = r"""
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         http_username: "testuser"
-        http_password: "test"
+        http_password: "{{ inventory_http_password }}"
         http_port: "443"
-        snmp_auth_passphrase: "Lablab@12"
+        snmp_auth_passphrase: "{{ inventory_snmp_auth_passphrase }}"
         snmp_auth_protocol: SHA
         snmp_mode: AUTHPRIV
-        snmp_priv_passphrase: "Lablab@123"
+        snmp_priv_passphrase: "{{ inventory_snmp_priv_passphrase }}"
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
@@ -494,7 +494,7 @@ EXAMPLES = r"""
     dnac_log: false
     state: merged
     config:
-      - http_password: "test"
+      - http_password: "{{ inventory_http_password }}"
         type: "MERAKI_DASHBOARD"
 - name: Add new Firepower Management device in Inventory with full credentials.Input
     needed to add Device.
@@ -512,7 +512,7 @@ EXAMPLES = r"""
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         http_username: "testuser"
-        http_password: "test"
+        http_password: "{{ inventory_http_password }}"
         http_port: "443"
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 - name: Add new Third Party device in Inventory with full credentials.Input needed
@@ -530,10 +530,10 @@ EXAMPLES = r"""
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-        snmp_auth_passphrase: "Lablab@12"
+        snmp_auth_passphrase: "{{ inventory_snmp_auth_passphrase }}"
         snmp_auth_protocol: SHA
         snmp_mode: AUTHPRIV
-        snmp_priv_passphrase: "Lablab@123"
+        snmp_priv_passphrase: "{{ inventory_snmp_priv_passphrase }}"
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
@@ -554,8 +554,8 @@ EXAMPLES = r"""
     config:
       - cli_transport: telnet
         compute_device: false
-        password: newtest123
-        enable_password: newtest1233
+        password: "{{ inventory_cli_password }}"
+        enable_password: "{{ inventory_cli_enable_password }}"
         ip_address_list: ["1.1.1.1", "2.2.2.2"]
         type: NETWORK_DEVICE
         credential_update: true
@@ -651,7 +651,7 @@ EXAMPLES = r"""
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         export_device_list:
-          password: "File_password"
+          password: "{{ inventory_export_file_password }}"
           operation_enum: "0"
           parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 - name: Create Global User Defined with IP Address

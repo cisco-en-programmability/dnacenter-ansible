@@ -640,7 +640,7 @@ EXAMPLES = r"""
                   nfs_version: nfs4
                   nfs_portmapper_port: 111
                 data_retention_period: 30
-                encryption_passphrase: Enterprise@Backup2024
+                encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
             backup:
               - name: ENTERPRISE_DAILY_BACKUP
                 scope: CISCO_DNA_DATA_WITH_ASSURANCE
