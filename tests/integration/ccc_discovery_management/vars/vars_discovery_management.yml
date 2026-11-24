@@ -27,26 +27,26 @@ ip_range:
     discovery_specific_credentials:
       cli_credentials_list:
         - username: cisco
-          password: Cisco#123
-          enable_password: Cisco#123
+          password: "{{ lab_device_cli_password }}"
+          enable_password: "{{ lab_device_cli_enable_password }}"
       http_read_credential:
         username: wlcaccess
-        password: Lablab#123
+        password: "{{ discovery_http_read_password }}"
         port: 443
         secure: True
       snmp_v2_read_credential:
         desc: SNMPv2c Read
-        community: "j5aj#0z%"
+        community: "{{ lab_device_snmp_v2_read_community }}"
       snmp_v2_write_credential:
         desc: SNMPv2c Write
-        community: "n2!y9k38"
+        community: "{{ lab_device_snmp_v2_write_community }}"
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        auth_password: "{{ lab_device_snmp_v3_auth_password }}"
         privacy_type: AES256
-        privacy_password: Lablab#1234
+        privacy_password: "{{ lab_device_snmp_v3_privacy_password }}"
     start_index: 1
     records_to_return: 1000
     snmp_version: v2
@@ -82,15 +82,15 @@ multi_range:
     discovery_specific_credentials:
       cli_credentials_list:
         - username: cisco
-          password: Cisco#123
-          enable_password: Cisco#123
+          password: "{{ lab_device_cli_password }}"
+          enable_password: "{{ lab_device_cli_enable_password }}"
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        auth_password: "{{ lab_device_snmp_v3_auth_password }}"
         privacy_type: AES256
-        privacy_password: Lablab#1234 
+        privacy_password: "{{ lab_device_snmp_v3_privacy_password }}"
     retry: 1
     timeout: 1
 
@@ -105,15 +105,15 @@ cdp:
     discovery_specific_credentials:
       cli_credentials_list:
         - username: cisco
-          password: Cisco#123
-          enable_password: Cisco#123
+          password: "{{ lab_device_cli_password }}"
+          enable_password: "{{ lab_device_cli_enable_password }}"
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        auth_password: "{{ lab_device_snmp_v3_auth_password }}"
         privacy_type: AES256
-        privacy_password: Lablab#1234
+        privacy_password: "{{ lab_device_snmp_v3_privacy_password }}"
     retry: 1
     timeout: 1
 
@@ -128,15 +128,15 @@ lldp:
     discovery_specific_credentials:
       cli_credentials_list:
         - username: cisco
-          password: Cisco#123
-          enable_password: Cisco#123
+          password: "{{ lab_device_cli_password }}"
+          enable_password: "{{ lab_device_cli_enable_password }}"
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        auth_password: "{{ lab_device_snmp_v3_auth_password }}"
         privacy_type: AES256
-        privacy_password: Lablab#1234 
+        privacy_password: "{{ lab_device_snmp_v3_privacy_password }}"
     retry: 1
     timeout: 1
 
@@ -151,14 +151,14 @@ cidr:
     discovery_specific_credentials:
       cli_credentials_list:
         - username: cisco
-          password: Cisco#123
-          enable_password: Cisco#123
+          password: "{{ lab_device_cli_password }}"
+          enable_password: "{{ lab_device_cli_enable_password }}"
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        auth_password: "{{ lab_device_snmp_v3_auth_password }}"
         privacy_type: AES256
-        privacy_password: Lablab#1234
+        privacy_password: "{{ lab_device_snmp_v3_privacy_password }}"
     retry: 1
     timeout: 1

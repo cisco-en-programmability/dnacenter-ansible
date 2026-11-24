@@ -1,6 +1,6 @@
 ---
 device_backup:
-  - file_password: qsaA12!asdasd
+  - file_password: "{{ device_configs_backup_file_password }}"
 
   - hostname_list: ["DC-FR-9300.cisco.local", "SJ-BN-9300.abc.com", "DC-T-9300.cisco.local", "NY-EN-9300.abc.com", "SJ-EN-9300.cisco.local"]
     file_path: backup
@@ -8,7 +8,7 @@ device_backup:
 
   - hostname_list: ["DC-FR-9300.cisco.local", "SJ-BN-9300.abc.com", "DC-T-9300.cisco.local", "NY-EN-9300.abc.com", "SJ-EN-9300.cisco.local"]
     file_path: backup
-    file_password: qsaA12!asdasd
+    file_password: "{{ device_configs_backup_file_password }}"
 
   # - site_list: ["Global"]
   #   file_path: backup
@@ -16,7 +16,7 @@ device_backup:
 
   # - site_list: ["Global"]
   #   file_path: backup
-  #   file_password: qsaA12!asdasd
+  #   file_password: "{{ device_configs_backup_file_password }}"
 
   - site_list: ["Global"]
     ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]

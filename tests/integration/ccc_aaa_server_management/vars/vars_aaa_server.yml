@@ -3,7 +3,7 @@ create_aaa_server_details:
   - authentication_policy_server:
       - server_type: AAA
         server_ip_address: 10.0.0.40
-        shared_secret: cisco
+        shared_secret: "{{ aaa_server_shared_secret }}"
         protocol: RADIUS_TACACS
         encryption_scheme: KEYWRAP
         encryption_key: 1234123412341234

@@ -32,7 +32,7 @@ create_wireless_ssids:
         l2_auth_type: "WPA2_WPA3_PERSONAL"
         ap_beacon_protection: true
         passphrase_type: "ASCII"
-        passphrase: "password123"
+        passphrase: "{{ wireless_design_ssid_passphrase }}"
       fast_transition: "ENABLE"
       fast_transition_over_the_ds: true
       wpa_encryption: ["CCMP128"]
@@ -158,7 +158,7 @@ create_wireless_ssids:
         - site_name_hierarchy: "Global/USA/San Jose"
           l2_security:
             l2_auth_type: "WPA2_PERSONAL"
-            passphrase: "password456"
+            passphrase: "{{ wireless_design_site_ssid_passphrase }}"
           fast_transition: "ENABLE"
           wpa_encryption: ["CCMP128"]
           auth_key_management: ["PSK"]
@@ -197,7 +197,7 @@ update_wireless_ssids:
         - site_name_hierarchy: "Global/USA/San Jose"
           l2_security:
             l2_auth_type: "WPA2_PERSONAL"
-            passphrase: "password456"
+            passphrase: "{{ wireless_design_site_ssid_passphrase }}"
           fast_transition: "ENABLE"
           wpa_encryption: ["CCMP128"]
           auth_key_management: ["PSK"]
@@ -542,13 +542,13 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
 
     - access_point_profile_name: "Conference-Room-AP"
       management_settings:
         access_point_authentication: "EAP-FAST"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
 
     - access_point_profile_name: "Lobby-AP"
       remote_teleworker: true
@@ -557,19 +557,19 @@ add_ap_profiles:
         ssh_enabled: true
         telnet_enabled: false
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
 
     - access_point_profile_name: "Cafeteria-AP"
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: true
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
 
     - access_point_profile_name: "Parking-Lot-AP"
       management_settings:
@@ -581,12 +581,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
 
     - access_point_profile_name: "Training-Room-AP"
       security_settings:
@@ -608,12 +608,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -646,12 +646,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -707,12 +707,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -742,12 +742,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -777,12 +777,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -830,12 +830,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -867,12 +867,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -904,12 +904,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -943,12 +943,12 @@ add_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -984,12 +984,12 @@ update_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "user1"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -1023,13 +1023,12 @@ update_ap_profiles:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        # password changed
-        dot1x_password: mblfhlfghjghn"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePasfsdfs"
-        management_enable_password: "adflmlsdsfdfdf"
+        management_password: "{{ wireless_design_ap_updated_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_updated_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -1667,7 +1666,7 @@ add_all:
         l2_auth_type: "WPA2_WPA3_PERSONAL"
         ap_beacon_protection: true
         passphrase_type: "ASCII"
-        passphrase: "password123"
+        passphrase: "{{ wireless_design_ssid_passphrase }}"
       fast_transition: "ENABLE"
       fast_transition_over_the_ds: true
       wpa_encryption: ["CCMP128"]
@@ -1793,7 +1792,7 @@ add_all:
         - site_name_hierarchy: "Global/USA/San Jose"
           l2_security:
             l2_auth_type: "WPA2_PERSONAL"
-            passphrase: "password456"
+            passphrase: "{{ wireless_design_site_ssid_passphrase }}"
           fast_transition: "ENABLE"
           wpa_encryption: ["CCMP128"]
           auth_key_management: ["PSK"]
@@ -1990,13 +1989,13 @@ add_all:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
 
     - access_point_profile_name: "Conference-Room-AP"
       management_settings:
         access_point_authentication: "EAP-FAST"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
 
     - access_point_profile_name: "Lobby-AP"
       remote_teleworker: true
@@ -2005,19 +2004,19 @@ add_all:
         ssh_enabled: true
         telnet_enabled: false
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
 
     - access_point_profile_name: "Cafeteria-AP"
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: true
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
 
     - access_point_profile_name: "Parking-Lot-AP"
       management_settings:
@@ -2029,12 +2028,12 @@ add_all:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
 
     - access_point_profile_name: "Training-Room-AP"
       security_settings:
@@ -2056,12 +2055,12 @@ add_all:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -2094,12 +2093,12 @@ add_all:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "admin"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
@@ -2497,7 +2496,7 @@ update_all:
         - site_name_hierarchy: "Global/USA/San Jose"
           l2_security:
             l2_auth_type: "WPA2_PERSONAL"
-            passphrase: "password456"
+            passphrase: "{{ wireless_design_site_ssid_passphrase }}"
           fast_transition: "ENABLE"
           wpa_encryption: ["CCMP128"]
           auth_key_management: ["PSK"]
@@ -2606,12 +2605,12 @@ update_all:
       management_settings:
         access_point_authentication: "EAP-PEAP"
         dot1x_username: "user1"
-        dot1x_password: "asdfasdfasdfsdf"
+        dot1x_password: "{{ wireless_design_ap_dot1x_password }}"
         ssh_enabled: false
         telnet_enabled: true
         management_username: "admin"
-        management_password: "securePass"
-        management_enable_password: "adflmlssf"
+        management_password: "{{ wireless_design_ap_management_password }}"
+        management_enable_password: "{{ wireless_design_ap_management_enable_password }}"
       security_settings:
         awips: true
         awips_forensic: false
