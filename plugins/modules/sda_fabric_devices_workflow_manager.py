@@ -3954,7 +3954,7 @@ class FabricDevices(DnacBase):
                     "failed",
                 )
 
-            if not (internal_vlan_id not in reserved_vlans):
+            if internal_vlan_id in reserved_vlans:
                 return (
                     "The 'internal_vlan_id' should not be a reserved VLAN '{reserved_vlan}' for the device '{ip}'.".format(
                         reserved_vlan=reserved_vlans, ip=device_ip
@@ -3990,7 +3990,7 @@ class FabricDevices(DnacBase):
                     "failed",
                 )
 
-            if not (external_vlan_id not in reserved_vlans):
+            if external_vlan_id in reserved_vlans:
                 return (
                     "The 'external_vlan_id' should not be a reserved VLAN '{reserved_vlan}' for the device '{ip}'.".format(
                         reserved_vlan=reserved_vlans, ip=device_ip
