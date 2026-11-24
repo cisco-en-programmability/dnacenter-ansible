@@ -185,6 +185,10 @@ Known limitations and compatibility notes are documented in the [changelog](http
 
 Contributions are welcome. Please open issues or pull requests via the [Cisco DNA Center Ansible collection repository](https://github.com/cisco-en-programmability/dnacenter-ansible/issues). All contributors must adhere to the project's Code of Conduct.
 
+Read the [contribution guide](CONTRIBUTING.md) and the
+[code review and development guidelines](docs/CODE_REVIEW_GUIDELINES.md) before
+submitting or reviewing changes.
+
 
 ## Code of Conduct
 
