@@ -27,7 +27,7 @@
               first_name: ajith
               last_name: Andrew
               email: ajith@gmail.com
-              password: Example@0101
+              password: "{{ user_role_user_password }}"
               password_update: true
               role_list:
                 - Test_role_1
