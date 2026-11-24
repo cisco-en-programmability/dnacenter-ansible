@@ -18,7 +18,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from unittest.mock import patch
+import unittest
+from io import BytesIO
+from unittest.mock import MagicMock, patch
+
+try:
+    import pyzipper
+except ImportError:
+    pyzipper = None
 
 from ansible_collections.cisco.dnac.plugins.modules import inventory_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
@@ -745,3 +752,135 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "deleted successfully",
             result.get('msg')
         )
+
+    def test_inventory_workflow_manager_generate_export_password(self):
+        """
+        Test case for the password used to encrypt device credential export files.
+
+        This test case checks that each generated password meets the Cisco Catalyst Center
+        complexity rules and that passwords differ between exports.
+        """
+
+        passwords = [
+            inventory_workflow_manager.Inventory.generate_export_password()
+            for dummy in range(50)
+        ]
+        self.assertEqual(len(set(passwords)), len(passwords))
+        for password in passwords:
+            self.assertEqual(len(password), 16)
+            self.assertTrue(any(c.isupper() for c in password))
+            self.assertTrue(any(c.islower() for c in password))
+            self.assertTrue(any(c.isdigit() for c in password))
+            self.assertEqual(sum(c in "!@#$%^&*" for c in password), 1)
+            self.assertTrue(all(c.isalnum() or c in "!@#$%^&*" for c in password))
+
+    @unittest.skipIf(
+        pyzipper is None or not inventory_workflow_manager.HAS_PYZIPPER,
+        "pyzipper and pytz are required to decrypt export files",
+    )
+    def test_inventory_workflow_manager_decrypt_and_read_csv_log(self):
+        """
+        Test case for reading an encrypted device credential export file.
+
+        This test case checks that the rows are read from the decrypted file and that
+        the file content is not written to the log.
+        """
+
+        password = inventory_workflow_manager.Inventory.generate_export_password()
+        zip_data = BytesIO()
+        with pyzipper.AESZipFile(
+            zip_data, "w", compression=pyzipper.ZIP_LZMA, encryption=pyzipper.WZ_AES
+        ) as zip_file:
+            zip_file.setpassword(password.encode("utf-8"))
+            zip_file.writestr(
+                "devices.csv", "ip_address,password\n192.0.2.1,dummy-cli-password\n"
+            )
+
+        inventory = inventory_workflow_manager.Inventory.__new__(
+            inventory_workflow_manager.Inventory
+        )
+        inventory.config = [{"snmp_priv_protocol": "AES128"}]
+        inventory.log = MagicMock()
+
+        rows = list(
+            inventory.decrypt_and_read_csv(
+                MagicMock(data=zip_data.getvalue()), password
+            )
+        )
+
+        self.assertEqual(
+            rows, [{"ip_address": "192.0.2.1", "password": "dummy-cli-password"}]
+        )
+        logged = " ".join(str(call.args[0]) for call in inventory.log.call_args_list)
+        self.assertIn("1 row(s)", logged)
+        self.assertNotIn("dummy-cli-password", logged)
+
+    def test_inventory_workflow_manager_mask_credentials(self):
+        """
+        Test case for masking credential values before they are logged.
+
+        This test case checks that password, passphrase, and community values are masked in nested
+        data and that the original data is not changed.
+        """
+
+        inventory = inventory_workflow_manager.Inventory.__new__(
+            inventory_workflow_manager.Inventory
+        )
+        config = [
+            {
+                "ip_address_list": ["192.0.2.1"],
+                "password": "dummy-cli-password",
+                "snmp_auth_passphrase": "dummy-auth-passphrase",
+                "snmpROCommunity": "dummy-community",
+                "http_password": None,
+                "snmp_mode": "AUTHPRIV",
+                "export_device_list": {"password": "dummy-file-password"},
+            }
+        ]
+
+        self.assertEqual(
+            inventory.mask_credentials(config),
+            [
+                {
+                    "ip_address_list": ["192.0.2.1"],
+                    "password": "********",
+                    "snmp_auth_passphrase": "********",
+                    "snmpROCommunity": "********",
+                    "http_password": None,
+                    "snmp_mode": "AUTHPRIV",
+                    "export_device_list": {"password": "********"},
+                }
+            ],
+        )
+        self.assertEqual(config[0]["password"], "dummy-cli-password")
+
+    def test_inventory_workflow_manager_playbook_add_device_log_masks_credentials(self):
+        """
+        Test case for logging while adding devices.
+
+        This test case checks that the device credentials from the playbook config are not
+        written to the log.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                dnac_version="2.3.7.6",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_add_device,
+            )
+        )
+        with patch.object(inventory_workflow_manager.Inventory, "log") as mock_log:
+            self.execute_module(changed=True, failed=False)
+
+        logged = " ".join(str(call.args[0]) for call in mock_log.call_args_list)
+        credentials = [
+            self.playbook_add_device[0][key]
+            for key in ("password", "enable_password", "snmp_ro_community", "snmp_rw_community")
+        ]
+        self.assertTrue(all(credentials))
+        for value in credentials:
+            self.assertNotIn(value, logged)

@@ -10,6 +10,7 @@ __pycache__
 *.pyo
 *.swp
 *.tar.gz
+*.log
 .pytest_cache/
 .mypy_cache/
 venv/

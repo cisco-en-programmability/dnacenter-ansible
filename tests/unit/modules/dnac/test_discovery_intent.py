@@ -76,7 +76,7 @@ class TestDnacDiscoveryIntent(TestDnacModule):
             dict(
                 dnac_host="172.23.241.186",
                 dnac_username="admin",
-                dnac_password="Maglev123",
+                dnac_password="dummy",
                 dnac_verify=False,
                 dnac_log=True,
                 state="merged",
@@ -100,7 +100,7 @@ class TestDnacDiscoveryIntent(TestDnacModule):
             dict(
                 dnac_host="172.23.241.186",
                 dnac_username="admin",
-                dnac_password="Maglev123",
+                dnac_password="dummy",
                 dnac_verify=False,
                 dnac_log=True,
                 state="deleted",
@@ -124,7 +124,7 @@ class TestDnacDiscoveryIntent(TestDnacModule):
             dict(
                 dnac_host="172.23.241.186",
                 dnac_username="admin",
-                dnac_password="Maglev123",
+                dnac_password="dummy",
                 dnac_verify=False,
                 dnac_log=True,
                 state="deleted",
@@ -150,7 +150,7 @@ class TestDnacDiscoveryIntent(TestDnacModule):
             dict(
                 dnac_host="172.23.241.186",
                 dnac_username="admin",
-                dnac_password="Maglev123",
+                dnac_password="dummy",
                 dnac_verify=False,
                 dnac_log=True,
                 state="present",

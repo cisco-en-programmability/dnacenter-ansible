@@ -42,7 +42,7 @@
                         "l2_auth_type":"WPA2_WPA3_PERSONAL",
                         "ap_beacon_protection":true,
                         "passphrase_type":"ASCII",
-                        "passphrase":"password123"
+                        "passphrase":"<passphrase>"
                     },
                     "fast_transition":"ENABLE",
                     "fast_transition_over_the_ds":true,
@@ -245,7 +245,7 @@
                             "site_name_hierarchy":"Global/USA/San Jose",
                             "l2_security":{
                                 "l2_auth_type":"WPA2_PERSONAL",
-                                "passphrase":"password456"
+                                "passphrase":"<passphrase_2>"
                             },
                             "fast_transition":"ENABLE",
                             "wpa_encryption":[
@@ -804,7 +804,7 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf"
+                        "dot1x_password":"<dot1x_password>"
                     }
                 },
                 {
@@ -812,7 +812,7 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-FAST",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf"
+                        "dot1x_password":"<dot1x_password>"
                     }
                 },
                 {
@@ -823,8 +823,8 @@
                         "ssh_enabled":true,
                         "telnet_enabled":false,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     }
                 },
                 {
@@ -832,12 +832,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":true,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     }
                 },
                 {
@@ -853,12 +853,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     }
                 },
                 {
@@ -886,12 +886,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -931,12 +931,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1020,12 +1020,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1063,12 +1063,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1109,12 +1109,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1178,12 +1178,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1223,12 +1223,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1271,12 +1271,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1322,12 +1322,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1379,12 +1379,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePass",
-                        "management_enable_password":"adflmlssf"
+                        "management_password":"<management_password>",
+                        "management_enable_password":"<management_enable_password>"
                     },
                     "security_settings":{
                         "awips":true,
@@ -1439,12 +1439,12 @@
                     "management_settings":{
                         "access_point_authentication":"EAP-PEAP",
                         "dot1x_username":"user1",
-                        "dot1x_password":"asdfasdfasdfsdf",
+                        "dot1x_password":"<dot1x_password>",
                         "ssh_enabled":false,
                         "telnet_enabled":true,
                         "management_username":"admin",
-                        "management_password":"securePasfsdfs",
-                        "management_enable_password":"adflmlsdsfdfdf"
+                        "management_password":"<management_password_2>",
+                        "management_enable_password":"<management_enable_password_2>"
                     },
                     "security_settings":{
                         "awips":true,

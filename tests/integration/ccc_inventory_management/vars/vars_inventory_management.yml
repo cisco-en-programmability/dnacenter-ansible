@@ -4,16 +4,16 @@ device_details:
     ip_address_list: ["204.1.2.5"]
     # CLI Credentials
     username: "cisco"
-    password: "Cisco#123"
-    enable_password: "Cisco#123"
+    password: "{{ lab_device_cli_password }}"
+    enable_password: "{{ lab_device_cli_enable_password }}"
     # SNMP Credentials
     snmp_version: v3
     snmp_username: "v3Public2"
     snmp_mode: "AUTHPRIV"
     snmp_auth_protocol: "SHA"
-    snmp_auth_passphrase: "Lablab#1234"
+    snmp_auth_passphrase: "{{ lab_device_snmp_v3_auth_password }}"
     snmp_priv_protocol: "CISCOAES256"
-    snmp_priv_passphrase: "Lablab#1234"
+    snmp_priv_passphrase: "{{ lab_device_snmp_v3_privacy_password }}"
     #SNMP Retry and Timeout
     snmp_retry: 3
     snmp_timeout: 5
@@ -27,11 +27,11 @@ device_details:
   #   device_added: True
   #   # CLI Credentials
   #   username: "cisco"
-  #   password: "Cisco#123"
-  #   enable_password: "Cisco#123"
+  #   password: "{{ lab_device_cli_password }}"
+  #   enable_password: "{{ lab_device_cli_enable_password }}"
   #   # HTTP Credentials
   #   http_username: "wlcaccess"
-  #   http_password: "Lablab#123"
+  #   http_password: "{{ discovery_http_read_password }}"
   #   http_port: "443"
   #   http_secure: False
   #   # SNMP Credentials
@@ -39,9 +39,9 @@ device_details:
   #   snmp_username: "v3Public2"
   #   snmp_mode: "AUTHPRIV"
   #   snmp_auth_protocol: "SHA"
-  #   snmp_auth_passphrase: "Lablab#1234"
+  #   snmp_auth_passphrase: "{{ lab_device_snmp_v3_auth_password }}"
   #   snmp_priv_protocol: "AES256"
-  #   snmp_priv_passphrase: "Lablab#1234"
+  #   snmp_priv_passphrase: "{{ lab_device_snmp_v3_privacy_password }}"
   #   #SNMP Retry and Timeout
   #   snmp_retry: 3
   #   snmp_timeout: 5
@@ -56,7 +56,7 @@ device_credential_updates:
     ip_address_list: ["204.1.2.5"]
     credential_update: True
     # CLI Credentials
-    password: "Cisco#1234"
+    password: "{{ inventory_new_cli_password }}"
 
 
   # Update SNMP privacy type  
@@ -95,8 +95,8 @@ device_credential_updates:
     ip_address_list: ["204.1.2.5"]
     credential_update: True
     snmp_version: v2
-    snmp_ro_community: 'j5aj#0z%'
-    snmp_rw_community: 'j5aj#0z%'
+    snmp_ro_community: "{{ lab_device_snmp_v2_read_community }}"
+    snmp_rw_community: "{{ lab_device_snmp_v2_read_community }}"
 
   # Reverse changes
   - type: "NETWORK_DEVICE"
@@ -104,16 +104,16 @@ device_credential_updates:
     credential_update: True
     # CLI Credentials
     username: "cisco"
-    password: "Cisco#123"
-    enable_password: "Cisco#123"
+    password: "{{ lab_device_cli_password }}"
+    enable_password: "{{ lab_device_cli_enable_password }}"
     # SNMP Credentials
     snmp_version: v3
     snmp_username: "v3Public2"
     snmp_mode: "AUTHPRIV"
     snmp_auth_protocol: "SHA"
-    snmp_auth_passphrase: "Lablab#1234"
+    snmp_auth_passphrase: "{{ lab_device_snmp_v3_auth_password }}"
     snmp_priv_protocol: "CISCOAES256"
-    snmp_priv_passphrase: "Lablab#1234"
+    snmp_priv_passphrase: "{{ lab_device_snmp_v3_privacy_password }}"
     #CLI Transport (ssh, Telnet)
     cli_transport: "ssh"
     netconf_port: 830
@@ -192,14 +192,14 @@ export_device_details:
   - ip_address_list: ["204.1.2.5"]
     export_device_list:
       operation_enum: 1
-      password: "Password123!"
+      password: "{{ inventory_export_device_details_password }}"
 
 
 export_credential_details:
   - ip_address_list: ["204.1.2.5"]
     export_device_list:
       operation_enum: "0"
-      password: "Password123$"
+      password: "{{ inventory_export_credential_details_password }}"
 
 
 design_sites:

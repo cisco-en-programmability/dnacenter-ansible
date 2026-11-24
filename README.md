@@ -152,6 +152,13 @@ Execute the playbook as usual:
 ansible-playbook -i hosts myplaybook.yml
 ```
 
+The sample playbooks also read device, wireless, and user passwords from variables in `credentials.yml`. [credentials.template](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks/vars/credentials.template) lists them. Keep `credentials.yml` out of version control and encrypt it with Ansible Vault:
+
+```bash
+ansible-vault encrypt vars/credentials.yml
+ansible-playbook -i hosts myplaybook.yml --ask-vault-pass
+```
+
 In the `playbooks` [directory](https://github.com/cisco-en-programmability/dnacenter-ansible/blob/main/playbooks) you can find more examples and use cases.
 
 ## Use Cases
@@ -177,6 +184,10 @@ Known limitations and compatibility notes are documented in the [changelog](http
 ## Contributing
 
 Contributions are welcome. Please open issues or pull requests via the [Cisco DNA Center Ansible collection repository](https://github.com/cisco-en-programmability/dnacenter-ansible/issues). All contributors must adhere to the project's Code of Conduct.
+
+Read the [contribution guide](CONTRIBUTING.md) and the
+[code review and development guidelines](docs/CODE_REVIEW_GUIDELINES.md) before
+submitting or reviewing changes.
 
 
 ## Code of Conduct

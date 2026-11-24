@@ -4,7 +4,7 @@ create_user:
     last_name: "TestLastName"
     username: "testusername"
     email: "testuser@example.com"
-    password: "Test@123"
+    password: "{{ user_role_user_password }}"
     role_list: ["Super-Admin-Role"]
 
 create_role:

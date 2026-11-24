@@ -672,7 +672,7 @@ EXAMPLES = r"""
           first_name: "ajith"
           last_name: "andrew"
           email: "ajith.andrew@example.com"
-          password: "Example@0101"
+          password: "{{ user_role_user_password }}"
           role_list: ["SUPER-ADMIN-ROLE"]
 - name: Update a user for first name, last name, email,
     and role list
@@ -734,7 +734,7 @@ EXAMPLES = r"""
     config:
       user_details:
         - username: "ajithandrewj"
-          password: "Example@010101"
+          password: "{{ user_role_user_password }}"
           password_update: true
 - name: Delete a user using username or email address
   cisco.dnac.user_role_workflow_manager:

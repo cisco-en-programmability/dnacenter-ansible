@@ -27,7 +27,7 @@ update_backup_configuration:
           nfs_version: nfs4
           nfs_portmapper_port: 111
         data_retention_period: 21
-        encryption_passphrase: Karthick@zigzag333
+        encryption_passphrase: "{{ backup_and_restore_encryption_passphrase }}"
 
 delete_backup:
   - backup:

@@ -66,11 +66,11 @@
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: cisco
-                  password: Cisco#123
-                  enable_password: Cisco#123
+                  password: "{{ discovery_cli_password }}"
+                  enable_password: "{{ discovery_cli_enable_password }}"
               http_read_credential:
                 username: string
-                password: Lablab#123
+                password: "{{ discovery_http_read_password }}"
                 port: 443
                 secure: true
               snmp_v2_read_credential:
@@ -83,9 +83,9 @@
                 username: v3Public2
                 snmp_mode: AUTHPRIV
                 auth_type: SHA
-                auth_password: Lablab#1234
+                auth_password: "{{ discovery_snmp_v3_auth_password }}"
                 privacy_type: AES256
-                privacy_password: Lablab#1234
+                privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
             protocol_order: ssh
 
     - name: Execute discovery of single device using various discovery specific credentials only
@@ -102,11 +102,11 @@
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: cisco
-                  password: Cisco#123
-                  enable_password: Cisco#123
+                  password: "{{ discovery_cli_password }}"
+                  enable_password: "{{ discovery_cli_enable_password }}"
               http_read_credential:
                 username: string
-                password: Lablab#123
+                password: "{{ discovery_http_read_password }}"
                 port: 443
                 secure: true
               snmp_v2_read_credential:
@@ -119,9 +119,9 @@
                 username: v3Public2
                 snmp_mode: AUTHPRIV
                 auth_type: SHA
-                auth_password: Lablab#1234
+                auth_password: "{{ discovery_snmp_v3_auth_password }}"
                 privacy_type: AES256
-                privacy_password: Lablab#1234
+                privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
             protocol_order: ssh
 
     - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials and all global credentials (max 5 allowed)
@@ -140,23 +140,23 @@
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: admin
-                  password: maglev123
-                  enable_password: maglev123
+                  password: "{{ discovery_cli_password }}"
+                  enable_password: "{{ discovery_cli_enable_password }}"
               http_read_credential:
                 username: admin
-                password: maglev123
+                password: "{{ discovery_http_read_password }}"
                 port: 443
                 secure: true
               snmp_v2_read_credential:
                 desc: new
-                community: password
+                community: "{{ discovery_snmp_v2_read_community }}"
               snmp_v3_credential:
                 username: administrator
                 snmp_mode: AUTHPRIV
-                auth_password: admin123
+                auth_password: "{{ discovery_snmp_v3_auth_password }}"
                 auth_type: SHA
                 privacy_type: AES192
-                privacy_password: cisco#123
+                privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
             protocol_order: ssh
             start_index: 1
             records_to_return: 1000
@@ -176,8 +176,8 @@
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: admin
-                  password: maglev123
-                  enable_password: maglev123
+                  password: "{{ discovery_cli_password }}"
+                  enable_password: "{{ discovery_cli_enable_password }}"
             protocol_order: ssh
 
     - name: Execute deletion of single discovery from the dashboard

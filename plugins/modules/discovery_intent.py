@@ -424,31 +424,31 @@ EXAMPLES = r"""
         discovery_specific_credentials:
           cli_credentials_list:
             - username: cisco
-              password: Cisco123
-              enable_password: Cisco123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
           http_read_credential:
             username: cisco
-            password: Cisco123
+            password: "{{ discovery_http_read_password }}"
             port: 443
             secure: true
           http_write_credential:
             username: cisco
-            password: Cisco123
+            password: "{{ discovery_http_write_password }}"
             port: 443
             secure: true
           snmp_v2_read_credential:
             description: snmp_v2-new
-            community: Cisco123
+            community: "{{ discovery_snmp_v2_read_community }}"
           snmp_v2_write_credential:
             description: snmp_v2-new
-            community: Cisco123
+            community: "{{ discovery_snmp_v2_write_community }}"
           snmp_v3_credential:
             username: v3Public2
             snmp_mode: AUTHPRIV
             auth_type: SHA
-            auth_password: Lablab123
+            auth_password: "{{ discovery_snmp_v3_auth_password }}"
             privacy_type: AES256
-            privacy_password: Lablab123
+            privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
           net_conf_port: 750
         global_credentials:
           cli_credentials_list:
@@ -497,31 +497,31 @@ EXAMPLES = r"""
         discovery_specific_credentials:
           cli_credentials_list:
             - username: cisco
-              password: Cisco123
-              enable_password: Cisco123
+              password: "{{ discovery_cli_password }}"
+              enable_password: "{{ discovery_cli_enable_password }}"
           http_read_credential:
             username: cisco
-            password: Cisco123
+            password: "{{ discovery_http_read_password }}"
             port: 443
             secure: true
           http_write_credential:
             username: cisco
-            password: Cisco123
+            password: "{{ discovery_http_write_password }}"
             port: 443
             secure: true
           snmp_v2_read_credential:
             description: snmp_v2-new
-            community: Cisco123
+            community: "{{ discovery_snmp_v2_read_community }}"
           snmp_v2_write_credential:
             description: snmp_v2-new
-            community: Cisco123
+            community: "{{ discovery_snmp_v2_write_community }}"
           snmp_v3_credential:
             username: v3Public2
             snmp_mode: AUTHPRIV
             auth_type: SHA
-            auth_password: Lablab123
+            auth_password: "{{ discovery_snmp_v3_auth_password }}"
             privacy_type: AES256
-            privacy_password: Lablab123
+            privacy_password: "{{ discovery_snmp_v3_privacy_password }}"
           net_conf_port: 750
         use_global_credentials: false
         start_index: 1

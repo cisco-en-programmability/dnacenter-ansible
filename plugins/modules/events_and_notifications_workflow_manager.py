@@ -912,9 +912,9 @@ EXAMPLES = r"""
           username: cisco
           mode: AUTH_PRIVACY
           auth_type: SHA
-          auth_password: authpass123
+          auth_password: "{{ events_and_notifications_snmp_auth_password }}"
           privacy_type: AES128
-          privacy_password: privacy123
+          privacy_password: "{{ events_and_notifications_snmp_privacy_password }}"
 - name: Update SNMP destination with given name.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -935,7 +935,7 @@ EXAMPLES = r"""
           server_address: "10.30.0.23"
           port: "25"
           snmp_version: "V2C"
-          community: "public123"
+          community: "{{ events_and_notifications_snmp_community }}"
 - name: Create ITSM Integration Setting with given name
     in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -956,7 +956,7 @@ EXAMPLES = r"""
           connection_settings:
             url: "http/catalystcenter.com"
             username: "catalyst"
-            password: "catalyst@123"
+            password: "{{ events_and_notifications_itsm_password }}"
 - name: Updating ITSM Integration Setting with given
     name in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
@@ -975,7 +975,7 @@ EXAMPLES = r"""
           instance_name: "ITSM test"
           connection_settings:
             url: "http/catalystcenterupdate.com"
-            password: "catalyst@123"
+            password: "{{ events_and_notifications_itsm_password }}"
 - name: Creating Webhook Notification with the list
     of names of subscribed events in the system.
   cisco.dnac.events_and_notifications_workflow_manager:

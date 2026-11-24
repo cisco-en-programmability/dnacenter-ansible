@@ -151,7 +151,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 state="gathered",
                 dnac_version="2.3.7.9",
@@ -172,7 +172,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -195,7 +195,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -217,7 +217,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -239,7 +239,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -265,7 +265,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -287,7 +287,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -311,7 +311,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="invalid_state",
@@ -331,7 +331,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered"
@@ -350,7 +350,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -374,7 +374,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -401,7 +401,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -422,7 +422,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -443,7 +443,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -471,7 +471,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -497,7 +497,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -519,7 +519,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_debug=True,
                 dnac_version="2.3.7.9",
@@ -542,7 +542,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="created",  # Unsupported state
@@ -566,7 +566,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -589,7 +589,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -612,7 +612,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -638,7 +638,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -661,7 +661,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -687,7 +687,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -714,7 +714,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -741,7 +741,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -768,7 +768,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -791,7 +791,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -817,7 +817,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -844,7 +844,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_version="2.3.7.9",
                 state="gathered",
@@ -870,7 +870,7 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
             dict(
                 dnac_host="192.168.1.1",
                 dnac_username="admin",
-                dnac_password="admin",
+                dnac_password="dummy",
                 dnac_log=True,
                 dnac_debug=True,
                 dnac_version="2.3.7.9",

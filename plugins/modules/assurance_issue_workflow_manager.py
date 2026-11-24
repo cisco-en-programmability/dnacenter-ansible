@@ -4229,7 +4229,7 @@ def main():
     module.exit_json(**ccc_assurance.result)
 
     # Invoke the API to check the status and log the output of each assurance issue on the console
-    ccc_assurance.update_issue_status_messages().check_return_status()
+    # ccc_assurance.update_issue_status_messages().check_return_status()
 
 
 if __name__ == "__main__":

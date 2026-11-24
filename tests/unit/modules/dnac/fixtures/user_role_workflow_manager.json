@@ -5,7 +5,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Example@0101",
+            "password": "<User_Password_1>",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -15,7 +15,7 @@
             "first_name": "ajith",
             "last_name": "andrew",
             "email": "ajith.andrew@example.com",
-            "password": "Example@0101",
+            "password": "<User_Password_1>",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -38,7 +38,7 @@
             "last_name": "andrew ",
             "username": "ajithandrewj ",
             "email": "ajith.andrewexample.com",
-            "password": "Ajith123",
+            "password": "<invalid_password>",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -48,7 +48,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Example@0101",
+            "password": "<User_Password_1>",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -58,7 +58,7 @@
             "last_name": "andrew ",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Example@0101",
+            "password": "<User_Password_1>",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -68,7 +68,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrewexample.com",
-            "password": "Example@0101",
+            "password": "<User_Password_1>",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -78,7 +78,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Ajith123",
+            "password": "<invalid_password>",
             "role_list": ["Super-Admin-Role"]
         }]
     },
@@ -88,7 +88,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj&",
             "email": "ajith.andrew@example.com",
-            "password": "Example@0101",
+            "password": "<User_Password_1>",
             "role_list": "Super-Admin-Role"
         }]
     },
@@ -98,7 +98,7 @@
             "last_name": "andrew",
             "username": "ajithandrewj",
             "email": "ajith.andrew@example.com",
-            "password": "Example@0101",
+            "password": "<User_Password_1>",
             "role_list": ["Super-Admin-Roleee"]
         }]
     },
@@ -1470,7 +1470,7 @@
     "playbook_new_version_user_create": {
         "user_details": [
             {
-            "password": "Pbalaku2@16",
+            "password": "<User_Password_1>",
             "password_update": false,
             "role_list": [
                 "Test_role_1"

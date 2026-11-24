@@ -29,13 +29,13 @@ events_notification:
       username: cisco123
       mode: AUTH_PRIVACY
       auth_type: SHA
-      auth_password: authpass123
+      auth_password: "{{ events_and_notifications_snmp_auth_password }}"
       privacy_type: AES128
-      privacy_password: privacy123
+      privacy_password: "{{ events_and_notifications_snmp_privacy_password }}"
     itsm_setting:
       instance_name: "Playbook itsm demo"
       description: "ITSM description for testing"
       connection_settings:
         url: "https://catalystcente1.com"
         username: "catalyst"
-        password: "catalyst@123"
+        password: "{{ events_and_notifications_itsm_password }}"

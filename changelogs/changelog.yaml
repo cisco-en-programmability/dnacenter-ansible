@@ -2074,3 +2074,26 @@ releases:
         - Changes in wired_campus_automation_playbook_config_generator module
         - Changes in wired_campus_automation_workflow_manager module
         - Changes in wireless_design_playbook_config_generator module
+
+  6.52.0:
+    release_date: "2026-11-24"
+    changes:
+      release_summary: Sample playbooks, module examples, and tests use variables and
+        placeholder values, and the inventory modules update export handling and logging
+      bugfixes:
+        - inventory_workflow_manager, inventory_intent - Generate the device export
+          file password at runtime instead of using a fixed value.
+        - inventory_workflow_manager, inventory_intent - Log the file name and row
+          count after decrypting a device export file instead of the file content.
+        - inventory_workflow_manager, inventory_intent - Mask sensitive fields when
+          the playbook config, desired state, and device parameters are logged.
+      minor_changes:
+        - Sample playbooks and module examples read device, SNMP, AAA, wireless, and
+          user values from variables. playbooks/vars/credentials.template lists the
+          variables, and the README explains how to encrypt credentials.yml with
+          Ansible Vault.
+        - Integration tests read the Catalyst Center connection details and test
+          values from inventory variables.
+        - Unit test fixtures and tests use placeholder values.
+        - Added AGENTS.md and docs/CODE_REVIEW_GUIDELINES.md, and updated
+          CONTRIBUTING.md and README.md to link to them.

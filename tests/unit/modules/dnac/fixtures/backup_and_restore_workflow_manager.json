@@ -2326,7 +2326,7 @@
       "backup_storage_configuration": [
         {
           "data_retention_period": 53,
-          "encryption_passphrase": "Karthick@zigzag333",
+          "encryption_passphrase": "<encryption_passphrase>",
           "nfs_details": {
             "nfs_port": 2049,
             "nfs_portmapper_port": 111,
@@ -2582,7 +2582,7 @@
       "backup_storage_configuration": [
         {
           "data_retention_period": 61,
-          "encryption_passphrase": "Karthick@zigzag333",
+          "encryption_passphrase": "<encryption_passphrase>",
           "nfs_details": {
             "nfs_port": 2049,
             "nfs_portmapper_port": 111,
@@ -3039,7 +3039,7 @@
     {
       "restore_operations": [
         {
-          "encryption_passphrase": "Karthick@",
+          "encryption_passphrase": "<encryption_passphrase_3>",
           "name": "BACKUP25_07"
         }
       ]
@@ -3455,7 +3455,7 @@
       "backup_storage_configuration": [
         {
           "data_retention_period": 53,
-          "encryption_passphrase": "Karthick@zigzag333",
+          "encryption_passphrase": "<encryption_passphrase>",
           "nfs_details": {
             "nfs_port": 2049,
             "nfs_portmapper_port": 111,
@@ -3549,7 +3549,7 @@
     {
       "restore_operations": [
         {
-          "encryption_passphrase": "Karthick@",
+          "encryption_passphrase": "<encryption_passphrase_3>",
           "name": "BACKUP24_07"
         }
       ]
@@ -4384,7 +4384,7 @@
       "backup_storage_configuration": [
         {
           "data_retention_period": 53,
-          "encryption_passphrase": "Karthick@zigzag333",
+          "encryption_passphrase": "<encryption_passphrase>",
           "nfs_details": {
             "nfs_port": 2049,
             "nfs_portmapper_port": 111,
@@ -4411,7 +4411,7 @@
       "backup_configurations": [
         {
           "data_retention_period": 53,
-          "encryption_passphrase": "Karthick@zigzag333",
+          "encryption_passphrase": "<encryption_passphrase>",
           "nfs_details": {
             "nfs_port": 2049,
             "nfs_portmapper_port": 111,
@@ -4427,7 +4427,7 @@
     {
       "backup_storage_configuration": {
         "data_retention_period": 53,
-        "encryption_passphrase": "Karthick@zigzag333",
+        "encryption_passphrase": "<encryption_passphrase>",
         "nfs_details": {
           "nfs_port": 2049,
           "nfs_portmapper_port": 111,
@@ -4555,7 +4555,7 @@
           "backup_storage_configuration": [
               {
                   "data_retention_period": 51,
-                  "encryption_passphrase": "Karthick@zigzag33333",
+                  "encryption_passphrase": "<encryption_passphrase_2>",
                   "nfs_details": {
                       "nfs_port": 2049,
                       "nfs_portmapper_port": 111,
@@ -4763,7 +4763,7 @@
         "backup_storage_configuration": [
             {
                 "data_retention_period": 51,
-                "encryption_passphrase": "Karthick@zigzag33333",
+                "encryption_passphrase": "<encryption_passphrase_2>",
                 "nfs_details": {
                     "nfs_port": 2049,
                     "nfs_portmapper_port": 111,
@@ -4966,7 +4966,7 @@
       "backup_storage_configuration": [
         {
           "data_retention_period": 9,
-          "encryption_passphrase": "Karthick@zigza",
+          "encryption_passphrase": "<encryption_passphrase_4>",
           "nfs_details": {
             "nfs_port": 2049,
             "nfs_portmapper_port": 111,
@@ -5196,7 +5196,7 @@
     {
       "restore_operations": [
         {
-          "encryption_passphrase": "Karthick@",
+          "encryption_passphrase": "<encryption_passphrase_3>",
           "name": "BACKUP24_07"
         }
       ]
@@ -10221,7 +10221,7 @@
       {
           "restore_operations": [
               {
-                  "encryption_passphrase": "NewTest@1234",
+                  "encryption_passphrase": "<encryption_passphrase_5>",
                   "name": "BACKUP29_09"
               }
           ]

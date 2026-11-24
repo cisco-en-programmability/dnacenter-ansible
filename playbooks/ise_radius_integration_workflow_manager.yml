@@ -25,7 +25,7 @@
           - authentication_policy_server:
               - server_type: AAA  # [ISE, AAA]
                 server_ip_address: 10.0.0.20
-                shared_secret: cisco
+                shared_secret: "{{ ise_radius_integration_shared_secret }}"
                 protocol: RADIUS_TACACS  # [TACACS, RADIUS, RADIUS_TACACS]
                 encryption_scheme: KEYWRAP  # KEYWRAP or RADSEC
                 encryption_key: dnacsolutions123  # For KEYWRAP, must be 16 char long
@@ -74,7 +74,7 @@
           - authentication_policy_server:
               - server_type: ISE  # [ISE, AAA]
                 server_ip_address: 10.195.243.59
-                shared_secret: cisco
+                shared_secret: "{{ ise_radius_integration_shared_secret }}"
                 protocol: RADIUS_TACACS  # [TACACS, RADIUS, RADIUS_TACACS]
                 encryption_scheme: KEYWRAP  # KEYWRAP or RADSEC
                 encryption_key: dnacsolutions123  # For KEYWRAP, must be 16 char long
